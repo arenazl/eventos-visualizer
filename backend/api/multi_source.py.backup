@@ -431,7 +431,7 @@ async def fetch_from_all_sources_internal(
     """
     logger.info(f"🌐 Fetching events from all sources for: {location}")
     
-    # PRIMERO: Verificar si es una PROVINCIA ARGENTINA con scraper específico
+    # PRIMERO: Verificar si es una provincia con scraper específico
     location_lower = location.lower()
     if any(prov in location_lower for prov in ['córdoba', 'cordoba', 'mendoza', 'rosario']):
         logger.info(f"🎯 Detectada provincia con scraper específico: {location}")
@@ -453,44 +453,7 @@ async def fetch_from_all_sources_internal(
         except Exception as e:
             logger.error(f"Error con scraper provincial: {e}")
     
-    # SEGUNDO: Verificar si es una CIUDAD GLOBAL con scraper específico
-    global_cities = {
-        'barcelona': 'Barcelona',
-        'madrid': 'Madrid', 
-        'paris': 'Paris',
-        'méxico': 'Mexico City',
-        'mexico city': 'Mexico City'
-    }
-    
-    logger.info(f"🔍 DEBUG GLOBAL - Buscando en location_lower: '{location_lower}'")
-    logger.info(f"🔍 DEBUG GLOBAL - Cities disponibles: {list(global_cities.keys())}")
-    
-    for city_key, city_name in global_cities.items():
-        if city_key in location_lower:
-            logger.info(f"🌍 Detectada ciudad global: {city_name}")
-            
-            try:
-                if city_name == 'Barcelona':
-                    from services.barcelona_scraper import BarcelonaScraper
-                    scraper = BarcelonaScraper()
-                    events = await scraper.scrape_all_sources()
-                    
-                    if events:
-                        return {
-                            "success": True,
-                            "location": location,
-                            "events": events[:50],
-                            "recommended_events": events[:50], 
-                            "source": "global_scraper_barcelona",
-                            "message": f"Eventos específicos de {city_name}",
-                            "total_events": len(events)
-                        }
-            except Exception as e:
-                logger.error(f"Error con scraper global {city_name}: {e}")
-            
-            break  # Solo procesar la primera ciudad encontrada
-    
-    # Si no es una provincia/ciudad con scraper o falló, continuar con Buenos Aires
+    # Si no es una provincia con scraper o falló, continuar con Buenos Aires
     # 🚀 ESTRATEGIA: Ejecutar fuentes asíncronamente y devolver conforme llegan
     # Basado en el historial de performance del tracker
     
@@ -622,6 +585,108 @@ async def stream_events_info():
         "frontend_integration": "EventsStore.tsx ya implementado con WebSocket"
     }
 
+@router.get("/fetch-all")
+        
+        if isinstance(result, Exception):
+            source_info["status"] = "error"
+            source_info["message"] = str(result)[:100]  # Limitar mensaje de error
+            source_info["error_type"] = type(result).__name__
+            total_failed += 1
+        elif isinstance(result, dict):
+            if result.get("status") == "success":
+                events = result.get("events", [])
+                source_info["status"] = "success"
+                source_info["events_count"] = len(events)
+                source_info["total_available"] = result.get("count", len(events))
+                
+                if len(events) > 0:
+                    source_info["message"] = f"✅ Trajo {len(events)} eventos"
+                    total_successful += 1
+                    total_events_fetched += len(events)
+                    all_events.extend(events)
+                else:
+                    source_info["status"] = "empty"
+                    source_info["message"] = "⚠️ Funcionó pero no encontró eventos"
+                    total_successful += 1
+                    
+                # Información adicional si existe
+                if result.get("source"):
+                    source_info["source_type"] = result["source"]
+            else:
+                source_info["status"] = "failed"
+                source_info["message"] = result.get("error", "Error desconocido")[:100]
+                total_failed += 1
+        
+        sources_detail.append(source_info)
+    
+    # Enriquecer eventos con imágenes si no tienen
+    try:
+        from services.image_generator import EventImageGenerator
+        image_generator = EventImageGenerator()
+        
+        for event in all_events:
+            if not event.get('image_url') or 'unsplash' not in event.get('image_url', ''):
+                # Solo cambiar si no tiene imagen o es una genérica
+                event['image_url'] = await image_generator.get_image_for_event(event)
+    except Exception as e:
+        logger.warning(f"Could not enrich images: {e}")
+    
+    # Deduplicar eventos por título (mejorado)
+    seen_titles = {}
+    unique_events = []
+    duplicates_count = 0
+    
+    for event in all_events:
+        title = event.get("title", "").lower().strip()
+        if title:
+            if title not in seen_titles:
+                seen_titles[title] = True
+                unique_events.append(event)
+            else:
+                duplicates_count += 1
+    
+    # Filtrar por categoría DESPUÉS de deduplicar
+    events_before_category_filter = len(unique_events)
+    category_filtered_count = 0
+    if category:
+        unique_events = filter_events_by_category(unique_events, category)
+        category_filtered_count = events_before_category_filter - len(unique_events)
+    
+    return {
+        "success": True,
+        "location": location,
+        "execution_details": {
+            "total_sources_called": len(tasks),  # Número dinámico de fuentes
+            "sources_succeeded": total_successful,
+            "sources_failed": total_failed,
+            "total_events_fetched": total_events_fetched,
+            "unique_events_after_dedup": len(unique_events),
+            "duplicates_removed": duplicates_count,
+            "response_time_ms": "< 5000"
+        },
+        "sources_status": sources_detail,  # Array detallado de cada fuente
+        "summary": {
+            "🎯 APIs llamadas": total_attempts,
+            "✅ Exitosas": total_successful, 
+            "❌ Fallidas": total_failed,
+            "📊 Total eventos obtenidos": total_events_fetched,
+            "🔍 Eventos únicos": len(unique_events),
+            "🔄 Duplicados eliminados": duplicates_count,
+            "📱 Ubicación consultada": location,
+            "🎨 Categoría filtrada": category or "Todos",
+            "🎯 Eventos filtrados por categoría": category_filtered_count if category else 0
+        },
+        "events": unique_events[:50],  # Hasta 50 eventos
+        "recommended_events": unique_events[:50],  # IMPORTANTE: Frontend espera este campo
+        "metadata": {
+            "timestamp": datetime.utcnow().isoformat(),
+            "api_version": "2.0",
+            "scrapers_used": [s["name"] for s in sources_detail if s["status"] == "success"],
+            "failed_scrapers": [s["name"] for s in sources_detail if s["status"] in ["error", "failed"]]
+        }
+    }
+
+@router.get("/fetch-all")
 async def fetch_from_all_sources(
     location: str = Query("Buenos Aires", description="Ubicación para buscar eventos"),
     category: str = Query(None, description="Categoría específica: Música, Deportes, Cultural, Tech, Fiestas"),

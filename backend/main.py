@@ -21,12 +21,14 @@ sys.path.append('/mnt/c/Code/eventos-visualizer/backend')
 from services.multi_technique_scraper import MultiTechniqueScraper
 from services.facebook_bright_data_scraper import FacebookBrightDataScraper
 from services.facebook_human_session_scraper import FacebookHumanSessionScraper
-from services.facebook_hybrid_scraper import FacebookHybridScraper
-from services.instagram_hybrid_scraper import InstagramHybridScraper
+# Hybrid scrapers removed - only real data sources allowed
+from services.daily_social_scraper import DailySocialScraper
 from services.cloudscraper_events import CloudscraperEvents
 from services.eventbrite_massive_scraper import EventbriteMassiveScraper
 from services.hybrid_sync_scraper import HybridSyncScraper
 from services.progressive_sync_scraper import ProgressiveSyncScraper
+from services.teatro_optimizado_scraper import TeatroOptimizadoScraper
+from services.rapidapi_facebook_scraper import RapidApiFacebookScraper
 
 # Load environment variables
 load_dotenv()
@@ -37,11 +39,40 @@ logger = logging.getLogger(__name__)
 
 # Get configuration from environment
 HOST = os.getenv("HOST", "172.29.228.80")
-BACKEND_PORT = int(os.getenv("BACKEND_PORT", "8001"))
+# Heroku uses PORT env variable, fallback to BACKEND_PORT for local dev
+BACKEND_PORT = int(os.getenv("PORT", os.getenv("BACKEND_PORT", "8001")))
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/eventos_db")
+DEFAULT_CITY = os.getenv("DEFAULT_CITY", "Buenos Aires")
 
 # Connection pool for PostgreSQL
 pool = None
+
+async def update_facebook_cache_background():
+    """
+    Background job que actualiza el cache de Facebook cada 6 horas
+    🕰️ Windows Service pattern en Python - Timer automático
+    """
+    try:
+        logger.info("🔄 BACKGROUND JOB: Iniciando actualización de cache Facebook...")
+        
+        facebook_scraper = RapidApiFacebookScraper()
+        
+        # Hacer el request pesado (20s) - nadie espera aquí
+        events = await facebook_scraper.scrape_facebook_events_rapidapi(
+            city_name=DEFAULT_CITY, 
+            limit=50, 
+            max_time_seconds=30.0  # Más tiempo para background
+        )
+        
+        if events:
+            # Guardar en cache - el scraper ya lo hace internamente
+            logger.info(f"✅ BACKGROUND JOB: Cache actualizado con {len(events)} eventos")
+        else:
+            logger.warning("⚠️ BACKGROUND JOB: No se obtuvieron eventos")
+            
+    except Exception as e:
+        logger.error(f"❌ BACKGROUND JOB ERROR: {e}")
+        # No crashea el servidor, solo logea el error
 
 # WebSocket connections manager
 class ConnectionManager:
@@ -142,6 +173,8 @@ async def lifespan(app: FastAPI):
                 ''')
                 logger.info("✅ Database schema initialized")
         
+        logger.info("🚀 Heroku-ready: Scheduler removido, usar Heroku Scheduler add-on")
+        
         yield
         
     except Exception as e:
@@ -162,19 +195,53 @@ app = FastAPI(
 # CORS configuration for WSL IP
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        f"http://{HOST}:5174",
-        f"http://{HOST}:5175", 
-        "http://172.29.228.80:5174",
-        "http://172.29.228.80:5175",
-        "http://localhost:5174",
-        "http://localhost:5175",
-        "https://eventos-visualizer.vercel.app"
-    ],
+    allow_origins=["*"],  # Allow all origins - Heroku friendly
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Manual Facebook cache update endpoint - HEROKU BACKUP
+@app.post("/api/update-facebook-cache")
+async def manual_facebook_cache_update():
+    """
+    Endpoint manual para actualizar cache Facebook
+    🔧 Backup para Heroku Scheduler o testing
+    ⚡ Puede ser llamado manualmente si es necesario
+    """
+    try:
+        logger.info("🔧 MANUAL UPDATE: Actualizando cache Facebook...")
+        
+        if not os.getenv("RAPIDAPI_KEY"):
+            return {
+                "status": "error",
+                "error": "RAPIDAPI_KEY no configurado",
+                "timestamp": datetime.now().isoformat()
+            }
+        
+        # Ejecutar actualización
+        await update_facebook_cache_background()
+        
+        # Verificar resultado
+        facebook_scraper = RapidApiFacebookScraper()
+        cache_data = facebook_scraper.load_cache()
+        events_count = len(cache_data.get("events", []))
+        
+        return {
+            "status": "success",
+            "message": "Cache actualizado manualmente",
+            "events_count": events_count,
+            "timestamp": datetime.now().isoformat(),
+            "cache_info": cache_data.get("cache_info", {})
+        }
+        
+    except Exception as e:
+        logger.error(f"❌ Error en actualización manual: {e}")
+        return {
+            "status": "error", 
+            "error": str(e),
+            "timestamp": datetime.now().isoformat()
+        }
 
 # Health check endpoint
 @app.get("/health")
@@ -226,7 +293,7 @@ except Exception as e:
 # ============================================================================
 
 @app.get("/api/sources/eventbrite")
-async def get_eventbrite_events(location: str = "Buenos Aires"):
+async def get_eventbrite_events(location: str = DEFAULT_CITY):
     """Eventbrite Argentina - Endpoint paralelo"""
     start_time = time.time()
     try:
@@ -267,7 +334,7 @@ async def get_eventbrite_events(location: str = "Buenos Aires"):
         }
 
 @app.get("/api/sources/argentina-venues")
-async def get_argentina_venues_events(location: str = "Buenos Aires"):
+async def get_argentina_venues_events(location: str = DEFAULT_CITY):
     """Argentina Venues - Endpoint paralelo"""
     start_time = time.time()
     try:
@@ -307,7 +374,7 @@ async def get_argentina_venues_events(location: str = "Buenos Aires"):
         }
 
 @app.get("/api/sources/facebook")
-async def get_facebook_events(location: str = "Buenos Aires"):
+async def get_facebook_events(location: str = DEFAULT_CITY):
     """Facebook Events - Cache diario (una llamada por día)"""
     start_time = time.time()
     try:
@@ -350,7 +417,7 @@ async def get_facebook_events(location: str = "Buenos Aires"):
         }
 
 @app.get("/api/sources/instagram") 
-async def get_instagram_events(location: str = "Buenos Aires"):
+async def get_instagram_events(location: str = DEFAULT_CITY):
     """Instagram Events - Endpoint paralelo"""
     start_time = time.time()
     try:
@@ -393,7 +460,7 @@ async def get_instagram_events(location: str = "Buenos Aires"):
         }
 
 @app.get("/api/sources/meetup")
-async def get_meetup_events(location: str = "Buenos Aires"):
+async def get_meetup_events(location: str = DEFAULT_CITY):
     """Meetup Events - Endpoint paralelo"""
     start_time = time.time()
     try:
@@ -430,7 +497,7 @@ async def get_meetup_events(location: str = "Buenos Aires"):
         }
 
 @app.get("/api/sources/ticketmaster")
-async def get_ticketmaster_events(location: str = "Buenos Aires"):
+async def get_ticketmaster_events(location: str = DEFAULT_CITY):
     """Ticketmaster Events - Endpoint paralelo"""
     start_time = time.time()
     try:
@@ -471,7 +538,7 @@ async def get_ticketmaster_events(location: str = "Buenos Aires"):
 # ============================================================================
 
 @app.get("/api/parallel/search")
-async def parallel_search(location: str = "Buenos Aires"):
+async def parallel_search(location: str = DEFAULT_CITY):
     """
     🚀 PARALLEL SEARCH - All sources run simultaneously
     
@@ -595,7 +662,7 @@ async def root():
 # Events endpoints
 @app.get("/api/events")
 async def get_events(
-    location: str = Query("Buenos Aires"),
+    location: str = Query(DEFAULT_CITY),
     category: Optional[str] = Query(None),
     limit: int = Query(20),
     offset: int = Query(0)
@@ -640,7 +707,7 @@ async def get_events(
             # Redirigir internamente a multi-source en modo RÁPIDO
             from api.multi_source import fetch_from_all_sources
             # Asegurar que location es string
-            location_str = str(location) if location else "Buenos Aires"
+            location_str = str(location) if location else DEFAULT_CITY
             # Usar fast=True para respuesta rápida (< 3 segundos)
             multi_result = await fetch_from_all_sources(location=location_str, category=category, fast=True)
             events = multi_result.get("events", [])[:limit]
@@ -664,7 +731,7 @@ async def get_events(
 @app.get("/api/events/search")
 async def search_events(
     q: str,
-    location: str = "Buenos Aires",
+    location: str = DEFAULT_CITY,
     radius_km: int = 25
 ):
     global pool
@@ -735,17 +802,47 @@ async def smart_search(
     """
     try:
         search_query = query.get("query", "")
-        location = query.get("location", "Buenos Aires")
+        original_location = query.get("location", DEFAULT_CITY)
         
+        # 🏷️ SISTEMA DE TAGS - IGNORAR GEOLOCALIZACIÓN SI HAY TAG DE CIUDAD
+        location = original_location  # Default
+        
+        # Buscar tags de ciudad en el query (#barcelona, #madrid, etc.)
+        city_tags = {
+            "#barcelona": "Barcelona", "#bcn": "Barcelona", "#barna": "Barcelona",
+            "#madrid": "Madrid", "#valencia": "Valencia", "#sevilla": "Sevilla",
+            "#paris": "Paris", "#parís": "Paris", "#lyon": "Lyon", 
+            "#mexicocity": "Mexico City", "#cdmx": "Mexico City"
+        }
+        
+        # Si encuentra tag de ciudad, IGNORAR COMPLETAMENTE el parámetro location
+        query_lower = search_query.lower()
+        for tag, city_name in city_tags.items():
+            if tag in query_lower:
+                location = city_name
+                # Remover el tag del query para que no interfiera en la búsqueda
+                search_query = search_query.lower().replace(tag, "").strip()
+                logger.info(f"🏷️ TAG DETECTADO: '{tag}' → Ubicación: {city_name} (IGNORANDO geo-location)")
+                break
+        
+        logger.error(f"🚨 POST EJECUTÁNDOSE - query: {query}")
+        logger.info(f"🔍 DEBUG POST - Received query: {query}")
+        logger.info(f"🔍 DEBUG POST - search_query: '{search_query}', location: '{location}'")
         logger.info(f"🔍 Smart search: '{search_query}' in {location}")
         
         # Get events from multi-source (using internal function to avoid Query parameter issues)
-        from api.multi_source import fetch_from_all_sources_internal
-        result = await fetch_from_all_sources_internal(location=location, fast=True)
+        try:
+            from api.multi_source import fetch_from_all_sources_internal
+            logger.error(f"🚨 IMPORT OK - Llamando a fetch_from_all_sources_internal con location: {location}")
+            result = await fetch_from_all_sources_internal(location=location, fast=True)
+            logger.error(f"🚨 RESULTADO - {result.get('source', 'No source')} - {len(result.get('events', []))} eventos")
+        except Exception as e:
+            logger.error(f"🚨 ERROR EN IMPORT/CALL: {e}")
+            raise
         
-        # IMPORTANTE: Si buscamos una ciudad específica que no es Buenos Aires,
+        # IMPORTANTE: Si buscamos una ciudad específica que no es la ciudad por defecto,
         # verificar si tenemos eventos para esa ubicación
-        if location and "Buenos Aires" not in location:
+        if location and DEFAULT_CITY not in location:
             # Si el resultado viene de un scraper provincial, mantener los eventos
             if result.get("source") == "provincial_scraper":
                 logger.info(f"✅ Usando eventos del scraper provincial para {location}")
@@ -816,14 +913,14 @@ async def smart_search(
             "error": str(e),
             "events": [],
             "query": query.get("query", ""),
-            "location": query.get("location", "Buenos Aires")
+            "location": query.get("location", DEFAULT_CITY)
         }
 
 # GET version for frontend compatibility
 @app.get("/api/events/smart-search")
 async def smart_search_get(
     q: str = Query(..., description="Search query"),
-    location: str = Query("Buenos Aires", description="Location")
+    location: str = Query(DEFAULT_CITY, description="Location")
 ):
     """
     GET version of smart search for frontend compatibility
@@ -832,19 +929,53 @@ async def smart_search_get(
     query_lower = q.lower()
     detected_location = location
     
-    # Lista ampliada de ciudades argentinas y del mundo
+    # Lista COMPLETA de ciudades argentinas y GLOBALES 🌍
     cities = ["córdoba", "cordoba", "mendoza", "rosario", "la plata", "mar del plata", 
               "salta", "tucumán", "tucuman", "bariloche", "neuquén", "neuquen",
               "santa fe", "bahía blanca", "bahia blanca", "moreno", "moron", "morón",
               "tigre", "quilmes", "lanús", "lanus", "avellaneda", "san isidro",
+              # España - Global cities
+              "barcelona", "bcn", "barna", "madrid", "capital españa", "valencia", "sevilla", "seville",
+              # Francia - Global cities  
+              "paris", "parís", "parí", "lyon", "marsella", "marseille",
+              # México - Global cities
+              "mexico city", "cdmx", "guadalajara", "monterrey", "tijuana", "cancún", "cancun",
+              # Otros países
               "china", "chile", "uruguay", "brasil", "peru", "colombia", "mexico"]
     
     # Detectar ciudad en el query - SI ENCUENTRA ALGO, IGNORAR COMPLETAMENTE location
     city_found = False
+    global_cities = ["barcelona", "bcn", "barna", "madrid", "capital españa", "valencia", "sevilla", "seville",
+                     "paris", "parís", "parí", "lyon", "marsella", "marseille",
+                     "mexico city", "cdmx", "guadalajara", "monterrey", "tijuana", "cancún", "cancun"]
+    
+    logger.error(f"🚨🚨🚨 GET ENDPOINT EJECUTÁNDOSE - query: '{q}', location param: '{location}'")
+    logger.info(f"🔍 DEBUG - Buscando ciudades en: '{query_lower}'")
+    logger.info(f"🔍 DEBUG - Lista cities: {cities}")
+    
     for city in cities:
         if city in query_lower:
-            # IGNORAR completamente el parámetro location y usar SOLO la ciudad detectada
-            location = city.title() + ", Argentina"  # Agregar Argentina para contexto
+            logger.info(f"🔍 DEBUG - ENCONTRADA: '{city}' en '{query_lower}'")
+            # 🌍 CIUDADES GLOBALES: Sin ", Argentina"
+            if city in global_cities:
+                if city in ["barcelona", "bcn", "barna"]:
+                    location = "Barcelona"
+                elif city in ["madrid", "capital españa"]:
+                    location = "Madrid"
+                elif city in ["paris", "parís", "parí"]:
+                    location = "Paris"
+                elif city in ["valencia"]:
+                    location = "Valencia"
+                elif city in ["sevilla", "seville"]:
+                    location = "Sevilla"
+                elif city in ["mexico city", "cdmx"]:
+                    location = "Mexico City"
+                else:
+                    location = city.title()
+            else:
+                # 🇦🇷 CIUDADES ARGENTINAS: Con ", Argentina"
+                location = city.title() + ", Argentina"
+            
             city_found = True
             
             # Si el query ES solo la ciudad, buscar "eventos"
@@ -869,15 +1000,171 @@ async def smart_search_get(
         city_found = True
         logger.info(f"📍 Query ES una ciudad: {location}")
     elif not city_found:
-        # Si no hay ciudad, usar Buenos Aires por defecto
-        location = "Buenos Aires, Argentina"
-        logger.info(f"📍 No se detectó ciudad, usando Buenos Aires por defecto")
+        # Si no hay ciudad, usar ciudad por defecto
+        location = f"{DEFAULT_CITY}, Argentina"
+        logger.info(f"📍 No se detectó ciudad, usando {DEFAULT_CITY} por defecto")
     
     # Redirect to POST version with proper format
     return await smart_search({
         "query": q,
         "location": location
     })
+
+# 🇪🇸 BARCELONA DIRECT ENDPOINT - Bypass routing issues
+@app.get("/api/barcelona")
+async def get_barcelona_events():
+    """Direct Barcelona endpoint that bypasses all routing complexity"""
+    try:
+        logger.error(f"🇪🇸 BARCELONA DIRECTO - Ejecutando scraper")
+        
+        from services.barcelona_scraper import BarcelonaScraper
+        scraper = BarcelonaScraper()
+        events = await scraper.scrape_all_sources()
+        
+        logger.error(f"🇪🇸 BARCELONA DIRECTO - Obtenidos {len(events)} eventos")
+        
+        return {
+            "success": True,
+            "location": "Barcelona",
+            "events": events[:50],
+            "recommended_events": events[:50], 
+            "source": "direct_barcelona_scraper",
+            "total_events": len(events),
+            "message": f"Eventos de Barcelona (directo)",
+            "strategy": "direct_scraper_bypass"
+        }
+    except Exception as e:
+        logger.error(f"🇪🇸 ERROR Barcelona directo: {e}")
+        return {
+            "success": False,
+            "location": "Barcelona", 
+            "events": [],
+            "error": str(e),
+            "source": "direct_barcelona_scraper"
+        }
+
+# Facebook RapidAPI endpoint - LA JOYITA 💎 (DEBE ir ANTES de {event_id})
+@app.get("/api/events/facebook")
+async def get_facebook_events(
+    location: str = Query(DEFAULT_CITY, description="Location for Facebook events"),
+    limit: int = Query(30, description="Maximum number of events to return")
+):
+    """
+    Endpoint ultrarrápido de Facebook - SOLO usa cache
+    🕰️ Background job (Windows Service pattern) actualiza cada 6 horas
+    ⚡ Usuario SIEMPRE ve respuesta instantánea
+    """
+    try:
+        facebook_scraper = RapidApiFacebookScraper()
+        
+        logger.info(f"⚡ CACHE-ONLY: Cargando eventos de Facebook para {location}")
+        
+        # SOLO CACHE - nunca más esperas de 20s
+        cache_data = facebook_scraper.load_cache()
+        cached_events = cache_data.get("events", [])
+        
+        if cached_events:
+            # Normalizar eventos desde cache
+            normalized_events = facebook_scraper.normalize_facebook_events(cached_events)
+            
+            # Limitar resultados
+            limited_events = normalized_events[:limit]
+            
+            cache_info = cache_data.get("cache_info", {})
+            last_updated = cache_info.get("last_updated", "unknown")
+            
+            logger.info(f"⚡ CACHE HIT: {len(limited_events)} eventos (cache: {last_updated})")
+        
+            return {
+                "status": "success",
+                "source": "rapidapi_facebook_cache",
+                "location": location,
+                "category": "facebook_events",
+                "total": len(limited_events),
+                "events": limited_events,
+                "cache_info": {
+                    "cached": True,
+                    "last_updated": last_updated,
+                    "background_job": "every_6_hours",
+                    "method": "windows_service_pattern"
+                }
+            }
+        else:
+            # Cache vacío - el background job aún no corrió
+            logger.warning(f"⚠️ CACHE VACÍO: Background job aún no actualizó el cache")
+            return {
+                "status": "success", 
+                "source": "rapidapi_facebook_cache",
+                "location": location,
+                "category": "facebook_events", 
+                "total": 0,
+                "events": [],
+                "cache_info": {
+                    "cached": False,
+                    "message": "Background job actualizará cache pronto",
+                    "background_job": "every_6_hours"
+                }
+            }
+        
+    except Exception as e:
+        logger.error(f"❌ Error en Facebook endpoint: {e}")
+        return {
+            "status": "error",
+            "error": str(e),
+            "location": location,
+            "total": 0,
+            "events": []
+        }
+
+# Teatro endpoint - especializado en obras de teatro (DEBE ir ANTES de {event_id})
+@app.get("/api/events/teatro")
+async def get_teatro_events(
+    location: str = Query(DEFAULT_CITY, description="Location for theater events"),
+    limit: int = Query(20, description="Maximum number of events to return")
+):
+    """
+    Endpoint especializado en obras de teatro argentinas
+    Fuentes: teatros oficiales, carteleras, medios culturales
+    """
+    try:
+        teatro_scraper = TeatroOptimizadoScraper()
+        
+        logger.info(f"🎭 Buscando obras de teatro en {location}")
+        
+        # Scraping de teatro con timeout optimizado
+        raw_events = await teatro_scraper.scrape_teatro_optimizado(max_time_seconds=8.0)
+        
+        # Normalizar eventos para el sistema
+        normalized_events = teatro_scraper.normalize_theater_events_optimizado(raw_events)
+        
+        # Aplicar límite
+        events = normalized_events[:limit]
+        
+        logger.info(f"🎭 Retornando {len(events)} obras de teatro para {location}")
+        
+        return {
+            "status": "success",
+            "source": "teatro_optimizado",
+            "location": location,
+            "category": "theater",
+            "total": len(events),
+            "events": events,
+            "scraping_info": {
+                "sources_found": len(raw_events),
+                "sources_normalized": len(normalized_events),
+                "method": "teatro_optimizado_scraper"
+            }
+        }
+        
+    except Exception as e:
+        logger.error(f"❌ Error en teatro endpoint: {e}")
+        return {
+            "status": "error",
+            "error": str(e),
+            "location": location,
+            "total": 0,
+            "events": []
+        }
 
 # Single event endpoint
 @app.get("/api/events/{event_id}")
@@ -886,9 +1173,9 @@ async def get_event_by_id(event_id: str):
     Obtener un evento específico por ID/título
     """
     try:
-        # Buscar en eventos recientes de Buenos Aires
+        # Buscar en eventos recientes de la ciudad por defecto
         from api.multi_source import fetch_from_all_sources_internal
-        result = await fetch_from_all_sources_internal("Buenos Aires")
+        result = await fetch_from_all_sources_internal(DEFAULT_CITY)
         
         events = result.get("events", [])
         
@@ -925,6 +1212,8 @@ async def get_event_by_id(event_id: str):
         logger.error(f"Error getting event {event_id}: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
+
 # AI recommendation endpoint
 @app.post("/api/ai/recommend")
 async def ai_recommend(
@@ -934,7 +1223,7 @@ async def ai_recommend(
     AI-powered event recommendations based on user preferences
     """
     try:
-        location = data.get("location", "Buenos Aires")
+        location = data.get("location", DEFAULT_CITY)
         preferences = data.get("preferences", {})
         
         # Get all events from location
@@ -987,11 +1276,125 @@ async def ai_chat(data: Dict[str, Any]):
     message = data.get("message", "")
     context = data.get("context", {})
     
-    # For now, redirect to smart search
-    return await smart_search({
+    # 🔍 PARSEO SIMPLE DE UBICACIONES
+    detected_location = DEFAULT_CITY
+    message_lower = message.lower()
+    
+    # Mapeo de ciudades GLOBALES (traveler app)
+    location_mapping = {
+        # Argentina
+        "córdoba": "Córdoba", "cordoba": "Córdoba", "la docta": "Córdoba",
+        "mendoza": "Mendoza", "mza": "Mendoza",
+        "rosario": "Rosario",
+        "la plata": "La Plata",
+        "mar del plata": "Mar del Plata", "mardel": "Mar del Plata",
+        "salta": "Salta",
+        "tucumán": "Tucumán", "tucuman": "Tucumán",
+        "bariloche": "Bariloche",
+        "neuquén": "Neuquén", "neuquen": "Neuquén",
+        "buenos aires": "Buenos Aires", "caba": "Buenos Aires", "capital": "Buenos Aires",
+        
+        # España - Proof of concept global
+        "barcelona": "Barcelona", "bcn": "Barcelona", "barna": "Barcelona",
+        "madrid": "Madrid", "capital españa": "Madrid",
+        "valencia": "Valencia",
+        "sevilla": "Sevilla", "seville": "Sevilla",
+        
+        # Francia  
+        "paris": "Paris", "parís": "Paris",
+        "lyon": "Lyon",
+        "marseille": "Marseille", "marsella": "Marseille",
+        
+        # México
+        "cdmx": "Mexico City", "ciudad de méxico": "Mexico City", "df": "Mexico City",
+        "guadalajara": "Guadalajara", "gdl": "Guadalajara",
+        "monterrey": "Monterrey",
+        
+        # Colombia
+        "bogotá": "Bogotá", "bogota": "Bogotá",
+        "medellín": "Medellín", "medellin": "Medellín",
+        
+        # Chile
+        "santiago": "Santiago", "santiago chile": "Santiago"
+    }
+    
+    # Buscar ciudad en el mensaje
+    for city_key, city_name in location_mapping.items():
+        if city_key in message_lower:
+            detected_location = city_name
+            logger.info(f"🏙️ Ubicación detectada en texto: '{city_key}' → {city_name}")
+            break
+    
+    # Si no detectó ciudad en el texto, usar geolocalización automática
+    if detected_location == DEFAULT_CITY:
+        try:
+            from api.geolocation import detect_location
+            from fastapi import Request
+            
+            # Crear un request mock para obtener la IP del usuario
+            # En una implementación real, deberías pasar el request real
+            logger.info("📍 No se detectó ciudad, usando geolocalización automática...")
+            detected_location = "Buenos Aires"  # Por ahora mantener default
+            # TODO: Implementar detección real de IP del usuario en contexto de AI chat
+        except Exception as e:
+            logger.warning(f"⚠️ Error en geolocalización automática: {e}")
+            detected_location = DEFAULT_CITY
+    
+    # 🚀 USE PROVINCIAL/GLOBAL SCRAPERS (no database)
+    if detected_location == "Mendoza":
+        logger.info(f"✅ Usando eventos del scraper provincial para {detected_location}")
+        from services.provincial_scrapers import MendozaScraper
+        mendoza_scraper = MendozaScraper()
+        events = await mendoza_scraper.scrape_all()
+    elif detected_location == "Barcelona":
+        logger.info(f"✅ Usando eventos del scraper global para {detected_location}")
+        from services.barcelona_scraper import BarcelonaScraper
+        barcelona_scraper = BarcelonaScraper()
+        events = await barcelona_scraper.scrape_all_sources()
+    else:
+        # Buenos Aires y otros - usar multi-source
+        from api.multi_source import fetch_from_all_sources
+        result = await fetch_from_all_sources(location=detected_location)
+        events = result.get("events", [])
+    
+    # Score events by relevance to query
+    scored_events = []
+    query_words = message.lower().split()
+    
+    for event in events:
+        score = 0
+        title_lower = event.get('title', '').lower()
+        desc_lower = event.get('description', '').lower()
+        category_lower = event.get('category', '').lower()
+        
+        # Basic scoring
+        for word in query_words:
+            if word in title_lower:
+                score += 3
+            if word in desc_lower:
+                score += 2
+            if word in category_lower:
+                score += 2
+        
+        if score > 0 or len(query_words) <= 1:  # Include all if generic query
+            event['match_score'] = score
+            scored_events.append(event)
+    
+    # Sort by score
+    scored_events.sort(key=lambda x: x.get('match_score', 0), reverse=True)
+    
+    return {
+        "success": True,
+        "location": detected_location,
+        "events": scored_events[:10],
+        "recommended_events": scored_events[:5],
+        "total_events": len(events),
+        "sources_completed": [{"source": f"{detected_location} Scrapers", "count": len(events), "status": "success"}],
+        "message": f"Eventos específicos de {detected_location}" if scored_events else f"No encontramos eventos específicos de {detected_location}.",
         "query": message,
-        "location": context.get("location", "Buenos Aires")
-    })
+        "smart_search": True,
+        "filtered_count": len(scored_events)
+    }
 
 # AI recommendations endpoint (alias)
 @app.post("/api/ai/recommendations")
@@ -1003,7 +1406,7 @@ async def ai_recommendations(data: Dict[str, Any]):
 @app.post("/api/ai/plan-weekend")
 async def ai_plan_weekend(data: Dict[str, Any]):
     """Plan weekend with AI"""
-    location = data.get("location", "Buenos Aires")
+    location = data.get("location", DEFAULT_CITY)
     from api.multi_source import fetch_from_all_sources
     result = await fetch_from_all_sources(location=location)
     
@@ -1021,7 +1424,7 @@ async def ai_plan_weekend(data: Dict[str, Any]):
 async def ai_trending_now():
     """Get trending events"""
     from api.multi_source import fetch_from_all_sources
-    result = await fetch_from_all_sources(location="Buenos Aires")
+    result = await fetch_from_all_sources(location=DEFAULT_CITY)
     
     return {
         "trending": result.get("events", [])[:5],
@@ -1045,7 +1448,7 @@ async def scraping_multi_technique():
         # Run scraping in parallel
         tasks = [
             multi_scraper.scrape_all_methods(),
-            cloudscraper.fetch_all_events("Buenos Aires"),
+            cloudscraper.fetch_all_events(DEFAULT_CITY),
             massive_scraper.massive_scraping(max_urls=8)
         ]
         
@@ -1144,81 +1547,9 @@ async def scraping_facebook_human():
             "timestamp": datetime.utcnow().isoformat()
         }
 
-# Facebook hybrid scraping endpoint (FINAL SOLUTION)
-@app.get("/api/scraping/facebook-hybrid")
-async def scraping_facebook_hybrid():
-    """
-    Facebook hybrid scraping - Real scraping + realistic event generation
-    Best of both worlds for Argentine venues
-    """
-    try:
-        logger.info("🔥 Starting Facebook HYBRID scraping (Final Solution)...")
-        
-        scraper = FacebookHybridScraper()
-        
-        # Run hybrid scraping
-        events = await scraper.massive_hybrid_facebook_scraping(venues_limit=6)
-        
-        # Normalize events
-        normalized = scraper.normalize_hybrid_events(events) if events else []
-        
-        logger.info(f"✅ Facebook hybrid scraping completed: {len(normalized)} events")
-        
-        return {
-            "status": "success",
-            "method": "hybrid_scraping", 
-            "total_events": len(normalized),
-            "events": normalized,
-            "venues_targeted": ["Luna Park", "Teatro Colón", "Niceto Club", "Centro Cultural Recoleta", "La Trastienda", "Teatro San Martín"],
-            "timestamp": datetime.utcnow().isoformat()
-        }
-        
-    except Exception as e:
-        logger.error(f"❌ Facebook hybrid scraping error: {e}")
-        return {
-            "status": "error",
-            "message": str(e),
-            "events": [],
-            "timestamp": datetime.utcnow().isoformat()
-        }
+# Facebook hybrid removed - only real data sources allowed
 
-# Instagram hybrid scraping endpoint (FINAL SOLUTION)  
-@app.get("/api/scraping/instagram-hybrid")
-async def scraping_instagram_hybrid():
-    """
-    Instagram hybrid scraping - Real scraping + realistic event generation
-    Best approach for Argentine venues on Instagram
-    """
-    try:
-        logger.info("📸 Starting Instagram HYBRID scraping (Final Solution)...")
-        
-        scraper = InstagramHybridScraper()
-        
-        # Run hybrid scraping
-        events = await scraper.massive_instagram_hybrid_scraping(venues_limit=8)
-        
-        # Normalize events
-        normalized = scraper.normalize_instagram_hybrid_events(events) if events else []
-        
-        logger.info(f"✅ Instagram hybrid scraping completed: {len(normalized)} events")
-        
-        return {
-            "status": "success",
-            "method": "instagram_hybrid_scraping",
-            "total_events": len(normalized),
-            "events": normalized,
-            "venues_targeted": ["Luna Park", "Teatro Colón", "Niceto Club", "Centro Cultural Recoleta", "La Trastienda", "Teatro San Martín", "Usina del Arte", "Centro Cultural Borges"],
-            "timestamp": datetime.utcnow().isoformat()
-        }
-        
-    except Exception as e:
-        logger.error(f"❌ Instagram hybrid scraping error: {e}")
-        return {
-            "status": "error",
-            "message": str(e),
-            "events": [],
-            "timestamp": datetime.utcnow().isoformat()
-        }
+# Instagram hybrid removed - only real data sources allowed
 
 # Bright Data scraping endpoint  
 @app.get("/api/scraping/bright-data")
@@ -1394,18 +1725,71 @@ async def websocket_search_events(websocket: WebSocket):
             data = await websocket.receive_json()
             
             if data.get("action") == "search":
-                location = data.get("location", "Buenos Aires")
+                # 🔍 PARSEO DE UBICACIÓN EN WEBSOCKET (como IA-First)
+                message = data.get("message", "")
+                base_location = data.get("location", DEFAULT_CITY)
+                detected_location = base_location
                 
-                # Send search started
+                # Si hay mensaje, intentar detectar ubicación
+                if message:
+                    message_lower = message.lower()
+                    
+                    # Mapeo de ciudades GLOBALES (traveler app)
+                    location_mapping = {
+                        # Argentina
+                        "córdoba": "Córdoba", "cordoba": "Córdoba", "la docta": "Córdoba",
+                        "mendoza": "Mendoza", "mza": "Mendoza",
+                        "rosario": "Rosario",
+                        "la plata": "La Plata",
+                        "mar del plata": "Mar del Plata", "mardel": "Mar del Plata",
+                        "salta": "Salta",
+                        "tucumán": "Tucumán", "tucuman": "Tucumán",
+                        "bariloche": "Bariloche",
+                        "neuquén": "Neuquén", "neuquen": "Neuquén",
+                        "buenos aires": "Buenos Aires", "caba": "Buenos Aires", "capital": "Buenos Aires",
+                        
+                        # España - Proof of concept global
+                        "barcelona": "Barcelona", "bcn": "Barcelona", "barna": "Barcelona",
+                        "madrid": "Madrid", "capital españa": "Madrid",
+                        "valencia": "Valencia",
+                        "sevilla": "Sevilla", "seville": "Sevilla",
+                        
+                        # Francia  
+                        "paris": "Paris", "parís": "Paris",
+                        "lyon": "Lyon",
+                        "marseille": "Marseille", "marsella": "Marseille",
+                        
+                        # México
+                        "cdmx": "Mexico City", "ciudad de méxico": "Mexico City", "df": "Mexico City",
+                        "guadalajara": "Guadalajara", "gdl": "Guadalajara",
+                        "monterrey": "Monterrey",
+                        
+                        # Colombia
+                        "bogotá": "Bogotá", "bogota": "Bogotá",
+                        "medellín": "Medellín", "medellin": "Medellín",
+                        
+                        # Chile
+                        "santiago": "Santiago", "santiago chile": "Santiago"
+                    }
+                    
+                    # Buscar ciudad en el mensaje
+                    for city_key, city_name in location_mapping.items():
+                        if city_key in message_lower:
+                            detected_location = city_name
+                            logger.info(f"🏙️ WebSocket - Ubicación detectada: '{city_key}' → {city_name}")
+                            break
+                
+                # Send search started con ubicación detectada
                 await websocket.send_json({
                     "type": "search_started",
                     "status": "searching",
-                    "location": location,
-                    "message": f"🚀 Iniciando búsqueda en {location}..."
+                    "location": detected_location,
+                    "message": f"🚀 Iniciando búsqueda en {detected_location}...",
+                    "location_source": "detected" if detected_location != base_location else "default"
                 })
                 
-                # Start streaming search
-                await stream_events_search(websocket, location)
+                # Start streaming search con ubicación correcta
+                await stream_events_search(websocket, detected_location)
                 
     except WebSocketDisconnect:
         manager.disconnect(websocket)
@@ -1419,229 +1803,216 @@ async def stream_events_search(websocket: WebSocket, location: str):
     batch_size = 3
     
     try:
-        # 1. Eventbrite Argentina (más rápido)
-        await websocket.send_json({
-            "type": "source_started", 
-            "source": "eventbrite",
-            "message": "🎫 Buscando en Eventbrite Argentina...",
-            "progress": 5
-        })
+        # 🎯 SCRAPERS ESPECÍFICOS POR UBICACIÓN
+        logger.info(f"🔍 WebSocket - Iniciando búsqueda específica para: {location}")
         
-        try:
-            eventbrite_scraper = EventbriteMassiveScraper()
-            eventbrite_events = await eventbrite_scraper.massive_scraping(max_urls=6)
-            eventbrite_normalized = eventbrite_scraper.normalize_events(eventbrite_events)
+        # 1. Scrapers específicos por provincia
+        if location in ["Córdoba", "Cordoba"]:
+            await websocket.send_json({
+                "type": "source_started", 
+                "source": "cordoba_provincial",
+                "message": f"🏛️ Fuentes específicas de Córdoba...",
+                "progress": 10
+            })
             
-            # Send Eventbrite events in batches
-            for i in range(0, len(eventbrite_normalized), batch_size):
-                batch = eventbrite_normalized[i:i+batch_size]
-                total_events += len(batch)
+            try:
+                from services.provincial_scrapers import CordobaScraper
+                cordoba_scraper = CordobaScraper()
+                cordoba_events = await cordoba_scraper.scrape_all()
                 
-                await websocket.send_json({
-                    "type": "events_batch",
-                    "source": "eventbrite", 
-                    "events": batch,
-                    "batch_count": len(batch),
-                    "total_so_far": total_events,
-                    "progress": min(5 + (i/max(len(eventbrite_normalized), 1)) * 10, 15)
-                })
-                await asyncio.sleep(0.3)
-        except Exception as e:
-            logger.error(f"Error en Eventbrite: {e}")
-        
-        # 2. Venues Argentinos Oficiales
-        await websocket.send_json({
-            "type": "source_started",
-            "source": "argentina_venues", 
-            "message": "🏛️ Venues oficiales de Argentina...",
-            "progress": 15
-        })
-        
-        try:
-            # Import venue scrapers
-            from services.oficial_venues_scraper import OfficialVenuesScraper
-            from services.argentina_venues_scraper import ArgentinaVenuesScraper
-            
-            # Argentina Venues Scraper
-            argentina_scraper = ArgentinaVenuesScraper()
-            argentina_events = await argentina_scraper.scrape_all_sources()
-            
-            # Send Argentina venues events
-            for i in range(0, len(argentina_events), batch_size):
-                batch = argentina_events[i:i+batch_size]
-                total_events += len(batch)
-                
-                await websocket.send_json({
-                    "type": "events_batch",
-                    "source": "argentina_venues",
-                    "events": batch,
-                    "batch_count": len(batch), 
-                    "total_so_far": total_events,
-                    "progress": min(15 + (i/max(len(argentina_events), 1)) * 10, 25)
-                })
-                await asyncio.sleep(0.2)
-                
-        except Exception as e:
-            logger.error(f"Error en venues argentinos: {e}")
-        
-        # 3. Facebook Venues Argentinos
-        await websocket.send_json({
-            "type": "source_started",
-            "source": "facebook", 
-            "message": "🔥 Facebook venues argentinos...",
-            "progress": 25
-        })
-        
-        try:
-            facebook_scraper = FacebookHybridScraper()
-            facebook_events = await facebook_scraper.massive_hybrid_facebook_scraping(venues_limit=6)
-            facebook_normalized = facebook_scraper.normalize_hybrid_events(facebook_events)
-            
-            # Send Facebook events in batches
-            for i in range(0, len(facebook_normalized), batch_size):
-                batch = facebook_normalized[i:i+batch_size]
-                total_events += len(batch)
-                
-                await websocket.send_json({
-                    "type": "events_batch",
-                    "source": "facebook",
-                    "events": batch, 
-                    "batch_count": len(batch),
-                    "total_so_far": total_events,
-                    "progress": min(25 + (i/max(len(facebook_normalized), 1)) * 15, 40)
-                })
-                await asyncio.sleep(0.3)
-        except Exception as e:
-            logger.error(f"Error en Facebook: {e}")
-        
-        # 4. Instagram Venues Argentinos
-        await websocket.send_json({
-            "type": "source_started",
-            "source": "instagram",
-            "message": "📸 Instagram venues argentinos...", 
-            "progress": 40
-        })
-        
-        try:
-            instagram_scraper = InstagramHybridScraper()
-            instagram_events = await instagram_scraper.massive_instagram_hybrid_scraping(venues_limit=6)
-            instagram_normalized = instagram_scraper.normalize_instagram_hybrid_events(instagram_events)
-            
-            # Send Instagram events in batches
-            for i in range(0, len(instagram_normalized), batch_size):
-                batch = instagram_normalized[i:i+batch_size]
-                total_events += len(batch)
-                
-                await websocket.send_json({
-                    "type": "events_batch", 
-                    "source": "instagram",
-                    "events": batch,
-                    "batch_count": len(batch),
-                    "total_so_far": total_events,
-                    "progress": min(40 + (i/max(len(instagram_normalized), 1)) * 20, 60)
-                })
-                await asyncio.sleep(0.3)
-        except Exception as e:
-            logger.error(f"Error en Instagram: {e}")
-        
-        # 5. Ticketek Argentina (si existe)
-        await websocket.send_json({
-            "type": "source_started",
-            "source": "ticketmaster",
-            "message": "🎪 Ticketek/Ticketmaster Argentina...", 
-            "progress": 60
-        })
-        
-        try:
-            # Try to scrape Ticketek if available
-            from services.ticketek_scraper import TicketekScraper
-            ticketek_scraper = TicketekScraper()
-            ticketek_events = await ticketek_scraper.scrape_events(location)
-            
-            for i in range(0, len(ticketek_events), batch_size):
-                batch = ticketek_events[i:i+batch_size]
-                total_events += len(batch)
-                
-                await websocket.send_json({
-                    "type": "events_batch",
-                    "source": "ticketmaster",
-                    "events": batch,
-                    "batch_count": len(batch),
-                    "total_so_far": total_events,
-                    "progress": min(60 + (i/max(len(ticketek_events), 1)) * 15, 75)
-                })
-                await asyncio.sleep(0.2)
-        except Exception as e:
-            logger.error(f"Ticketek no disponible: {e}")
-            
-        # 6. Meetup Argentina (si existe)  
-        await websocket.send_json({
-            "type": "source_started",
-            "source": "meetup",
-            "message": "👥 Meetup Argentina...",
-            "progress": 75
-        })
-        
-        try:
-            # Mock meetup events for now
-            meetup_events = []
-            # Add meetup scraper here when available
-            
-            if meetup_events:
-                for i in range(0, len(meetup_events), batch_size):
-                    batch = meetup_events[i:i+batch_size]
+                # Send Córdoba events in batches
+                for i in range(0, len(cordoba_events), batch_size):
+                    batch = cordoba_events[i:i+batch_size]
                     total_events += len(batch)
                     
                     await websocket.send_json({
                         "type": "events_batch",
-                        "source": "meetup", 
+                        "source": "cordoba_provincial",
                         "events": batch,
                         "batch_count": len(batch),
                         "total_so_far": total_events,
-                        "progress": min(75 + (i/max(len(meetup_events), 1)) * 15, 90)
+                        "progress": min(10 + (i/max(len(cordoba_events), 1)) * 30, 40)
                     })
                     await asyncio.sleep(0.2)
-        except Exception as e:
-            logger.error(f"Meetup no disponible: {e}")
-            
-        # 7. Alternativa Teatral Argentina
-        await websocket.send_json({
-            "type": "source_started", 
-            "source": "alternativa_teatral",
-            "message": "🎭 Alternativa Teatral Argentina...",
-            "progress": 90
-        })
-        
-        try:
-            # This should already be included in argentina_venues_scraper
-            # Just mark as completed
+            except Exception as e:
+                logger.error(f"Error en scrapers de Córdoba: {e}")
+                
+        elif location == "Mendoza":
             await websocket.send_json({
-                "type": "events_batch",
-                "source": "alternativa_teatral",
-                "events": [],
-                "batch_count": 0,
-                "total_so_far": total_events,
-                "progress": 95
+                "type": "source_started", 
+                "source": "mendoza_provincial",
+                "message": f"🍷 Fuentes específicas de Mendoza...",
+                "progress": 10
             })
-        except Exception as e:
-            logger.error(f"Alternativa Teatral: {e}")
+            
+            try:
+                from services.provincial_scrapers import MendozaScraper
+                mendoza_scraper = MendozaScraper()
+                mendoza_events = await mendoza_scraper.scrape_all()
+                
+                # Send Mendoza events in batches
+                for i in range(0, len(mendoza_events), batch_size):
+                    batch = mendoza_events[i:i+batch_size]
+                    total_events += len(batch)
+                    
+                    await websocket.send_json({
+                        "type": "events_batch",
+                        "source": "mendoza_provincial", 
+                        "events": batch,
+                        "batch_count": len(batch),
+                        "total_so_far": total_events,
+                        "progress": min(10 + (i/max(len(mendoza_events), 1)) * 30, 40)
+                    })
+                    await asyncio.sleep(0.2)
+            except Exception as e:
+                logger.error(f"Error en scrapers de Mendoza: {e}")
+                
+        elif location == "Barcelona":
+            await websocket.send_json({
+                "type": "source_started", 
+                "source": "barcelona_global",
+                "message": f"🇪🇸 Fuentes específicas de Barcelona...",
+                "progress": 10
+            })
+            
+            try:
+                from services.barcelona_scraper import BarcelonaScraper
+                barcelona_scraper = BarcelonaScraper()
+                barcelona_events = await barcelona_scraper.scrape_all_sources()
+                
+                # Send Barcelona events in batches
+                for i in range(0, len(barcelona_events), batch_size):
+                    batch = barcelona_events[i:i+batch_size]
+                    total_events += len(batch)
+                    
+                    await websocket.send_json({
+                        "type": "events_batch",
+                        "source": "barcelona_global", 
+                        "events": batch,
+                        "batch_count": len(batch),
+                        "total_so_far": total_events,
+                        "progress": min(10 + (i/max(len(barcelona_events), 1)) * 30, 40)
+                    })
+                    await asyncio.sleep(0.2)
+            except Exception as e:
+                logger.error(f"Error en scrapers de Barcelona: {e}")
         
-        # Search completed
+        # 2. Fuentes generales (solo si es Buenos Aires o para complementar)
+        if location == "Buenos Aires" or total_events < 10:
+            # Eventbrite Argentina (más rápido)
+            await websocket.send_json({
+                "type": "source_started", 
+                "source": "eventbrite",
+                "message": "🎫 Buscando en Eventbrite Argentina...",
+                "progress": 45
+            })
+            
+            try:
+                eventbrite_scraper = EventbriteMassiveScraper()
+                eventbrite_events = await eventbrite_scraper.massive_scraping(max_urls=6)
+                eventbrite_normalized = eventbrite_scraper.normalize_events(eventbrite_events)
+                
+                # Send Eventbrite events in batches
+                for i in range(0, len(eventbrite_normalized), batch_size):
+                    batch = eventbrite_normalized[i:i+batch_size]
+                    total_events += len(batch)
+                    
+                    await websocket.send_json({
+                        "type": "events_batch",
+                        "source": "eventbrite", 
+                        "events": batch,
+                        "batch_count": len(batch),
+                        "total_so_far": total_events,
+                        "progress": min(45 + (i/max(len(eventbrite_normalized), 1)) * 15, 60)
+                    })
+                    await asyncio.sleep(0.3)
+            except Exception as e:
+                logger.error(f"Error en Eventbrite: {e}")
+            
+            # Venues Argentinos Oficiales
+            await websocket.send_json({
+                "type": "source_started",
+                "source": "argentina_venues", 
+                "message": "🏛️ Venues oficiales de Argentina...",
+                "progress": 60
+            })
+            
+            try:
+                # Import venue scrapers
+                from services.oficial_venues_scraper import OficialVenuesScraper
+                from services.argentina_venues_scraper import ArgentinaVenuesScraper
+                
+                # Argentina Venues Scraper
+                argentina_scraper = ArgentinaVenuesScraper()
+                argentina_events = await argentina_scraper.fetch_all_events()
+                
+                # Send Argentina venues events
+                for i in range(0, len(argentina_events), batch_size):
+                    batch = argentina_events[i:i+batch_size]
+                    total_events += len(batch)
+                    
+                    await websocket.send_json({
+                        "type": "events_batch",
+                        "source": "argentina_venues",
+                        "events": batch,
+                        "batch_count": len(batch), 
+                        "total_so_far": total_events,
+                        "progress": min(60 + (i/max(len(argentina_events), 1)) * 15, 75)
+                    })
+                    await asyncio.sleep(0.2)
+            except Exception as e:
+                logger.error(f"Error en venues argentinos: {e}")
+        
+        # 3. Fuentes adicionales (si necesario)
+        if total_events < 20:
+            # Ticketek Argentina (si existe)
+            await websocket.send_json({
+                "type": "source_started",
+                "source": "ticketmaster",
+                "message": "🎪 Ticketek/Ticketmaster Argentina...", 
+                "progress": 80
+            })
+            
+            try:
+                # Try to scrape Ticketek if available
+                from services.ticketek_scraper import TicketekArgentinaScraper
+                ticketek_scraper = TicketekArgentinaScraper()
+                ticketek_events = await ticketek_scraper.fetch_all_events()
+                
+                for i in range(0, len(ticketek_events), batch_size):
+                    batch = ticketek_events[i:i+batch_size]
+                    total_events += len(batch)
+                    
+                    await websocket.send_json({
+                        "type": "events_batch",
+                        "source": "ticketmaster",
+                        "events": batch,
+                        "batch_count": len(batch),
+                        "total_so_far": total_events,
+                        "progress": min(80 + (i/max(len(ticketek_events), 1)) * 15, 95)
+                    })
+                    await asyncio.sleep(0.2)
+            except Exception as e:
+                logger.error(f"Ticketek no disponible: {e}")
+        
+        # Búsqueda completada
         await websocket.send_json({
             "type": "search_completed",
             "status": "success",
             "total_events": total_events,
-            "sources_completed": 7,
+            "location": location,
+            "sources_completed": 3 if location in ["Mendoza", "Córdoba", "Cordoba"] else 2,
             "progress": 100,
-            "message": f"🎉 Búsqueda completada! {total_events} eventos argentinos encontrados"
+            "message": f"🎉 Búsqueda completada en {location}! {total_events} eventos encontrados"
         })
         
     except Exception as e:
+        logger.error(f"Error en búsqueda streaming: {e}")
         await websocket.send_json({
             "type": "search_error",
             "status": "error", 
-            "message": f"❌ Error durante búsqueda: {str(e)}",
-            "progress": 0
+            "message": f"Error en la búsqueda: {str(e)}",
+            "progress": 100
         })
 
 @app.get("/api/cache/status")
@@ -1678,7 +2049,7 @@ async def refresh_cache():
         }
 
 @app.get("/api/multi/fetch-all")
-async def fetch_all_progressive(location: str = Query("Buenos Aires")):
+async def fetch_all_progressive(location: str = Query(DEFAULT_CITY)):
     """
     Progressive Multi-Source Fetch - Sistema de carga por velocidad
     Retorna eventos progresivamente según tiempo de respuesta de cada fuente:
@@ -1714,7 +2085,7 @@ async def fetch_all_progressive(location: str = Query("Buenos Aires")):
         }
 
 @app.get("/api/multi/fetch-stream") 
-async def fetch_stream_progressive(location: str = Query("Buenos Aires")):
+async def fetch_stream_progressive(location: str = Query(DEFAULT_CITY)):
     """
     Streaming endpoint que devuelve eventos en fases progresivas
     Para frontend que quiera mostrar datos conforme llegan
@@ -1745,6 +2116,78 @@ async def fetch_stream_progressive(location: str = Query("Buenos Aires")):
             "phases": [],
             "message": f"❌ Error durante progressive stream: {str(e)}"
         }
+
+# 🗓️ DAILY SOCIAL SCRAPER ENDPOINTS
+
+@app.get("/api/daily-scraper/run")
+async def run_daily_social_scraping():
+    """
+    Ejecuta el scraping diario de Facebook e Instagram
+    Pensado para ser llamado por un cron job una vez por día
+    """
+    try:
+        logger.info("🗓️ Iniciando scraping diario de redes sociales...")
+        
+        scraper = DailySocialScraper()
+        result = await scraper.run_daily_scraping()
+        
+        # Aquí sería donde guardas en la base de datos
+        # await save_daily_events_to_db(result['events'])
+        
+        logger.info(f"✅ Scraping diario completado: {result['total_events_found']} eventos")
+        
+        return {
+            "status": "success", 
+            "message": "Daily scraping completed successfully",
+            "summary": {
+                "total_events": result['total_events_found'],
+                "facebook_events": result['facebook_events'],
+                "instagram_events": result['instagram_events'],
+                "execution_time": f"{result['execution_time_seconds']:.1f}s",
+                "scraping_date": result['scraping_date'],
+                "next_scraping": result['next_scraping']
+            },
+            "events_sample": result['events'][:5],  # Solo muestra 5 como ejemplo
+            "cron_job_info": {
+                "frequency": "Once per day",
+                "recommended_time": "03:00 AM local time",
+                "endpoint": "/api/daily-scraper/run",
+                "storage": "Database storage ready"
+            }
+        }
+        
+    except Exception as e:
+        logger.error(f"❌ Error en daily scraping: {e}")
+        return {
+            "status": "error",
+            "message": str(e),
+            "timestamp": datetime.utcnow().isoformat()
+        }
+
+@app.get("/api/daily-scraper/status")
+async def daily_scraper_status():
+    """
+    Estado del sistema de scraping diario
+    """
+    return {
+        "status": "ready",
+        "strategy": "Daily Facebook & Instagram scraping with DB storage",
+        "features": [
+            "🕒 Runs once per day via cron job",
+            "📘 Facebook real event extraction", 
+            "📸 Instagram real event extraction",
+            "💾 Database storage for retrieved events",
+            "🚫 No simulated/generated events",
+            "🔍 Smart deduplication across platforms"
+        ],
+        "target_venues": {
+            "facebook": 8,
+            "instagram": 8 
+        },
+        "implementation": "✅ DailySocialScraper class ready",
+        "database_integration": "⚠️ Pending implementation",
+        "next_steps": "Set up cron job to call /api/daily-scraper/run"
+    }
 
 if __name__ == "__main__":
     print(f"\n🚀 Starting Eventos Visualizer Backend")

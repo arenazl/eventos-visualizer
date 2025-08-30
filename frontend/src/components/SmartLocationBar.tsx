@@ -285,7 +285,11 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
       {location && (
         <div className="text-center mt-4">
           <p className="text-white/50 text-sm">
-            💡 Tip: Puedes buscar "eventos en Chile" aunque estés en {location.name.split(',')[0]}
+            {location.detected === 'manual' ? (
+              <span>🎯 Ubicación de búsqueda: <strong>{location.name}</strong></span>
+            ) : (
+              <>💡 Tip: Escribe "bares en Barcelona" para cambiar la ubicación automáticamente</>
+            )}
           </p>
         </div>
       )}

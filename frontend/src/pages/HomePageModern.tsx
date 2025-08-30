@@ -37,6 +37,7 @@ const HomePageModern: React.FC = () => {
   } = useEvents()
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [detectedTags, setDetectedTags] = useState<Array<{text: string, type: 'location' | 'keyword', animated: boolean}>>([])
   const [activeCategory, setActiveCategory] = useState('Todos')
   const [locationDetected, setLocationDetected] = useState(false)
 
@@ -104,48 +105,207 @@ const HomePageModern: React.FC = () => {
     }
   }
 
+  // 🤖 Usar Gemini IA para detectar ubicaciones (GRATIS y súper inteligente)
+  const detectLocationWithAI = async (query: string) => {
+    try {
+      console.log('🧠 Usando Gemini IA para detectar ubicación en:', query)
+      
+      // Crear un prompt específico para detección de ubicaciones
+      const locationPrompt = `
+      Analiza este texto y detecta si menciona alguna ciudad, país o ubicación específica:
+      "${query}"
+      
+      Si detectas una ubicación, responde en JSON:
+      {
+        "detected": true,
+        "location": "Nombre de la ciudad/país detectado",
+        "cleanQuery": "El query sin la ubicación",
+        "confidence": 0.9
+      }
+      
+      Si NO detectas ubicación específica, responde:
+      {
+        "detected": false
+      }
+      
+      Ejemplos:
+      - "bares en Barcelona" → location: "Barcelona", cleanQuery: "bares"
+      - "eventos en Chile" → location: "Chile", cleanQuery: "eventos" 
+      - "conciertos rock" → detected: false
+      `
+      
+      // Usar el endpoint de análisis de intención con prompt específico
+      const response = await fetch('http://172.29.228.80:8001/api/ai/analyze-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query: locationPrompt,
+          context: {
+            current_location: currentLocation?.name,
+            task: 'location_detection' 
+          }
+        })
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        console.log('🤖 Gemini respondió:', result)
+        
+        // Gemini debería devolver el JSON que pedimos
+        if (result.analysis && result.analysis.includes('detected')) {
+          try {
+            // Extraer JSON de la respuesta de Gemini
+            const jsonMatch = result.analysis.match(/\{[\s\S]*\}/)
+            if (jsonMatch) {
+              const locationData = JSON.parse(jsonMatch[0])
+              return locationData
+            }
+          } catch (e) {
+            console.warn('Error parseando respuesta Gemini:', e)
+          }
+        }
+      }
+    } catch (error) {
+      console.warn('⚠️ Error con Gemini, usando fallback:', error)
+    }
+    
+    // 🛡️ Fallback súper simple si Gemini falla
+    const quickPatterns = ['barcelona', 'madrid', 'chile', 'córdoba', 'cordoba', 'mendoza', 'brasil', 'uruguay', 'santiago']
+    const queryLower = query.toLowerCase()
+    
+    for (const pattern of quickPatterns) {
+      if (queryLower.includes(pattern)) {
+        return {
+          detected: true,
+          location: pattern.charAt(0).toUpperCase() + pattern.slice(1),
+          cleanQuery: query.replace(new RegExp(pattern, 'gi'), '').replace(/\s+/g, ' ').trim(),
+          confidence: 0.7
+        }
+      }
+    }
+    
+    return { detected: false }
+  }
+
+  // 🌍 Detectar ciudades en diferentes eventos
+  const detectLocationInQuery = (value: string) => {
+    const words = value.trim().split(' ')
+    const locationKeywords = [
+      'barcelona', 'madrid', 'valencia', 'sevilla', 'bilbao', 'málaga', 'malaga',
+      'chile', 'santiago', 'valparaíso', 'valparaiso', 
+      'córdoba', 'cordoba', 'mendoza', 'rosario', 'bariloche', 'salta',
+      'brasil', 'brazil', 'rio', 'paulo', 'uruguay', 'montevideo',
+      'méxico', 'mexico', 'guadalajara', 'monterrey',
+      'miami', 'york', 'angeles', 'chicago'
+    ]
+    
+    // Buscar en todas las palabras
+    for (const word of words) {
+      if (word.length > 2) {
+        const lowerWord = word.toLowerCase()
+        const isLocation = locationKeywords.some(loc => lowerWord.includes(loc))
+        
+        if (isLocation) {
+          console.log('🌍 Ciudad detectada:', word)
+          
+          // Actualizar ubicación
+          setLocation({
+            name: word.charAt(0).toUpperCase() + word.slice(1),
+            detected: 'manual'
+          })
+          
+          // Marcar la palabra visualmente
+          setDetectedTags([{
+            text: word.charAt(0).toUpperCase() + word.slice(1),
+            type: 'location',
+            animated: true
+          }])
+          
+          return true
+        }
+      }
+    }
+    return false
+  }
+
+  // Handle input change - detectar al escribir espacio
+  const handleInputChange = async (value: string) => {
+    setSearchQuery(value)
+    
+    // Detectar solo si termina con espacio
+    if (value.endsWith(' ') && value.trim().length > 0) {
+      detectLocationInQuery(value)
+    } else {
+      setDetectedTags([])
+    }
+  }
+
+  // Handle Enter - detectar al presionar Enter
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      detectLocationInQuery(searchQuery)
+      handleSearch()
+    }
+  }
+
+  // Handle Click - detectar al hacer click en buscar
+  const handleSearchClick = () => {
+    detectLocationInQuery(searchQuery)
+    handleSearch()
+  }
+
+  // 🗑️ Remover tag al hacer click
+  const removeTag = (tagToRemove: string) => {
+    setDetectedTags(prev => prev.filter(tag => tag.text !== tagToRemove))
+    // También remover la palabra del query
+    const newQuery = searchQuery.replace(new RegExp(`\\b${tagToRemove}\\b`, 'gi'), '').replace(/\s+/g, ' ').trim()
+    setSearchQuery(newQuery)
+  }
+
   const handleSearch = async () => {
     if (!searchQuery.trim()) return
     
     try {
-      // Detectar si el query menciona una ciudad
-      const cities = ['córdoba', 'cordoba', 'mendoza', 'rosario', 'la plata', 'mar del plata', 
-                     'salta', 'tucumán', 'tucuman', 'bariloche', 'neuquén', 'neuquen',
-                     'santa fe', 'bahía blanca', 'bahia blanca', 'chile', 'uruguay', 'brasil']
+      // 🤖 PASO 1: Usar Gemini IA para detectar ubicación en la búsqueda
+      const locationDetection = await detectLocationWithAI(searchQuery)
       
-      const queryLower = searchQuery.toLowerCase()
-      const hasCityInQuery = cities.some(city => queryLower.includes(city))
+      console.log('🧠 Detección con IA:', locationDetection)
       
-      // Si el query contiene una ciudad, NO enviar location para que el backend la detecte
-      const locationToSend = hasCityInQuery ? undefined : currentLocation?.name
+      let searchLocation = null
+      let finalQuery = searchQuery
       
-      // Usar búsqueda inteligente del backend
-      const { EventsAPI } = await import('../services/api')
-      const result = await EventsAPI.smartSearch(
-        searchQuery, 
-        locationToSend
-      )
-      
-      // Si detectó ubicación en la query, actualizar
-      if (result.detected_location && result.detected_location !== currentLocation?.name) {
-        setLocation({
-          name: result.detected_location,
-          detected: 'manual'
-        })
+      if (locationDetection.detected) {
+        // ✅ IA DETECTÓ CIUDAD - Ignorar geolocalización
+        console.log(`🌍 IA detectó ciudad: ${locationDetection.location} (confianza: ${locationDetection.confidence})`)
+        console.log(`🔍 Query procesado por IA: ${locationDetection.cleanQuery}`)
+        
+        searchLocation = {
+          name: locationDetection.location,
+          detected: 'manual' as const
+        }
+        
+        // Actualizar ubicación en la UI inmediatamente
+        setLocation(searchLocation)
+        
+        // Usar query procesado por IA
+        finalQuery = locationDetection.cleanQuery || searchQuery
+        
+      } else {
+        // ❌ NO HAY CIUDAD ESPECÍFICA - Usar geolocalización actual
+        console.log('📍 Sin ciudad específica, usando geolocalización:', currentLocation?.name)
+        searchLocation = currentLocation
       }
       
-      // Actualizar eventos con los resultados
-      if (result.results && result.results.length > 0) {
-        // Aquí deberías actualizar el store con los nuevos eventos
-        // Por ahora solo los mostramos
-        console.log('Smart search results:', result)
-        // Simulamos actualización del store
-        await searchEvents(searchQuery, currentLocation)
-      }
+      // 🚀 PASO 2: Ejecutar búsqueda inteligente
+      console.log(`🔍 Búsqueda final: "${finalQuery}" en ${searchLocation?.name || 'ubicación actual'}`) 
+      
+      // Usar aiSearch para mejor comprensión del contexto
+      await aiSearch(finalQuery, searchLocation)
+      
     } catch (error) {
-      console.error('Search failed:', error)
-      // Fallback a búsqueda AI si falla
-      await aiSearch(searchQuery, currentLocation)
+      console.error('❌ Error en búsqueda:', error)
+      // Fallback a búsqueda tradicional
+      await searchEvents(searchQuery, currentLocation)
     }
   }
 
@@ -268,6 +428,7 @@ const HomePageModern: React.FC = () => {
             currentLocation={currentLocation}
           />
 
+
           {/* Search Bar */}
           <div className="mb-12 text-center">
             <p className="text-xl text-white/80 mb-8">
@@ -287,14 +448,44 @@ const HomePageModern: React.FC = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                       </svg>
                     </div>
-                    <input 
-                      type="text" 
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                      placeholder="🔥 ¿Qué obra hay para ver? ¿Eventos en Chile? ¡Pregunta!" 
-                      className="flex-1 bg-transparent text-white text-lg placeholder-white/40 py-5 outline-none font-medium"
-                    />
+                    <div className="flex-1 relative">
+                      <input 
+                        type="text" 
+                        value={searchQuery}
+                        onChange={(e) => handleInputChange(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        placeholder="🔍 Busca: 'bares en Barcelona', 'eventos en Miami'..." 
+                        className="w-full bg-transparent text-white text-lg placeholder-white/40 py-5 outline-none font-medium"
+                      />
+                      
+                      {/* Tags sobre la palabra detectada */}
+                      {detectedTags.length > 0 && (
+                        <div className="absolute top-0 left-0 right-0 py-5 pointer-events-none z-10">
+                          <div className="relative">
+                            {detectedTags.map((tag, index) => {
+                              // Calcular posición aproximada de la palabra
+                              const words = searchQuery.split(' ')
+                              const wordIndex = words.findIndex(word => word.toLowerCase().includes(tag.text.toLowerCase()))
+                              const leftOffset = wordIndex * 80 // Aproximación
+                              
+                              return (
+                                <div
+                                  key={`${tag.text}-${index}`}
+                                  className={`absolute transition-all duration-500 ${
+                                    tag.animated ? 'animate-pulse' : ''
+                                  }`}
+                                  style={{ left: `${leftOffset}px`, top: '-10px' }}
+                                >
+                                  <div className="bg-purple-500 text-white text-xs px-2 py-1 rounded-full shadow-lg">
+                                    🌍 {tag.text}
+                                  </div>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                     <button 
                       onClick={handleVoiceSearch}
                       className="p-4 rounded-2xl transition-all duration-300 bg-white/10 hover:bg-white/20 hover:scale-110"
@@ -308,7 +499,7 @@ const HomePageModern: React.FC = () => {
                     
                     {/* Botón de búsqueda con ícono únicamente */}
                     <button 
-                      onClick={() => startStreamingSearch(currentLocation)}
+                      onClick={handleSearchClick}
                       disabled={loading || isStreaming}
                       className="p-4 rounded-2xl transition-all duration-300 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 hover:scale-110 shadow-xl hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed"
                       title="Buscar eventos"

@@ -84,13 +84,14 @@ async def detect_location(request: Request):
                     lat = data.get("lat", 0)
                     lon = data.get("lon", 0)
                     
+                    logger.info(f"🌐 IP Geolocation detected: city='{city}', country='{country}', lat={lat}, lon={lon}")
+                    
                     # Si no hay ciudad pero sí país, usar ciudad principal
                     if not city and country:
                         city = COUNTRY_TO_CITY.get(country, "Buenos Aires")
                     
-                    # Si la ciudad no está en nuestro mapa, usar la más cercana
-                    if city not in CITY_COORDINATES and country in COUNTRY_TO_CITY:
-                        city = COUNTRY_TO_CITY[country]
+                    # PRESERVAR la ciudad detectada - NO forzar cambio si existe
+                    # Solo usar coordenadas por defecto si no están disponibles
                     
                     return {
                         "status": "success",

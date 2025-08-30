@@ -220,10 +220,10 @@ const useEventsStore = create<EventsState>((set, get) => ({
       const { currentLocation } = get()
       const searchLocation = location || currentLocation
 
-      // Construir URL dinámicamente basado en ubicación
-      let apiUrl = 'http://172.29.228.80:8001/api/events?limit=50'
+      // Usar el nuevo endpoint progressive
+      let apiUrl = 'http://172.29.228.80:8001/api/multi/fetch-all'
       if (searchLocation) {
-        apiUrl += `&location=${encodeURIComponent(searchLocation.name || "Buenos Aires")}`
+        apiUrl += `?location=${encodeURIComponent(searchLocation.name || "Buenos Aires")}`
       }
 
       const response = await fetch(apiUrl)
