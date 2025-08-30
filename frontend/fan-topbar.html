@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAN - Eventos App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Animación para el título cuando hace scroll */
+        .topbar-scrolled .fan-title {
+            font-size: 1.5rem !important; /* Se hace más chiquito con scroll */
+            transition: all 0.3s ease;
+        }
+        
+        /* Animación del gradiente */
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .animate-gradient {
+            background-size: 200% 200%;
+            animation: gradient-shift 3s ease infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 min-h-screen">
+    
+    <!-- TOP BAR CON FAN -->
+    <nav id="topbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-center items-center py-4">
+                <!-- FanAroundYou centrado y más grande -->
+                <h1 class="fan-title text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 animate-gradient tracking-wider">
+                    FanAroundYou
+                </h1>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Contenido principal con padding para el navbar -->
+    <div class="pt-20 px-6">
+        
+        <!-- Contenido de ejemplo para ver el scroll -->
+        <div class="h-screen flex items-center justify-center">
+            <p class="text-white/60 text-lg">Scroll hacia abajo para ver cómo el título FanAroundYou se hace más pequeño ↓</p>
+        </div>
+        
+        <div class="h-screen flex items-center justify-center">
+            <p class="text-white/60 text-lg">Sigue scrolleando...</p>
+        </div>
+        
+    </div>
+    
+    <!-- Script para el efecto de scroll -->
+    <script>
+        window.addEventListener('scroll', function() {
+            const topbar = document.getElementById('topbar');
+            
+            if (window.scrollY > 50) {
+                topbar.classList.add('topbar-scrolled', 'bg-black/50', 'backdrop-blur-lg');
+            } else {
+                topbar.classList.remove('topbar-scrolled', 'bg-black/50', 'backdrop-blur-lg');
+            }
+        });
+    </script>
+    
+</body>
+</html>
