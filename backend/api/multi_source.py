@@ -436,6 +436,52 @@ async def fetch_oficial_venues_events():
             "events": []
         }
 
+async def fetch_ba_tourism_events():
+    """Obtiene eventos del sitio oficial de turismo de Buenos Aires"""
+    try:
+        from services.ba_tourism_scraper import BuenasAiresTourismScraper
+        scraper = BuenasAiresTourismScraper()
+        
+        events = await scraper.fetch_weekly_events(limit=20)
+        
+        return {
+            "source": "BA Tourism Official",
+            "status": "success", 
+            "count": len(events),
+            "events": events
+        }
+    except Exception as e:
+        logger.error(f"BA Tourism scraper error: {e}")
+        return {
+            "source": "BA Tourism Official",
+            "status": "error",
+            "error": str(e),
+            "events": []
+        }
+
+async def fetch_castelar_digital_events():
+    """Obtiene eventos de la agenda local de Castelar Digital"""
+    try:
+        from services.castelar_digital_scraper import CastelarDigitalScraper
+        scraper = CastelarDigitalScraper()
+        
+        events = await scraper.fetch_local_events(limit=15)
+        
+        return {
+            "source": "Castelar Digital Local",
+            "status": "success", 
+            "count": len(events),
+            "events": events
+        }
+    except Exception as e:
+        logger.error(f"Castelar Digital scraper error: {e}")
+        return {
+            "source": "Castelar Digital Local",
+            "status": "error",
+            "error": str(e),
+            "events": []
+        }
+
 async def fetch_proven_multi_source_events(location: str):
     """Obtiene eventos con el SCRAPER PROBADO EXACTO de /tips/"""
     logger.info(f"🔥 EJECUTANDO SCRAPER PROBADO para {location}")
@@ -705,6 +751,8 @@ async def fetch_from_all_sources_internal(
         source_definitions.extend([
             ("Eventbrite Real API", lambda: fetch_eventbrite_events(location)),
             ("Official Venues Only", lambda: fetch_oficial_venues_events()),
+            ("BA Tourism Official", lambda: fetch_ba_tourism_events()),
+            ("Castelar Digital Local", lambda: fetch_castelar_digital_events()),
         ])
     else:
         logger.warning(f"⚠️ Location '{location}' is not Argentina - Using Facebook + Eventbrite genérico")

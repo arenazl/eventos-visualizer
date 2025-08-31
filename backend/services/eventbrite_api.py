@@ -110,7 +110,8 @@ class EventbriteLatamConnector:
                                         'is_free': False,
                                         'currency': 'ARS',
                                         'venue': {'name': location, 'address': {'city': location}},
-                                        'start': {'utc': (datetime.now() + timedelta(days=random.randint(1, 30))).isoformat()},
+                                        # NO generar fecha aleatoria - skip si no hay fecha real
+                                        'start': None,  # Se seteará solo si se encuentra fecha real
                                         'category': {'name': 'General'},
                                         'url': '',
                                         'id': f"scraping_{hash(title)}"

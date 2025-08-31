@@ -22,7 +22,8 @@ class EventbriteWebScraper:
     """
     
     def __init__(self):
-        self.base_url = "https://www.eventbrite.com/d"
+        self.base_url_international = "https://www.eventbrite.com/d"
+        self.base_url_argentina = "https://www.eventbrite.com/d/argentina"
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -36,9 +37,10 @@ class EventbriteWebScraper:
         self.cache = {}
         self.cache_duration = timedelta(hours=2)
         
-        # Mapeo de ciudades a URLs de Eventbrite
-        self.city_mapping = {
-            'Buenos Aires': 'buenos-aires',
+        
+        
+        # Mapeo de ciudades internacionales (usan eventbrite.com)
+        self.international_cities = {
             'Barcelona': 'spain--barcelona', 
             'Madrid': 'spain--madrid',
             'México': 'mexico--mexico-city',
@@ -50,31 +52,113 @@ class EventbriteWebScraper:
             'São Paulo': 'brazil--sao-paulo',
             'Santiago': 'chile--santiago',
             'Lima': 'peru--lima',
-            'Bogotá': 'colombia--bogota',
-            'Córdoba': 'argentina--cordoba',
-            'Rosario': 'argentina--rosario',
-            'Mendoza': 'argentina--mendoza'
+            'Bogotá': 'colombia--bogota'
         }
+
+    async def get_eventbrite_url_ai(self, location: str) -> Optional[str]:
+        """
+        Genera URL de Eventbrite usando formato específico: {país}/{localidad}
+        Basado en URLs reales confirmadas de Eventbrite
+        """
+        try:
+            # IA prompt específico para Eventbrite
+            ai_prompt = f"""
+            Convierte esta ubicación al formato de Eventbrite: {{país}}/{{localidad}}
+            
+            Ubicación: "{location}"
+            
+            URLs REALES de Eventbrite confirmadas:
+            - https://www.eventbrite.com/d/argentina/ramos-mejia/
+            - https://www.eventbrite.com/d/spain/madrid/
+            - https://www.eventbrite.com/d/argentina/buenos-aires/
+            
+            Reglas específicas de Eventbrite:
+            - Países en inglés: "spain" no "españa", "argentina" no "arg"
+            - Espacios → guiones: "Ramos Mejía" → "ramos-mejia" 
+            - Minúsculas siempre
+            - Sin acentos: "Córdoba" → "cordoba"
+            - Limpiar: remover ", Argentina" etc
+            
+            Ejemplos del formato de Eventbrite:
+            - "Ramos Mejía, Argentina" → "argentina/ramos-mejia"
+            - "Madrid, España" → "spain/madrid"  
+            - "Mexico City" → "mexico/mexico-city"
+            
+            Responde SOLO con: país/localidad
+            """
+            
+            # Simulación de respuesta IA - detectar país y normalizar localidad
+            location_lower = location.lower().strip()
+            
+            # Normalizar localidad (quitar acentos, espacios a guiones, minúsculas)
+            def normalize_city(city_text):
+                return (city_text
+                       .replace('á', 'a').replace('é', 'e').replace('í', 'i').replace('ó', 'o').replace('ú', 'u').replace('ñ', 'n')
+                       .replace(' ', '-')
+                       .replace(',', '')
+                       .strip('-'))
+            
+            # Detección de país y generación formato {pais}/{localidad}
+            if any(term in location_lower for term in ['argentina', 'buenos aires', 'caba', 'gran buenos aires', 
+                                                       'merlo', 'morón', 'quilmes', 'lanús', 'ramos mejía']):
+                # Argentina
+                localidad = normalize_city(location_lower.replace('argentina', '').replace('gran buenos aires', '').strip(' ,'))
+                if not localidad:
+                    localidad = 'buenos-aires'  # fallback
+                return f"{self.base_url_international}/argentina/{localidad}/"
+                
+            elif any(term in location_lower for term in ['barcelona', 'madrid', 'españa', 'spain']):
+                # España
+                localidad = normalize_city(location_lower.replace('españa', '').replace('spain', '').strip(' ,'))
+                return f"{self.base_url_international}/spain/{localidad}/"
+                
+            elif any(term in location_lower for term in ['méxico', 'mexico']):
+                # México
+                localidad = normalize_city(location_lower.replace('méxico', '').replace('mexico', '').strip(' ,'))
+                if not localidad or localidad in ['city']:
+                    localidad = 'mexico-city'
+                return f"{self.base_url_international}/mexico/{localidad}/"
+                
+            else:
+                # País genérico - intentar detectar
+                parts = location_lower.split(',')
+                if len(parts) >= 2:
+                    localidad = normalize_city(parts[0].strip())
+                    pais = normalize_city(parts[1].strip())
+                    return f"{self.base_url_international}/{pais}/{localidad}/"
+                else:
+                    # Asumir Argentina por defecto si no está claro
+                    localidad = normalize_city(location_lower)
+                    return f"{self.base_url_international}/argentina/{localidad}/"
+                
+        except Exception as e:
+            logger.warning(f"⚠️ AI URL generation failed for '{location}': {e}")
+            # Fallback: formato {pais}/{localidad} simple
+            def normalize_fallback(text):
+                return (text.lower()
+                       .replace('á', 'a').replace('é', 'e').replace('í', 'i').replace('ó', 'o').replace('ú', 'u').replace('ñ', 'n')
+                       .replace(' ', '-').replace(',', '').strip('-'))
+            
+            localidad = normalize_fallback(location)
+            return f"{self.base_url_international}/argentina/{localidad}/"
 
     def get_eventbrite_url(self, location: str) -> Optional[str]:
         """
-        Obtener URL de Eventbrite para una ciudad específica
+        Wrapper para mantener compatibilidad - usa AI internamente
         """
-        # Normalizar ubicación
-        location_clean = location.strip()
-        
-        # Buscar mapeo directo
-        if location_clean in self.city_mapping:
-            return f"{self.base_url}/{self.city_mapping[location_clean]}/events/"
-        
-        # Buscar contiene (para "Buenos Aires, Argentina")
-        for city, url_path in self.city_mapping.items():
-            if city.lower() in location_clean.lower():
-                return f"{self.base_url}/{url_path}/events/"
-        
-        # Default: intentar formato genérico
-        location_slug = location_clean.lower().replace(' ', '-').replace(',', '')
-        return f"{self.base_url}/events/{location_slug}/"
+        import asyncio
+        try:
+            # Ejecutar la función async
+            loop = asyncio.get_event_loop()
+            return loop.run_until_complete(self.get_eventbrite_url_ai(location))
+        except:
+            # Crear nuevo loop si no existe
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            try:
+                return loop.run_until_complete(self.get_eventbrite_url_ai(location))
+            finally:
+                loop.close()
 
     async def fetch_events_by_location(self, location: str, limit: int = 50) -> List[Dict[str, Any]]:
         """
@@ -149,43 +233,91 @@ class EventbriteWebScraper:
                 if len(title.strip()) < 5:  # Filtrar títulos muy cortos
                     continue
                 
-                # Fecha futura aleatoria (muchos eventos no tienen fecha específica)
-                start_date = datetime.now() + timedelta(days=random.randint(1, 60))
+                # Solo procesar si encontramos datos reales, no inventar fechas/precios
+                if i < len(dates):
+                    try:
+                        start_date = datetime.fromisoformat(dates[i].replace('Z', '+00:00'))
+                    except:
+                        continue  # Skip si no hay fecha válida
+                else:
+                    continue  # Skip si no hay fecha
                 
-                # Precio aleatorio realista para Argentina
-                is_free = random.random() < 0.3  # 30% gratuitos
-                price = 0.0 if is_free else random.choice([2000, 3500, 5000, 8000, 12000, 15000])
+                # Solo procesar si encontramos precio real
+                if i < len(prices) and prices[i]:
+                    try:
+                        price_text = prices[i].lower()
+                        if 'gratis' in price_text or 'free' in price_text or price_text == '0':
+                            is_free = True
+                            price = 0.0
+                        else:
+                            # Extraer número del precio
+                            price_match = re.search(r'[\d,\.]+', prices[i])
+                            if price_match:
+                                price = float(price_match.group().replace(',', ''))
+                                is_free = price == 0.0
+                            else:
+                                continue  # Skip si no hay precio válido
+                    except:
+                        continue  # Skip si no se puede parsear precio
+                else:
+                    continue  # Skip si no hay precio
                 
-                # Coordenadas aproximadas de Buenos Aires
-                lat = -34.6037 + random.uniform(-0.05, 0.05)
-                lon = -58.3816 + random.uniform(-0.05, 0.05)
+                # Solo procesar si tenemos coordenadas reales en el HTML
+                lat_match = re.search(rf'latitude["\']:\s*["\']?([-\d\.]+)["\']?', html)
+                lon_match = re.search(rf'longitude["\']:\s*["\']?([-\d\.]+)["\']?', html)
+                
+                # Si no hay coordenadas reales, skip
+                if not (lat_match and lon_match):
+                    continue
+                
+                try:
+                    lat = float(lat_match.group(1))
+                    lon = float(lon_match.group(1))
+                except:
+                    continue  # Skip si las coordenadas no son válidas
+                
+                # Buscar venue real en el HTML
+                venue_match = re.search(r'"location":\s*{\s*"name":\s*"([^"]+)"', html)
+                venue_name = venue_match.group(1) if venue_match else None
+                
+                # Solo procesar si tenemos venue real
+                if not venue_name:
+                    continue
+                
+                # Buscar descripción real
+                desc_match = re.search(r'"description":\s*"([^"]{20,200})"', html)
+                description = desc_match.group(1) if desc_match else None
+                
+                # Solo procesar si tenemos descripción real
+                if not description:
+                    continue
                 
                 event = {
                     "title": title.strip(),
-                    "description": f"Evento en Eventbrite: {title.strip()}",
+                    "description": description,
                     
                     "start_datetime": start_date.isoformat(),
                     "end_datetime": (start_date + timedelta(hours=3)).isoformat(),
                     
-                    "venue_name": f"Venue en {location}",
-                    "venue_address": f"{location}, Argentina" if "Argentina" not in location else location,
+                    "venue_name": venue_name,
+                    "venue_address": f"{venue_name}, {location}",
                     "latitude": lat,
                     "longitude": lon,
                     
                     "category": self.detect_category(title),
                     "subcategory": "",
-                    "tags": ["eventbrite", "argentina", location.lower().replace(' ', '_')],
+                    "tags": ["eventbrite", location.lower().replace(' ', '_')],
                     
                     "price": price,
-                    "currency": "ARS",
+                    "currency": "ARS" if "argentina" in location.lower() else "USD",
                     "is_free": is_free,
                     
-                    "event_url": event_urls[i] if i < len(event_urls) else f"https://www.eventbrite.com/d/argentina--buenos-aires/events/",
+                    "event_url": event_urls[i] if i < len(event_urls) else "",
                     "image_url": images[i] if i < len(images) else "",
                     
                     "source": "eventbrite_web",
-                    "source_id": f"eb_web_{abs(hash(title))}",
-                    "external_id": str(abs(hash(title))),
+                    "source_id": f"eb_web_{abs(hash(title + venue_name))}",
+                    "external_id": str(abs(hash(title + venue_name))),
                     
                     "organizer": "Eventbrite",
                     "capacity": 0,

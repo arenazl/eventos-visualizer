@@ -140,7 +140,7 @@ class FacebookAdvancedRequestsScraper:
                         break
                         
                     # Delay anti-detección
-                    await asyncio.sleep(random.uniform(3, 8))
+                    await asyncio.sleep(5)  # Delay fijo, no aleatorio
                     
                 except Exception as e:
                     logger.error(f"Error URL {url}: {e}")
@@ -176,11 +176,11 @@ class FacebookAdvancedRequestsScraper:
             # Crear scraper con rotación de browser fingerprints
             scraper = cloudscraper.create_scraper(
                 browser={
-                    'browser': random.choice(['chrome', 'firefox']),
-                    'platform': random.choice(['windows', 'android', 'darwin']),
-                    'desktop': random.choice([True, False])
+                    'browser': 'chrome',  # Fijo, no aleatorio
+                    'platform': 'windows',  # Fijo, no aleatorio
+                    'desktop': True
                 },
-                delay=random.uniform(1, 4)
+                delay=2  # Delay fijo
             )
             
             # Headers súper realistas
@@ -457,7 +457,7 @@ class FacebookAdvancedRequestsScraper:
                     await self._scrape_single_url_advanced(url, f"Search:{query}", events)
                     
                     # Delay entre búsquedas
-                    await asyncio.sleep(random.uniform(4, 9))
+                    await asyncio.sleep(6)  # Delay fijo
                     
                 except Exception as e:
                     logger.error(f"Error búsqueda {url}: {e}")
@@ -494,7 +494,7 @@ class FacebookAdvancedRequestsScraper:
                     logger.info(f"   ✅ {venue}: {len(venue_events)} eventos")
                     
                     # Delay anti-detección
-                    await asyncio.sleep(random.uniform(4, 10))
+                    await asyncio.sleep(7)  # Delay fijo
                     
                 except Exception as e:
                     logger.error(f"   ❌ Error {venue}: {e}")
@@ -515,7 +515,7 @@ class FacebookAdvancedRequestsScraper:
                     logger.info(f"   ✅ '{query}': {len(search_events)} eventos")
                     
                     # Delay entre búsquedas
-                    await asyncio.sleep(random.uniform(6, 12))
+                    await asyncio.sleep(9)  # Delay fijo
                     
                 except Exception as e:
                     logger.error(f"   ❌ Error búsqueda '{query}': {e}")
@@ -565,20 +565,38 @@ class FacebookAdvancedRequestsScraper:
         
         for event in raw_events:
             try:
-                start_date = datetime.now() + timedelta(days=random.randint(1, 60))
+                # SOLO procesar eventos con datos reales
+                title = event.get('title', '').strip()
+                if not title or len(title) < 5:
+                    continue  # Skip eventos sin título válido
+                
+                # SOLO procesar si hay fecha real
+                event_date = event.get('date') or event.get('start_datetime')
+                if not event_date:
+                    continue  # Skip eventos sin fecha
+                
+                # SOLO procesar si hay venue real
+                venue = event.get('venue', '').strip()
+                if not venue or venue == 'Buenos Aires':
+                    continue  # Skip eventos sin venue específico
+                
+                # SOLO procesar si hay coordenadas reales
+                latitude = event.get('latitude')
+                longitude = event.get('longitude')
+                if not (latitude and longitude):
+                    continue  # Skip eventos sin coordenadas
                 
                 normalized_event = {
-                    'title': event.get('title', 'Evento de Facebook'),
+                    'title': title,
                     'description': event.get('raw_text', '')[:400],
                     
-                    'start_datetime': start_date.isoformat(),
-                    'end_datetime': (start_date + timedelta(hours=4)).isoformat(),
+                    'start_datetime': event_date,
+                    'end_datetime': event.get('end_datetime', ''),
                     
-                    'venue_name': event.get('venue', 'Buenos Aires'),
-                    'venue_address': f"{event.get('venue', '')}, Buenos Aires, Argentina",
-                    'neighborhood': 'Buenos Aires',
-                    'latitude': -34.6037 + random.uniform(-0.1, 0.1),
-                    'longitude': -58.3816 + random.uniform(-0.1, 0.1),
+                    'venue_name': venue,
+                    'venue_address': event.get('venue_address', venue),
+                    'latitude': latitude,
+                    'longitude': longitude,
                     
                     'category': self._detect_category(event.get('title', '')),
                     'subcategory': '',

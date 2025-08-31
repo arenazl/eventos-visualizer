@@ -10,7 +10,7 @@ from typing import List, Dict, Any, Optional
 from datetime import datetime, timedelta
 import json
 import logging
-import random
+# NO usar random - solo datos reales
 
 logger = logging.getLogger(__name__)
 
@@ -279,20 +279,20 @@ class BuenosAiresOfficialAPI:
                 except:
                     latitude = longitude = None
                 
-                # Si no hay coordenadas, generar aleatorias en Buenos Aires
+                # Si no hay coordenadas REALES, skip evento
                 if not latitude or not longitude:
-                    latitude = -34.6037 + random.uniform(-0.1, 0.1)
-                    longitude = -58.3816 + random.uniform(-0.1, 0.1)
+                    continue  # Skip eventos sin coordenadas reales
                 
-                # Fecha - generar fechas futuras aleatorias para eventos permanentes
-                start_date = (event.get("fecha") or event.get("fecha_inicio") or
-                             (datetime.now() + timedelta(days=random.randint(1, 60))))
+                # Fecha - SOLO usar fechas reales
+                start_date = event.get("fecha") or event.get("fecha_inicio")
                 
                 if isinstance(start_date, str):
                     try:
                         start_date = datetime.fromisoformat(start_date.replace('Z', '+00:00'))
                     except:
-                        start_date = datetime.now() + timedelta(days=random.randint(1, 60))
+                        continue  # Skip eventos sin fecha válida
+                elif not start_date:
+                    continue  # Skip eventos sin fecha
                 
                 normalized_event = {
                     # Información básica

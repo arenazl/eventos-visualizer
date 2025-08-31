@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 import re
 from typing import List, Dict, Any
 from datetime import datetime, timedelta
-import random
+# NO usar random - solo datos reales
 import logging
 
 logger = logging.getLogger(__name__)
@@ -356,15 +356,16 @@ class OficialVenuesScraper:
                     'description': event.get('description', f"Evento en {event.get('venue_name', 'Buenos Aires')}"),
                     'venue_name': event.get('venue_name', 'Buenos Aires'),
                     'venue_address': f"{event.get('venue_name', 'Buenos Aires')}, Buenos Aires",
-                    'start_datetime': (datetime.now() + timedelta(days=random.randint(1, 45))).isoformat(),
+                    # SOLO usar datos reales - NO inventar
+                    'start_datetime': event.get('start_datetime'),  # Solo si viene del scraping
                     'category': event.get('category', 'official'),
-                    'price': random.choice([0, 2000, 5000, 8000]),
+                    'price': event.get('price', 0),  # Solo precio real
                     'currency': 'ARS',
-                    'is_free': random.choice([True, False]),
+                    'is_free': event.get('is_free', True),  # Solo valor real
                     'source': event.get('source', 'oficial_venues'),
-                    'image_url': 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f',
-                    'latitude': -34.6037 + random.uniform(-0.08, 0.08),
-                    'longitude': -58.3816 + random.uniform(-0.08, 0.08),
+                    'image_url': event.get('image_url', ''),  # Solo imagen real
+                    'latitude': event.get('latitude'),  # Solo coordenadas reales
+                    'longitude': event.get('longitude'),  # Solo coordenadas reales
                     'status': 'live',
                     'method': event.get('method', 'official_scraping')
                 }

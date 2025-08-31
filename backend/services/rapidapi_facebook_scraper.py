@@ -11,7 +11,7 @@ import re
 from typing import List, Dict, Any
 from datetime import datetime, timedelta
 import logging
-import random
+# No usar random - solo datos reales
 import os
 try:
     from .global_image_service import global_image_service
@@ -808,59 +808,66 @@ class RapidApiFacebookScraper:
     
     def normalize_facebook_events(self, events: List[Dict]) -> List[Dict[str, Any]]:
         """
-        Normalización para el sistema de eventos
+        Normalización HONESTA - Solo con datos reales de Facebook API
+        Si no hay datos reales, retorna array vacío
         """
         normalized = []
         
         for event in events:
             try:
-                # Fecha futura aleatoria
-                start_date = datetime.now() + timedelta(days=random.randint(1, 90))
+                # SOLO procesar si tenemos título real
+                title = event.get("title", "").strip()
+                if not title or len(title) < 5:
+                    continue  # Skip eventos sin título válido
                 
-                # Precio (Facebook events son mayormente gratuitos o accesibles)
-                is_free = random.random() < 0.4  # 40% gratuitos
-                price = 0.0 if is_free else random.choice([1000, 2000, 3000, 5000, 8000])
+                # SOLO procesar si tenemos fecha real del evento
+                event_date = event.get("start_date") or event.get("date_text")
+                if not event_date or "consultar" in str(event_date).lower():
+                    continue  # Skip eventos sin fecha real
                 
-                # Ubicación más específica
-                lat = -34.6037 + random.uniform(-0.1, 0.1)
-                lon = -58.3816 + random.uniform(-0.1, 0.1)
+                # SOLO procesar si tenemos venue/ubicación real
+                venue_name = event.get("venue_name", "").strip()
+                if not venue_name or venue_name == "Buenos Aires":
+                    continue  # Skip eventos sin venue específico
+                
+                # SOLO procesar si tenemos coordenadas reales
+                latitude = event.get("latitude")
+                longitude = event.get("longitude")
+                if not (latitude and longitude):
+                    continue  # Skip eventos sin coordenadas
+                
+                # SOLO usar precio si viene en los datos reales
+                price = event.get("price", 0.0)
+                is_free = event.get("is_free", price == 0.0)
                 
                 normalized_event = {
-                    "title": event.get("title", "Evento Facebook"),
-                    "description": event.get("description", "Evento encontrado en Facebook"),
+                    "title": title,
+                    "description": event.get("description", f"Evento de Facebook: {title}"),
                     
-                    "start_datetime": start_date.isoformat(),
-                    "end_datetime": (start_date + timedelta(hours=4)).isoformat(),
+                    "start_datetime": event.get("start_datetime", ""),
+                    "end_datetime": event.get("end_datetime", ""),
                     
-                    "venue_name": event.get("venue_name", "Venue Buenos Aires"),
-                    "venue_address": f"{event.get('venue_name', 'Buenos Aires')}, CABA",
-                    "neighborhood": random.choice(['Palermo', 'Recoleta', 'Centro', 'San Telmo', 'Puerto Madero']),
-                    "latitude": lat,
-                    "longitude": lon,
+                    "venue_name": venue_name,
+                    "venue_address": event.get("venue_address", venue_name),
+                    "latitude": latitude,
+                    "longitude": longitude,
                     
                     "category": event.get("category", "general"),
                     "subcategory": "",
-                    "tags": ["facebook", "rapidapi", "argentina", event.get("category", "general")],
+                    "tags": ["facebook", "rapidapi"],
                     
                     "price": price,
-                    "currency": "ARS",
+                    "currency": event.get("currency", "USD"),
                     "is_free": is_free,
                     
-                    "source": event.get("source", "rapidapi_facebook"),
-                    "source_id": f"fb_rapid_{abs(hash(event.get('title', '')))}",
-                    "event_url": event.get("post_url", ""),
-                    "image_url": event.get("image_url") or global_image_service.get_event_image(
-                        event_title=event.get("title", ""),
-                        category=event.get("category", "general"),
-                        venue=event.get("venue_name", ""),
-                        country_code="AR",
-                        source_url=event.get("event_url", "")
-                    ),
+                    "source": "rapidapi_facebook",
+                    "source_id": f"fb_rapid_{abs(hash(title))}",
+                    "event_url": event.get("event_url", ""),
+                    "image_url": event.get("image_url", ""),
                     
-                    "organizer": event.get("venue_name", "Facebook Event"),
-                    "capacity": 0,
+                    "organizer": event.get("organizer", venue_name),
+                    "capacity": event.get("capacity", 0),
                     "status": "live",
-                    "scraping_method": "rapidapi_facebook_scraper",
                     
                     "created_at": datetime.now().isoformat(),
                     "updated_at": datetime.now().isoformat()
@@ -872,6 +879,7 @@ class RapidApiFacebookScraper:
                 logger.error(f"Error normalizando evento Facebook: {e}")
                 continue
         
+        logger.info(f"📊 Facebook eventos normalizados: {len(normalized)} de {len(events)} (solo con datos reales)")
         return normalized
 
 

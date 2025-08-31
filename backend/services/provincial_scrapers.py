@@ -8,7 +8,7 @@ import asyncio
 from bs4 import BeautifulSoup
 from typing import List, Dict, Any
 from datetime import datetime, timedelta
-import random
+# NO usar random - solo datos reales
 import logging
 
 logger = logging.getLogger(__name__)
