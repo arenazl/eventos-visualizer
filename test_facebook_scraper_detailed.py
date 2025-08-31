@@ -110,8 +110,8 @@ async def test_detailed_facebook_scraping():
     print(f"📊 Eventos del scraper simple: {len(events_simple) if 'events_simple' in locals() else 0}")
     print(f"📅 Test finalizado: {datetime.now()}")
     print()
-    
-    if not os.getenv('RAPIDAPI_KEY'):
+    RAPIDAPI_KEY
+    if not os.getenv(''):
         print("⚠️" + "="*60)
         print("⚠️ NOTA IMPORTANTE:")
         print("   🗝️ No se detectó RAPIDAPI_KEY en variables de entorno")
