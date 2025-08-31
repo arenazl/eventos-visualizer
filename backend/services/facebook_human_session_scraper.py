@@ -13,9 +13,20 @@ from pathlib import Path
 from typing import List, Dict, Any, Optional
 
 import logging
-from playwright.async_api import async_playwright, Browser, BrowserContext, Page
 
 logger = logging.getLogger(__name__)
+
+try:
+    from playwright.async_api import async_playwright, Browser, BrowserContext, Page
+    PLAYWRIGHT_AVAILABLE = True
+except ImportError:
+    logger.warning("Playwright not available. FacebookHumanSessionScraper will not work.")
+    PLAYWRIGHT_AVAILABLE = False
+    # Define dummy types to avoid NameError
+    async_playwright = None
+    Browser = type('Browser', (), {})
+    BrowserContext = type('BrowserContext', (), {})
+    Page = type('Page', (), {})
 
 class FacebookHumanSessionScraper:
     """
@@ -64,6 +75,10 @@ class FacebookHumanSessionScraper:
         Configurar sesión inicial - se ejecuta UNA sola vez
         El usuario debe loguearse manualmente
         """
+        if not PLAYWRIGHT_AVAILABLE:
+            logger.error("Playwright no disponible. No se puede ejecutar FacebookHumanSessionScraper.")
+            return False
+            
         try:
             playwright = await async_playwright().start()
             
@@ -486,6 +501,10 @@ class FacebookHumanSessionScraper:
         """
         Scraping masivo de todos los venues y búsquedas
         """
+        if not PLAYWRIGHT_AVAILABLE:
+            logger.error("Playwright no disponible. No se puede ejecutar FacebookHumanSessionScraper.")
+            return []
+            
         all_events = []
         
         if not await self.start_browser_with_session():
@@ -659,6 +678,10 @@ async def setup_facebook_session():
     """
     Configuración inicial - ejecutar UNA sola vez
     """
+    if not PLAYWRIGHT_AVAILABLE:
+        print("❌ Playwright no disponible. No se puede ejecutar FacebookHumanSessionScraper.")
+        return False
+        
     scraper = FacebookHumanSessionScraper()
     success = await scraper.setup_initial_session()
     
@@ -675,6 +698,10 @@ async def scrape_facebook_events():
     """
     Función principal para scraping de eventos
     """
+    if not PLAYWRIGHT_AVAILABLE:
+        print("❌ Playwright no disponible. No se puede ejecutar FacebookHumanSessionScraper.")
+        return []
+        
     scraper = FacebookHumanSessionScraper()
     
     print("🚀 Iniciando scraping de Facebook con sesión humana...")
