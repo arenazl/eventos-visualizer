@@ -46,12 +46,74 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# ═══════════════════════════════════════════════════════════════════
+# 📋 SISTEMA DE LOGS PROLIJAMENTE FORMATEADOS
+# ═══════════════════════════════════════════════════════════════════
+
+def log_method_start(method_name: str, **params):
+    """Logs method start with parameters in a neat square format"""
+    param_str = " | ".join([f"{k}={v}" for k, v in params.items() if v is not None])
+    if param_str:
+        param_str = f" | {param_str}"
+    
+    logger.info("┌─────────────────────────────────────────────────────────────────")
+    logger.info(f"│ 🚀 EJECUTANDO: {method_name}{param_str}")
+    logger.info("└─────────────────────────────────────────────────────────────────")
+
+def log_method_success(method_name: str, **results):
+    """Logs successful method completion with results"""
+    result_items = []
+    for k, v in results.items():
+        if v is not None:
+            result_items.append(f"{k}={v}")
+    
+    result_str = " | ".join(result_items) if result_items else "Sin datos adicionales"
+    
+    logger.info("┌─────────────────────────────────────────────────────────────────")
+    logger.info(f"│ ✅ ÉXITO: {method_name} | {result_str}")
+    logger.info("└─────────────────────────────────────────────────────────────────")
+
+def log_method_error(method_name: str, error: str, **params):
+    """Logs method error with parameters and error details"""
+    param_str = " | ".join([f"{k}={v}" for k, v in params.items() if v is not None])
+    if param_str:
+        param_str = f" | {param_str}"
+    
+    logger.error("┌─────────────────────────────────────────────────────────────────")
+    logger.error(f"│ ❌ ERROR: {method_name}{param_str}")
+    logger.error(f"│ 💥 Detalle: {error}")
+    logger.error("└─────────────────────────────────────────────────────────────────")
+
+def log_scraper_summary(method_name: str, scrapers_called: list, events_by_scraper: dict, total_events: int):
+    """Logs scraper summary with detailed breakdown"""
+    logger.info("┌─────────────────────────────────────────────────────────────────")
+    logger.info(f"│ 🕷️  RESUMEN SCRAPERS: {method_name}")
+    logger.info(f"│ 📊 Total scrapers llamados: {len(scrapers_called)}")
+    logger.info("│ ─────────────────────────────────────────────────────────────────")
+    
+    for scraper in scrapers_called:
+        events_count = events_by_scraper.get(scraper, 0)
+        status = "✅ ÉXITO" if events_count > 0 else "⚠️  SIN DATOS"
+        logger.info(f"│ {scraper}: {status} ({events_count} eventos)")
+        
+        if events_count > 0 and scraper in events_by_scraper:
+            # Mostrar nombres de eventos si están disponibles
+            event_names = events_by_scraper.get(f"{scraper}_names", [])[:3]  # Primeros 3
+            if event_names:
+                for name in event_names:
+                    logger.info(f"│   ├─ {name[:50]}{'...' if len(name) > 50 else ''}")
+    
+    logger.info("│ ─────────────────────────────────────────────────────────────────")
+    logger.info(f"│ 🎯 TOTAL EVENTOS OBTENIDOS: {total_events}")
+    logger.info("└─────────────────────────────────────────────────────────────────")
+
 # Get configuration from environment
 HOST = os.getenv("HOST", "172.29.228.80")
 # Heroku uses PORT env variable, fallback to BACKEND_PORT for local dev
 BACKEND_PORT = int(os.getenv("PORT", os.getenv("BACKEND_PORT", "8001")))
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/eventos_db")
-DEFAULT_CITY = os.getenv("DEFAULT_CITY", "Buenos Aires")
+# ❌ REMOVED: No more hardcoded "Buenos Aires"
+# Location will always come from user geolocation or parameter
 
 # Connection pool for PostgreSQL
 pool = None
@@ -68,7 +130,7 @@ async def update_facebook_cache_background():
         
         # Hacer el request pesado (20s) - nadie espera aquí
         events = await facebook_scraper.scrape_facebook_events_rapidapi(
-            city_name=DEFAULT_CITY, 
+            city_name="Buenos Aires",  # Temporary fallback for chat context 
             limit=50, 
             max_time_seconds=30.0  # Más tiempo para background
         )
@@ -433,7 +495,7 @@ except Exception as e:
 # ============================================================================
 
 @app.get("/api/sources/eventbrite")
-async def get_eventbrite_events(location: str = DEFAULT_CITY):
+async def get_eventbrite_events(location: str = Query(..., description="Location required")):
     """Eventbrite Argentina - Endpoint paralelo"""
     start_time = time.time()
     try:
@@ -474,7 +536,7 @@ async def get_eventbrite_events(location: str = DEFAULT_CITY):
         }
 
 @app.get("/api/sources/argentina-venues")
-async def get_argentina_venues_events(location: str = DEFAULT_CITY):
+async def get_argentina_venues_events(location: str = Query(..., description="Location required")):
     """Argentina Venues - Endpoint paralelo"""
     start_time = time.time()
     try:
@@ -514,7 +576,7 @@ async def get_argentina_venues_events(location: str = DEFAULT_CITY):
         }
 
 @app.get("/api/sources/facebook")
-async def get_facebook_events(location: str = DEFAULT_CITY):
+async def get_facebook_events(location: str = Query(..., description="Location required")):
     """Facebook Events - Cache diario (una llamada por día)"""
     start_time = time.time()
     try:
@@ -557,7 +619,7 @@ async def get_facebook_events(location: str = DEFAULT_CITY):
         }
 
 @app.get("/api/sources/instagram") 
-async def get_instagram_events(location: str = DEFAULT_CITY):
+async def get_instagram_events(location: str = Query(..., description="Location required")):
     """Instagram Events - Endpoint paralelo"""
     start_time = time.time()
     try:
@@ -600,7 +662,7 @@ async def get_instagram_events(location: str = DEFAULT_CITY):
         }
 
 @app.get("/api/sources/meetup")
-async def get_meetup_events(location: str = DEFAULT_CITY):
+async def get_meetup_events(location: str = Query(..., description="Location required")):
     """Meetup Events - Endpoint paralelo"""
     start_time = time.time()
     try:
@@ -637,7 +699,7 @@ async def get_meetup_events(location: str = DEFAULT_CITY):
         }
 
 @app.get("/api/sources/ticketmaster")
-async def get_ticketmaster_events(location: str = DEFAULT_CITY):
+async def get_ticketmaster_events(location: str = Query(..., description="Location required")):
     """Ticketmaster Events - Endpoint paralelo"""
     start_time = time.time()
     try:
@@ -678,7 +740,7 @@ async def get_ticketmaster_events(location: str = DEFAULT_CITY):
 # ============================================================================
 
 @app.get("/api/parallel/search")
-async def parallel_search(location: str = DEFAULT_CITY):
+async def parallel_search(location: str = Query(..., description="Location required")):
     """
     🚀 PARALLEL SEARCH - All sources run simultaneously
     
@@ -807,7 +869,7 @@ async def get_initial_events():
     Endpoint especial para CARGA INICIAL (document.ready)
     Solo este endpoint puede usar Buenos Aires como fallback
     """
-    return await get_events_internal(location=DEFAULT_CITY)
+    return await get_events_internal(location="Buenos Aires")
 
 async def get_events_internal(
     location: str,
@@ -816,21 +878,33 @@ async def get_events_internal(
     offset: int = 0
 ):
     """Función interna para obtener eventos sin validación de ubicación"""
+    logger.info("┌─────────────────────────────────────────────────────────────────")
+    logger.info(f"│ 🚀 EJECUTANDO: get_events_internal | location={location} | category={category} | limit={limit}")
+    logger.info("└─────────────────────────────────────────────────────────────────")
+    
     try:
         # 🚀 USE SCRAPERS (no database - as documented)
         from api.multi_source import fetch_from_all_sources
         result = await fetch_from_all_sources(location=location)
         events = result.get("events", [])
         
+        logger.info("┌─────────────────────────────────────────────────────────────────")
+        logger.info(f"│ ✅ ÉXITO: get_events_internal | total_eventos={len(events)} | retornados={min(len(events), limit)}")
+        logger.info("└─────────────────────────────────────────────────────────────────")
+        
         return {
             "status": "success",
             "location": location,
             "category": category,
             "total": len(events),
-            "events": events[:limit]
+            "events": events[:limit],
+            # Propagar información de scrapers si está disponible
+            "scrapers_execution": result.get("scrapers_execution", {})
         }
     except Exception as e:
-        logger.error(f"Error fetching events: {e}")
+        logger.error("┌─────────────────────────────────────────────────────────────────")
+        logger.error(f"│ ❌ ERROR: get_events_internal | {str(e)}")
+        logger.error("└─────────────────────────────────────────────────────────────────")
         return {
             "status": "error",
             "location": location,
@@ -972,7 +1046,7 @@ async def get_events_ultrafast(
 @app.get("/api/events/search")
 async def search_events(
     q: str,
-    location: str = DEFAULT_CITY,
+    location: str = "Buenos Aires",
     radius_km: int = 25
 ):
     global pool
@@ -1043,7 +1117,7 @@ async def smart_search(
     """
     try:
         search_query = query.get("query", "")
-        original_location = query.get("location", DEFAULT_CITY)
+        original_location = query.get("location", "Buenos Aires")
         
         # 🧠 USAR GEMINI AI PARA DETECTAR CIUDAD Y PAÍS - SIEMPRE ANTES DE FACTORY
         location = original_location  # Default fallback
@@ -1099,6 +1173,14 @@ async def smart_search(
         logger.info(f"🔍 DEBUG POST - search_query: '{search_query}', location: '{location}'")
         logger.info(f"🔍 Smart search: '{search_query}' in {location}")
         
+        # LOG: Inicio de búsqueda inteligente
+        logger.info("┌─────────────────────────────────────────────────────────────────")
+        logger.info(f"│ 🎨 SMART SEARCH INICIADO")
+        logger.info(f"│ 🔍 Query: '{search_query}'")
+        logger.info(f"│ 📍 Ubicación: {location}")
+        logger.info(f"│ 🏭 Método: Factory Pattern + Fallbacks")
+        logger.info("└─────────────────────────────────────────────────────────────────")
+        
         # 🏭 FACTORY PATTERN - Dynamic scrapers by reflection (Convention over Configuration)
         try:
             from services.country_scraper_factory import get_events_by_location
@@ -1116,11 +1198,39 @@ async def smart_search(
                     "scrapers_executed": result.get("scrapers_executed", {})
                 }
                 logger.info(f"🏭 FACTORY SUCCESS - {result.get('source')} - {result.get('count')} eventos")
+                
+                # LOG: Detalle de cada scraper ejecutado por el factory
+                scrapers_info = result.get("scrapers_executed", {})
+                if scrapers_info:
+                    logger.info("🏭 FACTORY SCRAPERS - Resultados por servicio:")
+                    total_scrapers = 0
+                    for scraper_name, scraper_data in scrapers_info.items():
+                        total_scrapers += 1
+                        events_count = scraper_data.get("events", 0)
+                        status = scraper_data.get("status", "unknown")
+                        if events_count > 0:
+                            logger.info(f"  ✅ {scraper_name}: {events_count} eventos (status: {status})")
+                        else:
+                            logger.info(f"  ⚠️ {scraper_name}: 0 eventos (status: {status})")
+                    logger.info(f"🏭 TOTAL SERVICIOS LLAMADOS: {total_scrapers}")
+                    logger.info(f"🏭 TOTAL EVENTOS ENCONTRADOS: {result.get('count', 0)}")
+                else:
+                    logger.info("🏭 FACTORY - Sin información detallada de scrapers")
             else:
                 # Fallback to old system if factory fails
                 logger.warning(f"⚠️ Factory failed for {location}, using multi_source fallback")
                 from api.multi_source import fetch_from_all_sources_internal
                 result = await fetch_from_all_sources_internal(location=location, fast=True)
+                
+                # LOG: Resultados del fallback multi_source
+                if result.get("source_info"):
+                    logger.info("🔄 FALLBACK MULTI_SOURCE - Resultados por servicio:")
+                    for source_info in result.get("source_info", []):
+                        service_name = source_info.get("source", "unknown")
+                        event_count = source_info.get("count", 0)
+                        logger.info(f"  📌 {service_name}: {event_count} eventos")
+                else:
+                    logger.info("🔄 FALLBACK MULTI_SOURCE - Sin información detallada de servicios")
                 
         except Exception as e:
             logger.error(f"🚨 ERROR EN FACTORY: {e}")
@@ -1129,13 +1239,32 @@ async def smart_search(
                 logger.warning("🔄 Using multi_source fallback...")
                 from api.multi_source import fetch_from_all_sources_internal
                 result = await fetch_from_all_sources_internal(location=location, fast=True)
+                
+                # LOG: Resultados del ultimate fallback
+                if result.get("source_info"):
+                    logger.info("🆘 ULTIMATE FALLBACK - Resultados por servicio:")
+                    total_fallback_events = 0
+                    for source_info in result.get("source_info", []):
+                        service_name = source_info.get("source", "unknown")
+                        event_count = source_info.get("count", 0)
+                        total_fallback_events += event_count
+                        if event_count > 0:
+                            logger.info(f"  ✅ {service_name}: {event_count} eventos")
+                        else:
+                            logger.info(f"  ❌ {service_name}: 0 eventos")
+                    logger.info(f"🆘 ULTIMATE FALLBACK - Total eventos: {total_fallback_events}")
+                else:
+                    event_count = len(result.get("events", []))
+                    logger.info(f"🆘 ULTIMATE FALLBACK - {event_count} eventos (sin detalle por servicio)")
+                    
             except Exception as fallback_error:
                 logger.error(f"❌ Fallback también falló: {fallback_error}")
+                logger.error(f"🔴 TODOS LOS SERVICIOS FALLARON - Devolviendo array vacío")
                 result = {"status": "error", "events": [], "message": f"All systems failed: {e}"}
         
         # IMPORTANTE: Si buscamos una ciudad específica que no es la ciudad por defecto,
         # verificar si tenemos eventos para esa ubicación
-        if location and DEFAULT_CITY not in location:
+        if location and "Buenos Aires" not in location:
             # Si el resultado viene de scrapers específicos, mantener los eventos
             source = result.get("source", "")
             if (source == "provincial_scraper" or 
@@ -1155,11 +1284,15 @@ async def smart_search(
             filtered_events = []
             all_events = result.get("events", [])
             
+            logger.info(f"🔍 SMART SEARCH: Procesando {len(all_events)} eventos para query '{search_query}'")
+            
             for event in all_events:
                 title = event.get("title", "").lower()
                 desc = event.get("description", "").lower()
                 cat = event.get("category", "").lower()
                 venue = event.get("venue_name", "").lower()
+                
+                logger.info(f"  📋 Procesando evento: '{event.get('title', 'Sin título')[:50]}...' (categoria: {event.get('category', 'N/A')})")
                 
                 # More flexible matching
                 words = search_lower.split()
@@ -1178,16 +1311,23 @@ async def smart_search(
                 if match_score > 0:
                     event["match_score"] = match_score
                     filtered_events.append(event)
+                    logger.info(f"    ✅ MATCH encontrado! Score: {match_score} - '{event.get('title', 'Sin título')[:40]}...'")
+                else:
+                    logger.info(f"    ❌ Sin match (score: {match_score}) - '{event.get('title', 'Sin título')[:40]}...')")
             
             # Sort by match score
             filtered_events.sort(key=lambda x: x.get("match_score", 0), reverse=True)
             
+            logger.info(f"🎯 FILTRADO COMPLETADO: {len(filtered_events)} eventos con match de {len(all_events)} totales")
+            
             # If no matches or very few, return all events anyway
             if len(filtered_events) < 3:
+                logger.info(f"⚠️  Pocos matches ({len(filtered_events)}), devolviendo TODOS los eventos ({len(all_events)})")
                 result["events"] = all_events
                 result["filtered_count"] = len(all_events)
                 result["no_exact_match"] = True
             else:
+                logger.info(f"✅ Suficientes matches, devolviendo {len(filtered_events)} eventos filtrados")
                 result["events"] = filtered_events
                 result["filtered_count"] = len(filtered_events)
         
@@ -1195,6 +1335,23 @@ async def smart_search(
         result["smart_search"] = True
         # El frontend espera recommended_events, no events
         result["recommended_events"] = result.get("events", [])
+        
+        # LOG: Resumen final de smart search
+        final_events = len(result.get("events", []))
+        logger.info("┌─────────────────────────────────────────────────────────────────")
+        if final_events == 0:
+            logger.info(f"│ ❌ SMART SEARCH COMPLETADO - CERO EVENTOS ENCONTRADOS")
+            logger.info(f"│ 🔴 NINGÚN SERVICIO DEVOLVIÓ EVENTOS")
+        else:
+            logger.info(f"│ ✅ SMART SEARCH COMPLETADO")
+            logger.info(f"│ 🎯 Total eventos retornados: {final_events}")
+        logger.info(f"│ 📍 Ubicación final: {location}")
+        logger.info(f"│ 🏭 Fuente: {result.get('source', 'unknown')}")
+        if result.get("filtered_count"):
+            logger.info(f"│ 🔍 Eventos filtrados: {result.get('filtered_count')}")
+        if result.get("no_exact_match"):
+            logger.info(f"│ ⚠️ Sin coincidencias exactas - retornando todos")
+        logger.info("└─────────────────────────────────────────────────────────────────")
         
         return result
         
@@ -1204,14 +1361,14 @@ async def smart_search(
             "error": str(e),
             "events": [],
             "query": query.get("query", ""),
-            "location": query.get("location", DEFAULT_CITY)
+            "location": query.get("location", "Buenos Aires")
         }
 
 # GET version for frontend compatibility
 @app.get("/api/events/smart-search")
 async def smart_search_get(
     q: str = Query(..., description="Search query"),
-    location: str = Query(DEFAULT_CITY, description="Location")
+    location: str = Query(..., description="Location required")
 ):
     """
     GET version of smart search for frontend compatibility
@@ -1347,7 +1504,7 @@ async def get_barcelona_events():
 # Facebook RapidAPI endpoint - LA JOYITA 💎 (DEBE ir ANTES de {event_id})
 @app.get("/api/events/facebook")
 async def get_facebook_events(
-    location: str = Query(DEFAULT_CITY, description="Location for Facebook events"),
+    location: str = Query(..., description="Location required"),
     limit: int = Query(30, description="Maximum number of events to return")
 ):
     """
@@ -1420,7 +1577,7 @@ async def get_facebook_events(
 # Teatro endpoint - especializado en obras de teatro (DEBE ir ANTES de {event_id})
 @app.get("/api/events/teatro")
 async def get_teatro_events(
-    location: str = Query(DEFAULT_CITY, description="Location for theater events"),
+    location: str = Query(..., description="Location required"),
     limit: int = Query(20, description="Maximum number of events to return")
 ):
     """
@@ -1476,7 +1633,7 @@ async def get_event_by_id(event_id: str):
     try:
         # Buscar en eventos recientes de la ciudad por defecto
         from api.multi_source import fetch_from_all_sources_internal
-        result = await fetch_from_all_sources_internal(DEFAULT_CITY)
+        result = await fetch_from_all_sources_internal("Buenos Aires")
         
         events = result.get("events", [])
         
@@ -1524,7 +1681,7 @@ async def ai_recommend(
     AI-powered event recommendations based on user preferences
     """
     try:
-        location = data.get("location", DEFAULT_CITY)
+        location = data.get("location", "Buenos Aires")
         preferences = data.get("preferences", {})
         
         # Get all events from location
@@ -1578,7 +1735,7 @@ async def ai_chat(data: Dict[str, Any]):
     context = data.get("context", {})
     
     # 🔍 PARSEO SIMPLE DE UBICACIONES
-    detected_location = DEFAULT_CITY
+    detected_location = "Buenos Aires"
     message_lower = message.lower()
     
     # Mapeo de ciudades GLOBALES (traveler app)
@@ -1627,7 +1784,7 @@ async def ai_chat(data: Dict[str, Any]):
             break
     
     # Si no detectó ciudad en el texto, usar geolocalización automática
-    if detected_location == DEFAULT_CITY:
+    if detected_location == "Buenos Aires":
         try:
             from api.geolocation import detect_location
             from fastapi import Request
@@ -1644,7 +1801,7 @@ async def ai_chat(data: Dict[str, Any]):
                 detected_location = None  # No usar fallback hardcodeado
         except Exception as e:
             logger.warning(f"⚠️ Error en geolocalización automática: {e}")
-            detected_location = DEFAULT_CITY
+            detected_location = "Buenos Aires"
     
     # 🚀 USE PROVINCIAL/GLOBAL SCRAPERS (no database)
     if detected_location == "Mendoza":
@@ -1712,7 +1869,7 @@ async def ai_recommendations(data: Dict[str, Any]):
 @app.post("/api/ai/plan-weekend")
 async def ai_plan_weekend(data: Dict[str, Any]):
     """Plan weekend with AI"""
-    location = data.get("location", DEFAULT_CITY)
+    location = data.get("location", "Buenos Aires")
     from api.multi_source import fetch_from_all_sources
     result = await fetch_from_all_sources(location=location)
     
@@ -1730,7 +1887,7 @@ async def ai_plan_weekend(data: Dict[str, Any]):
 async def ai_trending_now():
     """Get trending events"""
     from api.multi_source import fetch_from_all_sources
-    result = await fetch_from_all_sources(location=DEFAULT_CITY)
+    result = await fetch_from_all_sources(location="Buenos Aires")
     
     return {
         "trending": result.get("events", [])[:5],
@@ -1754,7 +1911,7 @@ async def scraping_multi_technique():
         # Run scraping in parallel
         tasks = [
             multi_scraper.scrape_all_methods(),
-            cloudscraper.fetch_all_events(DEFAULT_CITY),
+            cloudscraper.fetch_all_events("Buenos Aires"),
             massive_scraper.massive_scraping(max_urls=8)
         ]
         
@@ -1937,9 +2094,16 @@ async def analyze_intent(
     """
     try:
         query = data.get("query", "")
-        current_location = data.get("current_location", "Buenos Aires")  # ← Ubicación actual del frontend
+        current_location = data.get("current_location", "Buenos Aires")
+        
+        logger.info("┌─────────────────────────────────────────────────────────────────")
+        logger.info(f"│ 🚀 EJECUTANDO: analyze_intent | query='{query[:40]}...' | location={current_location}")
+        logger.info("└─────────────────────────────────────────────────────────────────")
         
         if not query.strip():
+            logger.error("┌─────────────────────────────────────────────────────────────────")
+            logger.error(f"│ ❌ ERROR: analyze_intent | Query vacío requerido")
+            logger.error("└─────────────────────────────────────────────────────────────────")
             return {
                 "success": False,
                 "error": "Query is required",
@@ -1968,8 +2132,6 @@ async def analyze_intent(
             "intent_type": result['intent']['type']
         }
         
-        logger.info(f"✅ Intent analyzed with Gemini: '{query}' → {result['intent']['category']} in {result['intent']['country']} (confidence: {result['intent']['confidence']:.2f})")
-        
         # Crear user_context con lógica de prioridades
         # 1. PRIORIDAD: Ubicación detectada por IA (override)
         # 2. FALLBACK: current_location del frontend
@@ -1982,6 +2144,11 @@ async def analyze_intent(
             "detected_country": result['intent']['country']
         }
         
+        logger.info("┌─────────────────────────────────────────────────────────────────")
+        logger.info(f"│ ✅ ÉXITO: analyze_intent | categoría={result['intent']['category']} | ubicación={detected_location}")
+        logger.info(f"│ confianza={result['intent']['confidence']:.2f} | país={result['intent']['country']} | tipo={result['intent']['type']}")
+        logger.info("└─────────────────────────────────────────────────────────────────")
+        
         return {
             "success": True,
             "intent": intent,
@@ -1990,7 +2157,9 @@ async def analyze_intent(
         }
         
     except Exception as e:
-        logger.error(f"❌ Intent analysis error: {e}")
+        logger.error("┌─────────────────────────────────────────────────────────────────")
+        logger.error(f"│ ❌ ERROR: analyze_intent | {str(e)}")
+        logger.error("└─────────────────────────────────────────────────────────────────")
         return {
             "success": False,
             "error": str(e),
@@ -2050,7 +2219,7 @@ async def websocket_search_events(websocket: WebSocket):
             if data.get("action") == "search":
                 # 🔍 PARSEO DE UBICACIÓN EN WEBSOCKET (como IA-First)
                 message = data.get("message", "")
-                base_location = data.get("location", DEFAULT_CITY)
+                base_location = data.get("location", "Buenos Aires")
                 detected_location = base_location
                 
                 # Si hay mensaje, intentar detectar ubicación
@@ -2373,33 +2542,84 @@ async def refresh_cache():
         }
 
 @app.get("/api/multi/fetch-all")
-async def fetch_all_progressive(location: str = Query(DEFAULT_CITY)):
+async def fetch_all_progressive(location: str = Query(..., description="Location from user geolocation or input")):
     """
-    Progressive Multi-Source Fetch - Sistema de carga por velocidad
-    Retorna eventos progresivamente según tiempo de respuesta de cada fuente:
-    1. Instantáneo (0-2s): Cache
-    2. Rápido (2-4s): Fuentes nacionales + Eventbrite  
-    3. Lento (4-8s): Facebook + Instagram
+    🏭 Dynamic City Factory - Sistema dinámico por ubicación
+    Ejecuta scrapers específicos por ciudad + scrapers globales:
+    1. City-specific scrapers (Ole for Buenos Aires, Marca for Madrid, etc.)
+    2. Global scrapers (Eventbrite API, RapidAPI Facebook)
+    NO MORE hardcoded Buenos Aires - location comes from user geolocation
     """
     try:
-        logger.info(f"🎯 Progressive fetch iniciado para: {location}")
+        logger.info("┌─────────────────────────────────────────────────────────────────")
+        logger.info(f"│ 🚀 EJECUTANDO: fetch_all_progressive | location={location}")
+        logger.info("└─────────────────────────────────────────────────────────────────")
         
-        scraper = ProgressiveSyncScraper()
-        events = await scraper.fetch_progressive_sync(location)
+        # 🏭 USAR FACTORY PATTERN DINÁMICO - No más hardcoded
+        from services.city_scraper_factory import fetch_events_by_location
+        
+        logger.info(f"🌍 Using dynamic factory for location: {location}")
+        result = await fetch_events_by_location(location)
+        
+        unique_events = result.get('events', [])
+        scrapers_called = list(result.get('scrapers', {}).keys())
+        events_by_scraper = {k: v.get('events', 0) if isinstance(v, dict) else v for k, v in result.get('scrapers', {}).items()}
+        
+        # 🕷️ LOG RESUMEN DETALLADO DE SCRAPERS DINÁMICOS
+        logger.info("┌─────────────────────────────────────────────────────────────────")
+        logger.info(f"│ 🏭 FACTORY DINÁMICO: {result.get('location')}")
+        logger.info(f"│ 🏙️ City scrapers: {result.get('city_scrapers_count', 0)}")
+        logger.info(f"│ 🌐 Global scrapers: {result.get('global_scrapers_count', 0)}")
+        logger.info("│ ─────────────────────────────────────────────────────────────────")
+        
+        for scraper_name, scraper_info in result.get('scrapers', {}).items():
+            # Handle both dict and int values
+            if isinstance(scraper_info, dict):
+                events_count = scraper_info.get('events', 0)
+                scraper_type = scraper_info.get('type', 'unknown')
+            else:
+                events_count = scraper_info if isinstance(scraper_info, int) else 0
+                scraper_type = 'unknown'
+            
+            status = "✅ ÉXITO" if events_count > 0 else "⚠️  SIN DATOS"
+            type_emoji = "🏙️" if scraper_type == "city_specific" else "🌐"
+            logger.info(f"│ {type_emoji} {scraper_name}: {status} ({events_count} eventos)")
+            
+            # Mostrar algunos nombres de eventos si los hay
+            if events_count > 0:
+                sample_events = [e.get('title', 'Sin título') for e in unique_events][:2]
+                for title in sample_events:
+                    logger.info(f"│   ├─ {title[:45]}{'...' if len(title) > 45 else ''}")
+        
+        logger.info("│ ─────────────────────────────────────────────────────────────────")
+        logger.info(f"│ 🎯 TOTAL EVENTOS: {len(unique_events)} | ⏱️ {result.get('execution_time', 0):.2f}s")
+        logger.info("└─────────────────────────────────────────────────────────────────")
         
         return {
             "status": "success",
-            "location": location,
-            "events": events,
-            "count": len(events),
-            "message": f"✅ Progressive fetch completado: {len(events)} eventos",
-            "strategy": "progressive_sync",
-            "phases": ["instant_cache", "fast_sources", "slow_social"],
-            "timestamp": datetime.now().isoformat()
+            "location": result.get('location', location),
+            "country": result.get('country'),
+            "city": result.get('city'),
+            "events": unique_events,
+            "count": len(unique_events),
+            "message": f"✅ Dynamic factory completado: {len(unique_events)} eventos",
+            "strategy": "city_factory_dynamic",
+            "scrapers_summary": {
+                "total_called": len(scrapers_called),
+                "city_specific": result.get('city_scrapers_count', 0),
+                "global_scrapers": result.get('global_scrapers_count', 0),
+                "successful": len([s for s in scrapers_called if events_by_scraper.get(s, 0) > 0]),
+                "details": events_by_scraper
+            },
+            "execution_time": result.get('execution_time'),
+            "duplicates_removed": result.get('duplicates_removed', 0),
+            "timestamp": result.get('timestamp')
         }
         
     except Exception as e:
-        logger.error(f"❌ Error en progressive fetch: {e}")
+        logger.error("┌─────────────────────────────────────────────────────────────────")
+        logger.error(f"│ ❌ ERROR: fetch_all_progressive | {str(e)}")
+        logger.error("└─────────────────────────────────────────────────────────────────")
         return {
             "status": "error", 
             "error": str(e),
@@ -2409,7 +2629,7 @@ async def fetch_all_progressive(location: str = Query(DEFAULT_CITY)):
         }
 
 @app.get("/api/multi/fetch-stream") 
-async def fetch_stream_progressive(location: str = Query(DEFAULT_CITY)):
+async def fetch_stream_progressive(location: str = Query(..., description="Location required")):
     """
     Streaming endpoint que devuelve eventos en fases progresivas
     Para frontend que quiera mostrar datos conforme llegan

@@ -3,6 +3,7 @@ import EventCardModern from '../components/EventCardModern'
 import SmartLocationBar from '../components/SmartLocationBar'
 import AIRecommendations, { NoResultsWithAI } from '../components/AIRecommendations'
 import { EventsGridSkeleton, EmptyState } from '../components/LoadingStates'
+import ScrapersInfo from '../components/ScrapersInfo'
 import { useEvents } from '../stores/EventsStore'
 
 interface Location {
@@ -33,13 +34,17 @@ const HomePageModern: React.FC = () => {
     sourceTiming,
     performanceStats,
     startStreamingSearch,
-    stopStreaming
+    stopStreaming,
+    
+    // ✨ Scrapers execution info
+    scrapersExecution
   } = useEvents()
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [detectedTags, setDetectedTags] = useState<Array<{text: string, type: 'location' | 'keyword', animated: boolean}>>([])
   const [activeCategory, setActiveCategory] = useState('Todos')
   const [locationDetected, setLocationDetected] = useState(false)
+  const [showScrapersInfo, setShowScrapersInfo] = useState(false)
 
   // Detectar ubicación automáticamente al cargar
   useEffect(() => {
@@ -577,6 +582,17 @@ const HomePageModern: React.FC = () => {
               suggestions={aiRecommendations.alternative_suggestions}
               onSuggestionClick={handleFollowUpClick}
             />
+          )}
+
+          {/* ✨ Scrapers Execution Info */}
+          {scrapersExecution && (
+            <div className="mb-8">
+              <ScrapersInfo
+                scrapersExecution={scrapersExecution}
+                isVisible={showScrapersInfo}
+                onToggle={() => setShowScrapersInfo(!showScrapersInfo)}
+              />
+            </div>
           )}
 
           {/* Events Stats */}

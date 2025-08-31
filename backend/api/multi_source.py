@@ -241,6 +241,51 @@ async def fetch_firecrawl_events(location: str):
             "events": []
         }
 
+async def fetch_facebook_events_rapidapi(location: str):
+    """
+    🔥 FACEBOOK SCRAPER - SIEMPRE EJECUTAR 
+    Usa RapidAPI Facebook Scraper para obtener eventos reales
+    """
+    try:
+        logger.info(f"🔥 EJECUTANDO Facebook RapidAPI para: {location}")
+        from services.rapidapi_facebook_scraper import RapidApiFacebookScraper
+        
+        scraper = RapidApiFacebookScraper()
+        
+        # Intenta scrapear eventos de Facebook con timeout
+        events = await scraper.scrape_facebook_events_rapidapi(
+            city_name=location, 
+            limit=20, 
+            max_time_seconds=8.0  # Timeout más generoso
+        )
+        
+        if events:
+            logger.info(f"✅ Facebook RapidAPI: {len(events)} eventos obtenidos")
+            return {
+                "source": "Facebook RapidAPI",
+                "status": "success", 
+                "count": len(events),
+                "events": events[:15]
+            }
+        else:
+            logger.warning(f"⚠️ Facebook RapidAPI: Sin eventos para {location}")
+            return {
+                "source": "Facebook RapidAPI",
+                "status": "success",
+                "count": 0,
+                "events": []
+            }
+            
+    except Exception as e:
+        logger.error(f"❌ Facebook RapidAPI error: {e}")
+        return {
+            "source": "Facebook RapidAPI", 
+            "status": "error",
+            "error": str(e),
+            "count": 0,
+            "events": []
+        }
+
 async def fetch_cloudscraper_real_events(location: str):
     """Obtiene eventos REALES con CloudScraper (sin browser, funciona en API REST)"""
     try:
@@ -437,18 +482,69 @@ async def fetch_from_all_sources_internal(
         logger.info(f"🎯 Detectada provincia con scraper específico: {location}")
         
         try:
+            # 🔥 EJECUTAR FACEBOOK PRIMERO, DESPUÉS PROVINCIAL
+            facebook_result = await fetch_facebook_events_rapidapi(location)
+            
             from services.provincial_scrapers import ProvincialEventManager
             manager = ProvincialEventManager()
             events = await manager.get_events_for_location(location)
             
+            # Combinar eventos de Facebook + Provinciales
+            all_events = []
+            scrapers_info = []
+            
+            # Facebook
+            if facebook_result and facebook_result.get("events"):
+                all_events.extend(facebook_result["events"])
+                scrapers_info.append({
+                    "name": "🔥 Facebook RapidAPI",
+                    "status": "success",
+                    "events_count": len(facebook_result["events"]),
+                    "response_time": "unknown",
+                    "message": f"Obtuvo {len(facebook_result['events'])} eventos de Facebook"
+                })
+            else:
+                scrapers_info.append({
+                    "name": "🔥 Facebook RapidAPI", 
+                    "status": "failed",
+                    "events_count": 0,
+                    "response_time": "unknown",
+                    "message": "No pudo obtener eventos de Facebook"
+                })
+            
+            # Provincial
             if events:
+                all_events.extend(events[:30])  # Limitar para no sobrecargar
+                scrapers_info.append({
+                    "name": f"Provincial Scraper ({location})",
+                    "status": "success", 
+                    "events_count": len(events),
+                    "response_time": "unknown",
+                    "message": f"Obtuvo {len(events)} eventos locales"
+                })
+            else:
+                scrapers_info.append({
+                    "name": f"Provincial Scraper ({location})",
+                    "status": "failed",
+                    "events_count": 0,
+                    "response_time": "unknown", 
+                    "message": "No pudo obtener eventos provinciales"
+                })
+            
+            if all_events:
                 return {
                     "success": True,
                     "location": location,
-                    "events": events[:50],
-                    "recommended_events": events[:50],
-                    "source": "provincial_scraper",
-                    "message": f"Eventos específicos de {location}"
+                    "events": all_events[:50],
+                    "recommended_events": all_events[:50],
+                    "source": "facebook_plus_provincial",
+                    "message": f"Facebook + Eventos específicos de {location}",
+                    "scrapers_execution": {
+                        "scrapers_called": ["🔥 Facebook RapidAPI", f"Provincial Scraper ({location})"],
+                        "total_scrapers": 2,
+                        "scrapers_info": scrapers_info,
+                        "summary": f"Se ejecutaron 2 scrapers, {len([s for s in scrapers_info if s['status'] == 'success'])} exitosos"
+                    }
                 }
         except Exception as e:
             logger.error(f"Error con scraper provincial: {e}")
@@ -474,56 +570,122 @@ async def fetch_from_all_sources_internal(
             logger.info(f"🌍 Detectada ciudad global: {city_name}")
             
             try:
+                # 🔥 EJECUTAR FACEBOOK PRIMERO PARA CIUDADES GLOBALES
+                facebook_result = await fetch_facebook_events_rapidapi(location)
+                
                 if city_name == 'Barcelona':
                     from services.barcelona_scraper import BarcelonaScraper
                     scraper = BarcelonaScraper()
-                    events = await scraper.scrape_all_sources()
+                    barcelona_events = await scraper.scrape_all_sources()
                     
-                    if events:
+                    # Combinar Facebook + Barcelona
+                    all_events = []
+                    scrapers_info = []
+                    
+                    if facebook_result and facebook_result.get("events"):
+                        all_events.extend(facebook_result["events"])
+                        scrapers_info.append({
+                            "name": "🔥 Facebook RapidAPI",
+                            "status": "success",
+                            "events_count": len(facebook_result["events"]),
+                            "response_time": "unknown",
+                            "message": f"Facebook Barcelona: {len(facebook_result['events'])} eventos"
+                        })
+                    
+                    if barcelona_events:
+                        all_events.extend(barcelona_events[:30])
+                        scrapers_info.append({
+                            "name": "Barcelona Scraper",
+                            "status": "success", 
+                            "events_count": len(barcelona_events),
+                            "response_time": "unknown",
+                            "message": f"Barcelona local: {len(barcelona_events)} eventos"
+                        })
+                    
+                    if all_events:
                         return {
                             "success": True,
                             "location": location,
-                            "events": events[:50],
-                            "recommended_events": events[:50], 
-                            "source": "global_scraper_barcelona",
-                            "message": f"Eventos específicos de {city_name}",
-                            "total_events": len(events)
+                            "events": all_events[:50],
+                            "recommended_events": all_events[:50], 
+                            "source": "facebook_plus_barcelona",
+                            "message": f"Facebook + Barcelona: {len(all_events)} eventos",
+                            "scrapers_execution": {
+                                "scrapers_called": ["🔥 Facebook RapidAPI", "Barcelona Scraper"],
+                                "total_scrapers": 2,
+                                "scrapers_info": scrapers_info,
+                                "summary": f"Se ejecutaron 2 scrapers, {len([s for s in scrapers_info if s['status'] == 'success'])} exitosos"
+                            }
                         }
                 
                 elif city_name == 'Miami':
                     from services.miami_scraper import MiamiScraper
                     scraper = MiamiScraper()
-                    events = await scraper.scrape_all_sources()
+                    miami_events = await scraper.scrape_all_sources()
                     
-                    if events:
+                    # Combinar Facebook + Miami
+                    all_events = []
+                    scrapers_info = []
+                    
+                    if facebook_result and facebook_result.get("events"):
+                        all_events.extend(facebook_result["events"])
+                        scrapers_info.append({
+                            "name": "🔥 Facebook RapidAPI",
+                            "status": "success",
+                            "events_count": len(facebook_result["events"]),
+                            "response_time": "unknown",
+                            "message": f"Facebook Miami: {len(facebook_result['events'])} eventos"
+                        })
+                    
+                    if miami_events:
+                        all_events.extend(miami_events[:30])
+                        scrapers_info.append({
+                            "name": "Miami Scraper",
+                            "status": "success",
+                            "events_count": len(miami_events), 
+                            "response_time": "unknown",
+                            "message": f"Miami local: {len(miami_events)} eventos"
+                        })
+                    
+                    if all_events:
                         return {
                             "success": True,
                             "location": location,
-                            "events": events[:50],
-                            "recommended_events": events[:50], 
-                            "source": "global_scraper_miami",
-                            "message": f"Eventos específicos de {city_name} 🏖️",
-                            "total_events": len(events)
+                            "events": all_events[:50],
+                            "recommended_events": all_events[:50], 
+                            "source": "facebook_plus_miami",
+                            "message": f"Facebook + Miami 🏖️: {len(all_events)} eventos",
+                            "scrapers_execution": {
+                                "scrapers_called": ["🔥 Facebook RapidAPI", "Miami Scraper"],
+                                "total_scrapers": 2,
+                                "scrapers_info": scrapers_info,
+                                "summary": f"Se ejecutaron 2 scrapers, {len([s for s in scrapers_info if s['status'] == 'success'])} exitosos"
+                            }
                         }
             except Exception as e:
                 logger.error(f"Error con scraper global {city_name}: {e}")
             
             break  # Solo procesar la primera ciudad encontrada
     
-    # 🔍 IMPORTANT: Solo usar scrapers de Buenos Aires si la location es Argentina
+    # 🔥 FACEBOOK SIEMPRE PRIMERO - OBLIGATORIO EN TODAS LAS UBICACIONES
+    source_definitions = [
+        ("🔥 Facebook RapidAPI", lambda: fetch_facebook_events_rapidapi(location)),
+    ]
+    
+    # 🔍 Agregar scrapers específicos por ubicación
     if any(arg in location_lower for arg in ['buenos aires', 'argentina', 'bsas', 'caba']) or location == "Buenos Aires":
-        logger.info(f"✅ Location is Argentina/Buenos Aires - Using local scrapers")
-        # Definir todas las fuentes disponibles (solo las que funcionan)
-        source_definitions = [
+        logger.info(f"✅ Location is Argentina/Buenos Aires - Adding local scrapers + Facebook")
+        # Agregar fuentes locales DESPUÉS de Facebook
+        source_definitions.extend([
             ("Eventbrite Real API", lambda: fetch_eventbrite_events(location)),
             ("Official Venues Only", lambda: fetch_oficial_venues_events()),
-        ]
+        ])
     else:
-        logger.warning(f"⚠️ Location '{location}' is not Argentina - No specific scrapers available")
-        # Para otras ciudades, solo eventbrite genérico
-        source_definitions = [
+        logger.warning(f"⚠️ Location '{location}' is not Argentina - Using Facebook + Eventbrite genérico")
+        # Para otras ciudades, Facebook + eventbrite genérico
+        source_definitions.extend([
             ("Eventbrite Masivo", lambda: fetch_eventbrite_events(location))
-        ]
+        ])
     
     # Si no es modo rápido, agregar fuentes adicionales
     if not fast:
@@ -531,9 +693,12 @@ async def fetch_from_all_sources_internal(
             # Solo agregar si están disponibles y funcionan
         ])
     
-    # Crear tareas con tracking de performance
+    # Crear tareas con tracking de performance y información inicial
     tracked_tasks = []
+    scrapers_called = []  # Lista de scrapers que se van a ejecutar
+    
     for source_name, fetch_func in source_definitions:
+        scrapers_called.append(source_name)
         task = asyncio.create_task(
             performance_tracker.track_source(source_name, fetch_func)
         )
@@ -542,6 +707,7 @@ async def fetch_from_all_sources_internal(
     # 🏃‍♂️ RESPUESTA INSTANTÁNEA: Procesar resultados conforme van llegando
     all_events = []
     completed_sources = []
+    scrapers_execution_info = []  # Información detallada de cada scraper
     timeout_limit = 3.0 if fast else 8.0
     
     # Usar as_completed para procesar tan pronto como lleguen
@@ -549,17 +715,46 @@ async def fetch_from_all_sources_internal(
         for coro in asyncio.as_completed([task for _, task in tracked_tasks], timeout=timeout_limit):
             try:
                 result = await coro
+                
+                # Encontrar el nombre del scraper que completó
+                source_name = "Unknown"
+                for name, task in tracked_tasks:
+                    if task == coro or task.done():
+                        source_name = name
+                        break
+                
                 if result and result.get("status") == "success" and result.get("events"):
-                    source_name = result.get("source", "Unknown")
                     events = result.get("events", [])
                     
                     logger.info(f"✅ {source_name}: {len(events)} eventos recibidos")
                     all_events.extend(events)
+                    
+                    # Información detallada del scraper exitoso
+                    scraper_info = {
+                        "name": source_name,
+                        "status": "success", 
+                        "events_count": len(events),
+                        "response_time": result.get("response_time", "unknown"),
+                        "message": f"Obtuvo {len(events)} eventos exitosamente"
+                    }
+                    scrapers_execution_info.append(scraper_info)
+                    
                     completed_sources.append({
                         "source": source_name,
                         "count": len(events),
                         "status": "success"
                     })
+                else:
+                    # Scraper falló o no devolvió eventos
+                    error_msg = result.get("error", "No devolvió eventos") if result else "No response"
+                    scraper_info = {
+                        "name": source_name,
+                        "status": "failed",
+                        "events_count": 0,
+                        "response_time": result.get("response_time", "unknown") if result else "timeout",
+                        "message": f"Error: {error_msg}"
+                    }
+                    scrapers_execution_info.append(scraper_info)
                     
                     # Devolver datos inmediatamente disponibles (para WebSocket)
                     yield {
@@ -571,6 +766,16 @@ async def fetch_from_all_sources_internal(
                     
             except asyncio.TimeoutError:
                 logger.warning(f"⏱️ Timeout alcanzado, devolviendo eventos disponibles")
+                # Agregar información de scrapers que no completaron por timeout
+                for name, task in tracked_tasks:
+                    if not task.done():
+                        scrapers_execution_info.append({
+                            "name": name,
+                            "status": "timeout",
+                            "events_count": 0,
+                            "response_time": f">{timeout_limit}s",
+                            "message": f"Timeout después de {timeout_limit}s"
+                        })
                 break
             except Exception as e:
                 logger.error(f"❌ Error procesando fuente: {e}")
@@ -590,7 +795,7 @@ async def fetch_from_all_sources_internal(
     performance_ranking = performance_tracker.get_performance_ranking()
     completion_order = performance_tracker.get_completion_order()
     
-    # Devolver resultado final con performance metrics
+    # Devolver resultado final con información detallada de scrapers
     return {
         "success": True,
         "location": location,
@@ -602,7 +807,15 @@ async def fetch_from_all_sources_internal(
         "completion_order": completion_order[-len(completed_sources):] if completion_order else [],
         "strategy": "async_streaming_with_performance_tracking",
         "response_time": f"{timeout_limit}s max",
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat(),
+        
+        # ✨ NUEVA INFO PARA EL USUARIO
+        "scrapers_execution": {
+            "scrapers_called": scrapers_called,
+            "total_scrapers": len(scrapers_called),
+            "scrapers_info": scrapers_execution_info,
+            "summary": f"Se ejecutaron {len(scrapers_called)} scrapers, {len([s for s in scrapers_execution_info if s['status'] == 'success'])} exitosos"
+        }
     }
 
 # 📊 Nuevo endpoint para ranking de performance

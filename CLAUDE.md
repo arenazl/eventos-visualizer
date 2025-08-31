@@ -439,3 +439,51 @@ curl http://172.29.228.80:8001/api/multi/fetch-all
 ---
 **Estado: SERVIDORES FUNCIONANDO, CÓDIGO LIMPIO, LISTO PARA APIS REALES**
 **Próximo paso: Configurar API keys o mejorar scraping real**
+
+## 🌍 PLATAFORMAS DE EVENTOS GLOBALES - FUTURA IMPLEMENTACIÓN
+
+### 🎯 **APIs/Platforms Descubiertas (31 Agosto 2025):**
+
+#### ✅ **FUNCIONANDO ACTUALMENTE:**
+- **Facebook RapidAPI**: 18 eventos Barcelona ✅
+- **Eventbrite Web Scraping**: 98+ eventos música Barcelona ✅
+- **Instagram RapidAPI**: ⚠️ HTTP 500 (temporalmente inaccesible)
+
+#### 🌐 **Plataformas Internacionales para Implementar:**
+- **Ticketmaster** - Eventos masivos y conciertos internacionales
+- **StubHub** - Reventa de entradas y eventos deportivos
+- **Meetup** - Eventos comunitarios y grupos locales
+- **Ticketbud** - Alternativa económica con menos comisiones  
+- **Brown Paper Tickets** - Modelo de precios justos
+- **Ticket Tailor** - Bajas tarifas de servicio
+- **Universe** - Marketing integrado y diseño personalizable
+- **Splash** - Eventos corporativos y marketing
+- **Cvent** - Solución empresarial para grandes eventos
+- **Eventzilla** - Simple, opciones gratuitas disponibles
+
+#### 🌎 **Plataformas América Latina:**
+- **Ticketea** (parte de Eventbrite) - España y Latinoamérica
+- **Joinnus** - Muy usada en Perú, expansión regional
+- **Welcu** - Plataforma chilena con presencia regional
+- **Sympla** - Brasileña, popular en Brasil y expansión
+
+#### 🎵 **Plataformas Especializadas:**
+- **Bandsintown** - Conciertos y eventos musicales
+- **Peatix** - Seminarios y eventos educativos
+- **Humanitix** - Eventos con causa social (dona ganancias)
+- **Ti.to** - Favorita para conferencias tech y hackathons
+- **Hopin** - Eventos virtuales e híbridos
+- **Airmeet** - Eventos virtuales con networking
+
+#### 📊 **Potencial Estimado:**
+- **31 plataformas** adicionales para implementar
+- **Cobertura global**: América, Europa, Asia
+- **Tipos**: Corporativos, musicales, deportivos, comunitarios, virtuales
+- **Escalabilidad**: De eventos locales a masivos internacionales
+
+#### 🔮 **Próxima Sesión - Roadmap:**
+1. Implementar web scraping masivo de Eventbrite (23 categorías)
+2. Integrar Ticketmaster API (eventos masivos)
+3. Conectar Meetup API (eventos comunitarios)  
+4. Scraping Bandsintown (eventos musicales)
+5. Explorar APIs latinas: Joinnus, Welcu, Sympla

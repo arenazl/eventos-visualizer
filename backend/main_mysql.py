@@ -36,6 +36,7 @@ MYSQL_CONFIG = {
 # Connection pool for MySQL
 pool = None
 
+
 # WebSocket connections manager
 class ConnectionManager:
     def __init__(self):
@@ -611,6 +612,41 @@ async def refresh_events():
         return {
             "status": "error",
             "message": str(e)
+        }
+
+# Multi-source scraper endpoint
+@app.get("/api/multi/fetch-all")
+async def multi_fetch_all(location: str = "Buenos Aires"):
+    """Fetch events from multiple sources with progressive loading"""
+    try:
+        # Import and use the cloudscraper that was working
+        import sys
+        sys.path.append('/mnt/c/Code/eventos-visualizer/backend')
+        
+        from services.progressive_sync_scraper import ProgressiveSyncScraper
+        scraper = ProgressiveSyncScraper()
+        events = await scraper.fetch_progressive_sync(location=location)
+        result = {"events": events, "message": f"Progressive sync completed with {len(events)} events"}
+        
+        return {
+            "status": "success",
+            "location": location,
+            "events": result.get("events", []),
+            "count": len(result.get("events", [])),
+            "message": result.get("message", "Multi-source fetch completed"),
+            "strategy": result.get("strategy", "progressive_sync"),
+            "phases": result.get("phases", ["cache", "fast_sources"]),
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Multi-source fetch error: {e}")
+        return {
+            "status": "error",
+            "location": location,
+            "events": [],
+            "count": 0,
+            "message": f"Error: {str(e)}",
+            "timestamp": datetime.utcnow().isoformat()
         }
 
 # WebSocket endpoint for notifications

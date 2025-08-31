@@ -43,6 +43,21 @@ interface SourceTiming {
   firstEventTime?: number // Tiempo del primer evento
 }
 
+interface ScraperInfo {
+  name: string
+  status: 'success' | 'failed' | 'timeout'
+  events_count: number
+  response_time: string
+  message: string
+}
+
+interface ScrapersExecution {
+  scrapers_called: string[]
+  total_scrapers: number
+  scrapers_info: ScraperInfo[]
+  summary: string
+}
+
 interface EventsState {
   events: Event[]
   loading: boolean
@@ -69,6 +84,9 @@ interface EventsState {
     firstEventSource?: string
     firstEventTime?: number
   }
+  
+  // ✨ NUEVA INFO DE SCRAPERS
+  scrapersExecution: ScrapersExecution | null
 
   // AI-First Methods
   aiSearch: (query: string, location?: Location) => Promise<void>
@@ -107,6 +125,9 @@ const useEventsStore = create<EventsState>((set, get) => ({
   searchStartTime: 0,
   sourceTiming: [],
   performanceStats: {},
+  
+  // ✨ SCRAPERS EXECUTION INFO
+  scrapersExecution: null,
 
   setLocation: (location: Location) => {
     set({ currentLocation: location })
@@ -236,7 +257,11 @@ const useEventsStore = create<EventsState>((set, get) => ({
       if (!response.ok) throw new Error('Error al cargar eventos')
 
       const data = await response.json()
-      set({ events: data.events || [], loading: false })
+      set({ 
+        events: data.events || [], 
+        loading: false,
+        scrapersExecution: data.scrapers_execution || null
+      })
     } catch (error) {
       set({ error: (error as Error).message, loading: false })
     }

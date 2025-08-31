@@ -90,10 +90,16 @@ export class EventsAPI {
       if (!response.ok) throw new Error('Failed to fetch events')
       
       const data = await response.json()
-      return data.events || []
+      return {
+        events: data.events || [],
+        scrapers_execution: data.scrapers_execution || null
+      }
     } catch (error) {
       console.error('Error fetching events:', error)
-      return []
+      return {
+        events: [],
+        scrapers_execution: null
+      }
     }
   }
 

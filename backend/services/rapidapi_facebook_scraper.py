@@ -13,7 +13,14 @@ from datetime import datetime, timedelta
 import logging
 import random
 import os
-from .global_image_service import global_image_service
+try:
+    from .global_image_service import global_image_service
+except ImportError:
+    # For standalone execution
+    import sys
+    import os
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from services.global_image_service import global_image_service
 
 logger = logging.getLogger(__name__)
 
@@ -863,5 +870,40 @@ async def test_rapidapi_facebook_scraper():
         print("⚠️ No se encontraron eventos Facebook")
         return []
 
+async def test_with_barcelona():
+    """
+    Test específico con Barcelona
+    """
+    scraper = RapidApiFacebookScraper()
+    
+    if not scraper.api_key:
+        print("⚠️ RAPIDAPI_KEY no configurado")
+        print("📋 Para usar este scraper:")
+        print("   1. Conseguir API key en: https://rapidapi.com/krasnoludkolo/api/facebook-scraper3")
+        print("   2. Agregar a .env: RAPIDAPI_KEY=tu_key_aqui")
+        print("   3. Reiniciar servidor")
+        return []
+    
+    print("🔥 INICIANDO RapidAPI Facebook Scraper con BARCELONA...")
+    print(f"🏙️ Ciudad: Barcelona")
+    print(f"🗝️ API Key configurado: {'✅' if scraper.api_key else '❌'}")
+    
+    # Test scraping con Barcelona
+    events = await scraper.scrape_facebook_events_rapidapi(city_name="Barcelona", limit=20, max_time_seconds=15.0)
+    
+    print(f"\n🎯 RESULTADOS Barcelona Facebook:")
+    print(f"   📊 Total eventos únicos: {len(events)}")
+    
+    if events:
+        print(f"\n📱 Eventos de Barcelona:")
+        for i, event in enumerate(events[:10]):
+            print(f"\n{i+1:2d}. 📱 {event['title'][:60]}...")
+            print(f"     🏛️ {event.get('venue_name', 'Sin venue')}")
+            print(f"     🎪 {event.get('category', 'general')}")
+    else:
+        print("⚠️ No se encontraron eventos en Barcelona")
+    
+    return events
+
 if __name__ == "__main__":
-    asyncio.run(test_rapidapi_facebook_scraper())
+    asyncio.run(test_with_barcelona())

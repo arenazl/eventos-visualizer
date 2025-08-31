@@ -9,10 +9,11 @@ from typing import List, Dict, Any, Optional
 from datetime import datetime
 import logging
 import os
+from .city_scraper_factory import BaseGlobalScraper
 
 logger = logging.getLogger(__name__)
 
-class TicketmasterGlobalScraper:
+class TicketmasterGlobalScraper(BaseGlobalScraper):
     """
     Scraper usando Ticketmaster Discovery API v2
     Coverage: US, Canada, Mexico, Australia, UK, Europe
@@ -55,6 +56,33 @@ class TicketmasterGlobalScraper:
             "film": "film",
             "miscellaneous": "miscellaneous"
         }
+
+    async def fetch_events(self, location: str, country: str = None) -> Dict[str, Any]:
+        """
+        Método principal requerido por BaseGlobalScraper
+        """
+        try:
+            events = await self.search_events_by_city(location, limit=50)
+            
+            return {
+                "source": "Ticketmaster Global",
+                "location": location,
+                "events": events,
+                "total": len(events),
+                "status": "success",
+                "timestamp": datetime.now().isoformat()
+            }
+        except Exception as e:
+            logger.error(f"❌ Ticketmaster fetch_events error for {location}: {e}")
+            return {
+                "source": "Ticketmaster Global",
+                "location": location,
+                "events": [],
+                "total": 0,
+                "status": "error",
+                "error": str(e),
+                "timestamp": datetime.now().isoformat()
+            }
 
     async def search_events_by_city(self, city: str, limit: int = 20) -> List[Dict]:
         """

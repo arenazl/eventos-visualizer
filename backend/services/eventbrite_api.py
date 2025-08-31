@@ -34,36 +34,9 @@ class EventbriteLatamConnector:
         self.cache = {}
         self.cache_duration = timedelta(minutes=30)
         
-        # Ciudades principales de LATAM
-        self.latam_cities = {
-            'argentina': [
-                'Buenos Aires', 'Córdoba', 'Rosario', 'Mendoza', 'La Plata',
-                'Mar del Plata', 'Tucumán', 'Salta', 'Santa Fe'
-            ],
-            'mexico': [
-                'Ciudad de México', 'CDMX', 'Guadalajara', 'Monterrey',
-                'Puebla', 'Tijuana', 'León', 'Cancún', 'Mérida', 'Querétaro'
-            ],
-            'colombia': [
-                'Bogotá', 'Medellín', 'Cali', 'Barranquilla', 'Cartagena',
-                'Bucaramanga', 'Pereira', 'Santa Marta'
-            ],
-            'chile': [
-                'Santiago', 'Valparaíso', 'Concepción', 'Antofagasta',
-                'Viña del Mar', 'Temuco', 'La Serena'
-            ],
-            'brasil': [
-                'São Paulo', 'Rio de Janeiro', 'Belo Horizonte', 'Brasília',
-                'Salvador', 'Fortaleza', 'Curitiba', 'Recife', 'Porto Alegre'
-            ],
-            'peru': [
-                'Lima', 'Arequipa', 'Trujillo', 'Chiclayo', 'Piura',
-                'Cusco', 'Iquitos'
-            ],
-            'uruguay': [
-                'Montevideo', 'Punta del Este', 'Colonia del Sacramento'
-            ]
-        }
+        # IMPORTANTE: La API Search de Eventbrite está DEPRECADA desde diciembre 2019
+        # Solo funciona scraping público o endpoints específicos por ID/venue
+        logger.warning("⚠️  Eventbrite Search API is DEPRECATED since December 2019")
         
     async def fetch_events_by_location(self, location: str, page: int = 1) -> List[Dict]:
         """
@@ -75,73 +48,22 @@ class EventbriteLatamConnector:
             if self.is_cached(cache_key):
                 return self.cache[cache_key]['data']
             
-            # Si no hay API key, intentar scraping público
-            if not self.api_key:
-                logger.warning(f"No Eventbrite API key configured - trying public scraping")
-                return await self.scrape_eventbrite_public(location)
-            
-            url = f"{self.base_url}/events/search/"
-            params = {
-                'location.address': location,
-                'location.within': '50km',
-                'expand': 'venue,organizer,category',
-                'sort_by': 'date',
-                'page': page,
-                'page_size': 50
-            }
-            
-            async with aiohttp.ClientSession() as session:
-                async with session.get(url, headers=self.headers, params=params) as response:
-                    if response.status == 200:
-                        data = await response.json()
-                        
-                        # Guardar en cache
-                        self.cache[cache_key] = {
-                            'data': data,
-                            'timestamp': datetime.now()
-                        }
-                        
-                        logger.info(f"✅ Eventbrite API {location}: {len(data.get('events', []))} eventos")
-                        # Normalizar eventos antes de retornar
-                        return self.normalize_events(data.get('events', []))
-                    else:
-                        logger.error(f"Error Eventbrite API: {response.status} - trying scraping fallback")
-                        # Fallback a scraping público
-                        return await self.scrape_eventbrite_public(location)
+            # CRÍTICO: Eventbrite Search API está DEPRECADA desde diciembre 2019
+            # Solo intentamos scraping público
+            logger.warning(f"⚠️  Eventbrite Search API DEPRECATED - using public scraping only")
+            return await self.scrape_eventbrite_public(location)
                         
         except Exception as e:
             logger.error(f"Error fetching Eventbrite events: {e} - trying scraping fallback")
             return await self.scrape_eventbrite_public(location)
     
-    async def fetch_all_latam_events(self) -> List[Dict]:
+    async def fetch_all_latam_events(self, location: str = "Buenos Aires") -> List[Dict]:
         """
-        Obtiene eventos de todas las ciudades principales de LATAM
+        Obtiene eventos usando scraping público únicamente
+        Ya no hay lista hardcodeada de ciudades - recibe ubicación como parámetro
         """
-        all_events = []
-        
-        async with aiohttp.ClientSession() as session:
-            tasks = []
-            
-            # Crear tareas para cada ciudad
-            for country, cities in self.latam_cities.items():
-                for city in cities[:3]:  # Top 3 ciudades por país para no exceder rate limit
-                    tasks.append(self.fetch_events_by_location(city))
-                    
-                    # Pequeña demora para respetar rate limit
-                    if len(tasks) % 5 == 0:
-                        await asyncio.sleep(0.5)
-            
-            # Ejecutar todas las tareas
-            results = await asyncio.gather(*tasks, return_exceptions=True)
-            
-            # Procesar resultados
-            for result in results:
-                if isinstance(result, dict) and 'events' in result:
-                    all_events.extend(result['events'])
-                elif isinstance(result, Exception):
-                    logger.error(f"Error fetching LATAM events: {result}")
-        
-        return self.normalize_events(all_events)
+        logger.info(f"🔍 Fetching Eventbrite events for: {location}")
+        return await self.scrape_eventbrite_public(location)
     
     async def scrape_eventbrite_public(self, location: str) -> List[Dict]:
         """
@@ -439,101 +361,35 @@ class EventbriteLatamConnector:
         
         return age < self.cache_duration
     
-    def _get_empty_response(self, location: str) -> Dict:
+    def _get_empty_response(self, location: str) -> List[Dict]:
         """
-        Retorna eventos mock cuando no hay API key
+        Retorna array vacío honesto - SIN eventos mock
         """
-        mock_events = [
-            {
-                'name': {'text': f'Festival de Música en {location}'},
-                'description': {'text': 'Gran festival con artistas internacionales'},
-                'start': {'utc': (datetime.now() + timedelta(days=7)).isoformat()},
-                'end': {'utc': (datetime.now() + timedelta(days=7, hours=6)).isoformat()},
-                'venue': {
-                    'name': f'Estadio Principal {location}',
-                    'address': {
-                        'localized_address_display': f'Centro de {location}',
-                        'city': location
-                    }
-                },
-                'is_free': False,
-                'currency': 'USD',
-                'url': 'https://eventbrite.com/e/123456',
-                'category': {'name': 'Music'},
-                'id': 'mock_1'
-            },
-            {
-                'name': {'text': f'Conferencia Tech {location}'},
-                'description': {'text': 'Conferencia sobre innovación y tecnología'},
-                'start': {'utc': (datetime.now() + timedelta(days=14)).isoformat()},
-                'end': {'utc': (datetime.now() + timedelta(days=14, hours=8)).isoformat()},
-                'venue': {
-                    'name': f'Centro de Convenciones {location}',
-                    'address': {
-                        'localized_address_display': f'Zona empresarial {location}',
-                        'city': location
-                    }
-                },
-                'is_free': True,
-                'currency': 'USD',
-                'url': 'https://eventbrite.com/e/123457',
-                'category': {'name': 'Technology'},
-                'id': 'mock_2'
-            },
-            {
-                'name': {'text': f'Feria Gastronómica {location}'},
-                'description': {'text': 'Los mejores sabores de la región'},
-                'start': {'utc': (datetime.now() + timedelta(days=3)).isoformat()},
-                'end': {'utc': (datetime.now() + timedelta(days=3, hours=10)).isoformat()},
-                'venue': {
-                    'name': f'Parque Central {location}',
-                    'address': {
-                        'localized_address_display': f'Parque Principal {location}',
-                        'city': location
-                    }
-                },
-                'is_free': False,
-                'currency': 'USD',
-                'url': 'https://eventbrite.com/e/123458',
-                'category': {'name': 'Food & Drink'},
-                'id': 'mock_3'
-            }
-        ]
-        
-        return {'events': mock_events, 'pagination': {'page_count': 1}}
+        logger.warning(f"❌ No Eventbrite events found for {location} - API deprecated")
+        return []
 
 
 # Función de prueba
 async def test_eventbrite_latam():
     """
-    Prueba el conector de Eventbrite LATAM
+    Prueba el conector de Eventbrite (solo scraping público)
     """
     connector = EventbriteLatamConnector()
     
-    print("🔍 Obteniendo eventos de Eventbrite LATAM...")
+    print("🔍 Probando Eventbrite scraping...")
     
     # Probar con Buenos Aires
     print("\n📍 Buenos Aires:")
     ba_events = await connector.fetch_events_by_location('Buenos Aires')
-    events = connector.normalize_events(ba_events.get('events', []))
     
-    for event in events[:3]:
-        print(f"\n📌 {event['title']}")
-        print(f"   📍 {event['venue_name']} - {event['neighborhood']}")
-        print(f"   📅 {event['start_datetime']}")
-        print(f"   🏷️ {event['category']}")
-        print(f"   💰 {'GRATIS' if event['is_free'] else f'${event["price"]} {event["currency"]}'}")
+    if ba_events:
+        for event in ba_events[:3]:
+            print(f"\n📌 {event.get('title', 'Sin título')}")
+            print(f"   📍 {event.get('venue_name', 'Sin venue')}")
+    else:
+        print("   ❌ No se encontraron eventos")
     
-    # Probar con México
-    print("\n📍 Ciudad de México:")
-    mx_events = await connector.fetch_events_by_location('Ciudad de México')
-    events = connector.normalize_events(mx_events.get('events', []))
-    
-    for event in events[:3]:
-        print(f"\n📌 {event['title']}")
-        print(f"   📍 {event['venue_name']}")
-    
-    return events
+    return ba_events
 
 
 if __name__ == "__main__":

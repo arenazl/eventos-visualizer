@@ -72,27 +72,36 @@ class MiamiScraper:
         """
         all_events = []
         logger.info("🏖️ Iniciando scraping de eventos en Miami")
+        logger.info(f"📋 Fuentes configuradas: {len(self.sources)}")
         
         tasks = []
         for source in self.sources:
+            logger.info(f"🔄 Preparando scraping de: {source['name']} -> {source['url']}")
             task = self._scrape_source(source)
             tasks.append(task)
         
         # Ejecutar todos los scrapers en paralelo
         results = await asyncio.gather(*tasks, return_exceptions=True)
         
+        total_raw_events = 0
         for i, result in enumerate(results):
             source_name = self.sources[i]['name']
             if isinstance(result, Exception):
                 logger.error(f"❌ Error en {source_name}: {result}")
             else:
                 events = result if result else []
+                total_raw_events += len(events)
                 all_events.extend(events)
-                logger.info(f"✅ {source_name}: {len(events)} eventos")
+                logger.info(f"✅ {source_name}: {len(events)} eventos extraídos")
+        
+        logger.info(f"📊 TOTAL eventos antes de deduplicación: {total_raw_events}")
+        logger.info(f"📊 TOTAL eventos combinados: {len(all_events)}")
         
         # Deduplicar eventos
         unique_events = self._deduplicate_events(all_events)
-        logger.info(f"🎉 Miami total: {len(unique_events)} eventos únicos")
+        duplicates_removed = len(all_events) - len(unique_events)
+        logger.info(f"🔄 Deduplicación completada: {duplicates_removed} duplicados removidos")
+        logger.info(f"🎉 Miami total FINAL: {len(unique_events)} eventos únicos")
         
         return unique_events
 
@@ -115,12 +124,29 @@ class MiamiScraper:
                     
                     # Encontrar cards de eventos
                     cards = soup.select(source['selectors']['cards'])
-                    logger.info(f"🔍 {source['name']}: {len(cards)} cards encontradas")
+                    logger.info(f"🔍 {source['name']}: {len(cards)} cards encontradas en HTML")
                     
-                    for card in cards[:20]:  # Limitar a 20 eventos por fuente
+                    extracted_count = 0
+                    valid_count = 0
+                    invalid_count = 0
+                    
+                    for i, card in enumerate(cards[:20]):  # Limitar a 20 eventos por fuente
+                        logger.debug(f"🔍 {source['name']}: Procesando card {i+1}/{min(len(cards), 20)}")
                         event = self._extract_event_data(card, source)
+                        extracted_count += 1
+                        
                         if event and self._is_valid_event(event):
                             events.append(event)
+                            valid_count += 1
+                            logger.debug(f"✅ {source['name']}: Evento válido - {event.get('title', 'Sin título')[:50]}")
+                        else:
+                            invalid_count += 1
+                            if event:
+                                logger.debug(f"❌ {source['name']}: Evento inválido - {event.get('title', 'Sin título')[:50]}")
+                            else:
+                                logger.debug(f"❌ {source['name']}: No se pudo extraer datos de card {i+1}")
+                    
+                    logger.info(f"📊 {source['name']}: Cards procesadas: {extracted_count}, Válidos: {valid_count}, Descartados: {invalid_count}")
                     
         except Exception as e:
             logger.error(f"Error scraping {source['name']}: {e}")
@@ -251,22 +277,41 @@ class MiamiScraper:
         """
         Validar que el evento tenga información mínima
         """
-        return (
-            event and
-            event.get('title') and
-            len(event.get('title', '')) > 3 and
-            event.get('venue_name') and
-            'miami' in event.get('venue_name', '').lower()
-        )
+        if not event:
+            logger.debug("❌ Validación: event es None o vacío")
+            return False
+        
+        title = event.get('title', '')
+        if not title:
+            logger.debug(f"❌ Validación: título vacío o None")
+            return False
+        
+        if len(title) <= 3:
+            logger.debug(f"❌ Validación: título muy corto ('{title}' - {len(title)} chars)")
+            return False
+        
+        venue_name = event.get('venue_name', '')
+        if not venue_name:
+            logger.debug(f"❌ Validación: venue_name vacío - Título: '{title[:30]}...'")
+            return False
+        
+        if 'miami' not in venue_name.lower():
+            logger.debug(f"❌ Validación: 'miami' no encontrado en venue '{venue_name}' - Título: '{title[:30]}...'")
+            return False
+        
+        logger.debug(f"✅ Validación exitosa: '{title[:30]}...' en '{venue_name}'")
+        return True
 
     def _deduplicate_events(self, events: List[Dict]) -> List[Dict]:
         """
         Eliminar eventos duplicados basado en título y fecha
         """
+        logger.info(f"🔄 Iniciando deduplicación de {len(events)} eventos")
         seen = set()
         unique_events = []
+        duplicates_found = []
         
-        for event in events:
+        for i, event in enumerate(events):
             key = (
                 event.get('title', '').lower().strip(),
                 event.get('start_datetime', '')[:10]  # Solo fecha, sin hora
@@ -275,7 +320,19 @@ class MiamiScraper:
             if key not in seen:
                 seen.add(key)
                 unique_events.append(event)
+                logger.debug(f"✅ Evento {i+1} único: '{event.get('title', '')[:40]}...'")
+            else:
+                duplicates_found.append(event.get('title', '')[:40])
+                logger.debug(f"❌ Evento {i+1} duplicado: '{event.get('title', '')[:40]}...'")
         
+        if duplicates_found:
+            logger.info(f"📋 Duplicados encontrados ({len(duplicates_found)}):")
+            for dup in duplicates_found[:5]:  # Mostrar primeros 5
+                logger.info(f"   🔄 '{dup}...'")
+            if len(duplicates_found) > 5:
+                logger.info(f"   ... y {len(duplicates_found) - 5} más")
+        
+        logger.info(f"✅ Deduplicación terminada: {len(unique_events)} únicos de {len(events)} totales")
         return unique_events
 
     # 🎯 Método para integración con el sistema principal
