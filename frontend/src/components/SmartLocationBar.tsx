@@ -23,12 +23,19 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
   const [manualInput, setManualInput] = useState('')
   const [error, setError] = useState<string | null>(null)
 
-  // Auto-detectar ubicación al montar
+  // Sincronizar con currentLocation cuando cambie
   useEffect(() => {
-    if (!currentLocation) {
-      detectLocation()
+    if (currentLocation) {
+      setLocation(currentLocation)
     }
   }, [currentLocation])
+
+  // Auto-detectar ubicación al montar
+  useEffect(() => {
+    if (!currentLocation && !location) {
+      detectLocation()
+    }
+  }, [])
 
   const detectLocation = async () => {
     setIsDetecting(true)
@@ -101,9 +108,11 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
       onLocationChange(ipLocation)
       setIsDetecting(false)
     } catch {
-      // Último fallback - sin ubicación específica
+      // Último fallback - Buenos Aires por defecto
       const defaultLocation: Location = {
-        name: 'Ubicación no detectada',
+        name: 'Buenos Aires',
+        coordinates: { lat: -34.6037, lng: -58.3816 },
+        country: 'Argentina',
         detected: 'fallback'
       }
       setLocation(defaultLocation)
@@ -268,8 +277,8 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
         </div>
       )}
 
-      {/* Error state */}
-      {error && (
+      {/* Error state - Solo mostrar si hay error Y no hay ubicación */}
+      {error && !location && (
         <div className="text-center">
           <p className="text-red-300 text-sm">{error}</p>
           <button

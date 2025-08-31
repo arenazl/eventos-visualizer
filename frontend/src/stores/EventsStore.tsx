@@ -72,7 +72,7 @@ interface EventsState {
 
   // AI-First Methods
   aiSearch: (query: string, location?: Location) => Promise<void>
-  getSmartRecommendations: (query: string, foundEvents: Event[]) => Promise<void>
+  getSmartRecommendations: (query: string, foundEvents: Event[], detectedLocation?: string) => Promise<void>
   analyzeUserIntent: (query: string) => Promise<any>
   
   // WebSocket Streaming Methods
@@ -135,14 +135,18 @@ const useEventsStore = create<EventsState>((set, get) => ({
 
       const intent = intentResponse.ok ? await intentResponse.json() : null
 
+      // 🧠 USAR UBICACIÓN DETECTADA POR IA SI ESTÁ DISPONIBLE
+      const finalLocation = intent?.user_context?.location || searchLocation?.name
+
       // 2. PASO 2: Búsqueda inteligente con contexto
       const searchResponse = await fetch('http://172.29.228.80:8001/api/smart/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           query,
+          location: finalLocation,  // ✅ Ahora usa ubicación IA o fallback
           user_context: {
-            location: searchLocation?.name,
+            location: finalLocation,
             coordinates: searchLocation?.coordinates,
             intent_analysis: intent
           }
@@ -155,7 +159,7 @@ const useEventsStore = create<EventsState>((set, get) => ({
       const foundEvents = searchData.recommended_events || []
 
       // 3. PASO 3: Generar recomendaciones inteligentes
-      await get().getSmartRecommendations(query, foundEvents)
+      await get().getSmartRecommendations(query, foundEvents, finalLocation)
 
       set({ events: foundEvents, loading: false })
 
@@ -167,11 +171,12 @@ const useEventsStore = create<EventsState>((set, get) => ({
   },
 
   // 🎯 Recomendaciones inteligentes (complementa cualquier búsqueda)
-  getSmartRecommendations: async (query: string, foundEvents: Event[]) => {
+  getSmartRecommendations: async (query: string, foundEvents: Event[], detectedLocation?: string) => {
     try {
       const { currentLocation } = get()
-      const query = get()
-
+      // 🧠 USAR UBICACIÓN DETECTADA POR IA SI ESTÁ DISPONIBLE
+      const locationToUse = detectedLocation || currentLocation?.name
+      
       const response = await fetch('http://172.29.228.80:8001/api/ai/recommend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -179,8 +184,9 @@ const useEventsStore = create<EventsState>((set, get) => ({
           original_query: query,
           found_events: foundEvents,
           no_results: foundEvents.length === 0,
+          location: locationToUse,  // ✅ Ahora usa ubicación IA o fallback
           user_context: {
-            location: currentLocation?.name,
+            location: locationToUse,
             coordinates: currentLocation?.coordinates
           }
         })
@@ -273,15 +279,32 @@ const useEventsStore = create<EventsState>((set, get) => ({
       const { currentLocation } = get()
       const searchLocation = location || currentLocation
 
+      // 🧠 PASO 1: Analizar intención para detectar ubicación
+      const intentResponse = await fetch('http://172.29.228.80:8001/api/ai/analyze-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query,
+          current_location: searchLocation?.name
+        })
+      })
+
+      const intent = intentResponse.ok ? await intentResponse.json() : null
+
+      // 🧠 USAR UBICACIÓN DETECTADA POR IA SI ESTÁ DISPONIBLE
+      const finalLocation = intent?.user_context?.location || searchLocation?.name
+
       // Usar Gemini Smart Search
       const response = await fetch('http://172.29.228.80:8001/api/smart/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           query,
+          location: finalLocation,  // ✅ Ahora usa ubicación IA o fallback
           user_context: {
-            location: searchLocation?.name,
-            coordinates: searchLocation?.coordinates
+            location: finalLocation,
+            coordinates: searchLocation?.coordinates,
+            intent_analysis: intent
           }
         })
       })

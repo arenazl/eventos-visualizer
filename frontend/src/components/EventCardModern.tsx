@@ -164,16 +164,6 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
             </div>
           </div>
           
-          {/* AI Interactive Button */}
-          <div className="absolute bottom-4 right-4">
-            <EventAIHover event={{
-              id: event.title.toLowerCase().replace(/\s+/g, '-').replace(/[.,]/g, ''),
-              title: event.title,
-              venue_name: event.venue_name,
-              category: event.category,
-              location: event.venue_address || 'Buenos Aires'
-            }} />
-          </div>
         </div>
         
         {/* Content */}
@@ -226,17 +216,13 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
               </svg>
             </button>
             
-            <button 
-              className="p-2.5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl hover:shadow-lg transform transition-all duration-300 hover:-translate-y-0.5"
-              onClick={(e) => {
-                e.stopPropagation()
-                // Share functionality
-              }}
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m9.032 4.026A9.001 9.001 0 1112 3a9.001 9.001 0 015.716 14.026m-7.432-2.368A3 3 0 1115 12a3 3 0 01-5.716 2.658z" />
-              </svg>
-            </button>
+            {/* AI Button - Reemplaza el ícono anterior */}
+            <EventAIHover event={{
+              id: event.id || Math.random().toString(),
+              title: event.title,
+              description: event.description,
+              location: event.venue_address || 'Buenos Aires'
+            }} />
           </div>
         </div>
         

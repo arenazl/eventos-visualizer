@@ -65,7 +65,7 @@ export const StreamingEventsLoader: React.FC<StreamingEventsLoaderProps> = ({
   const [currentSource, setCurrentSource] = useState('')
   const [totalEvents, setTotalEvents] = useState(0)
   const [error, setError] = useState<string | null>(null)
-  
+
   const wsRef = useRef<WebSocket | null>(null)
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
@@ -90,7 +90,7 @@ export const StreamingEventsLoader: React.FC<StreamingEventsLoaderProps> = ({
   const connectWebSocket = () => {
     try {
       const ws = new WebSocket('ws://172.29.228.80:8001/ws/search-events')
-      
+
       ws.onopen = () => {
         console.log('🔥 WebSocket conectado')
         setIsConnected(true)
@@ -131,12 +131,12 @@ export const StreamingEventsLoader: React.FC<StreamingEventsLoaderProps> = ({
 
   const handleWebSocketMessage = (data: StreamingMessage) => {
     console.log('📨 WebSocket message:', data.type)
-    
+
     switch (data.type) {
       case 'connection':
         setCurrentMessage(data.message)
         break
-        
+
       case 'search_started':
         setIsSearching(true)
         setCurrentMessage(data.message)
@@ -144,13 +144,13 @@ export const StreamingEventsLoader: React.FC<StreamingEventsLoaderProps> = ({
         setEvents([])
         setTotalEvents(0)
         break
-        
+
       case 'source_started':
         setCurrentSource(data.source || '')
         setCurrentMessage(data.message)
         setProgress(data.progress || 0)
         break
-        
+
       case 'events_batch':
         if (data.events) {
           setEvents(prev => {
@@ -162,14 +162,14 @@ export const StreamingEventsLoader: React.FC<StreamingEventsLoaderProps> = ({
         }
         setProgress(data.progress || 0)
         break
-        
+
       case 'search_completed':
         setIsSearching(false)
         setCurrentMessage(data.message)
         setProgress(100)
         onSearchComplete?.(data.total_events || 0)
         break
-        
+
       case 'search_error':
         setIsSearching(false)
         setError(data.message)
@@ -260,32 +260,31 @@ export const StreamingEventsLoader: React.FC<StreamingEventsLoaderProps> = ({
                 </div>
               </div>
             </div>
-            
+
             {/* Progress Bar */}
             <div className="w-full bg-white/10 rounded-full h-3 overflow-hidden">
-              <div 
+              <div
                 className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 transition-all duration-500 ease-out"
                 style={{ width: `${progress}%` }}
               ></div>
             </div>
-            
+
             {/* Sources Status */}
             <div className="flex justify-center gap-4 mt-4">
               {['eventbrite', 'facebook', 'instagram'].map((source) => {
                 const { emoji, name } = getSourceDisplay(source)
                 const isActive = currentSource === source
                 const isCompleted = progress > (source === 'eventbrite' ? 50 : source === 'facebook' ? 75 : 100)
-                
+
                 return (
                   <div
                     key={source}
-                    className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm transition-all ${
-                      isActive
+                    className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm transition-all ${isActive
                         ? 'bg-white/20 text-white scale-110'
                         : isCompleted
-                        ? 'bg-green-500/20 text-green-300'
-                        : 'bg-white/5 text-white/40'
-                    }`}
+                          ? 'bg-green-500/20 text-green-300'
+                          : 'bg-white/5 text-white/40'
+                      }`}
                   >
                     <span>{emoji}</span>
                     <span className="font-medium">{name}</span>
@@ -311,7 +310,7 @@ export const StreamingEventsLoader: React.FC<StreamingEventsLoaderProps> = ({
               </div>
             )}
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {events.map((event, index) => (
               <div
@@ -325,7 +324,7 @@ export const StreamingEventsLoader: React.FC<StreamingEventsLoaderProps> = ({
                 <EventCardModern event={event} />
               </div>
             ))}
-            
+
             {/* Show skeleton cards while searching */}
             {isSearching && (
               <>
