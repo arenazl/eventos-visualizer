@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react'
 import EventCardModern from '../components/EventCardModern'
 import SmartLocationBar from '../components/SmartLocationBar'
 import AIRecommendations, { NoResultsWithAI } from '../components/AIRecommendations'
-import { EventsGridSkeleton, EmptyState } from '../components/LoadingStates'
+import { EventsGridSkeleton, EmptyState, MultiSourceSkeleton, ScrapingSkeleton } from '../components/LoadingStates'
+import { EmptyEventsAnimation, EmptyEventsCompact } from '../components/EmptyEventsAnimation'
 import ScrapersInfo from '../components/ScrapersInfo'
+import AuthModal from '../components/AuthModal'
 import { useEvents } from '../stores/EventsStore'
+import { useAuth } from '../contexts/AuthContext'
 
 interface Location {
   name: string
@@ -45,6 +48,10 @@ const HomePageModern: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('Todos')
   const [locationDetected, setLocationDetected] = useState(false)
   const [showScrapersInfo, setShowScrapersInfo] = useState(false)
+  const [showAuthModal, setShowAuthModal] = useState(false)
+  
+  // Auth context
+  const { user, isAuthenticated } = useAuth()
 
   // Detectar ubicación automáticamente al cargar
   useEffect(() => {
@@ -382,8 +389,62 @@ const HomePageModern: React.FC = () => {
       {/* TOP BAR */}
       <nav className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-3xl bg-white/5 transition-all duration-300 ${isScrolled ? 'py-2' : 'py-4'}`}>
         <div className="container mx-auto px-6">
-          <div className="flex justify-center items-center">
-            <div className="text-center">
+          <div className="flex justify-between items-center">
+            {/* User Button - Left */}
+            <div className="w-16">
+              {isAuthenticated ? (
+                <button
+                  onClick={() => {
+                    try {
+                      console.log('🔧 DEBUG: Opening auth modal');
+                      setShowAuthModal(true);
+                    } catch (error) {
+                      console.error('Error opening auth modal:', error);
+                    }
+                  }}
+                  className="flex items-center gap-2 px-3 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 rounded-full transition-all duration-200"
+                >
+                  {user?.avatar ? (
+                    <img 
+                      src={user.avatar} 
+                      alt={user.name}
+                      className="w-8 h-8 rounded-full"
+                    />
+                  ) : (
+                    <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                      <span className="text-white text-sm font-bold">
+                        {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+                      </span>
+                    </div>
+                  )}
+                  {!isScrolled && (
+                    <span className="text-white/80 text-sm font-medium hidden sm:block">
+                      {user?.name?.split(' ')[0] || 'Usuario'}
+                    </span>
+                  )}
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    try {
+                      console.log('🔧 DEBUG: Opening auth modal');
+                      setShowAuthModal(true);
+                    } catch (error) {
+                      console.error('Error opening auth modal:', error);
+                    }
+                  }}
+                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 backdrop-blur-xl border border-white/20 rounded-full transition-all duration-200 text-white/80 hover:text-white"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  {!isScrolled && <span className="text-sm font-medium hidden sm:block">Iniciar Sesión</span>}
+                </button>
+              )}
+            </div>
+
+            {/* Logo - Center */}
+            <div className="text-center flex-1">
               <h1 className={`font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 tracking-wider transition-all duration-300 ${
                 isScrolled ? 'text-3xl' : 'text-5xl'
               }`}>
@@ -420,6 +481,9 @@ const HomePageModern: React.FC = () => {
                 </div>
               )}
             </div>
+
+            {/* Right side - Balance */}
+            <div className="w-16"></div>
           </div>
         </div>
       </nav>
@@ -616,7 +680,7 @@ const HomePageModern: React.FC = () => {
 
           {/* Progreso con información completa pero más finito */}
           {isStreaming && (
-            <div className="mb-3 -mt-2">
+            <div className="mb-6 -mt-2 space-y-4">
               {/* Línea de progreso fina */}
               <div className="w-full bg-white/10 rounded-full h-0.5 overflow-hidden mb-2">
                 <div 
@@ -624,6 +688,11 @@ const HomePageModern: React.FC = () => {
                   style={{ width: `${streamingProgress}%` }}
                 ></div>
               </div>
+              
+              {/* Skeleton para la fuente actual */}
+              {streamingSource && (
+                <ScrapingSkeleton source={streamingSource} />
+              )}
               
               {/* Info completa pero más chiquitita */}
               <div className="bg-black/15 backdrop-blur-sm rounded-lg px-3 py-1.5">
@@ -657,7 +726,10 @@ const HomePageModern: React.FC = () => {
 
           {/* Events Grid */}
           {loading && !isStreaming ? (
-            <EventsGridSkeleton />
+            <div className="space-y-8">
+              <MultiSourceSkeleton />
+              <EventsGridSkeleton />
+            </div>
           ) : events.length > 0 ? (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -710,10 +782,9 @@ const HomePageModern: React.FC = () => {
               </div>
             </div>
           ) : !lastQuery ? (
-            <EmptyState 
-              message="🧠 ¡Usa la búsqueda inteligente para encontrar eventos increíbles!"
-              submessage="Pregunta lo que quieras: 'shows de rock', 'eventos en Chile', 'algo divertido para mañana'"
-            />
+            <EmptyEventsAnimation location={currentLocation?.name || 'tu ubicación'} />
+          ) : events.length === 0 && !loading && !isStreaming && lastQuery ? (
+            <EmptyEventsCompact location={currentLocation?.name || 'esta zona'} />
           ) : null}
         </div>
       </main>
@@ -732,6 +803,12 @@ const HomePageModern: React.FC = () => {
           </span>
         </button>
       </div>
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+      />
     </div>
   )
 }

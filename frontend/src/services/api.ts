@@ -16,14 +16,14 @@ export interface Location {
 export interface Event {
   title: string
   description: string
-  start_datetime: string
+  start_datetime?: string | null
   venue_name: string
   venue_address?: string
   category: string
-  price: number
-  currency: string
-  is_free: boolean
-  image_url: string
+  price?: number | null
+  currency?: string
+  is_free?: boolean
+  image_url?: string | null
   latitude?: number
   longitude?: number
   source?: string

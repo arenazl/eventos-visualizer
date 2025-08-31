@@ -133,26 +133,41 @@ async def fetch_buenos_aires_events():
             }
 
 async def fetch_eventbrite_events(location: str):
-    """Intenta obtener eventos de Eventbrite"""
+    """Intenta obtener eventos de Eventbrite WEB SCRAPER (87+ eventos)"""
     try:
-        from services.eventbrite_api import EventbriteLatamConnector
-        connector = EventbriteLatamConnector()
-        events = await connector.fetch_events_by_location(location)
+        from services.eventbrite_web_scraper import EventbriteWebScraper
+        scraper = EventbriteWebScraper()
+        events = await scraper.fetch_events_by_location(location, limit=20)
+        
+        logger.info(f"🎟️ Eventbrite Web {location}: {len(events)} eventos")
         
         return {
-            "source": "Eventbrite",
-            "status": "success",
+            "source": "Eventbrite Web",
+            "status": "success", 
             "count": len(events) if events else 0,
-            "events": events[:5] if events else []
+            "events": events
         }
     except Exception as e:
-        logger.error(f"Eventbrite API error: {e}")
-        return {
-            "source": "Eventbrite",
-            "status": "error", 
-            "error": str(e),
-            "events": []
-        }
+        logger.error(f"❌ Eventbrite Web Scraper error: {e}")
+        # Fallback al API viejo
+        try:
+            from services.eventbrite_api import EventbriteLatamConnector
+            connector = EventbriteLatamConnector()
+            events = await connector.fetch_events_by_location(location)
+            
+            return {
+                "source": "Eventbrite API (fallback)",
+                "status": "success",
+                "count": len(events) if events else 0,
+                "events": events[:5] if events else []
+            }
+        except:
+            return {
+                "source": "Eventbrite",
+                "status": "error", 
+                "error": str(e),
+                "events": []
+            }
 
 async def fetch_cloud_scraper_events(location: str):
     """Usa CloudScraper para obtener eventos (sin Playwright)"""
@@ -476,6 +491,17 @@ async def fetch_from_all_sources_internal(
     """
     logger.info(f"🌐 Fetching events from all sources for: {location}")
     
+    # 🚀 BARRA DE PROGRESO INICIAL - SCRAPERS A EJECUTAR
+    logger.info(f"")
+    logger.info(f"╔═════════════════════════════════════════════════════════════════╗")
+    logger.info(f"║ 🚀 INICIANDO MULTI-SOURCE SCRAPING                             ║")
+    logger.info(f"╠═════════════════════════════════════════════════════════════════╣")
+    logger.info(f"║ 📍 Ubicación: {location:<48} ║")
+    logger.info(f"║ 🎯 Objetivo: Obtener eventos de múltiples fuentes              ║")
+    logger.info(f"║ ⚡ Modo: {'Rápido (fast=True)' if fast else 'Completo (fast=False)':<44} ║")
+    logger.info(f"╚═════════════════════════════════════════════════════════════════╝")
+    logger.info(f"")
+    
     # PRIMERO: Verificar si es una PROVINCIA ARGENTINA con scraper específico
     location_lower = location.lower()
     if any(prov in location_lower for prov in ['córdoba', 'cordoba', 'mendoza', 'rosario']):
@@ -726,7 +752,17 @@ async def fetch_from_all_sources_internal(
                 if result and result.get("status") == "success" and result.get("events"):
                     events = result.get("events", [])
                     
-                    logger.info(f"✅ {source_name}: {len(events)} eventos recibidos")
+                    # 🎯 BARRA DE PROGRESO VISUAL CON CONTADORES
+                    progress_bar = "█" * min(len(events) // 2, 20) + "░" * max(0, 20 - len(events) // 2)
+                    logger.info(f"")
+                    logger.info(f"┌─────────────────────────────────────────────────────────────────")
+                    logger.info(f"│ ✅ {source_name}")
+                    logger.info(f"│ 📊 Eventos obtenidos: {len(events)}")
+                    logger.info(f"│ 📈 Progress: [{progress_bar}] {len(events)} eventos")
+                    logger.info(f"│ 🔢 Total acumulado: {len(all_events)} → {len(all_events) + len(events)}")
+                    logger.info(f"└─────────────────────────────────────────────────────────────────")
+                    logger.info(f"")
+                    
                     all_events.extend(events)
                     
                     # Información detallada del scraper exitoso
@@ -791,6 +827,30 @@ async def fetch_from_all_sources_internal(
         if not task.done():
             task.cancel()
     
+    # 🎯 BARRA DE PROGRESO FINAL - RESUMEN COMPLETO
+    total_events = len(all_events)
+    success_count = len([s for s in scrapers_execution_info if s.get('status') == 'success'])
+    total_scrapers = len(scrapers_called)
+    
+    final_progress_bar = "█" * min(total_events // 3, 25) + "░" * max(0, 25 - total_events // 3)
+    
+    logger.info(f"")
+    logger.info(f"╔═════════════════════════════════════════════════════════════════╗")
+    logger.info(f"║ 🏁 MULTI-SOURCE COMPLETADO                                     ║")
+    logger.info(f"╠═════════════════════════════════════════════════════════════════╣")
+    logger.info(f"║ 📊 Total eventos: {total_events:>3} eventos                                  ║")
+    logger.info(f"║ 📈 Progress: [{final_progress_bar}]           ║")
+    logger.info(f"║ ✅ Scrapers exitosos: {success_count}/{total_scrapers}                                   ║")
+    logger.info(f"║ 📍 Ubicación: {location:<20}                            ║")
+    logger.info(f"╚═════════════════════════════════════════════════════════════════╝")
+    logger.info(f"")
+    
+    # Aplicar filtro de categoría si existe
+    filtered_events = all_events
+    if category and category not in ['todos', 'all']:
+        filtered_events = filter_events_by_category(all_events, category)
+        logger.info(f"📊 FILTRO CATEGORÍA: '{category}' → {len(all_events)} → {len(filtered_events)} eventos")
+    
     # Obtener ranking de performance actualizado
     performance_ranking = performance_tracker.get_performance_ranking()
     completion_order = performance_tracker.get_completion_order()
@@ -799,9 +859,9 @@ async def fetch_from_all_sources_internal(
     return {
         "success": True,
         "location": location,
-        "events": all_events,
-        "recommended_events": all_events[:50],
-        "total_events": len(all_events),
+        "events": filtered_events,
+        "recommended_events": filtered_events[:50],
+        "total_events": len(filtered_events),
         "sources_completed": completed_sources,
         "performance_ranking": performance_ranking,
         "completion_order": completion_order[-len(completed_sources):] if completion_order else [],

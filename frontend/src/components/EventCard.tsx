@@ -8,7 +8,7 @@ interface Event {
   venue_name: string
   venue_address?: string
   category: string
-  price: number
+  price: number | null | undefined
   currency: string
   is_free: boolean
   image_url: string
@@ -31,8 +31,12 @@ const EventCard: React.FC<EventCardProps> = ({
 }) => {
   const navigate = useNavigate()
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string | null | undefined) => {
+    if (!dateString) return 'Fecha por confirmar'
+    
     const date = new Date(dateString)
+    if (isNaN(date.getTime())) return 'Fecha por confirmar'
+    
     return date.toLocaleDateString('es-AR', {
       day: 'numeric',
       month: 'short',
@@ -41,8 +45,9 @@ const EventCard: React.FC<EventCardProps> = ({
     })
   }
 
-  const formatPrice = (price: number, currency: string, isFree: boolean) => {
+  const formatPrice = (price: number | null | undefined, currency: string, isFree: boolean) => {
     if (isFree) return 'Gratis'
+    if (!price || price === 0) return 'Consultar'
     return `${currency} ${price.toLocaleString()}`
   }
 

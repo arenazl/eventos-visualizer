@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 Admin Panel - Eventos Visualizer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card h2::before {
+            content: attr(data-icon);
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 5px;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn.danger {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+        }
+        
+        .btn.success {
+            background: linear-gradient(135deg, #51cf66, #40c057);
+        }
+        
+        .input-group {
+            margin: 15px 0;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+        
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .result.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .result.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .result.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-online { background: #51cf66; }
+        .status-offline { background: #ff6b6b; }
+        .status-warning { background: #ffd43b; }
+        
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            .grid { grid-template-columns: 1fr; }
+            .header h1 { font-size: 2em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 Panel de Administración</h1>
+            <p>Sistema de testing para Eventos Visualizer Backend</p>
+            <div id="server-status">
+                <span class="status-indicator status-online"></span>
+                <strong>Servidor Online</strong> - <span id="current-time"></span>
+            </div>
+        </div>
+
+        <div class="grid">
+            <!-- Factory Jerárquico Tests -->
+            <div class="card">
+                <h2 data-icon="🏭">Factory Jerárquico</h2>
+                <div class="input-group">
+                    <label for="location-input">Ubicación:</label>
+                    <select id="location-input">
+                        <option value="Córdoba">Córdoba (provincia)</option>
+                        <option value="Buenos Aires">Buenos Aires (provincia)</option>
+                        <option value="Argentina">Argentina (país completo)</option>
+                        <option value="Barcelona">Barcelona (España)</option>
+                        <option value="Miami">Miami (USA)</option>
+                        <option value="Tokyo">Tokyo (fallback)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="query-input">Query:</label>
+                    <input type="text" id="query-input" placeholder="eventos, música, deportes..." value="eventos">
+                </div>
+                <button class="btn" onclick="testFactory()">🚀 Test Factory</button>
+                <div id="factory-result" class="result" style="display: none;"></div>
+            </div>
+
+            <!-- Limpieza de Cache -->
+            <div class="card">
+                <h2 data-icon="🧹">Limpieza de Cache</h2>
+                <p>Gestión de eventos expirados y limpieza de archivos cache.</p>
+                
+                <button class="btn success" onclick="getCleanupStatus()">📊 Ver Estado</button>
+                <button class="btn danger" onclick="runCleanup()">🗑️ Limpiar Ahora</button>
+                
+                <div id="cleanup-result" class="result" style="display: none;"></div>
+            </div>
+
+            <!-- API Health Check -->
+            <div class="card">
+                <h2 data-icon="🩺">Health Check</h2>
+                <p>Verificar estado de APIs y servicios externos.</p>
+                
+                <button class="btn" onclick="healthCheck()">❤️ Check Health</button>
+                <button class="btn" onclick="testMultiSource()">🔄 Test Multi-Source</button>
+                
+                <div id="health-result" class="result" style="display: none;"></div>
+            </div>
+
+            <!-- Debug y Logs -->
+            <div class="card">
+                <h2 data-icon="🔍">Debug & Testing</h2>
+                
+                <div class="input-group">
+                    <label for="debug-location">Ubicación de Debug:</label>
+                    <input type="text" id="debug-location" placeholder="Cualquier ubicación..." value="Buenos Aires">
+                </div>
+                
+                <button class="btn" onclick="testLocationParser()">🌍 Test Location Parser</button>
+                <button class="btn" onclick="debugScrapers()">🕷️ Debug Scrapers</button>
+                
+                <div id="debug-result" class="result" style="display: none;"></div>
+            </div>
+
+            <!-- Estadísticas del Sistema -->
+            <div class="card">
+                <h2 data-icon="📊">Estadísticas</h2>
+                <div id="stats-content">
+                    <p><strong>Uptime:</strong> <span id="uptime">Calculando...</span></p>
+                    <p><strong>Factory usado:</strong> <span id="last-factory">-</span></p>
+                    <p><strong>Última limpieza:</strong> <span id="last-cleanup">-</span></p>
+                    <p><strong>Cache files:</strong> <span id="cache-files">3 monitoreados</span></p>
+                </div>
+                
+                <button class="btn" onclick="refreshStats()">🔄 Actualizar</button>
+            </div>
+
+            <!-- Test Fuentes Individuales -->
+            <div class="card">
+                <h2 data-icon="🕷️">Test Fuentes Individuales</h2>
+                <p>Probar cada scraper por separado con sus parámetros válidos.</p>
+                
+                <div class="input-group">
+                    <label for="source-location">Ubicación:</label>
+                    <input type="text" id="source-location" placeholder="Barcelona, Córdoba, Buenos Aires..." value="Barcelona">
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 15px 0;">
+                    <button class="btn" onclick="testSource('facebook', 'Facebook RapidAPI')">📘 Facebook</button>
+                    <button class="btn" onclick="testSource('eventbrite', 'Eventbrite Web')">🎟️ Eventbrite</button>
+                    <button class="btn" onclick="testSource('venues', 'Venues Oficiales')">🏛️ Venues</button>
+                    <button class="btn" onclick="testSource('provincial', 'Provincial')">🏛️ Provincial</button>
+                    <button class="btn" onclick="testSource('multi', 'Multi-Source')">🔄 Multi-Source</button>
+                    <button class="btn" onclick="testSource('hierarchical', 'Factory Jerárquico')">🏭 Factory</button>
+                </div>
+                
+                <div id="source-result" class="result" style="display: none;"></div>
+            </div>
+
+            <!-- Tests Específicos -->
+            <div class="card">
+                <h2 data-icon="🧪">Tests Específicos</h2>
+                
+                <button class="btn" onclick="testAllProvinces()">🏛️ Test Todas las Provincias</button>
+                <button class="btn" onclick="testAllCountries()">🌍 Test Todos los Países</button>
+                <button class="btn success" onclick="runFullSuite()">🎯 Suite Completo</button>
+                
+                <div id="tests-result" class="result" style="display: none;"></div>
+            </div>
+
+            <!-- Comparativa de Fuentes -->
+            <div class="card">
+                <h2 data-icon="📊">Comparativa de Fuentes</h2>
+                <p>Ejecutar todas las fuentes para la misma ubicación y comparar resultados.</p>
+                
+                <div class="input-group">
+                    <label for="compare-location">Ubicación para comparar:</label>
+                    <select id="compare-location">
+                        <option value="Barcelona">Barcelona</option>
+                        <option value="Córdoba">Córdoba</option>
+                        <option value="Buenos Aires">Buenos Aires</option>
+                        <option value="Miami">Miami</option>
+                    </select>
+                </div>
+                
+                <button class="btn success" onclick="compareAllSources()">⚖️ Comparar Todas</button>
+                
+                <div id="compare-result" class="result" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Base URL del API
+        const API_BASE = window.location.origin;
+        
+        // Update current time
+        function updateTime() {
+            document.getElementById('current-time').textContent = new Date().toLocaleString('es-AR');
+        }
+        
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Utility functions
+        function showLoading(elementId) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.className = 'result info';
+            element.textContent = '⏳ Cargando...';
+        }
+
+        function showResult(elementId, data, isError = false) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.className = isError ? 'result error' : 'result success';
+            element.textContent = typeof data === 'object' ? JSON.stringify(data, null, 2) : data;
+        }
+
+        // Factory Testing
+        async function testFactory() {
+            const location = document.getElementById('location-input').value;
+            const query = document.getElementById('query-input').value;
+            
+            showLoading('factory-result');
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/smart/search`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query, location })
+                });
+                
+                const data = await response.json();
+                document.getElementById('last-factory').textContent = data.scraper_used || data.source || '-';
+                showResult('factory-result', data);
+                
+            } catch (error) {
+                showResult('factory-result', `Error: ${error.message}`, true);
+            }
+        }
+
+        // Cleanup Management
+        async function getCleanupStatus() {
+            showLoading('cleanup-result');
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/cleanup/status`);
+                const data = await response.json();
+                showResult('cleanup-result', data);
+                
+            } catch (error) {
+                showResult('cleanup-result', `Error: ${error.message}`, true);
+            }
+        }
+
+        async function runCleanup() {
+            showLoading('cleanup-result');
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/cleanup`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                showResult('cleanup-result', data);
+                document.getElementById('last-cleanup').textContent = new Date().toLocaleString('es-AR');
+                
+            } catch (error) {
+                showResult('cleanup-result', `Error: ${error.message}`, true);
+            }
+        }
+
+        // Health Checks
+        async function healthCheck() {
+            showLoading('health-result');
+            
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+                showResult('health-result', data);
+                
+            } catch (error) {
+                showResult('health-result', `Error: ${error.message}`, true);
+            }
+        }
+
+        async function testMultiSource() {
+            showLoading('health-result');
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/multi/fetch-all?location=Buenos Aires`);
+                const data = await response.json();
+                showResult('health-result', data);
+                
+            } catch (error) {
+                showResult('health-result', `Error: ${error.message}`, true);
+            }
+        }
+
+        // Debug Functions
+        async function testLocationParser() {
+            const location = document.getElementById('debug-location').value;
+            showLoading('debug-result');
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/smart/search`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query: 'test', location })
+                });
+                
+                const data = await response.json();
+                showResult('debug-result', {
+                    input_location: location,
+                    detected_factory: data.scraper_used,
+                    source: data.source,
+                    events_count: data.count
+                });
+                
+            } catch (error) {
+                showResult('debug-result', `Error: ${error.message}`, true);
+            }
+        }
+
+        async function debugScrapers() {
+            showLoading('debug-result');
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/debug/scrapers-status`);
+                const data = await response.json();
+                showResult('debug-result', data);
+                
+            } catch (error) {
+                showResult('debug-result', `Error: ${error.message}`, true);
+            }
+        }
+
+        // Statistics
+        function refreshStats() {
+            document.getElementById('uptime').textContent = 'Actualizando...';
+            // Update stats from various endpoints
+            getCleanupStatus();
+        }
+
+        // Comprehensive Tests
+        async function testAllProvinces() {
+            showLoading('tests-result');
+            
+            const provinces = ['Córdoba', 'Buenos Aires', 'Mendoza', 'Rosario', 'La Plata'];
+            const results = {};
+            
+            try {
+                for (const province of provinces) {
+                    const response = await fetch(`${API_BASE}/api/smart/search`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ query: 'eventos', location: province })
+                    });
+                    
+                    const data = await response.json();
+                    results[province] = {
+                        scraper: data.scraper_used,
+                        events: data.count,
+                        status: data.status
+                    };
+                }
+                
+                showResult('tests-result', results);
+                
+            } catch (error) {
+                showResult('tests-result', `Error: ${error.message}`, true);
+            }
+        }
+
+        async function testAllCountries() {
+            showLoading('tests-result');
+            
+            const countries = ['Argentina', 'España', 'Barcelona', 'Miami'];
+            const results = {};
+            
+            try {
+                for (const country of countries) {
+                    const response = await fetch(`${API_BASE}/api/smart/search`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ query: 'eventos', location: country })
+                    });
+                    
+                    const data = await response.json();
+                    results[country] = {
+                        scraper: data.scraper_used,
+                        events: data.count,
+                        source: data.source
+                    };
+                }
+                
+                showResult('tests-result', results);
+                
+            } catch (error) {
+                showResult('tests-result', `Error: ${error.message}`, true);
+            }
+        }
+
+        async function runFullSuite() {
+            showLoading('tests-result');
+            
+            try {
+                // Run comprehensive test suite
+                const suiteResults = {
+                    timestamp: new Date().toISOString(),
+                    tests: {}
+                };
+                
+                // Test health
+                const healthResp = await fetch(`${API_BASE}/health`);
+                suiteResults.tests.health = await healthResp.json();
+                
+                // Test cleanup status
+                const cleanupResp = await fetch(`${API_BASE}/api/admin/cleanup/status`);
+                suiteResults.tests.cleanup_status = await cleanupResp.json();
+                
+                // Test factory with different locations
+                const locations = ['Córdoba', 'Argentina', 'Barcelona'];
+                suiteResults.tests.factory_tests = {};
+                
+                for (const loc of locations) {
+                    const factoryResp = await fetch(`${API_BASE}/api/smart/search`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ query: 'eventos', location: loc })
+                    });
+                    
+                    const factoryData = await factoryResp.json();
+                    suiteResults.tests.factory_tests[loc] = {
+                        scraper: factoryData.scraper_used,
+                        status: factoryData.status,
+                        events: factoryData.count
+                    };
+                }
+                
+                suiteResults.summary = {
+                    total_tests: Object.keys(suiteResults.tests).length + Object.keys(suiteResults.tests.factory_tests).length,
+                    health_ok: suiteResults.tests.health.status === 'healthy',
+                    cleanup_active: suiteResults.tests.cleanup_status.status === 'active',
+                    all_factories_working: Object.values(suiteResults.tests.factory_tests).every(t => t.status === 'success')
+                };
+                
+                showResult('tests-result', suiteResults);
+                
+            } catch (error) {
+                showResult('tests-result', `Error en suite completo: ${error.message}`, true);
+            }
+        }
+
+        // Test Individual Sources
+        async function testSource(sourceType, sourceName) {
+            const location = document.getElementById('source-location').value;
+            showLoading('source-result');
+            
+            const startTime = performance.now();
+            
+            try {
+                let url, options = {};
+                
+                switch(sourceType) {
+                    case 'facebook':
+                        // Test Facebook RapidAPI directly
+                        url = `${API_BASE}/api/test/facebook?location=${encodeURIComponent(location)}`;
+                        break;
+                        
+                    case 'eventbrite':
+                        // Test Eventbrite Web Scraper
+                        url = `${API_BASE}/api/test/eventbrite?location=${encodeURIComponent(location)}`;
+                        break;
+                        
+                    case 'venues':
+                        // Test Venues Oficiales
+                        url = `${API_BASE}/api/test/venues?location=${encodeURIComponent(location)}`;
+                        break;
+                        
+                    case 'provincial':
+                        // Test Provincial Scraper
+                        url = `${API_BASE}/api/test/provincial?location=${encodeURIComponent(location)}`;
+                        break;
+                        
+                    case 'multi':
+                        // Test Multi-Source
+                        url = `${API_BASE}/api/multi/fetch-all?location=${encodeURIComponent(location)}`;
+                        break;
+                        
+                    case 'hierarchical':
+                        // Test Factory Jerárquico
+                        url = `${API_BASE}/api/smart/search`;
+                        options = {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ query: 'eventos', location })
+                        };
+                        break;
+                        
+                    default:
+                        throw new Error(`Tipo de fuente desconocido: ${sourceType}`);
+                }
+                
+                const response = await fetch(url, options);
+                const endTime = performance.now();
+                const executionTime = ((endTime - startTime) / 1000).toFixed(3);
+                
+                const data = await response.json();
+                
+                const result = {
+                    source: sourceName,
+                    location: location,
+                    execution_time_seconds: parseFloat(executionTime),
+                    status: response.ok ? 'success' : 'error',
+                    events_count: data.count || data.events?.length || 0,
+                    response_status: response.status,
+                    timestamp: new Date().toISOString(),
+                    raw_response: data
+                };
+                
+                if (!response.ok) {
+                    result.error = data.error || data.detail || 'Error desconocido';
+                }
+                
+                showResult('source-result', result);
+                
+            } catch (error) {
+                const endTime = performance.now();
+                const executionTime = ((endTime - startTime) / 1000).toFixed(3);
+                
+                const errorResult = {
+                    source: sourceName,
+                    location: location,
+                    execution_time_seconds: parseFloat(executionTime),
+                    status: 'error',
+                    events_count: 0,
+                    error: error.message,
+                    timestamp: new Date().toISOString()
+                };
+                
+                showResult('source-result', errorResult, true);
+            }
+        }
+
+        // Compare All Sources
+        async function compareAllSources() {
+            const location = document.getElementById('compare-location').value;
+            showLoading('compare-result');
+            
+            const sources = [
+                { type: 'facebook', name: 'Facebook RapidAPI' },
+                { type: 'eventbrite', name: 'Eventbrite Web' },
+                { type: 'venues', name: 'Venues Oficiales' },
+                { type: 'provincial', name: 'Provincial' },
+                { type: 'multi', name: 'Multi-Source' },
+                { type: 'hierarchical', name: 'Factory Jerárquico' }
+            ];
+            
+            const compareResults = {
+                location: location,
+                timestamp: new Date().toISOString(),
+                sources: {},
+                summary: {
+                    total_sources: sources.length,
+                    successful_sources: 0,
+                    failed_sources: 0,
+                    total_events: 0,
+                    fastest_source: null,
+                    slowest_source: null,
+                    min_time: Infinity,
+                    max_time: 0
+                }
+            };
+            
+            try {
+                // Test each source
+                for (const source of sources) {
+                    const startTime = performance.now();
+                    
+                    try {
+                        let url, options = {};
+                        
+                        switch(source.type) {
+                            case 'facebook':
+                                url = `${API_BASE}/api/test/facebook?location=${encodeURIComponent(location)}`;
+                                break;
+                            case 'eventbrite':
+                                url = `${API_BASE}/api/test/eventbrite?location=${encodeURIComponent(location)}`;
+                                break;
+                            case 'venues':
+                                url = `${API_BASE}/api/test/venues?location=${encodeURIComponent(location)}`;
+                                break;
+                            case 'provincial':
+                                url = `${API_BASE}/api/test/provincial?location=${encodeURIComponent(location)}`;
+                                break;
+                            case 'multi':
+                                url = `${API_BASE}/api/multi/fetch-all?location=${encodeURIComponent(location)}`;
+                                break;
+                            case 'hierarchical':
+                                url = `${API_BASE}/api/smart/search`;
+                                options = {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ query: 'eventos', location })
+                                };
+                                break;
+                        }
+                        
+                        const response = await fetch(url, options);
+                        const endTime = performance.now();
+                        const executionTime = ((endTime - startTime) / 1000).toFixed(3);
+                        const data = await response.json();
+                        
+                        const eventsCount = data.count || data.events?.length || 0;
+                        
+                        compareResults.sources[source.name] = {
+                            status: response.ok ? 'success' : 'error',
+                            events_count: eventsCount,
+                            execution_time: parseFloat(executionTime),
+                            response_status: response.status,
+                            error: response.ok ? null : (data.error || data.detail)
+                        };
+                        
+                        // Update summary
+                        if (response.ok) {
+                            compareResults.summary.successful_sources++;
+                            compareResults.summary.total_events += eventsCount;
+                            
+                            const time = parseFloat(executionTime);
+                            if (time < compareResults.summary.min_time) {
+                                compareResults.summary.min_time = time;
+                                compareResults.summary.fastest_source = source.name;
+                            }
+                            if (time > compareResults.summary.max_time) {
+                                compareResults.summary.max_time = time;
+                                compareResults.summary.slowest_source = source.name;
+                            }
+                        } else {
+                            compareResults.summary.failed_sources++;
+                        }
+                        
+                    } catch (error) {
+                        const endTime = performance.now();
+                        const executionTime = ((endTime - startTime) / 1000).toFixed(3);
+                        
+                        compareResults.sources[source.name] = {
+                            status: 'error',
+                            events_count: 0,
+                            execution_time: parseFloat(executionTime),
+                            error: error.message
+                        };
+                        
+                        compareResults.summary.failed_sources++;
+                    }
+                }
+                
+                // Fix infinity values
+                if (compareResults.summary.min_time === Infinity) {
+                    compareResults.summary.min_time = 0;
+                    compareResults.summary.fastest_source = null;
+                }
+                
+                showResult('compare-result', compareResults);
+                
+            } catch (error) {
+                showResult('compare-result', `Error en comparativa: ${error.message}`, true);
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            refreshStats();
+        });
+    </script>
+</body>
+</html>

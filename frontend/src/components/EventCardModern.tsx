@@ -5,14 +5,14 @@ import EventAIHover from './EventAIHover'
 interface Event {
   title: string
   description: string
-  start_datetime: string
+  start_datetime?: string | null
   venue_name: string
   venue_address?: string
   category: string
-  price: number
-  currency: string
-  is_free: boolean
-  image_url: string
+  price?: number | null
+  currency?: string
+  is_free?: boolean
+  image_url?: string | null
   latitude?: number
   longitude?: number
   source?: string
@@ -34,17 +34,26 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
   const [isHovered, setIsHovered] = useState(false)
   const [imageError, setImageError] = useState(false)
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string | null | undefined) => {
+    if (!dateString) {
+      return { day: '?', month: 'TBD', time: 'Por confirmar' }
+    }
+    
     const date = new Date(dateString)
+    if (isNaN(date.getTime())) {
+      return { day: '?', month: 'TBD', time: 'Por confirmar' }
+    }
+    
     const day = date.getDate()
     const month = date.toLocaleDateString('es-AR', { month: 'short' }).toUpperCase()
     const time = date.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })
     return { day, month, time }
   }
 
-  const formatPrice = (price: number, currency: string, isFree: boolean) => {
+  const formatPrice = (price?: number | null, currency?: string, isFree?: boolean) => {
     if (isFree) return 'GRATIS'
-    return `${currency} ${price.toLocaleString()}`
+    if (!price || price === 0) return 'CONSULTAR'
+    return `${currency || 'ARS'} ${price.toLocaleString()}`
   }
 
   const getCategoryGradient = (category: string) => {
@@ -123,7 +132,7 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
       <div className="relative bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-2xl">
         {/* Image with overlay */}
         <div className="relative h-56 overflow-hidden">
-          {!imageError ? (
+          {!imageError && event.image_url && event.image_url.trim() !== "" ? (
             <img 
               src={event.image_url} 
               alt={event.title}
@@ -218,9 +227,10 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
             
             {/* AI Button - Reemplaza el ícono anterior */}
             <EventAIHover event={{
-              id: event.id || Math.random().toString(),
+              id: event.source_id || Math.random().toString(),
               title: event.title,
-              description: event.description,
+              venue_name: event.venue_name,
+              category: event.category,
               location: event.venue_address || 'Buenos Aires'
             }} />
           </div>

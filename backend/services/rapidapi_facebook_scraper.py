@@ -153,7 +153,31 @@ class RapidApiFacebookScraper:
     def is_cache_valid(self) -> bool:
         """
         Verificar si el cache es válido (no pasaron 24h)
+        TAMBIÉN verifica caché rate-limit para evitar llamadas repetidas
         """
+        # 1. Verificar caché rate-limit primero (prioritario)
+        try:
+            rate_limit_cache_file = "/mnt/c/Code/eventos-visualizer/backend/data/facebook_rate_limit_cache.json"
+            if os.path.exists(rate_limit_cache_file):
+                with open(rate_limit_cache_file, 'r') as f:
+                    rate_cache = json.load(f)
+                    
+                cache_info = rate_cache.get("cache_info", {})
+                if cache_info.get("status") == "rate_limited_429":
+                    # Verificar si el caché rate-limit sigue válido (24h)
+                    timestamp = cache_info.get("timestamp")
+                    if timestamp:
+                        cache_time = datetime.fromisoformat(timestamp)
+                        duration_hours = cache_info.get("cache_duration_hours", 24)
+                        
+                        if datetime.now() < cache_time + timedelta(hours=duration_hours):
+                            logger.info(f"🔒 RATE LIMIT CACHÉ ACTIVO - No hacer llamadas API")
+                            logger.info(f"   ⏰ Válido hasta: {(cache_time + timedelta(hours=duration_hours)).isoformat()}")
+                            return True
+        except Exception as e:
+            logger.debug(f"Error verificando rate limit cache: {e}")
+        
+        # 2. Verificar caché normal de eventos
         cache = self.load_cache()
         
         if not cache.get("cache_info", {}).get("cache_valid_until"):
@@ -258,9 +282,42 @@ class RapidApiFacebookScraper:
                             logger.warning(f"   📊 Data completa: {data}")
                             return ""
                     else:
-                        logger.error(f"❌ PASO 1 FALLÓ - Status: {response.status}")
-                        logger.error(f"   📊 Response text: {response_text}")
-                        return ""
+                        if response.status == 429:
+                            # Rate limit - crear caché temporal para no repetir llamadas
+                            logger.warning(f"⚠️ RATE LIMIT (429) - Cuota mensual agotada")
+                            logger.warning(f"   🔒 Guardando caché rate-limit por 24 horas")
+                            logger.warning(f"   💡 La API funciona, solo necesita upgrade de plan")
+                            
+                            # Guardar caché indicando rate limit
+                            rate_limit_cache = {
+                                "events": [],
+                                "cache_info": {
+                                    "timestamp": datetime.now().isoformat(),
+                                    "cache_duration_hours": 24,
+                                    "status": "rate_limited_429",
+                                    "city": city_name,
+                                    "message": "Cuota mensual RapidAPI agotada - API key válido"
+                                }
+                            }
+                            
+                            try:
+                                import os
+                                cache_file = "/mnt/c/Code/eventos-visualizer/backend/data/facebook_rate_limit_cache.json"
+                                os.makedirs(os.path.dirname(cache_file), exist_ok=True)
+                                
+                                import json
+                                with open(cache_file, 'w') as f:
+                                    json.dump(rate_limit_cache, f, indent=2)
+                                
+                                logger.info(f"   ✅ Caché rate-limit guardado: {cache_file}")
+                            except Exception as cache_error:
+                                logger.error(f"   ❌ Error guardando caché: {cache_error}")
+                            
+                            return "rate_limited"  # Indicador especial
+                        else:
+                            logger.error(f"❌ PASO 1 FALLÓ - Status: {response.status}")
+                            logger.error(f"   📊 Response text: {response_text}")
+                            return ""
                         
         except Exception as e:
             logger.error(f"❌ Error obteniendo UID: {e}")

@@ -4,18 +4,18 @@ import { create } from 'zustand'
 interface Event {
   title: string
   description: string
-  start_datetime: string
-  end_datetime?: string
+  start_datetime?: string | null
+  end_datetime?: string | null
   venue_name: string
   venue_address?: string
   latitude?: number
   longitude?: number
   category: string
-  price: number
-  currency: string
-  is_free: boolean
+  price?: number | null
+  currency?: string
+  is_free?: boolean
   source?: string
-  image_url: string
+  image_url?: string | null
   status?: string
 }
 

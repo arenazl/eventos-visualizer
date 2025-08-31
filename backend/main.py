@@ -1,6 +1,7 @@
 import os
 import asyncio
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Query
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Query, Request
+from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import uvicorn
@@ -26,17 +27,17 @@ import time
 # Add backend to path
 sys.path.append('/mnt/c/Code/eventos-visualizer/backend')
 
-# Import advanced scrapers
-from services.multi_technique_scraper import MultiTechniqueScraper
-from services.facebook_bright_data_scraper import FacebookBrightDataScraper
-from services.facebook_human_session_scraper import FacebookHumanSessionScraper
+# Import advanced scrapers - ONLY WORKING ONES
+# from services.multi_technique_scraper import MultiTechniqueScraper
+# from services.facebook_bright_data_scraper import FacebookBrightDataScraper  # MOVED TO LEGACY
+# from services.facebook_human_session_scraper import FacebookHumanSessionScraper  # MOVED TO LEGACY
 # Hybrid scrapers removed - only real data sources allowed
-from services.daily_social_scraper import DailySocialScraper
-from services.cloudscraper_events import CloudscraperEvents
-from services.eventbrite_massive_scraper import EventbriteMassiveScraper
-from services.hybrid_sync_scraper import HybridSyncScraper
-from services.progressive_sync_scraper import ProgressiveSyncScraper
-from services.teatro_optimizado_scraper import TeatroOptimizadoScraper
+# from services.daily_social_scraper import DailySocialScraper
+# from services.cloudscraper_events import CloudscraperEvents
+# from services.eventbrite_massive_scraper import EventbriteMassiveScraper  # MOVED TO LEGACY
+# from services.hybrid_sync_scraper import HybridSyncScraper
+# from services.progressive_sync_scraper import ProgressiveSyncScraper
+# from services.teatro_optimizado_scraper import TeatroOptimizadoScraper
 from services.rapidapi_facebook_scraper import RapidApiFacebookScraper
 
 # Load environment variables
@@ -355,7 +356,7 @@ async def debug_sources(location: str = "Buenos Aires"):
     import asyncio
     import time
     from api.multi_source import get_oficial_venues_events, get_argentina_venues_events
-    from services.eventbrite_api import EventbriteMassiveScraper
+    # from services.eventbrite_api import EventbriteMassiveScraper  # MOVED TO LEGACY
     
     debug_info = {
         "location_buscada": location,
@@ -393,7 +394,7 @@ async def debug_sources(location: str = "Buenos Aires"):
         logger.info("🎫 DEBUG - Probando Eventbrite Masivo...")
         try:
             start_time = time.time()
-            eventbrite_scraper = EventbriteMassiveScraper()
+            # eventbrite_scraper = EventbriteMassiveScraper()  # MOVED TO LEGACY
             eventbrite_events = await eventbrite_scraper.fetch_events_by_location(location)
             eventbrite_time = time.time() - start_time
             debug_info["fuentes_debug"]["eventbrite_masivo"] = {
@@ -499,8 +500,8 @@ async def get_eventbrite_events(location: str = Query(..., description="Location
     """Eventbrite Argentina - Endpoint paralelo"""
     start_time = time.time()
     try:
-        from services.eventbrite_massive_scraper import EventbriteMassiveScraper
-        scraper = EventbriteMassiveScraper()
+        # from services.eventbrite_massive_scraper import EventbriteMassiveScraper  # MOVED TO LEGACY
+        # scraper = EventbriteMassiveScraper()  # MOVED TO LEGACY
         
         events = await scraper.massive_scraping(max_urls=6)
         normalized = scraper.normalize_events(events)
@@ -1181,41 +1182,23 @@ async def smart_search(
         logger.info(f"│ 🏭 Método: Factory Pattern + Fallbacks")
         logger.info("└─────────────────────────────────────────────────────────────────")
         
-        # 🏭 FACTORY PATTERN - Dynamic scrapers by reflection (Convention over Configuration)
+        # 🏭 HIERARCHICAL FACTORY PATTERN - Country -> Provincial delegation
         try:
-            from services.country_scraper_factory import get_events_by_location
-            logger.info(f"🏭 FACTORY - Using reflection pattern for location: {location}")
-            result = await get_events_by_location(location)
+            from services.hierarchical_factory import get_events_hierarchical
+            logger.info(f"🏭 FACTORY JERÁRQUICO - Procesando ubicación: {location}")
+            result = await get_events_hierarchical(location)
             
-            # Convert factory format to expected format
+            # El resultado ya viene en formato esperado
             if result.get("status") == "success":
-                result = {
-                    "status": "success",
-                    "source": f"factory_{result.get('country', 'Unknown')}_{result.get('city', 'Unknown')}",
-                    "events": result.get("events", []),
-                    "count": len(result.get("events", [])),
-                    "message": f"✅ Factory scrapers: {len(result.get('events', []))} eventos",
-                    "scrapers_executed": result.get("scrapers_executed", {})
-                }
-                logger.info(f"🏭 FACTORY SUCCESS - {result.get('source')} - {result.get('count')} eventos")
+                # Agregar source compatible con el formato existente
+                scraper_name = result.get("scraper_used", "Unknown_Factory")
+                result["source"] = f"hierarchical_{scraper_name.replace(' ', '_')}"
                 
-                # LOG: Detalle de cada scraper ejecutado por el factory
-                scrapers_info = result.get("scrapers_executed", {})
-                if scrapers_info:
-                    logger.info("🏭 FACTORY SCRAPERS - Resultados por servicio:")
-                    total_scrapers = 0
-                    for scraper_name, scraper_data in scrapers_info.items():
-                        total_scrapers += 1
-                        events_count = scraper_data.get("events", 0)
-                        status = scraper_data.get("status", "unknown")
-                        if events_count > 0:
-                            logger.info(f"  ✅ {scraper_name}: {events_count} eventos (status: {status})")
-                        else:
-                            logger.info(f"  ⚠️ {scraper_name}: 0 eventos (status: {status})")
-                    logger.info(f"🏭 TOTAL SERVICIOS LLAMADOS: {total_scrapers}")
-                    logger.info(f"🏭 TOTAL EVENTOS ENCONTRADOS: {result.get('count', 0)}")
-                else:
-                    logger.info("🏭 FACTORY - Sin información detallada de scrapers")
+                logger.info(f"🏭 FACTORY JERÁRQUICO SUCCESS - {scraper_name} - {result.get('count')} eventos")
+                
+                # LOG: Factory jerárquico maneja su propio logging interno
+                logger.info(f"🏭 FACTORY JERÁRQUICO - Total eventos: {result.get('count', 0)}")
+                logger.info(f"🏭 SCRAPER USADO: {result.get('scraper_used', 'Unknown')}")
             else:
                 # Fallback to old system if factory fails
                 logger.warning(f"⚠️ Factory failed for {location}, using multi_source fallback")
@@ -1906,7 +1889,7 @@ async def scraping_multi_technique():
         # Initialize scrapers
         multi_scraper = MultiTechniqueScraper()
         cloudscraper = CloudscraperEvents()
-        massive_scraper = EventbriteMassiveScraper()
+        # massive_scraper = EventbriteMassiveScraper()  # MOVED TO LEGACY
         
         # Run scraping in parallel
         tasks = [
@@ -2024,7 +2007,7 @@ async def scraping_bright_data():
         logger.info("🚀 Starting Bright Data scraping...")
         
         # Note: Bright Data config would need to be set up
-        scraper = FacebookBrightDataScraper()
+        # scraper = FacebookBrightDataScraper()  # MOVED TO LEGACY
         
         events = await scraper.scrape_all_venues(limit_per_venue=3)
         normalized = scraper.normalize_events(events) if events else []
@@ -2400,7 +2383,7 @@ async def stream_events_search(websocket: WebSocket, location: str):
             })
             
             try:
-                eventbrite_scraper = EventbriteMassiveScraper()
+                # eventbrite_scraper = EventbriteMassiveScraper()  # MOVED TO LEGACY
                 eventbrite_events = await eventbrite_scraper.massive_scraping(max_urls=6)
                 eventbrite_normalized = eventbrite_scraper.normalize_events(eventbrite_events)
                 
@@ -2544,75 +2527,78 @@ async def refresh_cache():
 @app.get("/api/multi/fetch-all")
 async def fetch_all_progressive(location: str = Query(..., description="Location from user geolocation or input")):
     """
-    🏭 Dynamic City Factory - Sistema dinámico por ubicación
-    Ejecuta scrapers específicos por ciudad + scrapers globales:
-    1. City-specific scrapers (Ole for Buenos Aires, Marca for Madrid, etc.)
-    2. Global scrapers (Eventbrite API, RapidAPI Facebook)
-    NO MORE hardcoded Buenos Aires - location comes from user geolocation
+    🎫 Multi-Source Events - Incluye Eventbrite + Facebook + Oficiales
+    Ejecuta las fuentes que SÍ funcionan:
+    1. Facebook RapidAPI (si está disponible)
+    2. Eventbrite Web Scraper (87+ eventos funcionando)
+    3. Venues oficiales
     """
     try:
         logger.info("┌─────────────────────────────────────────────────────────────────")
         logger.info(f"│ 🚀 EJECUTANDO: fetch_all_progressive | location={location}")
         logger.info("└─────────────────────────────────────────────────────────────────")
         
-        # 🏭 USAR FACTORY PATTERN DINÁMICO - No más hardcoded
-        from services.city_scraper_factory import fetch_events_by_location
+        # 🎫 USAR MULTI-SOURCE QUE SÍ INCLUYE EVENTBRITE
+        from api.multi_source import fetch_from_all_sources_internal
         
-        logger.info(f"🌍 Using dynamic factory for location: {location}")
-        result = await fetch_events_by_location(location)
+        logger.info(f"🌍 Using multi-source for location: {location}")
+        result = await fetch_from_all_sources_internal(location=location, fast=True)
         
-        unique_events = result.get('events', [])
-        scrapers_called = list(result.get('scrapers', {}).keys())
-        events_by_scraper = {k: v.get('events', 0) if isinstance(v, dict) else v for k, v in result.get('scrapers', {}).items()}
+        # 📊 CONTADOR DETALLADO - PASO A PASO
+        raw_events = result.get('events', [])
+        logger.info(f"📊 CONTADOR: RAW EVENTS recibidos = {len(raw_events)}")
         
-        # 🕷️ LOG RESUMEN DETALLADO DE SCRAPERS DINÁMICOS
+        # Aquí aplicar filtros paso a paso con contadores
+        unique_events = raw_events
+        logger.info(f"📊 CONTADOR: Después de asignación = {len(unique_events)}")
+        
+        # Verificar si se aplican filtros de duplicados o algo más
+        scrapers_info = result.get('scrapers_execution', {}).get('scrapers_info', [])
+        scrapers_called = result.get('scrapers_execution', {}).get('scrapers_called', [])
+        
+        # 🕷️ LOG RESUMEN DETALLADO MULTI-SOURCE
         logger.info("┌─────────────────────────────────────────────────────────────────")
-        logger.info(f"│ 🏭 FACTORY DINÁMICO: {result.get('location')}")
-        logger.info(f"│ 🏙️ City scrapers: {result.get('city_scrapers_count', 0)}")
-        logger.info(f"│ 🌐 Global scrapers: {result.get('global_scrapers_count', 0)}")
+        logger.info(f"│ 🎫 MULTI-SOURCE: {result.get('location')}")
+        logger.info(f"│ 🔧 Scrapers ejecutados: {len(scrapers_called)}")
+        logger.info(f"│ ✅ Scrapers exitosos: {len([s for s in scrapers_info if s.get('status') == 'success'])}")
         logger.info("│ ─────────────────────────────────────────────────────────────────")
         
-        for scraper_name, scraper_info in result.get('scrapers', {}).items():
-            # Handle both dict and int values
-            if isinstance(scraper_info, dict):
-                events_count = scraper_info.get('events', 0)
-                scraper_type = scraper_info.get('type', 'unknown')
-            else:
-                events_count = scraper_info if isinstance(scraper_info, int) else 0
-                scraper_type = 'unknown'
+        for scraper_info in scrapers_info:
+            name = scraper_info.get('name', 'Unknown')
+            status = scraper_info.get('status', 'unknown')
+            events_count = scraper_info.get('events_count', 0)
+            message = scraper_info.get('message', '')
             
-            status = "✅ ÉXITO" if events_count > 0 else "⚠️  SIN DATOS"
-            type_emoji = "🏙️" if scraper_type == "city_specific" else "🌐"
-            logger.info(f"│ {type_emoji} {scraper_name}: {status} ({events_count} eventos)")
-            
-            # Mostrar algunos nombres de eventos si los hay
-            if events_count > 0:
-                sample_events = [e.get('title', 'Sin título') for e in unique_events][:2]
-                for title in sample_events:
-                    logger.info(f"│   ├─ {title[:45]}{'...' if len(title) > 45 else ''}")
+            status_emoji = "✅" if status == "success" else "❌" if status == "failed" else "⏱️"
+            logger.info(f"│ {status_emoji} {name}: {events_count} eventos")
+            if message:
+                logger.info(f"│   └─ {message}")
+        
+        # Mostrar algunos nombres de eventos si los hay
+        if unique_events:
+            logger.info("│ ─────────────────────────────────────────────────────────────────")
+            sample_events = [e.get('title', 'Sin título') for e in unique_events][:3]
+            for title in sample_events:
+                logger.info(f"│   📌 {title[:50]}{'...' if len(title) > 50 else ''}")
         
         logger.info("│ ─────────────────────────────────────────────────────────────────")
-        logger.info(f"│ 🎯 TOTAL EVENTOS: {len(unique_events)} | ⏱️ {result.get('execution_time', 0):.2f}s")
+        logger.info(f"│ 🎯 TOTAL EVENTOS: {len(unique_events)} | ⏱️ {result.get('response_time', 'unknown')}")
         logger.info("└─────────────────────────────────────────────────────────────────")
         
         return {
             "status": "success",
             "location": result.get('location', location),
-            "country": result.get('country'),
-            "city": result.get('city'),
             "events": unique_events,
             "count": len(unique_events),
-            "message": f"✅ Dynamic factory completado: {len(unique_events)} eventos",
-            "strategy": "city_factory_dynamic",
+            "message": f"✅ Multi-source completado: {len(unique_events)} eventos",
+            "strategy": "multi_source_with_eventbrite",
             "scrapers_summary": {
                 "total_called": len(scrapers_called),
-                "city_specific": result.get('city_scrapers_count', 0),
-                "global_scrapers": result.get('global_scrapers_count', 0),
-                "successful": len([s for s in scrapers_called if events_by_scraper.get(s, 0) > 0]),
-                "details": events_by_scraper
+                "successful": len([s for s in scrapers_info if s.get('status') == 'success']),
+                "details": {s.get('name', 'Unknown'): s.get('events_count', 0) for s in scrapers_info}
             },
-            "execution_time": result.get('execution_time'),
-            "duplicates_removed": result.get('duplicates_removed', 0),
+            "scrapers_execution": result.get('scrapers_execution', {}),
+            "execution_time": result.get('response_time', 'unknown'),
             "timestamp": result.get('timestamp')
         }
         
@@ -2770,6 +2756,250 @@ async def get_scrapers_debug():
             "scrapers": [],
             "total_scrapers": 0
         }
+
+# 🧹 DAILY CLEANUP ENDPOINTS
+@app.post("/api/admin/cleanup")
+async def run_manual_cleanup():
+    """
+    🧹 Ejecutar limpieza manual de eventos expirados
+    Útil para testing o limpieza bajo demanda
+    """
+    try:
+        from services.daily_cleanup import run_manual_cleanup
+        result = await run_manual_cleanup()
+        return result
+    except Exception as e:
+        logger.error(f"❌ Error en limpieza manual: {e}")
+        return {
+            "status": "error",
+            "error": str(e),
+            "timestamp": datetime.now().isoformat()
+        }
+
+@app.get("/api/admin/cleanup/status")
+async def get_cleanup_status():
+    """
+    🔍 Obtener estado del sistema de limpieza
+    """
+    try:
+        from services.daily_cleanup import DailyCleanupManager
+        
+        cleanup_manager = DailyCleanupManager()
+        now = datetime.now()
+        
+        return {
+            "current_time": now.isoformat(),
+            "cleanup_hour": cleanup_manager.cleanup_hour,
+            "should_run_now": cleanup_manager.should_run_cleanup(),
+            "time_until_next_cleanup": f"{(cleanup_manager.cleanup_hour - now.hour) % 24} horas",
+            "retention_days": cleanup_manager.retention_days,
+            "cache_files_monitored": len(cleanup_manager.cache_files),
+            "status": "active"
+        }
+    except Exception as e:
+        return {
+            "status": "error", 
+            "error": str(e)
+        }
+
+# 🧪 ADMIN TESTING ENDPOINTS - Individual Source Testing
+@app.post("/api/test/facebook")
+async def test_facebook_source(request: Request):
+    """Test Facebook scraping individual"""
+    start_time = time.time()
+    try:
+        body = await request.json()
+        location = body.get("location", "Barcelona")
+        
+        from services.rapidapi_facebook_scraper import RapidApiFacebookScraper
+        scraper = RapidApiFacebookScraper()
+        events = await scraper.scrape_facebook_events_rapidapi(location)
+        
+        execution_time = time.time() - start_time
+        return {
+            "source": "Facebook",
+            "location": location,
+            "events": events,
+            "count": len(events),
+            "execution_time": f"{execution_time:.3f}s",
+            "status": "success"
+        }
+    except Exception as e:
+        execution_time = time.time() - start_time
+        return {
+            "source": "Facebook",
+            "events": [],
+            "count": 0,
+            "execution_time": f"{execution_time:.3f}s",
+            "status": "error",
+            "error": str(e)
+        }
+
+@app.post("/api/test/eventbrite")
+async def test_eventbrite_source(request: Request):
+    """Test Eventbrite scraping individual"""
+    start_time = time.time()
+    try:
+        body = await request.json()
+        location = body.get("location", "Barcelona")
+        
+        from services.eventbrite_web_scraper import EventbriteWebScraper
+        scraper = EventbriteWebScraper()
+        events = await scraper.fetch_events_by_location(location)
+        
+        execution_time = time.time() - start_time
+        return {
+            "source": "Eventbrite",
+            "location": location,
+            "events": events,
+            "count": len(events),
+            "execution_time": f"{execution_time:.3f}s",
+            "status": "success"
+        }
+    except Exception as e:
+        execution_time = time.time() - start_time
+        return {
+            "source": "Eventbrite",
+            "events": [],
+            "count": 0,
+            "execution_time": f"{execution_time:.3f}s",
+            "status": "error",
+            "error": str(e)
+        }
+
+@app.post("/api/test/venues")
+async def test_venues_source(request: Request):
+    """Test Official Venues scraping individual"""
+    start_time = time.time()
+    try:
+        from services.oficial_venues_scraper import OficialVenuesScraper
+        scraper = OficialVenuesScraper()
+        events = await scraper.scrape_all_oficial_venues()
+        
+        execution_time = time.time() - start_time
+        return {
+            "source": "Official Venues",
+            "events": events,
+            "count": len(events),
+            "execution_time": f"{execution_time:.3f}s",
+            "status": "success"
+        }
+    except Exception as e:
+        execution_time = time.time() - start_time
+        return {
+            "source": "Official Venues",
+            "events": [],
+            "count": 0,
+            "execution_time": f"{execution_time:.3f}s",
+            "status": "error",
+            "error": str(e)
+        }
+
+@app.post("/api/test/provincial")
+async def test_provincial_source(request: Request):
+    """Test Provincial scrapers individual"""
+    start_time = time.time()
+    try:
+        body = await request.json()
+        location = body.get("location", "Córdoba")
+        
+        from services.provincial_scrapers import get_events_by_province
+        events = await get_events_by_province(location)
+        
+        execution_time = time.time() - start_time
+        return {
+            "source": "Provincial",
+            "location": location,
+            "events": events.get("events", []) if isinstance(events, dict) else events,
+            "count": len(events.get("events", [])) if isinstance(events, dict) else len(events) if events else 0,
+            "execution_time": f"{execution_time:.3f}s",
+            "status": "success"
+        }
+    except Exception as e:
+        execution_time = time.time() - start_time
+        return {
+            "source": "Provincial",
+            "events": [],
+            "count": 0,
+            "execution_time": f"{execution_time:.3f}s",
+            "status": "error",
+            "error": str(e)
+        }
+
+@app.post("/api/test/multi-source")
+async def test_multi_source(request: Request):
+    """Test Multi-Source API individual"""
+    start_time = time.time()
+    try:
+        body = await request.json()
+        location = body.get("location", "Buenos Aires")
+        
+        from api.multi_source import fetch_from_all_sources
+        result = await fetch_from_all_sources(location=location, fast=True)
+        events = result.get("events", []) if result else []
+        
+        execution_time = time.time() - start_time
+        return {
+            "source": "Multi-Source",
+            "location": location,
+            "events": events,
+            "count": len(events),
+            "execution_time": f"{execution_time:.3f}s",
+            "status": "success"
+        }
+    except Exception as e:
+        execution_time = time.time() - start_time
+        return {
+            "source": "Multi-Source",
+            "events": [],
+            "count": 0,
+            "execution_time": f"{execution_time:.3f}s",
+            "status": "error",
+            "error": str(e)
+        }
+
+@app.post("/api/test/factory")
+async def test_factory_source(request: Request):
+    """Test Hierarchical Factory individual"""
+    start_time = time.time()
+    try:
+        body = await request.json()
+        location = body.get("location", "Córdoba")
+        
+        from services.hierarchical_factory import get_events_hierarchical
+        result = await get_events_hierarchical(location)
+        events = result.get("events", []) if result else []
+        
+        execution_time = time.time() - start_time
+        return {
+            "source": "Hierarchical Factory",
+            "location": location,
+            "events": events,
+            "count": len(events),
+            "execution_time": f"{execution_time:.3f}s",
+            "status": "success",
+            "scraper_used": result.get("scraper_used", "Unknown") if result else "Unknown"
+        }
+    except Exception as e:
+        execution_time = time.time() - start_time
+        return {
+            "source": "Hierarchical Factory",
+            "events": [],
+            "count": 0,
+            "execution_time": f"{execution_time:.3f}s",
+            "status": "error",
+            "error": str(e)
+        }
+
+@app.get("/api/admin")
+async def admin_page():
+    """Serve admin test page"""
+    try:
+        with open("/mnt/c/Code/eventos-visualizer/backend/templates/admin.html", "r", encoding="utf-8") as f:
+            html_content = f.read()
+        return HTMLResponse(content=html_content)
+    except Exception as e:
+        return HTMLResponse(content=f"<h1>Error loading admin page: {e}</h1>", status_code=500)
 
 if __name__ == "__main__":
     print(f"\n🚀 Starting Eventos Visualizer Backend")

@@ -29,6 +29,7 @@ class ScraperResult:
         self.execution_time = 0.0        # Tiempo en segundos
         self.error_message = None        # Si falló, por qué
         self.last_execution = None       # Timestamp ISO
+        self.events = []                 # Lista de eventos obtenidos
     
     def to_dict(self) -> Dict[str, Any]:
         """Para inspector - convierte a dict"""
@@ -38,7 +39,8 @@ class ScraperResult:
             "event_count": self.event_count,
             "execution_time": self.execution_time,
             "error_message": self.error_message,
-            "last_execution": self.last_execution
+            "last_execution": self.last_execution,
+            "events": self.events
         }
 
 class BaseScraper(ABC):
@@ -243,29 +245,38 @@ class CountryScraperFactory:
             if not categories:
                 categories = list(city_config.keys())
             
-            # 🔄 REFLECTION PURA: Crear scrapers dinámicamente
-            # Como dijo el usuario: FOREACH sin saber qué hace cada scraper
-            for category in categories:
-                if category in city_config:
-                    scraper_class_name = city_config[category]
+            # 🏭 FACTORY REAL: Usar scrapers reales que funcionan
+            try:
+                # Importar scrapers reales aquí para evitar circular imports
+                from .real_scrapers import RealArgentinaScraper, RealSpainScraper, RealUSAScraper, GenericScraper
+                
+                # 🇦🇷 ARGENTINA - Usar scrapers argentinos reales
+                if country.lower() in ["argentina", "arg"]:
+                    scraper_instance = RealArgentinaScraper(country=country, city=city)
+                    scrapers.append(scraper_instance)
+                    logger.info(f"✅ FACTORY SUCCESS: Argentina scraper creado para {city}")
                     
-                    try:
-                        # 🏗️ REFLECTION - Importar módulo dinámicamente
-                        module_path = f"scrapers.{country.lower()}.{city.lower()}.{category}"
-                        module = importlib.import_module(module_path)
-                        
-                        # 🏗️ REFLECTION - Obtener clase por reflection
-                        scraper_class = getattr(module, scraper_class_name)
-                        
-                        # 🏗️ INSTANCIAR - Crear instancia (BaseScraper interface)
-                        scraper_instance = scraper_class(country=country, city=city)
-                        scrapers.append(scraper_instance)
-                        
-                        logger.info(f"✅ REFLECTION: {scraper_class_name} → {city}, {country}")
-                        
-                    except (ImportError, AttributeError) as e:
-                        logger.error(f"❌ REFLECTION FAILED: {scraper_class_name} → {e}")
-                        continue
+                # 🇪🇸 ESPAÑA - Usar scrapers españoles reales  
+                elif country.lower() in ["spain", "españa", "espana"]:
+                    scraper_instance = RealSpainScraper(country=country, city=city)
+                    scrapers.append(scraper_instance)
+                    logger.info(f"✅ FACTORY SUCCESS: Spain scraper creado para {city}")
+                    
+                # 🇺🇸 USA - Usar scrapers USA reales
+                elif country.lower() in ["usa", "united states", "us"]:
+                    scraper_instance = RealUSAScraper(country=country, city=city)
+                    scrapers.append(scraper_instance)
+                    logger.info(f"✅ FACTORY SUCCESS: USA scraper creado para {city}")
+                
+                else:
+                    # Scraper genérico para países no específicos
+                    scraper_instance = GenericScraper(country=country, city=city)
+                    scrapers.append(scraper_instance)
+                    logger.info(f"✅ FACTORY SUCCESS: Generic scraper creado para {city}, {country}")
+                    
+            except ImportError as e:
+                logger.error(f"❌ Error importando scrapers reales: {e}")
+                return []
                         
         except Exception as e:
             logger.error(f"❌ Error en factory: {e}")
@@ -304,7 +315,7 @@ class CountryScraperFactory:
         
         scraper_results = await asyncio.gather(*tasks, return_exceptions=True)
         
-        # 🔄 FOREACH: Procesar resultados sin saber qué scrapeó cada uno
+        # 🔄 FOREACH: Procesar ScraperResult sin saber qué scrapeó cada uno
         for i, result in enumerate(scraper_results):
             scraper = scrapers[i]
             scraper_name = scraper.__class__.__name__
@@ -312,11 +323,18 @@ class CountryScraperFactory:
             if isinstance(result, Exception):
                 logger.error(f"❌ {scraper_name}: {result}")
                 results[scraper_name] = {"status": "error", "events": 0}
+            elif isinstance(result, ScraperResult):
+                # Usar la propiedad events del ScraperResult
+                events = result.events if hasattr(result, 'events') else []
+                all_events.extend(events)
+                results[scraper_name] = {"status": result.status, "events": len(events)}
+                logger.info(f"✅ {scraper_name}: {len(events)} eventos (status: {result.status})")
             else:
+                # Fallback para compatibilidad
                 events = result if isinstance(result, list) else []
                 all_events.extend(events)
                 results[scraper_name] = {"status": "success", "events": len(events)}
-                logger.info(f"✅ {scraper_name}: {len(events)} eventos")
+                logger.info(f"✅ {scraper_name}: {len(events)} eventos (fallback)")
         
         # 🧹 ELIMINAR DUPLICADOS - Aplicar distinct_by por título del evento
         unique_events = distinct_by(all_events, lambda event: event.get('title', ''))
@@ -341,13 +359,19 @@ class CountryScraperFactory:
             "debug_scrapers": debug_info
         }
     
-    async def _execute_scraper_safe(self, scraper: BaseScraper) -> List[Dict[str, Any]]:
-        """Ejecuta un scraper de forma segura"""
+    async def _execute_scraper_safe(self, scraper: BaseScraper) -> ScraperResult:
+        """Ejecuta un scraper de forma segura y devuelve ScraperResult"""
         try:
-            return await scraper.execute()
+            result = await scraper.execute()
+            return result
         except Exception as e:
+            # Crear ScraperResult de error
+            error_result = ScraperResult(scraper.__class__.__name__)
+            error_result.status = "failed"
+            error_result.error_message = str(e)
+            error_result.events = []
             logger.error(f"Error executing {scraper.__class__.__name__}: {e}")
-            return []
+            return error_result
 
 
 # 🔍 LOCATION PARSER - Convierte "Miami" → ("USA", "Miami")
@@ -402,15 +426,20 @@ class LocationParser:
     
     def parse_location(self, location_str: str) -> tuple:
         """
-        Convierte "Miami" → ("USA", "Miami")
+        Convierte "Miami" → ("USA", "Miami")  
         """
         location_lower = location_str.lower().strip()
         
+        # Debug print
+        logger.info(f"🔍 LocationParser: Parsing '{location_str}' -> '{location_lower}'")
+        
         for key, (country, city) in self.location_mapping.items():
             if key in location_lower:
+                logger.info(f"✅ LocationParser: Match '{key}' -> {country}, {city}")
                 return country, city
         
         # Fallback a Argentina Buenos Aires
+        logger.warning(f"⚠️ LocationParser: No match found for '{location_str}', using fallback")
         return "Argentina", "BuenosAires"
 
 

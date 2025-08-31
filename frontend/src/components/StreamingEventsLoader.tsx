@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { EventCardModern } from './EventCardModern'
+import EventCardModern from './EventCardModern'
 import { EventsGridSkeleton } from './LoadingStates'
 
 interface StreamingEvent {

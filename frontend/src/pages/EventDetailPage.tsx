@@ -9,7 +9,7 @@ interface Event {
   venue_name: string
   venue_address?: string
   category: string
-  price: number
+  price: number | null | undefined
   currency: string
   is_free: boolean
   image_url: string
@@ -162,8 +162,12 @@ const EventDetailPage: React.FC = () => {
     }
   }
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string | null | undefined) => {
+    if (!dateString) return 'Fecha por confirmar'
+    
     const date = new Date(dateString)
+    if (isNaN(date.getTime())) return 'Fecha por confirmar'
+    
     return date.toLocaleDateString('es-AR', {
       weekday: 'long',
       year: 'numeric',
@@ -174,8 +178,9 @@ const EventDetailPage: React.FC = () => {
     })
   }
 
-  const formatPrice = (price: number, currency: string, isFree: boolean) => {
+  const formatPrice = (price: number | null | undefined, currency: string, isFree: boolean) => {
     if (isFree) return 'Evento Gratuito'
+    if (!price || price === 0) return 'Consultar Precio'
     return `${currency} ${price.toLocaleString()}`
   }
 

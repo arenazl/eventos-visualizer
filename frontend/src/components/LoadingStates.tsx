@@ -99,6 +99,63 @@ export const LocationLoader: React.FC = () => {
   )
 }
 
+// Skeleton para fuentes múltiples (Facebook, Eventbrite, etc.)
+export const MultiSourceSkeleton: React.FC = () => {
+  const sources = [
+    { name: 'Facebook', color: 'from-blue-500 to-blue-600', delay: '0s' },
+    { name: 'Eventbrite', color: 'from-orange-500 to-red-500', delay: '0.2s' },
+    { name: 'Ticketmaster', color: 'from-blue-600 to-purple-600', delay: '0.4s' },
+    { name: 'Instagram', color: 'from-pink-500 to-purple-500', delay: '0.6s' }
+  ]
+
+  return (
+    <div className="mb-8 p-6 bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-6 h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-pulse"></div>
+        <h3 className="text-lg font-semibold text-white/90">Buscando en múltiples fuentes...</h3>
+      </div>
+      
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {sources.map((source, index) => (
+          <div key={source.name} className="flex flex-col items-center gap-2 animate-pulse" style={{ animationDelay: source.delay }}>
+            <div className={`w-12 h-12 bg-gradient-to-r ${source.color} rounded-full flex items-center justify-center animate-bounce`} style={{ animationDelay: source.delay }}>
+              <div className="w-6 h-6 bg-white/30 rounded-full animate-ping"></div>
+            </div>
+            <span className="text-sm text-white/70 font-medium">{source.name}</span>
+            <div className="w-16 h-1 bg-white/10 rounded-full overflow-hidden">
+              <div className={`h-full bg-gradient-to-r ${source.color} rounded-full animate-pulse`} style={{ width: '60%', animationDelay: source.delay }}></div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <div className="mt-4 text-center">
+        <p className="text-white/60 text-sm animate-pulse">Encontrando los mejores eventos para ti...</p>
+      </div>
+    </div>
+  )
+}
+
+// Skeleton específico para scraping en tiempo real
+export const ScrapingSkeleton: React.FC<{ source?: string }> = ({ source = 'eventos' }) => {
+  return (
+    <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-purple-500/10 to-pink-500/10 backdrop-blur-xl border border-white/10 rounded-xl">
+      <div className="relative">
+        <div className="w-8 h-8 border-3 border-white/20 rounded-full animate-spin"></div>
+        <div className="absolute top-1 left-1 w-6 h-6 border-3 border-transparent border-t-purple-500 rounded-full animate-spin" style={{ animationDuration: '0.8s' }}></div>
+      </div>
+      <div className="flex-1">
+        <div className="h-4 bg-white/15 rounded-lg mb-2 animate-pulse"></div>
+        <div className="h-3 bg-white/10 rounded-lg w-2/3 animate-pulse"></div>
+      </div>
+      <div className="text-right">
+        <p className="text-white/80 text-sm font-medium">Scrapeando {source}</p>
+        <p className="text-white/50 text-xs">En tiempo real...</p>
+      </div>
+    </div>
+  )
+}
+
 // Estado vacío elegante
 export const EmptyState: React.FC<{ title: string; subtitle: string }> = ({ title, subtitle }) => {
   return (
@@ -120,5 +177,7 @@ export default {
   WaveLoader,
   CircularLoader,
   LocationLoader,
+  MultiSourceSkeleton,
+  ScrapingSkeleton,
   EmptyState
 }
