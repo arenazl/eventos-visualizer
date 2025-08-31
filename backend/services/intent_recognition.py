@@ -1,16 +1,22 @@
 """
-AI Intent Recognition Service
-Interpreta el input del usuario y lo convierte en parámetros apropiados para cada API
+AI Intent Recognition Service - POWERED BY GEMINI 🧠
+Interpreta el input del usuario usando IA y lo convierte en parámetros apropiados para cada API
 """
 
-import re
+import os
+import json
+import asyncio
 from typing import Dict, List, Any, Optional, Tuple
 from datetime import datetime, timedelta
 import logging
 from dataclasses import dataclass
 from enum import Enum
+import google.generativeai as genai
 
 logger = logging.getLogger(__name__)
+
+# Configurar Gemini
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
 class IntentType(Enum):
     LOCATION_SEARCH = "location"
@@ -39,12 +45,32 @@ class UserIntent:
 
 class IntentRecognitionService:
     """
-    Servicio de reconocimiento de intenciones para traducir input del usuario
-    a parámetros específicos de cada API
+    🧠 Servicio de reconocimiento de intenciones POWERED BY GEMINI AI
+    Traduce input natural del usuario a parámetros específicos de cada API
     """
     
     def __init__(self):
-        # Mapeos de ubicaciones para Argentina y LATAM
+        # Verificar si Gemini ya está configurado (reutilizar instancia)
+        self.api_key = GEMINI_API_KEY
+        if self.api_key:
+            # Solo configurar si no está ya configurado
+            try:
+                # Intentar usar modelo existente
+                self.model = genai.GenerativeModel('gemini-1.5-flash')
+            except:
+                # Si falla, configurar desde cero
+                genai.configure(api_key=self.api_key)
+                self.model = genai.GenerativeModel('gemini-1.5-flash')
+        else:
+            self.model = None
+            logger.warning("🔥 GEMINI NO CONFIGURADO - Usando fallback")
+        
+        # Categorías EXACTAS que están en el frontend
+        self.available_categories = [
+            'Todos', 'Música', 'Deportes', 'Cultural', 'Tech', 'Fiestas'
+        ]
+        
+        # MÉTODOS ORIGINALES - Mapeos de ubicaciones para Argentina y LATAM
         self.location_mappings = {
             # Argentina
             'argentina': {'country': 'Argentina', 'code': 'AR'},
@@ -90,6 +116,29 @@ class IntentRecognitionService:
             'bogota': {'city': 'Bogotá', 'country': 'Colombia'},
             'medellin': {'city': 'Medellín', 'country': 'Colombia'},
             'cartagena': {'city': 'Cartagena', 'country': 'Colombia'},
+            
+            # España
+            'españa': {'country': 'España', 'code': 'ES'},
+            'spain': {'country': 'España', 'code': 'ES'},
+            'madrid': {'city': 'Madrid', 'country': 'España'},
+            'barcelona': {'city': 'Barcelona', 'country': 'España'},
+            'valencia': {'city': 'Valencia', 'country': 'España'},
+            'sevilla': {'city': 'Sevilla', 'country': 'España'},
+            'bilbao': {'city': 'Bilbao', 'country': 'España'},
+            
+            # Francia
+            'francia': {'country': 'Francia', 'code': 'FR'},
+            'france': {'country': 'Francia', 'code': 'FR'},
+            'paris': {'city': 'París', 'country': 'Francia'},
+            'lyon': {'city': 'Lyon', 'country': 'Francia'},
+            'marsella': {'city': 'Marsella', 'country': 'Francia'},
+            
+            # Estados Unidos
+            'usa': {'country': 'Estados Unidos', 'code': 'US'},
+            'miami': {'city': 'Miami', 'country': 'Estados Unidos'},
+            'new york': {'city': 'New York', 'country': 'Estados Unidos'},
+            'los angeles': {'city': 'Los Angeles', 'country': 'Estados Unidos'},
+            'chicago': {'city': 'Chicago', 'country': 'Estados Unidos'},
         }
         
         # Categorías y sus variaciones
@@ -152,20 +201,94 @@ class IntentRecognitionService:
             'proximo mes': 'next_month',
             'next month': 'next_month'
         }
+        
+        # Prompt optimizado para intent recognition
+        self.intent_prompt = f"""
+        Eres un experto en análisis de intenciones de búsqueda de eventos.
+        
+        CATEGORÍAS DISPONIBLES (debes elegir UNA de estas EXACTAMENTE):
+        {self.available_categories}
+        
+        INSTRUCCIONES:
+        1. Analiza el texto del usuario y detecta:
+           - País (nombre completo, ej: "Argentina", "España", "México")
+           - Ciudad (si se menciona)
+           - Categoría (SOLO una de las disponibles)
+           - Tipo de intención
+           - Nivel de confianza
+        
+        2. REGLAS CRÍTICAS:
+           - Si mencionan "restaurant", "discoteca", "bar" → categoría "Fiestas"
+           - Si mencionan "concierto", "música", "show" → categoría "Música"
+           - Si mencionan "fútbol", "deportes" → categoría "Deportes"
+           - Si mencionan "teatro", "arte", "cultura" → categoría "Cultural"
+           - Si mencionan "tecnología", "hackathon", "conferencia" → categoría "Tech"
+           - Si es ambiguo → categoría "Todos"
+        
+        3. Para PAÍSES, detecta dinámicamente (no limitado):
+           - "Buenos Aires" → país "Argentina"
+           - "Palermo" → ciudad "Buenos Aires", país "Argentina"
+           - "Madrid" → ciudad "Madrid", país "España"
+           - "Italia" → país "Italia"
+           - "París" → ciudad "París", país "Francia"
+        
+        RESPONDE SIEMPRE EN ESTE FORMATO JSON EXACTO:
+        {{
+            "country": "Nombre del país detectado o null",
+            "city": "Nombre de la ciudad detectada o null", 
+            "category": "Una de las categorías exactas disponibles o Todos",
+            "intent_type": "location/category/mixed/venue/artist",
+            "confidence": 0.95,
+            "keywords": ["palabra1", "palabra2"],
+            "reasoning": "Por qué elegiste esa categoría"
+        }}
+        """
     
     def parse_user_input(self, user_input: str) -> UserIntent:
         """
-        Parsea el input del usuario y extrae la intención
+        Parsea el input del usuario y extrae la intención - CON GEMINI AI
         """
-        user_input = user_input.lower().strip()
+        user_input_clean = user_input.lower().strip()
         
+        # 🧠 PRIMERA OPCIÓN: Usar Gemini AI si está disponible
+        if self.model:
+            try:
+                full_prompt = f"{self.intent_prompt}\n\nTEXTO DEL USUARIO: '{user_input}'"
+                response = self.model.generate_content(full_prompt)
+                gemini_result = self._parse_gemini_response(response.text)
+                
+                # Crear UserIntent desde respuesta de Gemini
+                intent_type_map = {
+                    'location': IntentType.LOCATION_SEARCH,
+                    'category': IntentType.CATEGORY_SEARCH,
+                    'mixed': IntentType.MIXED_SEARCH,
+                    'venue': IntentType.VENUE_SEARCH,
+                    'artist': IntentType.ARTIST_SEARCH
+                }
+                
+                intent_type = intent_type_map.get(gemini_result.get('intent_type', 'mixed').lower(), IntentType.MIXED_SEARCH)
+                
+                return UserIntent(
+                    intent_type=intent_type,
+                    country=gemini_result.get('country'),
+                    city=gemini_result.get('city'),
+                    location=gemini_result.get('city') or gemini_result.get('country'),
+                    category=gemini_result.get('category', 'Todos'),
+                    keywords=gemini_result.get('keywords', []),
+                    confidence=float(gemini_result.get('confidence', 0.8))
+                )
+                
+            except Exception as e:
+                logger.warning(f"Gemini falló, usando método original: {e}")
+        
+        # 🔄 FALLBACK: Método original si Gemini no funciona
         intent = UserIntent(
             intent_type=IntentType.MIXED_SEARCH,
             keywords=[]
         )
         
-        # 1. Detectar ubicación
-        location_data = self._extract_location(user_input)
+        # 1. Detectar ubicación (método original)
+        location_data = self._extract_location(user_input_clean)
         if location_data:
             intent.location = location_data.get('location')
             intent.country = location_data.get('country')
@@ -174,8 +297,8 @@ class IntentRecognitionService:
             if any([intent.city, intent.country]):
                 intent.intent_type = IntentType.LOCATION_SEARCH
         
-        # 2. Detectar categoría
-        category_data = self._extract_category(user_input)
+        # 2. Detectar categoría (método original)
+        category_data = self._extract_category(user_input_clean)
         if category_data:
             intent.category = category_data['category']
             intent.subcategory = category_data.get('subcategory')
@@ -184,26 +307,247 @@ class IntentRecognitionService:
             else:
                 intent.intent_type = IntentType.CATEGORY_SEARCH
         
-        # 3. Detectar venue
-        venue = self._extract_venue(user_input)
+        # 3. Detectar venue (método original)
+        venue = self._extract_venue(user_input_clean)
         if venue:
             intent.venue = venue
             intent.intent_type = IntentType.VENUE_SEARCH
         
-        # 4. Detectar rango temporal
-        date_range = self._extract_date_range(user_input)
+        # 4. Detectar rango temporal (método original)
+        date_range = self._extract_date_range(user_input_clean)
         if date_range:
             intent.date_range = date_range
         
-        # 5. Extraer palabras clave restantes
-        intent.keywords = self._extract_keywords(user_input)
+        # 5. Extraer keywords (método original)
+        intent.keywords = self._extract_keywords(user_input_clean)
         
-        # 6. Calcular confianza
+        # 6. Calcular confianza (método original)
         intent.confidence = self._calculate_confidence(intent)
         
         logger.info(f"Intent parsed: {intent.intent_type.value} - Location: {intent.city or intent.country} - Category: {intent.category}")
         
         return intent
+    
+    def _extract_location(self, text: str) -> Optional[Dict[str, str]]:
+        """
+        Extrae información de ubicación del texto (MÉTODO ORIGINAL)
+        """
+        for location, data in self.location_mappings.items():
+            if location in text:
+                result = data.copy()
+                result['location'] = location
+                return result
+        return None
+    
+    def _extract_category(self, text: str) -> Optional[Dict[str, str]]:
+        """
+        Extrae categoría del texto (MÉTODO ORIGINAL)
+        """
+        for category, variations in self.category_mappings.items():
+            if category in text:
+                return {'category': category}
+            for variation in variations:
+                if variation in text:
+                    return {'category': category, 'subcategory': variation}
+        return None
+    
+    def _extract_venue(self, text: str) -> Optional[str]:
+        """
+        Extrae venue del texto (MÉTODO ORIGINAL)
+        """
+        for venue_key, venue_name in self.known_venues.items():
+            if venue_key in text:
+                return venue_name
+        return None
+    
+    def _extract_date_range(self, text: str) -> Optional[Tuple[datetime, datetime]]:
+        """
+        Extrae rango de fechas del texto (MÉTODO ORIGINAL)
+        """
+        now = datetime.now()
+        
+        for keyword, value in self.temporal_keywords.items():
+            if keyword in text:
+                if isinstance(value, int):
+                    # Días específicos
+                    start = now + timedelta(days=value)
+                    end = start + timedelta(days=1)
+                    return (start, end)
+                elif value == 'weekend':
+                    # Próximo fin de semana
+                    days_to_saturday = (5 - now.weekday()) % 7
+                    if days_to_saturday == 0:
+                        days_to_saturday = 7
+                    start = now + timedelta(days=days_to_saturday)
+                    end = start + timedelta(days=2)
+                    return (start, end)
+                elif value == 'week':
+                    # Esta semana
+                    return (now, now + timedelta(days=7))
+                elif value == 'month':
+                    # Este mes
+                    return (now, now + timedelta(days=30))
+                elif value == 'next_month':
+                    # Próximo mes
+                    return (now + timedelta(days=30), now + timedelta(days=60))
+        
+        return None
+    
+    def _extract_keywords(self, text: str) -> List[str]:
+        """
+        Extrae palabras clave relevantes (MÉTODO ORIGINAL)
+        """
+        # Remover palabras comunes
+        stopwords = ['el', 'la', 'de', 'en', 'y', 'a', 'para', 'por', 'con', 'un', 'una', 
+                     'los', 'las', 'del', 'al', 'es', 'son', 'the', 'in', 'at', 'on', 'for']
+        
+        words = text.split()
+        keywords = []
+        
+        for word in words:
+            if len(word) > 2 and word not in stopwords:
+                # No agregar si ya fue identificado como ubicación o categoría
+                is_location = any(word in loc for loc in self.location_mappings.keys())
+                is_category = any(word in cat for cats in self.category_mappings.values() for cat in cats)
+                
+                if not is_location and not is_category:
+                    keywords.append(word)
+        
+        return keywords[:5]  # Límite de keywords
+    
+    def _calculate_confidence(self, intent: UserIntent) -> float:
+        """
+        Calcula la confianza de la intención detectada (MÉTODO ORIGINAL)
+        """
+        confidence = 0.0
+        
+        # Ubicación detectada
+        if intent.city:
+            confidence += 0.3
+        elif intent.country:
+            confidence += 0.2
+        
+        # Categoría detectada
+        if intent.category:
+            confidence += 0.3
+        
+        # Venue detectado
+        if intent.venue:
+            confidence += 0.2
+        
+        # Fechas detectadas
+        if intent.date_range:
+            confidence += 0.1
+        
+        # Keywords detectados
+        if intent.keywords:
+            confidence += 0.1
+        
+        return min(confidence, 1.0)
+    
+    def _parse_gemini_response(self, response_text: str) -> Dict[str, Any]:
+        """
+        Parsea la respuesta JSON de Gemini
+        """
+        try:
+            # Limpiar response si tiene markdown
+            if "```json" in response_text:
+                json_str = response_text.split("```json")[1].split("```")[0]
+            elif "```" in response_text:
+                json_str = response_text.split("```")[1]
+            else:
+                json_str = response_text
+            
+            return json.loads(json_str.strip())
+        except Exception as e:
+            logger.error(f"❌ Error parseando JSON de Gemini: {e}")
+            # Fallback
+            return {
+                "country": None,
+                "city": None,
+                "category": "Todos",
+                "intent_type": "mixed",
+                "confidence": 0.3,
+                "keywords": [],
+                "reasoning": "Error al parsear respuesta"
+            }
+    
+    def _convert_to_user_intent(self, gemini_result: Dict, original_input: str) -> UserIntent:
+        """
+        Convierte la respuesta de Gemini a UserIntent
+        """
+        # Determinar tipo de intención
+        intent_type_map = {
+            'location': IntentType.LOCATION_SEARCH,
+            'category': IntentType.CATEGORY_SEARCH,
+            'mixed': IntentType.MIXED_SEARCH,
+            'venue': IntentType.VENUE_SEARCH,
+            'artist': IntentType.ARTIST_SEARCH
+        }
+        
+        intent_type = intent_type_map.get(
+            gemini_result.get('intent_type', 'mixed').lower(),
+            IntentType.MIXED_SEARCH
+        )
+        
+        return UserIntent(
+            intent_type=intent_type,
+            country=gemini_result.get('country'),
+            city=gemini_result.get('city'),
+            location=gemini_result.get('city') or gemini_result.get('country'),
+            category=gemini_result.get('category', 'Todos'),
+            keywords=gemini_result.get('keywords', []),
+            confidence=float(gemini_result.get('confidence', 0.8))
+        )
+    
+    def _fallback_parse(self, user_input: str) -> UserIntent:
+        """
+        Sistema fallback cuando Gemini no está disponible
+        """
+        user_lower = user_input.lower()
+        
+        # Detectar categoría simple
+        category = "Todos"
+        if any(word in user_lower for word in ['música', 'concierto', 'show', 'cantar']):
+            category = "Música"
+        elif any(word in user_lower for word in ['deporte', 'fútbol', 'basket', 'tenis']):
+            category = "Deportes"
+        elif any(word in user_lower for word in ['restaurant', 'bar', 'discoteca', 'fiesta', 'party']):
+            category = "Fiestas"
+        elif any(word in user_lower for word in ['teatro', 'arte', 'cultura', 'museo']):
+            category = "Cultural"
+        elif any(word in user_lower for word in ['tech', 'tecnología', 'conferencia', 'startup']):
+            category = "Tech"
+        
+        # Detectar ubicación simple
+        country = None
+        city = None
+        if 'argentina' in user_lower or 'buenos aires' in user_lower:
+            country = "Argentina"
+            if 'buenos aires' in user_lower:
+                city = "Buenos Aires"
+        elif 'españa' in user_lower or 'madrid' in user_lower:
+            country = "España"
+            if 'madrid' in user_lower:
+                city = "Madrid"
+        elif 'méxico' in user_lower or 'mexico' in user_lower:
+            country = "México"
+        elif 'italia' in user_lower:
+            country = "Italia"
+        elif 'francia' in user_lower or 'parís' in user_lower:
+            country = "Francia"
+            if 'parís' in user_lower:
+                city = "París"
+        
+        return UserIntent(
+            intent_type=IntentType.MIXED_SEARCH,
+            country=country,
+            city=city,
+            location=city or country,
+            category=category,
+            keywords=user_input.split()[:3],
+            confidence=0.6
+        )
     
     def format_for_eventbrite(self, intent: UserIntent) -> Dict[str, Any]:
         """
@@ -361,7 +705,7 @@ class IntentRecognitionService:
     
     def get_all_api_parameters(self, user_input: str) -> Dict[str, Dict[str, Any]]:
         """
-        Obtiene parámetros formateados para todas las APIs disponibles
+        Obtiene parámetros formateados para todas las APIs disponibles - CON GEMINI AI
         """
         intent = self.parse_user_input(user_input)
         
@@ -370,6 +714,8 @@ class IntentRecognitionService:
                 'type': intent.intent_type.value,
                 'confidence': intent.confidence,
                 'location': intent.location,
+                'country': intent.country,
+                'city': intent.city,
                 'category': intent.category,
                 'keywords': intent.keywords
             },
@@ -382,195 +728,81 @@ class IntentRecognitionService:
             }
         }
     
-    def _extract_location(self, text: str) -> Optional[Dict[str, str]]:
-        """
-        Extrae información de ubicación del texto
-        """
-        for location, data in self.location_mappings.items():
-            if location in text:
-                result = data.copy()
-                result['location'] = location
-                return result
-        return None
-    
-    def _extract_category(self, text: str) -> Optional[Dict[str, str]]:
-        """
-        Extrae categoría del texto
-        """
-        for category, variations in self.category_mappings.items():
-            if category in text:
-                return {'category': category}
-            for variation in variations:
-                if variation in text:
-                    return {'category': category, 'subcategory': variation}
-        return None
-    
-    def _extract_venue(self, text: str) -> Optional[str]:
-        """
-        Extrae venue del texto
-        """
-        for venue_key, venue_name in self.known_venues.items():
-            if venue_key in text:
-                return venue_name
-        return None
-    
-    def _extract_date_range(self, text: str) -> Optional[Tuple[datetime, datetime]]:
-        """
-        Extrae rango de fechas del texto
-        """
-        now = datetime.now()
-        
-        for keyword, value in self.temporal_keywords.items():
-            if keyword in text:
-                if isinstance(value, int):
-                    # Días específicos
-                    start = now + timedelta(days=value)
-                    end = start + timedelta(days=1)
-                    return (start, end)
-                elif value == 'weekend':
-                    # Próximo fin de semana
-                    days_to_saturday = (5 - now.weekday()) % 7
-                    if days_to_saturday == 0:
-                        days_to_saturday = 7
-                    start = now + timedelta(days=days_to_saturday)
-                    end = start + timedelta(days=2)
-                    return (start, end)
-                elif value == 'week':
-                    # Esta semana
-                    return (now, now + timedelta(days=7))
-                elif value == 'month':
-                    # Este mes
-                    return (now, now + timedelta(days=30))
-                elif value == 'next_month':
-                    # Próximo mes
-                    return (now + timedelta(days=30), now + timedelta(days=60))
-        
-        return None
-    
-    def _extract_keywords(self, text: str) -> List[str]:
-        """
-        Extrae palabras clave relevantes
-        """
-        # Remover palabras comunes
-        stopwords = ['el', 'la', 'de', 'en', 'y', 'a', 'para', 'por', 'con', 'un', 'una', 
-                     'los', 'las', 'del', 'al', 'es', 'son', 'the', 'in', 'at', 'on', 'for']
-        
-        words = text.split()
-        keywords = []
-        
-        for word in words:
-            if len(word) > 2 and word not in stopwords:
-                # No agregar si ya fue identificado como ubicación o categoría
-                is_location = any(word in loc for loc in self.location_mappings.keys())
-                is_category = any(word in cat for cats in self.category_mappings.values() for cat in cats)
-                
-                if not is_location and not is_category:
-                    keywords.append(word)
-        
-        return keywords[:5]  # Límite de keywords
-    
-    def _calculate_confidence(self, intent: UserIntent) -> float:
-        """
-        Calcula la confianza de la intención detectada
-        """
-        confidence = 0.0
-        
-        # Ubicación detectada
-        if intent.city:
-            confidence += 0.3
-        elif intent.country:
-            confidence += 0.2
-        
-        # Categoría detectada
-        if intent.category:
-            confidence += 0.3
-        
-        # Venue detectado
-        if intent.venue:
-            confidence += 0.2
-        
-        # Fechas detectadas
-        if intent.date_range:
-            confidence += 0.1
-        
-        # Keywords detectados
-        if intent.keywords:
-            confidence += 0.1
-        
-        return min(confidence, 1.0)
-    
     def _get_country_code(self, country: str) -> Optional[str]:
         """
-        Obtiene el código ISO del país
+        Obtiene el código ISO del país dinámicamente
         """
         country_codes = {
             'Argentina': 'AR',
-            'México': 'MX',
+            'México': 'MX', 
             'Brasil': 'BR',
             'Chile': 'CL',
             'Colombia': 'CO',
+            'España': 'ES',
+            'Francia': 'FR',
+            'Italia': 'IT',
+            'Estados Unidos': 'US',
+            'Reino Unido': 'GB',
+            'Alemania': 'DE',
             'Perú': 'PE',
             'Uruguay': 'UY'
         }
-        return country_codes.get(country)
+        return country_codes.get(country, 'AR')  # Argentina por default
     
     def _map_to_eventbrite_category(self, category: str) -> str:
         """
-        Mapea categoría a formato Eventbrite
+        Mapea categoría frontend a formato Eventbrite
         """
-        eventbrite_categories = {
-            'musica': '103',
-            'deportes': '108',
-            'arte': '105',
-            'gastronomia': '110',
-            'tecnologia': '102',
-            'negocios': '101',
-            'educacion': '115'
+        category_map = {
+            'Música': '103',
+            'Deportes': '108', 
+            'Cultural': '105',
+            'Tech': '102',
+            'Fiestas': '103'  # Music para fiestas también
         }
-        return eventbrite_categories.get(category, '103')  # Music por default
+        return category_map.get(category, '103')
     
     def _map_to_ticketmaster_segment(self, category: str) -> str:
         """
-        Mapea categoría a segmento de Ticketmaster
+        Mapea categoría frontend a segmento Ticketmaster
         """
-        ticketmaster_segments = {
-            'musica': 'Music',
-            'deportes': 'Sports',
-            'arte': 'Arts & Theatre',
-            'teatro': 'Arts & Theatre',
-            'familiar': 'Family'
+        segment_map = {
+            'Música': 'Music',
+            'Deportes': 'Sports',
+            'Cultural': 'Arts & Theatre', 
+            'Tech': 'Miscellaneous',
+            'Fiestas': 'Music'
         }
-        return ticketmaster_segments.get(category, 'Music')
+        return segment_map.get(category, 'Music')
 
 
-# Testing
+# Testing con Gemini AI
 if __name__ == "__main__":
-    service = IntentRecognitionService()
+    import asyncio
     
-    # Casos de prueba
-    test_cases = [
-        "Buenos Aires",
-        "Argentina",
-        "electrónica",
-        "concierto de rock en Palermo",
-        "eventos deportivos en México",
-        "fiesta techno este fin de semana",
-        "teatro en Santiago de Chile",
-        "Movistar Arena mañana",
-        "eventos gratis en CABA",
-        "jazz en San Telmo este mes"
-    ]
-    
-    for test in test_cases:
-        print(f"\n📝 Input: '{test}'")
-        result = service.get_all_api_parameters(test)
-        print(f"   Intent: {result['intent']['type']} (confidence: {result['intent']['confidence']:.2f})")
-        print(f"   Location: {result['intent']['location']}")
-        print(f"   Category: {result['intent']['category']}")
-        print(f"   Keywords: {result['intent']['keywords']}")
+    async def test_intent_service():
+        service = IntentRecognitionService()
         
-        # Mostrar parámetros para cada API
-        print("   API Parameters:")
-        for api, params in result['apis'].items():
-            if params:
-                print(f"     {api}: {params}")
+        # Casos de prueba para el nuevo sistema
+        test_cases = [
+            "restaurant en Italia",
+            "discoteca en Ámsterdam", 
+            "concierto de rock en Buenos Aires",
+            "eventos deportivos en Madrid",
+            "teatro en París",
+            "conferencia tech en Barcelona",
+            "fiesta en Palermo",
+            "música en México"
+        ]
+        
+        for test in test_cases:
+            print(f"\n🧠 Testing: '{test}'")
+            result = await service.get_all_api_parameters(test)
+            print(f"   Intent: {result['intent']['type']} (confidence: {result['intent']['confidence']:.2f})")
+            print(f"   Country: {result['intent']['country']}")
+            print(f"   City: {result['intent']['city']}")
+            print(f"   Category: {result['intent']['category']}")
+            print(f"   Keywords: {result['intent']['keywords']}")
+    
+    # Ejecutar tests
+    asyncio.run(test_intent_service())

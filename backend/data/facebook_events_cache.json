@@ -1,350 +1,316 @@
 {
   "cache_info": {
-    "last_updated": "2025-08-30T10:07:00.391865",
-    "cache_valid_until": "2025-08-31T10:07:00.391871",
-    "events_count": 20,
+    "last_updated": "2025-08-30T18:03:49.690138",
+    "cache_valid_until": "2025-08-31T18:03:49.690149",
+    "events_count": 18,
     "location": "Argentina",
     "api_calls_saved": 1
   },
   "events": [
     {
-      "title": "Barcrawl Buenos Aires - Palermo Partybus Tour",
-      "description": "Evento de Facebook: Barcrawl Buenos Aires - Palermo Partybus Tour",
-      "event_id": "1252982659156175",
-      "event_url": "https://www.facebook.com/events/1252982659156175/",
+      "title": "FIESTA IBICENCA 2025 😜🎉🌴",
+      "description": "Evento de Facebook: FIESTA IBICENCA 2025 😜🎉🌴",
+      "event_id": "2227879734341839",
+      "event_url": "https://www.facebook.com/events/2227879734341839/",
       "venue_name": "Buenos Aires",
       "location": "Buenos Aires, Argentina",
       "category": "nightlife",
       "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.390951",
+      "scraped_at": "2025-08-30T18:03:49.689416",
       "raw_fb_data": {
         "type": "search_event",
-        "event_id": "1252982659156175",
-        "title": "Barcrawl Buenos Aires - Palermo Partybus Tour",
-        "url": "https://www.facebook.com/events/1252982659156175/"
+        "event_id": "2227879734341839",
+        "title": "FIESTA IBICENCA 2025 😜🎉🌴",
+        "url": "https://www.facebook.com/events/2227879734341839/"
       }
     },
     {
-      "title": "Las Pastillas del Abuelo en Buenos Aires !",
-      "description": "Evento de Facebook: Las Pastillas del Abuelo en Buenos Aires !",
-      "event_id": "697442316314212",
-      "event_url": "https://www.facebook.com/events/697442316314212/",
+      "title": "Intensivo de Oratoria -El Arte de Hablar en Público-",
+      "description": "Evento de Facebook: Intensivo de Oratoria -El Arte de Hablar en Público-",
+      "event_id": "1471998633850253",
+      "event_url": "https://www.facebook.com/events/1471998633850253/",
+      "venue_name": "Buenos Aires",
+      "location": "Buenos Aires, Argentina",
+      "category": "arts",
+      "source": "rapidapi_facebook_events",
+      "scraped_at": "2025-08-30T18:03:49.689446",
+      "raw_fb_data": {
+        "type": "search_event",
+        "event_id": "1471998633850253",
+        "title": "Intensivo de Oratoria -El Arte de Hablar en Público-",
+        "url": "https://www.facebook.com/events/1471998633850253/"
+      }
+    },
+    {
+      "title": "Córdoba & Seville Study Trip 2018",
+      "description": "Evento de Facebook: Córdoba & Seville Study Trip 2018",
+      "event_id": "446916948494572",
+      "event_url": "https://www.facebook.com/events/446916948494572/",
       "venue_name": "Buenos Aires",
       "location": "Buenos Aires, Argentina",
       "category": "general",
       "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.390991",
+      "scraped_at": "2025-08-30T18:03:49.689461",
       "raw_fb_data": {
         "type": "search_event",
-        "event_id": "697442316314212",
-        "title": "Las Pastillas del Abuelo en Buenos Aires !",
-        "url": "https://www.facebook.com/events/697442316314212/"
+        "event_id": "446916948494572",
+        "title": "Córdoba & Seville Study Trip 2018",
+        "url": "https://www.facebook.com/events/446916948494572/"
       }
     },
     {
-      "title": "FIT 2025 Feria Internacional de Turismo [27 SEP - 30 SEP]",
-      "description": "Evento de Facebook: FIT 2025 Feria Internacional de Turismo [27 SEP - 30 SEP]",
-      "event_id": "719352677604585",
-      "event_url": "https://www.facebook.com/events/719352677604585/",
+      "title": "III Congreso Internacional de Inteligencia Artificial aplicada la cadena agroalimentaria",
+      "description": "Evento de Facebook: III Congreso Internacional de Inteligencia Artificial aplicada la cadena agroalimentaria ",
+      "event_id": "1484826479605479",
+      "event_url": "https://www.facebook.com/events/1484826479605479/",
       "venue_name": "Buenos Aires",
       "location": "Buenos Aires, Argentina",
       "category": "general",
       "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.391006",
+      "scraped_at": "2025-08-30T18:03:49.689473",
       "raw_fb_data": {
         "type": "search_event",
-        "event_id": "719352677604585",
-        "title": "FIT 2025 Feria Internacional de Turismo [27 SEP - 30 SEP]",
-        "url": "https://www.facebook.com/events/719352677604585/"
+        "event_id": "1484826479605479",
+        "title": "III Congreso Internacional de Inteligencia Artificial aplicada la cadena agroalimentaria ",
+        "url": "https://www.facebook.com/events/1484826479605479/"
       }
     },
     {
-      "title": "Peña Literaria Purapalabra",
-      "description": "Evento de Facebook: Peña Literaria Purapalabra",
-      "event_id": "1115510036366299",
-      "event_url": "https://www.facebook.com/events/1115510036366299/",
+      "title": "Nascholing in Córdoba van 10 tot 14 september",
+      "description": "Evento de Facebook: Nascholing in Córdoba van 10 tot 14 september ",
+      "event_id": "1353814178981922",
+      "event_url": "https://www.facebook.com/events/1353814178981922/",
       "venue_name": "Buenos Aires",
       "location": "Buenos Aires, Argentina",
       "category": "general",
       "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.391023",
+      "scraped_at": "2025-08-30T18:03:49.689484",
       "raw_fb_data": {
         "type": "search_event",
-        "event_id": "1115510036366299",
-        "title": "Peña Literaria Purapalabra",
-        "url": "https://www.facebook.com/events/1115510036366299/"
+        "event_id": "1353814178981922",
+        "title": "Nascholing in Córdoba van 10 tot 14 september ",
+        "url": "https://www.facebook.com/events/1353814178981922/"
       }
     },
     {
-      "title": "Zamarbide",
-      "description": "Evento de Facebook: Zamarbide ",
-      "event_id": "588026857564505",
-      "event_url": "https://www.facebook.com/events/588026857564505/",
+      "title": "Nascholing in Córdoba",
+      "description": "Evento de Facebook: Nascholing in Córdoba ",
+      "event_id": "622044950609177",
+      "event_url": "https://www.facebook.com/events/622044950609177/",
       "venue_name": "Buenos Aires",
       "location": "Buenos Aires, Argentina",
       "category": "general",
       "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.391034",
+      "scraped_at": "2025-08-30T18:03:49.689493",
       "raw_fb_data": {
         "type": "search_event",
-        "event_id": "588026857564505",
-        "title": "Zamarbide ",
-        "url": "https://www.facebook.com/events/588026857564505/"
+        "event_id": "622044950609177",
+        "title": "Nascholing in Córdoba ",
+        "url": "https://www.facebook.com/events/622044950609177/"
       }
     },
     {
-      "title": "Precordillera mendocina",
-      "description": "Evento de Facebook: Precordillera mendocina",
-      "event_id": "1416328779664171",
-      "event_url": "https://www.facebook.com/events/1416328779664171/",
+      "title": "Curso de desarrollo personal",
+      "description": "Evento de Facebook: Curso de desarrollo personal",
+      "event_id": "1240906577391473",
+      "event_url": "https://www.facebook.com/events/1240906577391473/",
+      "venue_name": "Buenos Aires",
+      "location": "Buenos Aires, Argentina",
+      "category": "business",
+      "source": "rapidapi_facebook_events",
+      "scraped_at": "2025-08-30T18:03:49.689501",
+      "raw_fb_data": {
+        "type": "search_event",
+        "event_id": "1240906577391473",
+        "title": "Curso de desarrollo personal",
+        "url": "https://www.facebook.com/events/1240906577391473/"
+      }
+    },
+    {
+      "title": "MULTIGOL/ Renova Tu Casa/ MOVIE PLAN/ Planes de Capitalizacion y Ahorro/ Llega a Tu O km/ Moto 🛵/ Pl...",
+      "description": "Evento de Facebook: MULTIGOL/ Renova Tu Casa/ MOVIE PLAN/ Planes de Capitalizacion y Ahorro/ Llega a Tu O km/ Moto 🛵/ Planes de Dinero/ 351-5306266 (WhatsApp) ",
+      "event_id": "775451851673770",
+      "event_url": "https://www.facebook.com/events/775451851673770/",
       "venue_name": "Buenos Aires",
       "location": "Buenos Aires, Argentina",
       "category": "general",
       "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.391047",
+      "scraped_at": "2025-08-30T18:03:49.689521",
       "raw_fb_data": {
         "type": "search_event",
-        "event_id": "1416328779664171",
-        "title": "Precordillera mendocina",
-        "url": "https://www.facebook.com/events/1416328779664171/"
+        "event_id": "775451851673770",
+        "title": "MULTIGOL/ Renova Tu Casa/ MOVIE PLAN/ Planes de Capitalizacion y Ahorro/ Llega a Tu O km/ Moto 🛵/ Planes de Dinero/ 351-5306266 (WhatsApp) ",
+        "url": "https://www.facebook.com/events/775451851673770/"
       }
     },
     {
-      "title": "MARATÓN DE 24 HORAS",
-      "description": "Evento de Facebook: MARATÓN DE 24 HORAS",
-      "event_id": "751577427656552",
-      "event_url": "https://www.facebook.com/events/751577427656552/",
+      "title": "MULTIGOL/ Fiat Strada/ Adjudicas y No Pagas Más/ Llega a Tu Okm/ Moto 🛵/ Planes de Dinero/ Arma Tu C...",
+      "description": "Evento de Facebook: MULTIGOL/ Fiat Strada/ Adjudicas y No Pagas Más/ Llega a Tu Okm/ Moto 🛵/ Planes de Dinero/ Arma Tu Casa/ Asesorate/ 351-5306266 (WhatsApp) ",
+      "event_id": "2924182311099295",
+      "event_url": "https://www.facebook.com/events/2924182311099295/",
+      "venue_name": "Buenos Aires",
+      "location": "Buenos Aires, Argentina",
+      "category": "nightlife",
+      "source": "rapidapi_facebook_events",
+      "scraped_at": "2025-08-30T18:03:49.689572",
+      "raw_fb_data": {
+        "type": "search_event",
+        "event_id": "2924182311099295",
+        "title": "MULTIGOL/ Fiat Strada/ Adjudicas y No Pagas Más/ Llega a Tu Okm/ Moto 🛵/ Planes de Dinero/ Arma Tu Casa/ Asesorate/ 351-5306266 (WhatsApp) ",
+        "url": "https://www.facebook.com/events/2924182311099295/"
+      }
+    },
+    {
+      "title": "Tu Evento en ESTACIÓN MITRE/ Casamientos/ Cumples 15/ Fiestas Fin de Año/ Agasajados/ Bautismos/ Cat...",
+      "description": "Evento de Facebook: Tu Evento en ESTACIÓN MITRE/ Casamientos/ Cumples 15/ Fiestas Fin de Año/ Agasajados/ Bautismos/ Catering Propio/ 351-5306266 (WhatsApp) ",
+      "event_id": "9997056443756497",
+      "event_url": "https://www.facebook.com/events/9997056443756497/",
+      "venue_name": "Buenos Aires",
+      "location": "Buenos Aires, Argentina",
+      "category": "nightlife",
+      "source": "rapidapi_facebook_events",
+      "scraped_at": "2025-08-30T18:03:49.689583",
+      "raw_fb_data": {
+        "type": "search_event",
+        "event_id": "9997056443756497",
+        "title": "Tu Evento en ESTACIÓN MITRE/ Casamientos/ Cumples 15/ Fiestas Fin de Año/ Agasajados/ Bautismos/ Catering Propio/ 351-5306266 (WhatsApp) ",
+        "url": "https://www.facebook.com/events/9997056443756497/"
+      }
+    },
+    {
+      "title": "7° Campaña de Prevención de Cáncer de Piel y Control de Lunares",
+      "description": "Evento de Facebook: 7° Campaña de Prevención de Cáncer de Piel y Control de Lunares ",
+      "event_id": "1993517831448555",
+      "event_url": "https://www.facebook.com/events/1993517831448555/",
       "venue_name": "Buenos Aires",
       "location": "Buenos Aires, Argentina",
       "category": "general",
       "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.391060",
+      "scraped_at": "2025-08-30T18:03:49.689594",
       "raw_fb_data": {
         "type": "search_event",
-        "event_id": "751577427656552",
-        "title": "MARATÓN DE 24 HORAS",
-        "url": "https://www.facebook.com/events/751577427656552/"
+        "event_id": "1993517831448555",
+        "title": "7° Campaña de Prevención de Cáncer de Piel y Control de Lunares ",
+        "url": "https://www.facebook.com/events/1993517831448555/"
       }
     },
     {
-      "title": "GRAN FESTIVAL CELTA 2025",
-      "description": "Evento de Facebook: GRAN FESTIVAL CELTA 2025",
-      "event_id": "2135861883549086",
-      "event_url": "https://www.facebook.com/events/2135861883549086/",
+      "title": "Pollería/Funcionando/Cartera Clientes/ Liquido/Oportunidad/ 351-5306266 (WhatsApp)",
+      "description": "Evento de Facebook: Pollería/Funcionando/Cartera Clientes/ Liquido/Oportunidad/ 351-5306266 (WhatsApp) ",
+      "event_id": "1056181643340116",
+      "event_url": "https://www.facebook.com/events/1056181643340116/",
       "venue_name": "Buenos Aires",
       "location": "Buenos Aires, Argentina",
-      "category": "music",
+      "category": "arts",
       "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.391082",
+      "scraped_at": "2025-08-30T18:03:49.689601",
       "raw_fb_data": {
         "type": "search_event",
-        "event_id": "2135861883549086",
-        "title": "GRAN FESTIVAL CELTA 2025",
-        "url": "https://www.facebook.com/events/2135861883549086/"
+        "event_id": "1056181643340116",
+        "title": "Pollería/Funcionando/Cartera Clientes/ Liquido/Oportunidad/ 351-5306266 (WhatsApp) ",
+        "url": "https://www.facebook.com/events/1056181643340116/"
       }
     },
     {
-      "title": "Hotel Tango Suites - 4ta Edicion en Milión",
-      "description": "Evento de Facebook: Hotel Tango Suites - 4ta Edicion en Milión",
-      "event_id": "1042754437287317",
-      "event_url": "https://www.facebook.com/events/1042754437287317/",
-      "venue_name": "Buenos Aires",
-      "location": "Buenos Aires, Argentina",
-      "category": "general",
-      "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.391097",
-      "raw_fb_data": {
-        "type": "search_event",
-        "event_id": "1042754437287317",
-        "title": "Hotel Tango Suites - 4ta Edicion en Milión",
-        "url": "https://www.facebook.com/events/1042754437287317/"
-      }
-    },
-    {
-      "title": "MegaExpo Villa María y la Región",
-      "description": "Evento de Facebook: MegaExpo Villa María y la Región\n\n",
-      "event_id": "638416945283448",
-      "event_url": "https://www.facebook.com/events/638416945283448/",
+      "title": "Fabrica de Cereales Inflados y Extrusados/Maní c/Chocolate/ Tutucas/ Puflitos/ Rockets/ Copos Azucar...",
+      "description": "Evento de Facebook: Fabrica de Cereales Inflados y Extrusados/Maní c/Chocolate/ Tutucas/ Puflitos/ Rockets/ Copos Azucarados/  351-5306266 (WhatsApp) ",
+      "event_id": "1391849101923272",
+      "event_url": "https://www.facebook.com/events/1391849101923272/",
       "venue_name": "Buenos Aires",
       "location": "Buenos Aires, Argentina",
       "category": "general",
       "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.391110",
+      "scraped_at": "2025-08-30T18:03:49.689616",
       "raw_fb_data": {
         "type": "search_event",
-        "event_id": "638416945283448",
-        "title": "MegaExpo Villa María y la Región\n\n",
-        "url": "https://www.facebook.com/events/638416945283448/"
+        "event_id": "1391849101923272",
+        "title": "Fabrica de Cereales Inflados y Extrusados/Maní c/Chocolate/ Tutucas/ Puflitos/ Rockets/ Copos Azucarados/  351-5306266 (WhatsApp) ",
+        "url": "https://www.facebook.com/events/1391849101923272/"
       }
     },
     {
-      "title": "Metrópolis Festival de Música Electroacústica de la Ciudad de Buenos Aires",
-      "description": "Evento de Facebook: Metrópolis Festival de Música Electroacústica de la Ciudad de Buenos Aires",
-      "event_id": "1156179843036682",
-      "event_url": "https://www.facebook.com/events/1156179843036682/",
-      "venue_name": "Buenos Aires",
-      "location": "Buenos Aires, Argentina",
-      "category": "music",
-      "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.391119",
-      "raw_fb_data": {
-        "type": "search_event",
-        "event_id": "1156179843036682",
-        "title": "Metrópolis Festival de Música Electroacústica de la Ciudad de Buenos Aires",
-        "url": "https://www.facebook.com/events/1156179843036682/"
-      }
-    },
-    {
-      "title": "Merienda Amélie - tributo a Yann Tiersen // CABA",
-      "description": "Evento de Facebook: Merienda Amélie - tributo a Yann Tiersen // CABA",
-      "event_id": "1701074917211430",
-      "event_url": "https://www.facebook.com/events/1701074917211430/",
+      "title": "Abre los ojos",
+      "description": "Evento de Facebook: Abre los ojos",
+      "event_id": "1323459318713083",
+      "event_url": "https://www.facebook.com/events/1323459318713083/",
       "venue_name": "Buenos Aires",
       "location": "Buenos Aires, Argentina",
       "category": "general",
       "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.391133",
+      "scraped_at": "2025-08-30T18:03:49.689624",
       "raw_fb_data": {
         "type": "search_event",
-        "event_id": "1701074917211430",
-        "title": "Merienda Amélie - tributo a Yann Tiersen // CABA",
-        "url": "https://www.facebook.com/events/1701074917211430/"
+        "event_id": "1323459318713083",
+        "title": "Abre los ojos",
+        "url": "https://www.facebook.com/events/1323459318713083/"
       }
     },
     {
-      "title": "Colón para niños | Eco busca su voz. Un viaje a la historia del Teatro Colón.",
-      "description": "Evento de Facebook: Colón para niños | Eco busca su voz. Un viaje a la historia del Teatro Colón.",
-      "event_id": "1915477439214520",
-      "event_url": "https://www.facebook.com/events/1915477439214520/",
+      "title": "Teatro",
+      "description": "Evento de Facebook: Teatro ",
+      "event_id": "803012402064677",
+      "event_url": "https://www.facebook.com/events/803012402064677/",
       "venue_name": "Buenos Aires",
       "location": "Buenos Aires, Argentina",
       "category": "theater",
       "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.391147",
+      "scraped_at": "2025-08-30T18:03:49.689629",
       "raw_fb_data": {
         "type": "search_event",
-        "event_id": "1915477439214520",
-        "title": "Colón para niños | Eco busca su voz. Un viaje a la historia del Teatro Colón.",
-        "url": "https://www.facebook.com/events/1915477439214520/"
+        "event_id": "803012402064677",
+        "title": "Teatro ",
+        "url": "https://www.facebook.com/events/803012402064677/"
       }
     },
     {
-      "title": "Diana Navarro en Buenos Aires – 24 Septiembre 2025 | Teatro El Nacional",
-      "description": "Evento de Facebook: Diana Navarro en Buenos Aires – 24 Septiembre 2025 | Teatro El Nacional",
-      "event_id": "1775254853395853",
-      "event_url": "https://www.facebook.com/events/1775254853395853/",
+      "title": "Teatro en Espacio Mascara",
+      "description": "Evento de Facebook: Teatro en Espacio Mascara",
+      "event_id": "762377203048357",
+      "event_url": "https://www.facebook.com/events/762377203048357/",
       "venue_name": "Buenos Aires",
       "location": "Buenos Aires, Argentina",
       "category": "theater",
       "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.391168",
+      "scraped_at": "2025-08-30T18:03:49.689634",
       "raw_fb_data": {
         "type": "search_event",
-        "event_id": "1775254853395853",
-        "title": "Diana Navarro en Buenos Aires – 24 Septiembre 2025 | Teatro El Nacional",
-        "url": "https://www.facebook.com/events/1775254853395853/"
+        "event_id": "762377203048357",
+        "title": "Teatro en Espacio Mascara",
+        "url": "https://www.facebook.com/events/762377203048357/"
       }
     },
     {
-      "title": "Teatro espontáneo comunitario",
-      "description": "Evento de Facebook: Teatro espontáneo comunitario ",
-      "event_id": "758139136851219",
-      "event_url": "https://www.facebook.com/events/758139136851219/",
+      "title": "Clases abiertas de teatro.",
+      "description": "Evento de Facebook: Clases abiertas de teatro. ",
+      "event_id": "787853433756194",
+      "event_url": "https://www.facebook.com/events/787853433756194/",
       "venue_name": "Buenos Aires",
       "location": "Buenos Aires, Argentina",
       "category": "theater",
       "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.391178",
+      "scraped_at": "2025-08-30T18:03:49.689638",
       "raw_fb_data": {
         "type": "search_event",
-        "event_id": "758139136851219",
-        "title": "Teatro espontáneo comunitario ",
-        "url": "https://www.facebook.com/events/758139136851219/"
+        "event_id": "787853433756194",
+        "title": "Clases abiertas de teatro. ",
+        "url": "https://www.facebook.com/events/787853433756194/"
       }
     },
     {
-      "title": "Relatos cortos - Teatro Multiescena - Domingo 31/08 - 17 hs.",
-      "description": "Evento de Facebook: Relatos cortos - Teatro Multiescena - Domingo 31/08 - 17 hs.",
-      "event_id": "1422504312364988",
-      "event_url": "https://www.facebook.com/events/1422504312364988/",
+      "title": "El Teatro del Terror",
+      "description": "Evento de Facebook: El Teatro del Terror ",
+      "event_id": "2597735667245973",
+      "event_url": "https://www.facebook.com/events/2597735667245973/",
       "venue_name": "Buenos Aires",
       "location": "Buenos Aires, Argentina",
       "category": "theater",
       "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.391184",
+      "scraped_at": "2025-08-30T18:03:49.689642",
       "raw_fb_data": {
         "type": "search_event",
-        "event_id": "1422504312364988",
-        "title": "Relatos cortos - Teatro Multiescena - Domingo 31/08 - 17 hs.",
-        "url": "https://www.facebook.com/events/1422504312364988/"
-      }
-    },
-    {
-      "title": "Música para el Alma En Concierto, Lunes 15 de Septiembre 20 hs Teatro del Globo, Bs As.",
-      "description": "Evento de Facebook: Música para el Alma En Concierto, Lunes 15 de Septiembre 20 hs Teatro del Globo, Bs As.",
-      "event_id": "1311771407046520",
-      "event_url": "https://www.facebook.com/events/1311771407046520/",
-      "venue_name": "Buenos Aires",
-      "location": "Buenos Aires, Argentina",
-      "category": "music",
-      "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.391189",
-      "raw_fb_data": {
-        "type": "search_event",
-        "event_id": "1311771407046520",
-        "title": "Música para el Alma En Concierto, Lunes 15 de Septiembre 20 hs Teatro del Globo, Bs As.",
-        "url": "https://www.facebook.com/events/1311771407046520/"
-      }
-    },
-    {
-      "title": "Taller de teatro para jóvenes y adultos",
-      "description": "Evento de Facebook: Taller de teatro para jóvenes y adultos",
-      "event_id": "2388455734882879",
-      "event_url": "https://www.facebook.com/events/2388455734882879/",
-      "venue_name": "Buenos Aires",
-      "location": "Buenos Aires, Argentina",
-      "category": "theater",
-      "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.391195",
-      "raw_fb_data": {
-        "type": "search_event",
-        "event_id": "2388455734882879",
-        "title": "Taller de teatro para jóvenes y adultos",
-        "url": "https://www.facebook.com/events/2388455734882879/"
-      }
-    },
-    {
-      "title": "Teatro Multiescena - Relatos cortos - Domingo 31/08 17 hs.",
-      "description": "Evento de Facebook: Teatro Multiescena - Relatos cortos - Domingo 31/08 17 hs. ",
-      "event_id": "648444057820452",
-      "event_url": "https://www.facebook.com/events/648444057820452/",
-      "venue_name": "Buenos Aires",
-      "location": "Buenos Aires, Argentina",
-      "category": "theater",
-      "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.391200",
-      "raw_fb_data": {
-        "type": "search_event",
-        "event_id": "648444057820452",
-        "title": "Teatro Multiescena - Relatos cortos - Domingo 31/08 17 hs. ",
-        "url": "https://www.facebook.com/events/648444057820452/"
-      }
-    },
-    {
-      "title": "Obra de Teatro!!!",
-      "description": "Evento de Facebook: Obra de Teatro!!!",
-      "event_id": "790369346902735",
-      "event_url": "https://www.facebook.com/events/790369346902735/",
-      "venue_name": "Buenos Aires",
-      "location": "Buenos Aires, Argentina",
-      "category": "theater",
-      "source": "rapidapi_facebook_events",
-      "scraped_at": "2025-08-30T10:07:00.391204",
-      "raw_fb_data": {
-        "type": "search_event",
-        "event_id": "790369346902735",
-        "title": "Obra de Teatro!!!",
-        "url": "https://www.facebook.com/events/790369346902735/"
+        "event_id": "2597735667245973",
+        "title": "El Teatro del Terror ",
+        "url": "https://www.facebook.com/events/2597735667245973/"
       }
     }
   ]

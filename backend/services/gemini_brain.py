@@ -367,6 +367,23 @@ class GeminiBrain:
         
         return {"status": "learned", "user_id": user_id}
     
+    async def simple_prompt(self, prompt: str) -> str:
+        """
+        Método simple para hacer consultas directas a Gemini
+        """
+        if not self.model:
+            print("🔥 GEMINI NO CONFIGURADO")
+            return "Gemini no está configurado"
+        
+        try:
+            print(f"🚀 ENVIANDO PROMPT A GEMINI: {prompt[:100]}...")
+            response = self.model.generate_content(prompt)
+            print(f"🎯 GEMINI RESPONSE RAW: {response.text}")
+            return response.text
+        except Exception as e:
+            print(f"Error con Gemini simple prompt: {e}")
+            return f"Error: {str(e)}"
+    
     def get_user_profile(self, user_id: str) -> Dict[str, Any]:
         """
         Obtiene el perfil completo del usuario

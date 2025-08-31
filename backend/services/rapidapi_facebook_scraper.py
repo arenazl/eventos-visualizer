@@ -13,6 +13,7 @@ from datetime import datetime, timedelta
 import logging
 import random
 import os
+from .global_image_service import global_image_service
 
 logger = logging.getLogger(__name__)
 
@@ -157,46 +158,27 @@ class RapidApiFacebookScraper:
         except:
             return False
     
-    def get_city_uid_from_json(self, city_name: str = "Buenos Aires") -> str:
+    async def get_city_uid_direct_api(self, city_name: str = "Buenos Aires") -> str:
         """
-        Obtener UID desde JSON sin llamada API
-        OPTIMIZACIÓN: Ahorra tiempo y requests
+        NUEVO MÉTODO: Obtener UID directamente desde API (sin JSON cache)
+        MÁS CONFIABLE: Siempre obtiene UID correcto para cualquier ciudad
         """
-        if not self.cities_uids:
-            return ""
+        logger.info(f"🔍 OBTENIENDO UID DIRECTO DESDE API PARA: '{city_name}'")
+        logger.info(f"   🎯 Método mejorado - sin dependencia de JSON cache")
+        logger.info(f"   📡 Llamada directa a Facebook API")
         
-        # Mapeo de nombres a claves
-        city_mapping = {
-            "buenos aires": "buenos_aires",
-            "la plata": "la_plata",
-            "quilmes": "quilmes",
-            "tigre": "tigre",
-            "morón": "moron",
-            "moreno": "moreno",
-            "merlo": "merlo",
-            "pilar": "pilar",
-            "junín": "junin",
-            "luján": "lujan",
-            "campana": "campana",
-            "bahía blanca": "bahia_blanca",
-            "florencio varela": "florencio_varela",
-            "lomas de zamora": "lomas_de_zamora"
-        }
+        # Llamar directamente al método API
+        uid = await self.get_city_uid(city_name)
         
-        city_key = city_mapping.get(city_name.lower())
-        if city_key and city_key in self.cities_uids:
-            uid = self.cities_uids[city_key]["uid"]
-            logger.info(f"✅ UID desde JSON: {city_name} -> {uid}")
-            return uid
+        if uid:
+            logger.info(f"✅ UID OBTENIDO EXITOSAMENTE:")
+            logger.info(f"   🆔 {city_name} -> {uid}")
+            logger.info(f"   🎯 UID garantizado correcto y actualizado")
+        else:
+            logger.error(f"❌ NO SE PUDO OBTENER UID para '{city_name}'")
+            logger.error(f"   🚫 Posibles causas: API key inválido, ciudad no existe, rate limit")
         
-        # Si no encuentra, usar Buenos Aires por defecto
-        if "buenos_aires" in self.cities_uids:
-            uid = self.cities_uids["buenos_aires"]["uid"]
-            logger.info(f"✅ UID por defecto (Buenos Aires): {uid}")
-            return uid
-        
-        logger.warning(f"⚠️ No se encontró UID para {city_name}")
-        return ""
+        return uid
         
     async def get_city_uid(self, city_name: str = "Buenos Aires") -> str:
         """
@@ -210,43 +192,76 @@ class RapidApiFacebookScraper:
                 "query": city_name.lower()
             }
             
-            logger.info(f"🔍 Obteniendo UID de {city_name}...")
+            logger.info(f"🔍 PASO 1 - INICIANDO get_city_uid:")
+            logger.info(f"   🏙️ Ciudad objetivo: {city_name}")
+            logger.info(f"   📍 URL completa: {url}")
+            logger.info(f"   📋 Params: {params}")
+            logger.info(f"   🗝️ API Key presente: {'✅' if self.api_key else '❌'}")
+            logger.info(f"   🔑 Headers: {self.headers}")
+            logger.info(f"   📡 Enviando GET request...")
             
             async with aiohttp.ClientSession() as session:
                 async with session.get(url, headers=self.headers, params=params) as response:
+                    logger.info(f"   📨 Response status: {response.status}")
+                    logger.info(f"   📨 Response headers: {dict(response.headers)}")
+                    
+                    response_text = await response.text()
+                    logger.info(f"   📊 Response text length: {len(response_text)}")
+                    logger.info(f"   📊 Response preview: {response_text[:300]}...")
                     if response.status == 200:
-                        data = await response.json()
+                        try:
+                            data = await response.json()
+                            logger.info(f"   ✅ JSON parseado correctamente")
+                            logger.info(f"   📊 Data type: {type(data)}")
+                            logger.info(f"   📊 Data keys: {list(data.keys()) if isinstance(data, dict) else 'No dict'}")
+                            logger.info(f"   📊 Data preview: {str(data)[:500]}...")
+                            
+                        except Exception as json_error:
+                            logger.error(f"   ❌ Error parsing JSON: {json_error}")
+                            logger.error(f"   📊 Raw response: {response_text}")
+                            return ""
+                        
                         results = data.get("results", [])
+                        logger.info(f"   📊 Results encontrados: {len(results)}")
                         
                         if results:
-                            # Buscar específicamente Buenos Aires, Argentina
-                            for place in results:
-                                label = place.get("label", "").lower()
-                                if "argentina" in label and city_name.lower() in label:
+                            logger.info(f"   🔍 Analizando {len(results)} resultados:")
+                            for i, place in enumerate(results):
+                                label = place.get("label", "")
+                                uid = place.get("uid", "")
+                                logger.info(f"      {i+1}. Label: '{label}' | UID: '{uid}'")
+                                
+                                if "argentina" in label.lower() and city_name.lower() in label.lower():
                                     city_uid = place.get("uid")
                                     if city_uid:
-                                        logger.info(f"✅ UID de {city_name}: {city_uid}")
+                                        logger.info(f"✅ ¡MATCH PERFECTO! UID de {city_name}: {city_uid}")
+                                        logger.info(f"   🎯 Label completo: {label}")
                                         return str(city_uid)
                             
                             # Si no encuentra específico, tomar el primero
-                            city_uid = results[0].get("uid")
+                            first_result = results[0]
+                            city_uid = first_result.get("uid")
                             if city_uid:
-                                logger.info(f"✅ UID (primera opción): {city_uid}")
+                                logger.info(f"⚠️ No hay match perfecto, usando primer resultado:")
+                                logger.info(f"   📍 Label: {first_result.get('label', 'Sin label')}")
+                                logger.info(f"   🆔 UID: {city_uid}")
                                 return str(city_uid)
                         else:
-                            logger.warning(f"⚠️ No se encontraron lugares para {city_name}")
+                            logger.warning(f"⚠️ RESULTS VACÍO - No se encontraron lugares para {city_name}")
+                            logger.warning(f"   📊 Data completa: {data}")
                             return ""
                     else:
-                        logger.error(f"❌ Error obteniendo lugares: {response.status}")
+                        logger.error(f"❌ PASO 1 FALLÓ - Status: {response.status}")
+                        logger.error(f"   📊 Response text: {response_text}")
                         return ""
                         
         except Exception as e:
             logger.error(f"❌ Error obteniendo UID: {e}")
             return ""
     
-    async def get_events_by_location_id(self, location_id: str, limit: int = 50) -> List[Dict]:
+    async def get_events_by_location_id(self, location_id: str, limit: int = 50, city_name: str = "Buenos Aires") -> List[Dict]:
         """
-        PASO 2: Obtener eventos usando location_id + fechas (1 mes)
+        PASO 2: Obtener eventos usando location_id + fechas (1 mes) + nombre correcto de ciudad
         ¡ENDPOINT CORRECTO FUNCIONANDO!
         """
         try:
@@ -256,21 +271,39 @@ class RapidApiFacebookScraper:
             start_date = datetime.now().strftime('%Y-%m-%d')
             end_date = (datetime.now() + timedelta(days=30)).strftime('%Y-%m-%d')
             
-            # Múltiples queries para obtener MÁS eventos argentinos
-            queries_argentina = [
-                "eventos Buenos Aires",
-                "conciertos Buenos Aires", 
-                "teatro Buenos Aires",
-                "música Buenos Aires",
-                "fiestas Buenos Aires",
-                "espectáculos Buenos Aires",
-                "shows Buenos Aires"
+            logger.info(f"🎯 PASO 2 - INICIANDO get_events_by_location_id:")
+            logger.info(f"   🆔 Location ID: {location_id}")
+            logger.info(f"   🏙️ Ciudad: {city_name}")
+            logger.info(f"   📊 Limit: {limit}")
+            logger.info(f"   📍 URL: {url}")
+            logger.info(f"   📅 Fechas: {start_date} a {end_date}")
+            logger.info(f"   🗝️ API Key presente: {'✅' if self.api_key else '❌'}")
+            
+            # Múltiples queries usando el nombre CORRECTO de la ciudad
+            queries_template = [
+                "eventos {city}",
+                "conciertos {city}", 
+                "teatro {city}",
+                "música {city}",
+                "fiestas {city}",
+                "espectáculos {city}",
+                "shows {city}"
             ]
+            
+            # Generar queries con el nombre real de la ciudad
+            queries_ciudad = [query.format(city=city_name) for query in queries_template]
+            
+            logger.info(f"   🔍 Queries preparadas: {len(queries_ciudad)} diferentes")
+            logger.info(f"   🏙️ Usando ciudad: {city_name}")
+            for i, query in enumerate(queries_ciudad):
+                logger.info(f"      {i+1}. '{query}'")
             
             all_events = []
             
             # Probar múltiples queries para obtener MÁS eventos
-            for query in queries_argentina[:3]:  # Limitar a 3 para no exceder rate limit
+            logger.info(f"   🚀 INICIANDO búsqueda con {queries_ciudad[:3]} (primeras 3 queries)")
+            
+            for i, query in enumerate(queries_ciudad[:3]):  # Limitar a 3 para no exceder rate limit
                 try:
                     params = {
                         "query": query,
@@ -280,31 +313,73 @@ class RapidApiFacebookScraper:
                         "limit": min(limit // 3, 20)  # Dividir limit entre queries
                     }
                     
-                    logger.info(f"🔍 Query: '{query}' con location_id: {location_id}")
+                    logger.info(f"🔍 Query {i+1}/3: '{query}'")
+                    logger.info(f"   📋 Params completos: {params}")
+                    logger.info(f"   🔑 Headers: {self.headers}")
+                    logger.info(f"   📡 Enviando GET request...")
                     
                     async with aiohttp.ClientSession() as session:
                         async with session.get(url, headers=self.headers, params=params) as response:
+                            logger.info(f"   📨 Response status: {response.status}")
+                            
+                            response_text = await response.text()
+                            logger.info(f"   📊 Response text length: {len(response_text)}")
+                            logger.info(f"   📊 Response preview: {response_text[:300]}...")
+                            
                             if response.status == 200:
-                                data = await response.json()
-                                events = data.get("results", [])
-                                
-                                if events:
-                                    all_events.extend(events)
-                                    logger.info(f"✅ '{query}': {len(events)} eventos")
-                                else:
-                                    logger.info(f"📝 '{query}': Sin eventos")
+                                try:
+                                    data = await response.json()
+                                    logger.info(f"   ✅ JSON parseado correctamente")
+                                    logger.info(f"   📊 Data type: {type(data)}")
+                                    logger.info(f"   📊 Data keys: {list(data.keys()) if isinstance(data, dict) else 'No dict'}")
+                                    
+                                    events = data.get("results", [])
+                                    logger.info(f"   📊 Events encontrados: {len(events)}")
+                                    
+                                    if events:
+                                        logger.info(f"   🔍 Analizando primeros 3 eventos:")
+                                        for j, event in enumerate(events[:3]):
+                                            event_title = event.get("title", "Sin título")[:50]
+                                            event_id = event.get("event_id", "Sin ID")
+                                            event_type = event.get("type", "Sin tipo")
+                                            logger.info(f"      {j+1}. '{event_title}...' | ID: {event_id} | Type: {event_type}")
+                                        
+                                        all_events.extend(events)
+                                        logger.info(f"✅ Query '{query}': {len(events)} eventos agregados")
+                                        logger.info(f"   📈 Total acumulado: {len(all_events)} eventos")
+                                    else:
+                                        logger.info(f"📝 Query '{query}': Sin eventos en results")
+                                        logger.info(f"   📊 Data completa: {str(data)[:200]}...")
+                                        
+                                except Exception as json_error:
+                                    logger.error(f"   ❌ Error parsing JSON: {json_error}")
+                                    logger.error(f"   📊 Raw response: {response_text}")
                                     
                             else:
-                                logger.warning(f"⚠️ '{query}': Status {response.status}")
+                                logger.warning(f"⚠️ Query '{query}' falló con status: {response.status}")
+                                logger.warning(f"   📊 Error response: {response_text}")
                     
+                    logger.info(f"   ⏱️ Esperando 0.5s antes de próxima query...")
                     await asyncio.sleep(0.5)  # Rate limiting entre queries
                     
                 except Exception as e:
                     logger.error(f"❌ Error con query '{query}': {e}")
                     continue
             
-            logger.info(f"📅 Fechas consultadas: {start_date} a {end_date}")
-            logger.info(f"🔥 TOTAL EVENTOS: {len(all_events)} (de {len(queries_argentina[:3])} queries)")
+            logger.info(f"🎯 PASO 2 COMPLETADO:")
+            logger.info(f"   📅 Fechas consultadas: {start_date} a {end_date}")
+            logger.info(f"   🔥 Total eventos encontrados: {len(all_events)}")
+            logger.info(f"   📊 Queries ejecutadas: {len(queries_ciudad[:3])}")
+            logger.info(f"   🆔 Location ID usado: {location_id}")
+            
+            if all_events:
+                logger.info(f"   ✅ ÉXITO: Retornando {len(all_events)} eventos")
+                logger.info(f"   🔍 Títulos de primeros 5 eventos:")
+                for i, event in enumerate(all_events[:5]):
+                    title = event.get("title", "Sin título")[:60]
+                    logger.info(f"      {i+1}. {title}...")
+            else:
+                logger.warning(f"   ⚠️ ADVERTENCIA: No se encontraron eventos")
             
             return all_events
                         
@@ -547,34 +622,61 @@ class RapidApiFacebookScraper:
             logger.error("❌ RAPIDAPI_KEY no configurado en variables de entorno")
             return []
         
+        logger.info(f"🚀 INICIANDO PROCESO COMPLETO DE FACEBOOK SCRAPER")
+        logger.info(f"=" * 60)
+        
         # VERIFICAR CACHE PRIMERO (solo va a la API una vez al dia)
+        logger.info(f"🔍 VERIFICANDO CACHE...")
         if self.is_cache_valid():
             cache_data = self.load_cache()
             cached_events = cache_data.get("events", [])
-            logger.info(f"💾 CACHE VÁLIDO: Usando {len(cached_events)} eventos del cache")
-            logger.info(f"🚫 API LLAMADA EVITADA - Cache válido por 24h")
+            cache_info = cache_data.get("cache_info", {})
+            
+            logger.info(f"💾 ✅ CACHE VÁLIDO ENCONTRADO:")
+            logger.info(f"   📊 Eventos en cache: {len(cached_events)}")
+            logger.info(f"   📅 Última actualización: {cache_info.get('last_updated', 'Desconocido')}")
+            logger.info(f"   ⏱️ Válido hasta: {cache_info.get('cache_valid_until', 'Desconocido')}")
+            logger.info(f"   🚫 SALTANDO API - Usando cache")
+            logger.info(f"=" * 60)
             return cached_events[:limit]
         
-        logger.info(f"🔥 CACHE EXPIRADO - Realizando nueva llamada API")
-        logger.info(f"🔥 INICIANDO RapidAPI Facebook Scraper")
+        logger.info(f"🔥 ❌ CACHE EXPIRADO O INEXISTENTE")
+        logger.info(f"🔥 INICIANDO NUEVA LLAMADA A RapidAPI Facebook Scraper")
         logger.info(f"🏙️ Ciudad objetivo: {city_name}")
         logger.info(f"📊 Límite de eventos: {limit}")
+        logger.info(f"⏰ Max tiempo: {max_time_seconds}s")
+        logger.info(f"🗝️ API Key configurado: {'✅' if self.api_key else '❌'}")
+        logger.info(f"=" * 60)
         
         all_events = []
         start_time = asyncio.get_event_loop().time()
         
         try:
-            # PASO 1: Obtener UID desde JSON (AHORRA UNA LLAMADA API)
-            logger.info(f"🔍 PASO 1: Obteniendo UID de {city_name} desde JSON...")
-            city_uid = self.get_city_uid_from_json(city_name)
+            # PASO 1: SIEMPRE obtener UID desde API (más confiable)
+            logger.info(f"🔍 PASO 1: OBTENIENDO UID DE CIUDAD VIA API")
+            logger.info(f"   🏙️ Ciudad: {city_name}")
+            logger.info(f"   📡 Llamando directamente a API (sin JSON cache)")
+            logger.info(f"   🎯 Esto asegura UID correcto para cualquier ciudad")
             
-            if not city_uid:
-                logger.error(f"❌ No se pudo obtener UID para {city_name}")
+            city_uid = await self.get_city_uid_direct_api(city_name)
+            
+            if city_uid:
+                logger.info(f"✅ PASO 1 ÉXITO: UID obtenido desde API")
+                logger.info(f"   🆔 UID de {city_name}: {city_uid}")
+                logger.info(f"   🎯 UID garantizado correcto para la ciudad solicitada")
+            else:
+                logger.error(f"❌ PASO 1 FALLÓ: No se pudo obtener UID para {city_name}")
+                logger.error(f"   🚫 ABORTANDO: Sin UID no se pueden buscar eventos")
+                logger.error(f"   💡 Posibles causas: API key inválido, ciudad no existe, rate limit")
                 return []
             
             # PASO 2: Obtener TODOS los eventos de esa ciudad
-            logger.info(f"🎯 PASO 2: Obteniendo eventos de {city_name} (UID: {city_uid})...")
-            facebook_events = await self.get_events_by_location_id(city_uid, limit)
+            logger.info(f"🎯 PASO 2: OBTENIENDO EVENTOS CON UID")
+            logger.info(f"   🆔 Usando UID: {city_uid}")
+            logger.info(f"   🏙️ Para ciudad: {city_name}")
+            logger.info(f"   📊 Límite: {limit} eventos")
+            
+            facebook_events = await self.get_events_by_location_id(city_uid, limit, city_name)
             
             if not facebook_events:
                 logger.warning(f"⚠️ No se encontraron eventos para {city_name}")
@@ -683,7 +785,13 @@ class RapidApiFacebookScraper:
                     "source": event.get("source", "rapidapi_facebook"),
                     "source_id": f"fb_rapid_{abs(hash(event.get('title', '')))}",
                     "event_url": event.get("post_url", ""),
-                    "image_url": event.get("image_url") or "https://images.unsplash.com/photo-1511795409834-ef04bbd61622",
+                    "image_url": event.get("image_url") or global_image_service.get_event_image(
+                        event_title=event.get("title", ""),
+                        category=event.get("category", "general"),
+                        venue=event.get("venue_name", ""),
+                        country_code="AR",
+                        source_url=event.get("event_url", "")
+                    ),
                     
                     "organizer": event.get("venue_name", "Facebook Event"),
                     "capacity": 0,

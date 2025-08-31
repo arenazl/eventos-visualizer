@@ -1,0 +1,138 @@
+# 🏭 Scrapers Configuration - Convention over Configuration
+# Add new countries/cities without touching code
+
+countries:
+  USA:
+    currency: "USD"
+    timezone: "America/New_York"
+    language: "en"
+    cities:
+      Miami:
+        coordinates: [25.7617, -80.1918]
+        scrapers:
+          - sports
+          - music
+          - theater
+          - cultural
+          - beach
+      NewYork:
+        coordinates: [40.7128, -74.0060]
+        scrapers:
+          - sports
+          - music
+          - theater
+          - cultural
+      LosAngeles:
+        coordinates: [34.0522, -118.2437]
+        scrapers:
+          - sports
+          - music
+          - theater
+
+  Spain:
+    currency: "EUR"
+    timezone: "Europe/Madrid"
+    language: "es"
+    cities:
+      Barcelona:
+        coordinates: [41.3851, 2.1734]
+        scrapers:
+          - sports
+          - music
+          - cultural
+          - theater
+      Madrid:
+        coordinates: [40.4168, -3.7038]
+        scrapers:
+          - sports
+          - music
+          - cultural
+          - theater
+      Valencia:
+        coordinates: [39.4699, -0.3763]
+        scrapers:
+          - cultural
+          - music
+
+  Argentina:
+    currency: "ARS"
+    timezone: "America/Argentina/Buenos_Aires"
+    language: "es"
+    cities:
+      BuenosAires:
+        coordinates: [-34.6118, -58.3960]
+        scrapers:
+          - sports
+          - theater
+          - music
+          - cultural
+      Cordoba:
+        coordinates: [-31.4201, -64.1888]
+        scrapers:
+          - music
+          - cultural
+      Mendoza:
+        coordinates: [-32.8895, -68.8458]
+        scrapers:
+          - cultural
+          - music
+
+  UK:
+    currency: "GBP"
+    timezone: "Europe/London"
+    language: "en"
+    cities:
+      London:
+        coordinates: [51.5074, -0.1278]
+        scrapers:
+          - sports
+          - music
+          - theater
+          - cultural
+
+  France:
+    currency: "EUR"
+    timezone: "Europe/Paris"
+    language: "fr"
+    cities:
+      Paris:
+        coordinates: [48.8566, 2.3522]
+        scrapers:
+          - cultural
+          - music
+          - theater
+
+# Location Aliases - Multiple names for same city
+location_aliases:
+  # USA
+  "miami": ["USA", "Miami"]
+  "miami beach": ["USA", "Miami"]
+  "south beach": ["USA", "Miami"]
+  "nyc": ["USA", "NewYork"]
+  "new york": ["USA", "NewYork"]
+  "la": ["USA", "LosAngeles"]
+  "los angeles": ["USA", "LosAngeles"]
+  
+  # Spain
+  "barcelona": ["Spain", "Barcelona"]
+  "bcn": ["Spain", "Barcelona"]
+  "madrid": ["Spain", "Madrid"]
+  "valencia": ["Spain", "Valencia"]
+  
+  # Argentina
+  "buenos aires": ["Argentina", "BuenosAires"]
+  "ba": ["Argentina", "BuenosAires"]
+  "bsas": ["Argentina", "BuenosAires"]
+  "córdoba": ["Argentina", "Cordoba"]
+  "cordoba": ["Argentina", "Cordoba"]
+  "mendoza": ["Argentina", "Mendoza"]
+  
+  # UK
+  "london": ["UK", "London"]
+  
+  # France
+  "paris": ["France", "Paris"]
+
+# Default fallback
+default_country: "Argentina"
+default_city: "BuenosAires"

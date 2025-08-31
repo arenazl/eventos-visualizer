@@ -38,6 +38,12 @@ class RapidApiFacebookSimple:
         Scrapear una URL específica de Facebook usando RapidAPI
         """
         try:
+            logger.info(f"🔍 INICIANDO scrape_facebook_url:")
+            logger.info(f"   📋 Target URL: {facebook_url}")
+            logger.info(f"   🗝️ API Key presente: {'✅' if self.api_key else '❌'}")
+            logger.info(f"   🌐 Base URL: {self.base_url}")
+            logger.info(f"   📡 Host: {self.api_host}")
+            
             # Probar diferentes endpoints posibles
             endpoints_to_try = [
                 "",  # Endpoint raíz
@@ -48,9 +54,13 @@ class RapidApiFacebookSimple:
                 f"/apiendpoint_{facebook_url.replace('/', '_')}"  # Basado en tu URL
             ]
             
+            logger.info(f"🔄 Probando {len(endpoints_to_try)} endpoints diferentes:")
+            
             for endpoint in endpoints_to_try:
                 try:
                     url = f"{self.base_url}{endpoint}"
+                    logger.info(f"🔄 Probando endpoint: {endpoint}")
+                    logger.info(f"   📍 URL completa: {url}")
                     
                     # Diferentes payloads a probar
                     payloads = [
@@ -60,24 +70,40 @@ class RapidApiFacebookSimple:
                         {"target_url": facebook_url}
                     ]
                     
-                    for payload in payloads:
+                    logger.info(f"   🔄 Probando {len(payloads)} payloads diferentes:")
+                    for i, payload in enumerate(payloads):
                         try:
+                            logger.info(f"      💼 Payload {i+1}: {payload}")
+                            
                             async with aiohttp.ClientSession() as session:
+                                logger.info(f"      📡 Enviando POST request...")
+                                logger.info(f"      🔑 Headers: {self.headers}")
+                                
                                 async with session.post(url, headers=self.headers, json=payload) as response:
+                                    logger.info(f"      📨 Response status: {response.status}")
+                                    
                                     if response.status == 200:
                                         data = await response.json()
-                                        logger.info(f"✅ Endpoint {endpoint} funciona!")
+                                        logger.info(f"✅ ¡ÉXITO! Endpoint {endpoint} con payload {i+1} funciona!")
+                                        logger.info(f"   📊 Response type: {type(data)}")
+                                        logger.info(f"   📊 Response keys: {list(data.keys()) if isinstance(data, dict) else 'No dict'}")
+                                        logger.info(f"   📊 Response preview: {str(data)[:200]}...")
                                         return self.process_facebook_response(data)
-                                    elif response.status != 404:
+                                    elif response.status == 404:
+                                        logger.info(f"      ⚠️ 404 Not Found (normal, probando siguiente)")
+                                    else:
                                         text = await response.text()
-                                        logger.warning(f"⚠️ {endpoint}: {response.status} - {text[:100]}")
+                                        logger.warning(f"      ⚠️ Status {response.status}: {text[:150]}...")
                         except Exception as e:
+                            logger.error(f"      ❌ Error con payload {i+1}: {str(e)}")
                             continue
                             
                 except Exception as e:
+                    logger.error(f"   ❌ Error general con endpoint {endpoint}: {str(e)}")
                     continue
             
-            logger.error("❌ No se encontró endpoint funcional")
+            logger.error("❌ FINAL: No se encontró endpoint funcional")
+            logger.error("📋 RESUMEN: Probamos todos los endpoints y payloads sin éxito")
             return []
             
         except Exception as e:

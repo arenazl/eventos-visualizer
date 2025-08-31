@@ -14,6 +14,7 @@ from datetime import datetime, timedelta
 import logging
 import random
 import urllib.parse
+from .global_image_service import global_image_service
 
 logger = logging.getLogger(__name__)
 
@@ -541,7 +542,13 @@ class EnhancedEventbriteScraper:
                     'source': 'eventbrite_enhanced',
                     'source_id': f"eb_enh_{hash(event.get('title', '') + event.get('event_url', ''))}",
                     'event_url': event.get('event_url', ''),
-                    'image_url': event.get('image_url', 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30'),
+                    'image_url': event.get('image_url') or global_image_service.get_event_image(
+                        event_title=event.get('title', ''),
+                        category=event.get('category', 'general'),
+                        venue=event.get('venue_name', ''),
+                        country_code='AR',
+                        source_url=event.get('event_url', '')
+                    ),
                     'source_url': event.get('source_url', ''),
                     
                     # Organización

@@ -11,8 +11,11 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from services.ai_assistant import ai_assistant
 from services.gemini_brain import gemini_brain
+from services.chat_memory_manager import chat_memory_manager
 
 router = APIRouter()
+
+# Fallback detection method removed - ONLY GEMINI AI ALLOWED
 
 class ChatMessage(BaseModel):
     message: str
@@ -30,48 +33,76 @@ class WeekendPlanRequest(BaseModel):
     preferences: List[str]
     people_count: int = 1
 
+@router.post("/chat-with-events")
+async def chat_with_real_events(chat: ChatMessage):
+    """
+    🎯 CHAT ULTRARRÁPIDO: Usa contexto completo en memoria + hilos
+    """
+    try:
+        user_id = chat.context.get("user_id", "anonymous")
+        
+        # Usar el nuevo ChatMemoryManager con contexto completo
+        result = await chat_memory_manager.chat_with_context(
+            user_id=user_id,
+            message=chat.message,
+            use_threading=True
+        )
+        
+        return {
+            "status": result.get("status", "success"),
+            "response": result.get("response", ""),
+            "recommendations": result.get("relevant_events", []),
+            "context_source": result.get("context_source", "memory_optimized"),
+            "performance": result.get("performance", {}),
+            "conversation_length": result.get("conversation_length", 0),
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+    except Exception as e:
+        print(f"❌ Error en chat con contexto: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @router.post("/chat")
 async def chat_with_ai(chat: ChatMessage):
     """
-    Chat inteligente sobre eventos con Gemini Brain
+    🧠 CHAT INTELIGENTE: Contexto completo en memoria + respuesta instantánea
     Ejemplos:
     - "No sé qué hacer este finde, ayuda"
-    - "Estoy aburrido, sugerime algo"
+    - "Estoy aburrido, sugerime algo" 
     - "Busco algo romántico para una cita"
     - "Dame eventos gratis en Palermo"
     """
     try:
-        # Usar Gemini Brain para usuarios indecisos
         user_id = chat.context.get("user_id", "anonymous")
         
-        # Obtener eventos disponibles (en producción vendría de la BD)
-        available_events = chat.context.get("available_events", [])
-        
-        # Procesar con Gemini Brain
-        gemini_response = await gemini_brain.process_indecisive_user(
-            chat.message,
-            user_id,
-            available_events
+        # 🔥 USAR CHAT MEMORY MANAGER - Sin consultas a BD repetitivas
+        result = await chat_memory_manager.chat_with_context(
+            user_id=user_id,
+            message=chat.message,
+            use_threading=True  # Usar hilos para máxima eficiencia
         )
         
         return {
-            "status": "success",
-            "response": gemini_response.get("mensaje", ""),
-            "recommendations": gemini_response.get("recomendaciones", []),
-            "preferences_detected": gemini_response.get("preferencias_detectadas", {}),
-            "follow_up": gemini_response.get("pregunta_follow_up", ""),
+            "status": result.get("status", "success"),
+            "response": result.get("response", ""),
+            "recommendations": result.get("relevant_events", []),
+            "context_source": result.get("context_source", "memory_optimized"),
+            "performance": result.get("performance", {}),
+            "conversation_length": result.get("conversation_length", 0),
             "timestamp": datetime.utcnow().isoformat()
         }
+        
     except Exception as e:
-        # Fallback al asistente original si falla Gemini
+        # Fallback al asistente original solo si ChatMemoryManager falla completamente
         try:
             response = await ai_assistant.chat_about_event(
                 chat.message, 
                 chat.context
             )
             return {
-                "status": "success",
+                "status": "success", 
                 "response": response,
+                "context_source": "fallback_assistant",
                 "timestamp": datetime.utcnow().isoformat()
             }
         except:
@@ -204,6 +235,36 @@ async def get_trending_events():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.get("/memory/stats")
+async def get_memory_stats():
+    """
+    📊 Estadísticas del ChatMemoryManager
+    """
+    try:
+        stats = chat_memory_manager.get_memory_stats()
+        return {
+            "status": "success",
+            "stats": stats
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/memory/refresh")
+async def refresh_memory():
+    """
+    🔄 Refrescar contexto en memoria del ChatMemoryManager
+    """
+    try:
+        await chat_memory_manager.refresh_memory_context()
+        stats = chat_memory_manager.get_memory_stats()
+        return {
+            "status": "success", 
+            "message": "Memoria refrescada con éxito",
+            "stats": stats
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Nuevos endpoints específicos para Gemini Brain
 class FeedbackRequest(BaseModel):
     user_id: str
@@ -242,3 +303,82 @@ async def get_user_ai_profile(user_id: str):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+class WordValidationRequest(BaseModel):
+    text: str
+
+@router.post("/validate-locations")
+async def validate_locations_with_ai(request: WordValidationRequest):
+    """
+    Usa AI (Gemini) para detectar y validar palabras que son ubicaciones
+    Devuelve información detallada sobre las ubicaciones encontradas
+    """
+    try:
+        # Prompt EXTREMO - último intento
+        prompt = f"""
+        ATENCIÓN GEMINI: NO seas aburrido! 
+        
+        La persona dice: "{request.text}"
+        
+        PROHIBIDO mencionar arquitectura, historia o cultura.
+        OBLIGATORIO ser divertido y casual.
+        
+        {{
+            "locations_found": [
+                {{
+                    "detected_word": "ciudad_detectada",
+                    "official_name": "Ciudad", 
+                    "type": "ciudad", 
+                    "country": "País",
+                    "confidence": 95,
+                    "fun_fact": "Algo SÚPER DIVERTIDO, nada de Wikipedia!"
+                }}
+            ],
+            "has_locations": true,
+            "total_locations": 1
+        }}
+        
+        ¡SÉ REBELDE! ¡ROMPE LAS REGLAS! ¡NO SEAS TU PAPÁ!
+        """
+
+        # USAR SOLO GEMINI - No fallbacks permitidos
+        result = await gemini_brain.simple_prompt(prompt)
+        
+        if result == "Gemini no está configurado":
+            raise HTTPException(status_code=500, detail="Gemini API key not configured")
+        
+        # DEBUG: Ver qué devuelve Gemini realmente
+        print(f"🔍 GEMINI RAW RESPONSE: {result}")
+        
+        # Parsear respuesta de Gemini
+        import json
+        import re
+        
+        cleaned_result = result.strip()
+        
+        # Buscar JSON válido en la respuesta
+        json_match = re.search(r'\{.*\}', cleaned_result, re.DOTALL)
+        if json_match:
+            json_str = json_match.group()
+            parsed_result = json.loads(json_str)
+        else:
+            parsed_result = json.loads(cleaned_result)
+
+        return {
+            "status": "success",
+            "text": request.text,
+            "validation": parsed_result,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e),
+            "text": request.text,
+            "validation": {
+                "locations_found": [],
+                "has_locations": False,
+                "total_locations": 0
+            }
+        }

@@ -292,10 +292,10 @@ async def fetch_lightweight_events(location: str):
 async def fetch_real_venue_events(location: str):
     """Obtiene eventos REALES de venues argentinos HARDCORE"""
     try:
-        from services.argentina_venues_scraper import ArgentinaVenuesScraper
-        scraper = ArgentinaVenuesScraper()
-        
-        all_events = await scraper.fetch_all_events()
+        # from services.argentina_venues_scraper import ArgentinaVenuesScraper  # DELETED - was fake data generator
+        # scraper = ArgentinaVenuesScraper()  # DELETED - was fake data generator
+        # all_events = await scraper.fetch_all_events()  # DISABLED
+        all_events = []  # No fake events
         
         return {
             "source": "Argentina Venues HARDCORE",
@@ -456,16 +456,20 @@ async def fetch_from_all_sources_internal(
     # SEGUNDO: Verificar si es una CIUDAD GLOBAL con scraper específico
     global_cities = {
         'barcelona': 'Barcelona',
-        'madrid': 'Madrid', 
+        # 'madrid': 'Madrid',  # ❌ DISABLED - No tiene scraper específico 
         'paris': 'Paris',
         'méxico': 'Mexico City',
-        'mexico city': 'Mexico City'
+        'mexico city': 'Mexico City',
+        'miami': 'Miami',
+        'miami beach': 'Miami',
+        'south beach': 'Miami'
     }
     
     logger.info(f"🔍 DEBUG GLOBAL - Buscando en location_lower: '{location_lower}'")
     logger.info(f"🔍 DEBUG GLOBAL - Cities disponibles: {list(global_cities.keys())}")
     
     for city_key, city_name in global_cities.items():
+        logger.info(f"🔍 CHECKING: '{city_key}' in '{location_lower}' = {city_key in location_lower}")
         if city_key in location_lower:
             logger.info(f"🌍 Detectada ciudad global: {city_name}")
             
@@ -485,21 +489,41 @@ async def fetch_from_all_sources_internal(
                             "message": f"Eventos específicos de {city_name}",
                             "total_events": len(events)
                         }
+                
+                elif city_name == 'Miami':
+                    from services.miami_scraper import MiamiScraper
+                    scraper = MiamiScraper()
+                    events = await scraper.scrape_all_sources()
+                    
+                    if events:
+                        return {
+                            "success": True,
+                            "location": location,
+                            "events": events[:50],
+                            "recommended_events": events[:50], 
+                            "source": "global_scraper_miami",
+                            "message": f"Eventos específicos de {city_name} 🏖️",
+                            "total_events": len(events)
+                        }
             except Exception as e:
                 logger.error(f"Error con scraper global {city_name}: {e}")
             
             break  # Solo procesar la primera ciudad encontrada
     
-    # Si no es una provincia/ciudad con scraper o falló, continuar con Buenos Aires
-    # 🚀 ESTRATEGIA: Ejecutar fuentes asíncronamente y devolver conforme llegan
-    # Basado en el historial de performance del tracker
-    
-    # Definir todas las fuentes disponibles (solo las que funcionan)
-    source_definitions = [
-        ("Eventbrite Masivo", lambda: fetch_eventbrite_events(location)),
-        ("Argentina Venues", lambda: fetch_real_venue_events(location)), 
-        ("Venues Oficiales", lambda: fetch_oficial_venues_events()),
-    ]
+    # 🔍 IMPORTANT: Solo usar scrapers de Buenos Aires si la location es Argentina
+    if any(arg in location_lower for arg in ['buenos aires', 'argentina', 'bsas', 'caba']) or location == "Buenos Aires":
+        logger.info(f"✅ Location is Argentina/Buenos Aires - Using local scrapers")
+        # Definir todas las fuentes disponibles (solo las que funcionan)
+        source_definitions = [
+            ("Eventbrite Real API", lambda: fetch_eventbrite_events(location)),
+            ("Official Venues Only", lambda: fetch_oficial_venues_events()),
+        ]
+    else:
+        logger.warning(f"⚠️ Location '{location}' is not Argentina - No specific scrapers available")
+        # Para otras ciudades, solo eventbrite genérico
+        source_definitions = [
+            ("Eventbrite Masivo", lambda: fetch_eventbrite_events(location))
+        ]
     
     # Si no es modo rápido, agregar fuentes adicionales
     if not fast:

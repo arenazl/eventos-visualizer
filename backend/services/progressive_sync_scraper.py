@@ -15,7 +15,7 @@ from typing import List, Dict, Any, AsyncGenerator, Callable
 import logging
 import random
 
-from .argentina_venues_scraper import ArgentinaVenuesScraper
+# from .argentina_venues_scraper import ArgentinaVenuesScraper  # DELETED - was fake data generator
 from .eventbrite_massive_scraper import EventbriteMassiveScraper
 from .cloudscraper_stealth import CloudscraperStealth
 
@@ -34,7 +34,7 @@ class ProgressiveSyncScraper:
         self.timing_stats_file = "/tmp/source_timing_stats.json"
         
         # Inicializar scrapers
-        self.argentina_venues = ArgentinaVenuesScraper()
+        # self.argentina_venues = ArgentinaVenuesScraper()  # DELETED - FAKE DATA GENERATOR
         self.eventbrite = EventbriteMassiveScraper()
         self.social_stealth = CloudscraperStealth()
         
@@ -155,9 +155,13 @@ class ProgressiveSyncScraper:
         logger.info("🚀 FASE 2: Fuentes rápidas")
         
         # Ejecutar fuentes rápidas en paralelo
+        # argentina_task = self._fetch_with_timing(  # DELETED - FAKE DATA GENERATOR
+        #     'argentina_venues',  # DELETED - FAKE DATA GENERATOR
+        #     lambda: self.argentina_venues.scrape_all_sources()  # DELETED - FAKE DATA GENERATOR
+        # )  # DELETED - FAKE DATA GENERATOR
         argentina_task = self._fetch_with_timing(
-            'argentina_venues',
-            lambda: self.argentina_venues.scrape_all_sources()
+            'argentina_venues_disabled', 
+            lambda: []  # Return empty - no fake data
         )
         
         eventbrite_task = self._fetch_with_timing(

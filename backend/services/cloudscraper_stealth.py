@@ -34,7 +34,7 @@ class CloudscraperStealth:
         # Crear scraper con configuración stealth
         self.scraper = cloudscraper.create_scraper(
             browser={
-                'browser': random.choice(['chrome', 'firefox', 'safari']),
+                'browser': random.choice(['chrome', 'firefox']),  # safari not supported
                 'platform': random.choice(['windows', 'darwin', 'linux']),
                 'desktop': True
             }
@@ -112,12 +112,24 @@ class CloudscraperStealth:
         events = []
         
         try:
-            # Solo 1 página por sesión para evitar detección
-            facebook_pages = [
-                "https://www.facebook.com/lunaparkoficial/events",
-                "https://www.facebook.com/teatrocolonoficial/events",
-                "https://www.facebook.com/nicetoclub/events"
-            ]
+            # Páginas específicas por ubicación - NO mezclar Buenos Aires con otras ciudades
+            if any(city in location.lower() for city in ['buenos aires', 'baires', 'argentina']):
+                facebook_pages = [
+                    "https://www.facebook.com/lunaparkoficial/events",
+                    "https://www.facebook.com/teatrocolonoficial/events", 
+                    "https://www.facebook.com/nicetoclub/events"
+                ]
+            elif any(city in location.lower() for city in ['madrid', 'spain', 'españa']):
+                # Madrid pages (would need real Madrid venue pages)
+                facebook_pages = []  # No Madrid pages configured yet
+            else:
+                # Other cities - no pages configured
+                facebook_pages = []
+            
+            # Si no hay páginas para la ubicación, devolver vacío (honest)
+            if not facebook_pages:
+                logger.info(f"🚫 No Facebook pages configured for location: {location}")
+                return []
             
             # Elegir página aleatoria
             page_url = random.choice(facebook_pages)

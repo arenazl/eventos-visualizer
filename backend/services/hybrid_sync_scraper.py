@@ -16,7 +16,7 @@ import random
 
 from .cloudscraper_stealth import CloudscraperStealth
 from .eventbrite_massive_scraper import EventbriteMassiveScraper
-from .argentina_venues_scraper import ArgentinaVenuesScraper
+# from .argentina_venues_scraper import ArgentinaVenuesScraper  # DELETED - was fake data generator
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +36,7 @@ class HybridSyncScraper:
         # Inicializar scrapers especializados
         self.eventbrite = EventbriteMassiveScraper()
         self.social_stealth = CloudscraperStealth()
-        self.argentina_venues = ArgentinaVenuesScraper()
+        # self.argentina_venues = ArgentinaVenuesScraper()  # DELETED - FAKE DATA GENERATOR
         
     def _load_cache(self) -> List[Dict]:
         """Carga eventos desde cache"""
@@ -124,7 +124,8 @@ class HybridSyncScraper:
         """Obtiene eventos de fuentes nacionales argentinas (MUY confiable)"""
         try:
             logger.info("🇦🇷 Obteniendo fuentes nacionales argentinas...")
-            events = await self.argentina_venues.scrape_all_sources()
+            # events = await self.argentina_venues.scrape_all_sources()  # DELETED - FAKE DATA GENERATOR
+            events = []  # No fake data - return empty array
             
             # Normalizar eventos argentinos
             normalized = []
