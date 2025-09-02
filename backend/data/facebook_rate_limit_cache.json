@@ -1,10 +1,10 @@
 {
   "events": [],
   "cache_info": {
-    "timestamp": "2025-08-31T14:54:27.580930",
+    "timestamp": "2025-09-01T17:09:57.262585",
     "cache_duration_hours": 24,
     "status": "rate_limited_429",
-    "city": "Barcelona",
+    "city": "Merlo, Argentina",
     "message": "Cuota mensual RapidAPI agotada - API key v\u00e1lido"
   }
 }

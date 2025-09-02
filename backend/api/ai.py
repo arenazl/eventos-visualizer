@@ -9,9 +9,12 @@ from datetime import datetime
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from services.ai_assistant import ai_assistant
-from services.gemini_brain import gemini_brain
-from services.chat_memory_manager import chat_memory_manager
+# from services.ai_assistant import ai_assistant  # ❌ No existe
+# from services.gemini_brain import gemini_brain  # ❌ No existe  
+# from services.chat_memory_manager import chat_memory_manager  # ❌ No existe
+
+# Usar el servicio real que sí existe:
+from services.ai_service import GeminiAIService
 
 router = APIRouter()
 

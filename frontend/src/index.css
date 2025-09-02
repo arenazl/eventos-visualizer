@@ -95,6 +95,56 @@
     animation: float 6s ease-in-out infinite;
   }
   
+  /* Slide in animation */
+  .animate-slide-in {
+    animation: slideInDown 0.8s ease-out;
+  }
+  
+  @keyframes slideInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-30px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  
+  /* Sofia call center girl animations */
+  .sofia-look-around {
+    animation: sofiaLookAround 8s infinite ease-in-out;
+  }
+  
+  @keyframes sofiaLookAround {
+    0%, 70% { 
+      transform: scaleX(1); /* Mirando al frente */
+    }
+    75%, 85% { 
+      transform: scaleX(-1); /* Girando hacia vos - "hey, estoy acá!" */
+    }
+    90%, 100% { 
+      transform: scaleX(1); /* Volviendo al frente */
+    }
+  }
+  
+  /* Juan call center guy animations */
+  .juan-look-around {
+    animation: juanLookAround 9s infinite ease-in-out;
+  }
+  
+  @keyframes juanLookAround {
+    0%, 60% { 
+      transform: scaleX(1); /* Mirando al frente */
+    }
+    65%, 80% { 
+      transform: scaleX(-1); /* Girando hacia vos - "¡ey, acá estoy!" */
+    }
+    85%, 100% { 
+      transform: scaleX(1); /* Volviendo al frente */
+    }
+  }
+  
   /* Glow effect */
   .glow-purple {
     box-shadow: 0 0 30px rgba(147, 51, 234, 0.3);
@@ -102,6 +152,23 @@
   
   .glow-pink {
     box-shadow: 0 0 30px rgba(236, 72, 153, 0.3);
+  }
+  
+  /* Card shake/vibration animation */
+  .animate-shake {
+    animation: shake 0.6s ease-in-out;
+  }
+  
+  @keyframes shake {
+    0%, 100% { 
+      transform: translateX(0) scale(1); 
+    }
+    10%, 30%, 50%, 70%, 90% { 
+      transform: translateX(-2px) scale(1.02); 
+    }
+    20%, 40%, 60%, 80% { 
+      transform: translateX(2px) scale(1.02); 
+    }
   }
 }
 

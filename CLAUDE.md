@@ -45,6 +45,86 @@
 - ✅ **Solo cambiar contenido** dinámico
 - ✅ **Resultado visualmente** idéntico al template
 
+## 📚 SISTEMA DE DOCUMENTACIÓN INTELIGENTE
+
+### 🗂️ **ESTRUCTURA OBLIGATORIA:**
+- **Ubicación central**: `/docs/` (categorizada por funcionalidad)
+- **Índice maestro**: `/docs/00-INDEX.md` (orden cronológico completo)
+- **Headers obligatorios**: Todos los .md DEBEN tener audit header
+- **Estados de documentos**: ACTIVE | DEPRECATED | MERGED | SUPERSEDED | ARCHIVE
+
+### 📋 **GESTIÓN DE ESTADOS OBLIGATORIA:**
+**PROCESO CRÍTICO:** Al modificar cualquier funcionalidad:
+
+1. **🔍 BUSCAR docs relacionados**:
+   ```bash
+   grep -r "tema_funcionalidad" docs/
+   find docs/ -name "*.md" -exec grep -l "keyword" {} \;
+   ```
+
+2. **📝 ACTUALIZAR headers** de documentos afectados:
+   - Cambiar fecha de última actualización
+   - Agregar entrada al historial
+   - Actualizar estado si es necesario
+
+3. **🔗 MARCAR obsoletos** como MERGED/DEPRECATED/SUPERSEDED:
+   - Indicar dónde está la información actual
+   - Agregar referencias cruzadas
+   - NUNCA eliminar, solo cambiar estado
+
+4. **📊 ACTUALIZAR índice maestro** (`docs/00-INDEX.md`)
+
+### 🔄 **TEMPLATE DE HEADER OBLIGATORIO:**
+```markdown
+<!-- AUDIT_HEADER
+🕒 ÚLTIMA ACTUALIZACIÓN: YYYY-MM-DD HH:MM
+📊 STATUS: ACTIVE | DEPRECATED | MERGED | SUPERSEDED | ARCHIVE
+📝 HISTORIAL:
+- YYYY-MM-DD HH:MM: Descripción específica del cambio
+- YYYY-MM-DD HH:MM: Cambios anteriores...
+📋 TAGS: #tag1 #tag2 #funcionalidad #categoria
+-->
+```
+
+### 🎯 **EJEMPLOS DE GESTIÓN DE ESTADOS:**
+
+#### **Caso: Funcionalidad Chat actualizada**
+```markdown
+<!-- En chat-old.md -->
+📊 STATUS: MERGED → frontend/02-mejoras-interfaz.md
+📝 HISTORIAL:
+- 2025-09-01 17:45: MERGED - Chat integrado en mejoras generales de UI
+```
+
+#### **Caso: Setup obsoleto**
+```markdown
+<!-- En setup-viejo.md -->
+📊 STATUS: SUPERSEDED → backend/01-nuevo-setup.md
+📝 HISTORIAL:
+- 2025-09-01 17:45: SUPERSEDED - Reemplazado por proceso mejorado
+```
+
+### 🚨 **REGLAS CRÍTICAS DE DOCUMENTACIÓN:**
+
+1. **NUNCA eliminar documentos** - Solo cambiar estado a ARCHIVE
+2. **SIEMPRE actualizar headers** al modificar contenido
+3. **OBLIGATORIO referencias cruzadas** cuando se merge o depreca
+4. **MANTENER /docs/00-INDEX.md actualizado** con cada cambio
+5. **UN AGENTE debe buscar docs relacionados** antes de crear nuevos
+
+### 📂 **ESTRUCTURA DE CARPETAS:**
+```
+docs/
+├── 00-INDEX.md                 # 📋 Índice maestro
+├── apis/                       # 🌐 APIs e integraciones
+├── backend/                    # 🔧 Documentación backend
+├── frontend/                   # 🎨 Documentación frontend
+├── deployment/                 # 🚀 Deploy y producción
+├── features/                   # ✨ Features implementadas
+├── templates/                  # 🎨 Templates HTML
+└── archive/                    # 📦 Documentación obsoleta
+```
+
 ### 🎉 Project Awareness & Context & Research
 - **Proyecto**: Sistema completo de eventos mobile-first con PWA
 - **Dominio**: Visualización y gestión de eventos (deportivos, culturales, fiestas, tech)
@@ -133,6 +213,7 @@
 
 ### 📎 Style & Conventions
 - **Backend**: Python con FastAPI, type hints obligatorios, formato con black
+- **Python**: SIEMPRE usar `python3` (nunca `python`)
 - **Frontend**: TypeScript con React + Vite, ESLint + Prettier
 - **Base de datos**: PostgreSQL con naming snake_case, foreign keys siempre indexadas
 - **API**: Rutas RESTful + WebSocket endpoints para notifications

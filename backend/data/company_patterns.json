@@ -1,0 +1,83 @@
+{
+  "version": "1.0",
+  "last_updated": "2025-09-02",
+  "patterns": {
+    "eventbrite": {
+      "pattern": "https://www.eventbrite.{domain}/d/{country}--{city}--events/",
+      "domains": {
+        "España": "es",
+        "France": "fr",
+        "Brasil": "com.br", 
+        "Argentina": "com.ar",
+        "México": "com.mx",
+        "Colombia": "co",
+        "default": "com"
+      },
+      "country_mapping": {
+        "España": "spain",
+        "France": "france", 
+        "Brasil": "brazil",
+        "Argentina": "argentina",
+        "México": "mexico",
+        "Colombia": "colombia"
+      },
+      "enabled": true,
+      "confidence": 0.95
+    },
+    "meetup": {
+      "pattern": "https://www.meetup.com/{locale}/find/?location={country_code}--{city}&source=EVENTS",
+      "locales": {
+        "España": "es-ES",
+        "France": "fr-FR",
+        "Brasil": "pt-BR",
+        "Argentina": "es-AR", 
+        "México": "es-MX",
+        "Colombia": "es-CO",
+        "default": "en-US"
+      },
+      "country_codes": {
+        "España": "es",
+        "France": "fr",
+        "Brasil": "br",
+        "Argentina": "ar",
+        "México": "mx", 
+        "Colombia": "co",
+        "default": "us"
+      },
+      "enabled": true,
+      "confidence": 0.90
+    },
+    "ticketmaster": {
+      "pattern": "https://www.ticketmaster.{domain}/{path}/{city}",
+      "domains": {
+        "España": "es",
+        "France": "fr",
+        "Argentina": "com.ar",
+        "México": "com.mx",
+        "default": "com"
+      },
+      "paths": {
+        "España": "city",
+        "France": "city", 
+        "default": "city"
+      },
+      "enabled": false,
+      "disable_reason": "DNS/Connection errors consistently"
+    },
+    "bandsintown": {
+      "pattern": "https://www.bandsintown.com/{city}/concerts",
+      "enabled": false,
+      "disable_reason": "HTTP 403 errors consistently"
+    },
+    "dice": {
+      "pattern": "https://dice.fm/{city}/music",
+      "enabled": false,
+      "disable_reason": "HTTP 403 errors consistently"
+    }
+  },
+  "metadata": {
+    "total_patterns": 5,
+    "enabled_patterns": 2,
+    "purpose": "Pre-defined URL patterns to avoid AI calls for URL generation"
+  }
+}

@@ -1,0 +1,248 @@
+{
+  "version": "2.0",
+  "last_updated": "2025-09-02",
+  "description": "Patrones de URL por servicio y país - Sistema mejorado con Gemini + Factory",
+  
+  "global_services": {
+    "eventbrite": {
+      "pattern": "{country}--{city}--events",
+      "base_url": "https://www.eventbrite.{domain}/d/",
+      "separator": "--",
+      "api_type": "scraping",
+      "domains": {
+        "españa": "es",
+        "spain": "es", 
+        "france": "fr",
+        "francia": "fr",
+        "argentina": "com.ar",
+        "deutschland": "de",
+        "germany": "de",
+        "default": "com"
+      },
+      "country_names": {
+        "españa": "spain",
+        "france": "france", 
+        "argentina": "argentina",
+        "deutschland": "germany"
+      },
+      "examples": {
+        "barcelona": "https://www.eventbrite.es/d/spain--barcelona--events/",
+        "paris": "https://www.eventbrite.fr/d/france--paris--events/",
+        "berlin": "https://www.eventbrite.de/d/germany--berlin--events/"
+      }
+    },
+    "ticketmaster": {
+      "pattern": "discovery/events/?location={city}",
+      "base_url": "https://www.ticketmaster.{domain}/",
+      "separator": "+",
+      "api_type": "scraping",
+      "domains": {
+        "españa": "es",
+        "france": "fr",
+        "argentina": "com.ar",
+        "deutschland": "de",
+        "default": "com"
+      },
+      "examples": {
+        "barcelona": "https://www.ticketmaster.es/discovery/events/?location=Barcelona",
+        "berlin": "https://www.ticketmaster.de/discovery/events/?location=Berlin"
+      }
+    },
+    "meetup": {
+      "pattern": "{locale}/find/?location={country_code}--{city}&source=EVENTS",
+      "base_url": "https://www.meetup.com/",
+      "separator": "--",
+      "api_type": "api",
+      "locales": {
+        "españa": "es-ES",
+        "france": "fr-FR",
+        "argentina": "es-AR", 
+        "deutschland": "de-DE",
+        "default": "en-US"
+      },
+      "country_codes": {
+        "españa": "es",
+        "france": "fr",
+        "argentina": "ar",
+        "deutschland": "de"
+      },
+      "examples": {
+        "barcelona": "https://www.meetup.com/es-ES/find/?location=es--Barcelona&source=EVENTS",
+        "paris": "https://www.meetup.com/fr-FR/find/?location=fr--Paris&source=EVENTS"
+      }
+    },
+    "bandsintown": {
+      "pattern": "{city}/concerts",
+      "base_url": "https://www.bandsintown.com/",
+      "separator": "-",
+      "api_type": "scraping",
+      "examples": {
+        "barcelona": "https://www.bandsintown.com/barcelona/concerts",
+        "berlin": "https://www.bandsintown.com/berlin/concerts"
+      }
+    },
+    "dice": {
+      "pattern": "search?location={city},{country}",
+      "base_url": "https://dice.fm/",
+      "separator": ",",
+      "api_type": "scraping",
+      "examples": {
+        "barcelona": "https://dice.fm/search?location=Barcelona,Spain",
+        "berlin": "https://dice.fm/search?location=Berlin,Germany"
+      }
+    },
+    "universe": {
+      "pattern": "search?q=&location={city}, {country}",
+      "base_url": "https://universe.com/",
+      "separator": ", ",
+      "api_type": "scraping",
+      "examples": {
+        "barcelona": "https://universe.com/search?q=&location=Barcelona, Spain",
+        "berlin": "https://universe.com/search?q=&location=Berlin, Germany"
+      }
+    },
+    "facebook": {
+      "pattern": "events/discovery/?location={city}",
+      "base_url": "https://www.facebook.com/",
+      "separator": "%20",
+      "api_type": "scraping",
+      "examples": {
+        "barcelona": "https://www.facebook.com/events/discovery/?location=Barcelona"
+      }
+    },
+    "ticombo": {
+      "pattern": "en/discover/search?q={city}",
+      "base_url": "https://www.ticombo.com/",
+      "separator": "%20",
+      "api_type": "playwright",
+      "examples": {
+        "barcelona": "https://www.ticombo.com/en/discover/search?q=barcelona",
+        "madrid": "https://www.ticombo.com/en/discover/search?q=madrid",
+        "paris": "https://www.ticombo.com/en/discover/search?q=paris"
+      }
+    },
+    "allevents": {
+      "pattern": "{city}",
+      "base_url": "https://allevents.in/",
+      "separator": "-",
+      "api_type": "playwright",
+      "examples": {
+        "barcelona": "https://allevents.in/barcelona",
+        "madrid": "https://allevents.in/madrid",
+        "paris": "https://allevents.in/paris"
+      }
+    },
+    "stubhub": {
+      "pattern": "find/s/?q={city}",
+      "base_url": "https://www.stubhub.com/",
+      "separator": "%20",
+      "api_type": "playwright",
+      "examples": {
+        "barcelona": "https://www.stubhub.com/find/s/?q=barcelona",
+        "madrid": "https://www.stubhub.com/find/s/?q=madrid"
+      }
+    },
+    "ticketleap": {
+      "pattern": "search?q={city}",
+      "base_url": "https://www.ticketleap.com/",
+      "separator": "%20",
+      "api_type": "playwright",
+      "examples": {
+        "barcelona": "https://www.ticketleap.com/search?q=barcelona",
+        "newyork": "https://www.ticketleap.com/search?q=new%20york"
+      }
+    },
+    "showpass": {
+      "pattern": "events?city={city}",
+      "base_url": "https://www.showpass.com/",
+      "separator": "%20",
+      "api_type": "playwright",
+      "examples": {
+        "toronto": "https://www.showpass.com/events?city=toronto",
+        "vancouver": "https://www.showpass.com/events?city=vancouver"
+      }
+    }
+  },
+  
+  "regional_services": {
+    "argentina": {
+      "alternativateatral": {
+        "pattern": "obras?ciudad={city}",
+        "base_url": "https://www.alternativateatral.com/",
+        "separator": "-",
+        "provinces": ["buenos-aires", "cordoba", "santa-fe", "mendoza"]
+      },
+      "plateanet": {
+        "pattern": "ciudad/{city}",
+        "base_url": "https://www.plateanet.com/",
+        "separator": "-"
+      },
+      "ticketek": {
+        "pattern": "shows/{city}",
+        "base_url": "https://www.ticketek.com.ar/",
+        "separator": "-"
+      }
+    },
+    "españa": {
+      "atrapalo": {
+        "pattern": "entradas/{city}",
+        "base_url": "https://www.atrapalo.com/",
+        "separator": "-"
+      },
+      "ticketea": {
+        "pattern": "entradas/{city}",
+        "base_url": "https://www.ticketea.com/",
+        "separator": "-"
+      }
+    },
+    "mexico": {
+      "boletia": {
+        "pattern": "eventos/{city}",
+        "base_url": "https://boletia.com/",
+        "separator": "-"
+      },
+      "superboletos": {
+        "pattern": "ciudad/{city}",
+        "base_url": "https://www.superboletos.com/",
+        "separator": "-"
+      }
+    }
+  },
+  
+  "formatting_rules": {
+    "city": {
+      "case": "lowercase",
+      "spaces": "replace_with_dash",
+      "accents": "keep",
+      "special_chars": "remove"
+    },
+    "country": {
+      "case": "lowercase", 
+      "spaces": "replace_with_dash",
+      "accents": "remove",
+      "special_chars": "remove"
+    },
+    "province": {
+      "case": "lowercase",
+      "spaces": "replace_with_dash", 
+      "accents": "keep",
+      "special_chars": "remove"
+    }
+  },
+  
+  "fallback_patterns": {
+    "global_default": "{base_url}search?q={city}",
+    "regional_default": "{base_url}eventos?ciudad={city}"
+  },
+  
+  "metadata": {
+    "total_global_services": 7,
+    "total_regional_services": 8,
+    "total_patterns": 15,
+    "supported_countries": ["argentina", "españa", "france", "deutschland", "mexico"],
+    "cache_strategy": "gemini_first_patterns_second",
+    "next_update": "2025-10-02",
+    "cache_hits": 24,
+    "ai_calls_saved": 24
+  }
+}

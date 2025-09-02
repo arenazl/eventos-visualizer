@@ -72,9 +72,10 @@ const EventCard: React.FC<EventCardProps> = ({
     const saved = sessionStorage.getItem(storageKey)
     console.log('🔄 EventCard - Verified storage:', saved ? 'Saved successfully' : 'Failed to save!')
     
-    navigate(`/evento/${eventId}`, { 
-      state: { event: event } 
-    })
+    // NAVEGACIÓN DESHABILITADA - Mantener en la misma página para que Sofia y Juan sigan disponibles
+    // navigate(`/evento/${eventId}`, { 
+    //   state: { event: event } 
+    // })
   }
 
   const handleFavoriteClick = (e: React.MouseEvent) => {

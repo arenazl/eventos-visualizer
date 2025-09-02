@@ -187,12 +187,17 @@ export const StreamingEventsLoader: React.FC<StreamingEventsLoaderProps> = ({
     }
   }
 
-  // Get source emoji and name
+  // Get source emoji and name - REAL SCRAPERS USANDO INDUSTRIAL FACTORY
   const getSourceDisplay = (source: string) => {
     switch (source) {
       case 'eventbrite': return { emoji: '🎫', name: 'Eventbrite' }
-      case 'facebook': return { emoji: '🔥', name: 'Facebook' }
-      case 'instagram': return { emoji: '📸', name: 'Instagram' }
+      case 'facebook': return { emoji: '🎯', name: 'Facebook' }
+      case 'meetup': return { emoji: '🤝', name: 'Meetup' }
+      case 'ticketmaster': return { emoji: '🎫', name: 'Ticketmaster' }
+      case 'universe': return { emoji: '🌌', name: 'Universe' }
+      case 'dice': return { emoji: '🎲', name: 'Dice' }
+      case 'bandsintown': return { emoji: '🎵', name: 'Bandsintown' }
+      case 'events': return { emoji: '🎪', name: 'Events.com' }
       default: return { emoji: '🔍', name: source }
     }
   }
@@ -269,17 +274,18 @@ export const StreamingEventsLoader: React.FC<StreamingEventsLoaderProps> = ({
               ></div>
             </div>
 
-            {/* Sources Status */}
-            <div className="flex justify-center gap-4 mt-4">
-              {['eventbrite', 'facebook', 'instagram'].map((source) => {
+            {/* Sources Status - 8 SCRAPERS REALES CON INDUSTRIAL FACTORY */}
+            <div className="flex justify-center flex-wrap gap-2 mt-4">
+              {['eventbrite', 'facebook', 'meetup', 'ticketmaster', 'universe', 'dice', 'bandsintown', 'events'].map((source, index) => {
                 const { emoji, name } = getSourceDisplay(source)
                 const isActive = currentSource === source
-                const isCompleted = progress > (source === 'eventbrite' ? 50 : source === 'facebook' ? 75 : 100)
+                const progressThreshold = ((index + 1) / 8) * 100
+                const isCompleted = progress > progressThreshold
 
                 return (
                   <div
                     key={source}
-                    className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm transition-all ${isActive
+                    className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs transition-all ${isActive
                         ? 'bg-white/20 text-white scale-110'
                         : isCompleted
                           ? 'bg-green-500/20 text-green-300'
@@ -300,9 +306,6 @@ export const StreamingEventsLoader: React.FC<StreamingEventsLoaderProps> = ({
       {events.length > 0 ? (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-white">
-              Eventos encontrados ({totalEvents})
-            </h2>
             {isSearching && (
               <div className="flex items-center gap-2 text-white/60">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>

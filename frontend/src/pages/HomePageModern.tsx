@@ -8,6 +8,7 @@ import ScrapersInfo from '../components/ScrapersInfo'
 import AuthModal from '../components/AuthModal'
 import { useEvents } from '../stores/EventsStore'
 import { useAuth } from '../contexts/AuthContext'
+import { useAssistants } from '../contexts/AssistantsContext'
 
 interface Location {
   name: string
@@ -25,6 +26,7 @@ const HomePageModern: React.FC = () => {
     lastQuery,
     fetchEvents, 
     aiSearch,
+    aiInitialSearch,
     searchEvents, 
     setLocation,
     // WebSocket streaming
@@ -49,9 +51,14 @@ const HomePageModern: React.FC = () => {
   const [locationDetected, setLocationDetected] = useState(false)
   const [showScrapersInfo, setShowScrapersInfo] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
+  const [showAIRecommendations, setShowAIRecommendations] = useState(false)
+  const [isEventsFadingOut, setIsEventsFadingOut] = useState(false)
   
   // Auth context
   const { user, isAuthenticated } = useAuth()
+  
+  // Assistants context for category-based comments
+  const { triggerCategoryComment } = useAssistants()
 
   // Detectar ubicación automáticamente al cargar
   useEffect(() => {
@@ -68,8 +75,8 @@ const HomePageModern: React.FC = () => {
         setLocation(initialLocation)
         setLocationDetected(true)
         
-        // Solo UNA llamada inicial con ubicación amplia
-        await fetchEvents(initialLocation)
+        // 🧠 USAR AI SEARCH COMPLETO: Intent + Search + Recommend
+        await aiInitialSearch(initialLocation)
         
         // Detectar ubicación específica después (sin recargar eventos)
         try {
@@ -101,6 +108,31 @@ const HomePageModern: React.FC = () => {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Efecto para animación suave de recomendaciones AI
+  useEffect(() => {
+    if (aiRecommendations && lastQuery) {
+      // Resetear primero para forzar re-animación
+      setShowAIRecommendations(false)
+      // Delay para que aparezca suavemente después de cargar
+      const timer = setTimeout(() => {
+        setShowAIRecommendations(true)
+      }, 100)
+      return () => clearTimeout(timer)
+    } else {
+      setShowAIRecommendations(false)
+    }
+  }, [aiRecommendations, lastQuery])
+
+  // Efecto para resetear fade out cuando llegan nuevos eventos
+  useEffect(() => {
+    if (events.length > 0 && isEventsFadingOut) {
+      // Resetear fade out cuando llegan nuevos eventos
+      setTimeout(() => {
+        setIsEventsFadingOut(false)
+      }, 100)
+    }
+  }, [events, isEventsFadingOut])
 
   // Handlers para ubicación y búsqueda
   const handleLocationChange = (location: Location) => {
@@ -199,44 +231,27 @@ const HomePageModern: React.FC = () => {
     return { detected: false }
   }
 
-  // 🌍 Detectar ciudades en diferentes eventos
-  const detectLocationInQuery = (value: string) => {
-    const words = value.trim().split(' ')
+  // 🗑️ FUNCIÓN SIMPLIFICADA DE FALLBACK (Solo para detectar al escribir)
+  const quickLocationFallback = (value: string) => {
     const locationKeywords = [
-      'barcelona', 'madrid', 'valencia', 'sevilla', 'bilbao', 'málaga', 'malaga',
-      'chile', 'santiago', 'valparaíso', 'valparaiso', 
-      'córdoba', 'cordoba', 'mendoza', 'rosario', 'bariloche', 'salta',
-      'brasil', 'brazil', 'rio', 'paulo', 'uruguay', 'montevideo',
-      'méxico', 'mexico', 'guadalajara', 'monterrey',
-      'miami', 'york', 'angeles', 'chicago'
+      'barcelona', 'madrid', 'valencia', 'parís', 'paris',
+      'chile', 'santiago', 'córdoba', 'cordoba', 'mendoza',
+      'brasil', 'rio', 'méxico', 'mexico', 'miami'
     ]
     
-    // Buscar en todas las palabras
-    for (const word of words) {
-      if (word.length > 2) {
-        const lowerWord = word.toLowerCase()
-        const isLocation = locationKeywords.some(loc => lowerWord.includes(loc))
-        
-        if (isLocation) {
-          console.log('🌍 Ciudad detectada:', word)
-          
-          // Actualizar ubicación
-          setLocation({
-            name: word.charAt(0).toUpperCase() + word.slice(1),
-            detected: 'manual'
-          })
-          
-          // Marcar la palabra visualmente
-          setDetectedTags([{
-            text: word.charAt(0).toUpperCase() + word.slice(1),
-            type: 'location',
-            animated: true
-          }])
-          
-          return true
-        }
+    const queryLower = value.toLowerCase()
+    for (const keyword of locationKeywords) {
+      if (queryLower.includes(keyword)) {
+        console.log('🔍 Quick fallback detectó:', keyword)
+        setDetectedTags([{
+          text: keyword.charAt(0).toUpperCase() + keyword.slice(1),
+          type: 'location',
+          animated: true
+        }])
+        return true
       }
     }
+    setDetectedTags([])
     return false
   }
 
@@ -244,9 +259,9 @@ const HomePageModern: React.FC = () => {
   const handleInputChange = async (value: string) => {
     setSearchQuery(value)
     
-    // Detectar solo si termina con espacio
+    // Detectar solo si termina con espacio (feedback visual inmediato)
     if (value.endsWith(' ') && value.trim().length > 0) {
-      detectLocationInQuery(value)
+      quickLocationFallback(value)
     } else {
       setDetectedTags([])
     }
@@ -255,15 +270,13 @@ const HomePageModern: React.FC = () => {
   // Handle Enter - detectar al presionar Enter
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      detectLocationInQuery(searchQuery)
-      handleSearch()
+      handleSearch() // handleSearch ya incluye detectLocationWithAI
     }
   }
 
   // Handle Click - detectar al hacer click en buscar
   const handleSearchClick = () => {
-    detectLocationInQuery(searchQuery)
-    handleSearch()
+    handleSearch() // handleSearch ya incluye detectLocationWithAI
   }
 
   // 🗑️ Remover tag al hacer click
@@ -277,42 +290,22 @@ const HomePageModern: React.FC = () => {
   const handleSearch = async () => {
     if (!searchQuery.trim()) return
     
+    // Fade out de eventos actuales
+    if (events.length > 0) {
+      setIsEventsFadingOut(true)
+      // Esperar un poco para que se vea la animación
+      await new Promise(resolve => setTimeout(resolve, 300))
+    }
+    
     try {
-      // 🤖 PASO 1: Usar Gemini IA para detectar ubicación en la búsqueda
-      const locationDetection = await detectLocationWithAI(searchQuery)
+      // 🚀 BÚSQUEDA DIRECTA con aiSearch - ya incluye análisis de intención
+      console.log(`🔍 Búsqueda: "${searchQuery}" en ${currentLocation?.name || 'ubicación actual'}`)
       
-      console.log('🧠 Detección con IA:', locationDetection)
+      // aiSearch ya maneja la detección de ubicación y análisis de intención internamente
+      await aiSearch(searchQuery, currentLocation)
       
-      let searchLocation = null
-      let finalQuery = searchQuery
-      
-      if (locationDetection.detected) {
-        // ✅ IA DETECTÓ CIUDAD - Ignorar geolocalización
-        console.log(`🌍 IA detectó ciudad: ${locationDetection.location} (confianza: ${locationDetection.confidence})`)
-        console.log(`🔍 Query procesado por IA: ${locationDetection.cleanQuery}`)
-        
-        searchLocation = {
-          name: locationDetection.location,
-          detected: 'manual' as const
-        }
-        
-        // Actualizar ubicación en la UI inmediatamente
-        setLocation(searchLocation)
-        
-        // Usar query procesado por IA
-        finalQuery = locationDetection.cleanQuery || searchQuery
-        
-      } else {
-        // ❌ NO HAY CIUDAD ESPECÍFICA - Usar geolocalización actual
-        console.log('📍 Sin ciudad específica, usando geolocalización:', currentLocation?.name)
-        searchLocation = currentLocation
-      }
-      
-      // 🚀 PASO 2: Ejecutar búsqueda inteligente
-      console.log(`🔍 Búsqueda final: "${finalQuery}" en ${searchLocation?.name || 'ubicación actual'}`) 
-      
-      // Usar aiSearch para mejor comprensión del contexto
-      await aiSearch(finalQuery, searchLocation)
+      // Limpiar tags (aiSearch maneja la detección internamente)
+      setDetectedTags([])
       
     } catch (error) {
       console.error('❌ Error en búsqueda:', error)
@@ -350,6 +343,11 @@ const HomePageModern: React.FC = () => {
   // Handler para categorías - AI-first con fallback
   const handleCategoryClick = async (category: string) => {
     setActiveCategory(category)
+    
+    // Trigger assistant comments when category is selected
+    if (category !== 'Todos') {
+      triggerCategoryComment(category)
+    }
     
     if (category === 'Todos') {
       // Buscar todos los eventos en ubicación actual
@@ -518,42 +516,51 @@ const HomePageModern: React.FC = () => {
                       </svg>
                     </div>
                     <div className="flex-1 relative">
+                      {/* Input transparente */}
                       <input 
                         type="text" 
                         value={searchQuery}
                         onChange={(e) => handleInputChange(e.target.value)}
                         onKeyPress={handleKeyPress}
-                        placeholder="🔍 Busca: 'bares en Barcelona', 'eventos en Miami'..." 
-                        className="w-full bg-transparent text-white text-lg placeholder-white/40 py-5 outline-none font-medium"
+                        placeholder=""
+                        className="w-full bg-transparent text-transparent text-lg placeholder-white/40 py-5 outline-none font-medium relative z-10"
                       />
                       
-                      {/* Tags sobre la palabra detectada */}
-                      {detectedTags.length > 0 && (
-                        <div className="absolute top-0 left-0 right-0 py-5 pointer-events-none z-10">
-                          <div className="relative">
-                            {detectedTags.map((tag, index) => {
-                              // Calcular posición aproximada de la palabra
-                              const words = searchQuery.split(' ')
-                              const wordIndex = words.findIndex(word => word.toLowerCase().includes(tag.text.toLowerCase()))
-                              const leftOffset = wordIndex * 80 // Aproximación
-                              
-                              return (
-                                <div
-                                  key={`${tag.text}-${index}`}
-                                  className={`absolute transition-all duration-500 ${
-                                    tag.animated ? 'animate-pulse' : ''
-                                  }`}
-                                  style={{ left: `${leftOffset}px`, top: '-10px' }}
-                                >
-                                  <div className="bg-purple-500 text-white text-xs px-2 py-1 rounded-full shadow-lg">
-                                    🌍 {tag.text}
-                                  </div>
-                                </div>
-                              )
-                            })}
-                          </div>
+                      {/* Placeholder personalizado - solo cuando no hay texto */}
+                      {!searchQuery && (
+                        <div className="absolute top-0 left-0 w-full py-5 pointer-events-none text-lg font-medium text-white/40">
+                          🔍 Busca: 'bares en Barcelona', 'eventos en Miami'...
                         </div>
                       )}
+                      
+                      {/* Overlay con texto resaltado */}
+                      <div className="absolute top-0 left-0 w-full py-5 pointer-events-none text-lg font-medium">
+                        {searchQuery ? (
+                          <span className="text-white">
+                            {searchQuery.split(' ').map((word, index) => {
+                              const isLocation = detectedTags.some(tag => 
+                                word.toLowerCase().includes(tag.text.toLowerCase()) ||
+                                tag.text.toLowerCase().includes(word.toLowerCase())
+                              )
+                              
+                              return (
+                                <span key={index}>
+                                  {isLocation ? (
+                                    <span className="font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent animate-pulse">
+                                      🌍{word}
+                                    </span>
+                                  ) : (
+                                    <span className="text-white">{word}</span>
+                                  )}
+                                  {index < searchQuery.split(' ').length - 1 && ' '}
+                                </span>
+                              )
+                            })}
+                          </span>
+                        ) : (
+                          <span className="text-white/40">🔍 Busca: 'bares en Barcelona', 'eventos en Miami'...</span>
+                        )}
+                      </div>
                     </div>
                     <button 
                       onClick={handleVoiceSearch}
@@ -630,22 +637,37 @@ const HomePageModern: React.FC = () => {
             </div>
           </div>
 
-          {/* AI Recommendations */}
+          {/* AI Recommendations - Relocated with Slide Animation */}
           {aiRecommendations && lastQuery && (
-            <AIRecommendations
-              recommendations={aiRecommendations}
-              originalQuery={lastQuery}
-              onFollowUpClick={handleFollowUpClick}
-            />
+            <div 
+              className={`mb-8 transition-all duration-700 ease-out transform ${
+                showAIRecommendations 
+                  ? 'translate-y-0 opacity-100 scale-100' 
+                  : '-translate-y-8 opacity-0 scale-95'
+              }`}
+              style={{
+                transformOrigin: 'center top'
+              }}
+            >
+              <div className="transform transition-all duration-300 ease-out hover:scale-105">
+                <AIRecommendations
+                  recommendations={aiRecommendations}
+                  originalQuery={lastQuery}
+                  onFollowUpClick={handleFollowUpClick}
+                />
+              </div>
+            </div>
           )}
 
           {/* No Results with AI Suggestions */}
           {!loading && events.length === 0 && lastQuery && aiRecommendations?.alternative_suggestions && (
-            <NoResultsWithAI
-              query={lastQuery}
-              suggestions={aiRecommendations.alternative_suggestions}
-              onSuggestionClick={handleFollowUpClick}
-            />
+            <div className="mb-8">
+              <NoResultsWithAI
+                query={lastQuery}
+                suggestions={aiRecommendations.alternative_suggestions}
+                onSuggestionClick={handleFollowUpClick}
+              />
+            </div>
           )}
 
           {/* ✨ Scrapers Execution Info */}
@@ -733,9 +755,6 @@ const HomePageModern: React.FC = () => {
           ) : events.length > 0 ? (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-white">
-                  Eventos encontrados ({events.length})
-                </h2>
                 {isStreaming && (
                   <div className="flex items-center gap-2 text-white/60">
                     <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
@@ -744,13 +763,19 @@ const HomePageModern: React.FC = () => {
                 )}
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-20">
+              <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-20 transition-all duration-300 ${
+                isEventsFadingOut ? 'opacity-20 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'
+              }`}>
                 {events.map((event, index) => (
                   <div
                     key={event.title + '-' + index}
-                    className="opacity-0 animate-fade-in-up"
+                    className={`${
+                      isEventsFadingOut 
+                        ? 'opacity-20' 
+                        : 'opacity-0 animate-fade-in-up'
+                    }`}
                     style={{
-                      animationDelay: `${(index % 6) * 0.1}s`,
+                      animationDelay: isEventsFadingOut ? '0s' : `${(index % 6) * 0.1}s`,
                       animationFillMode: 'forwards'
                     }}
                   >

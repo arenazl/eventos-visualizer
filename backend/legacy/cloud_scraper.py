@@ -135,41 +135,11 @@ class CloudScraper:
     
     async def scrape_eventbrite_public(self, location: str) -> List[Dict]:
         """
-        Scraping de Eventbrite sin API key
-        Usa la búsqueda pública
+        ⚠️ DEPRECATED: Use unified global Eventbrite scraper instead
+        Location: /backend/services/global_scrapers/eventbrite_scraper.py
         """
-        events = []
-        
-        # Eventbrite tiene una búsqueda pública accesible
-        search_url = f"https://www.eventbrite.com/d/{location.lower().replace(' ', '-')}--events/"
-        
-        html = await self.scrape_url_direct(search_url)
-        
-        if html:
-            soup = BeautifulSoup(html, 'html.parser')
-            
-            # Buscar tarjetas de eventos
-            event_cards = soup.find_all('article', class_='event-card')
-            
-            for card in event_cards[:20]:
-                try:
-                    event = {
-                        'title': card.find('h3').get_text(strip=True) if card.find('h3') else '',
-                        'date': card.find('time').get_text(strip=True) if card.find('time') else '',
-                        'location': card.find('div', class_='location').get_text(strip=True) if card.find('div', class_='location') else location,
-                        'url': card.find('a')['href'] if card.find('a') else '',
-                        'image': card.find('img')['src'] if card.find('img') else '',
-                        'price': card.find('span', class_='price').get_text(strip=True) if card.find('span', class_='price') else 'Free',
-                        'source': 'eventbrite_public'
-                    }
-                    
-                    if event['title']:
-                        events.append(event)
-                        
-                except Exception as e:
-                    logger.error(f"Error parsing Eventbrite event: {e}")
-        
-        return events
+        logger.warning(f"⚠️ scrape_eventbrite_public is DEPRECATED. Use global Eventbrite scraper for {location}")
+        return []
     
     def _parse_facebook_event(self, event_data: Dict) -> Dict:
         """
@@ -249,10 +219,8 @@ async def test_cloud_scraper():
     
     # Test Eventbrite público
     print("\n📅 Testing Eventbrite public search...")
-    events = await scraper.scrape_eventbrite_public("Buenos Aires")
-    print(f"Found {len(events)} events")
-    for event in events[:3]:
-        print(f"  - {event.get('title', 'No title')}")
+    print("⚠️ DEPRECATED - Use global Eventbrite scraper instead")
+    print("   Location: /backend/services/global_scrapers/eventbrite_scraper.py")
     
     # Test Instagram hashtag (sin login)
     print("\n📸 Testing Instagram hashtag (public)...")

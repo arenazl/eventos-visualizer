@@ -23,24 +23,55 @@ export const AIRecommendations: React.FC<AIRecommendationsProps> = ({
 
   return (
     <div className="mb-8 space-y-6">
-      {/* Mensaje personalizado de Gemini */}
+      {/* Mensaje personalizado de Gemini - Header Orgánico */}
       {recommendations.personalized_message && (
         <div className="relative group">
-          <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 rounded-2xl blur opacity-50"></div>
-          <div className="relative bg-black/40 backdrop-blur-xl border border-white/20 rounded-2xl p-6">
-            <div className="flex items-start gap-4">
-              <div className="flex-shrink-0">
-                <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                  🧠
+          {/* Blob backgrounds orgánicos */}
+          <div className="absolute -inset-2 opacity-60">
+            <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-purple-400/30 to-pink-400/30 rounded-full blur-2xl animate-blob"></div>
+            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-blue-400/30 to-indigo-400/30 rounded-full blur-2xl animate-blob animation-delay-2000"></div>
+            <div className="absolute -bottom-4 left-1/2 w-28 h-28 bg-gradient-to-tr from-cyan-400/20 to-purple-400/20 rounded-full blur-2xl animate-blob animation-delay-4000"></div>
+          </div>
+          
+          {/* Container principal con formas suaves */}
+          <div className="relative overflow-hidden">
+            {/* Background con forma orgánica */}
+            <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-purple-900/30 to-black/50 backdrop-blur-xl" 
+                 style={{borderRadius: '2rem 3rem 2rem 3rem'}}></div>
+            
+            {/* Borde brillante orgánico */}
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/40 via-pink-500/40 to-blue-500/40 p-px"
+                 style={{borderRadius: '2rem 3rem 2rem 3rem'}}>
+              <div className="h-full w-full bg-black/60 backdrop-blur-xl" 
+                   style={{borderRadius: '2rem 3rem 2rem 3rem'}}></div>
+            </div>
+            
+            <div className="relative p-8">
+              <div className="flex items-start gap-5">
+                <div className="flex-shrink-0 relative">
+                  {/* Avatar con glow orgánico */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur opacity-75 animate-pulse"></div>
+                  <div className="relative w-14 h-14 bg-gradient-to-br from-purple-500 via-pink-500 to-blue-500 flex items-center justify-center text-xl"
+                       style={{borderRadius: '50% 40% 50% 60%'}}>
+                    ✨
+                  </div>
                 </div>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold text-white mb-2">
-                  Asistente AI
-                </h3>
-                <p className="text-white/80 leading-relaxed">
-                  {recommendations.personalized_message}
-                </p>
+                <div className="flex-1">
+                  {/* Título con efecto shimmer */}
+                  <div className="flex items-center gap-3 mb-3">
+                    <h3 className="text-xl font-bold bg-gradient-to-r from-purple-300 via-pink-300 to-blue-300 bg-clip-text text-transparent">
+                      Asistente IA
+                    </h3>
+                    <div className="flex gap-1">
+                      <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                      <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                      <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
+                    </div>
+                  </div>
+                  <p className="text-white/90 leading-relaxed text-xl">
+                    {recommendations.personalized_message}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -50,8 +81,8 @@ export const AIRecommendations: React.FC<AIRecommendationsProps> = ({
       {/* Análisis de búsqueda */}
       {recommendations.analysis && (
         <div className="bg-white/5 backdrop-blur-xl rounded-xl p-4 border border-white/10">
-          <h4 className="text-white/90 font-medium mb-2">💡 Análisis de tu búsqueda:</h4>
-          <p className="text-white/70 text-sm">{recommendations.analysis}</p>
+          <h4 className="text-white/90 font-medium mb-2 text-lg">💡 Análisis de tu búsqueda:</h4>
+          <p className="text-white/70 text-base">{recommendations.analysis}</p>
         </div>
       )}
 
@@ -72,7 +103,7 @@ export const AIRecommendations: React.FC<AIRecommendationsProps> = ({
                   <div className="flex-shrink-0 w-6 h-6 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
                     {index + 1}
                   </div>
-                  <p className="text-white/80 group-hover:text-white transition-colors">
+                  <p className="text-white/80 group-hover:text-white transition-colors text-base">
                     {suggestion}
                   </p>
                 </div>
@@ -93,7 +124,7 @@ export const AIRecommendations: React.FC<AIRecommendationsProps> = ({
               <button
                 key={index}
                 onClick={() => onFollowUpClick(question)}
-                className="px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-400/30 hover:border-purple-400/50 rounded-full text-white/80 hover:text-white text-sm transition-all duration-300 hover:scale-105"
+                className="px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-400/30 hover:border-purple-400/50 rounded-full text-white/80 hover:text-white text-base transition-all duration-300 hover:scale-105"
               >
                 {question}
               </button>

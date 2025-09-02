@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import EventAIHover from './EventAIHover'
+import EventDetailOverlay from './EventDetailOverlay'
+import { useAssistants } from '../contexts/AssistantsContext'
 
 interface Event {
   title: string
@@ -33,6 +35,9 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
   const navigate = useNavigate()
   const [isHovered, setIsHovered] = useState(false)
   const [imageError, setImageError] = useState(false)
+  const [isShaking, setIsShaking] = useState(false)
+  const [showDetailOverlay, setShowDetailOverlay] = useState(false)
+  const { triggerEventComment } = useAssistants()
 
   const formatDate = (dateString: string | null | undefined) => {
     if (!dateString) {
@@ -106,10 +111,22 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
     const saved = sessionStorage.getItem(storageKey)
     console.log('🔄 EventCard - Verified storage:', saved ? 'Saved successfully' : 'Failed to save!')
     
-    // Pasar los datos del evento a través del state de navegación
-    navigate(`/evento/${eventId}`, { 
-      state: { event: event } 
+    // Disparar animación de shake
+    setIsShaking(true)
+    setTimeout(() => setIsShaking(false), 600) // Duración del shake
+    
+    // Disparar comentario contextual de los asistentes
+    triggerEventComment({
+      eventTitle: event.title,
+      eventCategory: event.category,
+      eventType: 'click',
+      timestamp: new Date()
     })
+    
+    // MOSTRAR OVERLAY en lugar de navegar - Mantener a Sofia y Juan
+    setTimeout(() => {
+      setShowDetailOverlay(true)
+    }, 700) // Después del shake
   }
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
@@ -120,7 +137,7 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
 
   return (
     <div 
-      className="relative group cursor-pointer transform transition-all duration-500 hover:scale-[1.02]"
+      className={`relative group cursor-pointer transform transition-all duration-500 hover:scale-[1.02] ${isShaking ? 'animate-shake' : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleCardClick}
@@ -203,44 +220,92 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
             </div>
           </div>
           
-          {/* Action buttons with gradients */}
-          <div className="flex gap-2">
+          {/* Action buttons - 80% Ver más + 20% IA */}
+          <div className="flex items-center gap-2">
+            {/* Ver más - 80% del ancho */}
             <button 
-              className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2.5 px-4 rounded-xl font-semibold text-sm hover:shadow-lg transform transition-all duration-300 hover:-translate-y-0.5"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2.5 px-4 rounded-xl font-semibold text-sm hover:shadow-lg transform transition-all duration-300 hover:-translate-y-0.5"
+              style={{ width: '80%' }}
               onClick={handleCardClick}
             >
               Ver más
             </button>
             
-            <button 
-              className={`p-2.5 rounded-xl transition-all duration-300 ${
-                isFavorite 
-                  ? 'bg-gradient-to-r from-red-500 to-pink-500 text-white shadow-lg' 
-                  : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
-              }`}
-              onClick={handleFavoriteClick}
-            >
-              <svg className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} fill={isFavorite ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-              </svg>
-            </button>
-            
-            {/* AI Button - Reemplaza el ícono anterior */}
-            <EventAIHover event={{
-              id: event.source_id || Math.random().toString(),
-              title: event.title,
-              venue_name: event.venue_name,
-              category: event.category,
-              location: event.venue_address || 'Buenos Aires'
-            }} />
+            {/* AI Button - 20% del ancho */}
+            <div style={{ width: '20%' }} className="flex justify-center">
+              <EventAIHover event={{
+                id: event.source_id || Math.random().toString(),
+                title: event.title,
+                venue_name: event.venue_name,
+                category: event.category,
+                location: event.venue_address || 'Buenos Aires'
+              }} />
+            </div>
           </div>
         </div>
         
-        {/* Hover effect overlay */}
+        {/* Botón Corazón Flotante Estilo TikTok */}
+        <div className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-all duration-300 ${
+          isHovered ? 'opacity-100' : 'opacity-0'
+        }`}>
+          <button 
+            className={`pointer-events-auto transform transition-all duration-500 hover:scale-125 ${
+              isHovered ? 'scale-110 animate-pulse' : 'scale-75'
+            } ${
+              isFavorite 
+                ? 'text-red-500' 
+                : 'text-white'
+            }`}
+            onClick={handleFavoriteClick}
+          >
+            <div className="relative">
+              {/* Glow effect */}
+              <div className="absolute inset-0 bg-white/20 rounded-full blur-xl"></div>
+              {/* Corazón */}
+              <svg className={`w-16 h-16 relative z-10 drop-shadow-2xl ${isFavorite ? 'fill-current' : ''}`} 
+                   fill={isFavorite ? 'currentColor' : 'none'} 
+                   stroke="currentColor" 
+                   strokeWidth="2"
+                   viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" 
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+            </div>
+          </button>
+        </div>
+        
+        {/* Hover effect overlay with AI suggestions */}
         {isHovered && (
-          <div className="absolute inset-0 bg-gradient-to-t from-purple-600/20 to-transparent pointer-events-none animate-pulse" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent pointer-events-none transition-all duration-300">
+            <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+              <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg rounded-xl p-4 shadow-lg">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-pulse"></div>
+                  <span className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">AI Suggestions</span>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  <span className="px-2 py-1 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 text-purple-700 dark:text-purple-300 text-xs rounded-full">
+                    📍 Similar venues nearby
+                  </span>
+                  <span className="px-2 py-1 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-700 dark:text-blue-300 text-xs rounded-full">
+                    🎵 Related events
+                  </span>
+                  <span className="px-2 py-1 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 text-green-700 dark:text-green-300 text-xs rounded-full">
+                    ⏰ Best time to go
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
       </div>
+
+      {/* Event Detail Overlay */}
+      <EventDetailOverlay 
+        event={event}
+        isOpen={showDetailOverlay}
+        onClose={() => setShowDetailOverlay(false)}
+      />
     </div>
   )
 }

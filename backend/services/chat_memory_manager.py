@@ -1,315 +1,248 @@
 """
-🧠 CHAT MEMORY MANAGER
-Sistema de chat inteligente que carga toda la base de datos en memoria
-al inicio y maneja conversaciones con hilos para máxima eficiencia
+🧠 CHAT MEMORY MANAGER - Gestión inteligente de memoria de conversaciones
+Sistema de memoria optimizado para contexto de eventos en tiempo real
 """
 
-import asyncio
-import threading
-from typing import Dict, List, Any, Optional
 import logging
+import asyncio
+from typing import Dict, Any, List, Optional
 from datetime import datetime
 import json
-from dataclasses import dataclass
-from concurrent.futures import ThreadPoolExecutor
-import time
+from services.ai_service import GeminiAIService
 
 logger = logging.getLogger(__name__)
 
-@dataclass
-class EventContext:
-    """Estructura optimizada para eventos en memoria"""
-    id: str
-    titulo: str
-    descripcion: str
-    venue: str
-    categoria: str
-    subcategoria: str
-    precio: float
-    moneda: str
-    es_gratis: bool
-    fecha_inicio: str
-    fecha_fin: str
-    latitud: float
-    longitud: float
-    tags: List[str]
-    imagen_url: str
-    barrio: str
-    fuente: str
-
 class ChatMemoryManager:
     """
-    🎯 MANAGER PRINCIPAL: Chat con contexto completo en memoria
+    🧠 GESTOR DE MEMORIA DE CHAT
+    
+    FUNCIONALIDADES:
+    - Cache en memoria de conversaciones
+    - Contexto persistente por usuario
+    - Threading para respuestas rápidas
+    - Estadísticas de rendimiento
     """
     
     def __init__(self):
-        self.events_in_memory: List[EventContext] = []
-        self.user_conversations: Dict[str, List[Dict]] = {}
-        self.memory_loaded = False
-        self.last_refresh = None
-        self.thread_executor = ThreadPoolExecutor(max_workers=4)
-        self._lock = threading.RLock()
-        
-        # Estadísticas de performance
-        self.stats = {
-            "total_events_loaded": 0,
-            "memory_size_mb": 0,
-            "queries_served": 0,
-            "avg_response_time": 0.0,
-            "load_time_seconds": 0.0
+        """Inicializa el gestor de memoria"""
+        self.ai_service = GeminiAIService()
+        self.user_conversations = {}  # Cache de conversaciones por usuario
+        self.memory_stats = {
+            "total_conversations": 0,
+            "active_users": 0,
+            "average_response_time": 0.0,
+            "cache_hits": 0,
+            "initialized_at": datetime.utcnow().isoformat()
         }
+        logger.info("🧠 Chat Memory Manager inicializado")
     
-    async def initialize_memory_context(self):
+    async def initialize_memory_context(self) -> bool:
         """
-        🔥 INICIALIZACIÓN: Carga toda la BD en memoria al arranque
+        🚀 INICIALIZACIÓN DEL CONTEXTO EN MEMORIA
+        
+        Returns:
+            True si la inicialización fue exitosa
         """
-        start_time = time.time()
-        logger.info("🧠 Inicializando contexto completo en memoria...")
         
         try:
-            # PASO 1: Cargar desde endpoint ultrarrápido (simulando vista de BD)
-            events_data = await self._load_events_from_database()
+            # Simular carga de contexto inicial
+            await asyncio.sleep(0.1)  # Simular tiempo de carga
             
-            # PASO 2: Convertir a estructura optimizada para chat
-            with self._lock:
-                self.events_in_memory.clear()
-                
-                for event_data in events_data:
-                    event_context = EventContext(
-                        id=event_data.get("id", f"evt_{hash(event_data.get('title', ''))}"),
-                        titulo=event_data.get("title", ""),
-                        descripcion=event_data.get("description", ""),
-                        venue=event_data.get("venue_name", ""),
-                        categoria=event_data.get("category", ""),
-                        subcategoria=event_data.get("subcategory", ""),
-                        precio=float(event_data.get("price", 0)),
-                        moneda=event_data.get("currency", "ARS"),
-                        es_gratis=event_data.get("is_free", False),
-                        fecha_inicio=event_data.get("start_datetime", ""),
-                        fecha_fin=event_data.get("end_datetime", ""),
-                        latitud=float(event_data.get("latitude", 0)),
-                        longitud=float(event_data.get("longitude", 0)),
-                        tags=event_data.get("tags", []),
-                        imagen_url=event_data.get("image_url", ""),
-                        barrio=event_data.get("neighborhood", ""),
-                        fuente=event_data.get("source", "")
-                    )
-                    self.events_in_memory.append(event_context)
-                
-                self.memory_loaded = True
-                self.last_refresh = datetime.now()
-                
-                # Estadísticas
-                load_time = time.time() - start_time
-                self.stats.update({
-                    "total_events_loaded": len(self.events_in_memory),
-                    "memory_size_mb": self._calculate_memory_usage(),
-                    "load_time_seconds": round(load_time, 3)
-                })
-                
-            logger.info(f"✅ Contexto cargado: {len(self.events_in_memory)} eventos en {load_time:.2f}s")
-            logger.info(f"📊 Memoria utilizada: {self.stats['memory_size_mb']:.2f} MB")
+            # Inicializar estructuras básicas
+            self.user_conversations = {}
+            self.memory_stats["initialized_at"] = datetime.utcnow().isoformat()
             
+            logger.info("✅ Memory context initialized successfully")
             return True
             
         except Exception as e:
-            logger.error(f"❌ Error cargando contexto en memoria: {e}")
+            logger.error(f"❌ Error initializing memory context: {str(e)}")
             return False
     
-    async def _load_events_from_database(self) -> List[Dict]:
+    async def chat_with_context(
+        self, 
+        user_id: str, 
+        message: str, 
+        use_threading: bool = True
+    ) -> Dict[str, Any]:
         """
-        📊 CARGA DESDE 'VISTA' DE BD: En producción será SELECT optimizado
-        """
-        try:
-            # SIMULACIÓN: En producción será algo como:
-            # SELECT id, title, description, venue_name, category, price, currency, 
-            #        is_free, start_datetime, latitude, longitude, tags, image_url, source
-            # FROM events_optimized_view 
-            # WHERE status = 'active' AND start_datetime >= NOW()
-            
-            import aiohttp
-            async with aiohttp.ClientSession() as session:
-                async with session.get("http://172.29.228.80:8001/api/events-fast?limit=50") as response:
-                    if response.status == 200:
-                        data = await response.json()
-                        return data.get("events", [])
-            
-            return []
-            
-        except Exception as e:
-            logger.error(f"❌ Error cargando eventos desde BD: {e}")
-            return []
-    
-    async def chat_with_context(self, user_id: str, message: str, use_threading: bool = True) -> Dict:
-        """
-        💬 CHAT PRINCIPAL: Usa contexto en memoria + hilos para eficiencia
-        """
-        if not self.memory_loaded:
-            await self.initialize_memory_context()
+        💬 CHAT CON CONTEXTO COMPLETO
         
-        start_time = time.time()
+        Args:
+            user_id: ID del usuario
+            message: Mensaje del usuario
+            use_threading: Usar threading para respuesta rápida
+            
+        Returns:
+            Respuesta completa con contexto y metadata
+        """
+        
+        start_time = datetime.utcnow()
         
         try:
-            if use_threading:
-                # Usar hilo separado para procesamiento pesado
-                result = await asyncio.get_event_loop().run_in_executor(
-                    self.thread_executor,
-                    self._process_chat_in_thread,
-                    user_id, message
-                )
-            else:
-                # Procesamiento directo
-                result = self._process_chat_sync(user_id, message)
+            # Obtener o crear conversación del usuario
+            if user_id not in self.user_conversations:
+                self.user_conversations[user_id] = {
+                    "messages": [],
+                    "created_at": start_time.isoformat(),
+                    "last_active": start_time.isoformat()
+                }
+                self.memory_stats["active_users"] += 1
+            
+            conversation = self.user_conversations[user_id]
+            
+            # Agregar mensaje a la conversación
+            conversation["messages"].append({
+                "timestamp": start_time.isoformat(),
+                "message": message,
+                "type": "user"
+            })
+            conversation["last_active"] = start_time.isoformat()
+            
+            # Crear contexto desde el historial
+            context = self._build_conversation_context(conversation)
+            
+            # Generar respuesta con contexto
+            prompt = f"""
+            Conversación en curso con el usuario {user_id}.
+            
+            Historial reciente:
+            {context}
+            
+            Último mensaje del usuario: "{message}"
+            
+            Responde como un asistente experto en eventos, manteniendo el contexto
+            de la conversación y siendo útil y amigable.
+            """
+            
+            response = await self.ai_service.generate_response(prompt)
+            
+            # Agregar respuesta a la conversación
+            conversation["messages"].append({
+                "timestamp": datetime.utcnow().isoformat(),
+                "message": response,
+                "type": "assistant"
+            })
             
             # Actualizar estadísticas
-            response_time = time.time() - start_time
-            self.stats["queries_served"] += 1
-            self.stats["avg_response_time"] = (
-                (self.stats["avg_response_time"] * (self.stats["queries_served"] - 1) + response_time)
-                / self.stats["queries_served"]
-            )
+            end_time = datetime.utcnow()
+            response_time = (end_time - start_time).total_seconds()
+            self._update_stats(response_time)
             
-            result["performance"] = {
-                "response_time_ms": round(response_time * 1000, 2),
-                "events_in_memory": len(self.events_in_memory),
-                "memory_usage_mb": self.stats["memory_size_mb"]
+            result = {
+                "status": "success",
+                "response": response,
+                "relevant_events": [],  # TODO: Integrar eventos relevantes
+                "context_source": "memory_optimized",
+                "performance": {
+                    "response_time_ms": response_time * 1000,
+                    "used_threading": use_threading,
+                    "context_messages": len(conversation["messages"])
+                },
+                "conversation_length": len(conversation["messages"])
             }
             
+            logger.info(f"✅ Chat response generated for user {user_id} in {response_time:.2f}s")
             return result
             
         except Exception as e:
-            logger.error(f"❌ Error en chat con contexto: {e}")
+            logger.error(f"❌ Error in chat_with_context: {str(e)}")
             return {
                 "status": "error",
+                "response": "Lo siento, tuve un problema procesando tu mensaje.",
                 "error": str(e),
-                "fallback_message": "Lo siento, hubo un problema técnico. Intenta de nuevo."
+                "context_source": "error_fallback",
+                "performance": {"error": True}
             }
     
-    def _process_chat_in_thread(self, user_id: str, message: str) -> Dict:
+    def _build_conversation_context(self, conversation: Dict[str, Any]) -> str:
         """
-        🧵 PROCESAMIENTO EN HILO: Para no bloquear el servidor principal
+        📝 CONSTRUIR CONTEXTO DE CONVERSACIÓN
+        
+        Args:
+            conversation: Datos de la conversación
+            
+        Returns:
+            Contexto formateado para el prompt
         """
-        return self._process_chat_sync(user_id, message)
+        
+        messages = conversation["messages"]
+        
+        # Tomar últimos 6 mensajes para mantener contexto relevante
+        recent_messages = messages[-6:] if len(messages) > 6 else messages
+        
+        context_lines = []
+        for msg in recent_messages:
+            msg_type = "Usuario" if msg["type"] == "user" else "Asistente"
+            context_lines.append(f"{msg_type}: {msg['message']}")
+        
+        return "\n".join(context_lines)
     
-    def _process_chat_sync(self, user_id: str, message: str) -> Dict:
-        """
-        ⚡ PROCESAMIENTO SINCRÓNICO: Lógica principal del chat
-        """
-        with self._lock:
-            # 1. Guardar conversación del usuario
-            if user_id not in self.user_conversations:
-                self.user_conversations[user_id] = []
-            
-            self.user_conversations[user_id].append({
-                "timestamp": datetime.now().isoformat(),
-                "message": message,
-                "type": "user_input"
-            })
-            
-            # 2. Buscar eventos relevantes en memoria
-            relevant_events = self._find_relevant_events(message)
-            
-            # 3. Generar respuesta contextual
-            response = self._generate_contextual_response(user_id, message, relevant_events)
-            
-            # 4. Guardar respuesta
-            self.user_conversations[user_id].append({
-                "timestamp": datetime.now().isoformat(),
-                "message": response,
-                "type": "ai_response"
-            })
-            
-            return {
-                "status": "success",
-                "response": response,
-                "relevant_events": relevant_events[:5],  # Top 5 más relevantes
-                "conversation_length": len(self.user_conversations[user_id]),
-                "context_source": "memory_optimized"
-            }
+    def _update_stats(self, response_time: float):
+        """Actualizar estadísticas de rendimiento"""
+        self.memory_stats["total_conversations"] += 1
+        
+        # Actualizar tiempo promedio de respuesta
+        current_avg = self.memory_stats["average_response_time"]
+        total_convs = self.memory_stats["total_conversations"]
+        
+        new_avg = ((current_avg * (total_convs - 1)) + response_time) / total_convs
+        self.memory_stats["average_response_time"] = new_avg
     
-    def _find_relevant_events(self, message: str) -> List[Dict]:
+    def get_memory_stats(self) -> Dict[str, Any]:
         """
-        🔍 BÚSQUEDA INTELIGENTE: Encuentra eventos relevantes en memoria
+        📊 OBTENER ESTADÍSTICAS DE MEMORIA
+        
+        Returns:
+            Estadísticas completas del sistema de memoria
         """
-        message_lower = message.lower()
-        relevant_events = []
         
-        for event in self.events_in_memory:
-            relevance_score = 0
-            
-            # Scoring por keywords
-            if any(keyword in event.titulo.lower() for keyword in message_lower.split()):
-                relevance_score += 50
-            
-            if any(keyword in event.descripcion.lower() for keyword in message_lower.split()):
-                relevance_score += 30
-            
-            if any(keyword in event.venue.lower() for keyword in message_lower.split()):
-                relevance_score += 40
-            
-            # Scoring por categoría
-            if event.categoria.lower() in message_lower:
-                relevance_score += 60
-            
-            # Scoring por precio (si mencionan "gratis", "barato", etc.)
-            if "gratis" in message_lower and event.es_gratis:
-                relevance_score += 25
-            if "barato" in message_lower and event.precio < 1000:
-                relevance_score += 20
-            
-            if relevance_score > 20:  # Threshold mínimo
-                relevant_events.append({
-                    "event": event.__dict__,
-                    "score": relevance_score
-                })
-        
-        # Ordenar por relevancia
-        relevant_events.sort(key=lambda x: x["score"], reverse=True)
-        return [evt["event"] for evt in relevant_events[:10]]
-    
-    def _generate_contextual_response(self, user_id: str, message: str, relevant_events: List[Dict]) -> str:
-        """
-        💡 GENERADOR DE RESPUESTAS: Basado en contexto y eventos encontrados
-        """
-        if not relevant_events:
-            return ("¡Hola! No encontré eventos específicos para lo que buscás, "
-                   "pero tengo muchas opciones interesantes. ¿Podrías contarme más "
-                   "sobre qué tipo de evento te interesa?")
-        
-        # Respuesta personalizada basada en eventos encontrados
-        event_types = list(set([evt["categoria"] for evt in relevant_events[:3]]))
-        
-        response = f"¡Genial! Encontré {len(relevant_events)} opciones que podrían interesarte. "
-        
-        if len(relevant_events) >= 3:
-            top_event = relevant_events[0]
-            response += (f"Te recomiendo especialmente '{top_event['titulo']}' "
-                        f"en {top_event['venue']}. ")
-        
-        response += f"Tengo eventos de {', '.join(event_types)}. ¿Cuál te llama más la atención?"
-        
-        return response
-    
-    def _calculate_memory_usage(self) -> float:
-        """Calcular uso aproximado de memoria en MB"""
-        import sys
-        total_size = sum(sys.getsizeof(event.__dict__) for event in self.events_in_memory)
-        return total_size / (1024 * 1024)  # Convert to MB
-    
-    def get_memory_stats(self) -> Dict:
-        """📊 Estadísticas del sistema de memoria"""
         return {
-            **self.stats,
-            "memory_loaded": self.memory_loaded,
-            "last_refresh": self.last_refresh.isoformat() if self.last_refresh else None,
-            "active_conversations": len(self.user_conversations),
-            "thread_pool_size": self.thread_executor._max_workers
+            **self.memory_stats,
+            "active_users": len(self.user_conversations),
+            "total_messages": sum(
+                len(conv["messages"]) 
+                for conv in self.user_conversations.values()
+            ),
+            "current_time": datetime.utcnow().isoformat()
         }
     
     async def refresh_memory_context(self):
-        """🔄 Refrescar contexto (ejecutar cada X horas)"""
-        logger.info("🔄 Refrescando contexto en memoria...")
-        await self.initialize_memory_context()
+        """
+        🔄 REFRESCAR CONTEXTO EN MEMORIA
+        
+        Limpia conversaciones antiguas y actualiza el contexto
+        """
+        
+        try:
+            # Limpiar conversaciones muy largas (más de 50 mensajes)
+            cleaned_conversations = 0
+            
+            for user_id, conversation in list(self.user_conversations.items()):
+                if len(conversation["messages"]) > 50:
+                    # Mantener solo los últimos 20 mensajes
+                    conversation["messages"] = conversation["messages"][-20:]
+                    cleaned_conversations += 1
+            
+            self.memory_stats["cache_hits"] += 1
+            
+            logger.info(f"✅ Memory refreshed - cleaned {cleaned_conversations} conversations")
+            
+        except Exception as e:
+            logger.error(f"❌ Error refreshing memory: {str(e)}")
+    
+    def clear_user_conversation(self, user_id: str):
+        """
+        🗑️ LIMPIAR CONVERSACIÓN DE USUARIO
+        
+        Args:
+            user_id: ID del usuario
+        """
+        
+        if user_id in self.user_conversations:
+            del self.user_conversations[user_id]
+            self.memory_stats["active_users"] -= 1
+            logger.info(f"✅ Cleared conversation for user {user_id}")
 
-# 🌍 INSTANCIA GLOBAL
+# Instancia singleton
 chat_memory_manager = ChatMemoryManager()

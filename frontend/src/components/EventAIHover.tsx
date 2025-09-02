@@ -72,11 +72,18 @@ const EventAIHover: React.FC<EventAIHoverProps> = ({ event }) => {
 
       {/* Modal usando React Portal - Se renderiza en el body */}
       {showInsight && createPortal(
-        <div className="fixed inset-0 z-[99999] flex">
+        <div 
+          className="fixed inset-0 z-[99999] flex"
+          onClick={(e) => e.stopPropagation()}
+        >
           {/* Overlay de fondo */}
           <div 
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            onClick={() => setShowInsight(false)}
+            onClick={(e) => {
+              e.stopPropagation()
+              e.preventDefault()
+              setShowInsight(false)
+            }}
           />
           
           {/* Modal que se desliza desde la derecha */}

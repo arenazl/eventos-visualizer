@@ -90,6 +90,7 @@ interface EventsState {
 
   // AI-First Methods
   aiSearch: (query: string, location?: Location) => Promise<void>
+  aiInitialSearch: (location: Location) => Promise<void>  // New function for initial page load
   getSmartRecommendations: (query: string, foundEvents: Event[], detectedLocation?: string) => Promise<void>
   analyzeUserIntent: (query: string) => Promise<any>
   
@@ -191,6 +192,70 @@ const useEventsStore = create<EventsState>((set, get) => ({
     }
   },
 
+  // 🌍 AI INITIAL SEARCH - Para carga inicial con geolocalización
+  aiInitialSearch: async (location: Location) => {
+    set({ loading: true, error: null, lastQuery: `Eventos en ${location.name}` })
+
+    try {
+      // Use location name as the query for initial search
+      const initialQuery = location.name
+      
+      // 1. PASO 1: Analizar intención de la ubicación detectada
+      const intentResponse = await fetch('http://172.29.228.80:8001/api/ai/analyze-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query: initialQuery,
+          context: {
+            location: location.name,
+            coordinates: location.coordinates,
+            detected_method: location.detected,
+            time: new Date().toISOString(),
+            is_initial_load: true
+          }
+        })
+      })
+
+      const intent = intentResponse.ok ? await intentResponse.json() : null
+
+      // 2. PASO 2: Búsqueda inteligente con contexto geográfico
+      const searchResponse = await fetch('http://172.29.228.80:8001/api/smart/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query: initialQuery,
+          location: location.name,
+          user_context: {
+            location: location.name,
+            coordinates: location.coordinates,
+            intent_analysis: intent,
+            is_initial_load: true,
+            detected_method: location.detected
+          }
+        })
+      })
+
+      if (!searchResponse.ok) throw new Error('Error en búsqueda inicial AI')
+
+      const searchData = await searchResponse.json()
+      const foundEvents = searchData.recommended_events || []
+
+      // 3. PASO 3: Generar recomendaciones basadas en ubicación
+      await get().getSmartRecommendations(initialQuery, foundEvents, location.name)
+
+      set({ 
+        events: foundEvents, 
+        loading: false,
+        lastQuery: `Eventos en ${location.name}` 
+      })
+
+    } catch (error) {
+      console.warn('AI initial search failed, falling back to traditional fetch:', error)
+      // Fallback al método tradicional
+      await get().fetchEvents(location)
+    }
+  },
+
   // 🎯 Recomendaciones inteligentes (complementa cualquier búsqueda)
   getSmartRecommendations: async (query: string, foundEvents: Event[], detectedLocation?: string) => {
     try {
@@ -247,11 +312,14 @@ const useEventsStore = create<EventsState>((set, get) => ({
       const { currentLocation } = get()
       const searchLocation = location || currentLocation
 
-      // Usar el nuevo endpoint progressive
-      let apiUrl = 'http://172.29.228.80:8001/api/multi/fetch-all'
+      // Usar endpoint estándar /api/events
+      let apiUrl = 'http://172.29.228.80:8001/api/events'
+      const params = new URLSearchParams()
       if (searchLocation) {
-        apiUrl += `?location=${encodeURIComponent(searchLocation.name || "Buenos Aires")}`
+        params.set('location', searchLocation.name || "Buenos Aires")
       }
+      params.set('limit', '30')
+      apiUrl += `?${params.toString()}`
 
       const response = await fetch(apiUrl)
       if (!response.ok) throw new Error('Error al cargar eventos')
