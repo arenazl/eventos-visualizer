@@ -129,40 +129,39 @@ class GlobalImageService:
         
         return category_mapping.get(category_lower, category_lower if category_lower in self.category_keywords else 'default')
 
-    def get_event_image(self, title: str, category: Optional[str] = None, venue: Optional[str] = None, country: Optional[str] = None) -> str:
+    def get_event_image(self, title: str, category: Optional[str] = None, venue: Optional[str] = None, country: Optional[str] = None, description: Optional[str] = None) -> str:
         """
-        🖼️ Obtiene una imagen apropiada para un evento
+        🖼️ Obtiene una imagen apropiada y contextual para un evento
         
         Args:
             title: Título del evento
             category: Categoría del evento
             venue: Venue/lugar del evento
             country: País del evento
+            description: Descripción del evento
             
         Returns:
-            str: URL de imagen apropiada
+            str: URL de imagen apropiada basada en contenido
         """
         try:
-            # Crear cache key
-            cache_key = hashlib.md5(f"{title}_{category}_{venue}".encode()).hexdigest()
+            # Crear cache key único incluyendo descripción
+            cache_key = hashlib.md5(f"{title}_{category}_{venue}_{description}".encode()).hexdigest()
             
             if cache_key in self.cache:
                 return self.cache[cache_key]
             
-            # Normalizar categoría
-            normalized_category = self.normalize_category(category)
+            # Analizar contenido completo del evento
+            full_content = f"{title} {description or ''} {venue or ''}".lower()
             
-            # Intentar obtener imagen específica por título o venue
-            if title:
-                specific_image = self._get_specific_image(title, normalized_category)
-                if specific_image:
-                    self.cache[cache_key] = specific_image
-                    return specific_image
+            # Determinar tema específico basado en análisis de contenido
+            specific_theme = self._analyze_event_content(full_content, category)
             
-            # Fallback a imagen por categoría
-            category_image = self._get_category_image(normalized_category, country)
-            self.cache[cache_key] = category_image
-            return category_image
+            # Generar imagen contextual basada en tema específico
+            contextual_image = self._generate_contextual_image(title, specific_theme, full_content)
+            
+            self.cache[cache_key] = contextual_image
+            logger.info(f"🎯 Contextual image for '{title[:40]}...': theme={specific_theme}")
+            return contextual_image
             
         except Exception as e:
             logger.warning(f"⚠️ Error getting image for '{title}': {e}")
@@ -219,6 +218,155 @@ class GlobalImageService:
         except Exception as e:
             logger.warning(f"⚠️ Error generating category image: {e}")
             return self.default_images.get('default')
+    
+    def _analyze_event_content(self, content: str, category: Optional[str] = None) -> str:
+        """
+        🧠 Analiza el contenido del evento para determinar el tema más específico
+        
+        Args:
+            content: Contenido completo del evento (título + descripción + venue)
+            category: Categoría base del evento
+            
+        Returns:
+            str: Tema específico determinado del análisis
+        """
+        # Definir indicadores específicos con sus temas correspondientes
+        theme_indicators = {
+            "wine": ["vino", "wine", "bodega", "winery", "malbec", "degustación", "vineyard", "maridaje", "cata"],
+            "concert": ["concierto", "concert", "música", "music", "band", "festival", "rock", "jazz", "pop", "live"],
+            "food": ["gastronom", "comida", "food", "restaurant", "cocina", "chef", "degustación", "culinar"],
+            "sports": ["deporte", "sport", "fútbol", "football", "tennis", "basketball", "stadium", "match"],
+            "cultural": ["cultural", "arte", "art", "museo", "museum", "exposición", "gallery", "teatro"],
+            "business": ["business", "empresa", "conference", "networking", "workshop", "seminario", "corporate"],
+            "outdoor": ["outdoor", "aire libre", "parque", "park", "hiking", "camping", "nature", "aventura"],
+            "party": ["fiesta", "party", "celebración", "celebration", "baile", "dance", "nightlife"],
+            "tech": ["tech", "technology", "startup", "digital", "innovation", "hackathon", "coding", "software"],
+            "theater": ["teatro", "theater", "obra", "drama", "performance", "espectáculo", "musical"]
+        }
+        
+        # Contar coincidencias para cada tema
+        theme_scores = {}
+        for theme, keywords in theme_indicators.items():
+            score = sum(1 for keyword in keywords if keyword in content)
+            if score > 0:
+                theme_scores[theme] = score
+        
+        # Si hay coincidencias específicas, usar el tema con mayor score
+        if theme_scores:
+            best_theme = max(theme_scores, key=theme_scores.get)
+            logger.debug(f"🧠 Content analysis: '{content[:50]}...' → theme: {best_theme}")
+            return best_theme
+        
+        # Fallback a categoría normalizada o default
+        normalized_cat = self.normalize_category(category) if category else 'default'
+        logger.debug(f"🧠 No specific theme found, using category: {normalized_cat}")
+        return normalized_cat
+    
+    def _generate_contextual_image(self, title: str, theme: str, content: str) -> str:
+        """
+        🎨 Genera una imagen contextual específica basada en el tema determinado
+        
+        Args:
+            title: Título del evento
+            theme: Tema específico determinado del análisis
+            content: Contenido completo para hash único
+            
+        Returns:
+            str: URL de imagen contextual
+        """
+        # Colección de IDs de fotos de Unsplash de alta calidad por tema específico
+        theme_photo_collections = {
+            "wine": [
+                "1506485338023-6ce5f36692df",  # Wine tasting
+                "1551218808-419d4f39d7e8",     # Vineyard landscape  
+                "1504674900406-8394e5e3e9b4",  # Wine glasses
+                "1560472354-b33ff0c44a43",     # Wine barrels
+                "1574269909862-7e1d70841ce6"   # Wine bottles
+            ],
+            "concert": [
+                "1514525253161-7a46d19cd819",  # Concert crowd
+                "1493225457124-a3eb161ffa5f",  # Live performance
+                "1506905925346-21bea4d5618d",  # Music stage
+                "1518611012118-696072aa579a",  # Music festival
+                "1571019613454-1cb2f99b2d8b"   # Guitar performance
+            ],
+            "food": [
+                "1555939594-f7405c7ecaed",     # Gourmet plating
+                "1504674900406-8394e5e3e9b4",  # Fine dining
+                "1551218808-419d4f39d7e8",     # Food presentation
+                "1565958011703-00e083a8b7e2",  # Restaurant atmosphere
+                "1546833999-b9fcbecd74dd"      # Culinary art
+            ],
+            "sports": [
+                "1551698618-1dfe5d97a563",     # Stadium view
+                "1577212014992-8f598e5e9b30",  # Sports action
+                "1461896836934-ffe607ba8211",  # Athletic event
+                "1571019613454-1cb2f99b2d8b",  # Team sports
+                "1606107688070-b7f7c9e8f9c5"   # Sports fans
+            ],
+            "cultural": [
+                "1518998053901-5348d3961a04",  # Art gallery
+                "1507003211169-0a1dd7228f2d",  # Museum interior
+                "1578662996442-48f60103fc96",  # Cultural exhibition
+                "1544947950-5b1c4b0d6b8d",     # Art installation
+                "1518611012118-696072aa579a"   # Cultural event
+            ],
+            "business": [
+                "1552664730-d307ca884978",     # Business meeting
+                "1531482615713-2afd69097998",  # Conference room
+                "1542626991-22e93d36c9d8",     # Professional networking
+                "1517245386807-bb43f82c33c4",  # Corporate event
+                "1523240795612-9a054b0db644"   # Business seminar
+            ],
+            "outdoor": [
+                "1441974231531-c6227db76b6e",  # Outdoor activity
+                "1506905925346-21bea4d5618d",  # Park gathering
+                "1571019613454-1cb2f99b2d8b",  # Adventure sports
+                "1544947950-5b1c4b0d6b8d",     # Nature event
+                "1560472354-b33ff0c44a43"      # Outdoor festival
+            ],
+            "party": [
+                "1530103862676-de2619d7c022",  # Party celebration
+                "1492684223066-81342ee5ff30",  # Social gathering
+                "1516450360452-9312f5e86fc7",  # Nightlife
+                "1518611012118-696072aa579a",  # Dance event
+                "1571019613454-1cb2f99b2d8b"   # Celebration
+            ],
+            "tech": [
+                "1517077304055-6e89abbcd4df",  # Tech conference
+                "1531482615713-2afd69097998",  # Innovation event
+                "1542626991-22e93d36c9d8",     # Tech networking
+                "1523240795612-9a054b0db644",  # Digital workshop
+                "1517245386807-bb43f82c33c4"   # Startup event
+            ],
+            "theater": [
+                "1507003211169-0a1dd7228f2d",  # Theater stage
+                "1518998053901-5348d3961a04",  # Performance venue
+                "1544947950-5b1c4b0d6b8d",     # Theater interior
+                "1578662996442-48f60103fc96",  # Dramatic performance
+                "1506905925346-21bea4d5618d"   # Live theater
+            ],
+            "default": [
+                "1492684223066-81342ee5ff30",  # General event
+                "1530103862676-de2619d7c022",  # Social gathering
+                "1514525253161-7a46d19cd819",  # Community event
+                "1518611012118-696072aa579a",  # Celebration
+                "1506905925346-21bea4d5618d"   # Group activity
+            ]
+        }
+        
+        # Obtener colección de fotos para el tema
+        photo_ids = theme_photo_collections.get(theme, theme_photo_collections["default"])
+        
+        # Seleccionar foto específica basada en hash del título para consistencia
+        title_hash = abs(hash(title.lower())) % len(photo_ids)
+        selected_photo_id = photo_ids[title_hash]
+        
+        # Generar URL con parámetros optimizados
+        image_url = f"https://images.unsplash.com/photo-{selected_photo_id}?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+        
+        logger.debug(f"🎨 Generated contextual image: {title[:30]} → {theme} → photo_{selected_photo_id}")
+        return image_url
 
     async def improve_event_images(self, events: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
@@ -242,7 +390,8 @@ class GlobalImageService:
                         title=event.get('title', ''),
                         category=event.get('category', ''),
                         venue=event.get('venue_name', ''),
-                        country=event.get('country', '')
+                        country=event.get('country', ''),
+                        description=event.get('description', '')
                     )
                     
                     event['image_url'] = better_image
@@ -266,9 +415,9 @@ class GlobalImageService:
 global_image_service = GlobalImageService()
 
 # Funciones de conveniencia
-def get_event_image(title: str, category: Optional[str] = None, venue: Optional[str] = None, country: Optional[str] = None) -> str:
+def get_event_image(title: str, category: Optional[str] = None, venue: Optional[str] = None, country: Optional[str] = None, description: Optional[str] = None) -> str:
     """Función de conveniencia para obtener imagen de evento"""
-    return global_image_service.get_event_image(title, category, venue, country)
+    return global_image_service.get_event_image(title, category, venue, country, description)
 
 def is_good_image(image_url: Optional[str]) -> bool:
     """Función de conveniencia para evaluar calidad de imagen"""
