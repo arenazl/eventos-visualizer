@@ -3,9 +3,8 @@
  * Con geolocalización automática y búsqueda inteligente
  */
 
-import { config } from '../config'
-
-const API_BASE_URL = config.API_BASE_URL
+// URL de la API - Se configura automáticamente por ambiente
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://funaroundyou-f21e91cae36c.herokuapp.com'
 
 export interface Location {
   city: string
