@@ -1,239 +1,144 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useEvents } from '../stores/EventsStore'
 
 const ScrapersDetailPanel: React.FC = () => {
+  const [isExpanded, setIsExpanded] = useState(false)
+  
   const { 
     sourceTiming, 
-    performanceStats, 
     isStreaming,
     streamingSource,
-    streamingProgress,
-    streamingMessage,
     events
   } = useEvents()
 
-  // Calcular estadísticas detalladas
-  const getDetailedStats = () => {
-    return sourceTiming.map(timing => {
-      const eventCount = timing.eventTimes.length
-      const avgTimePerEvent = eventCount > 0 ? timing.totalTime! / eventCount : 0
-      const isActive = isStreaming && timing.endTime === undefined
-      const status = isActive ? 'activo' : timing.totalTime ? 'completado' : 'pendiente'
-      
-      return {
-        ...timing,
-        eventCount,
-        avgTimePerEvent,
-        isActive,
-        status
-      }
-    })
+  // Calcular datos simples por servicio
+  const getServiceRows = () => {
+    return sourceTiming.map(timing => ({
+      source: timing.source,
+      eventCount: timing.eventTimes?.length || 0,
+      totalTime: Math.round(timing.totalTime || 0),
+      isActive: isStreaming && timing.endTime === undefined,
+      status: isStreaming && timing.endTime === undefined ? 'activo' : 
+             timing.totalTime ? 'completado' : 'fallido'
+    }))
   }
 
-  const detailedStats = getDetailedStats()
-  const totalEvents = events.length
-  const activeScrapers = detailedStats.filter(s => s.isActive).length
-  const completedScrapers = detailedStats.filter(s => s.status === 'completado').length
+  const serviceRows = getServiceRows()
 
-  // Siempre mostrar el panel, incluso sin datos
-  // if (!isStreaming && sourceTiming.length === 0) {
-  //   return null
-  // }
+  // Si no hay datos, no mostrar el panel
+  if (serviceRows.length === 0 && !isStreaming) {
+    return null
+  }
+
+  const getServiceEmoji = (source: string) => {
+    switch (source.toLowerCase()) {
+      case 'eventbrite': return '🎫'
+      case 'facebook': return '🔥'
+      case 'instagram': return '📸'
+      case 'argentina_venues': return '🏛️'
+      case 'meetup': return '👥'
+      case 'ticketmaster': return '🎤'
+      default: return '🔍'
+    }
+  }
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'activo': return 'text-green-600 bg-green-100'
+      case 'completado': return 'text-blue-600 bg-blue-100'
+      case 'fallido': return 'text-red-600 bg-red-100'
+      default: return 'text-gray-600 bg-gray-100'
+    }
+  }
 
   return (
     <div className="w-full max-w-4xl mx-auto mb-8">
-      {/* Header siempre visible */}
-      <div className={`w-full flex items-center justify-between px-4 py-2 backdrop-blur-xl border transition-all duration-200 rounded-t-lg ${
-          isStreaming 
-            ? 'bg-green-500/20 border-green-400/30 text-green-300' 
-            : 'bg-white/10 border-white/20 text-white/80'
-        }`}
+      {/* Header colapsable con colores de la app */}
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="w-full flex items-center justify-between px-4 py-3 backdrop-blur-xl bg-black/40 border border-white/30 rounded-xl hover:bg-black/50 transition-all duration-200 shadow-2xl group"
       >
         <div className="flex items-center space-x-2">
-          <div className={`w-2 h-2 rounded-full ${isStreaming ? 'bg-green-400 animate-pulse' : 'bg-gray-400'}`}></div>
-          <span className="font-medium text-sm">
-            {isStreaming ? 'Scrapers En Vivo' : 'Análisis Detallado'}
+          <div className={`w-2 h-2 rounded-full ${isStreaming ? 'bg-green-400 animate-pulse' : 'bg-purple-400'}`}></div>
+          <span className="font-medium text-sm text-white/90">
+            {isStreaming ? '⚡ APIs Ejecutándose' : '📊 Servicios Ejecutados'}
           </span>
         </div>
         
         <div className="flex items-center space-x-3 text-xs">
           {isStreaming && streamingSource && (
-            <span className="text-green-300">
+            <span className="text-green-300 bg-green-500/20 border border-green-400/30 px-2 py-1 rounded-full font-medium">
               🔄 {streamingSource}
             </span>
           )}
-          <span className="font-bold">{totalEvents} eventos</span>
-          {detailedStats.length > 0 && (
-            <span className="text-white/60">
-              {detailedStats.length} APIs
-            </span>
-          )}
+          <span className="font-bold text-white/90">{events.length} eventos</span>
+          <span className="text-white/60">
+            {serviceRows.length} servicios
+          </span>
+          <svg
+            className={`w-4 h-4 text-white/60 transition-transform duration-200 ${
+              isExpanded ? 'rotate-180' : ''
+            }`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
         </div>
-      </div>
+      </button>
 
-      {/* Panel detallado SIEMPRE visible */}
-      <div className="backdrop-blur-xl bg-black/40 border-l border-r border-b border-white/20 rounded-b-lg p-4 shadow-2xl">
-        {/* Summary stats */}
-        <div className="grid grid-cols-3 gap-2 mb-4 text-xs">
-          <div className="text-center p-2 bg-white/10 rounded">
-            <div className="font-bold text-green-400">{activeScrapers}</div>
-            <div className="text-white/70">Activos</div>
-          </div>
-          <div className="text-center p-2 bg-white/10 rounded">
-            <div className="font-bold text-blue-400">{completedScrapers}</div>
-            <div className="text-white/70">Completados</div>
-          </div>
-          <div className="text-center p-2 bg-white/10 rounded">
-            <div className="font-bold text-purple-400">{totalEvents}</div>
-            <div className="text-white/70">Total Eventos</div>
-          </div>
-        </div>
-
-        {/* Current streaming status */}
-        {isStreaming && streamingSource && (
-          <div className="mb-4 p-3 bg-green-500/20 border border-green-400/30 rounded-lg">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-green-300 font-medium">🔄 {streamingSource}</span>
-              <span className="text-green-400 text-xs">{streamingProgress}%</span>
-            </div>
-            <div className="text-green-200 text-xs">{streamingMessage}</div>
-            <div className="mt-2 bg-green-900/50 rounded-full h-1">
-              <div 
-                className="bg-green-400 h-1 rounded-full transition-all duration-300"
-                style={{ width: `${streamingProgress}%` }}
-              ></div>
-            </div>
-          </div>
-        )}
-
-        {/* Detailed scraper stats */}
-        <div className="space-y-2 max-h-64 overflow-y-auto">
-          {detailedStats.length === 0 ? (
-            // Mostrar cuando no hay datos de scrapers
-            <div className="p-4 bg-white/5 rounded-lg border border-white/10 text-center">
-              <div className="text-white/60 text-sm mb-2">🔍 Panel de Monitoreo Técnico</div>
-              <div className="text-white/80 text-xs">
-                Haz una búsqueda para ver:
-                <div className="mt-2 text-left">
-                  • Tiempos de respuesta por API<br/>
-                  • Cantidad de eventos por fuente<br/>
-                  • Llamadas individuales y variaciones<br/>
-                  • Estados en tiempo real
+      {/* Panel expandible con colores de la app */}
+      {isExpanded && (
+        <div className="backdrop-blur-xl bg-black/40 border-l border-r border-b border-white/20 rounded-b-xl shadow-2xl">
+          {serviceRows.map((service) => (
+            <div key={service.source} className="px-4 py-3 flex items-center justify-between hover:bg-white/10 transition-colors border-b border-white/10 last:border-b-0">
+              <div className="flex items-center space-x-3">
+                <span className="text-lg">{getServiceEmoji(service.source)}</span>
+                <span className="font-medium text-white/90 capitalize">{service.source}</span>
+                <span className={`text-xs px-2 py-1 rounded-full ${
+                  service.status === 'activo' ? 'text-green-300 bg-green-500/20 border border-green-400/30' :
+                  service.status === 'completado' ? 'text-blue-300 bg-blue-500/20 border border-blue-400/30' :
+                  'text-red-300 bg-red-500/20 border border-red-400/30'
+                }`}>
+                  {service.status}
+                </span>
+              </div>
+              <div className="flex items-center space-x-4 text-sm">
+                <div className="text-right">
+                  <span className="font-bold text-white">{service.eventCount}</span>
+                  <span className="text-white/60 ml-1">eventos</span>
+                </div>
+                <div className="text-right font-mono">
+                  <span className="font-bold text-white">{service.totalTime}ms</span>
                 </div>
               </div>
             </div>
-          ) : (
-            detailedStats.map((scraper) => {
-            const emoji = scraper.source === 'eventbrite' ? '🎫' : 
-                         scraper.source === 'facebook' ? '🔥' : 
-                         scraper.source === 'instagram' ? '📸' : 
-                         scraper.source === 'argentina_venues' ? '🏛️' : 
-                         scraper.source === 'meetup' ? '👥' : '🔍'
-            
-            const statusColor = scraper.isActive ? 'text-green-400' : 
-                               scraper.status === 'completado' ? 'text-blue-400' : 
-                               'text-gray-400'
+          ))}
 
-            return (
-              <div key={scraper.source} className="p-3 bg-white/5 rounded-lg border border-white/10">
-                {/* Header */}
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-lg">{emoji}</span>
-                    <span className="text-white/90 font-medium capitalize">{scraper.source}</span>
-                  </div>
-                  <span className={`text-xs px-2 py-1 rounded-full ${statusColor} bg-current/20`}>
-                    {scraper.status}
-                  </span>
-                </div>
-
-                {/* Metrics */}
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  <div>
-                    <span className="text-white/60">Eventos:</span>
-                    <span className="text-white/90 font-bold ml-1">{scraper.eventCount}</span>
-                  </div>
-                  <div>
-                    <span className="text-white/60">Tiempo total:</span>
-                    <span className="text-white/90 font-bold ml-1">
-                      {scraper.totalTime ? Math.round(scraper.totalTime) : '⏳'}ms
-                    </span>
-                  </div>
-                  {scraper.eventCount > 0 && (
-                    <>
-                      <div>
-                        <span className="text-white/60">Avg/evento:</span>
-                        <span className="text-white/90 font-bold ml-1">
-                          {Math.round(scraper.avgTimePerEvent)}ms
-                        </span>
-                      </div>
-                      <div>
-                        <span className="text-white/60">Primer evento:</span>
-                        <span className="text-white/90 font-bold ml-1">
-                          {Math.round(scraper.firstEventTime || 0)}ms
-                        </span>
-                      </div>
-                    </>
-                  )}
-                </div>
-
-                {/* Event timing details - Información precisa que pediste */}
-                {scraper.eventTimes.length > 0 && (
-                  <div className="mt-2 pt-2 border-t border-white/10">
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-white/60 text-xs">Lotes recibidos:</span>
-                      <span className="text-white/80 text-xs font-bold">{scraper.eventTimes.length} llamadas</span>
-                    </div>
-                    
-                    {/* Mostrar todos los timings de las llamadas */}
-                    <div className="flex flex-wrap gap-1 mt-1">
-                      {scraper.eventTimes.map((time, idx) => (
-                        <span 
-                          key={idx} 
-                          className={`text-xs px-2 py-0.5 rounded ${
-                            idx === scraper.eventTimes.length - 1 
-                              ? 'bg-green-500/30 text-green-300 border border-green-400/50' 
-                              : 'bg-white/10 text-white/80'
-                          }`}
-                          title={`Llamada #${idx + 1}: ${Math.round(time)}ms`}
-                        >
-                          #{idx + 1}: {Math.round(time)}ms
-                        </span>
-                      ))}
-                    </div>
-                    
-                    {/* Variación entre llamadas */}
-                    {scraper.eventTimes.length > 1 && (
-                      <div className="mt-2 text-xs">
-                        <span className="text-white/60">Variación:</span>
-                        <span className="text-white/90 ml-1">
-                          {Math.round(Math.min(...scraper.eventTimes))}ms - {Math.round(Math.max(...scraper.eventTimes))}ms
-                        </span>
-                        <span className="text-white/60 ml-2">
-                          (±{Math.round(Math.max(...scraper.eventTimes) - Math.min(...scraper.eventTimes))}ms)
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
+          {/* Mostrar servicio en ejecución si está streaming */}
+          {isStreaming && streamingSource && !serviceRows.find(s => s.source === streamingSource) && (
+            <div className="px-4 py-3 flex items-center justify-between bg-green-500/20 border border-green-400/30 animate-pulse">
+              <div className="flex items-center space-x-3">
+                <span className="text-lg">{getServiceEmoji(streamingSource)}</span>
+                <span className="font-medium text-white/90 capitalize">{streamingSource}</span>
+                <span className="text-xs px-2 py-1 rounded-full text-green-300 bg-green-500/30 border border-green-400/50">
+                  ejecutando
+                </span>
               </div>
-            )
-          })
+              <div className="flex items-center space-x-4 text-sm">
+                <div className="text-right">
+                  <span className="font-bold text-white">0</span>
+                  <span className="text-white/60 ml-1">eventos</span>
+                </div>
+                <div className="text-right font-mono">
+                  <div className="w-4 h-4 border-2 border-green-300/50 border-t-green-400 rounded-full animate-spin"></div>
+                </div>
+              </div>
+            </div>
           )}
         </div>
-
-        {/* Performance comparison */}
-        {performanceStats.fastestSource && performanceStats.slowestSource && !isStreaming && (
-          <div className="mt-4 pt-4 border-t border-white/20 text-xs">
-            <div className="flex justify-between text-white/80">
-              <span>🏆 Más rápido: {performanceStats.fastestSource} ({Math.round(performanceStats.fastestTime || 0)}ms)</span>
-            </div>
-            <div className="flex justify-between text-white/60 mt-1">
-              <span>🐌 Más lento: {performanceStats.slowestSource} ({Math.round(performanceStats.slowestTime || 0)}ms)</span>
-            </div>
-          </div>
-        )}
-      </div>
+      )}
     </div>
   )
 }
