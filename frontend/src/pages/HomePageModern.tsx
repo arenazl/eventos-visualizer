@@ -4,7 +4,6 @@ import SmartLocationBar from '../components/SmartLocationBar'
 import AIRecommendations, { NoResultsWithAI } from '../components/AIRecommendations'
 import { EventsGridSkeleton, EmptyState, MultiSourceSkeleton, ScrapingSkeleton } from '../components/LoadingStates'
 import { EmptyEventsAnimation, EmptyEventsCompact } from '../components/EmptyEventsAnimation'
-import ScrapersInfo from '../components/ScrapersInfo'
 import AuthModal from '../components/AuthModal'
 import Header from '../components/Header'
 import ScrapersDetailPanel from '../components/ScrapersDetailPanel'
@@ -51,7 +50,6 @@ const HomePageModern: React.FC = () => {
   const [detectedTags, setDetectedTags] = useState<Array<{text: string, type: 'location' | 'keyword', animated: boolean}>>([])
   const [activeCategory, setActiveCategory] = useState('Todos')
   const [locationDetected, setLocationDetected] = useState(false)
-  const [showScrapersInfo, setShowScrapersInfo] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [showAIRecommendations, setShowAIRecommendations] = useState(false)
   const [isEventsFadingOut, setIsEventsFadingOut] = useState(false)
@@ -691,16 +689,6 @@ const HomePageModern: React.FC = () => {
             </div>
           )}
 
-          {/* ✨ Scrapers Execution Info */}
-          {scrapersExecution && (
-            <div className="mb-8">
-              <ScrapersInfo
-                scrapersExecution={scrapersExecution}
-                isVisible={showScrapersInfo}
-                onToggle={() => setShowScrapersInfo(!showScrapersInfo)}
-              />
-            </div>
-          )}
 
           {/* Events Stats */}
           <div className="mb-8 flex justify-center">

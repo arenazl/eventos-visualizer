@@ -21,7 +21,7 @@ const Header: React.FC = () => {
             <h1 className={`font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 tracking-wider transition-all duration-300 ${
               isScrolled ? 'text-2xl' : 'text-4xl'
             }`}>
-              FanAroundYou
+              EventosViz
             </h1>
           </div>
           

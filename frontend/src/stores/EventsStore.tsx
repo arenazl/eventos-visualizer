@@ -183,7 +183,12 @@ const useEventsStore = create<EventsState>((set, get) => ({
       // 3. PASO 3: Generar recomendaciones inteligentes
       await get().getSmartRecommendations(query, foundEvents, finalLocation)
 
-      set({ events: foundEvents, loading: false })
+      set({ 
+        events: foundEvents, 
+        loading: false,
+        // ✨ CAPTURAR SCRAPERS EXECUTION DATA
+        scrapersExecution: searchData.scrapers_execution || null
+      })
 
     } catch (error) {
       console.warn('AI search failed, falling back to traditional search:', error)
@@ -246,7 +251,9 @@ const useEventsStore = create<EventsState>((set, get) => ({
       set({ 
         events: foundEvents, 
         loading: false,
-        lastQuery: `Eventos en ${location.name}` 
+        lastQuery: `Eventos en ${location.name}`,
+        // ✨ CAPTURAR SCRAPERS EXECUTION DATA
+        scrapersExecution: searchData.scrapers_execution || null
       })
 
     } catch (error) {
@@ -405,7 +412,12 @@ const useEventsStore = create<EventsState>((set, get) => ({
       if (!response.ok) throw new Error('Error en búsqueda inteligente')
 
       const data = await response.json()
-      set({ events: data.recommended_events || [], loading: false })
+      set({ 
+        events: data.recommended_events || [], 
+        loading: false,
+        // ✨ CAPTURAR SCRAPERS EXECUTION DATA  
+        scrapersExecution: data.scrapers_execution || null
+      })
     } catch (error) {
       // Fallback to regular search if Gemini fails
       console.warn('Smart search failed, falling back to regular search:', error)
