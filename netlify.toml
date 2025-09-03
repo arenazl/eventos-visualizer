@@ -8,6 +8,8 @@
   NODE_VERSION = "18"
   # Skip Playwright browser installation during build
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1"
+  # Production API URL (override this in Netlify dashboard)
+  VITE_API_URL = "https://eventos-backend-api.onrender.com"
 
 [[headers]]
   for = "/api/*"

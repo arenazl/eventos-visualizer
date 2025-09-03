@@ -9,7 +9,7 @@ const isProduction = import.meta.env.MODE === 'production'
 // API Base URLs
 const API_URLS = {
   development: 'http://172.29.228.80:8001',
-  production: import.meta.env.VITE_API_URL || 'https://tu-app-eventos-backend.herokuapp.com'
+  production: import.meta.env.VITE_API_URL || 'https://eventos-backend-api.onrender.com'
 }
 
 export const config = {
