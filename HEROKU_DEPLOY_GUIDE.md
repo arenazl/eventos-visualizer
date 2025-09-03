@@ -1,10 +1,10 @@
-# 🚀 GUÍA COMPLETA: DESPLIEGUE EN HEROKU
+# 🚀 GUÍA ACTUALIZADA: TU APP HEROKU CONFIGURADA
 
-## ✅ ESTADO ACTUAL
-- ✅ **Backend**: Configurado con Procfile y requirements.txt
-- ✅ **Frontend**: Build completo en `/frontend/dist/`
-- ✅ **Configuración**: Variables de entorno preparadas
-- ✅ **APIs**: Integradas y funcionando localmente
+## ✅ ESTADO ACTUAL - CONFIGURACIÓN COMPLETADA
+- ✅ **Backend HOST/PORT**: Configuración dinámica implementada
+- ✅ **URL Heroku**: `https://funaroundyou-f21e91cae36c.herokuapp.com` 
+- ✅ **Frontend**: Apuntando a tu backend en Heroku
+- ✅ **Variables**: Configuración automática desarrollo/producción
 
 ---
 
@@ -42,19 +42,31 @@ heroku addons:create heroku-postgresql:essential-0 --app eventos-visualizer-back
 heroku config --app eventos-visualizer-backend-tu-nombre
 ```
 
-### **4. CONFIGURAR VARIABLES DE ENTORNO**
+### **4. CONFIGURAR VARIABLES DE ENTORNO PARA TU APP**
 ```bash
-# Variables esenciales
-heroku config:set HOST=0.0.0.0 --app eventos-visualizer-backend-tu-nombre
+# Tu app específica
+APP_NAME="funaroundyou-f21e91cae36c"
+
+# Variables esenciales - CONFIGURACIÓN AUTOMÁTICA YA IMPLEMENTADA
+heroku config:set ENVIRONMENT=production --app $APP_NAME
 
 # API Keys (reemplazar con tus keys reales)
-heroku config:set GEMINI_API_KEY=tu_gemini_key_aqui --app eventos-visualizer-backend-tu-nombre
-heroku config:set EVENTBRITE_API_KEY=tu_eventbrite_key --app eventos-visualizer-backend-tu-nombre
-heroku config:set TICKETMASTER_API_KEY=tu_ticketmaster_key --app eventos-visualizer-backend-tu-nombre
+heroku config:set EVENTBRITE_API_KEY=tu_eventbrite_key --app $APP_NAME
+heroku config:set RAPIDAPI_KEY=tu_rapidapi_key --app $APP_NAME
+heroku config:set GOOGLE_API_KEY=tu_google_key --app $APP_NAME
+
+# Seguridad
+heroku config:set SECRET_KEY=tu-super-secret-key --app $APP_NAME
+heroku config:set DEBUG=False --app $APP_NAME
 
 # Variables opcionales
-heroku config:set REDIS_URL=redis://localhost:6379 --app eventos-visualizer-backend-tu-nombre
+heroku config:set REDIS_URL=redis://localhost:6379 --app $APP_NAME
 ```
+
+### **⚡ CONFIGURACIÓN AUTOMÁTICA IMPLEMENTADA**
+- **HOST**: Se configura automáticamente (`0.0.0.0` en producción, `172.29.228.80` en desarrollo)
+- **PORT**: Heroku lo asigna automáticamente vía variable `PORT`
+- **No necesitas configurar** HOST y PORT manualmente
 
 ### **5. DESPLEGAR BACKEND**
 ```bash

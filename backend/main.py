@@ -108,10 +108,23 @@ def log_scraper_summary(method_name: str, scrapers_called: list, events_by_scrap
     logger.info(f"│ 🎯 TOTAL EVENTOS OBTENIDOS: {total_events}")
     logger.info("└─────────────────────────────────────────────────────────────────")
 
-# Get configuration from environment
-HOST = os.getenv("HOST", "172.29.228.80")
-# Heroku uses PORT env variable, fallback to BACKEND_PORT for local dev
-BACKEND_PORT = int(os.getenv("PORT", os.getenv("BACKEND_PORT", "8001")))
+# Get configuration from environment - Production ready
+# New approach: Use single BACKEND_URL instead of separate HOST+PORT
+IS_PRODUCTION = os.getenv("ENVIRONMENT", "development") == "production"
+
+# Parse BACKEND_URL to extract host and port for uvicorn
+BACKEND_URL = os.getenv("BACKEND_URL", "http://172.29.228.80:8001" if not IS_PRODUCTION else "https://funaroundyou-f21e91cae36c.herokuapp.com")
+
+# Extract host and port from URL for uvicorn.run()
+from urllib.parse import urlparse
+parsed_url = urlparse(BACKEND_URL)
+HOST = parsed_url.hostname or "172.29.228.80"
+BACKEND_PORT = parsed_url.port or (443 if parsed_url.scheme == "https" else 8001)
+
+# Override with Heroku's PORT if available (Heroku deployment)
+if os.getenv("PORT"):
+    BACKEND_PORT = int(os.getenv("PORT"))
+    HOST = "0.0.0.0"  # Heroku requires binding to all interfaces
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/eventos_db")
 # ❌ REMOVED: No more hardcoded "Buenos Aires"
 # Location will always come from user geolocation or parameter
@@ -347,7 +360,7 @@ async def health_check():
         return {
             "status": "healthy",
             "timestamp": datetime.utcnow().isoformat(),
-            "server": f"http://{HOST}:{BACKEND_PORT}",
+            "server": BACKEND_URL,
             "service": "eventos-visualizer-backend",
             "version": "1.0.0",
             "port": BACKEND_PORT,
@@ -763,8 +776,8 @@ async def parallel_search(location: str = Query(..., description="Location requi
     """
     start_time = time.time()
     
-    # Define all source endpoints
-    base_url = "http://172.29.228.80:8001"
+    # Define all source endpoints  
+    base_url = BACKEND_URL
     sources = [
         f"{base_url}/api/sources/eventbrite?location={location}",
         f"{base_url}/api/sources/argentina-venues?location={location}",
@@ -3474,14 +3487,15 @@ async def admin_page():
 
 if __name__ == "__main__":
     print(f"\n🚀 Starting Eventos Visualizer Backend")
-    print(f"📍 Server: http://{HOST}:{BACKEND_PORT}")
-    print(f"📊 Health: http://{HOST}:{BACKEND_PORT}/health")
-    print(f"📝 Docs: http://{HOST}:{BACKEND_PORT}/docs")
-    print(f"🔌 WebSocket: ws://{HOST}:{BACKEND_PORT}/ws/notifications\n")
+    print(f"📍 Server: {BACKEND_URL}")
+    print(f"📊 Health: {BACKEND_URL}/health")
+    print(f"📝 Docs: {BACKEND_URL}/docs")
+    ws_url = BACKEND_URL.replace('http://', 'ws://').replace('https://', 'wss://')
+    print(f"🔌 WebSocket: {ws_url}/ws/notifications\n")
     
     uvicorn.run(
         "main:app",
-        host="0.0.0.0",
+        host=HOST,
         port=BACKEND_PORT,
         reload=False,
         log_level="info"
