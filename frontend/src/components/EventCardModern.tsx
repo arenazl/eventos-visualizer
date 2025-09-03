@@ -6,7 +6,7 @@ import { useAssistants } from '../contexts/AssistantsContext'
 
 interface Event {
   title: string
-  description: string
+  description?: string
   start_datetime?: string | null
   venue_name: string
   venue_address?: string
@@ -120,7 +120,8 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
       eventTitle: event.title,
       eventCategory: event.category,
       eventType: 'click',
-      timestamp: new Date()
+      timestamp: new Date(),
+      shouldConverse: Math.random() < 0.1 // 1/10 probabilidad
     })
     
     // MOSTRAR OVERLAY en lugar de navegar - Mantener a Sofia y Juan
@@ -234,7 +235,7 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
             {/* AI Button - 20% del ancho */}
             <div style={{ width: '20%' }} className="flex justify-center">
               <EventAIHover event={{
-                id: event.source_id || Math.random().toString(),
+                id: event.source || Math.random().toString(),
                 title: event.title,
                 venue_name: event.venue_name,
                 category: event.category,

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 interface Event {
   title: string
-  description: string
+  description?: string
   start_datetime: string
   venue_name: string
   venue_address?: string

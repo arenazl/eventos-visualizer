@@ -3,7 +3,7 @@ import { create } from 'zustand'
 
 interface Event {
   title: string
-  description: string
+  description?: string
   start_datetime?: string | null
   end_datetime?: string | null
   venue_name: string

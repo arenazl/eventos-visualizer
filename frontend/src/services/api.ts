@@ -17,7 +17,7 @@ export interface Location {
 
 export interface Event {
   title: string
-  description: string
+  description?: string
   start_datetime?: string | null
   venue_name: string
   venue_address?: string
@@ -30,6 +30,11 @@ export interface Event {
   longitude?: number
   source?: string
   status?: string
+}
+
+export interface EventsResponse {
+  events: Event[]
+  scrapers_execution: any
 }
 
 // Interfaces para IA
@@ -78,7 +83,7 @@ export class EventsAPI {
    * Obtiene eventos con detección automática de ubicación
    * Si no se proporciona ubicación, el backend la detecta por IP
    */
-  static async getEvents(location?: string, category?: string): Promise<Event[]> {
+  static async getEvents(location?: string, category?: string): Promise<EventsResponse> {
     try {
       const params = new URLSearchParams()
       if (location) params.append('location', location)
@@ -95,13 +100,13 @@ export class EventsAPI {
       return {
         events: data.events || [],
         scrapers_execution: data.scrapers_execution || null
-      }
+      } as EventsResponse
     } catch (error) {
       console.error('Error fetching events:', error)
       return {
         events: [],
         scrapers_execution: null
-      }
+      } as EventsResponse
     }
   }
 

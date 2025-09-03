@@ -70,7 +70,7 @@ const HomePageModern: React.FC = () => {
           name: 'Buenos Aires',
           coordinates: { lat: -34.6037, lng: -58.3816 },
           country: 'Argentina',
-          detected: 'initial' as const
+          detected: 'fallback' as const
         }
         
         setLocation(initialLocation)
@@ -125,7 +125,8 @@ const HomePageModern: React.FC = () => {
             eventTitle: randomEvent.title,
             eventCategory: randomEvent.category,
             eventType: 'auto_display',
-            timestamp: new Date()
+            timestamp: new Date(),
+            shouldConverse: true // Siempre conversar en auto display
           })
         }, 2000 + Math.random() * 3000) // Entre 2-5 segundos de delay aleatorio
       }
@@ -405,9 +406,9 @@ const HomePageModern: React.FC = () => {
       
       // Intentar AI primero, luego fallback a búsqueda tradicional
       try {
-        const result = await aiSearch(searchQuery, currentLocation)
+        await aiSearch(searchQuery, currentLocation)
         // Si AI no devuelve resultados, usar búsqueda tradicional
-        if (!result || events.length === 0) {
+        if (events.length === 0) {
           setTimeout(() => {
             searchEvents(searchQuery, currentLocation)
           }, 500)

@@ -285,7 +285,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({
         </div>
       </form>
 
-      <style jsx>{`
+      <style>{`
         .slider::-webkit-slider-thumb {
           appearance: none;
           height: 20px;
