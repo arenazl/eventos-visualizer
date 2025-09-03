@@ -7,22 +7,7 @@ const FloatingJuan: React.FC = () => {
   const [currentTip, setCurrentTip] = useState('')
   const { lastEventInteraction, juanEnabled, setJuanEnabled } = useAssistants()
   
-  // Tips aleatorios de Juan sobre deportes & tech
-  const juanTips = [
-    "Che, River juega el domingo en el Monumental ⚽",
-    "Hay meetup de React este jueves en Palermo 💻",
-    "Racing vs Independiente - clásico de Avellaneda mañana 🏆",
-    "Conferencia de Python en el CCK el viernes 🐍",
-    "Boca juega de local contra Estudiantes 🟡🔵",
-    "Hackathon de IA este fin de semana en Puerto Madero 🤖",
-    "San Lorenzo vs Vélez en el Nuevo Gasómetro ⚽",
-    "Workshop de blockchain en el distrito tecnológico ⛓️"
-  ]
-  
-  const getRandomTip = () => {
-    const randomTip = juanTips[Math.floor(Math.random() * juanTips.length)]
-    setCurrentTip(randomTip)
-  }
+  // Juan solo comenta sobre eventos reales - NO tips hardcodeados
 
   // Comentarios dinámicos con Gemini AI
   const getAIContextualComment = async (eventTitle: string, category: string, shouldConverse: boolean = false): Promise<string> => {
@@ -62,39 +47,40 @@ const FloatingJuan: React.FC = () => {
     return getHardcodedComment(eventTitle, category, shouldConverse)
   }
 
-  // Comentarios de fallback (hardcodeados)
+  // Comentarios contextuales basados en evento real
   const getHardcodedComment = (eventTitle: string, category: string, shouldConverse: boolean = false) => {
     const sportsEvents = ['fútbol', 'deporte', 'deportivo', 'river', 'boca', 'racing', 'independiente', 'gimnasia', 'estudiantes']
     const techEvents = ['tech', 'tecnología', 'programación', 'hackathon', 'startup', 'javascript', 'python', 'react', 'ia', 'blockchain']
-    const culturalEvents = ['música', 'teatro', 'arte', 'cultura', 'concierto', 'exposición', 'musical', 'opera', 'danza']
+    const culturalEvents = ['música', 'teatro', 'arte', 'cultura', 'concierto', 'exposición', 'musical', 'opera', 'danza', 'vino', 'cocktail', 'feria', 'retro']
     
     // Detectar si es selección de categoría
     if (eventTitle.startsWith('Categoría:')) {
       if (sportsEvents.some(keyword => category.toLowerCase().includes(keyword))) {
         const categoryComments = [
-          `¡Excelente elección! ${category} es lo mío ⚽💪`,
-          `¡Dale! ${category} siempre es emocionante 🔥`,
-          `¡Juan aprueba! ${category} es pasión pura ⚽`
+          `¡Algoritmo aprobado! ${category} = 99.8% de adrenalina ⚽🤓`,
+          `¡Juan.exe funcionando! ${category} activó modo HYPE 🔥💻`,
+          `¡Error 404: Aburrimiento not found! ${category} detected ⚽📊`
         ]
         return categoryComments[Math.floor(Math.random() * categoryComments.length)]
       }
       
       if (techEvents.some(keyword => category.toLowerCase().includes(keyword))) {
         const categoryComments = [
-          `¡Crack! ${category} es el futuro 💻🚀`,
-          `¡Excelente! ${category} siempre suma 🤖`,
-          `¡Buenísimo! ${category} te va a encantar 💻`
+          `¡Stack overflow de felicidad! ${category} = infinite possibilities 💻∞`,
+          `¡git commit -m "Usuario inteligente detected"! ${category} FTW 🤖⭐`,
+          `¡Juan aprende new skills! ${category} > Netflix, siempre 🧠💻`
         ]
         return categoryComments[Math.floor(Math.random() * categoryComments.length)]
       }
       
       if (culturalEvents.some(keyword => category.toLowerCase().includes(keyword))) {
         const categoryComments = shouldConverse ? [
-          `OK Sofia, ${category} está bien... pero falta adrenalina ⚽`,
-          `${category}... está bueno, pero prefiero deportes 😎`
+          `Sofia, ${category} está bien... pero necesita más estadísticas 📊🎭`,
+          `${category}... ¿no hay versión .exe de esto? 😅💻`,
+          `Hmm Sofia, ${category} loading... ¿dónde están los gráficos? 📈🎨`
         ] : [
-          `¡Genial! ${category} también está muy bueno 🎭`,
-          `¡Qué bueno! ${category} siempre es interesante 🎵`
+          `¡Aprobado! ${category} también compila bien en mi sistema 🎭💻`,
+          `¡Cool! ${category} = new Experience() - me gusta 🎵⚡`
         ]
         return categoryComments[Math.floor(Math.random() * categoryComments.length)]
       }
@@ -102,41 +88,91 @@ const FloatingJuan: React.FC = () => {
       return `¡Buena elección! ${category} puede estar muy bueno 😎`
     }
     
+    // Análisis contextual del título real del evento
+    const lowerTitle = eventTitle.toLowerCase()
+    
+    // Eventos específicos de vino/bebidas
+    if (lowerTitle.includes('vino') || lowerTitle.includes('cocktail') || lowerTitle.includes('bebida')) {
+      const wineComments = shouldConverse ? [
+        `Sofia, "${eventTitle}" tiene algorithm complexity O(delicioso) 🍷📊`,
+        `${eventTitle}... ok Sofia, es wine.sort() por sabor, análisis aprobado 🍷💻`,
+        `Database query: SELECT * FROM eventos WHERE "${eventTitle}" = culture++ 🍷🤓`
+      ] : [
+        `"${eventTitle}" = optimal user experience detectado 🍷💻`,
+        `¡Interesante! "${eventTitle}" parece high-quality social networking 🍷📈`,
+        `"${eventTitle}" analysis: cultural event with high engagement probability 🍷⚡`
+      ]
+      return wineComments[Math.floor(Math.random() * wineComments.length)]
+    }
+    
+    // Eventos de música/conciertos
+    if (lowerTitle.includes('concierto') || lowerTitle.includes('música') || lowerTitle.includes('retro') || lowerTitle.includes('festival')) {
+      const musicComments = shouldConverse ? [
+        `Sofia, "${eventTitle}" = audio streaming en 4K real life, te acepto 🎵💻`,
+        `${eventTitle}... hmm, no hay stats pero el user engagement se ve alto 🎶📊`,
+        `Ok Sofia, "${eventTitle}" compiled successfully en mi brain.exe 🎵🤓`
+      ] : [
+        `"${eventTitle}" = real-time audio experience, algoritmo aprobado 🎵💻`,
+        `¡Cool! "${eventTitle}" parece excellent performance metrics 🎶⚡`,
+        `"${eventTitle}" análisis: high-quality live streaming detected 🎵📈`
+      ]
+      return musicComments[Math.floor(Math.random() * musicComments.length)]
+    }
+    
+    // Ferias y eventos culturales
+    if (lowerTitle.includes('feria') || lowerTitle.includes('expo') || lowerTitle.includes('cultural')) {
+      const fairComments = shouldConverse ? [
+        `Sofia, "${eventTitle}" = database full de experiencias, ok acepto 🎨💻`,
+        `${eventTitle}... ¿tiene APIs disponibles? Se ve interesting 🎭📊`,
+        `Debug mode: "${eventTitle}" tiene potential, te acompaño Sofia 🎨🤓`
+      ] : [
+        `"${eventTitle}" = nueva librería cultural disponible, downloading... 🎨💻`,
+        `¡Interesting! "${eventTitle}" parece good social networking event 🎭⚡`,
+        `"${eventTitle}" status: ready for installation en mi agenda 🎨📈`
+      ]
+      return fairComments[Math.floor(Math.random() * fairComments.length)]
+    }
+    
     if (shouldConverse) {
-      if (sportsEvents.some(keyword => category.toLowerCase().includes(keyword) || eventTitle.toLowerCase().includes(keyword))) {
+      if (sportsEvents.some(keyword => category.toLowerCase().includes(keyword) || lowerTitle.includes(keyword))) {
         const converseComments = [
-          `¡Sofia por favor! ${eventTitle} ES arte, arte en movimiento ⚽🎨`,
-          `Sofia, ${eventTitle} es cultura argentina pura - vos no entendés 🇦🇷`
+          `¡Sofia! "${eventTitle}" = 90min de algoritmos perfectos en vivo ⚽🤓`,
+          `Error 404 Sofia: "${eventTitle}" ES máxima expresión del analytics 📊⚽`,
+          `Sofia.exe stopped working? "${eventTitle}" > cualquier streaming 🇦🇷💻`
         ]
         return converseComments[Math.floor(Math.random() * converseComments.length)]
       }
       
-      if (culturalEvents.some(keyword => category.toLowerCase().includes(keyword) || eventTitle.toLowerCase().includes(keyword))) {
+      if (culturalEvents.some(keyword => category.toLowerCase().includes(keyword) || lowerTitle.includes(keyword))) {
         const converseComments = [
-          `OK Sofia, ${eventTitle} está bien... pero prefiero algo más emocionante 😎`,
-          `${eventTitle}... bueno, también hay que cultivarse Sofia 🤝`
+          `Sofia, "${eventTitle}" está ok... pero ¿tiene Wi-Fi gratis? 😅📶`,
+          `"${eventTitle}"... puede ser, si no interfiere con mi deploy del viernes 💻🤝`,
+          `Acepto "${eventTitle}" Sofia... si después analizamos estadísticas ⚽📈`
         ]
         return converseComments[Math.floor(Math.random() * converseComments.length)]
       }
     }
     
-    if (sportsEvents.some(keyword => category.toLowerCase().includes(keyword) || eventTitle.toLowerCase().includes(keyword))) {
+    if (sportsEvents.some(keyword => category.toLowerCase().includes(keyword) || lowerTitle.includes(keyword))) {
       const sportsComments = [
-        `¡${eventTitle}! Qué bueno que vayas a ver deporte en vivo, hermano ⚽`,
-        `¡Dale que vamos! ${eventTitle} promete ser un partidazo ⚽🔥`
+        `¡"${eventTitle}"! Probability(golazo) = 85.7% - voy con stats 📊⚽`,
+        `¡Perfecto! "${eventTitle}" = Real time analytics en vivo, hermano 🤓⚽`,
+        `¡Juan approves! "${eventTitle}" > streaming, experiencia 4K IRL 🔥💻`
       ]
       return sportsComments[Math.floor(Math.random() * sportsComments.length)]
     }
     
-    if (techEvents.some(keyword => category.toLowerCase().includes(keyword) || eventTitle.toLowerCase().includes(keyword))) {
+    if (techEvents.some(keyword => category.toLowerCase().includes(keyword) || lowerTitle.includes(keyword))) {
       const techComments = [
-        `¡${eventTitle}! Me encanta ver gente que invierte en conocimiento 💻`,
-        `¡Crack! ${eventTitle} te va a dar herramientas geniales 🚀`
+        `¡"${eventTitle}"! Level up++ confirmado, excelente ROI cerebral 💻🧠`,
+        `¡Master quest unlocked! "${eventTitle}" = new skills += conocimiento 🚀⚡`,
+        `¡Juan.learn("${eventTitle}")! Me gusta esa mentalidad growth mindset 💪🤓`
       ]
       return techComments[Math.floor(Math.random() * techComments.length)]
     }
     
-    return `¡Buena onda! ${eventTitle} se ve interesante, loco 😎`
+    // Fallback general contextual
+    return `¡"${eventTitle}" parece high-quality content! Analytics look promising 🤓📊`
   }
 
   // Escuchar eventos de interacción
@@ -183,15 +219,10 @@ const FloatingJuan: React.FC = () => {
 
         <button
           onMouseEnter={() => {
-            if (juanEnabled && !lastEventInteraction) {
-              setShowTip(true)
-              getRandomTip()
-            }
+            // Juan solo comenta sobre eventos reales, no tips hardcodeados
           }}
           onMouseLeave={() => {
-            if (!lastEventInteraction) {
-              setShowTip(false)
-            }
+            // Juan solo comenta sobre eventos reales, no tips hardcodeados
           }}
           className={`relative rounded-full p-4 shadow-2xl transform transition-all duration-300 animate-bounce ${
             juanEnabled 
@@ -204,9 +235,7 @@ const FloatingJuan: React.FC = () => {
           <div className="relative">
             <span className="text-4xl animate-pulse juan-look-around">🧑‍💼</span>
             {/* Notificación parpadeante */}
-            <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full animate-ping">
-              <div className="w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
-            </div>
+            <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full animate-ping"></div>
             {/* Auriculares flotantes */}
             <div className="absolute -top-2 -right-1 text-xs animate-bounce" style={{animationDelay: '0.7s'}}>🎧</div>
           </div>

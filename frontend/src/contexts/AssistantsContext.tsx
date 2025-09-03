@@ -41,18 +41,20 @@ export const AssistantsProvider: React.FC<AssistantsProviderProps> = ({ children
   const [juanEnabled, setJuanEnabled] = useState(true)
 
   const triggerEventComment = (event: Omit<EventInteraction, 'shouldConverse'>) => {
-    // Determinar si debería haber conversación (1 de cada 10)
-    const shouldConverse = Math.random() < 0.1 // 10% de chance
+    // Determinar si debería haber conversación (1 de cada 5-6 mensajes = ~17-20%)
+    const shouldConverse = Math.random() < 0.18 // 18% de chance para conversaciones más frecuentes
     
     const fullEvent: EventInteraction = {
       ...event,
       shouldConverse
     }
     
+    console.log(`🎭 Asistentes: ${event.eventTitle} - Conversación: ${shouldConverse ? 'SÍ' : 'NO'}`)
+    
     setLastEventInteraction(fullEvent)
     
     // Si hay conversación, mantener más tiempo para ver ambos comentarios
-    const timeout = shouldConverse ? 8000 : 5000
+    const timeout = shouldConverse ? 12000 : 6000 // Más tiempo para leer las conversaciones
     setTimeout(() => {
       setLastEventInteraction(null)
     }, timeout)

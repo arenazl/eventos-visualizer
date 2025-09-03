@@ -3,7 +3,9 @@
  * Con geolocalización automática y búsqueda inteligente
  */
 
-const API_BASE_URL = 'http://172.29.228.80:8001'
+import { config } from '../config'
+
+const API_BASE_URL = config.API_BASE_URL
 
 export interface Location {
   city: string

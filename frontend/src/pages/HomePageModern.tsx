@@ -53,12 +53,13 @@ const HomePageModern: React.FC = () => {
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [showAIRecommendations, setShowAIRecommendations] = useState(false)
   const [isEventsFadingOut, setIsEventsFadingOut] = useState(false)
+  const [isSearchButtonSpinning, setIsSearchButtonSpinning] = useState(false)
   
   // Auth context
   const { user, isAuthenticated } = useAuth()
   
-  // Assistants context for category-based comments
-  const { triggerCategoryComment } = useAssistants()
+  // Assistants context for category-based comments and auto-commenting
+  const { triggerCategoryComment, triggerEventComment } = useAssistants()
 
   // Detectar ubicación automáticamente al cargar
   useEffect(() => {
@@ -99,6 +100,37 @@ const HomePageModern: React.FC = () => {
 
     detectAndLoadEvents()
   }, [])
+
+  // 🔄 Detectar cuando aparece el primer evento para detener el spinner del botón search
+  useEffect(() => {
+    if (events.length > 0 && isSearchButtonSpinning) {
+      // Pequeño delay para que se vea la transición
+      setTimeout(() => {
+        setIsSearchButtonSpinning(false)
+      }, 500)
+    }
+  }, [events.length, isSearchButtonSpinning])
+
+  // 🎭 Comentarios automáticos cuando aparecen eventos en pantalla
+  useEffect(() => {
+    if (events.length > 0) {
+      // Solo comentar de vez en cuando (30% chance cuando aparecen eventos)
+      if (Math.random() < 0.3) {
+        // Seleccionar un evento al azar para comentar
+        const randomEvent = events[Math.floor(Math.random() * events.length)]
+        
+        // Pequeño delay para que se vean aparecer los eventos primero
+        setTimeout(() => {
+          triggerEventComment({
+            eventTitle: randomEvent.title,
+            eventCategory: randomEvent.category,
+            eventType: 'auto_display',
+            timestamp: new Date()
+          })
+        }, 2000 + Math.random() * 3000) // Entre 2-5 segundos de delay aleatorio
+      }
+    }
+  }, [events.length, triggerEventComment]) // Solo cuando cambia el número de eventos
 
   useEffect(() => {
     const handleScroll = () => {
@@ -290,6 +322,9 @@ const HomePageModern: React.FC = () => {
   const handleSearch = async () => {
     if (!searchQuery.trim()) return
     
+    // ✨ Activar spinner del botón search
+    setIsSearchButtonSpinning(true)
+    
     // Fade out de eventos actuales
     if (events.length > 0) {
       setIsEventsFadingOut(true)
@@ -309,6 +344,8 @@ const HomePageModern: React.FC = () => {
       
     } catch (error) {
       console.error('❌ Error en búsqueda:', error)
+      // ✨ Detener spinner en caso de error
+      setIsSearchButtonSpinning(false)
       // Fallback a búsqueda tradicional
       await searchEvents(searchQuery, currentLocation)
     }
@@ -576,11 +613,15 @@ const HomePageModern: React.FC = () => {
                     {/* Botón de búsqueda con ícono únicamente */}
                     <button 
                       onClick={handleSearchClick}
-                      disabled={loading || isStreaming}
-                      className="p-4 rounded-2xl transition-all duration-300 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 hover:scale-110 shadow-xl hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed"
-                      title="Buscar eventos"
+                      disabled={loading || isStreaming || isSearchButtonSpinning}
+                      className={`p-4 rounded-2xl transition-all duration-500 ${
+                        isSearchButtonSpinning 
+                          ? 'bg-gradient-to-r from-indigo-600 to-purple-700 scale-105 shadow-2xl shadow-purple-500/50' 
+                          : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 hover:scale-110'
+                      } shadow-xl hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed`}
+                      title={isSearchButtonSpinning ? "Buscando eventos..." : "Buscar eventos"}
                     >
-                      {isStreaming ? (
+                      {isSearchButtonSpinning || isStreaming ? (
                         <div className="w-7 h-7 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                       ) : (
                         <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

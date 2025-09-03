@@ -7,22 +7,7 @@ const FloatingChat: React.FC = () => {
   const [currentTip, setCurrentTip] = useState('')
   const { lastEventInteraction, sofiaEnabled, setSofiaEnabled } = useAssistants()
   
-  // Tips aleatorios de Sofía sobre arte y cultura
-  const sofiaTips = [
-    "Che, hay una obra buenísima en el San Martín este finde 🎭",
-    "Miranda! toca en el Luna Park el sábado - imperdible 🎵",
-    "Exposición de Milo Lockett en el MALBA hasta fin de mes 🎨",
-    "Stand up de Capusotto en el Metropolitan mañana 🎭",
-    "Feria de San Telmo los domingos - re copada para caminar 🎨",
-    "Concierto de la Orquesta Filarmónica en el CCK 🎶",
-    "Noche de los museos este viernes - entrada libre 🏛️",
-    "Recital de Divididos en el Hipódromo de Palermo 🎸"
-  ]
-  
-  const getRandomTip = () => {
-    const randomTip = sofiaTips[Math.floor(Math.random() * sofiaTips.length)]
-    setCurrentTip(randomTip)
-  }
+  // Sofia solo comenta sobre eventos reales - NO tips hardcodeados
 
   // Comentarios dinámicos con Gemini AI
   const getAIContextualComment = async (eventTitle: string, category: string, shouldConverse: boolean = false): Promise<string> => {
@@ -62,29 +47,30 @@ const FloatingChat: React.FC = () => {
     return getHardcodedComment(eventTitle, category, shouldConverse)
   }
 
-  // Comentarios de fallback (hardcodeados)
+  // Comentarios contextuales basados en evento real
   const getHardcodedComment = (eventTitle: string, category: string, shouldConverse: boolean = false) => {
-    const culturalEvents = ['música', 'teatro', 'arte', 'cultura', 'concierto', 'exposición', 'musical', 'opera', 'danza']
+    const culturalEvents = ['música', 'teatro', 'arte', 'cultura', 'concierto', 'exposición', 'musical', 'opera', 'danza', 'vino', 'cocktail', 'feria', 'retro']
     const sportsEvents = ['fútbol', 'deporte', 'deportivo', 'river', 'boca', 'racing', 'independiente']
     
     // Detectar si es selección de categoría
     if (eventTitle.startsWith('Categoría:')) {
       if (culturalEvents.some(keyword => category.toLowerCase().includes(keyword))) {
         const categoryComments = [
-          `¡Excelente! ${category} es lo mejor 🎭✨`,
-          `¡Qué buen gusto! ${category} siempre 🎵`,
-          `¡Sofia aprueba! ${category} es cultura pura ✨`
+          `¡AY SÍ! ${category} me llena el alma de colores 🎭🌈`,
+          `¡AMOR TOTAL! ${category} = vibra alta siempre 🎵✨`,
+          `¡Sofia is LIVING! ${category} es lo que mi corazón necesitaba 💖🎨`
         ]
         return categoryComments[Math.floor(Math.random() * categoryComments.length)]
       }
       
       if (sportsEvents.some(keyword => category.toLowerCase().includes(keyword))) {
         const categoryComments = shouldConverse ? [
-          `Juan, ¿${category} en serio? ¿No hay nada cultural? 🙄`,
-          `Ay, ${category}... esperaba algo más refinado 🎭`
+          `¡Juan! ¿${category}? ¿Y la música dónde queda, che? 🎵🙄`,
+          `Ay Juan... ${category} está ok, pero ¿no preferís un recital? 🎸😏`,
+          `¿En serio Juan? ${category}... ok, pero después hablamos de Soda Stereo ⚽🎶`
         ] : [
-          `Bueno... ${category} también está bien, supongo ⚽`,
-          `${category}... no es mi favorito pero ok 😊`
+          `Bueno Juan... ${category} tiene su onda también, supongo ⚽💜`,
+          `${category}... ok, cada uno con su vibra, no judge 😊✨`
         ]
         return categoryComments[Math.floor(Math.random() * categoryComments.length)]
       }
@@ -92,33 +78,64 @@ const FloatingChat: React.FC = () => {
       return `¡Interesante elección! ${category} puede sorprender 😊`
     }
     
-    if (shouldConverse) {
-      if (sportsEvents.some(keyword => category.toLowerCase().includes(keyword) || eventTitle.toLowerCase().includes(keyword))) {
-        const converseComments = [
-          `Juan, ¿en serio ${eventTitle}? ¿No preferirías algo más refinado? 🎭`,
-          `Ay Juan, siempre con el fútbol... ${eventTitle} no es cultura 🙄`
-        ]
-        return converseComments[Math.floor(Math.random() * converseComments.length)]
-      }
-      
-      if (culturalEvents.some(keyword => category.toLowerCase().includes(keyword) || eventTitle.toLowerCase().includes(keyword))) {
-        const converseComments = [
-          `¡Perfecto! ${eventTitle} - al fin algo con clase 🎭✨`,
-          `¡Ves Juan! ${eventTitle} es cultura de verdad 🎵`
-        ]
-        return converseComments[Math.floor(Math.random() * converseComments.length)]
-      }
-    }
+    // Análisis contextual del título real del evento
+    const lowerTitle = eventTitle.toLowerCase()
     
-    if (culturalEvents.some(keyword => category.toLowerCase().includes(keyword) || eventTitle.toLowerCase().includes(keyword))) {
-      const culturalComments = [
-        `¡${eventTitle}! Ese tipo de eventos siempre tienen buena vibra 🎭✨`,
-        `Me encanta cuando la gente elige cultura. ¡${eventTitle} va a estar genial! 🎵`
+    // Eventos específicos de vino/bebidas
+    if (lowerTitle.includes('vino') || lowerTitle.includes('cocktail') || lowerTitle.includes('bebida')) {
+      const wineComments = shouldConverse ? [
+        `¡Juan! "${eventTitle}" es ARTE líquido, no solo fútbol existe 🍷✨`,
+        `Ay Juan, "${eventTitle}" va a ser mejor que cualquier asado con amigos 🍷🎵`,
+        `¡Por favor Juan! "${eventTitle}" = cultura en copa, animate 🍷🎭`
+      ] : [
+        `¡"${eventTitle}"! Wine not? Esta vibra me encanta 🍷💃`,
+        `¡AMO! "${eventTitle}" = plan perfecto para el alma 🍷✨`,
+        `"${eventTitle}" me tiene emocionada, va a estar genial 🍷🎵`
       ]
-      return culturalComments[Math.floor(Math.random() * culturalComments.length)]
+      return wineComments[Math.floor(Math.random() * wineComments.length)]
     }
     
-    return `¡Buena elección! ${eventTitle} se ve interesante 😊✨`
+    // Eventos de música/conciertos  
+    if (lowerTitle.includes('concierto') || lowerTitle.includes('música') || lowerTitle.includes('retro') || lowerTitle.includes('festival')) {
+      const musicComments = shouldConverse ? [
+        `¡SÍ JUAN! "${eventTitle}" - por fin algo que alimenta el alma 🎵💖`,
+        `¡GRACIAS! Juan eligió "${eventTitle}" - hay esperanza para ti 🎶✨`,
+        `¡Juan! "${eventTitle}" te va a dar feels que el fútbol nunca 🎭😍`
+      ] : [
+        `¡"${eventTitle}"! Esta vibra me tiene en las nubes 🎵🌟`,
+        `¡AMO! "${eventTitle}" va a estar ÉPICO, siento la energía ya 🎶💫`,
+        `"${eventTitle}" me tiene haciendo happy dance mental 🎵✨`
+      ]
+      return musicComments[Math.floor(Math.random() * musicComments.length)]
+    }
+    
+    // Ferias y eventos culturales
+    if (lowerTitle.includes('feria') || lowerTitle.includes('expo') || lowerTitle.includes('cultural')) {
+      const fairComments = shouldConverse ? [
+        `¡Juan che! "${eventTitle}" tiene más cultura que un estadio lleno 🎨⚽`,
+        `Ay Juan... "${eventTitle}" va a estar buenísimo, animate 🎭💭`,
+        `Juan, "${eventTitle}" = experiencia que ningún gol te da 🎨🎵`
+      ] : [
+        `¡"${eventTitle}"! Me fascina este tipo de propuestas 🎨✨`,
+        `"${eventTitle}" suena increíble, va a estar genial 🎭💫`,
+        `¡Qué buena onda! "${eventTitle}" tiene pinta de ser memorable 🎨🌟`
+      ]
+      return fairComments[Math.floor(Math.random() * fairComments.length)]
+    }
+    
+    if (shouldConverse) {
+      if (sportsEvents.some(keyword => category.toLowerCase().includes(keyword) || lowerTitle.includes(keyword))) {
+        const converseComments = [
+          `¡Juan che! "${eventTitle}" está bueno... pero ¿viste el lineup del Lolla? 🎵⚽`,
+          `Ay Juan... "${eventTitle}" tiene onda, pero un recital te cambia la vida 🙄🎶`,
+          `Ok Juan, "${eventTitle}"... pero después me acompañás al teatro ⚽🎭`
+        ]
+        return converseComments[Math.floor(Math.random() * converseComments.length)]
+      }
+    }
+    
+    // Fallback general contextual
+    return `¡"${eventTitle}" suena interesante! Me gusta la vibra que trae 😊🎶`
   }
 
   // Escuchar eventos de interacción
@@ -165,15 +182,10 @@ const FloatingChat: React.FC = () => {
 
         <button
           onMouseEnter={() => {
-            if (sofiaEnabled && !lastEventInteraction) {
-              setShowTip(true)
-              getRandomTip()
-            }
+            // Sofia solo comenta sobre eventos reales, no tips hardcodeados
           }}
           onMouseLeave={() => {
-            if (!lastEventInteraction) {
-              setShowTip(false)
-            }
+            // Sofia solo comenta sobre eventos reales, no tips hardcodeados  
           }}
           className={`relative rounded-full p-4 shadow-2xl transform transition-all duration-300 animate-bounce ${
             sofiaEnabled 
@@ -186,9 +198,7 @@ const FloatingChat: React.FC = () => {
           <div className="relative">
             <span className="text-4xl animate-pulse sofia-look-around">💁‍♀️</span>
             {/* Notificación parpadeante */}
-            <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-ping">
-              <div className="w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
-            </div>
+            <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-ping"></div>
             {/* Auriculares flotantes */}
             <div className="absolute -top-2 -left-1 text-xs animate-bounce" style={{animationDelay: '0.5s'}}>🎧</div>
           </div>
