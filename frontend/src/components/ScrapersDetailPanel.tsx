@@ -41,7 +41,7 @@ const ScrapersDetailPanel: React.FC = () => {
   // }
 
   return (
-    <div className="fixed top-20 right-4 z-50 max-w-md">
+    <div className="w-full max-w-4xl mx-auto mb-8">
       {/* Header siempre visible */}
       <div className={`w-full flex items-center justify-between px-4 py-2 backdrop-blur-xl border transition-all duration-200 rounded-t-lg ${
           isStreaming 

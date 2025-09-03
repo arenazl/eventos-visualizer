@@ -612,6 +612,9 @@ const HomePageModern: React.FC = () => {
             </div>
           </div>
 
+          {/* Panel Técnico Detallado - Debajo de Search Bar */}
+          <ScrapersDetailPanel />
+
           {/* Category Filters */}
           <div className="mb-10">
             <div className="flex flex-wrap justify-center gap-3">
@@ -852,9 +855,6 @@ const HomePageModern: React.FC = () => {
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
       />
-
-      {/* Scrapers Detail Panel - Información técnica precisa */}
-      <ScrapersDetailPanel />
     </div>
   )
 }
