@@ -43,8 +43,10 @@ self.addEventListener('fetch', event => {
 
         caches.open(CACHE_NAME)
           .then(cache => {
-            // Cache successful responses
-            if (event.request.method === 'GET') {
+            // Cache successful responses, but skip chrome-extension and other unsupported schemes
+            if (event.request.method === 'GET' && 
+                event.request.url.startsWith('http') &&
+                !event.request.url.startsWith('chrome-extension://')) {
               cache.put(event.request, responseToCache);
             }
           });
