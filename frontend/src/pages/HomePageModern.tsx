@@ -6,6 +6,8 @@ import { EventsGridSkeleton, EmptyState, MultiSourceSkeleton, ScrapingSkeleton }
 import { EmptyEventsAnimation, EmptyEventsCompact } from '../components/EmptyEventsAnimation'
 import ScrapersInfo from '../components/ScrapersInfo'
 import AuthModal from '../components/AuthModal'
+import Header from '../components/Header'
+import ScrapersDetailPanel from '../components/ScrapersDetailPanel'
 import { useEvents } from '../stores/EventsStore'
 import { useAuth } from '../contexts/AuthContext'
 import { useAssistants } from '../contexts/AssistantsContext'
@@ -422,8 +424,11 @@ const HomePageModern: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-      {/* TOP BAR */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-3xl bg-white/5 transition-all duration-300 ${isScrolled ? 'py-2' : 'py-4'}`}>
+      {/* HEADER CON CONTADOR EN TIEMPO REAL */}
+      <Header />
+      
+      {/* TOP BAR EXISTENTE (user buttons) */}
+      <nav className={`fixed top-16 left-0 right-0 z-40 backdrop-blur-3xl bg-white/5 transition-all duration-300 ${isScrolled ? 'py-2' : 'py-4'}`}>
         <div className="container mx-auto px-6">
           <div className="flex justify-between items-center">
             {/* User Button - Left */}
@@ -487,35 +492,6 @@ const HomePageModern: React.FC = () => {
                 FanAroundYou ✨
               </h1>
               
-              {/* Performance stats debajo del logo */}
-              {performanceStats.fastestSource && (
-                <div className="mt-2 text-xs text-white/60 space-y-1">
-                  <div className="flex justify-center gap-4 text-xs">
-                    <span>🏆 Más rápido: {performanceStats.fastestSource} ({Math.round(performanceStats.fastestTime || 0)}ms)</span>
-                    {performanceStats.slowestSource && (
-                      <span>🐌 Más lento: {performanceStats.slowestSource} ({Math.round(performanceStats.slowestTime || 0)}ms)</span>
-                    )}
-                  </div>
-                  
-                  {/* Timing detallado de cada fuente */}
-                  {sourceTiming.length > 0 && (
-                    <div className="flex justify-center gap-2 flex-wrap mt-1">
-                      {sourceTiming.map((timing) => {
-                        if (timing.eventTimes.length === 0) return null
-                        const emoji = timing.source === 'eventbrite' ? '🎫' : 
-                                     timing.source === 'facebook' ? '🔥' : 
-                                     timing.source === 'instagram' ? '📸' : 
-                                     timing.source === 'argentina_venues' ? '🏛️' : '🔍'
-                        return (
-                          <span key={timing.source} className="bg-black/20 px-2 py-1 rounded-full text-xs">
-                            {emoji} {timing.eventTimes.length} eventos - {Math.round(timing.totalTime || 0)}ms
-                          </span>
-                        )
-                      })}
-                    </div>
-                  )}
-                </div>
-              )}
             </div>
 
             {/* Right side - Balance */}
@@ -525,7 +501,7 @@ const HomePageModern: React.FC = () => {
       </nav>
 
       {/* CONTENIDO PRINCIPAL */}
-      <main className="pt-24 px-4 sm:px-6 lg:px-8">
+      <main className="pt-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Smart Location Bar */}
           <SmartLocationBar 
@@ -876,6 +852,9 @@ const HomePageModern: React.FC = () => {
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
       />
+
+      {/* Scrapers Detail Panel - Información técnica precisa */}
+      <ScrapersDetailPanel />
     </div>
   )
 }
