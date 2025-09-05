@@ -77,25 +77,10 @@ const HomePageModern: React.FC = () => {
         setLocation(initialLocation)
         setLocationDetected(true)
         
-        // 🧠 USAR AI SEARCH COMPLETO: Intent + Search + Recommend
-        await aiInitialSearch(initialLocation)
+        // ✅ USAR WEBSOCKET STREAMING EN LUGAR DE HTTP CALLS
+        await startStreamingSearch(undefined, initialLocation)
         
-        // Detectar ubicación específica después (sin recargar eventos)
-        try {
-          const { EventsAPI } = await import('../services/api')
-          const specificLocation = await EventsAPI.getBestLocation()
-          
-          // Solo actualizar ubicación para futuros cambios manuales
-          setLocation({
-            name: specificLocation.display_name,
-            coordinates: { lat: specificLocation.latitude, lng: specificLocation.longitude },
-            country: specificLocation.country,
-            detected: 'gps'
-          })
-        } catch (error) {
-          console.error('Error detecting specific location:', error)
-          // Ya tenemos Argentina cargado, no hacer nada más
-        }
+        // ✅ REMOVED: getBestLocation - no necesario, ya tenemos eventos cargados
       }
     }
 
