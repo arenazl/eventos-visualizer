@@ -101,6 +101,15 @@ export const ScrapersProgressLoader: React.FC<ScrapersProgressLoaderProps> = ({
     }
   }, [])
 
+  // Auto-start scraping when connected and location is available
+  useEffect(() => {
+    if (isConnected && location && !isRunning) {
+      setTimeout(() => {
+        startScraping()
+      }, 1000) // Wait 1 second after connection
+    }
+  }, [isConnected, location])
+
   const connectWebSocket = () => {
     try {
       const ws = new WebSocket('ws://172.29.228.80:8001/ws/scrapers-progress')
@@ -334,14 +343,19 @@ export const ScrapersProgressLoader: React.FC<ScrapersProgressLoaderProps> = ({
                 Monitoreo detallado de cada scraper
               </p>
             </div>
-            {!isRunning && (
+            {!isRunning ? (
               <button
                 onClick={startScraping}
                 disabled={!isConnected}
                 className="px-4 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-500 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors"
               >
-                Iniciar Scraping
+                🔄 Iniciar Scraping
               </button>
+            ) : (
+              <div className="px-4 py-2 bg-green-500/20 border border-green-500/30 text-green-300 rounded-lg font-medium flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                Scraping Activo
+              </div>
             )}
           </div>
 

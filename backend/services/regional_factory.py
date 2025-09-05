@@ -31,7 +31,8 @@ class RegionalFactory:
         """Inicializa la factory regional con auto-discovery"""
         self.regional_scrapers = {}  # Cache de scrapers por región
         self.country_mappings = {}   # Mapeo de países → scrapers
-        self.url_discovery_service = UrlDiscoveryService()
+        # UrlDiscoveryService requires ai_service - skip for now since regional factory isn't being used
+        self.url_discovery_service = None  # Will be injected when needed
         
         logger.info("🌍 Regional Factory inicializado")
         self._discover_regional_scrapers()
@@ -221,9 +222,12 @@ class RegionalFactory:
             scraper_class = self.regional_scrapers[region]
             
             # Instanciar scraper con dependency injection
-            scraper_instance = scraper_class(
-                url_discovery_service=self.url_discovery_service
-            )
+            # TODO: Properly inject ai_service when regional factory is implemented
+            try:
+                scraper_instance = scraper_class(url_discovery_service=self.url_discovery_service)
+            except TypeError:
+                # Fallback: try without url_discovery_service if constructor doesn't accept it
+                scraper_instance = scraper_class()
             
             # Configurar contexto de región
             scraper_instance.context = {

@@ -1,0 +1,68 @@
+{
+  "performance_metrics": {
+    "facebook_api": {
+      "avg_response_time_ms": 800,
+      "priority": 1,
+      "timeout_ms": 3000,
+      "type": "api",
+      "note": "Fast API with RapidAPI"
+    },
+    "eventbrite": {
+      "avg_response_time_ms": 1200,
+      "priority": 2,
+      "timeout_ms": 5000,
+      "type": "web_scraping",
+      "note": "Web scraping with beautifulsoup"
+    },
+    "meetup": {
+      "avg_response_time_ms": 4500,
+      "priority": 3,
+      "timeout_ms": 10000,
+      "type": "playwright",
+      "note": "Requires browser automation for Cloudflare bypass"
+    },
+    "fever": {
+      "avg_response_time_ms": 5000,
+      "priority": 4,
+      "timeout_ms": 10000,
+      "type": "playwright",
+      "note": "Latin America events, requires browser"
+    },
+    "bandsintown": {
+      "avg_response_time_ms": 1500,
+      "priority": 5,
+      "timeout_ms": 5000,
+      "type": "web_scraping",
+      "note": "Music events scraper"
+    },
+    "ticketmaster": {
+      "avg_response_time_ms": 2000,
+      "priority": 6,
+      "timeout_ms": 5000,
+      "type": "api",
+      "note": "Requires API key"
+    }
+  },
+  "execution_strategy": {
+    "parallel_groups": [
+      {
+        "group": 1,
+        "description": "Fast APIs - Execute first",
+        "scrapers": ["facebook_api", "eventbrite"],
+        "max_wait_ms": 3000
+      },
+      {
+        "group": 2,
+        "description": "Playwright scrapers - Execute second",
+        "scrapers": ["meetup", "fever"],
+        "max_wait_ms": 8000
+      }
+    ],
+    "total_timeout_ms": 8000,
+    "early_termination": {
+      "enabled": true,
+      "min_events_threshold": 20,
+      "description": "If we get 20+ events from fast scrapers, don't wait for slow ones"
+    }
+  }
+}

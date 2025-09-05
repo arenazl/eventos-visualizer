@@ -14,6 +14,9 @@ logger = logging.getLogger(__name__)
 class BandsintownScraper(BaseGlobalScraper):
     """🎵 BANDSINTOWN SCRAPER GLOBAL - Eventos musicales"""
     
+    # 🎯 DESHABILITADO POR DEFECTO - Solo usar Eventbrite/Meetup/Facebook
+    enabled_by_default: bool = False
+    
     def __init__(self, url_discovery_service: IUrlDiscoveryService, config: ScraperConfig = None):
         super().__init__(url_discovery_service, config)
         

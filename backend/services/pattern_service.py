@@ -7,6 +7,8 @@ import json
 import logging
 from typing import Dict, Any, Optional
 from pathlib import Path
+from urllib.parse import quote
+import pycountry
 
 logger = logging.getLogger(__name__)
 
@@ -25,21 +27,21 @@ class PatternService:
         logger.info("🎯 Pattern Service initialized")
     
     def _load_patterns(self):
-        """📂 Carga patrones desde JSON"""
+        """📂 Carga patrones desde JSON de scrapers"""
         try:
-            patterns_file = Path(__file__).parent.parent / "data" / "company_patterns.json"
+            patterns_file = Path(__file__).parent.parent / "data" / "scraper_url_formats.json"
             
             if patterns_file.exists():
                 with open(patterns_file, 'r', encoding='utf-8') as f:
                     data = json.load(f)
-                    self.patterns = data.get('patterns', {})
-                    logger.info(f"📂 Loaded {len(self.patterns)} company patterns")
+                    self.patterns = data.get('formats', {})
+                    logger.info(f"📂 Loaded {len(self.patterns)} scraper URL formats")
             else:
-                logger.warning("⚠️ Company patterns file not found")
+                logger.warning("⚠️ Scraper URL formats file not found")
                 self.patterns = {}
                 
         except Exception as e:
-            logger.error(f"❌ Error loading patterns: {e}")
+            logger.error(f"❌ Error loading scraper patterns: {e}")
             self.patterns = {}
     
     def generate_url(
@@ -126,21 +128,63 @@ class PatternService:
         city: str, 
         country: str
     ) -> str:
-        """🤝 Aplica patrón específico de Meetup"""
+        """🤝 Aplica patrón específico de Meetup con pycountry ISO codes"""
         
-        # Obtener locale por país
-        locale = config.get('locales', {}).get(country, config.get('locales', {}).get('default', 'en-US'))
+        # Obtener código ISO del país usando pycountry
+        country_code = self._get_country_code_iso(country)
+        if not country_code:
+            country_code = config.get('default_country', 'us')
         
-        # Obtener código de país
-        country_code = config.get('country_codes', {}).get(country, config.get('country_codes', {}).get('default', 'us'))
-        
-        # Aplicar patrón
-        url = pattern.replace('{locale}', locale)
-        url = url.replace('{country_code}', country_code)
-        url = url.replace('{city}', city.replace(' ', ''))
+        # Aplicar patrón - URL encoding para caracteres especiales
+        city_encoded = quote(city, safe='')  # URL encode completo
+        url = pattern.replace('{country_code}', country_code.lower())
+        url = url.replace('{city}', city_encoded)
         
         logger.info(f"🤝 Meetup URL generated: {url}")
         return url
+    
+    def _get_country_code_iso(self, country_name: str) -> Optional[str]:
+        """🌍 Obtiene código ISO de país usando pycountry"""
+        if not country_name:
+            return None
+        
+        # Diccionario de traducciones español -> inglés
+        spanish_to_english = {
+            'españa': 'spain',
+            'estados unidos': 'united states', 
+            'méxico': 'mexico',
+            'brasil': 'brazil',
+            'francia': 'france',
+            'alemania': 'germany',
+            'italia': 'italy',
+            'reino unido': 'united kingdom',
+            'canadá': 'canada',
+            'argentina': 'argentina'
+        }
+        
+        # Normalizar el nombre (minúsculas)
+        normalized = country_name.lower().strip()
+        
+        # Buscar primero en el diccionario español
+        english_name = spanish_to_english.get(normalized, normalized)
+            
+        try:
+            # Intentar búsqueda fuzzy para nombres en diferentes idiomas
+            countries = pycountry.countries.search_fuzzy(english_name)
+            if countries:
+                return countries[0].alpha_2.lower()
+        except LookupError:
+            # Si falla fuzzy search, intentar búsqueda exacta
+            try:
+                country = pycountry.countries.get(name=english_name)
+                if country:
+                    return country.alpha_2.lower()
+            except (KeyError, AttributeError):
+                pass
+        
+        # Fallback: usar "us" por defecto
+        logger.warning(f"⚠️ No se encontró código ISO para país: {country_name}, usando 'us' por defecto")
+        return "us"
     
     def get_available_platforms(self) -> list:
         """📋 Obtiene lista de plataformas con patrones habilitados"""

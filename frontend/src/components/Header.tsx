@@ -36,10 +36,6 @@ const Header: React.FC = () => {
             <button className="p-2 text-white/70 hover:text-white transition-colors">
               <MagnifyingGlassIcon className="h-6 w-6" />
             </button>
-            
-            <button className="bg-white/10 hover:bg-white/20 text-white font-semibold py-2 px-6 border border-white/30 rounded-full shadow-md hover:shadow-lg transition-all duration-200 flex items-center space-x-2">
-              <span>Registrarse</span>
-            </button>
           </div>
         </div>
       </div>

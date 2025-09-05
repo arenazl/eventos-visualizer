@@ -1,0 +1,62 @@
+{
+  "patterns": {
+    "eventbrite": {
+      "enabled": true,
+      "priority": 1
+    },
+    "meetup": {
+      "enabled": true, 
+      "priority": 2
+    },
+    "bandsintown": {
+      "enabled": false,
+      "disable_reason": "Solo usar Eventbrite y Meetup"
+    },
+    "dice": {
+      "enabled": false,
+      "disable_reason": "Solo usar Eventbrite y Meetup"
+    },
+    "events": {
+      "enabled": false,
+      "disable_reason": "Solo usar Eventbrite y Meetup"
+    },
+    "facebook_api": {
+      "enabled": true,
+      "priority": 3,
+      "note": "Using paid RapidAPI for Facebook events"
+    },
+    "fever": {
+      "enabled": true,
+      "priority": 4,
+      "note": "Latin America events with Playwright"
+    },
+    "universe": {
+      "enabled": false,
+      "disable_reason": "Solo usar Eventbrite y Meetup"
+    },
+    "ticketmaster": {
+      "enabled": false,
+      "disable_reason": "Solo usar Eventbrite y Meetup"
+    },
+    "ticombo": {
+      "enabled": false,
+      "disable_reason": "Solo usar Eventbrite y Meetup"
+    },
+    "allevents": {
+      "enabled": false,
+      "disable_reason": "Solo usar Eventbrite y Meetup"
+    },
+    "stubhub": {
+      "enabled": false,
+      "disable_reason": "Solo usar Eventbrite y Meetup"
+    },
+    "ticketleap": {
+      "enabled": false,
+      "disable_reason": "Solo usar Eventbrite y Meetup"
+    },
+    "showpass": {
+      "enabled": false,
+      "disable_reason": "Solo usar Eventbrite y Meetup"
+    }
+  }
+}

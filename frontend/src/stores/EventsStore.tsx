@@ -66,6 +66,7 @@ interface EventsState {
   currentLocation: Location | null
   aiRecommendations: AIRecommendation | null
   lastQuery: string
+  nearbyCities: string[]  // Store nearby cities from recommend endpoint
   
   // WebSocket Streaming State
   isStreaming: boolean
@@ -95,7 +96,7 @@ interface EventsState {
   analyzeUserIntent: (query: string) => Promise<any>
   
   // WebSocket Streaming Methods
-  startStreamingSearch: (location?: Location) => Promise<void>
+  startStreamingSearch: (query?: string, location?: Location) => Promise<void>
   stopStreaming: () => void
 
   // Legacy methods (fallback)
@@ -107,7 +108,7 @@ interface EventsState {
   setLocation: (location: Location) => void
 }
 
-const useEventsStore = create<EventsState>((set, get) => ({
+export const useEventsStore = create<EventsState>((set, get) => ({
   events: [],
   loading: false,
   error: null,
@@ -115,6 +116,7 @@ const useEventsStore = create<EventsState>((set, get) => ({
   currentLocation: null,
   aiRecommendations: null,
   lastQuery: '',
+  nearbyCities: [],
   
   // WebSocket Streaming State
   isStreaming: false,
@@ -183,7 +185,11 @@ const useEventsStore = create<EventsState>((set, get) => ({
       // 3. PASO 3: Generar recomendaciones inteligentes
       await get().getSmartRecommendations(query, foundEvents, finalLocation)
 
-      set({ events: foundEvents, loading: false })
+      set({ 
+        events: foundEvents, 
+        loading: false,
+        scrapersExecution: searchData.scrapers_execution || null
+      })
 
     } catch (error) {
       console.warn('AI search failed, falling back to traditional search:', error)
@@ -246,7 +252,8 @@ const useEventsStore = create<EventsState>((set, get) => ({
       set({ 
         events: foundEvents, 
         loading: false,
-        lastQuery: `Eventos en ${location.name}` 
+        lastQuery: `Eventos en ${location.name}`,
+        scrapersExecution: searchData.scrapers_execution || null
       })
 
     } catch (error) {
@@ -280,7 +287,12 @@ const useEventsStore = create<EventsState>((set, get) => ({
 
       if (response.ok) {
         const recommendations = await response.json()
-        set({ aiRecommendations: recommendations })
+        // Extract nearby cities if they exist in the response
+        const nearbyCities = recommendations.nearby_cities || recommendations.city_buttons || []
+        set({ 
+          aiRecommendations: recommendations,
+          nearbyCities: nearbyCities.slice(0, 3) // Only keep first 3 cities
+        })
       }
     } catch (error) {
       console.warn('Failed to get AI recommendations:', error)
@@ -360,7 +372,11 @@ const useEventsStore = create<EventsState>((set, get) => ({
       if (!response.ok) throw new Error('Error en la búsqueda')
 
       const data = await response.json()
-      set({ events: data.events || data || [], loading: false })
+      set({ 
+        events: data.events || data || [], 
+        loading: false,
+        scrapersExecution: data.scrapers_execution || null
+      })
     } catch (error) {
       set({ error: (error as Error).message, loading: false })
     }
@@ -405,7 +421,11 @@ const useEventsStore = create<EventsState>((set, get) => ({
       if (!response.ok) throw new Error('Error en búsqueda inteligente')
 
       const data = await response.json()
-      set({ events: data.recommended_events || [], loading: false })
+      set({ 
+        events: data.recommended_events || [], 
+        loading: false,
+        scrapersExecution: data.scrapers_execution || null
+      })
     } catch (error) {
       // Fallback to regular search if Gemini fails
       console.warn('Smart search failed, falling back to regular search:', error)
@@ -424,9 +444,10 @@ const useEventsStore = create<EventsState>((set, get) => ({
   },
 
   // 🔥 WEBSOCKET STREAMING - Nueva funcionalidad principal
-  startStreamingSearch: async (location?: Location) => {
-    const { currentLocation } = get()
+  startStreamingSearch: async (query?: string, location?: Location) => {
+    const { currentLocation, lastQuery } = get()
     const searchLocation = location || currentLocation
+    const searchQuery = query || lastQuery || searchLocation?.name || 'Buenos Aires'
     
     const startTime = Date.now()
     set({ 
@@ -439,7 +460,8 @@ const useEventsStore = create<EventsState>((set, get) => ({
       streamingSource: '',
       searchStartTime: startTime,
       sourceTiming: [],
-      performanceStats: {}
+      performanceStats: {},
+      lastQuery: searchQuery
     })
 
     try {
@@ -447,9 +469,10 @@ const useEventsStore = create<EventsState>((set, get) => ({
       
       ws.onopen = () => {
         console.log('🔥 WebSocket conectado para búsqueda streaming')
-        // Iniciar búsqueda automáticamente
+        // Enviar búsqueda con query y location
         ws.send(JSON.stringify({
           action: 'search',
+          query: searchQuery,
           location: searchLocation?.name || 'Buenos Aires'
         }))
       }
@@ -661,3 +684,5 @@ export const useEvents = () => {
   }
   return context
 }
+
+// useEventsStore is already exported above at line 111

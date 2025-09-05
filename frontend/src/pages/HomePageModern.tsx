@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import EventCardModern from '../components/EventCardModern'
 import SmartLocationBar from '../components/SmartLocationBar'
+import NearbyCitiesLinks from '../components/NearbyCitiesLinks'
 import AIRecommendations, { NoResultsWithAI } from '../components/AIRecommendations'
 import { EventsGridSkeleton, EmptyState, MultiSourceSkeleton, ScrapingSkeleton } from '../components/LoadingStates'
 import { EmptyEventsAnimation, EmptyEventsCompact } from '../components/EmptyEventsAnimation'
 import ScrapersInfo from '../components/ScrapersInfo'
 import AuthModal from '../components/AuthModal'
 import Header from '../components/Header'
-import ScrapersDetailPanel from '../components/ScrapersDetailPanel'
-import { useEvents } from '../stores/EventsStore'
+import { useEvents, useEventsStore } from '../stores/EventsStore'
 import { useAuth } from '../contexts/AuthContext'
 import { useAssistants } from '../contexts/AssistantsContext'
 
@@ -336,21 +336,26 @@ const HomePageModern: React.FC = () => {
     }
     
     try {
-      // 🚀 BÚSQUEDA DIRECTA con aiSearch - ya incluye análisis de intención
-      console.log(`🔍 Búsqueda: "${searchQuery}" en ${currentLocation?.name || 'ubicación actual'}`)
+      // 🚀 USAR WEBSOCKET STREAMING para búsqueda en tiempo real
+      console.log(`🔍 Búsqueda WebSocket: "${searchQuery}" en ${currentLocation?.name || 'ubicación actual'}`)
       
-      // aiSearch ya maneja la detección de ubicación y análisis de intención internamente
-      await aiSearch(searchQuery, currentLocation)
+      // Usar WebSocket streaming que muestra progreso en tiempo real
+      await startStreamingSearch(searchQuery, currentLocation)
       
-      // Limpiar tags (aiSearch maneja la detección internamente)
+      // Limpiar tags después de iniciar búsqueda
       setDetectedTags([])
       
+      // El spinner se desactivará cuando el WebSocket complete
+      setTimeout(() => {
+        setIsSearchButtonSpinning(false)
+      }, 3000) // Timeout de seguridad
+      
     } catch (error) {
-      console.error('❌ Error en búsqueda:', error)
+      console.error('❌ Error en búsqueda WebSocket:', error)
       // ✨ Detener spinner en caso de error
       setIsSearchButtonSpinning(false)
-      // Fallback a búsqueda tradicional
-      await searchEvents(searchQuery, currentLocation)
+      // Fallback a búsqueda AI
+      await aiSearch(searchQuery, currentLocation)
     }
   }
 
@@ -367,7 +372,7 @@ const HomePageModern: React.FC = () => {
         const transcript = event.results[0][0].transcript
         setSearchQuery(transcript)
         // Usar streaming también para búsqueda por voz
-        setTimeout(() => startStreamingSearch(currentLocation), 500)
+        setTimeout(() => startStreamingSearch(transcript, currentLocation), 500)
       }
 
       recognition.start()
@@ -427,12 +432,11 @@ const HomePageModern: React.FC = () => {
       {/* HEADER CON CONTADOR EN TIEMPO REAL */}
       <Header />
       
-      {/* TOP BAR EXISTENTE (user buttons) */}
-      <nav className={`fixed top-16 left-0 right-0 z-40 backdrop-blur-3xl bg-white/5 transition-all duration-300 ${isScrolled ? 'py-2' : 'py-4'}`}>
-        <div className="container mx-auto px-6">
-          <div className="flex justify-between items-center">
-            {/* User Button - Left */}
-            <div className="w-16">
+      {/* USER AUTHENTICATION BUTTON */}
+      <div className="fixed top-4 right-6 z-50">
+        <div className="flex items-center">
+            {/* User Button - Right aligned */}
+            <div>
               {isAuthenticated ? (
                 <button
                   onClick={() => {
@@ -483,31 +487,25 @@ const HomePageModern: React.FC = () => {
                 </button>
               )}
             </div>
-
-            {/* Logo - Center */}
-            <div className="text-center flex-1">
-              <h1 className={`font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 tracking-wider transition-all duration-300 ${
-                isScrolled ? 'text-3xl' : 'text-5xl'
-              }`}>
-                FanAroundYou ✨
-              </h1>
-              
-            </div>
-
-            {/* Right side - Balance */}
-            <div className="w-16"></div>
           </div>
-        </div>
-      </nav>
+      </div>
 
       {/* CONTENIDO PRINCIPAL */}
-      <main className="pt-32 px-4 sm:px-6 lg:px-8">
+      <main className="pt-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Smart Location Bar */}
           <SmartLocationBar 
             onLocationChange={handleLocationChange}
             currentLocation={currentLocation}
           />
+          
+          {/* Nearby Cities Links */}
+          {currentLocation && (
+            <NearbyCitiesLinks 
+              currentCity={currentLocation.name}
+              onCityClick={handleLocationChange}
+            />
+          )}
 
 
           {/* Search Bar */}
@@ -612,8 +610,6 @@ const HomePageModern: React.FC = () => {
             </div>
           </div>
 
-          {/* Panel Técnico Detallado - Debajo de Search Bar */}
-          <ScrapersDetailPanel />
 
           {/* Category Filters */}
           <div className="mb-10">

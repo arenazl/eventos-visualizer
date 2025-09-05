@@ -39,6 +39,12 @@ class BaseGlobalScraper(ABC):
     Estos scrapers funcionan en cualquier ubicación del mundo.
     """
     
+    # 🎯 PROPERTY HABILITADO POR DEFECTO - CADA SCRAPER DEBE DEFINIR
+    enabled_by_default: bool = True
+    
+    # 🌍 PROPERTY PARA BÚSQUEDA DE CIUDADES CERCANAS - CADA SCRAPER DEBE DEFINIR
+    nearby_cities: bool = True
+    
     def __init__(self, url_discovery_service, config: ScraperConfig = None):
         """
         Constructor con dependency injection

@@ -568,3 +568,71 @@ curl http://172.29.228.80:8001/api/multi/fetch-all
 3. Conectar Meetup API (eventos comunitarios)  
 4. Scraping Bandsintown (eventos musicales)
 5. Explorar APIs latinas: Joinnus, Welcu, Sympla
+
+## 🚀 SESIÓN 4 SEPTIEMBRE 2025 - OPTIMIZACIONES CRÍTICAS
+
+### 🔧 **PROBLEMAS IDENTIFICADOS Y SOLUCIONADOS:**
+
+#### 1. **Timeout Interceptor Implementado** ✅
+- **Archivo**: `/backend/middleware/timeout_interceptor.py`
+- **Timeout global**: 8 segundos máximo para cualquier request
+- **Respuesta 504**: Gateway Timeout cuando excede el límite
+- **Configuración**: En `main.py` línea 298
+
+#### 2. **Facebook API - NO usar UIDs** ✅
+- **CAMBIO CRÍTICO**: Facebook API ya NO busca UIDs
+- **Antes**: Buscaba primero el UID de la ciudad (costoso y lento)
+- **Ahora**: Solo usa `query=miami` directo
+- **Archivo modificado**: `/backend/services/global_scrapers/facebook_api_scraper.py`
+- **Líneas comentadas**: 72-76 (búsqueda de UIDs deshabilitada)
+- **Query correcto**: `/search/events?query=miami&start_date=2025-09-05&end_date=2030-10-04`
+
+#### 3. **Pattern Service - Países en Español** ✅
+- **Problema**: No reconocía "España", "Estados Unidos" en español
+- **Solución**: Diccionario español->inglés agregado
+- **Archivo**: `/backend/services/pattern_service.py`
+- **Método**: `_get_country_code_iso()` líneas 146-187
+- **Fallback**: Si no encuentra país, usa "us" por defecto
+- **Países soportados**: España, Estados Unidos, México, Brasil, Francia, Argentina, etc.
+
+#### 4. **Timeouts Reducidos** ✅
+- **Facebook API**: 3 segundos (antes sin límite)
+- **Industrial Factory scrapers**: 5 segundos (antes 10s)
+- **HTTP requests**: Todos con timeout explícito
+
+### 📊 **ESTADO ACTUAL DEL SISTEMA:**
+
+#### **Backend (Puerto 8001):**
+- ✅ Respondiendo correctamente a requests
+- ✅ Interceptor de timeout funcionando
+- ✅ Scrapers optimizados con timeouts cortos
+- ✅ Facebook sin UIDs (más rápido)
+- ✅ Pattern Service con países en español
+
+#### **Frontend (Puerto 5174):**
+- ✅ Recibiendo respuestas del backend
+- ✅ Sin requests colgados indefinidamente
+
+#### **Scrapers Habilitados:**
+1. **Eventbrite**: `enabled_by_default = True`
+2. **Meetup**: `enabled_by_default = True`  
+3. **Facebook API**: `enabled_by_default = True`
+
+### 🎯 **QUERIES FUNCIONANDO:**
+
+```bash
+# Miami - Usa caché (GRATIS)
+curl "http://172.29.228.80:8001/api/events?location=Miami&limit=10"
+
+# Barcelona - Funciona sin UIDs
+curl "http://172.29.228.80:8001/api/events?location=Barcelona&limit=10"
+
+# Buenos Aires - Con fallback inteligente
+curl "http://172.29.228.80:8001/api/events?location=Buenos%20Aires&limit=10"
+```
+
+### ⚠️ **NOTAS IMPORTANTES:**
+- **Facebook API Key**: `f3435e87bbmsh512cdcef2082564p161dacjsnb5f035481232`
+- **NO usar UIDs**: Solo query directo con nombre de ciudad
+- **Caché mensual**: Facebook guarda eventos por mes en JSON
+- **Fallback automático**: Ciudad → Provincia → País si no hay eventos

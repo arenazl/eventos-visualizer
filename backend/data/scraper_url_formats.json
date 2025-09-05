@@ -1,7 +1,8 @@
 {
   "version": "1.0",
-  "last_updated": "2025-09-02",
-  "patterns": {
+  "last_updated": "2025-09-04",
+  "description": "URL formats específicos para cada scraper - separado de company_patterns",
+  "formats": {
     "eventbrite": {
       "pattern": "https://www.eventbrite.{domain}/d/{country}--{city}--events/",
       "domains": {
@@ -22,30 +23,21 @@
         "Colombia": "colombia"
       },
       "enabled": true,
-      "confidence": 0.95
+      "encoding": "standard"
     },
     "meetup": {
       "pattern": "https://www.meetup.com/find/?location={country_code}--{city}&source=EVENTS",
-      "locales": {
-        "España": "es-ES",
-        "France": "fr-FR",
-        "Brasil": "pt-BR",
-        "Argentina": "es-AR", 
-        "México": "es-MX",
-        "Colombia": "es-CO",
-        "default": "en-US"
-      },
-      "country_codes": {
-        "España": "es",
-        "France": "fr",
-        "Brasil": "br",
-        "Argentina": "ar",
-        "México": "mx", 
-        "Colombia": "co",
-        "default": "us"
-      },
       "enabled": true,
-      "confidence": 0.90
+      "encoding": "url_encode",
+      "uses_iso_country_codes": true,
+      "default_country": "us"
+    },
+    "facebook_api": {
+      "pattern": "/search/events?query={city}&start_date={start_date}&end_date={end_date}",
+      "base_url": "https://facebook-scraper3.p.rapidapi.com",
+      "enabled": true,
+      "encoding": "standard",
+      "requires_api_key": true
     },
     "ticketmaster": {
       "pattern": "https://www.ticketmaster.{domain}/{path}/{city}",
@@ -67,17 +59,24 @@
     "bandsintown": {
       "pattern": "https://www.bandsintown.com/{city}/concerts",
       "enabled": false,
-      "disable_reason": "HTTP 403 errors consistently"
+      "disable_reason": "HTTP 403 errors consistently",
+      "encoding": "standard"
     },
     "dice": {
       "pattern": "https://dice.fm/{city}/music",
       "enabled": false,
-      "disable_reason": "HTTP 403 errors consistently"
+      "disable_reason": "HTTP 403 errors consistently",
+      "encoding": "standard"
     }
   },
+  "encoding_rules": {
+    "standard": "No special encoding",
+    "url_encode": "Full URL encoding with urllib.parse.quote",
+    "percent_encoding": "Spaces as %20, special chars encoded"
+  },
   "metadata": {
-    "total_patterns": 5,
-    "enabled_patterns": 2,
-    "purpose": "Pre-defined URL patterns to avoid AI calls for URL generation"
+    "total_scrapers": 6,
+    "enabled_scrapers": 3,
+    "purpose": "URL format patterns separated from business logic - cleaner architecture"
   }
 }

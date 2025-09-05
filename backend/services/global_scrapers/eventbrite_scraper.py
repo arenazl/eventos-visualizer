@@ -36,6 +36,11 @@ class EventbriteScraper(BaseGlobalScraper):
     - Sistema de fallbacks inteligentes
     """
     
+    # 🎯 HABILITADO POR DEFECTO - SCRAPER PRINCIPAL
+    enabled_by_default: bool = True
+    priority: int = 2  # Fast web scraping ~1200ms
+    nearby_cities: bool = True  # Soporta búsqueda de ciudades cercanas por IA
+    
     def __init__(self, url_discovery_service: IUrlDiscoveryService, config: ScraperConfig = None):
         """
         Constructor con DEPENDENCY INJECTION

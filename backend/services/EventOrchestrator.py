@@ -27,78 +27,110 @@ class EventOrchestrator:
     def __init__(self):
         """Inicializa el orchestrador con factory pattern"""
         self.factory = IndustrialFactory()
+        logger.info("🔧 DEBUG: EventOrchestrator inicializado SIN Argentina Factory calls")
         
     async def get_events_comprehensive(
         self, 
         location: str, 
         category: Optional[str] = None,
-        limit: int = 30
+        limit: int = 30,
+        province: Optional[str] = None,
+        country: Optional[str] = None,
+        min_events_threshold: int = 3
     ) -> Dict[str, Any]:
         """
-        🚀 BÚSQUEDA COMPLETA DE EVENTOS
+        🚀 BÚSQUEDA COMPLETA DE EVENTOS CON FALLBACK INTELIGENTE
         
         Args:
             location: Ciudad o región de búsqueda
             category: Categoría opcional de eventos
             limit: Número máximo de eventos a retornar
+            province: Provincia/Estado para fallback
+            country: País para fallback final
+            min_events_threshold: Mínimo de eventos para considerar suficiente
             
         Returns:
             Diccionario con eventos, estadísticas y metadata
         """
         
-        logger.info(f"🎯 EVENT ORCHESTRATOR: Iniciando búsqueda completa para '{location}'")
+        logger.info(f"🎯 EVENT ORCHESTRATOR: Búsqueda con fallback para '{location}'")
         
         start_time = time.time()
-        all_events = []
-        scraper_stats = []
         
         try:
-            # 🌍 FASE 1: Scrapers Globales (prioritarios)
-            logger.info("🌍 Ejecutando scrapers GLOBALES con Industrial Factory...")
+            # 🎯 Usar Factory con Fallback Inteligente
+            logger.info("🔄 Ejecutando Factory con fallback jerárquico...")
             
-            global_events = await self.factory.execute_global_scrapers(
-                location=location,
+            # Si no tenemos provincia/país, intentar detectarlos con IA
+            if not province or not country:
+                try:
+                    from services.intent_recognition import IntentRecognitionService
+                    intent_service = IntentRecognitionService()
+                    
+                    # Analizar ubicación para extraer jerarquía geográfica
+                    intent_result = await intent_service.get_all_api_parameters(location)
+                    
+                    if intent_result.get('success'):
+                        intent_data = intent_result.get('intent', {})
+                        detected_city = intent_data.get('city', location)
+                        detected_province = intent_data.get('province')
+                        detected_country = intent_data.get('country')
+                        
+                        # Si la búsqueda es por ciudad pequeña, usar la ciudad detectada
+                        if detected_city and detected_city != location:
+                            location = detected_city
+                            logger.info(f"🏙️ Ciudad refinada por IA: {location}")
+                        
+                        if not province and detected_province:
+                            province = detected_province
+                            logger.info(f"📍 Provincia detectada por IA: {province}")
+                            
+                        if not country and detected_country:
+                            country = detected_country
+                            logger.info(f"🌍 País detectado por IA: {country}")
+                            
+                except Exception as e:
+                    logger.warning(f"⚠️ No se pudo detectar jerarquía geográfica: {e}")
+            
+            # Ejecutar búsqueda con fallback
+            result = await self.factory.execute_with_fallback(
+                city=location,
+                province=province,
+                country=country,
                 category=category,
                 limit=limit,
-                context_data={}
+                min_events_threshold=min_events_threshold,
+                context_data={'source': 'EventOrchestrator'}
             )
             
-            logger.info(f"🌍 Industrial Factory completado: {len(global_events)} eventos de 8 scrapers")
-            all_events.extend(global_events)
+            # Obtener eventos y metadata del resultado
+            final_events = result.get('events', [])
+            search_level = result.get('search_level', 'unknown')
+            search_location = result.get('search_location', location)
+            fallback_used = result.get('fallback_used', False)
+            events_by_level = result.get('events_by_level', {})
             
-            # 🇦🇷 FASE 1.5: Argentina Factory para eventos regionales
-            if "argentina" in location.lower() or any(city in location.lower() for city in ["buenos aires", "córdoba", "rosario", "mendoza", "salta"]):
-                try:
-                    from services.regional_factory.argentina.argentina_factory import argentina_factory
-                    
-                    logger.info(f"🇦🇷 Ejecutando Argentina Factory para {location}...")
-                    argentina_result = await argentina_factory.get_events(location, category, limit)
-                    
-                    argentina_events = argentina_result.get("events", [])
-                    if argentina_events:
-                        logger.info(f"🇦🇷 Argentina Factory: {len(argentina_events)} eventos regionales agregados")
-                        all_events.extend(argentina_events)
-                    else:
-                        logger.info(f"🇦🇷 Argentina Factory: No se encontraron eventos regionales para {location}")
-                        
-                except Exception as e:
-                    logger.warning(f"⚠️ Error en Argentina Factory: {e}")
-            
-            # 🔄 FASE 2: Eliminar duplicados
-            unique_events = self._remove_duplicates(all_events)
-            logger.info(f"🔄 Duplicados eliminados: {len(all_events)} → {len(unique_events)} eventos únicos")
-            
-            # 📊 Limitar resultados
-            final_events = unique_events[:limit] if limit else unique_events
+            # Log del resultado
+            if fallback_used:
+                logger.info(f"✅ FALLBACK usado: {search_level} → {search_location} con {len(final_events)} eventos")
+            else:
+                logger.info(f"✅ Búsqueda exitosa en {search_level}: {len(final_events)} eventos")
             
             execution_time = time.time() - start_time
             
             return {
                 "events": final_events,
-                "total_found": len(unique_events),
+                "total_found": len(final_events),
                 "returned": len(final_events),
                 "execution_time": f"{execution_time:.2f}s",
-                "scrapers_used": "industrial_factory",
+                "scrapers_used": "industrial_factory_with_fallback",
+                "scrapers_execution": result.get('scrapers_execution', {}),
+                "search_level": search_level,
+                "search_location": search_location,
+                "fallback_used": fallback_used,
+                "events_by_level": events_by_level,
+                "search_hierarchy": result.get('search_hierarchy', {}),
+                "fallback_message": result.get('fallback_message', None),
                 "location_searched": location,
                 "category_filter": category
             }

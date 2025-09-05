@@ -10,10 +10,11 @@ import importlib
 import inspect
 from typing import Dict, Any, List, Type
 from services.scraper_interface import BaseGlobalScraper
+from services.interfaces.discovery_interface import DiscoveryEngineInterface
 
 logger = logging.getLogger(__name__)
 
-class AutoDiscoveryEngine:
+class AutoDiscoveryEngine(DiscoveryEngineInterface):
     """
     🔍 MOTOR DE AUTO-DESCUBRIMIENTO
     
@@ -52,7 +53,8 @@ class AutoDiscoveryEngine:
         import json
         
         try:
-            config_path = os.path.join(self.base_path, '../data/url_patterns_cache.json')
+            # Primero intenta cargar scrapers_config.json específico
+            config_path = os.path.join(self.base_path, '../data/scrapers_config.json')
             if os.path.exists(config_path):
                 with open(config_path, 'r', encoding='utf-8') as f:
                     cache_data = json.load(f)
@@ -61,8 +63,18 @@ class AutoDiscoveryEngine:
                     disabled_count = len(self.scrapers_config) - enabled_count
                     logger.info(f"🔧 Config cargada: {enabled_count} habilitados, {disabled_count} deshabilitados")
             else:
-                self.scrapers_config = {}
-                logger.warning("⚠️ No se encontró config de scrapers, todos habilitados por defecto")
+                # Fallback al archivo original
+                config_path = os.path.join(self.base_path, '../data/url_patterns_cache.json')
+                if os.path.exists(config_path):
+                    with open(config_path, 'r', encoding='utf-8') as f:
+                        cache_data = json.load(f)
+                        self.scrapers_config = cache_data.get('patterns', {})
+                        enabled_count = sum(1 for config in self.scrapers_config.values() if config.get('enabled', True))
+                        disabled_count = len(self.scrapers_config) - enabled_count
+                        logger.info(f"🔧 Config cargada desde url_patterns_cache: {enabled_count} habilitados, {disabled_count} deshabilitados")
+                else:
+                    self.scrapers_config = {}
+                    logger.warning("⚠️ No se encontró config de scrapers, todos habilitados por defecto")
         except Exception as e:
             logger.error(f"❌ Error cargando config de scrapers: {e}")
             self.scrapers_config = {}
@@ -187,10 +199,20 @@ class AutoDiscoveryEngine:
                 
                 # Verificar que hereda de BaseGlobalScraper
                 if issubclass(scraper_class, BaseGlobalScraper):
+                    # TEMPORAL: Skip Facebook API scraper to fix WebSocket issue
+                    if scraper_name == 'facebook_api':
+                        logger.info(f"  ⏸️ {class_name} TEMPORALMENTE DESHABILITADO para debug")
+                        continue
+                    
                     # Instanciar con dependency injection
                     scraper_instance = scraper_class(self.url_discovery_service)
-                    scrapers[scraper_name] = scraper_instance
-                    logger.info(f"  ✅ Cargado: {class_name}")
+                    
+                    # 🎯 FILTRAR POR enabled_by_default PROPERTY
+                    if hasattr(scraper_instance, 'enabled_by_default') and scraper_instance.enabled_by_default:
+                        scrapers[scraper_name] = scraper_instance
+                        logger.info(f"  ✅ Cargado y HABILITADO: {class_name}")
+                    else:
+                        logger.info(f"  ⚪ {class_name} DESHABILITADO por enabled_by_default=False")
                 else:
                     logger.warning(f"  ⚠️ {class_name} no hereda de BaseGlobalScraper")
                     
@@ -276,3 +298,49 @@ class AutoDiscoveryEngine:
                 logger.warning(f"❌ Error cargando {filename}: {str(e)}")
         
         return scrapers
+    
+    # 🔌 MÉTODOS DE LA INTERFAZ DISCOVERY ENGINE
+    
+    def discover_scrapers_by_type(self, scraper_type: str) -> Dict[str, Any]:
+        """
+        Descubre scrapers de un tipo específico
+        Implementa DiscoveryEngineInterface.discover_scrapers_by_type()
+        """
+        all_scrapers = self.discover_all_scrapers()
+        return all_scrapers.get(scraper_type, {})
+    
+    def is_scraper_enabled(self, scraper_name: str) -> bool:
+        """
+        Verifica si un scraper está habilitado
+        Implementa DiscoveryEngineInterface.is_scraper_enabled()
+        Expone método privado _is_scraper_enabled como público
+        """
+        return self._is_scraper_enabled(scraper_name)
+    
+    def get_scraper_config(self, scraper_name: str) -> Dict[str, Any]:
+        """
+        Obtiene la configuración de un scraper específico  
+        Implementa DiscoveryEngineInterface.get_scraper_config()
+        """
+        config = {
+            'enabled': self.is_scraper_enabled(scraper_name),
+            'timeout': 30,  # Default timeout
+            'priority': 99   # Default priority (lowest)
+        }
+        
+        # Buscar el scraper en todos los tipos para obtener su configuración real
+        all_scrapers = self.discover_all_scrapers()
+        for scraper_type in ['global', 'regional', 'local']:
+            scrapers_of_type = all_scrapers.get(scraper_type, {})
+            if scraper_name in scrapers_of_type:
+                scraper_instance = scrapers_of_type[scraper_name]
+                # Obtener configuración del scraper si tiene atributos específicos
+                if hasattr(scraper_instance, 'priority'):
+                    config['priority'] = getattr(scraper_instance, 'priority', 99)
+                if hasattr(scraper_instance, 'timeout'):
+                    config['timeout'] = getattr(scraper_instance, 'timeout', 30)
+                if hasattr(scraper_instance, 'enabled_by_default'):
+                    config['enabled'] = getattr(scraper_instance, 'enabled_by_default', False)
+                break
+                
+        return config

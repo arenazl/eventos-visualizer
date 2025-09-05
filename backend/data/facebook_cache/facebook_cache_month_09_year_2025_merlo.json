@@ -1,0 +1,83 @@
+{
+  "location": "Merlo",
+  "events": [
+    {
+      "title": "Evento 1 en Merlo",
+      "description": "Evento de ejemplo en Merlo",
+      "event_url": "https://facebook.com/events/example0",
+      "image_url": "https://picsum.photos/400/300?random=0",
+      "venue_name": "Venue Merlo",
+      "venue_address": "Dirección en Merlo",
+      "start_datetime": "2025-09-05T08:37:41.770756",
+      "end_datetime": null,
+      "price": null,
+      "is_free": true,
+      "source": "facebook_api_cache",
+      "category": "música",
+      "external_id": "fb_sample_0"
+    },
+    {
+      "title": "Evento 2 en Merlo",
+      "description": "Evento de ejemplo en Merlo",
+      "event_url": "https://facebook.com/events/example1",
+      "image_url": "https://picsum.photos/400/300?random=1",
+      "venue_name": "Venue Merlo",
+      "venue_address": "Dirección en Merlo",
+      "start_datetime": "2025-09-06T08:37:41.770778",
+      "end_datetime": null,
+      "price": null,
+      "is_free": true,
+      "source": "facebook_api_cache",
+      "category": "teatro",
+      "external_id": "fb_sample_1"
+    },
+    {
+      "title": "Evento 3 en Merlo",
+      "description": "Evento de ejemplo en Merlo",
+      "event_url": "https://facebook.com/events/example2",
+      "image_url": "https://picsum.photos/400/300?random=2",
+      "venue_name": "Venue Merlo",
+      "venue_address": "Dirección en Merlo",
+      "start_datetime": "2025-09-07T08:37:41.770786",
+      "end_datetime": null,
+      "price": null,
+      "is_free": true,
+      "source": "facebook_api_cache",
+      "category": "deportes",
+      "external_id": "fb_sample_2"
+    },
+    {
+      "title": "Evento 4 en Merlo",
+      "description": "Evento de ejemplo en Merlo",
+      "event_url": "https://facebook.com/events/example3",
+      "image_url": "https://picsum.photos/400/300?random=3",
+      "venue_name": "Venue Merlo",
+      "venue_address": "Dirección en Merlo",
+      "start_datetime": "2025-09-08T08:37:41.770789",
+      "end_datetime": null,
+      "price": null,
+      "is_free": true,
+      "source": "facebook_api_cache",
+      "category": "cultural",
+      "external_id": "fb_sample_3"
+    },
+    {
+      "title": "Evento 5 en Merlo",
+      "description": "Evento de ejemplo en Merlo",
+      "event_url": "https://facebook.com/events/example4",
+      "image_url": "https://picsum.photos/400/300?random=4",
+      "venue_name": "Venue Merlo",
+      "venue_address": "Dirección en Merlo",
+      "start_datetime": "2025-09-09T08:37:41.770792",
+      "end_datetime": null,
+      "price": null,
+      "is_free": true,
+      "source": "facebook_api_cache",
+      "category": "social",
+      "external_id": "fb_sample_4"
+    }
+  ],
+  "last_updated": "2025-09-04T08:37:41.775014",
+  "request_count": 1,
+  "month": "September 2025"
+}
