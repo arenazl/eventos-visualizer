@@ -100,9 +100,8 @@ interface EventsState {
   stopStreaming: () => void
 
   // Legacy methods (fallback)
-  fetchEvents: (location?: Location) => Promise<void>
+  // ✅ REMOVED: fetchEvents and searchEvents deprecated 
   toggleFavorite: (eventId: string) => void
-  searchEvents: (query: string, location?: Location) => Promise<void>
   smartSearch: (query: string, location?: Location) => Promise<void>
   filterByCategory: (category: string) => void
   setLocation: (location: Location) => void
@@ -258,8 +257,7 @@ export const useEventsStore = create<EventsState>((set, get) => ({
 
     } catch (error) {
       console.warn('AI initial search failed, falling back to traditional fetch:', error)
-      // Fallback al método tradicional
-      await get().fetchEvents(location)
+      // ✅ REMOVED: fetchEvents deprecated - WebSocket streaming preferred
     }
   },
 
@@ -378,16 +376,17 @@ export const useEventsStore = create<EventsState>((set, get) => ({
         scrapersExecution: data.scrapers_execution || null
       })
     } catch (error) {
-      // Fallback to regular search if Gemini fails
-      console.warn('Smart search failed, falling back to regular search:', error)
-      await get().searchEvents(query, location)
+      // ✅ REMOVED: searchEvents deprecated - WebSocket streaming preferred
+      console.error('Smart search failed:', error)
+      set({ error: 'Smart search failed', loading: false })
     }
   },
 
   filterByCategory: (category: string) => {
     const { events } = get()
     if (category === 'all') {
-      get().fetchEvents()
+      // ✅ REMOVED: fetchEvents deprecated - use WebSocket streaming for new searches
+      console.warn('Filter reset to "all" - use WebSocket streaming for new searches')
     } else {
       const filtered = events.filter(event => event.category === category)
       set({ events: filtered })
@@ -618,7 +617,7 @@ export const EventsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
   useEffect(() => {
     // No auto-fetch - wait for location detection in components
-    // eventsStore.fetchEvents()
+    // ✅ REMOVED: fetchEvents deprecated - components use WebSocket streaming
   }, [])
 
   return (

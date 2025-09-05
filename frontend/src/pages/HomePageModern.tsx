@@ -26,10 +26,9 @@ const HomePageModern: React.FC = () => {
     currentLocation, 
     aiRecommendations,
     lastQuery,
-    fetchEvents, 
+    // ✅ REMOVED: fetchEvents and searchEvents deprecated
     aiSearch,
-    aiInitialSearch,
-    searchEvents, 
+    aiInitialSearch, 
     setLocation,
     // WebSocket streaming
     isStreaming,
@@ -176,7 +175,8 @@ const HomePageModern: React.FC = () => {
     // y es diferente a la actual
     if (location.name !== currentLocation?.name) {
       if (activeCategory === 'Todos') {
-        fetchEvents(location)
+        // ✅ REMOVED: fetchEvents deprecated - use WebSocket streaming via startStreamingSearch
+        startStreamingSearch(undefined, location)
       } else {
         // Re-aplicar filtro de categoría activa con nueva ubicación
         handleCategoryClick(activeCategory)
@@ -395,9 +395,9 @@ const HomePageModern: React.FC = () => {
     }
     
     if (category === 'Todos') {
-      // Buscar todos los eventos en ubicación actual
+      // ✅ REMOVED: fetchEvents deprecated - use WebSocket streaming
       setSearchQuery('Todos los eventos')
-      await fetchEvents(currentLocation)
+      await startStreamingSearch(undefined, currentLocation)
     } else {
       // Búsqueda específica por categoría
       const categoryQueries = {

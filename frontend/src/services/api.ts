@@ -82,32 +82,7 @@ export class EventsAPI {
    * Obtiene eventos con detección automática de ubicación
    * Si no se proporciona ubicación, el backend la detecta por IP
    */
-  static async getEvents(location?: string, category?: string): Promise<EventsResponse> {
-    try {
-      const params = new URLSearchParams()
-      if (location) params.append('location', location)
-      if (category) params.append('category', category)
-      
-      const url = params.toString() 
-        ? `${API_BASE_URL}/api/events?${params}`
-        : `${API_BASE_URL}/api/events`
-      
-      const response = await fetch(url)
-      if (!response.ok) throw new Error('Failed to fetch events')
-      
-      const data = await response.json()
-      return {
-        events: data.events || [],
-        scrapers_execution: data.scrapers_execution || null
-      } as EventsResponse
-    } catch (error) {
-      console.error('Error fetching events:', error)
-      return {
-        events: [],
-        scrapers_execution: null
-      } as EventsResponse
-    }
-  }
+  // ✅ REMOVED: getEvents deprecated - use smartSearch with AI intent analysis or WebSocket streaming
 
   /**
    * Búsqueda inteligente que entiende lenguaje natural
