@@ -295,7 +295,7 @@ app = FastAPI(
 
 # 🚨 TIMEOUT INTERCEPTOR - Evita que el backend se cuelgue
 # DEBE ir ANTES del CORS middleware para funcionar correctamente
-app.add_middleware(TimeoutInterceptor, timeout_seconds=8)
+app.add_middleware(TimeoutInterceptor, timeout_seconds=30)  # 30s para permitir scrapers lentos como Meetup
 
 # CORS configuration for WSL IP
 app.add_middleware(
@@ -1196,26 +1196,47 @@ async def smart_search(
         search_query = query.get("search_query", "")
         original_location = query.get("location", "Buenos Aires")
         
-        # 🧠 USAR UBICACIÓN DE ANALYZE-INTENT SI ESTÁ DISPONIBLE
+        # 🧠 SMART LOCATION PRIORITIZATION LOGIC
         location = original_location  # Default fallback
-        detected_country = None
+        detected_country = ""
+        detected_province = ""
+        detected_city = ""
         
         # Primero: Verificar si hay intent_analysis en user_context
         user_context = query.get("user_context", {})
         intent_analysis = user_context.get("intent_analysis", {})
         
-        # Initialize variables to prevent UnboundLocalError
-        detected_country = ""
-        detected_province = ""
-        detected_city = ""
+        # DEBUG: Log intent_analysis status
+        logger.info(f"🔍 DEBUG: user_context keys = {list(user_context.keys())}")
+        logger.info(f"🔍 DEBUG: intent_analysis = {intent_analysis}")
+        logger.info(f"🔍 DEBUG: intent_analysis.success = {intent_analysis.get('success')}")
+        logger.info(f"🔍 DEBUG: intent_analysis.intent.location = {intent_analysis.get('intent', {}).get('location')}")
         
+        # CRITICAL FIX: Respect user's explicit location choice ALWAYS
         if intent_analysis.get("success") and intent_analysis.get("intent", {}).get("location"):
-            # ✅ USAR UBICACIÓN YA DETECTADA POR ANALYZE-INTENT
-            location = intent_analysis["intent"]["location"]
-            detected_country = intent_analysis["intent"].get("detected_country", intent_analysis["intent"].get("country", ""))
-            detected_province = intent_analysis["intent"].get("detected_province", "")
-            detected_city = intent_analysis["intent"].get("detected_city", location)
-            logger.info(f"✅ USANDO UBICACIÓN DE ANALYZE-INTENT: '{location}' ({detected_country})")
+            ai_detected_location = intent_analysis["intent"]["location"]
+            
+            # DEBUG: Log what we have
+            logger.info(f"🔍 DEBUG: original_location='{original_location}', ai_detected_location='{ai_detected_location}', search_query='{search_query}'")
+            
+            # ONLY use AI location if user provided exactly the default location "Buenos Aires"
+            # AND the AI detected a DIFFERENT location from a search query
+            use_ai_condition = (original_location == "Buenos Aires" and 
+                               ai_detected_location != "Buenos Aires" and 
+                               search_query.strip())
+            
+            logger.info(f"🔍 DEBUG: use_ai_condition={use_ai_condition}")
+            
+            if use_ai_condition:
+                location = ai_detected_location
+                detected_country = intent_analysis["intent"].get("detected_country", intent_analysis["intent"].get("country", ""))
+                detected_province = intent_analysis["intent"].get("detected_province", "")
+                detected_city = intent_analysis["intent"].get("detected_city", location)
+                logger.info(f"✅ USANDO UBICACIÓN DE ANALYZE-INTENT: '{location}' ({detected_country}) - Solo default location was provided")
+            else:
+                # User provided explicit location - ALWAYS respect it!
+                logger.info(f"🎯 RESPETANDO UBICACIÓN EXPLÍCITA DEL USUARIO: '{original_location}' (ignorando AI: '{ai_detected_location}')")
+                location = original_location
         else:
             # Fallback: Usar intent recognition como antes
             try:
@@ -2669,59 +2690,42 @@ async def websocket_search_events(websocket: WebSocket):
             data = await websocket.receive_json()
             
             if data.get("action") == "search":
-                # 🔍 PARSEO DE UBICACIÓN EN WEBSOCKET (como IA-First)
-                message = data.get("message", "")
+                # 🧠 IA-FIRST APPROACH: Usar query del usuario, no location cached
+                query = data.get("query", "").strip()
+                message = data.get("message", "")  # Mantener compatibilidad
                 base_location = data.get("location", "Buenos Aires")
-                detected_location = base_location
                 
-                # Si hay mensaje, intentar detectar ubicación
-                if message:
-                    message_lower = message.lower()
-                    
-                    # Mapeo de ciudades GLOBALES (traveler app)
-                    location_mapping = {
-                        # Argentina
-                        "córdoba": "Córdoba", "cordoba": "Córdoba", "la docta": "Córdoba",
-                        "mendoza": "Mendoza", "mza": "Mendoza",
-                        "rosario": "Rosario",
-                        "la plata": "La Plata",
-                        "mar del plata": "Mar del Plata", "mardel": "Mar del Plata",
-                        "salta": "Salta",
-                        "tucumán": "Tucumán", "tucuman": "Tucumán",
-                        "bariloche": "Bariloche",
-                        "neuquén": "Neuquén", "neuquen": "Neuquén",
-                        "buenos aires": "Buenos Aires", "caba": "Buenos Aires", "capital": "Buenos Aires",
+                # REGLA CRÍTICA: Si hay query del usuario, usar eso (no location)
+                search_term = query if query else (message if message else base_location)
+                detected_location = base_location  # Fallback por defecto
+                
+                logger.info(f"🧠 WebSocket IA-First - query='{query}', message='{message}', location='{base_location}'")
+                logger.info(f"🎯 Usando para análisis IA: '{search_term}'")
+                
+                # Si hay input del usuario, usar IA para análisis
+                if search_term and search_term != base_location:
+                    try:
+                        # Llamar al servicio de Intent Recognition (IA)
+                        intent_result = await analyze_intent({
+                            "query": search_term,
+                            "current_location": base_location
+                        })
                         
-                        # España - Proof of concept global
-                        "barcelona": "Barcelona", "bcn": "Barcelona", "barna": "Barcelona",
-                        "madrid": "Madrid", "capital españa": "Madrid",
-                        "valencia": "Valencia",
-                        "sevilla": "Sevilla", "seville": "Sevilla",
-                        
-                        # Francia  
-                        "paris": "Paris", "parís": "Paris",
-                        "lyon": "Lyon",
-                        "marseille": "Marseille", "marsella": "Marseille",
-                        
-                        # México
-                        "cdmx": "Mexico City", "ciudad de méxico": "Mexico City", "df": "Mexico City",
-                        "guadalajara": "Guadalajara", "gdl": "Guadalajara",
-                        "monterrey": "Monterrey",
-                        
-                        # Colombia
-                        "bogotá": "Bogotá", "bogota": "Bogotá",
-                        "medellín": "Medellín", "medellin": "Medellín",
-                        
-                        # Chile
-                        "santiago": "Santiago", "santiago chile": "Santiago"
-                    }
-                    
-                    # Buscar ciudad en el mensaje
-                    for city_key, city_name in location_mapping.items():
-                        if city_key in message_lower:
-                            detected_location = city_name
-                            logger.info(f"🏙️ WebSocket - Ubicación detectada: '{city_key}' → {city_name}")
-                            break
+                        if intent_result.get('success'):
+                            intent_data = intent_result.get('intent', {})
+                            detected_location = intent_data.get('location', search_term)
+                            logger.info(f"🧠 IA detectó ubicación: '{search_term}' → '{detected_location}'")
+                        else:
+                            # Fallback: usar el search_term directamente
+                            detected_location = search_term
+                            logger.info(f"⚠️ IA falló, usando directamente: '{detected_location}'")
+                            
+                    except Exception as e:
+                        logger.error(f"❌ Error en análisis IA: {e}")
+                        detected_location = search_term
+                        logger.info(f"⚠️ Error IA, usando directamente: '{detected_location}'")
+                else:
+                    logger.info(f"📍 Sin query específico, usando location por defecto: '{detected_location}'")
                 
                 # Send search started con ubicación detectada
                 await websocket.send_json({

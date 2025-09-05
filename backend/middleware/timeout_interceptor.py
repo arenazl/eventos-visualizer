@@ -23,11 +23,11 @@ class TimeoutInterceptor(BaseHTTPMiddleware):
     - Previene que el backend se cuelgue
     """
     
-    def __init__(self, app, timeout_seconds: int = 8):
+    def __init__(self, app, timeout_seconds: int = 30):
         """
         Args:
             app: FastAPI application
-            timeout_seconds: Máximo tiempo de ejecución (default 8s)
+            timeout_seconds: Máximo tiempo de ejecución (default 30s para scrapers lentos)
         """
         super().__init__(app)
         self.timeout_seconds = timeout_seconds

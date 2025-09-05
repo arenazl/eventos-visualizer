@@ -6,7 +6,8 @@
     },
     "meetup": {
       "enabled": true, 
-      "priority": 2
+      "priority": 2,
+      "note": "Corre en paralelo - no bloquea aunque tarde 12+ segundos"
     },
     "bandsintown": {
       "enabled": false,

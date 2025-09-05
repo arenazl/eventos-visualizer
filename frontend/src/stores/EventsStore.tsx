@@ -181,8 +181,7 @@ export const useEventsStore = create<EventsState>((set, get) => ({
       const searchData = await searchResponse.json()
       const foundEvents = searchData.recommended_events || []
 
-      // 3. PASO 3: Generar recomendaciones inteligentes
-      await get().getSmartRecommendations(query, foundEvents, finalLocation)
+      // ✅ REMOVED: getSmartRecommendations - recommendations should come from WebSocket
 
       set({ 
         events: foundEvents, 
@@ -245,8 +244,7 @@ export const useEventsStore = create<EventsState>((set, get) => ({
       const searchData = await searchResponse.json()
       const foundEvents = searchData.recommended_events || []
 
-      // 3. PASO 3: Generar recomendaciones basadas en ubicación
-      await get().getSmartRecommendations(initialQuery, foundEvents, location.name)
+      // ✅ REMOVED: getSmartRecommendations - recommendations should come from WebSocket
 
       set({ 
         events: foundEvents, 

@@ -46,6 +46,7 @@ interface StreamingMessage {
 
 interface StreamingEventsLoaderProps {
   location: string
+  query?: string  // 🎯 AGREGAR QUERY PARA IA-FIRST
   onEventsReceived?: (events: StreamingEvent[]) => void
   onSearchComplete?: (totalEvents: number) => void
   onError?: (error: string) => void
@@ -53,6 +54,7 @@ interface StreamingEventsLoaderProps {
 
 export const StreamingEventsLoader: React.FC<StreamingEventsLoaderProps> = ({
   location,
+  query = "",  // 🎯 QUERY POR DEFECTO VACÍO
   onEventsReceived,
   onSearchComplete,
   onError
@@ -82,10 +84,10 @@ export const StreamingEventsLoader: React.FC<StreamingEventsLoaderProps> = ({
   }, [])
 
   useEffect(() => {
-    if (isConnected && location) {
+    if (isConnected && (location || query)) {
       startSearch()
     }
-  }, [isConnected, location])
+  }, [isConnected, location, query])  // 🎯 AGREGAR QUERY COMO DEPENDENCIA
 
   const connectWebSocket = () => {
     try {
@@ -180,10 +182,14 @@ export const StreamingEventsLoader: React.FC<StreamingEventsLoaderProps> = ({
 
   const startSearch = () => {
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+      // 🎯 ENVIAR QUERY PARA IA-FIRST (CRÍTICO PARA EL FIX)
       wsRef.current.send(JSON.stringify({
         action: 'search',
-        location: location
+        query: query,        // 🚀 ESTO ES LO QUE FALTABA
+        location: location   // Fallback si no hay query
       }))
+      
+      console.log('🎯 WebSocket search request:', { query, location })
     }
   }
 

@@ -198,6 +198,7 @@ class MeetupScraper(BaseGlobalScraper):
             # Extract basic info
             title = event_data.get('title', 'Meetup Event')
             event_url = event_data.get('eventUrl', '')
+            logger.info(f"📝 DEBUG event: title='{title}' url='{event_url}'")
             
             # Date and time
             date_time = event_data.get('dateTime')
@@ -216,9 +217,11 @@ class MeetupScraper(BaseGlobalScraper):
             if isinstance(venue, dict):
                 venue_name = venue.get('name', location)
                 venue_address = venue.get('address', '')
+                logger.info(f"🏢 DEBUG venue: name='{venue.get('name')}' → venue_name='{venue_name}' (location='{location}')")
             else:
                 venue_name = location
                 venue_address = ''
+                logger.info(f"🏢 DEBUG venue: No venue dict → venue_name='{venue_name}' (location='{location}')")
             
             # Group info
             group = event_data.get('group', {})
