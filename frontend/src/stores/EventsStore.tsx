@@ -318,34 +318,8 @@ export const useEventsStore = create<EventsState>((set, get) => ({
     }
   },
 
-  fetchEvents: async (location?: Location) => {
-    set({ loading: true, error: null })
-    try {
-      const { currentLocation } = get()
-      const searchLocation = location || currentLocation
-
-      // Usar endpoint estándar /api/events
-      let apiUrl = 'http://172.29.228.80:8001/api/events'
-      const params = new URLSearchParams()
-      if (searchLocation) {
-        params.set('location', searchLocation.name || "Buenos Aires")
-      }
-      params.set('limit', '30')
-      apiUrl += `?${params.toString()}`
-
-      const response = await fetch(apiUrl)
-      if (!response.ok) throw new Error('Error al cargar eventos')
-
-      const data = await response.json()
-      set({ 
-        events: data.events || [], 
-        loading: false,
-        scrapersExecution: data.scrapers_execution || null
-      })
-    } catch (error) {
-      set({ error: (error as Error).message, loading: false })
-    }
-  },
+  
+  // ✅ REMOVED: fetchEvents deprecated - use WebSocket streaming via StreamingEventsLoader
 
   toggleFavorite: (eventId: string) => {
     const { favoriteEvents } = get()
@@ -357,30 +331,7 @@ export const useEventsStore = create<EventsState>((set, get) => ({
     set({ favoriteEvents: newFavorites })
   },
 
-  searchEvents: async (query: string, location?: Location) => {
-    set({ loading: true, error: null })
-    try {
-      const { currentLocation } = get()
-      const searchLocation = location || currentLocation
-
-      let apiUrl = `http://172.29.228.80:8001/api/events/search?q=${encodeURIComponent(query)}`
-      if (searchLocation) {
-        apiUrl += `&location=${encodeURIComponent(searchLocation.name || "Buenos Aires")}`
-      }
-
-      const response = await fetch(apiUrl)
-      if (!response.ok) throw new Error('Error en la búsqueda')
-
-      const data = await response.json()
-      set({ 
-        events: data.events || data || [], 
-        loading: false,
-        scrapersExecution: data.scrapers_execution || null
-      })
-    } catch (error) {
-      set({ error: (error as Error).message, loading: false })
-    }
-  },
+  // ✅ REMOVED: searchEvents deprecated - use smartSearch with AI intent analysis
 
   smartSearch: async (query: string, location?: Location) => {
     set({ loading: true, error: null })
