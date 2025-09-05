@@ -19,8 +19,8 @@ const NearbyCitiesLinks: React.FC<NearbyCitiesLinksProps> = ({ currentCity, onCi
       setNearbyCities(storeNearbyCities)
       setHasLoaded(true)
     } else if (currentCity && !hasLoaded) {
-      // Only fetch from API if store doesn't have cities
-      fetchNearbyCities()
+      // ✅ REMOVED: fetchNearbyCities - use fallback cities instead of HTTP call
+      setDefaultCitiesForLocation()
     }
   }, [currentCity, storeNearbyCities])
 

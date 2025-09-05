@@ -395,7 +395,8 @@ export const useEventsStore = create<EventsState>((set, get) => ({
   startStreamingSearch: async (query?: string, location?: Location) => {
     const { currentLocation, lastQuery } = get()
     const searchLocation = location || currentLocation
-    const searchQuery = query || lastQuery || searchLocation?.name || 'Buenos Aires'
+    // Si hay una location específica pasada, usar su nombre como query
+    const searchQuery = query || (location ? searchLocation?.name : lastQuery) || searchLocation?.name || 'Buenos Aires'
     
     const startTime = Date.now()
     set({ 
@@ -417,11 +418,11 @@ export const useEventsStore = create<EventsState>((set, get) => ({
       
       ws.onopen = () => {
         console.log('🔥 WebSocket conectado para búsqueda streaming')
-        // Enviar búsqueda con query y location
+        // Enviar búsqueda con query y location del browser
         ws.send(JSON.stringify({
           action: 'search',
           query: searchQuery,
-          location: searchLocation?.name || 'Buenos Aires'
+          location: currentLocation?.name || 'Buenos Aires'  // Usar ubicación del browser, no la búsqueda
         }))
       }
 
