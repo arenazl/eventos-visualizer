@@ -99,3 +99,8 @@ coverage/
 
 # Pytest
 .pytest_cache/
+
+# Carpetas organizacionales
+old_docs/
+tests/
+scripts/

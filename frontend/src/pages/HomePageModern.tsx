@@ -66,21 +66,36 @@ const HomePageModern: React.FC = () => {
   useEffect(() => {
     const detectAndLoadEvents = async () => {
       if (!locationDetected) {
-        // Usar Buenos Aires como ubicación inicial confiable
-        const initialLocation = {
-          name: 'Buenos Aires',
-          coordinates: { lat: -34.6037, lng: -58.3816 },
-          country: 'Argentina',
-          detected: 'fallback' as const
+        // Detectar ubicación real del navegador
+        try {
+          const { EventsAPI } = await import('../services/api')
+          const detectedLocation = await EventsAPI.detectLocation()
+          
+          const initialLocation = {
+            name: detectedLocation.display_name || detectedLocation.city,
+            coordinates: { lat: detectedLocation.latitude, lng: detectedLocation.longitude },
+            country: detectedLocation.country,
+            detected: 'ip' as const
+          }
+          
+          setLocation(initialLocation)
+          setLocationDetected(true)
+          
+          // ✅ USAR WEBSOCKET STREAMING CON UBICACIÓN DETECTADA
+          await startStreamingSearch(undefined, initialLocation)
+        } catch (error) {
+          console.error('Error detecting location:', error)
+          // Fallback si falla detección
+          const fallbackLocation = {
+            name: 'Buenos Aires',
+            coordinates: { lat: -34.6037, lng: -58.3816 },
+            country: 'Argentina',
+            detected: 'fallback' as const
+          }
+          setLocation(fallbackLocation)
+          setLocationDetected(true)
+          await startStreamingSearch(undefined, fallbackLocation)
         }
-        
-        setLocation(initialLocation)
-        setLocationDetected(true)
-        
-        // ✅ USAR WEBSOCKET STREAMING EN LUGAR DE HTTP CALLS
-        await startStreamingSearch(undefined, initialLocation)
-        
-        // ✅ REMOVED: getBestLocation - no necesario, ya tenemos eventos cargados
       }
     }
 

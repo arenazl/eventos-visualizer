@@ -3549,19 +3549,46 @@ async def stream_scrapers_with_progress(websocket: WebSocket, location: str, cat
 
 async def stream_events_optimized(websocket: WebSocket, location: str):
     """
-    🚀 STREAMING OPTIMIZADO CON INDUSTRIAL FACTORY
+    🚀 STREAMING OPTIMIZADO CON FALLBACK INTELIGENTE
     
-    Entrega eventos en tiempo real usando:
-    - Sistema de caché JSON (0 llamadas a IA)
-    - Solo scrapers habilitados (2 en lugar de 9) 
-    - Streaming por scraper individual (no esperar a todos)
+    Jerarquía de búsqueda:
+    1. Ubicación específica (e.g., "San Isidro")
+    2. Ciudad principal (e.g., "Buenos Aires")
+    3. País (e.g., "Argentina")
     """
     try:
+        # 🎯 PREPARAR JERARQUÍA DE FALLBACK
+        locations_to_try = []
+        original_location = location
+        
+        # Determinar jerarquía basada en la ubicación
+        if "," in location:
+            # Format: "Ciudad, País" o "Barrio, Ciudad"
+            parts = [p.strip() for p in location.split(",")]
+            if len(parts) >= 2:
+                locations_to_try = [
+                    location,  # Ubicación completa
+                    parts[0],  # Solo primera parte (ciudad/barrio)
+                ]
+                # Si es Argentina, agregar ciudades principales
+                if "Argentina" in location:
+                    if "Buenos Aires" not in location:
+                        locations_to_try.append("Buenos Aires, Argentina")
+                    locations_to_try.append("Argentina")
+        else:
+            # Ubicación simple
+            locations_to_try = [location]
+            if location not in ["Buenos Aires", "Argentina"]:
+                locations_to_try.append("Buenos Aires")
+                locations_to_try.append("Argentina")
+        
+        logger.info(f"🎯 Jerarquía de búsqueda: {locations_to_try}")
+        
         await websocket.send_json({
             "type": "search_started",
-            "message": f"🚀 Búsqueda optimizada iniciada para {location}",
-            "location": location,
-            "enabled_scrapers": ["Eventbrite", "Meetup"],
+            "message": f"🚀 Búsqueda inteligente iniciada para {original_location}",
+            "location": original_location,
+            "fallback_hierarchy": locations_to_try,
             "progress": 0
         })
         
@@ -3580,11 +3607,26 @@ async def stream_events_optimized(websocket: WebSocket, location: str):
             "progress": 10
         })
         
-        # Ejecutar scrapers INDIVIDUALMENTE con streaming
+        # Intentar cada ubicación en la jerarquía
         total_events = 0
         scraper_count = len(global_scrapers)
+        all_events = []
         
-        for i, (scraper_name, scraper_instance) in enumerate(global_scrapers.items()):
+        for location_attempt in locations_to_try:
+            if total_events >= 10:  # Si ya tenemos suficientes eventos, parar
+                break
+                
+            await websocket.send_json({
+                "type": "location_attempt",
+                "message": f"🔍 Buscando eventos en {location_attempt}...",
+                "location": location_attempt,
+                "progress": 15
+            })
+            
+            # Ejecutar scrapers para esta ubicación
+            location_events = []
+            
+            for i, (scraper_name, scraper_instance) in enumerate(global_scrapers.items()):
             scraper_progress = 10 + (i * 80 // scraper_count)
             
             await websocket.send_json({

@@ -1,0 +1,163 @@
+{
+  "project": "Eventos Visualizer",
+  "entities": [
+    {
+      "name": "EventosVisualizer",
+      "entityType": "project",
+      "observations": [
+        "Sistema de agregación de eventos de múltiples fuentes",
+        "Usa FastAPI para el backend en puerto 8001",
+        "Frontend React + Vite en puerto 5174",
+        "Base de datos PostgreSQL con PostGIS",
+        "APIs integradas: Eventbrite, Ticketmaster, Meetup, Facebook",
+        "Implementa PWA con service workers",
+        "WebSockets para notificaciones en tiempo real",
+        "IP WSL: 172.29.228.80",
+        "Proyecto iniciado en Agosto 2025",
+        "MCP Memory Server implementado para persistencia de contexto"
+      ],
+      "created_at": "2025-09-06T03:42:13.264298",
+      "updated_at": "2025-09-06T03:42:13.269050"
+    },
+    {
+      "name": "Backend",
+      "entityType": "component",
+      "observations": [
+        "FastAPI framework",
+        "Python 3.12",
+        "Puerto 8001 INMUTABLE",
+        "Archivo principal: main.py",
+        "Middleware de timeout: 8 segundos",
+        "Pool de conexiones PostgreSQL: 20",
+        "Scraping con CloudScraper instalado",
+        "Pattern Service para análisis de tendencias"
+      ],
+      "created_at": "2025-09-06T03:42:13.264313"
+    },
+    {
+      "name": "Frontend",
+      "entityType": "component",
+      "observations": [
+        "React 18 con Vite",
+        "TypeScript",
+        "Puerto 5174 INMUTABLE",
+        "Tailwind CSS para estilos",
+        "Zustand para estado global",
+        "React Router para navegación",
+        "PWA con offline support",
+        "Mobile-first design"
+      ],
+      "created_at": "2025-09-06T03:42:13.264317"
+    },
+    {
+      "name": "Database",
+      "entityType": "component",
+      "observations": [
+        "PostgreSQL 14+ con PostGIS",
+        "Tablas: events, users, user_events",
+        "Geolocalización con lat/long",
+        "Timezone: America/Argentina/Buenos_Aires",
+        "Charset UTF8",
+        "Índices optimizados para geo-queries"
+      ],
+      "created_at": "2025-09-06T03:42:13.264319"
+    },
+    {
+      "name": "ExternalAPIs",
+      "entityType": "integration",
+      "observations": [
+        "Eventbrite API (necesita key)",
+        "Facebook RapidAPI funcionando",
+        "Ticketmaster API configurada",
+        "Meetup API disponible",
+        "Instagram RapidAPI (temporal HTTP 500)",
+        "Google Calendar para sincronización",
+        "31 plataformas potenciales identificadas"
+      ],
+      "created_at": "2025-09-06T03:42:13.264321"
+    },
+    {
+      "name": "CurrentStatus",
+      "entityType": "state",
+      "observations": [
+        "Servidores funcionando correctamente",
+        "CloudScraper instalado y operativo",
+        "Endpoints sincronizados frontend-backend",
+        "Sin datos simulados (solo APIs reales)",
+        "Facebook sin UIDs (query directo)",
+        "Timeouts optimizados (3-5 segundos)",
+        "Caché mensual para Facebook events",
+        "MCP Memory Server configurado",
+        "Última actualización: 2025-09-06 03:42"
+      ],
+      "created_at": "2025-09-06T03:42:13.264323",
+      "updated_at": "2025-09-06T03:42:13.269038"
+    },
+    {
+      "name": "CriticalRules",
+      "entityType": "rules",
+      "observations": [
+        "NUNCA cambiar puerto 8001 del backend",
+        "NUNCA cambiar puerto 5174 del frontend",
+        "NUNCA usar localhost - usar IP WSL",
+        "SIEMPRE usar templates HTML proporcionados",
+        "NO crear eventos simulados/mockup",
+        "SIEMPRE liberar conexiones con try-finally",
+        "NO crear nuevos servidores (solo main.py)",
+        "SIEMPRE usar python3 (nunca python)"
+      ],
+      "created_at": "2025-09-06T03:42:13.264325"
+    }
+  ],
+  "relations": [
+    {
+      "from": "EventosVisualizer",
+      "to": "Backend",
+      "relationType": "uses",
+      "created_at": "2025-09-06T03:42:13.264335"
+    },
+    {
+      "from": "EventosVisualizer",
+      "to": "Frontend",
+      "relationType": "uses",
+      "created_at": "2025-09-06T03:42:13.264338"
+    },
+    {
+      "from": "EventosVisualizer",
+      "to": "Database",
+      "relationType": "uses",
+      "created_at": "2025-09-06T03:42:13.264340"
+    },
+    {
+      "from": "Backend",
+      "to": "Database",
+      "relationType": "connects_to",
+      "created_at": "2025-09-06T03:42:13.264342"
+    },
+    {
+      "from": "Backend",
+      "to": "ExternalAPIs",
+      "relationType": "integrates_with",
+      "created_at": "2025-09-06T03:42:13.264343"
+    },
+    {
+      "from": "Frontend",
+      "to": "Backend",
+      "relationType": "calls_api",
+      "created_at": "2025-09-06T03:42:13.264345"
+    },
+    {
+      "from": "EventosVisualizer",
+      "to": "CurrentStatus",
+      "relationType": "has_status",
+      "created_at": "2025-09-06T03:42:13.264346"
+    },
+    {
+      "from": "EventosVisualizer",
+      "to": "CriticalRules",
+      "relationType": "follows",
+      "created_at": "2025-09-06T03:42:13.264359"
+    }
+  ],
+  "saved_at": "2025-09-06T03:42:13.269056"
+}

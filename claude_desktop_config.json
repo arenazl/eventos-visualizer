@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "eventos-memory": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "description": "Servidor de memoria persistente para recordar contexto del proyecto Eventos Visualizer"
+    }
+  },
+  "globalShortcut": "CommandOrControl+Shift+Space"
+}
