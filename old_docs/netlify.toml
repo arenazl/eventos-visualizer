@@ -1,0 +1,19 @@
+[build]
+  base = "/"
+  publish = "frontend/dist"
+  command = "pip install --upgrade pip && pip install -r requirements.txt && cd frontend && npm install && npm run build"
+
+[build.environment]
+  PYTHON_VERSION = "3.11"
+  NODE_VERSION = "18"
+  # Skip Playwright browser installation during build
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1"
+  # Production API URL - Heroku deployment
+  VITE_API_URL = "https://funaroundyou-f21e91cae36c.herokuapp.com"
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
