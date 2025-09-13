@@ -65,40 +65,18 @@ const HomePageModern: React.FC = () => {
   useEffect(() => {
     const detectAndLoadEvents = async () => {
       if (!locationDetected) {
-        // CASO 1: Primera carga - detectar ubicación real del usuario
-        let initialLocation = {
-          name: 'Buenos Aires',
-          coordinates: { lat: -34.6037, lng: -58.3816 },
-          country: 'Argentina',
-          detected: 'fallback' as const
-        }
+        // NO establecer ninguna ubicación por defecto
+        // El usuario debe buscar o especificar una ubicación
+        // No hay ubicaciones hardcodeadas
         
-        // NO detectar ubicación por IP automáticamente en page load
-        // Mantener la ubicación que ya está (Villa Gesell o la que sea)
-        // Solo detectar por IP si el usuario lo pide explícitamente
-        /*
-        try {
-          const { EventsAPI } = await import('../services/api')
-          const detectedLocation = await EventsAPI.detectLocation()
-          initialLocation = {
-            name: detectedLocation.display_name || detectedLocation.city,
-            coordinates: { 
-              lat: detectedLocation.latitude, 
-              lng: detectedLocation.longitude 
-            },
-            country: detectedLocation.country,
-            detected: 'gps'
-          }
-        } catch (error) {
-          console.log('Using default location: Buenos Aires')
-        }
-        */
-        
-        setLocation(initialLocation)
+        // Solo marcar que ya intentamos detectar (pero no forzar ninguna ubicación)
         setLocationDetected(true)
         
-        // Cargar eventos para la ubicación inicial
-        await aiInitialSearch(initialLocation)
+        // El placeholder del input mostrará "Buscar eventos..."
+        // sin ninguna ubicación predefinida
+        
+        // NO cargar eventos automáticamente sin ubicación
+        // El usuario debe buscar primero
       }
     }
 
