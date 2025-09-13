@@ -212,7 +212,7 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
         ) : location ? (
           <div className="flex items-center gap-3 px-6 py-3 bg-white/10 backdrop-blur-xl rounded-full border border-white/20 hover:border-white/40 transition-all duration-300">
             {getLocationIcon(location.detected)}
-            <span className="text-white font-medium">{location.name}</span>
+            <span className="text-white font-medium">{location.name || "🎩 En Wonderland"}</span>
             
             {/* Botón para cambiar ubicación */}
             <button
