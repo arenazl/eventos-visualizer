@@ -297,7 +297,29 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],  # Expose all headers including cache-control
 )
+
+# 🚫 NO-CACHE MIDDLEWARE - Deshabilitar todo el cache
+@app.middleware("http")
+async def add_no_cache_headers(request: Request, call_next):
+    response = await call_next(request)
+    # Agregar headers para deshabilitar cache completamente
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
+# 🔍 REQUEST/RESPONSE LOGGER - Para ver todo lo que entra y sale
+from middleware.request_logger import LoggingRoute, log_request_middleware
+
+# Opción 1: Middleware simple (menos detallado pero más estable)
+# @app.middleware("http")
+# async def add_logging_middleware(request: Request, call_next):
+#     return await log_request_middleware(request, call_next)
+
+# Opción 2: LOGGING DETALLADO CON EMOJIS - ACTIVADO
+app.router.route_class = LoggingRoute
 
 # Manual Facebook cache update endpoint - HEROKU BACKUP
 @app.post("/api/update-facebook-cache")
@@ -513,6 +535,14 @@ try:
 except Exception as e:
     logger.warning(f"Could not load AI Gemini router: {e}")
     logger.info("ℹ️ AI Gemini router temporalmente deshabilitado")
+
+# API V1 con SSE Streaming
+try:
+    from api.v1 import router as v1_router
+    app.include_router(v1_router)
+    logger.info("✅ API V1 with SSE streaming loaded")
+except Exception as e:
+    logger.warning(f"⚠️ Could not load API V1 router: {e}")
 
 # ============================================================================
 # 🚀 PARALLEL REST ENDPOINTS - Individual sources for maximum performance

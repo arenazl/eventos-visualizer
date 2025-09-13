@@ -210,27 +210,29 @@ export class EventsAPI {
   }
 
   /**
-   * Combina detección por IP con GPS del navegador
+   * @deprecated NO USAR - Gemini ya detecta la ubicación correctamente
+   * Este método interfiere con la detección de Gemini y causa que se sobrescriba
+   * la ubicación detectada (ej: Villa Gesell) con la ubicación por IP (ej: La Plata)
    */
-  static async getBestLocation(): Promise<Location> {
-    try {
-      // Primero intentar con GPS del navegador
-      const gpsPosition = await EventsAPI.getCurrentPosition().catch(() => null)
+  // static async getBestLocation(): Promise<Location> {
+  //   try {
+  //     // Primero intentar con GPS del navegador
+  //     const gpsPosition = await EventsAPI.getCurrentPosition().catch(() => null)
       
-      if (gpsPosition) {
-        // Si tenemos GPS, enviar las coordenadas al backend
-        return await EventsAPI.setLocation({
-          latitude: gpsPosition.coords.latitude,
-          longitude: gpsPosition.coords.longitude
-        })
-      }
-    } catch (error) {
-      console.log('GPS not available, using IP detection')
-    }
+  //     if (gpsPosition) {
+  //       // Si tenemos GPS, enviar las coordenadas al backend
+  //       return await EventsAPI.setLocation({
+  //         latitude: gpsPosition.coords.latitude,
+  //         longitude: gpsPosition.coords.longitude
+  //       })
+  //     }
+  //   } catch (error) {
+  //     console.log('GPS not available, using IP detection')
+  //   }
 
-    // Si no hay GPS, usar detección por IP
-    return await EventsAPI.detectLocation()
-  }
+  //   // Si no hay GPS, usar detección por IP
+  //   return await EventsAPI.detectLocation()
+  // }
 
   /**
    * Chat inteligente con IA sobre eventos

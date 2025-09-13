@@ -22,6 +22,7 @@ interface Event {
 interface Location {
   name: string
   coordinates?: { lat: number; lng: number }
+  province?: string
   country?: string
   detected: 'gps' | 'manual' | 'prompt' | 'fallback'
 }
@@ -221,7 +222,30 @@ const useEventsStore = create<EventsState>((set, get) => ({
         })
       })
 
-      const intent = intentResponse.ok ? await intentResponse.json() : null
+      const intentData = intentResponse.ok ? await intentResponse.json() : null
+      
+      // 🔄 ACTUALIZAR UBICACIÓN SI GEMINI DETECTÓ CORRECTAMENTE
+      if (intentData?.success && intentData?.intent) {
+        const detectedCity = intentData.intent.detected_city || location.name
+        const detectedProvince = intentData.intent.detected_province
+        const detectedCountry = intentData.intent.detected_country
+        
+        // Solo actualizar si es diferente y tiene alta confianza
+        if (detectedCity !== location.name && intentData.intent.confidence > 0.7) {
+          const updatedLocation: Location = {
+            ...location,
+            name: detectedCity,
+            province: detectedProvince,
+            country: detectedCountry
+          }
+          
+          // Actualizar el estado global con la ubicación correcta
+          get().setLocation(updatedLocation)
+          
+          // Usar la ubicación actualizada para la búsqueda
+          location = updatedLocation
+        }
+      }
 
       // 2. PASO 2: Búsqueda inteligente con contexto geográfico
       const searchResponse = await fetch('http://172.29.228.80:8001/api/smart/search', {
@@ -233,7 +257,7 @@ const useEventsStore = create<EventsState>((set, get) => ({
           user_context: {
             location: location.name,
             coordinates: location.coordinates,
-            intent_analysis: intent,
+            intent_analysis: intentData,
             is_initial_load: true,
             detected_method: location.detected
           }

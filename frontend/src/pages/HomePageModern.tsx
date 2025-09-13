@@ -65,36 +65,36 @@ const HomePageModern: React.FC = () => {
   useEffect(() => {
     const detectAndLoadEvents = async () => {
       if (!locationDetected) {
-        // Usar Buenos Aires como ubicación inicial confiable
-        const initialLocation = {
+        // CASO 1: Primera carga - detectar ubicación real del usuario
+        let initialLocation = {
           name: 'Buenos Aires',
           coordinates: { lat: -34.6037, lng: -58.3816 },
           country: 'Argentina',
           detected: 'fallback' as const
         }
         
+        // Intentar obtener ubicación real por IP (solo en primera carga)
+        try {
+          const { EventsAPI } = await import('../services/api')
+          const detectedLocation = await EventsAPI.detectLocation()
+          initialLocation = {
+            name: detectedLocation.display_name || detectedLocation.city,
+            coordinates: { 
+              lat: detectedLocation.latitude, 
+              lng: detectedLocation.longitude 
+            },
+            country: detectedLocation.country,
+            detected: 'gps'
+          }
+        } catch (error) {
+          console.log('Using default location: Buenos Aires')
+        }
+        
         setLocation(initialLocation)
         setLocationDetected(true)
         
-        // 🧠 USAR AI SEARCH COMPLETO: Intent + Search + Recommend
+        // Cargar eventos para la ubicación inicial
         await aiInitialSearch(initialLocation)
-        
-        // Detectar ubicación específica después (sin recargar eventos)
-        try {
-          const { EventsAPI } = await import('../services/api')
-          const specificLocation = await EventsAPI.getBestLocation()
-          
-          // Solo actualizar ubicación para futuros cambios manuales
-          setLocation({
-            name: specificLocation.display_name,
-            coordinates: { lat: specificLocation.latitude, lng: specificLocation.longitude },
-            country: specificLocation.country,
-            detected: 'gps'
-          })
-        } catch (error) {
-          console.error('Error detecting specific location:', error)
-          // Ya tenemos Argentina cargado, no hacer nada más
-        }
       }
     }
 

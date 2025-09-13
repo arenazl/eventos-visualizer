@@ -30,12 +30,13 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
     }
   }, [currentLocation])
 
-  // Auto-detectar ubicación al montar
-  useEffect(() => {
-    if (!currentLocation && !location) {
-      detectLocation()
-    }
-  }, [])
+  // NO auto-detectar ubicación por IP - dejamos que Gemini maneje todo
+  // Comentado porque interfiere con la detección de Gemini
+  // useEffect(() => {
+  //   if (!currentLocation && !location) {
+  //     detectLocation()
+  //   }
+  // }, [])
 
   const detectLocation = async () => {
     setIsDetecting(true)

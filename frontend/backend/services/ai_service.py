@@ -55,8 +55,13 @@ class GeminiAIService:
         
         try:
             if not self.api_key:
-                logger.error("❌ GEMINI_API_KEY no está configurada en las variables de entorno")
-                raise Exception("ERROR: La API key de Gemini no está configurada. Por favor, configure GEMINI_API_KEY en el archivo .env del backend")
+                logger.warning("⚠️ GEMINI_API_KEY no configurado")
+                return {
+                    'city': location,
+                    'province': '',
+                    'country': '',
+                    'confidence': 0.30
+                }
             
             # Prompt optimizado para Gemini API
             prompt = f"""Analiza la ubicación "{location}" y devuelve SOLO un JSON válido:

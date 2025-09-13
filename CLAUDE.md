@@ -315,22 +315,29 @@ async def get_events_from_api(location: str):
 3. Service Workers para cache
 4. Bundle splitting por routes
 
-## 📝 ESTADO ACTUAL Y ARQUITECTURA
+## 📝 ESTADO ACTUAL Y ARQUITECTURA (12 SEPTIEMBRE 2025)
 
 ### 🔄 Arquitectura del Sistema
 
-#### **Backend (Puerto 8001)**
-- **main.py**: Aplicación FastAPI principal
-- **Módulos**: events, users, notifications, external_apis
-- **Database**: PostgreSQL con modelos SQLAlchemy
-- **APIs externas**: Eventbrite, Ticketmaster, Meetup integradas
-- **WebSockets**: Para push notifications en tiempo real
+#### **Backend (Puerto 8001)** ⚠️ NECESITA REFACTORING
+- **main.py**: FastAPI monolítico (3700+ líneas - PROBLEMA CRÍTICO)
+- **47 endpoints**: Sin organización modular
+- **Services activos**:
+  - ✅ ai_service.py - Gemini AI integration funcionando
+  - ✅ intent_recognition.py - Detección de ubicaciones
+  - ✅ request_logger.py - Logging con emojis
+  - ⚠️ Scrapers mayormente deshabilitados
+- **Database**: PostgreSQL configurado pero sin uso real
+- **WebSockets**: Preparados pero no implementados
 
-#### **Frontend (Puerto 5174)**  
-- **React + Vite**: SPA con routing
-- **Components**: Basados en templates HTML proporcionados
-- **PWA**: Service Workers para offline support
-- **State**: Zustand para manejo de estado global
+#### **Frontend (Puerto 5174)** ⚠️ ESTRUCTURA DUPLICADA
+- **React + Vite**: SPA funcionando
+- **PROBLEMA**: Dos carpetas frontend (root/src y /frontend/src)
+- **Components activos**: 
+  - EventsStore.tsx - Centraliza lógica (500+ líneas)
+  - FloatingChat/FloatingJuan - Asistentes UI
+  - ScrapersDetailPanel - Panel técnico
+- **State**: Zustand funcionando correctamente
 
 #### **Base de Datos PostgreSQL**
 ```sql
@@ -387,14 +394,14 @@ user_events (
 );
 ```
 
-## 📋 ESTADO ACTUAL (Sesión 29 Agosto 2025) - PUNTO DE PARTIDA PARA PRÓXIMO AGENTE
+## 📋 ESTADO ACTUAL (Sesión 12 Septiembre 2025) - POST DEEP REVIEW
 
 ### 🚀 **LO QUE ESTÁ FUNCIONANDO:**
-- ✅ **Servidor Backend**: Funcionando en puerto 8001 sin errores de sintaxis
-- ✅ **Servidor Frontend**: Funcionando en puerto 5174 
-- ✅ **CloudScraper instalado**: `pip install cloudscraper --break-system-packages` (EXITOSO)
-- ✅ **Endpoints sincronizados**: Frontend y backend tienen los mismos endpoints
-- ✅ **Sin datos simulados**: Todo el código limpio de eventos mockup
+- ✅ **Servidor Backend**: Puerto 8001 con 47 endpoints activos
+- ✅ **Servidor Frontend**: Puerto 5174 con React + Vite
+- ✅ **Gemini AI Integration**: Detecta ubicaciones con 95% confianza
+- ✅ **Logging Middleware**: Request/response con emojis implementado
+- ✅ **Frontend simplificado**: Solo llama a analyze-intent una vez
 
 ### 🔧 **LIBRERÍAS Y DEPENDENCIAS INSTALADAS:**
 ```bash
@@ -440,11 +447,12 @@ curl http://172.29.228.80:8001/api/ai/plan-weekend     # ✅ Agregado
 curl http://172.29.228.80:8001/api/ai/trending-now     # ✅ Agregado
 ```
 
-### ⚠️ **PROBLEMAS IDENTIFICADOS:**
-1. **Buenos Aires Data API**: URL no funciona (API cambió o no disponible)
-2. **Eventbrite**: Necesita API key (sin API key configurado)
-3. **Facebook/Instagram**: APIs muy restrictivas, difícil scrapear sin tokens oficiales
-4. **Algunos scrapers**: Requieren configuración adicional
+### ⚠️ **PROBLEMAS CRÍTICOS IDENTIFICADOS (DEEP REVIEW):**
+1. **🔴 ESTRUCTURA DUPLICADA**: Dos carpetas frontend (root/src y /frontend/src)
+2. **🔴 MAIN.PY MONOLÍTICO**: 3700+ líneas en un solo archivo - imposible mantener
+3. **🔴 SCRAPERS DESHABILITADOS**: Sin datos reales, mayoría comentados
+4. **🟡 PROCESOS ZOMBIE**: 13+ instancias de npm/python corriendo
+5. **🟡 SIN CACHÉ EFECTIVO**: Redis configurado pero no utilizado
 
 ### 🔄 **TRABAJO INTEGRAL COMPLETADO EN ESTA SESIÓN:**
 
@@ -471,25 +479,32 @@ curl http://172.29.228.80:8001/api/ai/trending-now     # ✅ Agregado
 - **Política nueva**: Solo datos reales o arrays vacíos con warnings
 - **Resultado**: Sistema honesto que informa cuando no puede obtener datos
 
-### 🛠️ **SIGUIENTE AGENTE DEBE HACER:**
+### 🛠️ **ACCIONES URGENTES RECOMENDADAS (POST DEEP REVIEW):**
 
-#### **PRIORIDAD 1 - APIs que SÍ pueden funcionar:**
+#### **PRIORIDAD 1 - Refactorización Estructural:**
 ```bash
-# 1. Conseguir API key de Eventbrite (GRATIS):
-# - Ir a https://www.eventbrite.com/platform/api  
-# - Crear cuenta developer
-# - Agregar a .env: EVENTBRITE_API_KEY=tu_key_aqui
+# 1. Unificar estructura frontend (CRÍTICO):
+rm -rf src/  # Eliminar frontend duplicado en root
+# Usar solo /frontend/src
 
-# 2. CloudScraper ya está instalado, debería intentar scrapear:
-curl http://172.29.228.80:8001/api/multi/fetch-all
+# 2. Dividir main.py en módulos:
+backend/
+├── main.py (100 líneas max)
+├── api/
+│   ├── events.py
+│   ├── ai.py
+│   └── scrapers.py
+
+# 3. Limpiar procesos zombie:
+lsof -ti:8001 | xargs kill -9
+lsof -ti:5174 | xargs kill -9
 ```
 
-#### **PRIORIDAD 2 - Verificar funcionalidad:**
+#### **PRIORIDAD 2 - Habilitar datos reales:**
 ```bash
-# Probar endpoints principales:
-curl http://172.29.228.80:8001/health
-curl http://172.29.228.80:8001/api/events?limit=10
-curl http://172.29.228.80:8001/api/multi/test-apis
+# 1. Activar Eventbrite en industrial_factory.py
+# 2. Conseguir API keys reales
+# 3. Implementar caché Redis para responses
 ```
 
 ### 🎯 **Para el Próximo Agente:**

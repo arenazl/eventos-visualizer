@@ -205,61 +205,56 @@ const useEventsStore = create<EventsState>((set, get) => ({
       // Use location name as the query for initial search
       const initialQuery = location.name
       
-      // 1. PASO 1: Analizar intención de la ubicación detectada
+      // SOLO UN LLAMADO: Analizar intención de la ubicación detectada con Gemini
       const intentResponse = await fetch('http://172.29.228.80:8001/api/ai/analyze-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           query: initialQuery,
-          context: {
-            location: location.name,
-            coordinates: location.coordinates,
-            detected_method: location.detected,
-            time: new Date().toISOString(),
-            is_initial_load: true
-          }
+          current_location: location.name
         })
       })
 
-      const intent = intentResponse.ok ? await intentResponse.json() : null
+      if (!intentResponse.ok) {
+        throw new Error('Error analizando ubicación')
+      }
 
-      // 2. PASO 2: Búsqueda inteligente con contexto geográfico
-      const searchResponse = await fetch('http://172.29.228.80:8001/api/smart/search', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          query: initialQuery,
-          location: location.name,
-          user_context: {
-            location: location.name,
-            coordinates: location.coordinates,
-            intent_analysis: intent,
-            is_initial_load: true,
-            detected_method: location.detected
-          }
+      const data = await intentResponse.json()
+      
+      // Actualizar la ubicación con los datos correctos de Gemini
+      if (data.success && data.intent) {
+        const detectedLocation = data.intent.geographic_hierarchy?.full_location || location.name
+        const newLocation: Location = {
+          name: detectedLocation,
+          coordinates: location.coordinates,
+          country: data.intent.detected_country,
+          detected: 'prompt'
+        }
+        
+        set({ 
+          currentLocation: newLocation,
+          loading: false,
+          events: [], // Por ahora no cargamos eventos, solo analizamos ubicación
+          error: null
         })
-      })
-
-      if (!searchResponse.ok) throw new Error('Error en búsqueda inicial AI')
-
-      const searchData = await searchResponse.json()
-      const foundEvents = searchData.recommended_events || []
-
-      // 3. PASO 3: Generar recomendaciones basadas en ubicación
-      await get().getSmartRecommendations(initialQuery, foundEvents, location.name)
-
-      set({ 
-        events: foundEvents, 
-        loading: false,
-        lastQuery: `Eventos en ${location.name}`,
-        // ✨ CAPTURAR SCRAPERS EXECUTION DATA
-        scrapersExecution: searchData.scrapers_execution || null
-      })
+        
+        console.log('📍 Ubicación detectada por Gemini:', detectedLocation)
+      } else {
+        // Si algo falla, mantener la ubicación original
+        set({ 
+          currentLocation: location,
+          loading: false,
+          error: null
+        })
+      }
 
     } catch (error) {
-      console.warn('AI initial search failed, falling back to traditional fetch:', error)
-      // Fallback al método tradicional
-      await get().fetchEvents(location)
+      console.error('Error al analizar ubicación con Gemini:', error)
+      set({ 
+        loading: false,
+        error: 'Error al detectar ubicación',
+        currentLocation: location
+      })
     }
   },
 
@@ -353,21 +348,85 @@ const useEventsStore = create<EventsState>((set, get) => ({
   },
 
   searchEvents: async (query: string, location?: Location) => {
-    set({ loading: true, error: null })
+    set({ loading: true, error: null, events: [] })
+    
+    const { currentLocation } = get()
+    const searchLocation = location || currentLocation
+    const locationString = searchLocation?.name || "Buenos Aires"
+    
+    // First, detect intent using API V1
     try {
-      const { currentLocation } = get()
-      const searchLocation = location || currentLocation
+      const intentResponse = await fetch('http://172.29.228.80:8001/api/v1/intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: `${query} en ${locationString}` })
+      })
+      
+      if (intentResponse.ok) {
+        const intent = await intentResponse.json()
+        // Use detected location if available
+        const detectedLocation = [
+          intent.location?.city,
+          intent.location?.state,
+          intent.location?.country
+        ].filter(Boolean).join(', ') || locationString
+        
+        // Now search with SSE streaming
+        const params = new URLSearchParams({
+          location: detectedLocation,
+          limit: '20'
+        })
+        
+        const eventSource = new EventSource(`http://172.29.228.80:8001/api/v1/search?${params}`)
+        const allEvents: Event[] = []
+        
+        eventSource.onmessage = (event) => {
+          try {
+            const data = JSON.parse(event.data)
+            
+            if (data.type === 'events' && data.events) {
+              // Add new events to the list
+              allEvents.push(...data.events)
+              set({ events: [...allEvents] })
+            } else if (data.type === 'complete') {
+              // Search completed
+              set({ loading: false })
+              eventSource.close()
+            } else if (data.type === 'error') {
+              set({ error: data.message, loading: false })
+              eventSource.close()
+            }
+          } catch (error) {
+            console.error('Error parsing SSE event:', error)
+          }
+        }
+        
+        eventSource.onerror = () => {
+          set({ loading: false })
+          eventSource.close()
+        }
+        
+        // Close connection after 30 seconds as safety
+        setTimeout(() => {
+          if (eventSource.readyState !== EventSource.CLOSED) {
+            eventSource.close()
+            set({ loading: false })
+          }
+        }, 30000)
+        
+      } else {
+        // Fallback to old API if V1 fails
+        let apiUrl = `http://172.29.228.80:8001/api/events/search?q=${encodeURIComponent(query)}`
+        if (searchLocation) {
+          apiUrl += `&location=${encodeURIComponent(locationString)}`
+        }
 
-      let apiUrl = `http://172.29.228.80:8001/api/events/search?q=${encodeURIComponent(query)}`
-      if (searchLocation) {
-        apiUrl += `&location=${encodeURIComponent(searchLocation.name || "Buenos Aires")}`
+        const response = await fetch(apiUrl)
+        if (!response.ok) throw new Error('Error en la búsqueda')
+
+        const data = await response.json()
+        set({ events: data.events || data || [], loading: false })
       }
-
-      const response = await fetch(apiUrl)
-      if (!response.ok) throw new Error('Error en la búsqueda')
-
-      const data = await response.json()
-      set({ events: data.events || data || [], loading: false })
     } catch (error) {
       set({ error: (error as Error).message, loading: false })
     }
