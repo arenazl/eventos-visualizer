@@ -73,7 +73,10 @@ const HomePageModern: React.FC = () => {
           detected: 'fallback' as const
         }
         
-        // Intentar obtener ubicación real por IP (solo en primera carga)
+        // NO detectar ubicación por IP automáticamente en page load
+        // Mantener la ubicación que ya está (Villa Gesell o la que sea)
+        // Solo detectar por IP si el usuario lo pide explícitamente
+        /*
         try {
           const { EventsAPI } = await import('../services/api')
           const detectedLocation = await EventsAPI.detectLocation()
@@ -89,6 +92,7 @@ const HomePageModern: React.FC = () => {
         } catch (error) {
           console.log('Using default location: Buenos Aires')
         }
+        */
         
         setLocation(initialLocation)
         setLocationDetected(true)
