@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, ReactNode } from 'react'
 import { create } from 'zustand'
 import { config } from '../config'
+import { API_BASE_URL } from '../config/api'
 
 interface Event {
   title: string
@@ -712,7 +713,9 @@ const useEventsStore = create<EventsState>((set, get) => ({
     
     /* DISABLED WEBSOCKET CODE
     try {
-      const ws = new WebSocket('ws://localhost:8001/ws/search-events')
+      // Convertir HTTP(S) URL a WS(S) URL
+      const wsUrl = API_BASE_URL.replace(/^https?/, (match) => match === 'https' ? 'wss' : 'ws')
+      const ws = new WebSocket(`${wsUrl}/ws/search-events`)
       
       ws.onopen = () => {
         console.log('🔥 WebSocket conectado para búsqueda streaming')

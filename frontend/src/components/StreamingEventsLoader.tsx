@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import EventCardModern from './EventCardModern'
 import { EventsGridSkeleton } from './LoadingStates'
+import { API_BASE_URL } from '../config/api'
 
 interface StreamingEvent {
   id?: string
@@ -89,7 +90,9 @@ export const StreamingEventsLoader: React.FC<StreamingEventsLoaderProps> = ({
 
   const connectWebSocket = () => {
     try {
-      const ws = new WebSocket('ws://localhost:8001/ws/search-events')
+      // Convertir HTTP(S) URL a WS(S) URL
+      const wsUrl = API_BASE_URL.replace(/^https?/, (match) => match === 'https' ? 'wss' : 'ws')
+      const ws = new WebSocket(`${wsUrl}/ws/search-events`)
 
       ws.onopen = () => {
         console.log('🔥 WebSocket conectado')
