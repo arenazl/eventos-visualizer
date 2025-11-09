@@ -390,10 +390,35 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
 
           {/* Contenido de IA */}
           {aiLoading ? (
-            <div className="flex-grow flex items-center justify-center">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-                <p className="text-white/80">Analizando evento...</p>
+            <div className="flex-grow overflow-y-auto space-y-3">
+              {/* Skeleton animado */}
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="bg-white/10 backdrop-blur-sm p-3 sm:p-4 rounded-xl border border-white/20 relative overflow-hidden">
+                  {/* Shimmer effect */}
+                  <div
+                    className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent"
+                    style={{ animationDelay: `${i * 0.1}s` }}
+                  />
+
+                  {/* Header skeleton */}
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-5 h-5 bg-white/20 rounded animate-pulse"></div>
+                    <div className="h-4 w-24 bg-white/20 rounded animate-pulse"></div>
+                  </div>
+
+                  {/* Content skeleton */}
+                  <div className="space-y-2">
+                    <div className="h-3 bg-white/10 rounded animate-pulse"></div>
+                    <div className="h-3 bg-white/10 rounded w-5/6 animate-pulse"></div>
+                  </div>
+                </div>
+              ))}
+
+              {/* Mensaje animado */}
+              <div className="text-center pt-2">
+                <p className="text-white/60 text-xs sm:text-sm animate-pulse">
+                  ✨ Gemini analizando evento...
+                </p>
               </div>
             </div>
           ) : aiInsight ? (

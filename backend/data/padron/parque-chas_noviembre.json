@@ -1,0 +1,110 @@
+{
+  "barrio": "Parque Chas",
+  "comuna": 15,
+  "zona": "Norte",
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "fuente": "Gemini AI",
+  "notas_importantes": [
+    "El barrio de Parque Chas celebró su Centenario recientemente (cumplió 100 años en septiembre de 2025)",
+    "Muchos de los festejos más grandes se realizaron los días previos (ej. el 2 de noviembre)",
+    "Es probable que la agenda inmediata tenga menos eventos centrales"
+  ],
+  "eventos_locales": [
+    {
+      "titulo": "Festival en La Terraza",
+      "fecha": "2025-11-08",
+      "horario": "20:00 hrs",
+      "lugar": "La Terraza Club",
+      "direccion": "Arismendi 2686",
+      "notas": "Aunque la fecha es del 8 de noviembre (día anterior a la consulta), a veces este tipo de eventos se repiten. Podría ser útil consultar directamente al lugar si hay alguna actividad similar programada para el resto del mes.",
+      "categoria": "entretenimiento"
+    }
+  ],
+  "eventos_culturales_caba": [
+    {
+      "titulo": "Clases de Tango",
+      "fecha": "Viernes 14, 21 y 28 de Noviembre",
+      "horario": "12:00 a 13:30 hs",
+      "lugar": "Salón Presidente Perón",
+      "direccion": "Legislatura CABA",
+      "precio": "Gratis",
+      "categoria": "cultural",
+      "tipo": "danza"
+    },
+    {
+      "titulo": "Ensayo del Coro de la Legislatura",
+      "fecha": "Lunes y Miércoles (consultar fechas exactas)",
+      "horario": "17:00 a 19:00 hs",
+      "lugar": "Salón Presidente Perón",
+      "direccion": "Legislatura CABA",
+      "precio": "Gratis",
+      "categoria": "cultural",
+      "tipo": "musica"
+    },
+    {
+      "titulo": "Encuentro Coral",
+      "fecha": "2025-11-12",
+      "horario": "18:00 hs (Ingreso 17:30 hs)",
+      "lugar": "Salón Presidente Perón",
+      "direccion": "Legislatura CABA",
+      "precio": "Gratis",
+      "categoria": "cultural",
+      "tipo": "musica"
+    },
+    {
+      "titulo": "Música Clásica (Orquesta a confirmar)",
+      "fecha": "2025-11-17",
+      "horario": "18:00 hs (Ingreso 17:30 hs)",
+      "lugar": "Salón Presidente Perón",
+      "direccion": "Legislatura CABA",
+      "precio": "Gratis",
+      "categoria": "cultural",
+      "tipo": "musica"
+    },
+    {
+      "titulo": "Peña Porteña (Folclore)",
+      "fecha": "2025-11-18",
+      "lugar": "Salón Presidente Perón",
+      "direccion": "Legislatura CABA",
+      "precio": "Gratis",
+      "categoria": "cultural",
+      "tipo": "musica"
+    },
+    {
+      "titulo": "LegisRock (Distinción a EL RELOJ)",
+      "fecha": "2025-11-19",
+      "lugar": "Salón Montevideo",
+      "direccion": "Legislatura CABA",
+      "precio": "Gratis",
+      "categoria": "cultural",
+      "tipo": "musica"
+    },
+    {
+      "titulo": "Música Clásica (Orquesta de Jóvenes Solistas)",
+      "fecha": "2025-11-25",
+      "horario": "18:00 hs (Ingreso 17:30 hs)",
+      "lugar": "Salón Presidente Perón",
+      "direccion": "Legislatura CABA",
+      "precio": "Gratis",
+      "categoria": "cultural",
+      "tipo": "musica"
+    }
+  ],
+  "sugerencias_adicionales": [
+    {
+      "tipo": "paseo",
+      "descripcion": "Parque Chas es conocido por su diseño laberíntico. Una actividad interesante es hacer un recorrido autoguiado o temático para descubrir sus calles circulares y su arquitectura",
+      "lugar_emblematico": "Plaza Éxodo Jujeño"
+    },
+    {
+      "tipo": "actividad_vecinal",
+      "lugar": "Biblioteca Popular El Resplandor",
+      "direccion": "Club SABER (Llerena 2727)",
+      "descripcion": "Suele tener actividades vecinales, reuniones, y encuentros. Consultar cartelera o redes sociales."
+    }
+  ],
+  "total_eventos": 8,
+  "respuesta_completa": "¡Hola! Basado en la información disponible para Parque Chas y la Ciudad de Buenos Aires en general, te comento los eventos que podrían ser de interés desde hoy, 9 de noviembre de 2025 hasta fin de mes:\n\n🗓️ Eventos y Actividades en Parque Chas (o muy cerca)\n\nEvento\tFecha\tLugar\tNotas/Detalles\nFestival en La Terraza\tSábado 8 de Noviembre de 2025 (20:00 hrs)\tLa Terraza Club (Arismendi 2686)\tAunque la fecha es del 8 de noviembre, que fue ayer, a veces este tipo de eventos se repiten. Podría ser útil consultar directamente al lugar si hay alguna actividad similar programada para el resto del mes.\n\nNota Importante: El barrio de Parque Chas celebró su Centenario recientemente (cumplió 100 años en septiembre de 2025), y muchos de los festejos más grandes (como la \"Fiesta central de los 100 años\" en la Plaza Éxodo Jujeño y el Corso) se realizaron los días previos a hoy (ej. el 2 de noviembre). Es probable que la agenda inmediata tenga menos eventos centrales.\n\n🏛️ Actividades Culturales en la Ciudad (CABA)\n\nSi estás dispuesto a moverte un poco, la Legislatura de la Ciudad de Buenos Aires suele tener una agenda cultural amplia y gratuita en noviembre, que incluye:\n\nActividad\tFecha\tLugar\tHorario\nClases de Tango\tViernes (consulta por el 14, 21 y 28 de Noviembre)\tSalón Presidente Perón (Legislatura CABA)\t12:00 a 13:30 hs\nEnsayo del Coro de la Legislatura\tLunes y Miércoles (consulta fechas exactas)\tSalón Presidente Perón (Legislatura CABA)\t17:00 a 19:00 hs\nEncuentro Coral\tLunes 12 de Noviembre\tSalón Presidente Perón (Legislatura CABA)\t18:00 hs (Ingreso 17:30 hs)\nMúsica Clásica (Orquesta a confirmar)\tLunes 17 de Noviembre\tSalón Presidente Perón (Legislatura CABA)\t18:00 hs (Ingreso 17:30 hs)\nPeña Porteña (Folclore)\tMartes 18 de Noviembre\tSalón Presidente Perón (Legislatura CABA)\t-\nLegisRock (Distinción a EL RELOJ)\tMiércoles 19 de Noviembre\tSalón Montevideo (Legislatura CABA)\t-\nMúsica Clásica (Orquesta de Jóvenes Solistas)\tLunes 25 de Noviembre\tSalón Presidente Perón (Legislatura CABA)\t18:00 hs (Ingreso 17:30 hs)\n\nImportante: Las actividades de la Legislatura son con entrada libre y gratuita, solo se requiere presentar DNI para ingresar.\n\n💡 Otras Ideas en el Barrio o Cercanas\n\nPaseos y Recorridos: Parque Chas es conocido por su diseño laberíntico. Una actividad interesante es hacer un recorrido autoguiado o temático para descubrir sus calles circulares y su arquitectura, visitando lugares emblemáticos como la Plaza Éxodo Jujeño.\n\nBiblioteca Popular El Resplandor: Ubicada en el Club SABER (Llerena 2727), suele tener actividades vecinales, reuniones, y encuentros. Podrías consultar su cartelera o redes sociales.\n\n¿Te gustaría que intente buscar la agenda de algún club de barrio específico en Parque Chas (como el Club El Trébol o el Club SABER) para ver si tienen alguna peña o actividad bailable programada para lo que resta de noviembre?"
+}
