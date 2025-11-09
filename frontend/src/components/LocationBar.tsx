@@ -26,7 +26,7 @@ const LocationBar: React.FC<LocationBarProps> = ({ onLocationChange, onStyleChan
           
           // Obtener el barrio más cercano
           try {
-            const response = await fetch('http://172.29.228.80:8001/api/location/nearest', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8001'}/api/location/nearest`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ latitude, longitude })
@@ -69,7 +69,7 @@ const LocationBar: React.FC<LocationBarProps> = ({ onLocationChange, onStyleChan
 
   const fallbackToIPLocation = async () => {
     try {
-      const response = await fetch('http://172.29.228.80:8001/api/location/detect')
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8001'}/api/location/detect`)
       const data = await response.json()
       
       if (data.status === 'success' || data.status === 'fallback') {

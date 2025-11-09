@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 interface Event {
@@ -24,12 +24,13 @@ interface EventCardProps {
   onToggleFavorite?: (eventId: string) => void
 }
 
-const EventCard: React.FC<EventCardProps> = ({ 
-  event, 
-  isFavorite = false, 
-  onToggleFavorite 
+const EventCard: React.FC<EventCardProps> = ({
+  event,
+  isFavorite = false,
+  onToggleFavorite
 }) => {
   const navigate = useNavigate()
+  const [imageError, setImageError] = useState(false)
 
   const formatDate = (dateString: string | null | undefined) => {
     if (!dateString) return 'Fecha por confirmar'
@@ -49,6 +50,32 @@ const EventCard: React.FC<EventCardProps> = ({
     if (isFree) return 'Gratis'
     if (!price || price === 0) return 'Consultar'
     return `${currency} ${price.toLocaleString()}`
+  }
+
+  const getCategoryGradient = (category: string) => {
+    const gradients: Record<string, string> = {
+      'music': 'from-purple-600 via-pink-500 to-red-500',
+      'sports': 'from-green-600 via-emerald-500 to-teal-500',
+      'cultural': 'from-blue-600 via-indigo-500 to-purple-500',
+      'tech': 'from-indigo-600 via-blue-500 to-cyan-500',
+      'party': 'from-pink-600 via-rose-500 to-orange-500',
+      'hobbies': 'from-yellow-500 via-orange-500 to-red-500',
+      'international': 'from-cyan-500 via-blue-500 to-indigo-500'
+    }
+    return gradients[category] || 'from-gray-600 via-gray-500 to-gray-400'
+  }
+
+  const getCategoryIcon = (category: string) => {
+    const icons: Record<string, string> = {
+      'music': '🎵',
+      'sports': '⚽',
+      'cultural': '🎭',
+      'tech': '💻',
+      'party': '🎉',
+      'hobbies': '🎨',
+      'international': '🌍'
+    }
+    return icons[category] || '📅'
   }
 
   const handleCardClick = () => {
@@ -94,11 +121,18 @@ const EventCard: React.FC<EventCardProps> = ({
     <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 max-w-sm">
       {/* Image Section - EXACTO del template */}
       <div className="relative aspect-video">
-        <img 
-          src={event.image_url} 
-          alt={event.title}
-          className="w-full h-full object-cover"
-        />
+        {!imageError && event.image_url && event.image_url.trim() !== "" ? (
+          <img
+            src={event.image_url}
+            alt={event.title}
+            className="w-full h-full object-cover"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className={`w-full h-full bg-gradient-to-br ${getCategoryGradient(event.category)} flex items-center justify-center`}>
+            <span className="text-6xl">{getCategoryIcon(event.category)}</span>
+          </div>
+        )}
         {/* Category Badge */}
         <div className="absolute top-2 right-2">
           <span className="bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-medium">

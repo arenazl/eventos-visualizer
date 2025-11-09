@@ -226,7 +226,7 @@ async def get_smart_recommendations(request: SmartRecommendationRequest):
         )
         
         # 4. Consultar Gemini
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-2.5-flash')
         response = await asyncio.create_task(
             asyncio.to_thread(model.generate_content, prompt)
         )
@@ -302,7 +302,7 @@ async def analyze_user_intent(request: Dict[str, Any]):
         }}
         """
         
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-2.5-flash')
         response = await asyncio.create_task(
             asyncio.to_thread(model.generate_content, prompt)
         )

@@ -1,49 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { useAssistants } from '../contexts/AssistantsContext'
+import Sofia3DAvatar from './Sofia3DAvatar'
 
 const FloatingChat: React.FC = () => {
   console.log('💁‍♀️ DEBUG: Call Center Girl Sofia render');
   const [showTip, setShowTip] = useState(false)
   const [currentTip, setCurrentTip] = useState('')
-  const { lastEventInteraction, sofiaEnabled, setSofiaEnabled } = useAssistants()
+  const { lastEventInteraction, lastSearchContext, lastNoEventsContext, sofiaEnabled, setSofiaEnabled } = useAssistants()
   
   // Sofia solo comenta sobre eventos reales - NO tips hardcodeados
 
-  // Comentarios dinámicos con Gemini AI
+  // DESACTIVADO: Comentarios dinámicos con Gemini AI (para evitar llamadas duplicadas)
+  // Ahora usa solo comentarios hardcoded
   const getAIContextualComment = async (eventTitle: string, category: string, shouldConverse: boolean = false): Promise<string> => {
-    try {
-      let prompt = ''
-      
-      // Detectar si es selección de categoría
-      if (eventTitle.startsWith('Categoría:')) {
-        prompt = shouldConverse 
-          ? `Como Sofia, especialista en arte y cultura, comenta provocativamente a Juan sobre que el usuario eligió la categoría "${category}". Sugiere que es mejor que deportes. Máximo 50 caracteres. Incluye emojis.`
-          : `Como Sofia, especialista en arte y cultura, celebra que el usuario eligió la categoría "${category}". Haz un comentario entusiasta. Máximo 50 caracteres. Incluye emojis.`
-      } else {
-        prompt = shouldConverse 
-          ? `Como Sofia, una asistente de eventos especialista en arte y cultura, haz un comentario provocativo dirigido a Juan (tu compañero especialista en deportes) sobre este evento: "${eventTitle}" de categoría "${category}". Máximo 60 caracteres. Incluye emojis.`
-          : `Como Sofia, una asistente de eventos especialista en arte y cultura, haz un comentario entusiasta sobre este evento: "${eventTitle}" de categoría "${category}". Máximo 60 caracteres. Incluye emojis.`
-      }
-
-      const response = await fetch('http://172.29.228.80:8001/api/ai/event-insight', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: eventTitle,
-          category: category,
-          custom_prompt: prompt
-        })
-      })
-      
-      const data = await response.json()
-      if (data.success && data.insight?.quick_insight) {
-        return data.insight.quick_insight
-      }
-    } catch (error) {
-      console.error('Error getting Sofia AI comment:', error)
-    }
-
-    // Fallback a comentarios hardcodeados si falla IA
+    console.log('💁‍♀️ Sofia usando comentarios hardcoded (AI desactivado para evitar duplicados)')
+    // Usar directamente comentarios hardcodeados
     return getHardcodedComment(eventTitle, category, shouldConverse)
   }
 
@@ -140,37 +111,135 @@ const FloatingChat: React.FC = () => {
 
   // Escuchar eventos de interacción
   useEffect(() => {
-    if (lastEventInteraction && sofiaEnabled) {
+    // Solo responder si:
+    // 1. Sofia está habilitada
+    // 2. El evento no especifica assistant (cualquiera puede responder) O especifica 'sofia'
+    const shouldRespond = sofiaEnabled &&
+                          lastEventInteraction &&
+                          (!lastEventInteraction.assistant || lastEventInteraction.assistant === 'sofia')
+
+    if (shouldRespond) {
       const generateComment = async () => {
         const contextualComment = await getAIContextualComment(
-          lastEventInteraction.eventTitle, 
-          lastEventInteraction.eventCategory,
-          lastEventInteraction.shouldConverse
+          lastEventInteraction!.eventTitle,
+          lastEventInteraction!.eventCategory,
+          lastEventInteraction!.shouldConverse
         )
         setCurrentTip(contextualComment)
         setShowTip(true)
-        
-        // Auto-ocultar según si hay conversación o no
-        const timeout = lastEventInteraction.shouldConverse ? 8000 : 5000
+
+        // Auto-ocultar según si hay conversación o no (timeouts más largos)
+        const timeout = lastEventInteraction!.shouldConverse ? 15000 : 10000
         const timer = setTimeout(() => {
           setShowTip(false)
         }, timeout)
-        
+
         return timer
       }
-      
+
       generateComment()
     }
   }, [lastEventInteraction, sofiaEnabled])
-  
+
+  // 🔍 Comentario general al hacer búsqueda (perfil: graciosa, humor negro)
+  useEffect(() => {
+    if (lastSearchContext && sofiaEnabled) {
+      const { dayOfWeek, hour, cityName } = lastSearchContext
+      let comment = ''
+      const cityPrefix = cityName ? `🌆 ${cityName}: ` : ''
+
+      // Comentarios SIEMPRE, incluso sin eventos - basados en día y hora (con humor negro y sarcasmo + ciudad)
+      if (dayOfWeek === 'Lunes' && hour < 12) {
+        const mondayMorning = [
+          `${cityPrefix}¿Lunes a la mañana buscando planes? Alguien no durmió bien 😴💀`,
+          `${cityPrefix}Lunes temprano y con energía? Qué optimista! Me caés bien 😂☕`,
+          `${cityPrefix}¿Escapando del lunes? Same, bestie. SAME. 💀☕`
+        ]
+        comment = mondayMorning[Math.floor(Math.random() * mondayMorning.length)]
+      } else if (dayOfWeek === 'Viernes' && hour >= 18) {
+        const fridayNight = [
+          `${cityPrefix}¡VIERNES! Si no salís ahora te declaran legalmente anciano 🎉💀`,
+          `${cityPrefix}Viernes de noche buscando planes? Tardaste pero llegaste! 😂🍾`,
+          `${cityPrefix}¡AL FIN VIERNES! Ya me estaba preocupando por vos 🎊😈`
+        ]
+        comment = fridayNight[Math.floor(Math.random() * fridayNight.length)]
+      } else if (['Sábado', 'Domingo'].includes(dayOfWeek) && hour < 14) {
+        const weekendMorning = [
+          `${cityPrefix}Finde a la mañana? Recién te levantaste o nunca dormiste 😎🌅`,
+          `${cityPrefix}¿Buscando cosas antes del mediodía? Respeto tu rareza 😂☀️`,
+          `${cityPrefix}Finde temprano buscando eventos? No es normal pero me divierte 🤣🌄`
+        ]
+        comment = weekendMorning[Math.floor(Math.random() * weekendMorning.length)]
+      } else if (hour >= 23 || hour < 5) {
+        const lateNight = [
+          `${cityPrefix}Las ${hour}hs buscando eventos? Muy nocturno o muy desesperado 🌙💀`,
+          `${cityPrefix}A esta hora? No juzgo... mentira sí. Pero me gusta 😂🦇`,
+          `${cityPrefix}Insomnio productivo? Tu soulmate de búsqueda soy yo 🌃😈`
+        ]
+        comment = lateNight[Math.floor(Math.random() * lateNight.length)]
+      } else {
+        const generic = [
+          `${cityPrefix}¿Buscando algo para no aburrirte? Misión aceptada! 🎯😎`,
+          `${cityPrefix}Buscando eventos... o sea, no querés Netflix otra vez 😂📺`,
+          `${cityPrefix}¡A encontrar algo bueno! (Que no sea TikTok por favor) 🎭🤳`
+        ]
+        comment = generic[Math.floor(Math.random() * generic.length)]
+      }
+
+      setCurrentTip(comment)
+      setShowTip(true)
+
+      // Ocultar después de 12 segundos
+      const timer = setTimeout(() => {
+        setShowTip(false)
+      }, 12000)
+
+      return () => clearTimeout(timer)
+    }
+  }, [lastSearchContext, sofiaEnabled])
+
+  // 🚫 Comentario cuando no hay eventos (perfil: graciosa, humor negro)
+  useEffect(() => {
+    if (lastNoEventsContext && sofiaEnabled) {
+      const { cityName, searchingNearby } = lastNoEventsContext
+      let comment = ''
+
+      if (searchingNearby) {
+        const searchingComments = [
+          `🌆 ${cityName}: Vacío total! Buscando en lugares más movidos... 🔍💃`,
+          `🌆 ${cityName}: Esto está más muerto que mi vida social del 2020 😂 Buscando...`,
+          `🌆 ${cityName}: Houston tenemos un problema... buscando plan B 🚀`
+        ]
+        comment = searchingComments[Math.floor(Math.random() * searchingComments.length)]
+      } else {
+        const noEventsComments = [
+          `🌆 ${cityName}: Nada que ver acá! Literal NADA. F por ${cityName} 💀`,
+          `🌆 ${cityName}: Más vacío que promesa de político! Probá otras zonas 😂`,
+          `🌆 ${cityName}: Evento 404 not found. Expandí la búsqueda! 🔍`
+        ]
+        comment = noEventsComments[Math.floor(Math.random() * noEventsComments.length)]
+      }
+
+      setCurrentTip(comment)
+      setShowTip(true)
+
+      // Ocultar después de 10 segundos
+      const timer = setTimeout(() => {
+        setShowTip(false)
+      }, 10000)
+
+      return () => clearTimeout(timer)
+    }
+  }, [lastNoEventsContext, sofiaEnabled])
+
   // SOFIA - CONTEXTUAL COMMENTS WITH TOGGLE
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50">
       <div className="relative group">
         {/* Toggle Button */}
         <button
           onClick={() => setSofiaEnabled(!sofiaEnabled)}
-          className={`absolute -top-3 -left-3 w-6 h-6 rounded-full text-xs font-bold transition-all duration-300 ${
+          className={`absolute -top-2 -left-2 md:-top-3 md:-left-3 w-5 h-5 md:w-6 md:h-6 rounded-full text-xs font-bold transition-all duration-300 ${
             sofiaEnabled 
               ? 'bg-green-500 text-white hover:bg-green-600' 
               : 'bg-gray-400 text-white hover:bg-gray-500'
@@ -185,35 +254,32 @@ const FloatingChat: React.FC = () => {
             // Sofia solo comenta sobre eventos reales, no tips hardcodeados
           }}
           onMouseLeave={() => {
-            // Sofia solo comenta sobre eventos reales, no tips hardcodeados  
+            // Sofia solo comenta sobre eventos reales, no tips hardcodeados
           }}
-          className={`relative rounded-full p-4 shadow-2xl transform transition-all duration-300 animate-bounce ${
-            sofiaEnabled 
-              ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white hover:shadow-pink-500/50 hover:scale-110' 
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+          className={`relative transform transition-all duration-300 animate-bounce ${
+            sofiaEnabled
+              ? 'hover:scale-110 drop-shadow-2xl'
+              : 'opacity-50 cursor-not-allowed'
           }`}
           disabled={!sofiaEnabled}
         >
-          {/* Chica de call center con auriculares */}
-          <div className="relative">
-            <span className="text-4xl animate-pulse sofia-look-around">💁‍♀️</span>
-            {/* Notificación parpadeante */}
-            <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-ping"></div>
-            {/* Auriculares flotantes */}
-            <div className="absolute -top-2 -left-1 text-xs animate-bounce" style={{animationDelay: '0.5s'}}>🎧</div>
+          {/* Sofia - Simple Emoji Avatar */}
+          <div className="relative w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center shadow-2xl">
+            <span className="text-5xl md:text-6xl">👩‍🎨</span>
           </div>
-          
+
         </button>
-        
-        {/* Tooltip de Sofia apuntando hacia Juan (izquierda) */}
+
+        {/* Tooltip de Sofia - DISEÑO MEJORADO */}
         {showTip && sofiaEnabled && (
-          <div className="absolute -top-20 -left-80 bg-gradient-to-r from-pink-600 to-purple-600 text-white px-4 py-2 rounded-2xl text-sm font-semibold shadow-2xl animate-bounce z-50 w-72">
-            <div className="flex items-center gap-2">
-              <span className="sofia-look-around">💁‍♀️</span>
-              <span className="break-words whitespace-normal">{currentTip}</span>
+          <div className="absolute bottom-full mb-4 md:mb-5 -right-4 md:-left-80 md:right-auto animate-fade-in-up">
+            <div className="relative bg-gradient-to-br from-pink-500/90 to-purple-600/90 backdrop-blur-xl text-white px-8 py-4 rounded-3xl font-medium transition-all shadow-[0_8px_30px_rgb(0,0,0,0.3)] z-50 w-auto max-w-[calc(100vw-3rem)] hover:shadow-[0_12px_40px_rgb(0,0,0,0.4)] hover:scale-105 border border-white/20">
+              <span className="break-words whitespace-normal leading-relaxed text-sm md:text-base">{currentTip}</span>
+              {/* Flecha hacia la derecha (hacia Sofia) - desktop */}
+              <div className="hidden md:block absolute top-1/2 -right-2 transform -translate-y-1/2 w-4 h-4 bg-gradient-to-br from-pink-500/90 to-purple-600/90 rotate-45 border-r border-t border-white/20"></div>
+              {/* Flecha hacia abajo (móvil) */}
+              <div className="md:hidden absolute -bottom-2 right-8 w-4 h-4 bg-gradient-to-br from-pink-500/90 to-purple-600/90 rotate-45 border-r border-b border-white/20"></div>
             </div>
-            {/* Flecha apuntando hacia la derecha (hacia Sofia) */}
-            <div className="absolute top-4 -right-2 w-0 h-0 border-l-8 border-t-4 border-b-4 border-l-pink-600 border-t-transparent border-b-transparent"></div>
           </div>
         )}
       </div>

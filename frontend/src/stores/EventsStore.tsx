@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, ReactNode } from 'react'
 import { create } from 'zustand'
+import { config } from '../config'
 
 interface Event {
   title: string
@@ -88,15 +89,42 @@ interface EventsState {
   // ✨ NUEVA INFO DE SCRAPERS
   scrapersExecution: ScrapersExecution | null
 
+  // 🔌 SSE CONNECTION CLEANUP
+  sseCleanup: (() => void) | null
+
+  // 🎭 CALLBACK PARA ASISTENTES
+  onNoEventsCallback?: (cityName: string, searchingNearby: boolean) => void
+  setOnNoEventsCallback: (callback: (cityName: string, searchingNearby: boolean) => void) => void
+
   // AI-First Methods
   aiSearch: (query: string, location?: Location) => Promise<void>
   aiInitialSearch: (location: Location) => Promise<void>  // New function for initial page load
-  getSmartRecommendations: (query: string, foundEvents: Event[], detectedLocation?: string) => Promise<void>
+  // DISABLED: getSmartRecommendations removed
+  // getSmartRecommendations: (query: string, foundEvents: Event[], detectedLocation?: string) => Promise<void>
   analyzeUserIntent: (query: string) => Promise<any>
-  
+
   // WebSocket Streaming Methods
   startStreamingSearch: (location?: Location) => Promise<void>
   stopStreaming: () => void
+
+  // 📍 EVENTOS CERCANOS Y PROVINCIA (Nuevo sistema multi-ciudad)
+  fetchLocationEnrichment: () => Promise<void>
+  searchSpecificCity: (cityName: string, isOriginal?: boolean) => Promise<void>
+  fetchNearbyEvents: () => Promise<void>
+  fetchProvinceEvents: () => Promise<void>
+  autoLoadExpandedEvents: () => Promise<void>
+  nearbyEventsAvailable: boolean
+  nearbyCities: string[]  // Array de 3 ciudades cercanas
+  nearbyCity: string | null  // Mantener por compatibilidad
+  loadingNearby: boolean
+  provinceEventsAvailable: boolean
+  provinceName: string | null
+  loadingProvince: boolean
+  loadingEnrichment: boolean
+  selectedCity: string | null  // Ciudad actualmente seleccionada
+  originalSearchLocation: string | null  // Ubicación original buscada
+  showReturnButton: boolean  // Mostrar botón de "volver"
+  loadingCityName: string | null  // Nombre de la ciudad que está cargando eventos
 
   // Legacy methods (fallback)
   fetchEvents: (location?: Location) => Promise<void>
@@ -110,6 +138,20 @@ interface EventsState {
 const useEventsStore = create<EventsState>((set, get) => ({
   events: [],
   loading: false,
+
+  // 📍 Estado de eventos cercanos y provincia
+  nearbyEventsAvailable: false,
+  nearbyCities: [],
+  nearbyCity: null,
+  loadingNearby: false,
+  provinceEventsAvailable: false,
+  provinceName: null,
+  loadingProvince: false,
+  loadingEnrichment: false,
+  selectedCity: null,
+  originalSearchLocation: null,
+  showReturnButton: false,
+  loadingCityName: null,
   error: null,
   favoriteEvents: JSON.parse(localStorage.getItem('favoriteEvents') || '[]'),
   currentLocation: null,
@@ -130,6 +172,15 @@ const useEventsStore = create<EventsState>((set, get) => ({
   // ✨ SCRAPERS EXECUTION INFO
   scrapersExecution: null,
 
+  // 🔌 SSE CONNECTION CLEANUP
+  sseCleanup: null as (() => void) | null,
+
+  // 🎭 CALLBACK PARA ASISTENTES
+  onNoEventsCallback: undefined,
+  setOnNoEventsCallback: (callback) => {
+    set({ onNoEventsCallback: callback })
+  },
+
   setLocation: (location: Location) => {
     set({ currentLocation: location })
   },
@@ -143,7 +194,7 @@ const useEventsStore = create<EventsState>((set, get) => ({
       const searchLocation = location || currentLocation
 
       // 1. PASO 1: Analizar intención del usuario
-      const intentResponse = await fetch('http://172.29.228.80:8001/api/ai/analyze-intent', {
+      const intentResponse = await fetch(`${config.API_BASE_URL}/api/ai/analyze-intent`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -158,10 +209,16 @@ const useEventsStore = create<EventsState>((set, get) => ({
       const intent = intentResponse.ok ? await intentResponse.json() : null
 
       // 🧠 USAR UBICACIÓN DETECTADA POR IA SI ESTÁ DISPONIBLE
-      const finalLocation = intent?.user_context?.location || searchLocation?.name
+      const detectedCity = intent?.intent?.detected_city || intent?.intent?.query
+      const detectedProvince = intent?.intent?.detected_province
+      const detectedCountry = intent?.intent?.detected_country || 'Argentina'
+
+      // Build full location string: "City, Province, Country"
+      const locationParts = [detectedCity, detectedProvince, detectedCountry].filter(Boolean)
+      const finalLocation = locationParts.length > 0 ? locationParts.join(', ') : searchLocation?.name
 
       // 2. PASO 2: Búsqueda inteligente con contexto
-      const searchResponse = await fetch('http://172.29.228.80:8001/api/smart/search', {
+      const searchResponse = await fetch(`${config.API_BASE_URL}/api/smart/search`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -181,7 +238,8 @@ const useEventsStore = create<EventsState>((set, get) => ({
       const foundEvents = searchData.recommended_events || []
 
       // 3. PASO 3: Generar recomendaciones inteligentes
-      await get().getSmartRecommendations(query, foundEvents, finalLocation)
+      // DISABLED: getSmartRecommendations removed - endpoint no longer exists
+      // await get().getSmartRecommendations(query, foundEvents, finalLocation)
 
       set({ 
         events: foundEvents, 
@@ -206,7 +264,7 @@ const useEventsStore = create<EventsState>((set, get) => ({
       const initialQuery = location.name
       
       // SOLO UN LLAMADO: Analizar intención de la ubicación detectada con Gemini
-      const intentResponse = await fetch('http://172.29.228.80:8001/api/ai/analyze-intent', {
+      const intentResponse = await fetch(`${config.API_BASE_URL}/api/ai/analyze-intent`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -258,41 +316,16 @@ const useEventsStore = create<EventsState>((set, get) => ({
     }
   },
 
+  // DISABLED: getSmartRecommendations - endpoint removed, use client-side scoring instead
   // 🎯 Recomendaciones inteligentes (complementa cualquier búsqueda)
-  getSmartRecommendations: async (query: string, foundEvents: Event[], detectedLocation?: string) => {
-    try {
-      const { currentLocation } = get()
-      // 🧠 USAR UBICACIÓN DETECTADA POR IA SI ESTÁ DISPONIBLE
-      const locationToUse = detectedLocation || currentLocation?.name
-      
-      const response = await fetch('http://172.29.228.80:8001/api/ai/recommend', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          original_query: query,
-          found_events: foundEvents,
-          no_results: foundEvents.length === 0,
-          location: locationToUse,  // ✅ Ahora usa ubicación IA o fallback
-          user_context: {
-            location: locationToUse,
-            coordinates: currentLocation?.coordinates
-          }
-        })
-      })
-
-      if (response.ok) {
-        const recommendations = await response.json()
-        set({ aiRecommendations: recommendations })
-      }
-    } catch (error) {
-      console.warn('Failed to get AI recommendations:', error)
-    }
-  },
+  // getSmartRecommendations: async (query: string, foundEvents: Event[], detectedLocation?: string) => {
+  //   // Moved to client-side scoring logic
+  // },
 
   // 🧠 Análisis de intención
   analyzeUserIntent: async (query: string) => {
     try {
-      const response = await fetch('http://172.29.228.80:8001/api/ai/analyze-intent', {
+      const response = await fetch(`${config.API_BASE_URL}/api/ai/analyze-intent`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -309,31 +342,31 @@ const useEventsStore = create<EventsState>((set, get) => ({
   },
 
   fetchEvents: async (location?: Location) => {
-    set({ loading: true, error: null })
+    set({ loading: true, error: null, events: [] })
+
+    const searchLocation = location || get().currentLocation
+    const locationString = searchLocation?.name || 'Buenos Aires'
+
     try {
-      const { currentLocation } = get()
-      const searchLocation = location || currentLocation
+      console.log('🔍 Fetching events for:', locationString)
 
-      // Usar endpoint estándar /api/events
-      let apiUrl = 'http://172.29.228.80:8001/api/events'
-      const params = new URLSearchParams()
-      if (searchLocation) {
-        params.set('location', searchLocation.name || "Buenos Aires")
+      const response = await fetch(`${config.API_BASE_URL}/api/events?location=${encodeURIComponent(locationString)}&limit=30`)
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
       }
-      params.set('limit', '30')
-      apiUrl += `?${params.toString()}`
-
-      const response = await fetch(apiUrl)
-      if (!response.ok) throw new Error('Error al cargar eventos')
 
       const data = await response.json()
-      set({ 
-        events: data.events || [], 
-        loading: false,
-        scrapersExecution: data.scrapers_execution || null
-      })
-    } catch (error) {
-      set({ error: (error as Error).message, loading: false })
+      console.log('✅ Events received:', data)
+
+      if (data.status === 'success' && data.events) {
+        set({ events: data.events, loading: false, error: null })
+      } else {
+        set({ events: [], loading: false, error: 'No events found' })
+      }
+    } catch (error: any) {
+      console.error('❌ Error fetching events:', error)
+      set({ error: error.message || 'Failed to fetch events', loading: false, events: [] })
     }
   },
 
@@ -356,7 +389,7 @@ const useEventsStore = create<EventsState>((set, get) => ({
     
     // First, detect intent using API V1
     try {
-      const intentResponse = await fetch('http://172.29.228.80:8001/api/v1/intent', {
+      const intentResponse = await fetch(`${config.API_BASE_URL}/api/ai/analyze-intent`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: `${query} en ${locationString}` })
@@ -370,53 +403,21 @@ const useEventsStore = create<EventsState>((set, get) => ({
           intent.location?.state,
           intent.location?.country
         ].filter(Boolean).join(', ') || locationString
-        
-        // Now search with SSE streaming
-        const params = new URLSearchParams({
-          location: detectedLocation,
-          limit: '20'
-        })
-        
-        const eventSource = new EventSource(`http://172.29.228.80:8001/api/v1/search?${params}`)
-        const allEvents: Event[] = []
-        
-        eventSource.onmessage = (event) => {
-          try {
-            const data = JSON.parse(event.data)
-            
-            if (data.type === 'events' && data.events) {
-              // Add new events to the list
-              allEvents.push(...data.events)
-              set({ events: [...allEvents] })
-            } else if (data.type === 'complete') {
-              // Search completed
-              set({ loading: false })
-              eventSource.close()
-            } else if (data.type === 'error') {
-              set({ error: data.message, loading: false })
-              eventSource.close()
-            }
-          } catch (error) {
-            console.error('Error parsing SSE event:', error)
-          }
-        }
-        
-        eventSource.onerror = () => {
-          set({ loading: false })
-          eventSource.close()
-        }
-        
-        // Close connection after 30 seconds as safety
-        setTimeout(() => {
-          if (eventSource.readyState !== EventSource.CLOSED) {
-            eventSource.close()
-            set({ loading: false })
-          }
-        }, 30000)
-        
+
+        // SSE streaming disabled - using fallback API instead
+        // Use regular API search
+        let apiUrl = `${config.API_BASE_URL}/api/events/search?q=${encodeURIComponent(query)}`
+        apiUrl += `&location=${encodeURIComponent(detectedLocation)}`
+
+        const response = await fetch(apiUrl)
+        if (!response.ok) throw new Error('Error en la búsqueda')
+
+        const data = await response.json()
+        set({ events: data.events || data || [], loading: false })
+
       } else {
         // Fallback to old API if V1 fails
-        let apiUrl = `http://172.29.228.80:8001/api/events/search?q=${encodeURIComponent(query)}`
+        let apiUrl = `${config.API_BASE_URL}/api/events/search?q=${encodeURIComponent(query)}`
         if (searchLocation) {
           apiUrl += `&location=${encodeURIComponent(locationString)}`
         }
@@ -439,7 +440,7 @@ const useEventsStore = create<EventsState>((set, get) => ({
       const searchLocation = location || currentLocation
 
       // 🧠 PASO 1: Analizar intención para detectar ubicación
-      const intentResponse = await fetch('http://172.29.228.80:8001/api/ai/analyze-intent', {
+      const intentResponse = await fetch(`${config.API_BASE_URL}/api/ai/analyze-intent`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -454,7 +455,7 @@ const useEventsStore = create<EventsState>((set, get) => ({
       const finalLocation = intent?.user_context?.location || searchLocation?.name
 
       // Usar Gemini Smart Search
-      const response = await fetch('http://172.29.228.80:8001/api/smart/search', {
+      const response = await fetch(`${config.API_BASE_URL}/api/smart/search`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -496,25 +497,187 @@ const useEventsStore = create<EventsState>((set, get) => ({
 
   // 🔥 WEBSOCKET STREAMING - Nueva funcionalidad principal
   startStreamingSearch: async (location?: Location) => {
-    const { currentLocation } = get()
+    const state = get()
+    const { currentLocation, isStreaming } = state
+
+    // 🔒 LOCK ROBUSTO: Prevenir llamadas duplicadas
+    if (isStreaming) {
+      console.log('⏸️ [LOCK] Búsqueda en progreso - ignorando llamada duplicada')
+      return
+    }
+
     const searchLocation = location || currentLocation
-    
+
+    // 🔒 DEBOUNCE: Prevenir llamadas rápidas sucesivas (< 500ms)
+    const now = Date.now()
+    const lastSearch = (window as any).__lastSearchTime || 0
+    if (now - lastSearch < 500) {
+      console.log('⏸️ [DEBOUNCE] Ignorando búsqueda repetida (< 500ms)')
+      return
+    }
+    (window as any).__lastSearchTime = now
+
     const startTime = Date.now()
-    set({ 
-      isStreaming: true, 
-      events: [], 
-      loading: true, 
+    set({
+      isStreaming: true,
+      events: [],
+      loading: true,
       error: null,
       streamingProgress: 0,
       streamingMessage: 'Conectando...',
       streamingSource: '',
       searchStartTime: startTime,
       sourceTiming: [],
-      performanceStats: {}
+      performanceStats: {},
+      nearbyCities: []  // Limpiar ciudades cercanas al iniciar nueva búsqueda
     })
 
+    // DISABLED - No WebSocket, use SSE search instead
+    console.log('WebSocket disabled - using SSE search instead')
+
+    // Inicializar estructura de scrapers
+    const scrapersData: any = {
+      scrapers_called: [],
+      total_scrapers: 0,
+      scrapers_info: [],
+      summary: ''
+    }
+
+    // Call the SSE search method instead
+    const sseService = (await import('../services/sse-events')).sseEventsService
+
+    // Construir ubicación completa para el backend
+    const fullLocationString = searchLocation?.name
+      ? `${searchLocation.name}${searchLocation.country ? ', ' + searchLocation.country : ''}`
+      : 'Villa Gesell'
+
+    console.log('🔍 SSE Streaming con ubicación:', fullLocationString)
+
+    // 🛑 CERRAR CONEXIÓN ANTERIOR SI EXISTE
+    const { sseCleanup: previousCleanup } = get()
+    if (previousCleanup) {
+      console.log('🔌 Cerrando conexión SSE anterior...')
+      previousCleanup()
+    }
+
+    const cleanup = sseService.searchEventsStream(
+      fullLocationString,
+      (event) => {
+        // Handle SSE events
+        console.log('SSE Event:', event)
+
+        const { events, scrapersExecution } = get()
+
+        // Eventos de un scraper
+        if (event.type === 'events' && event.events && event.scraper) {
+          // Agregar eventos
+          set({ events: [...events, ...event.events] })
+
+          // Mensaje personalizado para ciudades cercanas
+          let scraperMessage = `${event.count || event.events.length} eventos obtenidos`
+          if (event.scraper === 'nearby_cities' && event.message) {
+            scraperMessage = event.message
+          }
+
+          // Agregar info del scraper
+          const scraperInfo = {
+            name: event.scraper === 'nearby_cities' ? 'Zonas Cercanas' : event.scraper.charAt(0).toUpperCase() + event.scraper.slice(1),
+            status: 'success',
+            events_count: event.count || event.events.length,
+            response_time: event.execution_time || '0.0s',
+            message: scraperMessage
+          }
+
+          scrapersData.scrapers_called.push(event.scraper)
+          scrapersData.scrapers_info.push(scraperInfo)
+          scrapersData.total_scrapers = scrapersData.scrapers_called.length
+
+          set({ scrapersExecution: { ...scrapersData } })
+        }
+
+        // Scraper sin eventos
+        if (event.type === 'no_events' && event.scraper) {
+          const scraperInfo = {
+            name: event.scraper.charAt(0).toUpperCase() + event.scraper.slice(1),
+            status: 'success',
+            events_count: 0,
+            response_time: event.execution_time || '0.0s',
+            message: 'Sin eventos encontrados'
+          }
+
+          scrapersData.scrapers_called.push(event.scraper)
+          scrapersData.scrapers_info.push(scraperInfo)
+          scrapersData.total_scrapers = scrapersData.scrapers_called.length
+
+          set({ scrapersExecution: { ...scrapersData } })
+        }
+
+        // Scraper con error
+        if (event.type === 'scraper_error' && event.scraper) {
+          const scraperInfo = {
+            name: event.scraper.charAt(0).toUpperCase() + event.scraper.slice(1),
+            status: 'failed',
+            events_count: 0,
+            response_time: event.execution_time || '0.0s',
+            message: event.error || 'Error desconocido'
+          }
+
+          scrapersData.scrapers_called.push(event.scraper)
+          scrapersData.scrapers_info.push(scraperInfo)
+          scrapersData.total_scrapers = scrapersData.scrapers_called.length
+
+          set({ scrapersExecution: { ...scrapersData } })
+        }
+
+        // Mensaje informativo (buscando en ciudades cercanas, etc.)
+        if (event.type === 'info' && event.message) {
+          console.log('ℹ️ Info:', event.message)
+          // Disparar comentario de los bots
+          const { onNoEventsCallback, currentLocation } = get()
+          if (onNoEventsCallback && currentLocation?.name) {
+            onNoEventsCallback(currentLocation.name, true) // true = está buscando en ciudades cercanas
+          }
+        }
+
+        // Búsqueda completa
+        if (event.type === 'complete') {
+          const totalEvents = get().events.length
+          scrapersData.summary = `${scrapersData.scrapers_info.filter((s: any) => s.events_count > 0).length}/${scrapersData.total_scrapers} scrapers exitosos - ${totalEvents} eventos totales`
+
+          set({
+            isStreaming: false,
+            loading: false,
+            scrapersExecution: { ...scrapersData }
+          })
+        }
+
+        // Enriquecimiento de ubicación (ciudades cercanas + provincia)
+        if (event.type === 'enrichment') {
+          console.log('🌍 Evento enrichment recibido:', event)
+          console.log('🌍 nearby_cities:', event.nearby_cities)
+          console.log('🌍 nearby_cities length:', event.nearby_cities?.length)
+
+          if (event.nearby_cities) {
+            console.log('✅ Actualizando nearbyCities en store:', event.nearby_cities)
+            set({
+              nearbyCities: event.nearby_cities,
+              provinceName: event.state || null,
+              loadingEnrichment: false
+            })
+          } else {
+            console.warn('⚠️ Evento enrichment sin nearby_cities')
+          }
+        }
+      }
+    )
+
+    // ✅ GUARDAR CLEANUP EN STATE PARA CERRAR DESPUÉS
+    set({ sseCleanup: cleanup })
+    console.log('✅ Nueva conexión SSE creada y cleanup guardado')
+    
+    /* DISABLED WEBSOCKET CODE
     try {
-      const ws = new WebSocket('ws://172.29.228.80:8001/ws/search-events')
+      const ws = new WebSocket('ws://localhost:8001/ws/search-events')
       
       ws.onopen = () => {
         console.log('🔥 WebSocket conectado para búsqueda streaming')
@@ -695,16 +858,277 @@ const useEventsStore = create<EventsState>((set, get) => ({
         error: 'No se pudo conectar al servidor'
       })
     }
+    */ // END OF DISABLED WEBSOCKET CODE
   },
 
   stopStreaming: () => {
-    set({ 
-      isStreaming: false, 
+    // 🛑 CERRAR CONEXIÓN SSE SI EXISTE
+    const { sseCleanup } = get()
+    if (sseCleanup) {
+      console.log('🔌 Cerrando conexión SSE desde stopStreaming...')
+      sseCleanup()
+    }
+
+    set({
+      isStreaming: false,
       loading: false,
       streamingProgress: 0,
       streamingMessage: '',
-      streamingSource: ''
+      streamingSource: '',
+      sseCleanup: null
     })
+  },
+
+  // 🌍 ENRIQUECIMIENTO DE UBICACIÓN - Obtener ciudades cercanas y provincia
+  fetchLocationEnrichment: async () => {
+    const { currentLocation } = get()
+
+    if (!currentLocation) {
+      console.warn('No hay ubicación actual para enriquecer')
+      return
+    }
+
+    set({ loadingEnrichment: true })
+
+    try {
+      // Construir ubicación completa con país si está disponible
+      const fullLocation = currentLocation.country
+        ? `${currentLocation.name}, ${currentLocation.country}`
+        : currentLocation.name
+
+      console.log(`🌍 Enriqueciendo ubicación: "${fullLocation}"`)
+
+      const response = await fetch(
+        `${config.API_BASE_URL}/api/location/enrichment?location=${encodeURIComponent(fullLocation)}`
+      )
+
+      if (!response.ok) {
+        throw new Error('Error al obtener enriquecimiento de ubicación')
+      }
+
+      const data = await response.json()
+
+      if (data.success && data.location_info) {
+        const enrichment = data.location_info
+
+        set({
+          nearbyCities: enrichment.nearby_cities || [],
+          provinceName: enrichment.state || null,
+          originalSearchLocation: enrichment.city || currentLocation.name,
+          loadingEnrichment: false
+        })
+
+        console.log(`🌍 Ubicación enriquecida:`, {
+          city: enrichment.city,
+          nearbyCities: enrichment.nearby_cities,
+          province: enrichment.state
+        })
+      } else {
+        set({ loadingEnrichment: false })
+      }
+    } catch (error) {
+      console.error('Error fetching location enrichment:', error)
+      set({ loadingEnrichment: false })
+    }
+  },
+
+  // 🏙️ BUSCAR EN CIUDAD ESPECÍFICA - Buscar eventos en una ciudad cercana específica
+  searchSpecificCity: async (cityName: string, isOriginal: boolean = false) => {
+    const { currentLocation, originalSearchLocation } = get()
+
+    if (!currentLocation) {
+      console.warn('No hay ubicación actual')
+      return
+    }
+
+    // Establecer loading y selected ANTES del fetch para mostrar spinner
+    if (isOriginal) {
+      set({
+        loadingNearby: true,
+        loadingCityName: cityName
+      })
+    } else {
+      set({
+        loadingNearby: true,
+        loadingCityName: cityName,
+        selectedCity: cityName,
+        showReturnButton: true
+      })
+    }
+
+    try {
+      const originalLocation = originalSearchLocation || currentLocation.name
+
+      const response = await fetch(
+        `${config.API_BASE_URL}/api/events/city?city=${encodeURIComponent(cityName)}&original_location=${encodeURIComponent(originalLocation)}`
+      )
+
+      if (!response.ok) {
+        throw new Error(`Error al buscar eventos en ${cityName}`)
+      }
+
+      const data = await response.json()
+
+      console.log(`📦 Data recibida de ${cityName}:`, data)
+      console.log(`📊 Eventos actuales ANTES de reemplazar:`, get().events.length)
+
+      if (data.events && data.events.length > 0) {
+        // SIEMPRE reemplazar eventos, no agregar
+        if (isOriginal) {
+          set({
+            events: data.events,
+            selectedCity: null,
+            showReturnButton: false,
+            loadingNearby: false,
+            loadingCityName: null
+          })
+          console.log(`🔄 Volviendo a ${cityName}: ${data.events.length} eventos`)
+        } else {
+          console.log(`🏙️ Reemplazando con ${data.events.length} eventos desde ${cityName}`)
+          set({
+            events: data.events,
+            loadingNearby: false,
+            loadingCityName: null
+          })
+          console.log(`✅ Mostrando solo eventos de ${cityName}`)
+        }
+      } else {
+        set({
+          loadingNearby: false,
+          loadingCityName: null
+        })
+        console.log(`ℹ️ No se encontraron eventos en ${cityName}`)
+      }
+    } catch (error) {
+      console.error(`Error buscando eventos en ${cityName}:`, error)
+      set({
+        loadingNearby: false,
+        loadingCityName: null
+      })
+    }
+  },
+
+  // 📍 EVENTOS CERCANOS - Buscar en ciudad grande cercana
+  fetchNearbyEvents: async () => {
+    const { currentLocation } = get()
+
+    if (!currentLocation) {
+      console.warn('No hay ubicación actual para buscar eventos cercanos')
+      return
+    }
+
+    set({ loadingNearby: true })
+
+    try {
+      const response = await fetch(
+        `${config.API_BASE_URL}/api/events/nearby?location=${encodeURIComponent(currentLocation.name)}`
+      )
+
+      if (!response.ok) {
+        throw new Error('Error al buscar eventos cercanos')
+      }
+
+      const data = await response.json()
+
+      // Nuevo formato: backend retorna nearby_cities array
+      if (data.success && data.nearby_cities && data.nearby_cities.length > 0) {
+        set({
+          nearbyCities: data.nearby_cities,
+          nearbyEventsAvailable: true,
+          loadingNearby: false
+        })
+
+        console.log(`📍 ${data.nearby_cities.length} ciudades cercanas detectadas:`, data.nearby_cities)
+      } else {
+        // No hay ciudades cercanas
+        set({
+          nearbyCities: [],
+          nearbyEventsAvailable: false,
+          loadingNearby: false
+        })
+
+        console.log(`ℹ️ ${data.message || 'No hay ciudades cercanas disponibles'}`)
+      }
+    } catch (error) {
+      console.error('Error fetching nearby events:', error)
+      set({
+        loadingNearby: false,
+        nearbyEventsAvailable: false,
+        nearbyCities: []
+      })
+    }
+  },
+
+  // 🌍 EVENTOS DE LA PROVINCIA - Buscar en toda la provincia/estado
+  fetchProvinceEvents: async () => {
+    const { currentLocation } = get()
+
+    if (!currentLocation) {
+      console.warn('No hay ubicación actual para buscar eventos de provincia')
+      return
+    }
+
+    set({ loadingProvince: true })
+
+    try {
+      const response = await fetch(
+        `${config.API_BASE_URL}/api/events/province?location=${encodeURIComponent(currentLocation.name)}`
+      )
+
+      if (!response.ok) {
+        throw new Error('Error al buscar eventos de provincia')
+      }
+
+      const data = await response.json()
+
+      if (data.province && data.events && data.events.length > 0) {
+        // Agregar eventos de provincia a los existentes
+        const currentEvents = get().events
+        set({
+          events: [...currentEvents, ...data.events],
+          provinceEventsAvailable: true,
+          provinceName: data.province,
+          loadingProvince: false
+        })
+
+        console.log(`🌍 ${data.events.length} eventos agregados desde ${data.province}`)
+      } else {
+        // No hay eventos de provincia
+        set({
+          provinceEventsAvailable: false,
+          loadingProvince: false
+        })
+
+        console.log(`ℹ️ ${data.message || 'No hay eventos de provincia disponibles'}`)
+      }
+    } catch (error) {
+      console.error('Error fetching province events:', error)
+      set({
+        loadingProvince: false,
+        provinceEventsAvailable: false
+      })
+    }
+  },
+
+  // 🎯 AUTO-LOAD - Cargar automáticamente eventos expandidos si hay pocos resultados
+  autoLoadExpandedEvents: async () => {
+    const { events } = get()
+
+    // Solo auto-cargar si hay menos de 5 eventos
+    if (events.length >= 5) {
+      console.log('✅ Suficientes eventos locales, no auto-loading')
+      return
+    }
+
+    console.log(`⚡ Auto-loading eventos expandidos (solo ${events.length} eventos locales)`)
+
+    // Cargar cercanos primero
+    await get().fetchNearbyEvents()
+
+    // Luego cargar provincia
+    await get().fetchProvinceEvents()
+
+    console.log(`✅ Auto-load completo: ${get().events.length} eventos totales`)
   }
 }))
 

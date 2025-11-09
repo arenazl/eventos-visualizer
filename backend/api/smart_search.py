@@ -142,7 +142,7 @@ async def smart_search(request: SmartSearchRequest):
         )
         
         # 3. Consultar Gemini
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-2.5-flash')
         response = await asyncio.create_task(
             asyncio.to_thread(model.generate_content, prompt)
         )

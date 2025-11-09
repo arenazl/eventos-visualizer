@@ -19,19 +19,21 @@ const EventAIHover: React.FC<EventAIHoverProps> = ({ event }) => {
   const fetchAIInsight = async () => {
     console.log('🤖 Fetching AI insight for:', event.title)
     if (insight) return // Ya lo tenemos cargado
-    
+
     setLoading(true)
     try {
-      const response = await fetch('http://172.29.228.80:8001/api/ai/event-insight', {
+      const response = await fetch('http://localhost:8001/api/ai/event-insight', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(event)
       })
-      
+
       const data = await response.json()
       console.log('🤖 AI Response:', data)
       if (data.success) {
         setInsight(data.insight)
+        // Auto-abrir el panel cuando los datos lleguen
+        setShowInsight(true)
       }
     } catch (error) {
       console.error('Error fetching AI insight:', error)
@@ -43,6 +45,8 @@ const EventAIHover: React.FC<EventAIHoverProps> = ({ event }) => {
         vibe: "Ambiente copado",
         pro_tip: "Llegá temprano para mejor ubicación"
       })
+      // Auto-abrir el panel incluso con datos de fallback
+      setShowInsight(true)
     } finally {
       setLoading(false)
     }
@@ -51,47 +55,49 @@ const EventAIHover: React.FC<EventAIHoverProps> = ({ event }) => {
   const handleClick = (e: React.MouseEvent) => {
     console.log('🤖 AI Button clicked for:', event.title)
     e.stopPropagation() // Evitar que se active el click de la tarjeta
-    setShowInsight(!showInsight)
-    if (!showInsight) {
-      fetchAIInsight()
+
+    // Si ya está abierto, cerrarlo
+    if (showInsight) {
+      setShowInsight(false)
+      return
     }
+
+    // Si ya tenemos datos, mostrarlos inmediatamente
+    if (insight) {
+      setShowInsight(true)
+      return
+    }
+
+    // Si no tenemos datos, iniciar fetch y mostrar loading en el botón
+    fetchAIInsight()
   }
 
   console.log('🤖 EventAIHover rendering for:', event.title)
 
   return (
     <>
-      {/* Botón de IA - Solo visible en hover, transparente */}
+      {/* Botón de IA - Integrado en el layout sin posición absoluta */}
       <button
         onClick={handleClick}
-        className="w-10 h-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white rounded-full transition-all duration-300 hover:scale-110 flex items-center justify-center text-lg opacity-0 group-hover:opacity-100 shadow-lg"
-        style={{ position: 'absolute', bottom: '16px', right: '16px', zIndex: 10 }}
+        disabled={loading}
+        className={`w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl transition-all duration-300 ${
+          loading ? 'cursor-wait' : 'hover:scale-110'
+        } flex items-center justify-center text-lg shadow-lg`}
+        title={loading ? "Analizando..." : "Análisis con IA"}
       >
-        ✨
+        {loading ? (
+          <div className="animate-spin h-5 w-5 border-2 border-white rounded-full border-t-transparent"></div>
+        ) : (
+          '✨'
+        )}
       </button>
 
-      {/* Modal usando React Portal - Se renderiza en el body */}
+      {/* Panel lateral sin overlay - No bloquea la navegación */}
       {showInsight && createPortal(
-        <div 
-          className="fixed inset-0 z-[99999] flex"
+        <div
+          className="fixed top-0 right-0 h-full w-96 max-w-[90vw] bg-white dark:bg-gray-900 shadow-2xl z-[9999] overflow-y-auto animate-slide-in-bounce"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Overlay de fondo */}
-          <div 
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            onClick={(e) => {
-              e.stopPropagation()
-              e.preventDefault()
-              setShowInsight(false)
-            }}
-          />
-          
-          {/* Modal que se desliza desde la derecha */}
-          <div 
-            className={`ml-auto h-full w-96 max-w-[90vw] bg-white dark:bg-gray-900 shadow-2xl transform transition-transform duration-500 ease-out overflow-y-auto relative ${
-              showInsight ? 'translate-x-0' : 'translate-x-full'
-            }`}
-          >
             {/* Header del modal */}
             <div className="sticky top-0 bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4">
               <div className="flex items-center justify-between">
@@ -231,7 +237,6 @@ const EventAIHover: React.FC<EventAIHoverProps> = ({ event }) => {
                 </div>
               )}
             </div>
-          </div>
         </div>,
         document.body
       )}

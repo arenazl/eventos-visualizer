@@ -4,7 +4,33 @@
  */
 
 // URL de la API - Se configura automáticamente por ambiente
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://172.29.228.80:8001'
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001'
+
+// Request deduplication cache
+const pendingRequests = new Map<string, Promise<any>>()
+
+// Helper to deduplicate requests
+async function deduplicatedFetch(url: string, options?: RequestInit): Promise<Response> {
+  const key = `${options?.method || 'GET'}:${url}`
+
+  // If there's already a pending request for this endpoint, return it
+  if (pendingRequests.has(key)) {
+    console.log('🔄 Deduplicating request:', key)
+    return pendingRequests.get(key)!
+  }
+
+  // Create new request promise
+  const requestPromise = fetch(url, options)
+    .finally(() => {
+      // Clean up after request completes
+      pendingRequests.delete(key)
+    })
+
+  // Store the promise
+  pendingRequests.set(key, requestPromise)
+
+  return requestPromise
+}
 
 export interface Location {
   city: string
@@ -60,7 +86,7 @@ export class EventsAPI {
    */
   static async detectLocation(): Promise<Location> {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/location/detect`)
+      const response = await deduplicatedFetch(`${API_BASE_URL}/api/location/detect`)
       if (!response.ok) throw new Error('Failed to detect location')
       
       const data = await response.json()
@@ -123,7 +149,7 @@ export class EventsAPI {
       const params = new URLSearchParams({ q: query })
       if (location) params.append('location', location)
       
-      const response = await fetch(`${API_BASE_URL}/api/events/smart-search?${params}`)
+      const response = await deduplicatedFetch(`${API_BASE_URL}/api/events/smart-search?${params}`)
       if (!response.ok) throw new Error('Smart search failed')
       
       return await response.json()
@@ -149,7 +175,7 @@ export class EventsAPI {
     longitude: number
   }>> {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/location/cities`)
+      const response = await deduplicatedFetch(`${API_BASE_URL}/api/location/cities`)
       if (!response.ok) throw new Error('Failed to fetch cities')
       
       const data = await response.json()
@@ -169,7 +195,7 @@ export class EventsAPI {
     longitude?: number
   }): Promise<Location> {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/location/set`, {
+      const response = await deduplicatedFetch(`${API_BASE_URL}/api/location/set`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -240,7 +266,7 @@ export class EventsAPI {
    */
   static async chatWithAI(message: string, context: any = {}): Promise<AIChatResponse> {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/ai/chat`, {
+      const response = await deduplicatedFetch(`${API_BASE_URL}/api/ai/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -262,37 +288,38 @@ export class EventsAPI {
 
   /**
    * Obtiene recomendaciones personalizadas con IA
+   * 🔴 ELIMINADO - Ya no se usa recommendations
    */
-  static async getAIRecommendations(preferences: {
-    budget?: number
-    categories?: string[]
-    mood?: string
-    with_who?: string
-  }): Promise<any> {
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/ai/recommendations`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(preferences)
-      })
-      
-      if (!response.ok) throw new Error('Failed to get recommendations')
-      
-      return await response.json()
-    } catch (error) {
-      console.error('Error getting AI recommendations:', error)
-      throw error
-    }
-  }
+  // static async getAIRecommendations(preferences: {
+  //   budget?: number
+  //   categories?: string[]
+  //   mood?: string
+  //   with_who?: string
+  // }): Promise<any> {
+  //   try {
+  //     const response = await deduplicatedFetch(`${API_BASE_URL}/api/ai/recommendations`, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify(preferences)
+  //     })
+
+  //     if (!response.ok) throw new Error('Failed to get recommendations')
+
+  //     return await response.json()
+  //   } catch (error) {
+  //     console.error('Error getting AI recommendations:', error)
+  //     throw error
+  //   }
+  // }
 
   /**
    * Planifica el fin de semana perfecto con IA
    */
   static async planWeekend(budget: number, preferences: string[], peopleCount: number = 1): Promise<any> {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/ai/plan-weekend`, {
+      const response = await deduplicatedFetch(`${API_BASE_URL}/api/ai/plan-weekend`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -318,7 +345,7 @@ export class EventsAPI {
    */
   static async getTrendingNow(): Promise<any> {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/ai/trending-now`)
+      const response = await deduplicatedFetch(`${API_BASE_URL}/api/ai/trending-now`)
       if (!response.ok) throw new Error('Failed to get trending events')
       
       return await response.json()

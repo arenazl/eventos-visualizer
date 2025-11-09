@@ -1,0 +1,104 @@
+/**
+ * 🎨 LAZY IMAGE STYLES
+ * Skeleton shimmer + fade-in smooth transitions
+ */
+
+.lazy-image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+}
+
+/* Skeleton loader */
+.lazy-image-skeleton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Imagen real */
+.lazy-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Fade-in cuando carga */
+.lazy-image.loaded {
+  opacity: 1 !important;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Error state */
+.lazy-image-error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+}
+
+.lazy-image.error {
+  display: none;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .lazy-image-container {
+    background-color: #1f2937;
+  }
+
+  .lazy-image-skeleton {
+    background: linear-gradient(90deg, #1f2937 25%, #374151 50%, #1f2937 75%);
+    background-size: 200% 100%;
+  }
+}
+
+/* Responsive aspect ratios */
+.lazy-image-container.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.lazy-image-container.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+.lazy-image-container.aspect-portrait {
+  aspect-ratio: 3 / 4;
+}
+
+.lazy-image-container.aspect-landscape {
+  aspect-ratio: 4 / 3;
+}

@@ -42,7 +42,6 @@ const Header: React.FC<HeaderProps> = ({
   const [suggestions, setSuggestions] = useState<LocationSuggestion[]>([])
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false)
-  const [selectedIndex, setSelectedIndex] = useState(-1) // ⌨️ Índice de sugerencia seleccionada con teclado
   const suggestionsRef = useRef<HTMLDivElement>(null)
   const justSelectedRef = useRef(false) // 🔒 Evita reabrir dropdown después de seleccionar
   const abortControllerRef = useRef<AbortController | null>(null) // 🛑 Cancela requests anteriores
@@ -113,7 +112,7 @@ const Header: React.FC<HeaderProps> = ({
       try {
         // 🗄️ Usar backend para obtener solo ciudades con eventos
         const response = await fetch(
-          `${API_BASE_URL}/api/cities/available?q=${encodeURIComponent(searchQuery)}&limit=5`,
+          `${API_BASE_URL}/api/cities/available?q=${encodeURIComponent(searchQuery)}&limit=10`,
           { signal: abortController.signal }
         )
 
@@ -166,11 +165,6 @@ const Header: React.FC<HeaderProps> = ({
     }
   }, [searchQuery])
 
-  // Resetear índice seleccionado cuando cambien las sugerencias
-  useEffect(() => {
-    setSelectedIndex(-1)
-  }, [suggestions])
-
   // Cerrar sugerencias al hacer clic fuera
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -184,37 +178,11 @@ const Header: React.FC<HeaderProps> = ({
   }, [])
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    // ⬇️ Flecha abajo - mover al siguiente
-    if (e.key === 'ArrowDown') {
-      e.preventDefault()
-      if (!showSuggestions && suggestions.length > 0) {
-        setShowSuggestions(true)
-      }
-      setSelectedIndex(prev =>
-        prev < suggestions.length - 1 ? prev + 1 : prev
-      )
-    }
-    // ⬆️ Flecha arriba - mover al anterior
-    else if (e.key === 'ArrowUp') {
-      e.preventDefault()
-      setSelectedIndex(prev => prev > 0 ? prev - 1 : -1)
-    }
-    // ↩️ Enter - seleccionar sugerencia o buscar
-    else if (e.key === 'Enter') {
-      e.preventDefault()
-      if (selectedIndex >= 0 && selectedIndex < suggestions.length) {
-        // Seleccionar la sugerencia resaltada
-        handleSuggestionClick(suggestions[selectedIndex])
-      } else {
-        // Buscar con el texto actual
-        setShowSuggestions(false)
-        onSearchSubmit()
-      }
-    }
-    // ⎋ Escape - cerrar sugerencias
-    else if (e.key === 'Escape') {
+    if (e.key === 'Enter') {
       setShowSuggestions(false)
-      setSelectedIndex(-1)
+      onSearchSubmit()
+    } else if (e.key === 'Escape') {
+      setShowSuggestions(false)
     }
   }
 
@@ -240,9 +208,6 @@ const Header: React.FC<HeaderProps> = ({
     }, 1000)
   }
 
-  // 🔒 Lock para prevenir llamadas concurrentes
-  const isLoadingNearbyCitiesRef = React.useRef(false)
-
   // 🌍 Cargar ciudades cercanas basadas en IP al hacer hover
   const handleInputHover = async () => {
     // Si ya se cargaron o el usuario ya está escribiendo, no hacer nada
@@ -250,57 +215,44 @@ const Header: React.FC<HeaderProps> = ({
       return
     }
 
-    // 🔒 LOCK: Prevenir llamadas concurrentes
-    if (isLoadingNearbyCitiesRef.current) {
-      console.log('⏸️ Ya hay una llamada en progreso - ignorando hover duplicado')
-      return
-    }
-
-    // Establecer lock INMEDIATAMENTE
-    isLoadingNearbyCitiesRef.current = true
-
     setIsLoadingSuggestions(true)
     setShowSuggestions(true)
     setIsHoveringInput(true)
 
     try {
-      // Si no hay ubicación actual, no mostrar nada
-      if (!currentLocation) {
-        console.log('No hay ubicacion actual para mostrar ciudades cercanas')
-        setSuggestions([])
-        return
-      }
+      // Detectar ubicación por IP
+      const ipResponse = await fetch(`${API_BASE_URL}/api/location/detect`)
+      const ipData = await ipResponse.json()
 
-      console.log(`🔍 Buscando ciudades cercanas a: ${currentLocation}`)
+      if (ipData.success && ipData.location) {
+        const { name: cityName } = ipData.location
 
-      // Pedir a IA ciudades cercanas a la ubicacion actual
-      const nearbyResponse = await fetch(
-        `${API_BASE_URL}/api/ai/nearby-cities?location=${encodeURIComponent(currentLocation)}&limit=10`
-      )
-      const nearbyData = await nearbyResponse.json()
+        // Pedir a IA ciudades cercanas a esta ubicación
+        const nearbyResponse = await fetch(
+          `${API_BASE_URL}/api/ai/nearby-cities?location=${encodeURIComponent(cityName)}&limit=10`
+        )
+        const nearbyData = await nearbyResponse.json()
 
-      if (nearbyData.success && nearbyData.cities) {
-        // Mapear ciudades cercanas a LocationSuggestion
-        const nearbyCities: LocationSuggestion[] = nearbyData.cities.map((city: any) => ({
-          name: city.name,
-          displayName: city.displayName || `${city.name} (${city.distance || 'Cercana'})`,
-          country: city.country || '',
-          countryCode: city.countryCode || '',
-          lat: city.lat || 0,
-          lon: city.lon || 0
-        }))
+        if (nearbyData.success && nearbyData.cities) {
+          // Mapear ciudades cercanas a LocationSuggestion
+          const nearbyCities: LocationSuggestion[] = nearbyData.cities.map((city: any) => ({
+            name: city.name,
+            displayName: city.displayName || `${city.name} (${city.distance || 'Cercana'})`,
+            country: city.country || '',
+            countryCode: city.countryCode || '',
+            lat: city.lat || 0,
+            lon: city.lon || 0
+          }))
 
-        setSuggestions(nearbyCities)
-        setNearbyCitiesLoaded(true)
-        console.log(`✅ Ciudades cercanas cargadas: ${nearbyCities.length}`)
+          setSuggestions(nearbyCities)
+          setNearbyCitiesLoaded(true)
+        }
       }
     } catch (error) {
-      console.error('❌ Error loading nearby cities:', error)
+      console.error('Error loading nearby cities:', error)
       setSuggestions([])
     } finally {
       setIsLoadingSuggestions(false)
-      // Liberar lock
-      isLoadingNearbyCitiesRef.current = false
     }
   }
 
@@ -339,7 +291,6 @@ const Header: React.FC<HeaderProps> = ({
               <div className="relative bg-black/40 backdrop-blur-xl border border-white/30 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
                 <div className="flex items-center gap-1 md:gap-2 px-2 md:px-4">
                   <MagnifyingGlassIcon className="w-4 h-4 md:w-5 md:h-5 text-white/60 flex-shrink-0" />
-
                   <input
                     type="text"
                     value={searchQuery}
@@ -352,8 +303,12 @@ const Header: React.FC<HeaderProps> = ({
                       }
                     }}
                     onKeyDown={handleKeyDown}
+                    onMouseEnter={handleInputHover}
                     onFocus={() => {
-                      if (searchQuery.length >= 3 && suggestions.length > 0) {
+                      // Si no hay query, intentar cargar ciudades cercanas
+                      if (searchQuery.length === 0) {
+                        handleInputHover()
+                      } else if (searchQuery.length >= 3 && suggestions.length > 0) {
                         setShowSuggestions(true)
                       }
                     }}
@@ -379,7 +334,7 @@ const Header: React.FC<HeaderProps> = ({
                       isSearching
                         ? 'bg-gradient-to-r from-indigo-600 to-purple-700'
                         : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500'
-                    } disabled:opacity-50 ${isLoadingSuggestions ? 'animate-spin' : ''}`}
+                    } disabled:opacity-50`}
                     title="Buscar"
                   >
                     {isSearching ? (
@@ -403,17 +358,10 @@ const Header: React.FC<HeaderProps> = ({
                     <button
                       key={index}
                       onClick={() => handleSuggestionClick(suggestion)}
-                      onMouseEnter={() => setSelectedIndex(index)}
-                      className={`w-full px-4 py-3 text-left transition-colors border-b border-white/5 last:border-b-0 group ${
-                        selectedIndex === index
-                          ? 'bg-gradient-to-r from-purple-600/30 to-pink-600/30'
-                          : 'hover:bg-white/10'
-                      }`}
+                      className="w-full px-4 py-3 text-left hover:bg-white/10 transition-colors border-b border-white/5 last:border-b-0 group"
                     >
                       <div className="flex items-center gap-3">
-                        <MapPinIcon className={`w-5 h-5 flex-shrink-0 ${
-                          selectedIndex === index ? 'text-pink-400' : 'text-purple-400'
-                        }`} />
+                        <MapPinIcon className="w-5 h-5 text-purple-400 flex-shrink-0" />
                         <div className="flex-1 min-w-0">
                           <div className="text-white font-medium truncate">{suggestion.name}</div>
                           <div className="text-white/50 text-sm truncate">{suggestion.displayName}</div>

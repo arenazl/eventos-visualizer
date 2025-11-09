@@ -61,50 +61,51 @@ class AIAssistant:
             logger.error(f"❌ Error en chat_about_event: {str(e)}")
             return "Lo siento, tuve un problema procesando tu mensaje. ¿Puedes intentar de nuevo?"
     
-    async def recommend_events(self, user_profile: Dict[str, Any]) -> List[Dict[str, Any]]:
-        """
-        🎯 RECOMENDACIONES DE EVENTOS PERSONALIZADAS
-        
-        Args:
-            user_profile: Perfil del usuario con preferencias
-            
-        Returns:
-            Lista de eventos recomendados
-        """
-        
-        try:
-            budget = user_profile.get('budget', 'flexible')
-            categories = user_profile.get('categories', [])
-            mood = user_profile.get('mood', 'cualquier cosa')
-            
-            prompt = f"""
-            Recomienda eventos basándose en este perfil:
-            - Presupuesto: {budget}
-            - Categorías de interés: {categories}
-            - Estado de ánimo: {mood}
-            
-            Devuelve 3-5 recomendaciones específicas de eventos que podrían interesarle.
-            Formato: Nombre del evento, tipo, por qué lo recomendas.
-            """
-            
-            response = await self.ai_service.generate_response(prompt)
-            
-            # Convertir respuesta a formato estructurado
-            recommendations = [
-                {
-                    "title": "Evento recomendado por IA",
-                    "description": response,
-                    "match_score": 0.85,
-                    "reason": "Basado en tu perfil de usuario"
-                }
-            ]
-            
-            logger.info(f"✅ Generated {len(recommendations)} recommendations")
-            return recommendations
-            
-        except Exception as e:
-            logger.error(f"❌ Error en recommend_events: {str(e)}")
-            return []
+    # DISABLED: recommend_events method - no longer used
+    # async def recommend_events(self, user_profile: Dict[str, Any]) -> List[Dict[str, Any]]:
+    #     """
+    #     🎯 RECOMENDACIONES DE EVENTOS PERSONALIZADAS
+    #
+    #     Args:
+    #         user_profile: Perfil del usuario con preferencias
+    #
+    #     Returns:
+    #         Lista de eventos recomendados
+    #     """
+    #
+    #     try:
+    #         budget = user_profile.get('budget', 'flexible')
+    #         categories = user_profile.get('categories', [])
+    #         mood = user_profile.get('mood', 'cualquier cosa')
+    #
+    #         prompt = f"""
+    #         Recomienda eventos basándose en este perfil:
+    #         - Presupuesto: {budget}
+    #         - Categorías de interés: {categories}
+    #         - Estado de ánimo: {mood}
+    #
+    #         Devuelve 3-5 recomendaciones específicas de eventos que podrían interesarle.
+    #         Formato: Nombre del evento, tipo, por qué lo recomendas.
+    #         """
+    #
+    #         response = await self.ai_service.generate_response(prompt)
+    #
+    #         # Convertir respuesta a formato estructurado
+    #         recommendations = [
+    #             {
+    #                 "title": "Evento recomendado por IA",
+    #                 "description": response,
+    #                 "match_score": 0.85,
+    #                 "reason": "Basado en tu perfil de usuario"
+    #             }
+    #         ]
+    #
+    #         logger.info(f"✅ Generated {len(recommendations)} recommendations")
+    #         return recommendations
+    #
+    #     except Exception as e:
+    #         logger.error(f"❌ Error en recommend_events: {str(e)}")
+    #         return []
     
     async def plan_perfect_weekend(self, preferences: Dict[str, Any]) -> Dict[str, Any]:
         """

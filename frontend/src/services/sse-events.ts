@@ -41,8 +41,8 @@ export class SSEEventsService {
   /**
    * Detect intent from user query using Gemini AI
    */
-  async detectIntent(query: string): Promise<IntentResponse> {
-    const response = await fetch(`${API_BASE_URL}/api/v1/intent`, {
+  async detectIntent(query: string): Promise<any> {
+    const response = await fetch(`${API_BASE_URL}/api/ai/analyze-intent`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export class SSEEventsService {
   }
 
   /**
-   * Search events using SSE streaming
+   * Search events using SSE (Server-Sent Events) for real-time streaming
    */
   searchEventsStream(
     location: string,
@@ -74,41 +74,47 @@ export class SSEEventsService {
     // Build query params
     const params = new URLSearchParams({
       location,
-      limit: String(options.limit || 10),
+      limit: String(options.limit || 100),
     });
 
     if (options.categories?.length) {
       params.append('categories', options.categories.join(','));
     }
 
-    // Create SSE connection
-    const url = `${API_BASE_URL}/api/v1/search?${params}`;
+    // Use SSE streaming endpoint for real-time results
+    const url = `${API_BASE_URL}/api/events/stream?${params}`;
+
+    console.log('🔥 Starting SSE connection to:', url);
+
+    // Create EventSource for SSE
     this.eventSource = new EventSource(url);
 
     // Handle incoming events
     this.eventSource.onmessage = (event) => {
       try {
-        const data: StreamEvent = JSON.parse(event.data);
+        const data = JSON.parse(event.data);
+        console.log('📨 SSE Event:', data.type, data);
         onEvent(data);
       } catch (error) {
         console.error('Error parsing SSE event:', error);
       }
     };
 
-    // Handle errors
     this.eventSource.onerror = (error) => {
-      console.error('SSE connection error:', error);
+      // Solo mostrar error si la conexión falló antes de establecerse
+      // Si readyState es CLOSED, es normal (el stream completó)
+      if (this.eventSource?.readyState === EventSource.CLOSED) {
+        console.log('✅ SSE stream closed normally');
+        return;
+      }
+
+      console.error('❌ SSE Error:', error);
       onEvent({
         type: 'error',
-        message: 'Connection lost. Retrying...',
+        message: 'Connection error',
+        error: 'Failed to connect to event stream'
       });
-      
-      // Auto-reconnect after 3 seconds
-      setTimeout(() => {
-        if (this.eventSource?.readyState === EventSource.CLOSED) {
-          this.searchEventsStream(location, onEvent, options);
-        }
-      }, 3000);
+      this.close();
     };
 
     // Return cleanup function
@@ -117,36 +123,37 @@ export class SSEEventsService {
 
   /**
    * Get event recommendations (non-streaming)
+   * 🔴 ELIMINADO - Ya no se usa recommendations
    */
-  async getRecommendations(
-    location: string,
-    preferences: string[] = [],
-    history: any[] = []
-  ): Promise<any> {
-    const response = await fetch(`${API_BASE_URL}/api/v1/recommend`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        location,
-        preferences,
-        history,
-      }),
-    });
+  // async getRecommendations(
+  //   location: string,
+  //   preferences: string[] = [],
+  //   history: any[] = []
+  // ): Promise<any> {
+  //   const response = await fetch(`${API_BASE_URL}/api/ai/recommend`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       location,
+  //       preferences,
+  //       history,
+  //     }),
+  //   });
 
-    if (!response.ok) {
-      throw new Error(`Recommendations failed: ${response.statusText}`);
-    }
+  //   if (!response.ok) {
+  //     throw new Error(`Recommendations failed: ${response.statusText}`);
+  //   }
 
-    return response.json();
-  }
+  //   return response.json();
+  // }
 
   /**
    * List available scrapers
    */
   async listScrapers(): Promise<any> {
-    const response = await fetch(`${API_BASE_URL}/api/v1/scrapers`);
+    const response = await fetch(`${API_BASE_URL}/api/debug/scrapers-status`);
     
     if (!response.ok) {
       throw new Error(`Failed to list scrapers: ${response.statusText}`);

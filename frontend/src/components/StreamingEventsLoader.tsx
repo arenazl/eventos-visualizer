@@ -89,7 +89,7 @@ export const StreamingEventsLoader: React.FC<StreamingEventsLoaderProps> = ({
 
   const connectWebSocket = () => {
     try {
-      const ws = new WebSocket('ws://172.29.228.80:8001/ws/search-events')
+      const ws = new WebSocket('ws://localhost:8001/ws/search-events')
 
       ws.onopen = () => {
         console.log('🔥 WebSocket conectado')

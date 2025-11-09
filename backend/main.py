@@ -6,6 +6,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import uvicorn
 from dotenv import load_dotenv
+from colorama import init, Fore, Back, Style
+init(autoreset=True)  # Initialize colorama
 
 # Heroku configuration
 try:
@@ -14,7 +16,7 @@ try:
     if is_heroku():
         print("🌐 Running on Heroku - Production mode activated")
 except ImportError:
-    print("📱 Running locally - Development mode")
+    print("Running locally - Development mode")
 import asyncpg
 from typing import List, Dict, Any, Optional
 import json
@@ -25,7 +27,11 @@ import aiohttp
 import time
 
 # Add backend to path
-sys.path.append('/mnt/c/Code/eventos-visualizer/backend')
+import platform
+if platform.system() == 'Windows':
+    sys.path.append(r'C:\Code\eventos-visualizer\backend')
+else:
+    sys.path.append('/mnt/c/Code/eventos-visualizer/backend')
 
 # Import advanced scrapers - ONLY WORKING ONES
 # from services.multi_technique_scraper import MultiTechniqueScraper
@@ -113,18 +119,28 @@ def log_scraper_summary(method_name: str, scrapers_called: list, events_by_scrap
 IS_PRODUCTION = os.getenv("ENVIRONMENT", "development") == "production"
 
 # Parse BACKEND_URL to extract host and port for uvicorn
-BACKEND_URL = os.getenv("BACKEND_URL", "http://172.29.228.80:8001" if not IS_PRODUCTION else "https://funaroundyou-f21e91cae36c.herokuapp.com")
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8001" if not IS_PRODUCTION else "https://funaroundyou-f21e91cae36c.herokuapp.com")
+
+# Force localhost on Windows
+if platform.system() == 'Windows' and not IS_PRODUCTION:
+    BACKEND_URL = "http://localhost:8001"
 
 # Extract host and port from URL for uvicorn.run()
 from urllib.parse import urlparse
 parsed_url = urlparse(BACKEND_URL)
-HOST = parsed_url.hostname or "172.29.228.80"
+HOST = parsed_url.hostname or "localhost"
 BACKEND_PORT = parsed_url.port or (443 if parsed_url.scheme == "https" else 8001)
 
 # Override with Heroku's PORT if available (Heroku deployment)
 if os.getenv("PORT"):
     BACKEND_PORT = int(os.getenv("PORT"))
     HOST = "0.0.0.0"  # Heroku requires binding to all interfaces
+
+# Force localhost for Windows
+if platform.system() == 'Windows':
+    HOST = "localhost"
+    BACKEND_URL = f"http://localhost:{BACKEND_PORT}"
+
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/eventos_db")
 # ❌ REMOVED: No more hardcoded "Buenos Aires"
 # Location will always come from user geolocation or parameter
@@ -304,10 +320,14 @@ app.add_middleware(
 @app.middleware("http")
 async def add_no_cache_headers(request: Request, call_next):
     response = await call_next(request)
-    # Agregar headers para deshabilitar cache completamente
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
-    response.headers["Pragma"] = "no-cache"
-    response.headers["Expires"] = "0"
+
+    # 🔥 NO aplicar no-cache a SSE streams - preservar Content-Type
+    if not request.url.path.startswith("/api/events/stream"):
+        # Agregar headers para deshabilitar cache completamente
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+
     return response
 
 # 🔍 REQUEST/RESPONSE LOGGER - Para ver todo lo que entra y sale
@@ -318,8 +338,8 @@ from middleware.request_logger import LoggingRoute, log_request_middleware
 # async def add_logging_middleware(request: Request, call_next):
 #     return await log_request_middleware(request, call_next)
 
-# Opción 2: LOGGING DETALLADO CON EMOJIS - ACTIVADO
-app.router.route_class = LoggingRoute
+# Opción 2: LOGGING DETALLADO CON EMOJIS - DESACTIVADO TEMPORALMENTE PARA DEBUG
+# app.router.route_class = LoggingRoute
 
 # Manual Facebook cache update endpoint - HEROKU BACKUP
 @app.post("/api/update-facebook-cache")
@@ -366,38 +386,14 @@ async def manual_facebook_cache_update():
 # Health check endpoint
 @app.get("/health")
 async def health_check():
-    global pool
-    try:
-        db_status = "connected" if pool else "not_connected"
-        
-        # Test database if available
-        if pool:
-            try:
-                async with pool.acquire() as conn:
-                    await conn.fetchval("SELECT 1")
-                db_status = "connected"
-            except Exception:
-                db_status = "connection_error"
-        
-        return {
-            "status": "healthy",
-            "timestamp": datetime.utcnow().isoformat(),
-            "server": BACKEND_URL,
-            "service": "eventos-visualizer-backend",
-            "version": "1.0.0",
-            "port": BACKEND_PORT,
-            "database": db_status,
-            "message": "🎉 Eventos Visualizer API is running!"
-        }
-    except Exception as e:
-        return {"status": "unhealthy", "error": str(e)}
+    return {"status": "healthy", "message": "OK"}
 
 @app.get("/api/debug/sources")
 async def debug_sources(location: str = "Buenos Aires"):
     """🔍 DEBUG COPADO: Ver cuánto devuelve cada fuente"""
     import asyncio
     import time
-    from services.industrial_factory import IndustrialFactory
+    from services.gemini_factory import gemini_factory
     # from services.eventbrite_api import EventbriteMassiveScraper  # MOVED TO LEGACY
     
     debug_info = {
@@ -411,10 +407,10 @@ async def debug_sources(location: str = "Buenos Aires"):
         # 1. INDUSTRIAL FACTORY - ALL SCRAPERS
         logger.info("🏭 DEBUG - Probando Industrial Factory...")
         start_time = time.time()
-        factory = IndustrialFactory()
+        factory = gemini_factory  # Singleton - no need to instantiate
         all_events = await factory.execute_global_scrapers(location, context_data={})
         factory_time = time.time() - start_time
-        debug_info["fuentes_debug"]["industrial_factory"] = {
+        debug_info["fuentes_debug"]["gemini_factory"] = {
             "eventos_devueltos": len(all_events),
             "tiempo_segundos": round(factory_time, 2),
             "primeros_3_titulos": [e.get("title", "Sin título") for e in all_events[:3]],
@@ -543,6 +539,22 @@ try:
     logger.info("✅ API V1 with SSE streaming loaded")
 except Exception as e:
     logger.warning(f"⚠️ Could not load API V1 router: {e}")
+
+# External Events Router (BrightData, Claude Desktop, etc.)
+try:
+    from api.external_events import router as external_router
+    app.include_router(external_router)
+    logger.info("✅ External Events router loaded (BrightData/Claude Desktop)")
+except Exception as e:
+    logger.warning(f"⚠️ Could not load External Events router: {e}")
+
+# Events DB Router (Fast queries from PostgreSQL)
+try:
+    from api.events_db import router as events_db_router
+    app.include_router(events_db_router)
+    logger.info("✅ Events DB router loaded (Fast PostgreSQL queries)")
+except Exception as e:
+    logger.warning(f"⚠️ Could not load Events DB router: {e}")
 
 # ============================================================================
 # 🚀 PARALLEL REST ENDPOINTS - Individual sources for maximum performance
@@ -896,11 +908,16 @@ async def fetch_source_parallel(session, url):
             "count": 0
         }
 
+# Simple test endpoint
+@app.get("/test")
+async def test_endpoint():
+    return {"status": "ok", "test": "working"}
+
 # Root endpoint
 @app.get("/")
 async def root():
     return {
-        "message": "🎉 Eventos Visualizer API",
+        "message": "Eventos Visualizer API",
         "version": "1.0.0",
         "docs": "/docs",
         "health": "/health",
@@ -987,23 +1004,521 @@ async def get_events_internal(
             "error": str(e)
         }
 
+# Cache global para evitar enriquecer la misma ubicación múltiples veces
+_last_enriched_location = None
+
+@app.get("/api/events/stream")
+async def stream_events(
+    location: Optional[str] = Query(None, description="Ubicación requerida"),
+    category: Optional[str] = Query(None),
+    limit: int = Query(100)
+):
+    """
+    🚀 SSE STREAMING ENDPOINT - Devuelve eventos en tiempo real
+
+    Usa async generators para devolver resultados apenas estén listos
+    NO espera a que terminen todos los scrapers
+    """
+    from fastapi.responses import StreamingResponse
+    import json
+
+    async def event_generator():
+        """Generator para SSE - Consulta MySQL en vez de Gemini"""
+        import time
+        try:
+            if not location:
+                yield f"data: {json.dumps({'type': 'error', 'message': 'Ubicación requerida'})}\n\n"
+                return
+
+            # Enviar evento de inicio
+            yield f"data: {json.dumps({'type': 'start', 'message': f'Buscando eventos en {location}', 'location': location})}\n\n"
+
+            # 🗄️ BUSCAR EN MYSQL EN VEZ DE GEMINI
+            from services.events_db_service import search_events_by_location
+
+            start_time = time.time()
+            logger.info(f"🔍 Consultando MySQL para ubicación: {location}")
+            logger.info(f"🔍 Parámetros: category={category}, limit={limit}, days_ahead=180")
+
+            # Consultar base de datos (180 días = 6 meses hacia adelante)
+            try:
+                events = await search_events_by_location(
+                    location=location,
+                    category=category,
+                    limit=limit,
+                    days_ahead=180
+                )
+                logger.info(f"✅ search_events_by_location devolvió {len(events)} eventos")
+            except Exception as search_err:
+                logger.error(f"❌ Error en search_events_by_location: {search_err}")
+                events = []
+
+            execution_time = f"{time.time() - start_time:.2f}s"
+            total_events = len(events)
+            logger.info(f"📊 Total eventos después de búsqueda: {total_events} en {execution_time}")
+
+            if total_events > 0:
+                # Enviar eventos desde base de datos
+                yield f"data: {json.dumps({'type': 'events', 'scraper': 'mysql_database', 'events': events, 'count': total_events, 'total_events': total_events, 'execution_time': execution_time})}\n\n"
+                logger.info(f"📡 SSE: MySQL - {total_events} eventos enviados en {execution_time}")
+            else:
+                # 🔍 NO HAY EVENTOS - Buscar en ciudades cercanas
+                logger.info(f"🔍 No hay eventos en {location}, buscando en ciudades cercanas...")
+                yield f"data: {json.dumps({'type': 'info', 'message': f'No hay eventos en {location}, buscando en zonas cercanas...'})}\n\n"
+
+                try:
+                    from services.gemini_factory import gemini_factory
+
+                    # Obtener ciudades cercanas
+                    enriched = await gemini_factory._enrich_location_once(location)
+
+                    if enriched and enriched.get('nearby_cities'):
+                        nearby_cities = enriched['nearby_cities']
+                        logger.info(f"🌍 Ciudades cercanas a {location}: {nearby_cities}")
+
+                        # Buscar eventos en cada ciudad cercana
+                        nearby_events = []
+                        for nearby_city in nearby_cities:
+                            try:
+                                nearby_results = await search_events_by_location(
+                                    location=nearby_city,
+                                    category=category,
+                                    limit=limit,
+                                    days_ahead=180
+                                )
+                                if nearby_results:
+                                    # Agregar metadata de ciudad cercana
+                                    for event in nearby_results:
+                                        event['from_nearby_city'] = nearby_city
+                                    nearby_events.extend(nearby_results)
+                                    logger.info(f"✅ Encontrados {len(nearby_results)} eventos en {nearby_city}")
+                            except Exception as nearby_err:
+                                logger.warning(f"⚠️ Error buscando en {nearby_city}: {nearby_err}")
+
+                        if nearby_events:
+                            # Enviar eventos de ciudades cercanas
+                            yield f"data: {json.dumps({{'type': 'events', 'scraper': 'nearby_cities', 'events': nearby_events, 'count': len(nearby_events), 'total_events': len(nearby_events), 'message': f'Eventos encontrados en zonas cercanas a {location}'}})}\n\n"
+                            logger.info(f"📡 SSE: Ciudades cercanas - {len(nearby_events)} eventos enviados")
+                            total_events = len(nearby_events)
+                        else:
+                            yield f"data: {json.dumps({'type': 'no_events', 'scraper': 'nearby_cities', 'count': 0, 'message': f'No hay eventos en {location} ni en zonas cercanas'})}\n\n"
+                            logger.info(f"📡 SSE: No hay eventos en ciudades cercanas tampoco")
+                    else:
+                        yield f"data: {json.dumps({'type': 'no_events', 'scraper': 'mysql_database', 'count': 0, 'message': f'No hay eventos disponibles para {location}'})}\n\n"
+                        logger.info(f"📡 SSE: No se pudo obtener ciudades cercanas")
+
+                except Exception as nearby_err:
+                    logger.error(f"❌ Error buscando en ciudades cercanas: {nearby_err}")
+                    yield f"data: {json.dumps({'type': 'no_events', 'scraper': 'mysql_database', 'count': 0, 'message': f'No hay eventos disponibles para {location}'})}\n\n"
+
+            # ✅ Enviar evento de completado INMEDIATAMENTE (eventos ya enviados)
+            yield f"data: {json.dumps({'type': 'complete', 'total_events': total_events, 'scrapers_completed': 1})}\n\n"
+            logger.info(f"🏁 SSE: Streaming completado - {total_events} eventos totales")
+
+            # 🌍 ENRIQUECIMIENTO ASÍNCRONO - Solo si HAY eventos (si no hay, ya se buscó en ciudades cercanas)
+            # El frontend ya recibió los eventos, esto es un "bonus" que llega después
+            global _last_enriched_location
+            if total_events > 0 and location != _last_enriched_location:
+                try:
+                    logger.info(f"🔄 Iniciando enriquecimiento para: {location}")
+                    from services.gemini_factory import gemini_factory
+
+                    # Esto puede tardar ~5-10 segundos, pero los eventos YA fueron enviados
+                    enriched = await gemini_factory._enrich_location_once(location)
+
+                    if enriched and enriched.get('nearby_cities'):
+                        # Enviar ciudades cercanas y provincia
+                        enrichment_data = {
+                            'type': 'enrichment',
+                            'nearby_cities': enriched['nearby_cities'],
+                            'state': enriched.get('state'),
+                            'country': enriched.get('country')
+                        }
+                        yield f"data: {json.dumps(enrichment_data)}\n\n"
+                        _last_enriched_location = location  # Actualizar caché
+                        logger.info(f"✅ Enriquecimiento enviado: {len(enriched.get('nearby_cities', []))} ciudades cercanas")
+                except Exception as enrich_err:
+                    logger.warning(f"⚠️ Error en enriquecimiento (no crítico): {enrich_err}")
+                    # No enviar error al cliente, es opcional
+
+        except Exception as e:
+            logger.error(f"❌ Error en SSE streaming desde MySQL: {e}")
+            yield f"data: {json.dumps({'type': 'error', 'message': str(e)})}\n\n"
+
+    # 🔥 RETORNAR EL STREAMING RESPONSE
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
+
+@app.get("/api/location/enrichment")
+async def get_location_enrichment(
+    location: str = Query(..., description="Ubicación original del usuario"),
+    
+    force_refresh: bool = Query(False, description="Forzar nuevo enriquecimiento ignorando caché")
+):
+    """
+    🌍 ENRIQUECIMIENTO DE UBICACIÓN - Solo obtiene info sin buscar eventos
+
+    Retorna:vscode-webview://1d0l9k4dlisibkf6diqq2no75k7u891dcvs5vm2g0kvv31dus3kn/backend/services/gemini_factory.py#L221-L298
+        - city: Ciudad
+        - state: Provincia/Estado
+        - country: País
+        - nearby_cities: Array de 3 ciudades cercanas
+        - needs_expansion: Si necesita expansión
+    """
+    try:
+        from services.gemini_factory import gemini_factory
+        import json
+        import os
+
+        factory = gemini_factory  # Singleton - no need to instantiate
+
+        # Si force_refresh, limpiar caché de esta ubicación específica
+        if force_refresh:
+            # 1. Limpiar caché en memoria del factory
+            keys_to_remove_memory = [key for key in factory._location_cache.keys() if location.lower() in key.lower()]
+            for key in keys_to_remove_memory:
+                del factory._location_cache[key]
+                logger.info(f"🗑️ Memory cache cleared: {key}")
+
+            # 2. Limpiar caché en archivo JSON
+            cache_path = os.path.join(os.path.dirname(__file__), 'data', 'location_enrichments_cache.json')
+            try:
+                if os.path.exists(cache_path):
+                    with open(cache_path, 'r', encoding='utf-8') as f:
+                        cache_data = json.load(f)
+
+                    # Eliminar todas las entradas que contengan esta ubicación
+                    enrichments = cache_data.get('enrichments', {})
+                    keys_to_remove = [key for key in enrichments.keys() if location.lower() in key.lower()]
+
+                    for key in keys_to_remove:
+                        del enrichments[key]
+                        logger.info(f"🗑️ Cache entry removed: {key}")
+
+                    cache_data['metadata']['total_enrichments'] = len(enrichments)
+
+                    with open(cache_path, 'w', encoding='utf-8') as f:
+                        json.dump(cache_data, f, indent=2, ensure_ascii=False)
+
+                    logger.info(f"✅ Cache cleared for: {location}")
+            except Exception as cache_err:
+                logger.warning(f"⚠️ Error clearing cache: {cache_err}")
+
+        # Enriquecer ubicación
+        enriched = await factory._enrich_location_once(location)
+
+        return {
+            "success": True,
+            "location_info": enriched
+        }
+
+    except Exception as e:
+        logger.error(f"❌ Error enriqueciendo ubicación: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/cities/available")
+async def get_available_cities(
+    q: str = Query(..., min_length=2, description="Search query for location (city, province, country)"),
+    limit: int = Query(10, description="Maximum number of locations to return")
+):
+    """
+    🌍 UBICACIONES DISPONIBLES - Retorna ciudades, provincias y países con eventos
+
+    Autocomplete optimizado que busca en múltiples niveles geográficos:
+    - 🏙️ Ciudades (prioridad 1)
+    - 📍 Provincias/Estados (prioridad 2)
+    - 🌍 Países (prioridad 3)
+
+    Args:
+        q: Búsqueda (mínimo 2 caracteres)
+        limit: Máximo de resultados (default: 10)
+
+    Returns:
+        - locations: Lista de ubicaciones con eventos (ciudades, provincias, países)
+        - total: Total de ubicaciones encontradas
+    """
+    try:
+        from services.events_db_service import get_available_cities_with_events
+        from services.gemini_factory import gemini_factory
+
+        logger.info(f"🔍 Buscando ubicaciones (ciudades/provincias/países) con eventos para: '{q}'")
+
+        # Buscar ubicaciones en MySQL que coincidan y tengan eventos
+        locations = await get_available_cities_with_events(search_query=q, limit=limit)
+
+        logger.info(f"✅ Encontradas {len(locations)} ubicaciones con eventos")
+
+        # 🔥 SI NO HAY RESULTADOS, intentar detectar ciudad principal con Gemini
+        if len(locations) == 0 and len(q) >= 3:
+            logger.info(f"🤖 No hay resultados directos para '{q}', intentando detectar ciudad principal...")
+
+            try:
+                parent_city = await gemini_factory.get_parent_location(q)
+
+                if parent_city:
+                    logger.info(f"✅ Gemini detectó: '{q}' es parte de '{parent_city}'")
+
+                    # Buscar eventos de la ciudad principal
+                    parent_locations = await get_available_cities_with_events(search_query=parent_city, limit=1)
+
+                    if parent_locations:
+                        # Agregar como sugerencia con indicador especial
+                        # Usar el mismo formato que get_available_cities_with_events
+                        suggestion = {
+                            "location": parent_city,
+                            "location_type": "city",
+                            "event_count": parent_locations[0].get("event_count", 0),
+                            "displayName": f"{parent_city} (cerca de {q.title()})",
+                            "is_suggestion": True,
+                            "original_query": q
+                        }
+                        locations = [suggestion]
+                        logger.info(f"💡 Sugiriendo '{parent_city}' como alternativa")
+            except Exception as gemini_err:
+                logger.warning(f"⚠️ Error en detección con Gemini: {gemini_err}")
+
+        return {
+            "success": True,
+            "locations": locations,
+            "total": len(locations)
+        }
+
+    except Exception as e:
+        logger.error(f"❌ Error buscando ubicaciones disponibles: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/events/city")
+async def get_city_events(
+    city: str = Query(..., description="Ciudad donde buscar eventos"),
+    original_location: Optional[str] = Query(None, description="Ubicación original del usuario"),
+    category: Optional[str] = Query(None),
+    limit: int = Query(20)
+):
+    """
+    🏙️ EVENTOS EN CIUDAD ESPECÍFICA - Busca en una ciudad específica (solo MySQL)
+
+    Args:
+        city: Ciudad donde buscar (ej: "Merlo", "Morón", etc.)
+        original_location: Ubicación original del usuario (ej: "Paso del Rey")
+
+    Returns:
+        - events: Lista de eventos
+        - city: Ciudad donde se buscaron eventos
+        - original_location: Ubicación original
+    """
+    try:
+        from services.events_db_service import search_events_by_location
+        import time
+
+        # Buscar eventos en la ciudad específica
+        logger.info(f"🏙️ Buscando eventos en: {city}" + (f" (desde {original_location})" if original_location else ""))
+
+        start_time = time.time()
+
+        # 🗄️ BUSCAR EN MYSQL (UN SOLO LLAMADO)
+        events = await search_events_by_location(
+            location=city,
+            category=category,
+            limit=limit,
+            days_ahead=180
+        )
+
+        execution_time = f"{time.time() - start_time:.2f}s"
+
+        # Agregar metadata a cada evento
+        for event in events:
+            event['search_city'] = city
+            if original_location:
+                event['original_location'] = original_location
+                event['distance_note'] = f"Evento en {city}"
+
+        logger.info(f"✅ Encontrados {len(events)} eventos en {city} en {execution_time}")
+
+        return {
+            "events": events,
+            "city": city,
+            "original_location": original_location,
+            "total_events": len(events),
+            "message": f"Se encontraron {len(events)} eventos en {city}",
+            "execution_time": execution_time,
+            "source": "mysql_database"
+        }
+
+    except Exception as e:
+        logger.error(f"❌ Error buscando eventos en ciudad: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/events/nearby")
+async def get_nearby_events(
+    location: str = Query(..., description="Ubicación para detectar ciudades cercanas")
+):
+    """
+    📍 CIUDADES CERCANAS - Usa IA para detectar ciudades cercanas
+
+    Este endpoint NO busca eventos, solo retorna nombres de ciudades cercanas
+    para que el frontend muestre botones. Cuando el usuario presiona un botón,
+    el frontend llama a /api/events/stream con esa ciudad para buscar en MySQL.
+
+    Args:
+        location: Ubicación original (ej: "Villa Gesell", "Moreno")
+
+    Returns:
+        - nearby_cities: Lista de nombres de ciudades cercanas (para los botones)
+        - original_location: Ubicación original
+    """
+    try:
+        from services.gemini_factory import gemini_factory
+
+        # Extraer ciudad de location (puede venir como "Villa Gesell, Argentina")
+        city = location.split(',')[0].strip()
+
+        logger.info(f"📍 Detectando ciudades cercanas a: {city}")
+
+        # Usar Gemini para enriquecer ubicación y obtener ciudades cercanas
+        enriched = await gemini_factory._enrich_location_once(city)
+
+        nearby_cities = enriched.get('nearby_cities', [])
+
+        logger.info(f"✅ Encontradas {len(nearby_cities)} ciudades cercanas: {nearby_cities}")
+
+        return {
+            "success": True,
+            "nearby_cities": nearby_cities[:3],  # Solo 3 para los botones
+            "original_location": city,
+            "message": f"Encontradas {len(nearby_cities[:3])} ciudades cercanas a {city}" if nearby_cities else f"No se encontraron ciudades cercanas a {city}"
+        }
+
+    except Exception as e:
+        logger.error(f"❌ Error detectando ciudades cercanas: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/events/province")
+async def get_province_events(
+    location: str = Query(..., description="Ubicación original del usuario"),
+    category: Optional[str] = Query(None),
+    limit: int = Query(20)
+):
+    """
+    🌍 EVENTOS EN LA PROVINCIA/ESTADO - Busca en toda la provincia
+
+    Para localidades chicas como "Paso del Rey", busca eventos
+    en toda la provincia (ej: "Buenos Aires")
+
+    Returns:
+        - events: Lista de eventos de la provincia
+        - location_info: Información de enriquecimiento
+        - province: Provincia donde se buscaron eventos
+    """
+    try:
+        from services.gemini_factory import gemini_factory
+
+        factory = gemini_factory  # Singleton - no need to instantiate
+
+        # Enriquecer ubicación UNA VEZ
+        enriched = await factory._enrich_location_once(location)
+
+        # Obtener la provincia
+        province = enriched.get('state', '')
+
+        if not province:
+            return {
+                "events": [],
+                "location_info": enriched,
+                "province": None,
+                "message": f"No se pudo detectar la provincia para '{location}'"
+            }
+
+        # Buscar eventos en la provincia
+        logger.info(f"🌍 Buscando eventos en provincia: {location} → {province}")
+
+        result = await factory.execute_global_scrapers_with_details(
+            location=province,
+            category=category,
+            limit=limit
+        )
+
+        events = result.get('events', [])
+
+        # Agregar metadata a cada evento indicando que es de la provincia
+        for event in events:
+            event['is_province'] = True
+            event['original_location'] = location
+            event['province_location'] = province
+            event['distance_note'] = f"Evento en {province}"
+
+        return {
+            "events": events,
+            "location_info": enriched,
+            "province": province,
+            "total_events": len(events),
+            "message": f"Se encontraron {len(events)} eventos en {province}",
+            "scrapers_execution": result.get('scrapers_execution', {})
+        }
+
+    except Exception as e:
+        logger.error(f"❌ Error buscando eventos de provincia: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/api/events")
 async def get_events(
     location: Optional[str] = Query(None, description="Ubicación requerida"),
     category: Optional[str] = Query(None),
-    limit: int = Query(20),
-    offset: int = Query(0)
+    limit: int = Query(20)
 ):
-    try:
-        # Validar ubicación requerida (NO usar Buenos Aires como fallback)
-        if not location:
-            raise HTTPException(status_code=400, detail="Ubicación requerida para buscar eventos")
-        
-        # Usar función interna que usa scrapers reales
-        return await get_events_internal(location=location, category=category, limit=limit, offset=offset)
-    except Exception as e:
-        logger.error(f"Error fetching events: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+    """
+    🚀 SSE STREAMING ENDPOINT - Devuelve eventos de MySQL en tiempo real
+
+    IMPORTANTE: Frontend usa EventSource, requiere formato SSE
+    """
+    from fastapi.responses import StreamingResponse
+    import json
+    import time
+
+    async def event_generator():
+        """Generator para SSE - Consulta MySQL directamente"""
+        try:
+            if not location:
+                yield f"data: {json.dumps({'type': 'error', 'message': 'Ubicación requerida'})}\n\n"
+                return
+
+            # Enviar evento de inicio
+            yield f"data: {json.dumps({'type': 'start', 'message': f'Buscando eventos en {location}', 'location': location})}\n\n"
+
+            # 🗄️ BUSCAR EN MYSQL
+            from services.events_db_service import search_events_by_location
+
+            start_time = time.time()
+            logger.info(f"🔍 [/api/events] Consultando MySQL para ubicación: {location}")
+
+            # Consultar base de datos (180 días = 6 meses hacia adelante)
+            events = await search_events_by_location(
+                location=location,
+                category=category,
+                limit=limit,
+                days_ahead=180
+            )
+
+            execution_time = f"{time.time() - start_time:.2f}s"
+            total_events = len(events)
+
+            if total_events > 0:
+                # Enviar eventos desde base de datos
+                yield f"data: {json.dumps({'type': 'events', 'scraper': 'mysql_database', 'events': events, 'count': total_events, 'total_events': total_events, 'execution_time': execution_time})}\n\n"
+                logger.info(f"📡 [/api/events] MySQL - {total_events} eventos enviados en {execution_time}")
+            else:
+                # No se encontraron eventos
+                yield f"data: {json.dumps({'type': 'no_events', 'scraper': 'mysql_database', 'count': 0, 'execution_time': execution_time, 'message': f'No hay eventos disponibles para {location}'})}\n\n"
+                logger.info(f"📡 [/api/events] MySQL - 0 eventos para '{location}' en {execution_time}")
+
+            # Enviar evento de completado
+            yield f"data: {json.dumps({'type': 'complete', 'total_events': total_events, 'scrapers_completed': 1})}\n\n"
+            logger.info(f"🏁 [/api/events] Streaming completado - {total_events} eventos desde MySQL")
+
+        except Exception as e:
+            logger.error(f"❌ [/api/events] Error en SSE streaming desde MySQL: {e}")
+            yield f"data: {json.dumps({'type': 'error', 'message': str(e)})}\n\n"
+
+    # 🔥 RETORNAR EL STREAMING RESPONSE
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
 
 @app.get("/api/events-fast")
 async def get_events_ultrafast(
@@ -1189,9 +1704,12 @@ async def smart_search(
     Smart search endpoint that processes natural language queries
     """
     try:
-        search_query = query.get("search_query", "")
+        # Handle both "query" and "search_query" fields
+        search_query = query.get("query") or query.get("search_query", "")
         original_location = query.get("location", "Buenos Aires")
-        
+
+        logger.info(f"📍 SMART SEARCH - Query: '{search_query}', Location received: '{original_location}'")
+
         # 🧠 USAR UBICACIÓN DE ANALYZE-INTENT SI ESTÁ DISPONIBLE
         location = original_location  # Default fallback
         detected_country = None
@@ -1382,8 +1900,8 @@ async def smart_search(
             else:
                 # Fallback to IndustrialFactory if hierarchical factory fails
                 logger.warning(f"⚠️ Hierarchical factory failed for {location}, using IndustrialFactory fallback")
-                from services.industrial_factory import IndustrialFactory
-                factory = IndustrialFactory()
+                from services.gemini_factory import gemini_factory
+                factory = gemini_factory  # Singleton - no need to instantiate
                 
                 # ⏱️ LOG: Timing del fallback
                 fallback_start_time = time.time()
@@ -1399,7 +1917,7 @@ async def smart_search(
                 result = {
                     "events": events, 
                     "count": len(events), 
-                    "scraper_used": "IndustrialFactory",
+                    "scraper_used": "GeminiFactory",
                     "scrapers_execution": detailed_result.get('scrapers_execution', {}),
                     "execution_time": f"{fallback_duration:.2f}s"
                 }
@@ -1419,8 +1937,8 @@ async def smart_search(
             # Ultimate fallback to prevent crashes
             try:
                 logger.warning("🔄 Using IndustrialFactory ultimate fallback...")
-                from services.industrial_factory import IndustrialFactory
-                factory = IndustrialFactory()
+                from services.gemini_factory import gemini_factory
+                factory = gemini_factory  # Singleton - no need to instantiate
                 
                 # ⏱️ LOG: Timing del ultimate fallback
                 ultimate_start_time = time.time()
@@ -1436,7 +1954,7 @@ async def smart_search(
                 result = {
                     "events": events, 
                     "count": len(events), 
-                    "scraper_used": "IndustrialFactory-Ultimate",
+                    "scraper_used": "GeminiFactory",
                     "scrapers_execution": detailed_result.get('scrapers_execution', {}),
                     "execution_time": f"{ultimate_duration:.2f}s"
                 }
@@ -1866,9 +2384,9 @@ async def get_event_by_id(event_id: str):
         # Buscar en eventos recientes de la ciudad por defecto
         from services.hierarchical_factory import fetch_from_all_sources_internal
         result = await fetch_from_all_sources_internal("Buenos Aires")
-        
+
         events = result.get("events", [])
-        
+
         # Buscar por título de manera flexible
         for event in events:
             # Generar diferentes versiones del ID para comparar
@@ -1877,25 +2395,25 @@ async def get_event_by_id(event_id: str):
             title_match = title_lower.replace(" ", "-")
             event_id_lower = event_id.lower()
             event_id_spaces = event_id.replace("-", " ").lower()
-            
+
             # Múltiples formas de hacer match
-            if (simple_id == event_id_lower or 
-                title_match == event_id_lower or 
+            if (simple_id == event_id_lower or
+                title_match == event_id_lower or
                 title_lower == event_id_spaces or
                 title_lower.startswith(event_id_spaces) or
                 event_id_spaces in title_lower):
-                
+
                 return {
                     "status": "success",
                     "event": event
                 }
-        
+
         # Si no se encuentra
         raise HTTPException(
-            status_code=404, 
+            status_code=404,
             detail=f"Event '{event_id}' not found"
         )
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -1903,60 +2421,124 @@ async def get_event_by_id(event_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# Similar events streaming endpoint
+@app.get("/api/events/{event_id}/similar/stream")
+async def stream_similar_events(event_id: str):
+    """
+    🎯 SSE STREAMING - Eventos similares del mismo lugar
+
+    Envía progresivamente eventos similares basados en:
+    - Mismo lugar/ciudad
+    - Misma categoría
+    - Precio similar
+    - Fechas próximas
+    """
+    from fastapi.responses import StreamingResponse
+    import json
+    import asyncio
+
+    async def similar_events_generator():
+        try:
+            # 1. Buscar el evento principal primero
+            from services.hierarchical_factory import fetch_from_all_sources_internal
+            result = await fetch_from_all_sources_internal("Buenos Aires")
+
+            events = result.get("events", [])
+
+            # Encontrar el evento solicitado
+            found_event = None
+            for event in events:
+                title_lower = event['title'].lower()
+                simple_id = title_lower.replace(" ", "-").replace(",", "").replace(".", "").replace("(", "").replace(")", "")
+                title_match = title_lower.replace(" ", "-")
+                event_id_lower = event_id.lower()
+                event_id_spaces = event_id.replace("-", " ").lower()
+
+                if (simple_id == event_id_lower or
+                    title_match == event_id_lower or
+                    title_lower == event_id_spaces or
+                    title_lower.startswith(event_id_spaces) or
+                    event_id_spaces in title_lower):
+                    found_event = event
+                    break
+
+            if not found_event:
+                yield f"data: {json.dumps({'type': 'error', 'message': 'Evento no encontrado'})}\n\n"
+                return
+
+            # 2. Extraer criterios del evento principal
+            event_category = found_event.get('category', '').lower()
+            event_location = found_event.get('location', 'Buenos Aires')
+            event_price = found_event.get('price', 0) if not found_event.get('is_free') else 0
+            event_title = found_event.get('title', '')
+            event_venue = found_event.get('venue_name', '')
+
+            yield f"data: {json.dumps({'type': 'start', 'message': f'Buscando eventos similares en {event_location}'})}\n\n"
+            logger.info(f"🎯 Buscando eventos similares para '{event_title}' en {event_location}")
+
+            # 3. Calcular score de similitud para cada evento
+            similar_events = []
+            for event in events:
+                # Skip el evento actual
+                if event.get('title') == event_title:
+                    continue
+
+                # Score de similitud
+                score = 0
+
+                # 1️⃣ Mismo lugar/ciudad (+50 puntos - MÁS IMPORTANTE)
+                if event.get('location', '').lower() == event_location.lower():
+                    score += 50
+
+                # 2️⃣ Misma categoría (+30 puntos)
+                if event.get('category', '').lower() == event_category:
+                    score += 30
+
+                # 3️⃣ Precio similar (+15 puntos)
+                event_event_price = event.get('price', 0) if not event.get('is_free') else 0
+                if event_price == 0 and event_event_price == 0:
+                    score += 15  # Ambos gratis
+                elif event_price > 0 and event_event_price > 0:
+                    price_ratio = min(event_price, event_event_price) / max(event_price, event_event_price)
+                    if price_ratio > 0.5:  # Precios similares (dentro del 50%)
+                        score += 15
+
+                # 4️⃣ Mismo venue (+5 puntos bonus)
+                if event.get('venue_name') == event_venue:
+                    score += 5
+
+                # Solo agregar eventos con score >= 50 (al menos mismo lugar)
+                if score >= 50:
+                    similar_events.append({
+                        **event,
+                        'similarity_score': score
+                    })
+
+            # 4. Ordenar por score y enviar progresivamente
+            similar_events.sort(key=lambda x: x['similarity_score'], reverse=True)
+
+            # Enviar eventos de a uno con delay para efecto progresivo
+            sent_count = 0
+            for similar_event in similar_events[:6]:  # Top 6 eventos similares
+                yield f"data: {json.dumps({'type': 'event', 'event': similar_event, 'index': sent_count})}\n\n"
+                sent_count += 1
+                logger.info(f"📡 SSE: Evento similar enviado ({sent_count}/6): {similar_event['title']} (score: {similar_event['similarity_score']})")
+
+                # Delay de 100ms entre eventos para efecto visual
+                await asyncio.sleep(0.1)
+
+            # 5. Enviar evento de completado
+            yield f"data: {json.dumps({'type': 'complete', 'total': sent_count})}\n\n"
+            logger.info(f"✅ SSE completado: {sent_count} eventos similares enviados")
+
+        except Exception as e:
+            logger.error(f"❌ Error en stream de eventos similares: {e}")
+            yield f"data: {json.dumps({'type': 'error', 'message': str(e)})}\n\n"
+
+    return StreamingResponse(similar_events_generator(), media_type="text/event-stream")
+
 
 # AI recommendation endpoint
-@app.post("/api/ai/recommend")
-async def ai_recommend(
-    data: Dict[str, Any]
-):
-    """
-    AI-powered event recommendations based on user preferences
-    """
-    try:
-        location = data.get("location", "Buenos Aires")
-        preferences = data.get("preferences", {})
-        
-        # Get all events from location
-        from services.hierarchical_factory import fetch_from_all_sources
-        events = await fetch_from_all_sources(location=location)
-        
-        # Simple recommendation logic
-        recommended = []
-        for event in events:
-            score = 0
-            
-            # Score based on preferences
-            if preferences.get("free_only") and event.get("is_free"):
-                score += 5
-            
-            if preferences.get("categories"):
-                if event.get("category") in preferences["categories"]:
-                    score += 3
-                    
-            # Add some variety
-            if len(recommended) < 10:
-                event["recommendation_score"] = score
-                recommended.append(event)
-        
-        # Sort by score
-        recommended.sort(key=lambda x: x.get("recommendation_score", 0), reverse=True)
-        
-        return {
-            "success": True,
-            "location": location,
-            "recommendations": recommended[:10],
-            "recommended_events": recommended[:10],  # El frontend también puede buscar este campo
-            "total": len(recommended)
-        }
-        
-    except Exception as e:
-        logger.error(f"Recommendation error: {e}")
-        return {
-            "success": False,
-            "error": str(e),
-            "recommendations": []
-        }
-
 # AI chat endpoint
 @app.post("/api/ai/chat")
 async def ai_chat(data: Dict[str, Any]):
@@ -2089,12 +2671,6 @@ async def ai_chat(data: Dict[str, Any]):
         "filtered_count": len(scored_events)
     }
 
-# AI recommendations endpoint (alias)
-@app.post("/api/ai/recommendations")
-async def ai_recommendations(data: Dict[str, Any]):
-    """Get AI recommendations"""
-    return await ai_recommend(data)
-
 # AI plan weekend endpoint
 @app.post("/api/ai/plan-weekend")
 async def ai_plan_weekend(data: Dict[str, Any]):
@@ -2118,11 +2694,45 @@ async def ai_trending_now():
     """Get trending events"""
     from services.hierarchical_factory import fetch_from_all_sources
     result = await fetch_from_all_sources(location="Buenos Aires")
-    
+
     return {
         "trending": result.get("events", [])[:5],
         "timestamp": datetime.utcnow().isoformat()
     }
+
+# AI nearby cities endpoint
+@app.get("/api/ai/nearby-cities")
+async def ai_nearby_cities(location: str, limit: int = 10):
+    """Get nearby cities using Gemini AI"""
+    try:
+        from services.ai_service import get_nearby_cities_with_ai
+
+        logger.info(f"🌍 Getting nearby cities for: {location}")
+
+        # Use AI to get nearby cities
+        cities = await get_nearby_cities_with_ai(location, limit)
+
+        if not cities:
+            return {
+                "success": False,
+                "error": "No nearby cities found",
+                "cities": []
+            }
+
+        return {
+            "success": True,
+            "location": location,
+            "cities": cities,
+            "count": len(cities)
+        }
+
+    except Exception as e:
+        logger.error(f"❌ Error getting nearby cities: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e),
+            "cities": []
+        }
 
 # Advanced scraping endpoint
 @app.get("/api/scraping/multi-technique")
@@ -2411,6 +3021,59 @@ async def analyze_intent(
                 "location": current_location,  # Usar current_location si falla
                 "coordinates": None,
                 "detected_country": None
+            }
+        }
+
+@app.post("/api/ai/event-insight")
+async def event_insight(data: Dict[str, Any]):
+    """
+    🧠 ENDPOINT DE INSIGHTS DE EVENTO - Genera comentarios contextuales sobre eventos
+
+    Args:
+        title: Título del evento
+        category: Categoría del evento
+        custom_prompt: Prompt personalizado (opcional)
+
+    Returns:
+        insight con quick_insight para Sofia/Juan
+    """
+    try:
+        title = data.get("title", "")
+        category = data.get("category", "")
+        custom_prompt = data.get("custom_prompt", "")
+
+        logger.info(f"🎭 Generando insight para evento: {title[:40]}... ({category})")
+
+        # Si hay prompt personalizado, usar Gemini
+        if custom_prompt:
+            from services.ai_service import GeminiAIService
+
+            service = GeminiAIService()
+            response = await service._call_gemini_api(custom_prompt)
+
+            if response:
+                return {
+                    "success": True,
+                    "insight": {
+                        "quick_insight": response.strip()[:150]  # Limitar a 150 caracteres
+                    }
+                }
+
+        # Fallback: comentario genérico
+        return {
+            "success": True,
+            "insight": {
+                "quick_insight": f"¡Interesante! {title} en {category} 🎉"
+            }
+        }
+
+    except Exception as e:
+        logger.error(f"❌ Error generando insight: {e}")
+        return {
+            "success": False,
+            "error": str(e),
+            "insight": {
+                "quick_insight": "Error generando comentario"
             }
         }
 
@@ -3249,8 +3912,8 @@ async def stream_scrapers_with_progress(websocket: WebSocket, location: str, cat
         })
         
         # Usar IndustrialFactory con streaming personalizado
-        from services.industrial_factory import IndustrialFactory
-        factory = IndustrialFactory()
+        from services.gemini_factory import gemini_factory
+        factory = gemini_factory  # Singleton - no need to instantiate
         
         # Auto-descubrir scrapers
         scrapers_map = factory.discovery_engine.discover_all_scrapers()
@@ -3402,8 +4065,8 @@ async def stream_events_optimized(websocket: WebSocket, location: str):
         })
         
         # Usar IndustrialFactory para obtener scrapers optimizados
-        from services.industrial_factory import IndustrialFactory
-        factory = IndustrialFactory()
+        from services.gemini_factory import gemini_factory
+        factory = gemini_factory  # Singleton - no need to instantiate
         
         # Auto-discovery con flags - solo scrapers habilitados
         scrapers_map = factory.discovery_engine.discover_all_scrapers()
@@ -3516,17 +4179,84 @@ async def admin_page():
         return HTMLResponse(content=f"<h1>Error loading admin page: {e}</h1>", status_code=500)
 
 if __name__ == "__main__":
-    print(f"\n🚀 Starting Eventos Visualizer Backend")
-    print(f"📍 Server: {BACKEND_URL}")
-    print(f"📊 Health: {BACKEND_URL}/health")
-    print(f"📝 Docs: {BACKEND_URL}/docs")
+    # Fix encoding for Windows console to support emojis
+    import sys
+    if sys.platform == 'win32':
+        import io
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+
+    # Beautiful startup banner with colors
+    print("\n" + Fore.CYAN + "="*60)
+    print(Fore.YELLOW + " "*20 + "🎉 EVENTOS VISUALIZER 🎉")
+    print(Fore.WHITE + " "*18 + "Backend Server Starting...")
+    print(Fore.CYAN + "="*60 + Style.RESET_ALL)
+
+    print(Fore.MAGENTA + "\n📍 ENDPOINTS DISPONIBLES:")
+    print(Fore.BLUE + "─"*60)
+    print(Fore.GREEN + f"  🏠 Server:     {Fore.WHITE}{BACKEND_URL}")
+    print(Fore.GREEN + f"  💚 Health:     {Fore.WHITE}{BACKEND_URL}/health")
+    print(Fore.GREEN + f"  📚 API Docs:   {Fore.WHITE}{BACKEND_URL}/docs")
+    print(Fore.GREEN + f"  🔧 Swagger UI: {Fore.WHITE}{BACKEND_URL}/redoc")
+
     ws_url = BACKEND_URL.replace('http://', 'ws://').replace('https://', 'wss://')
-    print(f"🔌 WebSocket: {ws_url}/ws/notifications\n")
+    print(f"  🔌 WebSocket:  {ws_url}/ws/notifications")
+
+    print(Fore.MAGENTA + "\n🔥 SERVICIOS ACTIVOS:")
+    print(Fore.BLUE + "─"*60)
+    print(Fore.GREEN + "  ✅ Gemini AI Integration")
+    print(Fore.GREEN + "  ✅ Location Detection Service")
+    print(Fore.GREEN + "  ✅ Multi-Source Event Scraping")
+    print(Fore.GREEN + "  ✅ Real-time WebSocket Support")
+    print(Fore.GREEN + "  ✅ Chat Memory Manager")
+
+    print(Fore.MAGENTA + "\n🎯 APIS CONFIGURADAS:")
+    print(Fore.BLUE + "─"*60)
+    if os.getenv("EVENTBRITE_API_KEY"):
+        print(Fore.GREEN + "  ✅ Eventbrite API")
+    else:
+        print(Fore.YELLOW + "  ⚠️  Eventbrite API (no key)")
+    if os.getenv("TICKETMASTER_API_KEY"):
+        print(Fore.GREEN + "  ✅ Ticketmaster API")
+    else:
+        print(Fore.YELLOW + "  ⚠️  Ticketmaster API (no key)")
+    if os.getenv("RAPIDAPI_KEY"):
+        print(Fore.GREEN + "  ✅ Facebook Events (RapidAPI)")
+    else:
+        print(Fore.YELLOW + "  ⚠️  Facebook Events (no key)")
+    if os.getenv("GEMINI_API_KEY"):
+        print(Fore.GREEN + "  ✅ Google Gemini AI")
+    else:
+        print(Fore.YELLOW + "  ⚠️  Google Gemini AI (no key)")
+
+    print(Fore.MAGENTA + "\n💾 DATABASE STATUS:")
+    print(Fore.BLUE + "─"*60)
+    if os.getenv("DATABASE_URL"):
+        print(Fore.GREEN + "  🔗 PostgreSQL: Configured")
+    else:
+        print(Fore.YELLOW + "  ⚠️  PostgreSQL: Not configured (using in-memory)")
+
+    print("\n" + Fore.CYAN + "="*60)
+    print(Fore.YELLOW + Style.BRIGHT + " "*15 + "🚀 SERVER READY TO ROCK! 🚀")
+    print(Fore.CYAN + "="*60 + Style.RESET_ALL + "\n")
     
-    uvicorn.run(
-        "main:app",
-        host=HOST,
-        port=BACKEND_PORT,
-        reload=False,
-        log_level="info"
-    )
+    # Use app directly instead of module string to avoid re-import issues
+    # 🔥 REGLA CRÍTICA: Escuchar en todas las interfaces (0.0.0.0) para SSE desde frontend
+    try:
+        uvicorn.run(
+            app,
+            host="0.0.0.0",  # Todas las interfaces - permite SSE desde frontend
+            port=BACKEND_PORT,
+            reload=False,
+            log_level="info"
+        )
+    except Exception as e:
+        print(Fore.RED + "\n" + "="*60)
+        print(Fore.RED + Style.BRIGHT + "❌ ERROR FATAL AL INICIAR SERVIDOR:")
+        print(Fore.RED + "="*60)
+        print(Fore.YELLOW + f"\n{type(e).__name__}: {str(e)}")
+        print(Fore.WHITE + "\nDetalles completos del error:")
+        import traceback
+        traceback.print_exc()
+        print(Fore.RED + "\n" + "="*60 + Style.RESET_ALL)
+        raise

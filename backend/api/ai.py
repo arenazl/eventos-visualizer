@@ -111,27 +111,6 @@ async def chat_with_ai(chat: ChatMessage):
         except:
             raise HTTPException(status_code=500, detail=str(e))
 
-@router.post("/recommendations")
-async def get_ai_recommendations(preferences: UserPreferences):
-    """
-    Obtiene recomendaciones personalizadas con IA
-    """
-    try:
-        user_profile = {
-            "budget": preferences.budget,
-            "categories": preferences.categories,
-            "mood": preferences.mood
-        }
-        
-        recommendations = await ai_assistant.recommend_events(user_profile)
-        
-        return {
-            "status": "success",
-            "recommendations": recommendations,
-            "personalization_score": 0.92
-        }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/plan-weekend")
 async def plan_weekend(request: WeekendPlanRequest):

@@ -8,7 +8,7 @@ const isProduction = import.meta.env.MODE === 'production'
 
 // API Base URLs
 const API_URLS = {
-  development: 'http://172.29.228.80:8001',
+  development: 'http://localhost:8001',
   production: import.meta.env.VITE_API_URL || 'https://funaroundyou-f21e91cae36c.herokuapp.com'
 }
 

@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useEvents } from '../stores/EventsStore'
 
 const ScrapersDetailPanel: React.FC = () => {
-  const { 
-    sourceTiming, 
-    performanceStats, 
+  const {
+    sourceTiming,
+    performanceStats,
     isStreaming,
     streamingSource,
     streamingProgress,
@@ -13,16 +13,22 @@ const ScrapersDetailPanel: React.FC = () => {
     scrapersExecution
   } = useEvents()
 
+  const [isExpanded, setIsExpanded] = useState(false)
+
   const totalEvents = events.length
   const hasScrapersData = scrapersExecution?.scrapers_info?.length > 0
   const hasSourceTiming = sourceTiming.length > 0
 
   return (
     <div className="w-full max-w-4xl mx-auto mb-8">
-      {/* Header siempre visible */}
-      <div className={`w-full flex items-center justify-between px-4 py-2 backdrop-blur-xl border transition-all duration-200 rounded-t-lg ${
-          isStreaming 
-            ? 'bg-green-500/20 border-green-400/30 text-green-300' 
+      {/* Header siempre visible - CLICKEABLE para expandir/colapsar */}
+      <div
+        onClick={() => setIsExpanded(!isExpanded)}
+        className={`w-full flex items-center justify-between px-4 py-2 backdrop-blur-xl border transition-all duration-200 cursor-pointer hover:bg-white/5 ${
+          isExpanded ? 'rounded-t-lg' : 'rounded-lg'
+        } ${
+          isStreaming
+            ? 'bg-green-500/20 border-green-400/30 text-green-300'
             : 'bg-white/10 border-white/20 text-white/80'
         }`}
       >
@@ -31,8 +37,12 @@ const ScrapersDetailPanel: React.FC = () => {
           <span className="font-medium text-sm">
             {isStreaming ? 'Scrapers En Vivo' : 'Panel Técnico'}
           </span>
+          {/* Icono expand/collapse */}
+          <span className="text-white/60 text-xs ml-1">
+            {isExpanded ? '▼' : '▶'}
+          </span>
         </div>
-        
+
         <div className="flex items-center space-x-3 text-xs">
           {isStreaming && streamingSource && (
             <span className="text-green-300">
@@ -52,8 +62,9 @@ const ScrapersDetailPanel: React.FC = () => {
         </div>
       </div>
 
-      {/* Panel detallado */}
-      <div className="backdrop-blur-xl bg-black/40 border-l border-r border-b border-white/20 rounded-b-lg p-3 shadow-2xl">
+      {/* Panel detallado - CONDICIONAL: Solo visible cuando isExpanded = true */}
+      {isExpanded && (
+        <div className="backdrop-blur-xl bg-black/40 border-l border-r border-b border-white/20 rounded-b-lg p-3 shadow-2xl">
         
         {/* Streaming actual */}
         {isStreaming && streamingSource && (
@@ -132,7 +143,8 @@ const ScrapersDetailPanel: React.FC = () => {
             </div>
           </div>
         )}
-      </div>
+        </div>
+      )}
     </div>
   )
 }

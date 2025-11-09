@@ -105,9 +105,19 @@ class UrlDiscoveryService:
             # Detectar si es Argentina por nombre de ciudad (fallback)
             location_lower = location.lower()
             argentine_cities = [
-                'buenos aires', 'córdoba', 'cordoba', 'mendoza', 'rosario', 
+                # Ciudades grandes
+                'buenos aires', 'córdoba', 'cordoba', 'mendoza', 'rosario',
                 'la plata', 'mar del plata', 'salta', 'tucumán', 'tucuman',
-                'bariloche', 'neuquén', 'neuquen'
+                'bariloche', 'neuquén', 'neuquen', 'ushuaia', 'santa fe',
+                # Costa atlántica
+                'villa gesell', 'gesell', 'pinamar', 'mar de las pampas',
+                'cariló', 'carilo', 'miramar', 'necochea', 'claromecó',
+                # Provincia Buenos Aires
+                'paso del rey', 'morón', 'moron', 'la matanza', 'tigre',
+                'san isidro', 'quilmes', 'lomas de zamora', 'banfield',
+                # Interior
+                'villa carlos paz', 'carlos paz', 'villa general belgrano',
+                'merlo', 'san luis', 'san rafael', 'puerto madryn'
             ]
             
             is_argentina = any(city in location_lower for city in argentine_cities)

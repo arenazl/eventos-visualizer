@@ -454,7 +454,7 @@ MEETUP (FORMATO ESPECÍFICO):
             
             session = await self._get_session()
             
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={self.api_key}"
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={self.api_key}"
             
             payload = {
                 "contents": [{
@@ -464,30 +464,135 @@ MEETUP (FORMATO ESPECÍFICO):
                 }],
                 "generationConfig": {
                     "temperature": 0.1,
-                    "maxOutputTokens": 1024
+                    "maxOutputTokens": 8192
                 }
             }
             
             async with session.post(url, json=payload) as response:
                 if response.status == 200:
                     data = await response.json()
-                    
+                    logger.debug(f"🔍 Gemini full response: {data}")
+
                     if 'candidates' in data and len(data['candidates']) > 0:
-                        text = data['candidates'][0]['content']['parts'][0]['text']
+                        candidate = data['candidates'][0]
+
+                        # Verificar estructura del candidate
+                        if 'content' not in candidate:
+                            logger.error(f"❌ Gemini response missing 'content'. Response: {data}")
+                            return None
+
+                        content = candidate['content']
+
+                        if 'parts' not in content:
+                            logger.error(f"❌ Gemini response missing 'parts' in content. Content: {content}")
+                            return None
+
+                        if len(content['parts']) == 0:
+                            logger.error(f"❌ Gemini response has empty 'parts' array")
+                            return None
+
+                        text = content['parts'][0]['text']
                         logger.info(f"✅ Gemini API responded successfully")
                         return text.strip()
                     else:
-                        logger.warning("⚠️ Gemini API response sin contenido")
+                        logger.warning(f"⚠️ Gemini API response sin contenido. Response: {data}")
                         return None
                 else:
-                    logger.error(f"❌ Gemini API error: HTTP {response.status}")
+                    error_text = await response.text()
+                    logger.error(f"❌ Gemini API error: HTTP {response.status} - {error_text}")
                     return None
-                    
+
         except Exception as e:
             logger.error(f"❌ Error llamando Gemini API: {e}")
+            import traceback
+            logger.error(f"Traceback: {traceback.format_exc()}")
             return None
-    
-    async def close(self):
-        """Cierra recursos"""
-        if self.session and not self.session.closed:
-            await self.session.close()
+
+
+# 🌍 Cache for nearby cities to avoid repeated AI calls
+_nearby_cities_cache = {}
+
+# 🌍 Helper function for nearby cities
+async def get_nearby_cities_with_ai(location: str, limit: int = 10) -> list:
+    """
+    Get nearby cities using Gemini AI (with caching)
+
+    Args:
+        location: City name to find nearby cities for
+        limit: Maximum number of cities to return
+
+    Returns:
+        List of dictionaries with city information
+    """
+    try:
+        # Check cache first
+        cache_key = f"{location.lower()}:{limit}"
+        if cache_key in _nearby_cities_cache:
+            logger.info(f"✅ Returning cached nearby cities for {location}")
+            return _nearby_cities_cache[cache_key]
+
+        prompt = f"""
+Eres un experto en geografía. Dame una lista de {limit} ciudades cercanas a "{location}", Argentina.
+
+Para cada ciudad, proporciona:
+1. Nombre de la ciudad
+2. Provincia
+3. Distancia aproximada en km desde {location}
+4. Si tiene eventos culturales/deportivos importantes
+
+Responde SOLO en formato JSON válido, sin markdown ni explicaciones adicionales:
+{{
+  "cities": [
+    {{
+      "name": "Nombre Ciudad",
+      "displayName": "Ciudad (50 km)",
+      "province": "Provincia",
+      "country": "Argentina",
+      "countryCode": "AR",
+      "distance": "50 km",
+      "hasEvents": true,
+      "lat": -34.0,
+      "lon": -64.0
+    }}
+  ]
+}}
+"""
+
+        # Create AI service instance
+        ai_service = GeminiAIService()
+
+        # Call Gemini API
+        response_text = await ai_service._call_gemini_api(prompt)
+
+        if not response_text:
+            logger.warning(f"⚠️ No response from Gemini for nearby cities")
+            return []
+
+        # Parse JSON response
+        import json
+        import re
+
+        # Clean response (remove markdown if present)
+        json_text = re.sub(r'```json\n?|\n?```', '', response_text.strip())
+
+        try:
+            data = json.loads(json_text)
+            cities = data.get("cities", [])[:limit]
+
+            # Store in cache for future requests
+            cache_key = f"{location.lower()}:{limit}"
+            _nearby_cities_cache[cache_key] = cities
+
+            logger.info(f"✅ Got {len(cities)} nearby cities for {location} (cached for future use)")
+            return cities
+
+        except json.JSONDecodeError as e:
+            logger.error(f"❌ Error parsing JSON from Gemini: {e}")
+            logger.error(f"Response was: {response_text[:200]}")
+            return []
+
+    except Exception as e:
+        logger.error(f"❌ Error getting nearby cities: {e}")
+        import traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        return []

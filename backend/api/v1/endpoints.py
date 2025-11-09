@@ -14,19 +14,23 @@ from datetime import datetime
 # Import Gemini for intent detection
 import google.generativeai as genai
 
-# Import scraper discovery
-from scrapers.discovery import discovery
-from scrapers.base import Event
+# COMENTADO: Ya no usamos scrapers viejos, solo GeminiFactory
+# from scrapers.discovery import discovery
+# from scrapers.base import Event
 
 router = APIRouter(prefix="/api/v1", tags=["v1"])
 
 # Configure Gemini
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "AIzaSyA1UUEuBJVLYBAMGWXeneEJkmva7fEv-F8")
 genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('gemini-2.5-flash')
 
-# Initialize discovery on startup
-discovery.discover_all()
+# COMENTADO: Ya no usamos auto-discovery, solo GeminiFactory
+# discovery.discover_all()
+
+# Log visible para confirmar que usamos SOLO GeminiFactory (sin emojis para evitar encoding issues)
+import logging as v1_logger
+v1_logger.getLogger(__name__).info("==> API V1 ENDPOINTS - USANDO SOLO GEMINI FACTORY (no scrapers viejos)")
 
 
 @router.post("/intent")
@@ -242,64 +246,65 @@ async def search_events_sse(
     )
 
 
-@router.post("/recommend")
-async def recommend_events(request: Request):
-    """
-    Recomienda eventos basados en preferencias del usuario (futuro)
-    
-    Request body:
-    {
-        "location": "Villa Gesell, Buenos Aires, Argentina",
-        "preferences": ["música", "deportes"],
-        "history": []
-    }
-    
-    Response:
-    {
-        "recommendations": [Event, ...],
-        "reasoning": "Basado en tu interés en música y deportes..."
-    }
-    """
-    try:
-        data = await request.json()
-        location = data.get("location", "")
-        preferences = data.get("preferences", [])
-        
-        if not location:
-            raise HTTPException(status_code=400, detail="Location is required")
-        
-        # Por ahora, simplemente buscar eventos y filtrar por preferencias
-        results = await discovery.run_scrapers_parallel(location, limit=20)
-        
-        all_events = []
-        for scraper_events in results.values():
-            all_events.extend(scraper_events)
-        
-        # Filtrar por preferencias si hay
-        if preferences:
-            filtered_events = []
-            for event in all_events:
-                # Verificar si alguna preferencia coincide con la categoría
-                if any(pref.lower() in str(event.category).lower() for pref in preferences):
-                    filtered_events.append(event)
-                # O en el título/descripción
-                elif any(pref.lower() in (event.title + " " + (event.description or "")).lower() for pref in preferences):
-                    filtered_events.append(event)
-            
-            all_events = filtered_events
-        
-        # Limitar a 10 recomendaciones
-        recommendations = all_events[:10]
-        
-        return {
-            "recommendations": [e.model_dump() if hasattr(e, 'model_dump') else e for e in recommendations],
-            "reasoning": f"Basado en tu búsqueda en {location}" + (f" y tu interés en {', '.join(preferences)}" if preferences else ""),
-            "total_found": len(all_events)
-        }
-        
-    except Exception as e:
-        print(f"❌ Error en recommendations: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+# DISABLED: /recommend endpoint removed - no longer used by frontend
+# @router.post("/recommend")
+# async def recommend_events(request: Request):
+#     """
+#     Recomienda eventos basados en preferencias del usuario (futuro)
+#
+#     Request body:
+#     {
+#         "location": "Villa Gesell, Buenos Aires, Argentina",
+#         "preferences": ["música", "deportes"],
+#         "history": []
+#     }
+#
+#     Response:
+#     {
+#         "recommendations": [Event, ...],
+#         "reasoning": "Basado en tu interés en música y deportes..."
+#     }
+#     """
+#     try:
+#         data = await request.json()
+#         location = data.get("location", "")
+#         preferences = data.get("preferences", [])
+#
+#         if not location:
+#             raise HTTPException(status_code=400, detail="Location is required")
+#
+#         # Por ahora, simplemente buscar eventos y filtrar por preferencias
+#         results = await discovery.run_scrapers_parallel(location, limit=20)
+#
+#         all_events = []
+#         for scraper_events in results.values():
+#             all_events.extend(scraper_events)
+#
+#         # Filtrar por preferencias si hay
+#         if preferences:
+#             filtered_events = []
+#             for event in all_events:
+#                 # Verificar si alguna preferencia coincide con la categoría
+#                 if any(pref.lower() in str(event.category).lower() for pref in preferences):
+#                     filtered_events.append(event)
+#                 # O en el título/descripción
+#                 elif any(pref.lower() in (event.title + " " + (event.description or "")).lower() for pref in preferences):
+#                     filtered_events.append(event)
+#
+#             all_events = filtered_events
+#
+#         # Limitar a 10 recomendaciones
+#         recommendations = all_events[:10]
+#
+#         return {
+#             "recommendations": [e.model_dump() if hasattr(e, 'model_dump') else e for e in recommendations],
+#             "reasoning": f"Basado en tu búsqueda en {location}" + (f" y tu interés en {', '.join(preferences)}" if preferences else ""),
+#             "total_found": len(all_events)
+#         }
+#
+#     except Exception as e:
+#         print(f"❌ Error en recommendations: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
 
 
 async def _run_scraper_with_timeout(scraper, location: str, limit: int):

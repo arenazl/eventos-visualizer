@@ -1,14 +1,17 @@
 """
 Endpoint de IA para análisis rápido de eventos con hover
 Usa Gemini para dar contexto inteligente sobre cada evento
+CON SISTEMA DE PRIORIDADES Y STREAMING
 """
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
+from fastapi.responses import StreamingResponse
 from typing import Dict, Any
 import os
 import google.generativeai as genai
 import logging
 import json
+import asyncio
 
 router = APIRouter(prefix="/api/ai", tags=["ai-hover"])
 logger = logging.getLogger(__name__)
@@ -17,9 +20,12 @@ logger = logging.getLogger(__name__)
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-2.5-flash')
 else:
     model = None
+
+# Semáforo para limitar requests concurrentes a Gemini
+_gemini_semaphore = asyncio.Semaphore(3)  # Max 3 requests concurrentes
 
 @router.post("/event-insight")
 async def get_event_insight(event_data: Dict[str, Any]):
@@ -181,3 +187,99 @@ async def quick_hover_info(event_id: str):
             "Fácil acceso en transporte"
         ]
     }
+
+
+@router.post("/event-insight-stream")
+async def get_event_insight_stream(event_data: Dict[str, Any]):
+    """
+    🌊 STREAMING VERSION - Insights aparecen progresivamente
+    """
+    async def event_stream():
+        if not model:
+            # Enviar fallback rápido
+            fallback = generate_fallback_insight(event_data)
+            yield f"data: {json.dumps({'type': 'complete', 'insight': fallback})}\n\n"
+            return
+
+        try:
+            title = event_data.get("title", "")
+            venue = event_data.get("venue_name", "")
+            category = event_data.get("category", "")
+            location = event_data.get("location", "Buenos Aires")
+
+            # Enviar evento de inicio
+            yield f"data: {json.dumps({'type': 'start', 'message': 'Analizando evento...'})}\n\n"
+            await asyncio.sleep(0.1)
+
+            # Prompt específico
+            prompt = f"""
+            Evento: {title}
+            Lugar: {venue}
+            Categoría: {category}
+            Ciudad: {location}
+
+            Dame información SUPER CONCISA y ÚTIL sobre este evento.
+            Si conocés la banda/artista/lugar, contame algo interesante.
+
+            FORMATO de respuesta (JSON):
+            {{
+                "quick_insight": "1 línea sobre qué esperar del evento",
+                "artist_info": "Si es una banda/artista conocido, 1 dato copado",
+                "venue_tip": "1 tip sobre el lugar (dónde es mejor ubicarse, etc)",
+                "transport": "Colectivos que llegan ahí (números)",
+                "nearby": "1 lugar copado para ir antes/después",
+                "vibe": "En 3 palabras el ambiente",
+                "pro_tip": "1 consejo que solo un local sabría",
+                "best_for": "Para quién es ideal este evento"
+            }}
+
+            Si no conocés algo específico, inventá algo coherente y útil basado en el tipo de evento.
+            Respondé SOLO el JSON, sin explicaciones adicionales.
+            """
+
+            # Generar con Gemini (streaming nativo)
+            response = model.generate_content(prompt, stream=True)
+
+            accumulated_text = ""
+            for chunk in response:
+                if chunk.text:
+                    accumulated_text += chunk.text
+                    # Enviar chunk
+                    yield f"data: {json.dumps({'type': 'chunk', 'text': chunk.text})}\n\n"
+                    await asyncio.sleep(0.02)  # 20ms delay para efecto typing
+
+            # Parsear JSON final
+            try:
+                json_str = accumulated_text.strip()
+                if json_str.startswith("```json"):
+                    json_str = json_str[7:]
+                if json_str.startswith("```"):
+                    json_str = json_str[3:]
+                if json_str.endswith("```"):
+                    json_str = json_str[:-3]
+
+                insight_data = json.loads(json_str.strip())
+            except json.JSONDecodeError:
+                insight_data = {
+                    "quick_insight": accumulated_text[:100] if accumulated_text else "Evento interesante",
+                    "transport": "Varias líneas de colectivo",
+                    "vibe": "Copado y divertido",
+                    "best_for": "Todos los públicos"
+                }
+
+            # Enviar resultado final
+            yield f"data: {json.dumps({'type': 'complete', 'insight': insight_data})}\n\n"
+
+        except Exception as e:
+            logger.error(f"Error en streaming: {e}")
+            fallback = generate_fallback_insight(event_data)
+            yield f"data: {json.dumps({'type': 'error', 'error': str(e), 'fallback': fallback})}\n\n"
+
+    return StreamingResponse(
+        event_stream(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no"
+        }
+    )

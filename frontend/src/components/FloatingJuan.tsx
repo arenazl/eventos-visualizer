@@ -1,49 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { useAssistants } from '../contexts/AssistantsContext'
+import Juan3DAvatar from './Juan3DAvatar'
 
 const FloatingJuan: React.FC = () => {
   console.log('👨‍💼 DEBUG: Juan Call Center render');
   const [showTip, setShowTip] = useState(false)
   const [currentTip, setCurrentTip] = useState('')
-  const { lastEventInteraction, juanEnabled, setJuanEnabled } = useAssistants()
+  const { lastEventInteraction, lastSearchContext, lastNoEventsContext, juanEnabled, setJuanEnabled } = useAssistants()
   
   // Juan solo comenta sobre eventos reales - NO tips hardcodeados
 
-  // Comentarios dinámicos con Gemini AI
+  // DESACTIVADO TEMPORALMENTE: Comentarios dinámicos con Gemini AI
+  // Para pruebas de performance solo Análisis Inteligente llama a Gemini
   const getAIContextualComment = async (eventTitle: string, category: string, shouldConverse: boolean = false): Promise<string> => {
-    try {
-      let prompt = ''
-      
-      // Detectar si es selección de categoría
-      if (eventTitle.startsWith('Categoría:')) {
-        prompt = shouldConverse 
-          ? `Como Juan, especialista en deportes y tech, responde a Sofia sobre que el usuario eligió "${category}". Defiende tu especialidad si es deportes/tech o reconoce si es cultura. Máximo 50 caracteres. Incluye emojis.`
-          : `Como Juan, especialista en deportes y tech, comenta sobre que el usuario eligió la categoría "${category}". Haz un comentario positivo. Máximo 50 caracteres. Incluye emojis.`
-      } else {
-        prompt = shouldConverse 
-          ? `Como Juan, un asistente de eventos especialista en deportes y tecnología, haz un comentario respondiendo a Sofia (tu compañera especialista en cultura) sobre este evento: "${eventTitle}" de categoría "${category}". Máximo 60 caracteres. Incluye emojis.`
-          : `Como Juan, un asistente de eventos especialista en deportes y tecnología, haz un comentario entusiasta sobre este evento: "${eventTitle}" de categoría "${category}". Máximo 60 caracteres. Incluye emojis.`
-      }
-
-      const response = await fetch('http://172.29.228.80:8001/api/ai/event-insight', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: eventTitle,
-          category: category,
-          custom_prompt: prompt
-        })
-      })
-      
-      const data = await response.json()
-      if (data.success && data.insight?.quick_insight) {
-        return data.insight.quick_insight
-      }
-    } catch (error) {
-      console.error('Error getting Juan AI comment:', error)
-    }
-
-    // Fallback a comentarios hardcodeados si falla IA
+    console.log('👨‍💼 Juan: AI calls DISABLED - usando fallback hardcoded')
     return getHardcodedComment(eventTitle, category, shouldConverse)
   }
 
@@ -177,39 +147,137 @@ const FloatingJuan: React.FC = () => {
 
   // Escuchar eventos de interacción
   useEffect(() => {
-    if (lastEventInteraction && juanEnabled) {
+    // Solo responder si:
+    // 1. Juan está habilitado
+    // 2. El evento no especifica assistant (cualquiera puede responder) O especifica 'juan'
+    const shouldRespond = juanEnabled &&
+                          lastEventInteraction &&
+                          (!lastEventInteraction.assistant || lastEventInteraction.assistant === 'juan')
+
+    if (shouldRespond) {
       const generateComment = async () => {
         const contextualComment = await getAIContextualComment(
-          lastEventInteraction.eventTitle, 
-          lastEventInteraction.eventCategory,
-          lastEventInteraction.shouldConverse
+          lastEventInteraction!.eventTitle,
+          lastEventInteraction!.eventCategory,
+          lastEventInteraction!.shouldConverse
         )
         setCurrentTip(contextualComment)
         setShowTip(true)
-        
-        // Auto-ocultar según si hay conversación o no
-        const timeout = lastEventInteraction.shouldConverse ? 8000 : 5000
+
+        // Auto-ocultar según si hay conversación o no (timeouts más largos)
+        const timeout = lastEventInteraction!.shouldConverse ? 15000 : 10000
         const timer = setTimeout(() => {
           setShowTip(false)
         }, timeout)
-        
+
         return timer
       }
-      
+
       generateComment()
     }
   }, [lastEventInteraction, juanEnabled])
-  
+
+  // 🔍 Comentario general al hacer búsqueda (perfil: estricto, sensato, práctico)
+  useEffect(() => {
+    if (lastSearchContext && juanEnabled) {
+      const { dayOfWeek, hour, cityName } = lastSearchContext
+      let comment = ''
+      const cityPrefix = cityName ? `📍 ${cityName}: ` : ''
+
+      // Comentarios SIEMPRE, incluso sin eventos - basados en día y hora (con recordatorios prácticos y sensatos + ciudad)
+      if (dayOfWeek === 'Lunes' && hour < 12) {
+        const mondayMorning = [
+          `${cityPrefix}Lunes temprano buscando eventos? Verificá transporte y horarios ⏰🚌`,
+          `${cityPrefix}Planificando con tiempo? Smart move. Confirmá disponibilidad 📅✅`,
+          `${cityPrefix}Lunes organizando? Perfecto. Checklist: horarios, transporte, DNI 📝🆔`
+        ]
+        comment = mondayMorning[Math.floor(Math.random() * mondayMorning.length)]
+      } else if (dayOfWeek === 'Viernes' && hour >= 18) {
+        const fridayNight = [
+          `${cityPrefix}Viernes! Revisá clima y llevá efectivo por las dudas 🌤️💵`,
+          `${cityPrefix}Finde cerca! Confirmá ubicaciones exactas y transporte 📍🚗`,
+          `${cityPrefix}Viernes tarde! Salí temprano, el tráfico complica 🚙⏰`
+        ]
+        comment = fridayNight[Math.floor(Math.random() * fridayNight.length)]
+      } else if (['Sábado', 'Domingo'].includes(dayOfWeek) && hour < 14) {
+        const weekendMorning = [
+          `${cityPrefix}Finde activo! Verificá horarios de apertura y precios 💼🕐`,
+          `${cityPrefix}Organizando? Checklist: DNI, efectivo, transporte 🆔🚇`,
+          `${cityPrefix}Plan de finde! Confirmá ubicaciones antes de salir 📍✅`
+        ]
+        comment = weekendMorning[Math.floor(Math.random() * weekendMorning.length)]
+      } else if (hour >= 23 || hour < 5) {
+        const lateNight = [
+          `${cityPrefix}Las ${hour}hs! Importante: verificá transporte nocturno 🚍🌙`,
+          `${cityPrefix}Tarde ya! Seguridad first: avisá dónde vas 📱🔒`,
+          `${cityPrefix}Madrugada! Planificá bien y descansá antes del evento 😴💪`
+        ]
+        comment = lateNight[Math.floor(Math.random() * lateNight.length)]
+      } else {
+        const generic = [
+          `${cityPrefix}Buscando eventos! Tip: reservar temprano = mejor precio 💰📅`,
+          `${cityPrefix}Organizando salidas! Verificá: precio, ubicación, horario ✅🎯`,
+          `${cityPrefix}Planificando! Esenciales: DNI, efectivo, cargador 🆔💵🔋`
+        ]
+        comment = generic[Math.floor(Math.random() * generic.length)]
+      }
+
+      setCurrentTip(comment)
+      setShowTip(true)
+
+      // Ocultar después de 12 segundos
+      const timer = setTimeout(() => {
+        setShowTip(false)
+      }, 12000)
+
+      return () => clearTimeout(timer)
+    }
+  }, [lastSearchContext, juanEnabled])
+
+  // 🚫 Comentario cuando no hay eventos (perfil: pragmático, solucionador)
+  useEffect(() => {
+    if (lastNoEventsContext && juanEnabled) {
+      const { cityName, searchingNearby } = lastNoEventsContext
+      let comment = ''
+
+      if (searchingNearby) {
+        const searchingComments = [
+          `📍 ${cityName}: No hay eventos aquí. Checkeando zonas cercanas... 🔍`,
+          `📍 ${cityName}: 0 resultados. Buscando en ciudades nearby... ⏳`,
+          `📍 ${cityName}: Vacío. Expandiendo radio de búsqueda... 🌍`
+        ]
+        comment = searchingComments[Math.floor(Math.random() * searchingComments.length)]
+      } else {
+        const noEventsComments = [
+          `📍 ${cityName}: Sin eventos disponibles. Tip: probá ciudades cercanas 🔍`,
+          `📍 ${cityName}: 0 eventos en calendario. Ampliá tu búsqueda 📅`,
+          `📍 ${cityName}: No hay nada programado. Considerá zonas nearby 🌍`
+        ]
+        comment = noEventsComments[Math.floor(Math.random() * noEventsComments.length)]
+      }
+
+      setCurrentTip(comment)
+      setShowTip(true)
+
+      // Ocultar después de 10 segundos
+      const timer = setTimeout(() => {
+        setShowTip(false)
+      }, 10000)
+
+      return () => clearTimeout(timer)
+    }
+  }, [lastNoEventsContext, juanEnabled])
+
   // JUAN - CONTEXTUAL COMMENTS WITH TOGGLE
   return (
-    <div className="fixed bottom-6 left-6 z-50">
+    <div className="fixed bottom-4 left-4 md:bottom-6 md:left-6 z-50">
       <div className="relative group">
         {/* Toggle Button */}
         <button
           onClick={() => setJuanEnabled(!juanEnabled)}
-          className={`absolute -top-3 -right-3 w-6 h-6 rounded-full text-xs font-bold transition-all duration-300 ${
-            juanEnabled 
-              ? 'bg-green-500 text-white hover:bg-green-600' 
+          className={`absolute -top-2 -right-2 md:-top-3 md:-right-3 w-5 h-5 md:w-6 md:h-6 rounded-full text-xs font-bold transition-all duration-300 ${
+            juanEnabled
+              ? 'bg-green-500 text-white hover:bg-green-600'
               : 'bg-gray-400 text-white hover:bg-gray-500'
           }`}
           title={juanEnabled ? 'Desactivar Juan' : 'Activar Juan'}
@@ -224,33 +292,30 @@ const FloatingJuan: React.FC = () => {
           onMouseLeave={() => {
             // Juan solo comenta sobre eventos reales, no tips hardcodeados
           }}
-          className={`relative rounded-full p-4 shadow-2xl transform transition-all duration-300 animate-bounce ${
-            juanEnabled 
-              ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:shadow-blue-500/50 hover:scale-110' 
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+          className={`relative transform transition-all duration-300 animate-bounce ${
+            juanEnabled
+              ? 'hover:scale-110 drop-shadow-2xl'
+              : 'opacity-50 cursor-not-allowed'
           }`}
           disabled={!juanEnabled}
         >
-          {/* Juan especialista en deportes & tech */}
-          <div className="relative">
-            <span className="text-4xl animate-pulse juan-look-around">🧑‍💼</span>
-            {/* Notificación parpadeante */}
-            <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full animate-ping"></div>
-            {/* Auriculares flotantes */}
-            <div className="absolute -top-2 -right-1 text-xs animate-bounce" style={{animationDelay: '0.7s'}}>🎧</div>
+          {/* Juan - Simple Emoji Avatar */}
+          <div className="relative w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full flex items-center justify-center shadow-2xl">
+            <span className="text-5xl md:text-6xl">🧑‍💼</span>
           </div>
-          
+
         </button>
-        
-        {/* Tooltip de Juan con tips aleatorios o comentarios contextuales */}
+
+        {/* Tooltip de Juan - DISEÑO MEJORADO HORIZONTAL */}
         {showTip && juanEnabled && (
-          <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-2xl text-sm font-semibold shadow-2xl whitespace-nowrap animate-bounce z-50">
-            <div className="flex items-center gap-2">
-              <span className="juan-look-around">🧑‍💼</span>
-              <span>{currentTip}</span>
+          <div className="absolute bottom-full mb-4 md:mb-5 -left-4 md:-right-80 md:left-auto animate-fade-in-up">
+            <div className="relative bg-gradient-to-br from-cyan-500/90 to-blue-600/90 backdrop-blur-xl text-white px-8 py-4 rounded-3xl font-medium transition-all shadow-[0_8px_30px_rgb(0,0,0,0.3)] z-50 w-auto max-w-[calc(100vw-3rem)] hover:shadow-[0_12px_40px_rgb(0,0,0,0.4)] hover:scale-105 border border-white/20">
+              <span className="break-words whitespace-normal leading-relaxed text-sm md:text-base">{currentTip}</span>
+              {/* Flecha hacia la izquierda (hacia Juan) - desktop */}
+              <div className="hidden md:block absolute top-1/2 -left-2 transform -translate-y-1/2 w-4 h-4 bg-gradient-to-br from-cyan-500/90 to-blue-600/90 rotate-45 border-l border-b border-white/20"></div>
+              {/* Flecha hacia abajo (móvil) */}
+              <div className="md:hidden absolute -bottom-2 left-8 w-4 h-4 bg-gradient-to-br from-cyan-500/90 to-blue-600/90 rotate-45 border-r border-b border-white/20"></div>
             </div>
-            {/* Flecha hacia abajo */}
-            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-blue-600"></div>
           </div>
         )}
       </div>

@@ -103,7 +103,9 @@ export const ScrapersProgressLoader: React.FC<ScrapersProgressLoaderProps> = ({
 
   const connectWebSocket = () => {
     try {
-      const ws = new WebSocket('ws://172.29.228.80:8001/ws/scrapers-progress')
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8001'
+      const wsUrl = apiUrl.replace('http://', 'ws://').replace('https://', 'wss://')
+      const ws = new WebSocket(`${wsUrl}/ws/scrapers-progress`)
 
       ws.onopen = () => {
         console.log('🔄 ScrapersProgress WebSocket conectado')

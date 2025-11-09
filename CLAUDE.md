@@ -13,13 +13,17 @@
 
 **⚠️ CUALQUIER VIOLACIÓN DE ESTA REGLA ES INACEPTABLE ⚠️**
 
-### 🌐 REGLA CRÍTICA - IPs EN WSL/LINUX
-**NUNCA usar localhost o 127.0.0.1 - Estamos en WSL/Linux**
-- **IP CORRECTA**: 172.29.228.80 (o la IP actual de WSL)
-- **Backend**: http://172.29.228.80:8001
-- **Frontend**: http://172.29.228.80:5174
-- **NO USAR**: localhost, 127.0.0.1, 0.0.0.0
-- **Obtener IP actual**: `hostname -I | awk '{print $1}'`
+### 🪟 REGLA CRÍTICA - DESARROLLO 100% EN WINDOWS
+**Ambiente nativo de Windows - NO WSL**
+- **Ambiente**: Windows nativo con Git Bash
+- **Python**: Instalación nativa de Windows (no WSL)
+- **Backend**: http://localhost:8001 o http://127.0.0.1:8001
+- **Frontend**: http://localhost:5174 o http://127.0.0.1:5174
+- **Razón**: Hot reload funciona mejor, sin problemas de sincronización de archivos
+- **Comandos Windows**:
+  - Activar venv: `venv\Scripts\activate` (CMD/PowerShell) o `source venv/Scripts/activate` (Git Bash)
+  - Python: `python` (no `python3`)
+  - Matar procesos: `taskkill /F /PID <pid>` o `netstat -ano | findstr :<puerto>`
 
 ### 🎉 REGLA CRÍTICA - TEMPLATES HTML OBLIGATORIOS
 **🔥🔥🔥 LA CLAVE DEL ÉXITO - NO INVENTAR DISEÑO 🔥🔥🔥**
@@ -128,19 +132,19 @@ docs/
 ### 🎉 Project Awareness & Context & Research
 - **Proyecto**: Sistema completo de eventos mobile-first con PWA
 - **Dominio**: Visualización y gestión de eventos (deportivos, culturales, fiestas, tech)
-- **Tecnologías**: FastAPI + PostgreSQL + React (Vite) + PWA + Google Calendar
+- **Tecnologías**: FastAPI + **MySQL** + React (Vite) + PWA + Google Calendar
 - **APIs**: Eventbrite, Ticketmaster, Meetup, Facebook Events integradas
-- **Base de datos**: PostgreSQL con PostGIS para geolocalización
+- **Base de datos**: **MySQL (NO PostgreSQL)** - Ver backend/CAMBIO_MYSQL.md
 - **Deployment**: Docker + Railway/Vercel para producción
 - **Tiempo real**: WebSockets para notificaciones push
 
 ### ⚠️ CONFIGURACIÓN CRÍTICA DEL SERVIDOR
 - **BACKEND ÚNICO**: `main.py` en puerto 8001 (NO CREAR NUEVOS SERVIDORES)
 - **NO CREAR**: server.py, api_server.py, events_server.py, etc.
-- **POOL PostgreSQL**: 20 conexiones configuradas, con try-finally para liberación
-- **CONEXIÓN DB**: PostgreSQL con asyncpg para async/await
+- **POOL MySQL**: 20 conexiones configuradas, con try-finally para liberación
+- **CONEXIÓN DB**: **MySQL** con PyMySQL para conexión asíncrona
 - **CREDENCIALES DB**: Configuradas en .env
-- **IMPORTANTE**: 
+- **IMPORTANTE**:
   - El servidor DEBE ser estable sin necesidad de "auto-recuperación"
   - Las conexiones SIEMPRE se liberan con try-finally
   - NO crear scripts de restart/monitor - el servidor debe funcionar bien
@@ -151,13 +155,13 @@ docs/
 - **Backend**: FastAPI con arquitectura modular por dominio (events, users, notifications)
 - **Frontend**: React + Vite con componentes reutilizables, diseño mobile-first
 - **API**: REST + WebSockets para notificaciones en tiempo real
-- **Base de datos**: PostgreSQL con migraciones Alembic, modelos con SQLAlchemy
+- **Base de datos**: **MySQL** con migraciones Alembic, modelos con SQLAlchemy
 
 ### 📚 Documentación Obligatoria (Research Automático)
 - **FastAPI**: https://fastapi.tiangolo.com/tutorial/
 - **FastAPI WebSockets**: https://fastapi.tiangolo.com/advanced/websockets/
-- **PostgreSQL**: https://www.postgresql.org/docs/
-- **SQLAlchemy PostgreSQL**: https://docs.sqlalchemy.org/en/20/dialects/postgresql.html
+- **MySQL**: https://dev.mysql.com/doc/
+- **SQLAlchemy MySQL**: https://docs.sqlalchemy.org/en/20/dialects/mysql.html
 - **React**: https://react.dev/learn
 - **Vite**: https://vitejs.dev/guide/
 - **React Router**: https://reactrouter.com/en/main
@@ -213,9 +217,9 @@ docs/
 
 ### 📎 Style & Conventions
 - **Backend**: Python con FastAPI, type hints obligatorios, formato con black
-- **Python**: SIEMPRE usar `python3` (nunca `python`)
+- **Python**: En Windows usar `python` (no `python3`)
 - **Frontend**: TypeScript con React + Vite, ESLint + Prettier
-- **Base de datos**: PostgreSQL con naming snake_case, foreign keys siempre indexadas
+- **Base de datos**: **MySQL** con naming snake_case, foreign keys siempre indexadas
 - **API**: Rutas RESTful + WebSocket endpoints para notifications
 - **Documentación**: Docstrings estilo Google para todas las funciones
 
@@ -246,7 +250,7 @@ docs/
 
 ### 🐳 Development Environment
 - **Docker recomendado** para desarrollo consistente
-- **PostgreSQL en container** o servicio cloud
+- **MySQL en container** o servicio cloud (Railway/PlanetScale)
 - **Hot reload** para desarrollo rápido React + FastAPI
 - **Variables de entorno** para todas las configuraciones de APIs
 
@@ -264,12 +268,13 @@ docs/
 - **Testing**: Vitest + React Testing Library
 - **Bundle**: Optimización automática para mobile
 
-### 💾 PostgreSQL Específico
-- **Engine**: PostgreSQL 14+ con PostGIS para geolocalización
-- **Charset**: UTF8 para caracteres internacionales
+### 💾 MySQL Específico
+- **Engine**: MySQL 8.0+ (Railway MySQL o PlanetScale recomendado)
+- **Charset**: utf8mb4 para caracteres internacionales y emojis
 - **Indices**: Optimizados para queries de geolocalización y fechas
 - **Migrations**: Alembic para schema changes
-- **Connection pool**: AsyncPG con pool de conexiones
+- **Connection pool**: PyMySQL con pool de conexiones
+- **Credenciales**: Ver .env.example o backend/app/config.py
 
 ### 🎨 REGLA CRÍTICA - TEMPLATES HTML
 **📄 ANTES DE CUALQUIER COMPONENTE UI:**

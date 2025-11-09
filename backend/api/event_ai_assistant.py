@@ -8,6 +8,8 @@ from typing import Dict, Any, List
 import random
 from datetime import datetime
 import logging
+import json
+from services.ai_service import GeminiAIService
 
 router = APIRouter(prefix="/api/ai/event", tags=["ai-assistant"])
 logger = logging.getLogger(__name__)
@@ -119,7 +121,85 @@ class EventAIAssistant:
         }
         
         return analysis
-    
+
+    async def generate_conversational_summary(self, event: Dict[str, Any]) -> List[Dict[str, str]]:
+        """Genera una conversación dinámica usando la API de Gemini."""
+        
+        try:
+            analysis = self.analyze_event(event)
+
+            event_summary = {
+                "nombre": event.get("name", "un evento increíble"),
+                "categoría": event.get("category", "general"),
+                "lugar": event.get("venue_name", "un lugar a confirmar"),
+                "precio": analysis.get("budget_tips", {}).get("ticket", "desconocido"),
+                "hora_inicio": event.get("start_datetime", "desconocida"),
+                "ambiente": analysis.get("ai_insights", {}).get("vibe", "bueno"),
+                "parking": analysis.get("transport", {}).get("parking", "desconocido"),
+                "transporte_recomendado": analysis.get("transport", {}).get("best_option", "desconocido")
+            }
+
+            prompt = f'''
+Eres un guionista experto en diálogos de comedia. Tu tarea es escribir una conversación corta (exactamente 4 turnos) entre dos bots, "Bot Entusiasta" y "Bot Práctico", sobre un evento.
+
+**Contexto del Evento:**
+{json.dumps(event_summary, indent=2, ensure_ascii=False)}
+
+**Personajes:**
+- **Bot Entusiasta:** Siempre positivo, se enfoca en la experiencia y la diversión. Minimiza los problemas.
+- **Bot Práctico:** Realista y un poco quejoso. Se enfoca en los problemas y la logística (precio, transporte, etc.).
+
+**Instrucciones del Diálogo:**
+1. El diálogo debe tener **exactamente 4 turnos** en total.
+2. **Turno 1 (Entusiasta):** Empieza con mucho entusiasmo sobre el evento.
+3. **Turno 2 (Práctico):** Responde al entusiasmo señalando un problema o un punto de fricción real del contexto del evento (ej: el precio alto, el parking difícil, la hora tardía).
+4. **Turno 3 (Entusiasta):** Responde directamente al problema de Práctico con una solución o una perspectiva positiva.
+5. **Turno 4 (Práctico):** Acepta ir al evento a regañadientes pero termina con una frase o chiste ingenioso y divertido relacionado con el evento o la conversación.
+6. El diálogo debe ser natural, divertido y parecer una interacción real.
+7. **IMPORTANTE:** Devuelve el resultado final **SOLAMENTE** en formato JSON, como un array de objetos, sin explicaciones ni markdown.
+
+**Formato de Salida (SOLO JSON):**
+[
+  {{"sender": "Bot Entusiasta", "message": "Texto del bot..."}},
+  {{"sender": "Bot Práctico", "message": "Texto del bot..."}},
+  {{"sender": "Bot Entusiasta", "message": "Texto del bot..."}},
+  {{"sender": "Bot Práctico", "message": "Texto del bot..."}}
+]
+'''
+            ai_service = GeminiAIService()
+            llm_response = await ai_service._call_gemini_api(prompt)
+
+            if llm_response:
+                try:
+                    clean_response = llm_response.strip()
+                    if clean_response.startswith('```json'):
+                        clean_response = clean_response.replace('```json', '').replace('```', '').strip()
+                    
+                    conversation = json.loads(clean_response)
+                    if isinstance(conversation, list) and all("sender" in item and "message" in item for item in conversation):
+                        logger.info("✅ Conversación generada por Gemini exitosamente.")
+                        return conversation
+                except json.JSONDecodeError as e:
+                    logger.error(f"⚠️ Error parseando JSON de Gemini para conversación: {e}")
+                    logger.error(f"⚠️ Respuesta raw de Gemini: {llm_response}")
+
+            logger.warning("⚠️ Fallback a conversación scripteada por fallo de Gemini.")
+            return self.get_scripted_fallback_conversation(event)
+
+        except Exception as e:
+            logger.error(f"❌ Error generando conversación con Gemini: {e}")
+            return self.get_scripted_fallback_conversation(event)
+
+    def get_scripted_fallback_conversation(self, event: Dict[str, Any]) -> List[Dict[str, str]]:
+        """Un simple fallback scripteado si la API de Gemini falla."""
+        event_name = event.get("name", "ese evento")
+        return [
+            {"sender": "Bot Entusiasta", "message": f"¡Oye, encontré un plan! ¿Vamos a {event_name}?"},
+            {"sender": "Bot Práctico", "message": "No sé, seguro es caro o difícil de llegar."},
+            {"sender": "Bot Entusiasta", "message": "¡Pero será divertido! ¡Lo solucionamos!"},
+            {"sender": "Bot Práctico", "message": "Está bien... pero si algo sale mal, es tu culpa."}
+        ]
+
     def generate_insights(self, event: Dict[str, Any]) -> Dict[str, Any]:
         """Genera insights inteligentes sobre el evento"""
         
@@ -138,7 +218,6 @@ class EventAIAssistant:
         
         transport_options = self.transport_data.get(city, self.transport_data["Buenos Aires"])
         
-        # Seleccionar algunas opciones random
         buses = random.sample(transport_options.get("buses", []), min(3, len(transport_options["buses"])))
         
         transport = {
@@ -156,7 +235,6 @@ class EventAIAssistant:
     def get_safety_tips(self, venue: str, time: str) -> List[str]:
         """Consejos de seguridad contextuales"""
         
-        # Determinar si es de noche
         is_night = False
         try:
             hour = int(time.split("T")[1].split(":")[0]) if "T" in time else 20
@@ -173,7 +251,6 @@ class EventAIAssistant:
                 "Tener el celular cargado"
             ])
         
-        # Agregar tips según la zona
         if "centro" in venue.lower() or "microcentro" in venue.lower():
             tips.extend(self.safety_tips["centro"])
         elif "norte" in venue.lower() or "palermo" in venue.lower() or "recoleta" in venue.lower():
@@ -181,7 +258,7 @@ class EventAIAssistant:
         else:
             tips.append("Consultar con locales sobre la zona")
         
-        return tips[:5]  # Máximo 5 tips
+        return tips[:5]
     
     def get_event_recommendations(self, category: str) -> Dict[str, Any]:
         """Recomendaciones específicas según tipo de evento"""
@@ -217,7 +294,6 @@ class EventAIAssistant:
     def get_weather_advice(self, date: str) -> Dict[str, Any]:
         """Consejos según el clima esperado"""
         
-        # Simulación de pronóstico
         weather = random.choice(["soleado", "nublado", "lluvia", "fresco"])
         
         advice = {
@@ -360,6 +436,28 @@ async def analyze_event(event_data: Dict[str, Any]):
         }
     except Exception as e:
         logger.error(f"Error analyzing event: {e}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+
+@router.post("/conversation")
+async def get_event_conversation(event_data: Dict[str, Any]):
+    """
+    Genera una conversación de IA sobre un evento específico.
+    """
+    try:
+        assistant = EventAIAssistant()
+        conversation = await assistant.generate_conversational_summary(event_data)
+        
+        return {
+            "success": True,
+            "conversation": conversation,
+            "generated_at": datetime.now().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Error generating event conversation: {e}")
         return {
             "success": False,
             "error": str(e)

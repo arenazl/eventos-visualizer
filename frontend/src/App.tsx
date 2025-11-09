@@ -17,11 +17,12 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<HomePageModern />} />
-            <Route path="/evento/:id" element={<EventDetailPage />} />
+            <Route path="/event/:id" element={<EventDetailPage />} />
             <Route path="/scrapers-test" element={<ScrapersTestPage />} />
           </Routes>
-          <FloatingChat />
-          <FloatingJuan />
+          {/* DESACTIVADO TEMPORALMENTE: Asistentes flotantes */}
+          {/* <FloatingChat /> */}
+          {/* <FloatingJuan /> */}
         </Router>
       </EventsProvider>
       </AssistantsProvider>
