@@ -3,6 +3,7 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import SidePanel from '../components/SidePanel'
 import Header from '../components/Header'
 import { useAssistants } from '../contexts/AssistantsContext'
+import { API_BASE_URL } from '../config/api'
 
 interface Event {
   title: string
@@ -81,7 +82,7 @@ const EventDetailPage: React.FC = () => {
     setAiLoading(true)
 
     try {
-      const response = await fetch('http://localhost:8001/api/ai/event-insight', {
+      const response = await fetch(`${API_BASE_URL}/api/ai/event-insight`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -186,7 +187,7 @@ const EventDetailPage: React.FC = () => {
 
       // 3. Si tampoco está en sessionStorage, intentar fetch del backend
       console.log('⚠️ No event data in state or storage, attempting backend fetch...')
-      const response = await fetch(`http://localhost:8001/api/events/${id}`)
+      const response = await fetch(`${API_BASE_URL}/api/events/${id}`)
       if (!response.ok) throw new Error('Event not found')
       const data = await response.json()
       setEvent(data.event)
