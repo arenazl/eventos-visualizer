@@ -1,0 +1,96 @@
+{
+  "barrio": "Nueva Pompeya",
+  "comuna": 4,
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "caracteristica": "Barrio con una profunda identidad tanguera, folklórica y de clubes de barrio",
+  "cultura_fija_centro_cultural": [
+    {
+      "nombre": "Tango (Clases)",
+      "dias": "Martes",
+      "horario": "18:00 a 20:00 hs",
+      "lugar": "Centro Cultural Homero Manzi (Av. General Francisco Fernández de la Cruz 2736)",
+      "descripcion": "Clases de Tango para adultos (18 a 90 años)",
+      "categoria": "tango",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Fileteado Porteño",
+      "dias": "Martes",
+      "horario": "18:00 a 20:00 hs",
+      "lugar": "Centro Cultural Homero Manzi",
+      "descripcion": "Taller para aprender el arte tradicional de Buenos Aires",
+      "categoria": "arte-tradicional",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Ritmos Caribeños",
+      "dias": "Lunes",
+      "horario": "18:00 a 20:30 hs",
+      "lugar": "Centro Cultural Homero Manzi",
+      "descripcion": "Taller de Danza y ritmo",
+      "categoria": "danza",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Danza Árabe",
+      "dias": "Miércoles y Viernes",
+      "horario": "18:00 a 20:00 hs",
+      "lugar": "Centro Cultural Homero Manzi",
+      "descripcion": "Clases de Danza Árabe (fusión y adultos)",
+      "categoria": "danza",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Dibujo y Pintura",
+      "dias": "Lunes",
+      "horario": "18:00 a 20:00 hs",
+      "lugar": "Centro Cultural Homero Manzi",
+      "descripcion": "Taller de artes plásticas",
+      "categoria": "arte",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Guitarra Inicial",
+      "dias": "Martes",
+      "horario": "18:00 a 20:30 hs",
+      "lugar": "Centro Cultural Homero Manzi",
+      "descripcion": "Taller de música para principiantes",
+      "categoria": "musica",
+      "precio": "gratuito"
+    }
+  ],
+  "tango_milongas_y_penas": [
+    {
+      "nombre": "Encuentros en Clubes de Barrio",
+      "fecha": "Fijos / Consultar",
+      "hora_inicio": "Varia",
+      "hora_fin": null,
+      "lugar": "Clubes como Club Charr\u00faa, Nueva Era, Franja de Oro o Miriñaque",
+      "descripcion": "Ofrecen constantemente cursos, actividades deportivas y sociales, incluyendo milongas o peñas que se anuncian en la semana",
+      "categoria": "tango-milonga",
+      "precio": "variable"
+    },
+    {
+      "nombre": "Evento de Tango",
+      "fecha": "Hoy, Domingo 9",
+      "hora_inicio": "18:00",
+      "hora_fin": null,
+      "lugar": "Centro Cultural Borges (Viamonte 525)",
+      "descripcion": "Evento de tango (consultar si sigue vigente)",
+      "categoria": "tango",
+      "precio": "consultar"
+    }
+  ],
+  "notas": [
+    "Nueva Pompeya es barrio con una profunda identidad tanguera ('Sur')",
+    "Los talleres del Centro Cultural Homero Manzi son gratuitos",
+    "Es fundamental confirmar la disponibilidad de vacantes y el horario exacto en el Centro Cultural, ya que el ciclo lectivo suele finalizar a fines de noviembre",
+    "Si bien la Milonga Federal se concentra más en el centro, hay opciones cercanas y clubes con intensa vida social",
+    "Los eventos más grandes a nivel CABA ya ocurrieron o se anuncian con poca antelación"
+  ],
+  "total_talleres_fijos": 6,
+  "total_eventos_tango": 2,
+  "fuente": "Gemini AI"
+}

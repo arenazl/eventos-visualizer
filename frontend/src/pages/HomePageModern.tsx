@@ -65,6 +65,11 @@ const HomePageModern: React.FC = () => {
     showReturnButton,
     loadingCityName,
 
+    // 🏙️ Búsqueda expandida a ciudad principal
+    parentCityDetected,
+    searchLocationQuery,
+    expandedSearch,
+
     // 🎭 Callback para asistentes
     setOnNoEventsCallback
   } = useEvents()
@@ -655,6 +660,10 @@ const HomePageModern: React.FC = () => {
           <SmartLocationBar
             onLocationChange={handleLocationChange}
             currentLocation={currentLocation}
+            parentCityDetected={parentCityDetected}
+            searchLocationQuery={searchLocationQuery}
+            expandedSearch={expandedSearch}
+            totalEvents={events.length}
           />
 
           {/* Panel Técnico Detallado */}

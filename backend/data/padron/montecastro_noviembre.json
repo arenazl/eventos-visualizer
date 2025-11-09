@@ -1,0 +1,96 @@
+{
+  "barrio": "Monte Castro",
+  "comuna": 10,
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "caracteristica": "Barrio residencial con eventos enfocados en centros culturales de barrio y actividades comunitarias",
+  "actividades_fijas_centro_cultural": [
+    {
+      "nombre": "Canto Grupal (Gratis)",
+      "dias": "Martes",
+      "horario": "18:00 a 21:00 hs",
+      "lugar": "Centro Cultural El Taller (Elpidio González 4967)",
+      "descripcion": "Actividad fija y gratuita",
+      "categoria": "musica",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Otros Talleres Gratuitos",
+      "dias": "Consultar",
+      "horario": "Lunes a Viernes 15:00 a 21:00 hs (para consultas)",
+      "lugar": "Centro Cultural El Taller (Elpidio González 4967)",
+      "descripcion": "Amplia gama de propuestas culturales (música, danza, teatro, etc.)",
+      "categoria": "cultural-variado",
+      "precio": "gratuito"
+    }
+  ],
+  "milongas_y_folklore": [
+    {
+      "nombre": "Milonga en el Club Vecinal y Deportivo Defensores de Cervantes",
+      "fecha": "Segundos sábados de cada mes",
+      "hora_inicio": "No especificada",
+      "hora_fin": null,
+      "lugar": "Pje. Ranqueles 1836",
+      "descripcion": "Punto de encuentro histórico de Tango y Milongas",
+      "categoria": "tango-milonga",
+      "precio": "consultar",
+      "nota": "La milonga de noviembre (8 de noviembre) ya pasó. Próxima en diciembre",
+      "frecuencia": "mensual",
+      "estado": "pasado"
+    },
+    {
+      "nombre": "Peña Porteña (Folklore)",
+      "fecha": "2025-11-18",
+      "hora_inicio": "18:00",
+      "hora_fin": null,
+      "lugar": "Legislatura CABA, Salón Presidente Perón (Cerca del Centro, pero accesible)",
+      "descripcion": "Baile, concierto con Martín Facundo Díaz, y cierre con la Peña EL TÁBANO DE MIS PAGOS",
+      "categoria": "folklore",
+      "precio": "gratuito"
+    }
+  ],
+  "actividades_comunitarias": [
+    {
+      "nombre": "Clubes de Barrio",
+      "descripcion": "Organizan actividades sociales, cenas y eventos de corta duración",
+      "nota": "Revisar cartelera de los clubes principales"
+    },
+    {
+      "nombre": "Plaza Don Bosco",
+      "descripcion": "Plaza central, punto de encuentro constante para actividades deportivas y recreativas",
+      "nota": "No se encontró feria de artesanos programada para noviembre"
+    }
+  ],
+  "eventos_caba_accesibles": [
+    {
+      "nombre": "La Noche de las Librerías",
+      "fecha": "2025-11-22",
+      "lugar": "Av. Corrientes y otras librerías",
+      "categoria": "cultural-literario",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Andrés Calamaro en Movistar Arena",
+      "fecha": "25, 26 y 28 de Noviembre",
+      "lugar": "Movistar Arena",
+      "categoria": "musica",
+      "precio": "pago"
+    },
+    {
+      "nombre": "La Noche de los Templos",
+      "fecha": "2025-11-29",
+      "hora_inicio": "20:00",
+      "lugar": "Templos en varios barrios de la ciudad",
+      "categoria": "cultural-religioso",
+      "precio": "gratuito"
+    }
+  ],
+  "sugerencias": [
+    "Consultar programación específica del Centro Cultural Manuel Belgrano (Av. Álvarez Jonte 5785)",
+    "Revisar redes sociales de clubes de barrio para eventos con poca antelación"
+  ],
+  "total_actividades_fijas": 2,
+  "total_eventos_folklore": 2,
+  "fuente": "Gemini AI"
+}

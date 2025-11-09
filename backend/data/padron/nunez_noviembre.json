@@ -1,0 +1,112 @@
+{
+  "barrio": "Núñez",
+  "comuna": 13,
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "caracteristica": "Centro de grandes espectáculos y eventos deportivos, actividad principal en estadios y centros culturales",
+  "recitales_y_fiestas_destacadas": [
+    {
+      "nombre": "La Beriso",
+      "fecha": "2025-11-15",
+      "hora_inicio": "Consultar hora",
+      "hora_fin": null,
+      "lugar": "Estadio Obras (Av. del Libertador 7395)",
+      "descripcion": "Concierto de la reconocida banda de rock",
+      "categoria": "rock",
+      "precio": "pago"
+    },
+    {
+      "nombre": "The Soundgarden",
+      "fecha": "2025-11-21",
+      "hora_inicio": "Consultar hora",
+      "hora_fin": null,
+      "lugar": "Estadio Obras",
+      "descripcion": "Evento de música electrónica",
+      "categoria": "electronica",
+      "precio": "pago"
+    },
+    {
+      "nombre": "Luciano Pereyra",
+      "fecha": "2025-11-22 y 2025-11-23",
+      "hora_inicio": "Consultar hora",
+      "hora_fin": null,
+      "lugar": "Movistar Arena (Palermo, muy cerca y accesible)",
+      "descripcion": "Conciertos del reconocido artista argentino",
+      "categoria": "musica-popular",
+      "precio": "pago"
+    },
+    {
+      "nombre": "Andrés Calamaro",
+      "fecha": "Martes 25, Miércoles 26 y Viernes 28 de Noviembre",
+      "hora_inicio": "Consultar hora",
+      "hora_fin": null,
+      "lugar": "Movistar Arena (Palermo, muy cerca y accesible)",
+      "descripcion": "Tres fechas del 'Salmón'",
+      "categoria": "rock",
+      "precio": "pago"
+    },
+    {
+      "nombre": "Leiva",
+      "fecha": "2025-11-29",
+      "hora_inicio": "Consultar hora",
+      "hora_fin": null,
+      "lugar": "Estadio Obras (Av. del Libertador 7395)",
+      "descripcion": "Recital del cantautor español",
+      "categoria": "rock-pop",
+      "precio": "pago"
+    }
+  ],
+  "actividades_culturales_e_historicas": [
+    {
+      "nombre": "Museo Malvinas e Islas del Atlántico Sur",
+      "fecha": "Diario",
+      "hora_inicio": "Consultar horarios de apertura",
+      "hora_fin": null,
+      "lugar": "Santiago de Calzadilla 1301",
+      "descripcion": "Museo clave para visitar, con entrada gratuita",
+      "categoria": "museo-historico",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Museo Histórico P. P. de la Memoria",
+      "fecha": "Diario",
+      "hora_inicio": "Consultar horarios de apertura",
+      "hora_fin": null,
+      "lugar": "Ex ESMA (Av. del Libertador 8151)",
+      "descripcion": "Sitio de memoria imprescindible para conocer la historia argentina reciente",
+      "categoria": "museo-historico",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Lomas de Núñez Upper School",
+      "fecha": "Consultar",
+      "hora_inicio": "Consultar horarios",
+      "hora_fin": null,
+      "lugar": "Arcos 4531",
+      "descripcion": "A veces ofrece actividades abiertas o muestras en sus instalaciones",
+      "categoria": "educativo",
+      "precio": "consultar"
+    },
+    {
+      "nombre": "Museo Tecno Educativo Lorenzo Raggio",
+      "fecha": "Consultar",
+      "hora_inicio": "Consultar horarios",
+      "hora_fin": null,
+      "lugar": "Av. del Libertador",
+      "descripcion": "Suele tener muestras y actividades educativas",
+      "categoria": "museo-educativo",
+      "precio": "consultar"
+    }
+  ],
+  "notas": [
+    "Núñez es conocido por ser un centro de grandes espectáculos y eventos deportivos",
+    "La actividad principal se concentra en los estadios (Obras, River Plate) y centros culturales",
+    "Los eventos de mayor convocatoria en Núñez se dan en el Estadio Obras",
+    "Para recitales más grandes, el Estadio River Plate (aunque la agenda de River parece estar menos cargada para la segunda quincena de noviembre)",
+    "Núñez también alberga importantes museos y espacios culturales"
+  ],
+  "total_recitales": 5,
+  "total_museos": 4,
+  "fuente": "Gemini AI"
+}

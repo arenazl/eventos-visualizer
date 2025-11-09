@@ -20,11 +20,21 @@ interface CitySuggestion {
 interface SmartLocationBarProps {
   onLocationChange: (location: Location) => void
   currentLocation?: Location
+
+  // 🏙️ Metadata de búsqueda expandida
+  parentCityDetected?: string | null
+  searchLocationQuery?: string | null
+  expandedSearch?: boolean
+  totalEvents?: number
 }
 
 export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
   onLocationChange,
-  currentLocation
+  currentLocation,
+  parentCityDetected,
+  searchLocationQuery,
+  expandedSearch,
+  totalEvents
 }) => {
   const [location, setLocation] = useState<Location | null>(currentLocation || null)
   const [isDetecting, setIsDetecting] = useState(false)
@@ -281,8 +291,27 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
         ) : location ? (
           <div className="flex items-center gap-3 px-6 py-3 bg-white/10 backdrop-blur-xl rounded-full border border-white/20 hover:border-white/40 transition-all duration-300">
             {getLocationIcon(location.detected)}
-            <span className="text-white font-medium">{location.name || "🎩 En Wonderland"}</span>
-            
+
+            {/* 🏙️ Mostrar expansión de búsqueda si existe */}
+            {expandedSearch && searchLocationQuery && parentCityDetected ? (
+              <div className="flex items-center gap-2">
+                <span className="text-white/80 font-medium">{searchLocationQuery}</span>
+                <svg className="w-4 h-4 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <span className="text-white font-medium">{parentCityDetected}</span>
+
+                {/* Contador de eventos si está disponible */}
+                {totalEvents !== undefined && totalEvents > 0 && (
+                  <span className="ml-2 px-2 py-1 bg-purple-500/30 rounded-full text-xs text-purple-200 font-medium">
+                    {totalEvents} eventos
+                  </span>
+                )}
+              </div>
+            ) : (
+              <span className="text-white font-medium">{location.name || "🎩 En Wonderland"}</span>
+            )}
+
             {/* Botón para cambiar ubicación */}
             <button
               onClick={() => setShowManualInput(true)}

@@ -126,6 +126,11 @@ interface EventsState {
   showReturnButton: boolean  // Mostrar botón de "volver"
   loadingCityName: string | null  // Nombre de la ciudad que está cargando eventos
 
+  // 🏙️ BÚSQUEDA EXPANDIDA A CIUDAD PRINCIPAL
+  parentCityDetected: string | null  // Ciudad principal detectada (ej: "Buenos Aires" para "Merlo")
+  searchLocationQuery: string | null  // Ubicación original del query (ej: "Merlo")
+  expandedSearch: boolean  // Si la búsqueda fue expandida automáticamente
+
   // Legacy methods (fallback)
   fetchEvents: (location?: Location) => Promise<void>
   toggleFavorite: (eventId: string) => void
@@ -152,6 +157,11 @@ const useEventsStore = create<EventsState>((set, get) => ({
   originalSearchLocation: null,
   showReturnButton: false,
   loadingCityName: null,
+
+  // 🏙️ Búsqueda expandida a ciudad principal
+  parentCityDetected: null,
+  searchLocationQuery: null,
+  expandedSearch: false,
   error: null,
   favoriteEvents: JSON.parse(localStorage.getItem('favoriteEvents') || '[]'),
   currentLocation: null,
@@ -529,7 +539,12 @@ const useEventsStore = create<EventsState>((set, get) => ({
       searchStartTime: startTime,
       sourceTiming: [],
       performanceStats: {},
-      nearbyCities: []  // Limpiar ciudades cercanas al iniciar nueva búsqueda
+      nearbyCities: [],  // Limpiar ciudades cercanas al iniciar nueva búsqueda
+
+      // 🏙️ Limpiar metadata de búsqueda expandida
+      parentCityDetected: null,
+      searchLocationQuery: null,
+      expandedSearch: false
     })
 
     // DISABLED - No WebSocket, use SSE search instead
@@ -573,6 +588,16 @@ const useEventsStore = create<EventsState>((set, get) => ({
           // Agregar eventos
           set({ events: [...events, ...event.events] })
 
+          // 🏙️ Capturar metadata de ciudad principal si existe
+          if (event.parent_city && event.original_location && event.expanded_search) {
+            set({
+              parentCityDetected: event.parent_city,
+              searchLocationQuery: event.original_location,
+              expandedSearch: event.expanded_search
+            })
+            console.log(`📍 Búsqueda expandida detectada: ${event.original_location} → ${event.parent_city}`)
+          }
+
           // Mensaje personalizado para ciudades cercanas
           let scraperMessage = `${event.count || event.events.length} eventos obtenidos`
           if (event.scraper === 'nearby_cities' && event.message) {
@@ -597,6 +622,16 @@ const useEventsStore = create<EventsState>((set, get) => ({
 
         // Scraper sin eventos
         if (event.type === 'no_events' && event.scraper) {
+          // 🏙️ Capturar metadata de ciudad principal incluso sin eventos
+          if (event.parent_city && event.original_location && event.expanded_search) {
+            set({
+              parentCityDetected: event.parent_city,
+              searchLocationQuery: event.original_location,
+              expandedSearch: event.expanded_search
+            })
+            console.log(`📍 Búsqueda expandida sin eventos: ${event.original_location} → ${event.parent_city}`)
+          }
+
           const scraperInfo = {
             name: event.scraper.charAt(0).toUpperCase() + event.scraper.slice(1),
             status: 'success',

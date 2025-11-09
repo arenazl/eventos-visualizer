@@ -1,0 +1,67 @@
+{
+  "barrio": "Parque Avellaneda",
+  "comuna": 9,
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "caracteristica": "Barrio con una gran riqueza cultural e histórica, centrada en el parque que le da nombre y el Centro Cultural Chacra de los Remedios",
+  "actividades_fijas_casona_olivera": [
+    {
+      "nombre": "Visitas a la Casona de los Olivera",
+      "dias": "Martes a Domingos",
+      "horario": "Consultar horarios",
+      "lugar": "Centro Cultural Chacra de los Remedios (Av. Directorio 4330)",
+      "descripcion": "La casona principal del parque, donde se realizan muestras de artes visuales, fotografía y talleres",
+      "categoria": "cultural",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Orquesta Juvenil de Parque Avellaneda",
+      "dias": "Consultar Agenda",
+      "horario": "20:00 hs (generalmente)",
+      "lugar": "Casona de los Olivera",
+      "descripcion": "El ciclo de conciertos gratuitos de la orquesta barrial suele tener presentaciones los fines de semana en la Casona o el Salón. Se sugiere consultar la cartelera actual en la Casona",
+      "categoria": "musica-clasica",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Talleres Gratuitos",
+      "dias": "Lunes a Sábados",
+      "horario": "Consultar agenda",
+      "lugar": "Centro Cultural Chacra de los Remedios",
+      "descripcion": "El Centro Cultural ofrece talleres gratuitos (parte del Programa Cultural en Barrios) que están activos hasta el cierre del ciclo de fin de año, como tango, folklore, teatro y artes plásticas",
+      "categoria": "talleres",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Actividades al Aire Libre",
+      "dias": "Fines de Semana",
+      "horario": "Consultar agenda",
+      "lugar": "Áreas verdes del Parque Avellaneda",
+      "descripcion": "Clases de Tai Chi, yoga, danza, o conciertos espontáneos suelen realizarse en las áreas verdes del Parque Avellaneda",
+      "categoria": "deportes-aire-libre",
+      "precio": "gratuito"
+    }
+  ],
+  "evento_cercano_tradicion": [
+    {
+      "nombre": "Feria de Mataderos",
+      "fecha": "Todos los domingos (9, 16, 23 y 30 de Noviembre)",
+      "hora_inicio": "11:00",
+      "hora_fin": "19:00",
+      "lugar": "Avenida de los Corrales y Lisandro de la Torre (Mataderos)",
+      "descripcion": "Parque Avellaneda está muy cerca de Mataderos, por lo que su evento más grande y tradicional es de muy fácil acceso. Es la fiesta gaucha más grande de CABA",
+      "categoria": "cultural-tradicional",
+      "precio": "gratuito"
+    }
+  ],
+  "notas": [
+    "Parque Avellaneda es un barrio con una gran riqueza cultural e histórica",
+    "El Centro Cultural Chacra de los Remedios es el epicentro de la vida cultural del barrio",
+    "Ofrece actividades libres y gratuitas constantes",
+    "Está muy cerca de Mataderos, facilitando el acceso a la Feria de Mataderos"
+  ],
+  "total_actividades_fijas": 4,
+  "total_eventos_cercanos": 1,
+  "fuente": "Gemini AI"
+}

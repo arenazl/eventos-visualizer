@@ -1,0 +1,172 @@
+{
+  "barrio": "La Paternal",
+  "comuna": 15,
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "eventos_destacados": [
+    {
+      "nombre": "La Noche de los Museos",
+      "fecha": "2025-11-08",
+      "hora_inicio": "19:00",
+      "hora_fin": "02:00",
+      "lugar": "Diversos puntos de la Ciudad, incluyendo espacios de la Comuna 15",
+      "descripcion": "Evento cultural masivo y gratuito",
+      "categoria": "cultural",
+      "precio": "gratuito",
+      "estado": "pasado"
+    },
+    {
+      "nombre": "Estudios Abiertos - La Gran Paternal",
+      "fecha": "2025-11-27",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "100 artistas de 39 talleres",
+      "descripcion": "Red de artistas político-afectiva bajo el lema 'ARDE'",
+      "categoria": "arte",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Feria 'La Paternal Emprende'",
+      "fecha": "Segundo sábado de cada mes",
+      "hora_inicio": "12:00",
+      "hora_fin": "17:00",
+      "lugar": "Plazoleta Raymundo Gleyzer (Av. Donato Álvarez y Espinosa)",
+      "descripcion": "Feria de emprendedores local",
+      "categoria": "feria",
+      "precio": "gratuito",
+      "frecuencia": "mensual"
+    }
+  ],
+  "actividades_regulares_centro_cultural": [
+    {
+      "actividad": "Acro-dúo 'Mano a Mano'",
+      "dias": "Lunes",
+      "horario": "18:00 a 21:00 hs",
+      "edad": "18 a 40 años",
+      "lugar": "Centro Cultural La Paternal"
+    },
+    {
+      "actividad": "Percusión Latina",
+      "dias": "Lunes",
+      "horario": "18:00 a 21:00 hs",
+      "edad": "17 a 99 años",
+      "lugar": "Centro Cultural La Paternal"
+    },
+    {
+      "actividad": "Danzas Folcklóricas",
+      "dias": "Lunes",
+      "horario": "18:00 a 21:00 hs",
+      "edad": "20 a 99 años",
+      "lugar": "Centro Cultural La Paternal"
+    },
+    {
+      "actividad": "Teatro en Acción (Principiantes)",
+      "dias": "Lunes",
+      "horario": "18:00 a 21:00 hs",
+      "edad": "17 a 99 años",
+      "lugar": "Centro Cultural La Paternal"
+    },
+    {
+      "actividad": "Danzas de la Costa del Este con Percusión",
+      "dias": "Lunes",
+      "horario": "18:00 a 21:00 hs",
+      "edad": "17 a 99 años",
+      "lugar": "Centro Cultural La Paternal"
+    },
+    {
+      "actividad": "Portes Acrobáticos-'Troupe'",
+      "dias": "Martes",
+      "horario": "18:00 a 20:00 hs",
+      "edad": "18 a 40 años",
+      "lugar": "Centro Cultural La Paternal"
+    },
+    {
+      "actividad": "Aro-Trapecio Fijo Inicial",
+      "dias": "Martes",
+      "horario": "18:00 a 21:00 hs",
+      "edad": "17 a 50 años",
+      "lugar": "Centro Cultural La Paternal"
+    },
+    {
+      "actividad": "Danza Aérea en Telas (1er nivel)",
+      "dias": "Martes",
+      "horario": "18:00 a 21:00 hs",
+      "edad": "17 a 50 años",
+      "lugar": "Centro Cultural La Paternal"
+    },
+    {
+      "actividad": "Fotografía Inicial",
+      "dias": "Martes",
+      "horario": "18:00 a 21:00 hs",
+      "edad": "17 a 99 años",
+      "lugar": "Centro Cultural La Paternal"
+    },
+    {
+      "actividad": "Cerámica Indígena",
+      "dias": "Martes",
+      "horario": "18:00 a 21:00 hs",
+      "edad": "20 a 99 años",
+      "lugar": "Centro Cultural La Paternal"
+    },
+    {
+      "actividad": "Breaking Entrenamiento",
+      "dias": "Martes y Jueves",
+      "horario": "18:00 a 21:00 hs",
+      "edad": "15 a 50 años",
+      "lugar": "Centro Cultural La Paternal"
+    },
+    {
+      "actividad": "Composición y Elaboración Fotográfica",
+      "dias": "Miércoles",
+      "horario": "18:00 a 21:00 hs",
+      "edad": "20 a 99 años",
+      "lugar": "Centro Cultural La Paternal"
+    },
+    {
+      "actividad": "Integrado Circo Niños",
+      "dias": "Miércoles",
+      "horario": "18:00 a 21:00 hs",
+      "edad": "8 a 12 años",
+      "lugar": "Centro Cultural La Paternal"
+    },
+    {
+      "actividad": "Mimo",
+      "dias": "Jueves",
+      "horario": "19:00 a 20:00 hs",
+      "edad": "17 a 99 años",
+      "lugar": "Centro Cultural La Paternal"
+    },
+    {
+      "actividad": "DJ",
+      "dias": "Viernes",
+      "horario": "18:00 a 21:00 hs",
+      "edad": "15 a 99 años",
+      "lugar": "Centro Cultural La Paternal"
+    },
+    {
+      "actividad": "Bombo Legüero",
+      "dias": "Viernes",
+      "horario": "18:00 a 20:00 hs",
+      "edad": "17 a 99 años",
+      "lugar": "Centro Cultural La Paternal"
+    },
+    {
+      "actividad": "Armonización y Gimnasia Acrobática",
+      "dias": "Sábados",
+      "horario": "10:00 a 13:00 hs",
+      "edad": "17 a 99 años",
+      "lugar": "Centro Cultural La Paternal"
+    },
+    {
+      "actividad": "Ensamble Samba Reggae",
+      "dias": "Sábados",
+      "horario": "10:00 a 13:00 hs",
+      "edad": "17 a 99 años",
+      "lugar": "Centro Cultural La Paternal"
+    }
+  ],
+  "total_eventos": 3,
+  "total_actividades_regulares": 18,
+  "fuente": "Gemini AI"
+}

@@ -1,0 +1,58 @@
+{
+  "barrio": "Parque Chacabuco",
+  "comuna": 7,
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "caracteristica": "Corazón de la Comuna 7, tiene una vida cultural muy activa, concentrada principalmente en su gran parque y su centro cultural emblemático",
+  "cultura_fija_espacio_cultural": [
+    {
+      "nombre": "Exposición \"En el nombre del barrio\"",
+      "dias": "Diario (Lunes a Lunes)",
+      "horario": "13:00 a 19:30 hs",
+      "lugar": "Espacio Cultural Adán Buenosayres (Av. Eva Perón 1400, bajo la Autopista 25 de Mayo)",
+      "descripcion": "Muestra permanente de fotografía sobre el Parque Chacabuco, a cargo de Fabio Langellotti y Verónica Molina",
+      "categoria": "arte-fotografia",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Cine Argentino (Ciclo de Mecenazgo)",
+      "dias": "Miércoles 12 y 19 de Noviembre",
+      "horario": "18:00 hs",
+      "lugar": "Espacio Cultural Adán Buenosayres",
+      "descripcion": "Ciclo de cine con proyecciones de películas argentinas",
+      "categoria": "cine",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Taller: Práctica de Tango y Milonga",
+      "dias": "Todos los domingos (9, 16, 23 y 30 de Noviembre)",
+      "horario": "16:00 a 20:00 hs",
+      "lugar": "Espacio Cultural Adán Buenosayres",
+      "descripcion": "Una actividad fija en el Centro Cultural para bailar al ritmo de nuestra cultura, abierto a grandes y chicos",
+      "categoria": "tango-milonga",
+      "precio": "gratuito"
+    }
+  ],
+  "milongas_y_vida_tanguera": [
+    {
+      "nombre": "Milongas en el Barrio",
+      "fecha": "Regulares en alrededores",
+      "hora_inicio": "Variable",
+      "hora_fin": null,
+      "lugar": "Parque Chacabuco tiene una fuerte tradición tanguera",
+      "descripcion": "Hay milongas que funcionan de manera regular en sus alrededores. Se recomienda buscar en redes sociales o consultar las carteleras de los clubes de barrio",
+      "categoria": "tango-milonga",
+      "precio": "variable"
+    }
+  ],
+  "notas": [
+    "Parque Chacabuco, como corazón de la Comuna 7, tiene una vida cultural muy activa",
+    "El Espacio Cultural Adán Buenosayres es el punto principal de la agenda del barrio",
+    "Es recomendable consultar la cartelera específica del Adán Buenosayres a mitad de mes, ya que los horarios y eventos pueden cambiar a medida que se acerca el cierre del ciclo de fin de año",
+    "Parque Chacabuco tiene una fuerte tradición tanguera con milongas regulares"
+  ],
+  "total_actividades_fijas": 3,
+  "total_eventos_tango": 1,
+  "fuente": "Gemini AI"
+}

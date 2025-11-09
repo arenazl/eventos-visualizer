@@ -1,0 +1,81 @@
+{
+  "barrio": "Barracas",
+  "mes": "noviembre",
+  "año": 2025,
+  "eventos": [
+    {
+      "nombre": "La Feria Voces del Sur",
+      "fecha": "2025-11-11",
+      "tipo": "Feria",
+      "lugar": "Plaza Colombia",
+      "direccion": "Pinzón y Av. Montes de Oca, Barracas, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Feria con productos y propuestas de economía social y popular.",
+      "url": "",
+      "categoria": "feria"
+    },
+    {
+      "nombre": "La Feria Voces del Sur",
+      "fecha": "2025-11-11",
+      "tipo": "Feria",
+      "lugar": "Estación Buenos Aires",
+      "direccion": "Luna y Astor Piazzolla, Barracas, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Feria con productos y propuestas de economía social y popular. Se realiza en simultáneo con la de Plaza Colombia.",
+      "url": "",
+      "categoria": "feria"
+    },
+    {
+      "nombre": "La Feria Voces del Sur",
+      "fecha": "2025-11-12",
+      "tipo": "Feria",
+      "lugar": "Parque Pereyra",
+      "direccion": "California y Av. Vélez Sarsfield, Barracas, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Feria de productos de economía social.",
+      "url": "",
+      "categoria": "feria"
+    },
+    {
+      "nombre": "Visitas con Felicitas (Historia y Ficción)",
+      "fecha": "2025-11-09",
+      "tipo": "Cultural",
+      "lugar": "Museo de los Túneles y Templo Escondido",
+      "direccion": "Pinzón 1480, Barracas, Buenos Aires",
+      "precio": "",
+      "hora": "15:00 y 17:00",
+      "descripcion": "Recorrido que incluye el Museo de los Túneles y el Templo Escondido. Se requiere reserva previa.",
+      "url": "",
+      "categoria": "visita"
+    }
+  ],
+  "lugares_interes": [
+    {
+      "nombre": "Museo del Títere y Cine de Animación",
+      "direccion": "Av. Caseros 2849, Barracas, Buenos Aires",
+      "tipo": "Museo",
+      "descripcion": "Museo dedicado al títere y cine de animación.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Sociedad Luz",
+      "direccion": "Suárez 1301, esq. Ruy Díaz de Guzmán, Barracas, Buenos Aires",
+      "tipo": "Centro Cultural",
+      "descripcion": "Centro cultural con agenda constante de charlas, cine, muestras y talleres.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Usina del Arte",
+      "direccion": "La Boca, Comuna 4 (cercano a Barracas), Buenos Aires",
+      "tipo": "Centro Cultural",
+      "descripcion": "Punto central para la cultura, muy cerca de Barracas.",
+      "horario": "",
+      "precio": ""
+    }
+  ]
+}

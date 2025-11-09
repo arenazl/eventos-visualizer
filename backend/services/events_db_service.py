@@ -182,11 +182,22 @@ async def search_events_by_location(
         else:
             logger.info(f"OK Encontrados {len(events)} eventos en MySQL para '{search_location}'")
 
-        return events
+        # Retornar metadata de búsqueda expandida junto con eventos
+        return {
+            'events': events,
+            'parent_city_detected': parent_city if parent_city else None,
+            'original_location': search_location,
+            'expanded_search': bool(parent_city)
+        }
 
     except Exception as e:
         logger.error(f"ERROR Error consultando MySQL: {e}")
-        return []
+        return {
+            'events': [],
+            'parent_city_detected': None,
+            'original_location': location,
+            'expanded_search': False
+        }
 
     finally:
         session.close()

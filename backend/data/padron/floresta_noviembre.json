@@ -1,0 +1,133 @@
+{
+  "barrio": "Floresta",
+  "mes": "noviembre",
+  "año": 2025,
+  "eventos": [
+    {
+      "nombre": "Vivir Soñando",
+      "fecha": "2025-11-15",
+      "tipo": "Circo",
+      "lugar": "Playón Antiguo Tambo - Complejo Cultural Chacra de los Remedios",
+      "direccion": "Av. Directorio y Lacarra, Parque Avellaneda (cercano a Floresta), Buenos Aires",
+      "precio": "",
+      "hora": "16:00",
+      "descripcion": "Show de circo, magia, clown, burbujas gigantes e improvisación.",
+      "url": "",
+      "categoria": "espectaculo"
+    },
+    {
+      "nombre": "Vivir Soñando",
+      "fecha": "2025-11-29",
+      "tipo": "Circo",
+      "lugar": "Playón Antiguo Tambo - Complejo Cultural Chacra de los Remedios",
+      "direccion": "Av. Directorio y Lacarra, Parque Avellaneda (cercano a Floresta), Buenos Aires",
+      "precio": "",
+      "hora": "16:00",
+      "descripcion": "Show de circo, magia, clown, burbujas gigantes e improvisación.",
+      "url": "",
+      "categoria": "espectaculo"
+    },
+    {
+      "nombre": "Vivir Soñando",
+      "fecha": "2025-11-30",
+      "tipo": "Circo",
+      "lugar": "Playón Antiguo Tambo - Complejo Cultural Chacra de los Remedios",
+      "direccion": "Av. Directorio y Lacarra, Parque Avellaneda (cercano a Floresta), Buenos Aires",
+      "precio": "",
+      "hora": "16:00",
+      "descripcion": "Show de circo, magia, clown, burbujas gigantes e improvisación.",
+      "url": "",
+      "categoria": "espectaculo"
+    },
+    {
+      "nombre": "Visita - Taller Mañanitas Creativas: Arte & Naturaleza",
+      "fecha": "2025-11-30",
+      "tipo": "Taller",
+      "lugar": "Casona de los Olivera - Complejo Cultural Chacra de los Remedios",
+      "direccion": "Av. Directorio y Lacarra, Parque Avellaneda (cercano a Floresta), Buenos Aires",
+      "precio": "",
+      "hora": "16:00",
+      "descripcion": "Visita-taller sobre la relación entre arte y naturaleza urbana.",
+      "url": "",
+      "categoria": "taller"
+    },
+    {
+      "nombre": "Muestras Cierre Talleres Ciclo 2025",
+      "fecha": "2025-11-30",
+      "tipo": "Cultural",
+      "lugar": "Casona de los Olivera - Complejo Cultural Chacra de los Remedios",
+      "direccion": "Av. Directorio y Lacarra, Parque Avellaneda (cercano a Floresta), Buenos Aires",
+      "precio": "",
+      "hora": "16:00",
+      "descripcion": "Muestras de cierre de los talleres del complejo cultural.",
+      "url": "",
+      "categoria": "cultural"
+    },
+    {
+      "nombre": "Festival Internacional de Cine Buenos Aires Rojo Sangre",
+      "fecha": "2025-11-20",
+      "tipo": "Cine",
+      "lugar": "CABA",
+      "direccion": "Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Festival internacional de cine de terror, fantástico y bizarro. Del 20 al 30 de Noviembre.",
+      "url": "",
+      "categoria": "festival"
+    },
+    {
+      "nombre": "FUTCON 2025",
+      "fecha": "2025-11-22",
+      "tipo": "Festival",
+      "lugar": "CABA",
+      "direccion": "Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "El primer festival de cultura futbolera y creatividad.",
+      "url": "",
+      "categoria": "festival"
+    },
+    {
+      "nombre": "FUTCON 2025",
+      "fecha": "2025-11-23",
+      "tipo": "Festival",
+      "lugar": "CABA",
+      "direccion": "Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "El primer festival de cultura futbolera y creatividad.",
+      "url": "",
+      "categoria": "festival"
+    },
+    {
+      "nombre": "La Noche de los Templos",
+      "fecha": "2025-11-29",
+      "tipo": "Cultural",
+      "lugar": "Distintas ubicaciones de la Ciudad",
+      "direccion": "CABA, Buenos Aires",
+      "precio": "Gratuito",
+      "hora": "20:00",
+      "descripcion": "Distintos templos y lugares de culto abren sus puertas con entrada libre y gratuita para visitas y actividades especiales.",
+      "url": "",
+      "categoria": "cultural"
+    }
+  ],
+  "lugares_interes": [
+    {
+      "nombre": "Teatro Flores",
+      "direccion": "Av. Rivadavia 7806 (muy cerca de Floresta), Buenos Aires",
+      "tipo": "Teatro",
+      "descripcion": "Lugar con programación variada cerca de Floresta.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Complejo Cultural Chacra de los Remedios",
+      "direccion": "Av. Directorio y Lacarra, Parque Avellaneda (cercano a Floresta), Buenos Aires",
+      "tipo": "Centro Cultural",
+      "descripcion": "Complejo con agenda cultural continua.",
+      "horario": "",
+      "precio": ""
+    }
+  ]
+}

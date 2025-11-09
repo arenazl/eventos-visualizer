@@ -1,0 +1,115 @@
+{
+  "barrio": "Almagro",
+  "mes": "noviembre",
+  "año": 2025,
+  "eventos": [
+    {
+      "nombre": "Exposición Art Flow",
+      "fecha": "",
+      "tipo": "Arte",
+      "lugar": "Don Bosco 4035, Almagro",
+      "direccion": "Don Bosco 4035, Almagro, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Una experiencia inmersiva de arte, tecnología y diseño con la participación de alrededor de 90 artistas. Ideal para una salida de fin de semana.",
+      "url": "",
+      "categoria": "exposicion"
+    },
+    {
+      "nombre": "Música en Vivo: Anikké e Hija de Tigre",
+      "fecha": "2025-11-14",
+      "tipo": "Musica",
+      "lugar": "Roseti",
+      "direccion": "Gallo 764, Almagro, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Dos proyectos musicales con universos propios se presentan para compartir una noche de canciones y energía colectiva.",
+      "url": "",
+      "categoria": "concierto"
+    },
+    {
+      "nombre": "El espejo en la colmena: Retratos para desarmar",
+      "fecha": "2025-11-15",
+      "tipo": "Arte",
+      "lugar": "Palacio Libertad",
+      "direccion": "Sarmiento 151, CABA - Muy cerca de Almagro, Buenos Aires",
+      "precio": "",
+      "hora": "16:00 a 19:00",
+      "descripcion": "Muestra en el Anexo de la Sala 502 del Quinto piso.",
+      "url": "",
+      "categoria": "exposicion"
+    },
+    {
+      "nombre": "El espejo en la colmena: Retratos para desarmar",
+      "fecha": "2025-11-16",
+      "tipo": "Arte",
+      "lugar": "Palacio Libertad",
+      "direccion": "Sarmiento 151, CABA - Muy cerca de Almagro, Buenos Aires",
+      "precio": "",
+      "hora": "16:00 a 19:00",
+      "descripcion": "Muestra en el Anexo de la Sala 502 del Quinto piso.",
+      "url": "",
+      "categoria": "exposicion"
+    },
+    {
+      "nombre": "Festival Fado Buenos Aires 2025",
+      "fecha": "2025-11-15",
+      "tipo": "Musica",
+      "lugar": "Palacio Libertad",
+      "direccion": "Sarmiento 151, CABA, Buenos Aires",
+      "precio": "",
+      "hora": "20:00",
+      "descripcion": "Gran evento musical dedicado al Fado, género tradicional portugués. A las 20:00 hs en el Auditorio Nacional.",
+      "url": "",
+      "categoria": "festival"
+    },
+    {
+      "nombre": "Tango y Peñas",
+      "fecha": "",
+      "tipo": "Tango",
+      "lugar": "Sanata Crespi",
+      "direccion": "Sarmiento 3501, Almagro, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Espacio con clases de tango y milongas. Si buscas fiesta con baile tradicional, revisa su agenda semanal.",
+      "url": "",
+      "categoria": "milonga"
+    },
+    {
+      "nombre": "Feria de Libros y Revistas",
+      "fecha": "",
+      "tipo": "Feria",
+      "lugar": "Parque Rivadavia",
+      "direccion": "Caballito, a un paso de Almagro, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Una de las ferias de libros, revistas y discos usados más grandes y tradicionales de la ciudad. Ideal para pasear y encontrar tesoros.",
+      "url": "",
+      "categoria": "feria"
+    },
+    {
+      "nombre": "Buenos Aires Rojo Sangre (BARS)",
+      "fecha": "2025-11-20",
+      "tipo": "Cine",
+      "lugar": "Varios",
+      "direccion": "Consultar programación",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Festival Internacional de Cine de terror, fantástico y bizarro. Busca la programación específica en salas cercanas.",
+      "url": "",
+      "categoria": "festival"
+    },
+    {
+      "nombre": "La Noche de los Templos",
+      "fecha": "2025-11-29",
+      "tipo": "Cultural",
+      "lugar": "Varios templos de la ciudad",
+      "direccion": "Consultar programación",
+      "precio": "Gratuito",
+      "hora": "",
+      "descripcion": "Varios templos de la ciudad abren sus puertas de noche con entrada libre y gratuita. Es probable que haya sedes participantes en Almagro o barrios limítrofes.",
+      "url": "",
+      "categoria": "cultural"
+    }
+  ]
+}

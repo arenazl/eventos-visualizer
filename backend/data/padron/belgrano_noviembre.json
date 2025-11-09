@@ -1,0 +1,209 @@
+{
+  "barrio": "Belgrano",
+  "mes": "noviembre",
+  "año": 2025,
+  "eventos": [
+    {
+      "nombre": "La Glorieta de Barrancas de Belgrano (Milonga)",
+      "fecha": "",
+      "tipo": "Tango",
+      "lugar": "Barrancas de Belgrano (La Glorieta)",
+      "direccion": "Barrancas de Belgrano, Belgrano, Buenos Aires",
+      "precio": "",
+      "hora": "Noches (consultar día)",
+      "descripcion": "Se suelen organizar milongas nocturnas al aire libre, un espectáculo único de tango y baile.",
+      "url": "",
+      "categoria": "milonga"
+    },
+    {
+      "nombre": "Feria Artesanal",
+      "fecha": "",
+      "tipo": "Feria",
+      "lugar": "Plaza General Manuel Belgrano",
+      "direccion": "Plaza General Manuel Belgrano, Belgrano, Buenos Aires",
+      "precio": "",
+      "hora": "Fines de Semana",
+      "descripcion": "Mercado de artesanías ideal para pasear y comprar.",
+      "url": "",
+      "categoria": "feria"
+    },
+    {
+      "nombre": "Buenos Aires Rojo Sangre (Festival de Cine)",
+      "fecha": "2025-11-20",
+      "tipo": "Cine",
+      "lugar": "Multiplex Belgrano",
+      "direccion": "Multiplex Belgrano, Belgrano, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Festival internacional de cine de terror, fantástico y bizarro. Del 20 al 30 de Noviembre.",
+      "url": "",
+      "categoria": "festival"
+    },
+    {
+      "nombre": "Ciclo de Cine - Recordando a Pier Paolo Pasolini",
+      "fecha": "2025-11-02",
+      "tipo": "Cine",
+      "lugar": "Museo Histórico Sarmiento",
+      "direccion": "Cuba 2079, Belgrano, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Ciclo de cine organizado junto a la Asociación Dante Alighieri de Buenos Aires. Del 2 al 30 de Noviembre.",
+      "url": "",
+      "categoria": "ciclo"
+    },
+    {
+      "nombre": "Oasis (Gira Mundial)",
+      "fecha": "2025-11-15",
+      "tipo": "Musica",
+      "lugar": "Estadio River Plate",
+      "direccion": "Núñez (vecino de Belgrano), Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Conciertos de la gira mundial de la banda.",
+      "url": "",
+      "categoria": "concierto"
+    },
+    {
+      "nombre": "Oasis (Gira Mundial)",
+      "fecha": "2025-11-16",
+      "tipo": "Musica",
+      "lugar": "Estadio River Plate",
+      "direccion": "Núñez (vecino de Belgrano), Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Conciertos de la gira mundial de la banda.",
+      "url": "",
+      "categoria": "concierto"
+    },
+    {
+      "nombre": "La Noche de los Alfajores",
+      "fecha": "2025-11-14",
+      "tipo": "Gastronomia",
+      "lugar": "Diversos puntos de la ciudad",
+      "direccion": "CABA, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Promociones y degustaciones.",
+      "url": "",
+      "categoria": "gastronómico"
+    },
+    {
+      "nombre": "La Noche de los Alfajores",
+      "fecha": "2025-11-15",
+      "tipo": "Gastronomia",
+      "lugar": "Diversos puntos de la ciudad",
+      "direccion": "CABA, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Promociones y degustaciones.",
+      "url": "",
+      "categoria": "gastronómico"
+    },
+    {
+      "nombre": "Concierto - Homenaje a Alejandro Lerner",
+      "fecha": "2025-11-22",
+      "tipo": "Musica",
+      "lugar": "Auditorio Nacional (Palacio Libertad)",
+      "direccion": "Palacio Libertad, CABA, Buenos Aires",
+      "precio": "",
+      "hora": "20:00",
+      "descripcion": "Por el Día de la Música.",
+      "url": "",
+      "categoria": "concierto"
+    },
+    {
+      "nombre": "Luciano Pereyra (Gira Te Sigo Amando)",
+      "fecha": "2025-11-22",
+      "tipo": "Musica",
+      "lugar": "Movistar Arena",
+      "direccion": "Villa Crespo, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "El cantante suma dos nuevas fechas en Buenos Aires.",
+      "url": "",
+      "categoria": "concierto"
+    },
+    {
+      "nombre": "Luciano Pereyra (Gira Te Sigo Amando)",
+      "fecha": "2025-11-23",
+      "tipo": "Musica",
+      "lugar": "Movistar Arena",
+      "direccion": "Villa Crespo, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "El cantante suma dos nuevas fechas en Buenos Aires.",
+      "url": "",
+      "categoria": "concierto"
+    },
+    {
+      "nombre": "FUTCON 2025",
+      "fecha": "2025-11-22",
+      "tipo": "Festival",
+      "lugar": "Por confirmar en CABA",
+      "direccion": "CABA, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Primer festival de cultura futbolera y creatividad.",
+      "url": "",
+      "categoria": "festival"
+    },
+    {
+      "nombre": "FUTCON 2025",
+      "fecha": "2025-11-23",
+      "tipo": "Festival",
+      "lugar": "Por confirmar en CABA",
+      "direccion": "CABA, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Primer festival de cultura futbolera y creatividad.",
+      "url": "",
+      "categoria": "festival"
+    },
+    {
+      "nombre": "La Noche de los Templos",
+      "fecha": "2025-11-29",
+      "tipo": "Cultural",
+      "lugar": "Templos participantes en toda la CABA",
+      "direccion": "CABA, Buenos Aires",
+      "precio": "Gratuito",
+      "hora": "20:00",
+      "descripcion": "Visitas guiadas y actividades especiales para conocer la riqueza religiosa y cultural.",
+      "url": "",
+      "categoria": "cultural"
+    }
+  ],
+  "lugares_interes": [
+    {
+      "nombre": "Museo Histórico Sarmiento",
+      "direccion": "Cuba 2079, Belgrano, Buenos Aires",
+      "tipo": "Museo",
+      "descripcion": "Museo con exhibiciones y actividades permanentes y rotativas.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Museo Larreta",
+      "direccion": "Juramento 2291, Belgrano, Buenos Aires",
+      "tipo": "Museo",
+      "descripcion": "Museo con exhibiciones y actividades permanentes y rotativas.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Museo Casa de Rogelio Yrurtia",
+      "direccion": "Blanco Encalada 2040, Belgrano, Buenos Aires",
+      "tipo": "Museo",
+      "descripcion": "Museo con exhibiciones y actividades permanentes y rotativas.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Barrio Chino",
+      "direccion": "Belgrano, Buenos Aires",
+      "tipo": "Barrio Temático",
+      "descripcion": "Recorrer las tiendas, probar la gastronomía oriental y disfrutar del ambiente.",
+      "horario": "",
+      "precio": ""
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "barrio": "Montserrat",
+  "comuna": 1,
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "caracteristica": "Parte del Casco Histórico de la Ciudad de Buenos Aires con agenda cultural muy rica, especialmente actividades de acceso libre y gratuito en edificios emblemáticos",
+  "eventos_centrales_edificios_emblematicos": [
+    {
+      "nombre": "Actividades Culturales en la Legislatura CABA",
+      "fecha": "Fijas en Noviembre",
+      "hora_inicio": "Ver detalle",
+      "hora_fin": null,
+      "lugar": "Salón Presidente Perón y Sala de Exposiciones Manuel Belgrano (Perú 160 / Hipólito Yrigoyen 1750)",
+      "descripcion": "Todas con entrada libre y gratuita",
+      "categoria": "cultural",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Encuentro Coral",
+      "fecha": "2025-11-12",
+      "hora_inicio": "18:00",
+      "hora_fin": null,
+      "cafe_desde": "17:30",
+      "lugar": "Legislatura CABA, Salón Presidente Perón. 6º Encuentro Coral (Abierto a la comunidad)",
+      "categoria": "musica-coral",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Música Clásica - Orquesta",
+      "fecha": "2025-11-17",
+      "hora_inicio": "18:00",
+      "hora_fin": null,
+      "cafe_desde": "17:30",
+      "lugar": "Legislatura CABA, Salón Presidente Perón. Concierto de Orquesta (Orquesta a confirmar)",
+      "categoria": "musica-clasica",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Peña Porteña (Folklore)",
+      "fecha": "2025-11-18",
+      "hora_inicio": "18:00",
+      "hora_fin": null,
+      "lugar": "Legislatura CABA, Salón Presidente Perón. Baile, concierto de Martín Facundo Díaz, y presentación de la Peña EL TÁBANO DE MIS PAGOS",
+      "categoria": "folklore",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Exposición \"Impulso\"",
+      "fecha": "2025-11-12",
+      "hora_inicio": "18:00",
+      "hora_fin": null,
+      "inauguracion": true,
+      "lugar": "Legislatura CABA, Sala de Exposiciones Manuel Belgrano. Muestra de Ruth Bastos y Bea Díez. Visitas de Lunes a Viernes (10 a 19 hs)",
+      "categoria": "arte-exposicion",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Música Clásica - Orquesta de Jóvenes Solistas",
+      "fecha": "2025-11-25",
+      "hora_inicio": "18:00",
+      "hora_fin": null,
+      "cafe_desde": "17:30",
+      "lugar": "Legislatura CABA, Salón Presidente Perón. Concierto de cierre de ciclo",
+      "categoria": "musica-clasica",
+      "precio": "gratuito"
+    }
+  ],
+  "actividades_fijas_y_cursos": [
+    {
+      "nombre": "Ensayo del Coro de la Legislatura",
+      "dias": "Lunes y Miércoles",
+      "horario": "17:00 a 19:00 hs",
+      "lugar": "Legislatura CABA, Salón Presidente Perón. Abierto a la comunidad (consultar inscripción)",
+      "categoria": "musica-coral",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Clases de Tango",
+      "dias": "Viernes",
+      "horario": "12:00 a 13:30 hs",
+      "lugar": "Legislatura CABA, Salón Presidente Perón. Clases abiertas y gratuitas para todos los niveles",
+      "categoria": "tango",
+      "precio": "gratuito"
+    }
+  ],
+  "otros_eventos": [
+    {
+      "nombre": "Exposición en Museo Nacional de Arte Oriental",
+      "fecha": "Hoy, Domingo 9",
+      "hora_inicio": "16:00",
+      "hora_fin": null,
+      "lugar": "Museo Nacional de Arte Oriental (Viamonte)",
+      "categoria": "arte-exposicion",
+      "precio": "consultar"
+    }
+  ],
+  "notas": [
+    "Gran parte de la actividad de Montserrat se concentra en la Legislatura de la Ciudad de Buenos Aires y sus cercanías",
+    "Montserrat forma parte del Casco Histórico, por lo que tiene una agenda cultural muy rica",
+    "Todas las actividades en la Legislatura son de acceso libre y gratuito"
+  ],
+  "total_eventos": 6,
+  "total_actividades_fijas": 2,
+  "fuente": "Gemini AI"
+}

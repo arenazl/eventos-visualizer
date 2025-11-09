@@ -1,0 +1,93 @@
+{
+  "barrio": "Liniers",
+  "comuna": 9,
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "eventos_liniers_y_alrededores": [
+    {
+      "nombre": "Feria de Mataderos",
+      "fecha": "Todos los domingos (9, 16, 23 y 30 de Noviembre)",
+      "hora_inicio": "11:00",
+      "hora_fin": null,
+      "lugar": "Av. Lisandro de la Torre y Av. de los Corrales (Mataderos, muy cerca de Liniers)",
+      "descripcion": "La gran fiesta gaucha con artesanías, gastronomía tradicional, shows folklóricos y destrezas criollas",
+      "categoria": "cultural-tradicional",
+      "precio": "gratuito",
+      "frecuencia": "semanal-domingos"
+    },
+    {
+      "nombre": "Orquesta Juvenil de Parque Avellaneda",
+      "fecha": "Según agenda (fines de semana)",
+      "hora_inicio": "20:00",
+      "hora_fin": null,
+      "lugar": "Casona de los Olivera (Parque Avellaneda, cercano a Liniers)",
+      "descripcion": "Espacio cultural activo con espectáculos y actividades en su cartelera semanal",
+      "categoria": "musica",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "Visita al Santuario San Cayetano",
+      "fecha": "Diario",
+      "hora_inicio": "Todo el día",
+      "hora_fin": null,
+      "lugar": "Cruce de las Av. Gral. Paz y Rivadavia (Liniers)",
+      "descripcion": "Punto de peregrinación constante y epicentro de la vida religiosa del barrio",
+      "categoria": "religioso",
+      "precio": "gratuito",
+      "frecuencia": "diario"
+    },
+    {
+      "nombre": "Visita al Centro Comercial de Liniers",
+      "fecha": "Diario",
+      "hora_inicio": "Todo el día",
+      "hora_fin": null,
+      "lugar": "Zona de Av. Rivadavia y la Estación Liniers",
+      "descripcion": "Zona de mayor movimiento del barrio, actividad comercial y gastronómica",
+      "categoria": "comercial",
+      "precio": "variable",
+      "frecuencia": "diario"
+    }
+  ],
+  "eventos_caba_accesibles": [
+    {
+      "nombre": "Buenos Aires Rojo Sangre (BARS)",
+      "fecha": "2025-11-20 al 2025-11-30",
+      "hora_inicio": "Consultar programación",
+      "hora_fin": null,
+      "lugar": "Festival internacional de cine",
+      "descripcion": "Festival internacional de cine de terror, fantástico y bizarro",
+      "categoria": "cine",
+      "precio": "consultar"
+    },
+    {
+      "nombre": "La Noche de las Librerías",
+      "fecha": "2025-11-22",
+      "hora_inicio": "Tarde/noche",
+      "hora_fin": null,
+      "lugar": "Zona de Av. Corrientes y otras librerías",
+      "descripcion": "Programación gratuita con charlas, música y lecturas al aire libre",
+      "categoria": "cultural-literario",
+      "precio": "gratuito"
+    },
+    {
+      "nombre": "La Noche de los Templos",
+      "fecha": "2025-11-29",
+      "hora_inicio": "20:00",
+      "hora_fin": null,
+      "lugar": "Templos de diferentes cultos en distintos puntos de la ciudad",
+      "descripcion": "Templos abren sus puertas para visitas guiadas gratuitas",
+      "categoria": "cultural-religioso",
+      "precio": "gratuito"
+    }
+  ],
+  "notas": [
+    "Los eventos más específicos de gran convocatoria en Liniers (como San Cayetano) suelen ocurrir en agosto",
+    "La Noche de los Museos ya sucedió el 8 de noviembre",
+    "Liniers está muy cerca de la Comuna 9 (Mataderos y Parque Avellaneda) donde la actividad es constante",
+    "Eventos sociales locales se anuncian en redes sociales de clubes de barrio, bares o centros culturales"
+  ],
+  "total_eventos_locales": 4,
+  "total_eventos_caba": 3,
+  "fuente": "Gemini AI"
+}

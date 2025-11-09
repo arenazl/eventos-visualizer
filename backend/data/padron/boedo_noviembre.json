@@ -1,0 +1,181 @@
+{
+  "barrio": "Boedo",
+  "mes": "noviembre",
+  "año": 2025,
+  "eventos": [
+    {
+      "nombre": "Con el tango en la piel",
+      "fecha": "2025-11-09",
+      "tipo": "Tango",
+      "lugar": "Centro Cultural Resurgimiento",
+      "direccion": "Artigas 2262, Buenos Aires",
+      "precio": "",
+      "hora": "19:00",
+      "descripcion": "Espectáculo de la cantante Carina Miceli.",
+      "url": "",
+      "categoria": "espectaculo"
+    },
+    {
+      "nombre": "Hedy Crilla, maestra de actores",
+      "fecha": "2025-11-14",
+      "tipo": "Cine",
+      "lugar": "Centro Cultural Resurgimiento",
+      "direccion": "Artigas 2262, Buenos Aires",
+      "precio": "",
+      "hora": "20:00",
+      "descripcion": "Documental, Argentina, 2023.",
+      "url": "",
+      "categoria": "cine"
+    },
+    {
+      "nombre": "Patio de Tango y Milonga",
+      "fecha": "2025-11-07",
+      "tipo": "Tango",
+      "lugar": "Centro Cultural Resurgimiento",
+      "direccion": "Artigas 2262, Buenos Aires",
+      "precio": "",
+      "hora": "20:00",
+      "descripcion": "Tango y milonga.",
+      "url": "",
+      "categoria": "milonga"
+    },
+    {
+      "nombre": "Patio de Tango y Milonga",
+      "fecha": "2025-11-14",
+      "tipo": "Tango",
+      "lugar": "Centro Cultural Resurgimiento",
+      "direccion": "Artigas 2262, Buenos Aires",
+      "precio": "",
+      "hora": "20:00",
+      "descripcion": "Tango y milonga.",
+      "url": "",
+      "categoria": "milonga"
+    },
+    {
+      "nombre": "Patio de Tango y Milonga",
+      "fecha": "2025-11-22",
+      "tipo": "Tango",
+      "lugar": "Centro Cultural Resurgimiento",
+      "direccion": "Artigas 2262, Buenos Aires",
+      "precio": "",
+      "hora": "20:00",
+      "descripcion": "Tango y milonga.",
+      "url": "",
+      "categoria": "milonga"
+    },
+    {
+      "nombre": "Patio de Tango y Milonga",
+      "fecha": "2025-11-28",
+      "tipo": "Tango",
+      "lugar": "Centro Cultural Resurgimiento",
+      "direccion": "Artigas 2262, Buenos Aires",
+      "precio": "",
+      "hora": "20:00",
+      "descripcion": "Tango y milonga.",
+      "url": "",
+      "categoria": "milonga"
+    },
+    {
+      "nombre": "Buenos Aires canta",
+      "fecha": "2025-11-18",
+      "tipo": "Musica",
+      "lugar": "Centro Cultural Resurgimiento",
+      "direccion": "Artigas 2262, Buenos Aires",
+      "precio": "",
+      "hora": "20:00",
+      "descripcion": "Semana de canto coral.",
+      "url": "",
+      "categoria": "concierto"
+    },
+    {
+      "nombre": "D10S - Presentación de Libro",
+      "fecha": "2025-11-28",
+      "tipo": "Cultural",
+      "lugar": "Centro Cultural Resurgimiento",
+      "direccion": "Artigas 2262, Buenos Aires",
+      "precio": "",
+      "hora": "18:00",
+      "descripcion": "Presentación de Libro y debate (Dios es Argentino).",
+      "url": "",
+      "categoria": "libro"
+    },
+    {
+      "nombre": "Nostalgias del Club",
+      "fecha": "2025-11-29",
+      "tipo": "Musica",
+      "lugar": "Centro Cultural Resurgimiento",
+      "direccion": "Artigas 2262, Buenos Aires",
+      "precio": "",
+      "hora": "20:00",
+      "descripcion": "Conciertos de tango.",
+      "url": "",
+      "categoria": "concierto"
+    },
+    {
+      "nombre": "Festival Bakikar",
+      "fecha": "2025-11-30",
+      "tipo": "Danza",
+      "lugar": "Centro Cultural Resurgimiento",
+      "direccion": "Artigas 2262, Buenos Aires",
+      "precio": "",
+      "hora": "20:00",
+      "descripcion": "Participación de diferentes colectividades.",
+      "url": "",
+      "categoria": "festival"
+    },
+    {
+      "nombre": "Embrujo Milonga",
+      "fecha": "",
+      "tipo": "Tango",
+      "lugar": "Club Gon",
+      "direccion": "Boedo, Buenos Aires",
+      "precio": "",
+      "hora": "18:00 a 00:00 (Domingos)",
+      "descripcion": "Milonga todos los domingos de noviembre.",
+      "url": "",
+      "categoria": "milonga"
+    }
+  ],
+  "lugares_interes": [
+    {
+      "nombre": "Esquina Homero Manzi",
+      "direccion": "San Juan al 3600, Boedo, Buenos Aires",
+      "tipo": "Casa de Tango",
+      "descripcion": "Lugar emblemático que ofrece shows de tango en vivo, cena y espectáculo casi todas las noches. Es un clásico imperdible de Boedo.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Café Margot",
+      "direccion": "Boedo, Buenos Aires",
+      "tipo": "Café Notable",
+      "descripcion": "Café notable que a menudo tiene actividades culturales, música en vivo o simplemente es un gran punto de encuentro para sentir el espíritu del barrio.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Bar Miño",
+      "direccion": "Boedo, Buenos Aires",
+      "tipo": "Bodegón",
+      "descripcion": "Bodegón con actividades culturales y música en vivo.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Confitería Trianón",
+      "direccion": "Av. Boedo 845, Boedo, Buenos Aires",
+      "tipo": "Café Notable",
+      "descripcion": "Café notable con actividades culturales y música en vivo.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Museo del Colectivo",
+      "direccion": "Boedo, Buenos Aires",
+      "tipo": "Museo",
+      "descripcion": "Museo participante de La Noche de los Museos.",
+      "horario": "",
+      "precio": ""
+    }
+  ]
+}

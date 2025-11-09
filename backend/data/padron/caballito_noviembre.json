@@ -1,0 +1,109 @@
+{
+  "barrio": "Caballito",
+  "mes": "noviembre",
+  "año": 2025,
+  "eventos": [
+    {
+      "nombre": "La Noche de los Museos",
+      "fecha": "2025-11-08",
+      "tipo": "Cultural",
+      "lugar": "Varios espacios de CABA (incluye Caballito)",
+      "direccion": "Caballito, Buenos Aires",
+      "precio": "Gratuito",
+      "hora": "19:00",
+      "descripcion": "Importante en Caballito: El Laboratorio Patrimonial Centenera estará abierto. Subte y Premetro gratuitos desde las 19 hs.",
+      "url": "",
+      "categoria": "cultural"
+    },
+    {
+      "nombre": "Quinteto Érica Di Salvo",
+      "fecha": "2025-11-08",
+      "tipo": "Tango",
+      "lugar": "Anfiteatro del Parque Centenario",
+      "direccion": "Parque Centenario, Caballito, Buenos Aires",
+      "precio": "",
+      "hora": "19:00",
+      "descripcion": "Espectáculo de tango y milonga con artistas invitados.",
+      "url": "",
+      "categoria": "espectaculo"
+    },
+    {
+      "nombre": "Luis Ceravolo Cuarteto",
+      "fecha": "2025-11-09",
+      "tipo": "Musica",
+      "lugar": "Anfiteatro del Parque Centenario",
+      "direccion": "Parque Centenario, Caballito, Buenos Aires",
+      "precio": "",
+      "hora": "19:00",
+      "descripcion": "Concierto de tango jazz, con repertorio de Piazzolla y compositores contemporáneos.",
+      "url": "",
+      "categoria": "concierto"
+    },
+    {
+      "nombre": "Paseo Cultural Caballito de Parque Rivadavia al Centenario",
+      "fecha": "2025-11-15",
+      "tipo": "Cultural",
+      "lugar": "Punto de encuentro a confirmar (inicia en Parque Rivadavia)",
+      "direccion": "Parque Rivadavia, Caballito, Buenos Aires",
+      "precio": "Arancelado",
+      "hora": "15:00",
+      "descripcion": "Caminata guiada por el barrio, enfocada en la arquitectura y el crecimiento de la década del '20.",
+      "url": "",
+      "categoria": "tour"
+    },
+    {
+      "nombre": "Festival Buenos Aires Rojo Sangre (BARS)",
+      "fecha": "2025-11-20",
+      "tipo": "Cine",
+      "lugar": "Varias sedes en CABA",
+      "direccion": "CABA, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Festival internacional de cine de terror, fantástico y bizarro. Chequear la programación específica para saber qué sedes están más cerca de Caballito. Del 20 al 30 de Noviembre.",
+      "url": "",
+      "categoria": "festival"
+    }
+  ],
+  "lugares_interes": [
+    {
+      "nombre": "El Tranvía de Caballito",
+      "direccion": "Taller Polvorín, Caballito, Buenos Aires",
+      "tipo": "Atracción Turística",
+      "descripcion": "Ofrece un pintoresco recorrido turístico desde el Taller Polvorín.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Patio de Los Lecheros",
+      "direccion": "Caballito, Buenos Aires",
+      "tipo": "Espacio Gastronómico y Cultural",
+      "descripcion": "Espacio gastronómico y cultural muy popular.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Parque Rivadavia",
+      "direccion": "Caballito, Buenos Aires",
+      "tipo": "Parque",
+      "descripcion": "Ideal para pasear y visitar los puestos de libros y revistas usados.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Parque Centenario",
+      "direccion": "Caballito, Buenos Aires",
+      "tipo": "Parque",
+      "descripcion": "Un gran parque con una feria de libros y el Museo de Ciencias Naturales.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Museo de Ciencias Naturales",
+      "direccion": "Parque Centenario, Caballito, Buenos Aires",
+      "tipo": "Museo",
+      "descripcion": "Museo en el Parque Centenario.",
+      "horario": "",
+      "precio": ""
+    }
+  ]
+}
