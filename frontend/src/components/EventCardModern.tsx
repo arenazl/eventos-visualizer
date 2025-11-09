@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import EventAIHover from './EventAIHover'
 import EventDetailOverlay from './EventDetailOverlay'
 import { useAssistants } from '../contexts/AssistantsContext'
+import { API_BASE_URL } from '../config/api'
 
 interface Event {
   title: string
@@ -38,6 +39,9 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
   const [defaultImageError, setDefaultImageError] = useState(false)
   const [isShaking, setIsShaking] = useState(false)
   const [showDetailOverlay, setShowDetailOverlay] = useState(false)
+  const [isFlipped, setIsFlipped] = useState(false)
+  const [aiInsight, setAiInsight] = useState<any>(null)
+  const [aiLoading, setAiLoading] = useState(false)
   const { triggerEventComment } = useAssistants()
 
   const formatDate = (dateString: string | null | undefined) => {
@@ -151,18 +155,75 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
     onToggleFavorite?.(eventId)
   }
 
+  const handleAIClick = async (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setIsFlipped(true)
+
+    // Si ya tenemos la info, no hacer fetch de nuevo
+    if (aiInsight) return
+
+    setAiLoading(true)
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/ai/event-insight`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: event.title.toLowerCase().replace(/\s+/g, '-').replace(/[.,]/g, ''),
+          title: event.title,
+          venue_name: event.venue_name,
+          category: event.category,
+          location: event.venue_address || 'Buenos Aires'
+        })
+      })
+
+      const data = await response.json()
+      if (data.success) {
+        setAiInsight(data.insight)
+      }
+    } catch (error) {
+      console.error('Error fetching AI insight:', error)
+      // Fallback data
+      setAiInsight({
+        quick_insight: "Evento interesante en " + event.venue_name,
+        transport: "Colectivos: 60, 152, 29",
+        nearby: "Varios bares y restaurantes cerca",
+        vibe: "Ambiente copado",
+        pro_tip: "Llegá temprano para mejor ubicación"
+      })
+    } finally {
+      setAiLoading(false)
+    }
+  }
+
+  const handleFlipBack = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setIsFlipped(false)
+  }
+
   return (
     <div
-      className={`relative group cursor-pointer transform transition-all duration-500 hover:scale-[1.02] ${isShaking ? 'animate-shake' : ''}`}
+      className={`relative group cursor-pointer ${isShaking ? 'animate-shake' : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={handleCardClick}
+      style={{ perspective: '1000px' }}
     >
       {/* Glow effect */}
       <div className={`absolute -inset-1 bg-gradient-to-r ${getCategoryGradient(event.category)} rounded-xl md:rounded-2xl blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-500`} />
 
-      {/* Card content - Altura fija para todas las tarjetas */}
-      <div className="relative bg-white dark:bg-gray-900 rounded-xl md:rounded-2xl overflow-hidden shadow-2xl h-[420px] sm:h-[450px] md:h-[480px] flex flex-col">
+      {/* Flip container */}
+      <div
+        className="relative transform transition-all duration-700 hover:scale-[1.02]"
+        style={{
+          transformStyle: 'preserve-3d',
+          transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+        }}
+      >
+        {/* FRONT - Card content - Altura fija para todas las tarjetas */}
+        <div
+          className="relative bg-white dark:bg-gray-900 rounded-xl md:rounded-2xl overflow-hidden shadow-2xl h-[420px] sm:h-[450px] md:h-[480px] flex flex-col"
+          style={{ backfaceVisibility: 'hidden' }}
+          onClick={handleCardClick}
+        >
         {/* Image with overlay */}
         <div className="relative h-40 sm:h-48 md:h-56 overflow-hidden flex-shrink-0">
           {defaultImageError ? (
@@ -261,13 +322,12 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
 
             {/* AI Button - 20% del ancho */}
             <div style={{ width: '20%' }} className="flex justify-center">
-              <EventAIHover event={{
-                id: event.source || Math.random().toString(),
-                title: event.title,
-                venue_name: event.venue_name,
-                category: event.category,
-                location: event.venue_address || 'Buenos Aires'
-              }} />
+              <button
+                onClick={handleAIClick}
+                className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-2 sm:py-2.5 rounded-lg md:rounded-xl font-semibold text-xs sm:text-sm hover:shadow-lg transform transition-all duration-300 hover:-translate-y-0.5 flex items-center justify-center"
+              >
+                <span className="text-base sm:text-lg">✨</span>
+              </button>
             </div>
           </div>
         </div>
@@ -301,11 +361,105 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
             </div>
           </button>
         </div>
-        
+
+      </div>
+
+        {/* BACK - AI Insights */}
+        <div
+          className="absolute inset-0 bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 rounded-xl md:rounded-2xl overflow-hidden shadow-2xl h-[420px] sm:h-[450px] md:h-[480px] flex flex-col p-4 sm:p-5 md:p-6"
+          style={{
+            backfaceVisibility: 'hidden',
+            transform: 'rotateY(180deg)'
+          }}
+        >
+          {/* Header con botón de volver */}
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">✨</span>
+              <h3 className="text-white font-bold text-lg sm:text-xl">Análisis IA</h3>
+            </div>
+            <button
+              onClick={handleFlipBack}
+              className="bg-white/20 hover:bg-white/30 text-white p-2 rounded-lg transition-all duration-300"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Contenido de IA */}
+          {aiLoading ? (
+            <div className="flex-grow flex items-center justify-center">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+                <p className="text-white/80">Analizando evento...</p>
+              </div>
+            </div>
+          ) : aiInsight ? (
+            <div className="flex-grow overflow-y-auto space-y-3 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+              {/* Qué esperar */}
+              <div className="bg-purple-500/20 backdrop-blur-sm p-3 sm:p-4 rounded-xl border border-purple-400/30">
+                <h4 className="font-bold text-purple-300 mb-2 flex items-center gap-2 text-sm sm:text-base">
+                  <span>🎯</span> Qué esperar
+                </h4>
+                <p className="text-white/90 text-xs sm:text-sm">{aiInsight.quick_insight}</p>
+              </div>
+
+              {/* Artista info */}
+              {aiInsight.artist_info && (
+                <div className="bg-blue-500/20 backdrop-blur-sm p-3 sm:p-4 rounded-xl border border-blue-400/30">
+                  <h4 className="font-bold text-blue-300 mb-2 flex items-center gap-2 text-sm sm:text-base">
+                    <span>🎤</span> Sobre el artista
+                  </h4>
+                  <p className="text-white/90 text-xs sm:text-sm">{aiInsight.artist_info}</p>
+                </div>
+              )}
+
+              {/* Cómo llegar */}
+              <div className="bg-green-500/20 backdrop-blur-sm p-3 sm:p-4 rounded-xl border border-green-400/30">
+                <h4 className="font-bold text-green-300 mb-2 flex items-center gap-2 text-sm sm:text-base">
+                  <span>🚌</span> Cómo llegar
+                </h4>
+                <p className="text-white/90 text-xs sm:text-sm">{aiInsight.transport || "Colectivos 60, 152, 29"}</p>
+              </div>
+
+              {/* Cerca del lugar */}
+              <div className="bg-orange-500/20 backdrop-blur-sm p-3 sm:p-4 rounded-xl border border-orange-400/30">
+                <h4 className="font-bold text-orange-300 mb-2 flex items-center gap-2 text-sm sm:text-base">
+                  <span>📍</span> Cerca del lugar
+                </h4>
+                <p className="text-white/90 text-xs sm:text-sm">{aiInsight.nearby || "Bares y restaurantes"}</p>
+              </div>
+
+              {/* Tip Pro */}
+              <div className="bg-yellow-500/20 backdrop-blur-sm p-3 sm:p-4 rounded-xl border-l-4 border-yellow-400">
+                <h4 className="font-bold text-yellow-300 mb-2 flex items-center gap-2 text-sm sm:text-base">
+                  <span>💡</span> Tip Pro
+                </h4>
+                <p className="text-white/90 text-xs sm:text-sm">{aiInsight.pro_tip || "Llegá 30 min antes"}</p>
+              </div>
+            </div>
+          ) : (
+            <div className="flex-grow flex items-center justify-center">
+              <p className="text-white/70 text-center">No se pudo obtener información</p>
+            </div>
+          )}
+
+          {/* Footer */}
+          {aiInsight && (
+            <div className="mt-4 pt-3 border-t border-white/20 text-center">
+              <div className="text-xs text-purple-300 flex items-center justify-center gap-1">
+                <span>✨</span>
+                <span>Powered by Gemini AI</span>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Event Detail Overlay */}
-      <EventDetailOverlay 
+      <EventDetailOverlay
         event={event}
         isOpen={showDetailOverlay}
         onClose={() => setShowDetailOverlay(false)}
