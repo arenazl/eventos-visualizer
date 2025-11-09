@@ -388,6 +388,40 @@ async def manual_facebook_cache_update():
 async def health_check():
     return {"status": "healthy", "message": "OK"}
 
+@app.get("/api/test/gemini")
+async def test_gemini_api():
+    """
+    🧪 Test endpoint para verificar que la API key de Gemini funciona
+    """
+    # 1. Primero mostrar qué API key está configurada
+    api_key = os.getenv("GEMINI_API_KEY", "NO_CONFIGURADA")
+    api_key_preview = f"{api_key[:10]}...{api_key[-4:]}" if len(api_key) > 14 else api_key
+
+    try:
+        from services.gemini_factory import gemini_factory
+
+        # 2. Probar detección de ciudad principal
+        test_location = "Moron"
+        parent_city = await gemini_factory.get_parent_location(test_location)
+
+        return {
+            "status": "success",
+            "gemini_working": True,
+            "api_key_configured": api_key_preview,
+            "test_query": test_location,
+            "detected_parent_city": parent_city,
+            "message": f"✅ Gemini API funcionando - Detectó: {test_location} → {parent_city}"
+        }
+    except Exception as e:
+        logger.error(f"❌ Error testing Gemini API: {e}")
+        return {
+            "status": "error",
+            "gemini_working": False,
+            "api_key_configured": api_key_preview,
+            "error": str(e),
+            "message": "❌ Gemini API no está funcionando"
+        }
+
 @app.get("/api/debug/sources")
 async def debug_sources(location: str = "Buenos Aires"):
     """🔍 DEBUG COPADO: Ver cuánto devuelve cada fuente"""
