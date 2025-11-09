@@ -1042,24 +1042,48 @@ async def stream_events(
 
             # Consultar base de datos (180 días = 6 meses hacia adelante)
             try:
-                events = await search_events_by_location(
+                result = await search_events_by_location(
                     location=location,
                     category=category,
                     limit=limit,
                     days_ahead=180
                 )
+                # Extraer eventos del resultado (es un dict con 'events', 'parent_city_detected', etc.)
+                events = result.get('events', []) if isinstance(result, dict) else result
+                parent_city_detected = result.get('parent_city_detected') if isinstance(result, dict) else None
+                original_location = result.get('original_location') if isinstance(result, dict) else location
+                expanded_search = result.get('expanded_search', False) if isinstance(result, dict) else False
+
                 logger.info(f"✅ search_events_by_location devolvió {len(events)} eventos")
             except Exception as search_err:
                 logger.error(f"❌ Error en search_events_by_location: {search_err}")
                 events = []
+                parent_city_detected = None
+                original_location = location
+                expanded_search = False
 
             execution_time = f"{time.time() - start_time:.2f}s"
             total_events = len(events)
             logger.info(f"📊 Total eventos después de búsqueda: {total_events} en {execution_time}")
 
             if total_events > 0:
-                # Enviar eventos desde base de datos
-                yield f"data: {json.dumps({'type': 'events', 'scraper': 'mysql_database', 'events': events, 'count': total_events, 'total_events': total_events, 'execution_time': execution_time})}\n\n"
+                # Enviar eventos desde base de datos con metadata de búsqueda expandida
+                event_data = {
+                    'type': 'events',
+                    'scraper': 'mysql_database',
+                    'events': events,  # ← Ahora es el array correcto
+                    'count': total_events,
+                    'total_events': total_events,
+                    'execution_time': execution_time
+                }
+
+                # Agregar metadata de búsqueda expandida si existe
+                if parent_city_detected:
+                    event_data['parent_city'] = parent_city_detected
+                    event_data['original_location'] = original_location
+                    event_data['expanded_search'] = expanded_search
+
+                yield f"data: {json.dumps(event_data)}\n\n"
                 logger.info(f"📡 SSE: MySQL - {total_events} eventos enviados en {execution_time}")
             else:
                 # 🔍 NO HAY EVENTOS - Buscar en ciudades cercanas
@@ -1080,12 +1104,15 @@ async def stream_events(
                         nearby_events = []
                         for nearby_city in nearby_cities:
                             try:
-                                nearby_results = await search_events_by_location(
+                                nearby_result = await search_events_by_location(
                                     location=nearby_city,
                                     category=category,
                                     limit=limit,
                                     days_ahead=180
                                 )
+                                # Extraer eventos del resultado
+                                nearby_results = nearby_result.get('events', []) if isinstance(nearby_result, dict) else nearby_result
+
                                 if nearby_results:
                                     # Agregar metadata de ciudad cercana
                                     for event in nearby_results:
@@ -1490,23 +1517,61 @@ async def get_events(
             logger.info(f"🔍 [/api/events] Consultando MySQL para ubicación: {location}")
 
             # Consultar base de datos (180 días = 6 meses hacia adelante)
-            events = await search_events_by_location(
+            search_result = await search_events_by_location(
                 location=location,
                 category=category,
                 limit=limit,
                 days_ahead=180
             )
 
+            # Extraer eventos y metadata de parent_city
+            events = search_result.get('events', []) if isinstance(search_result, dict) else search_result
+            parent_city = search_result.get('parent_city_detected') if isinstance(search_result, dict) else None
+            original_location = search_result.get('original_location', location) if isinstance(search_result, dict) else location
+            expanded_search = search_result.get('expanded_search', False) if isinstance(search_result, dict) else False
+
             execution_time = f"{time.time() - start_time:.2f}s"
             total_events = len(events)
 
             if total_events > 0:
+                # Preparar datos del evento
+                event_data = {
+                    'type': 'events',
+                    'scraper': 'mysql_database',
+                    'events': events,
+                    'count': total_events,
+                    'total_events': total_events,
+                    'execution_time': execution_time
+                }
+
+                # Agregar metadata de ciudad principal si existe
+                if parent_city and expanded_search:
+                    event_data['parent_city'] = parent_city
+                    event_data['original_location'] = original_location
+                    event_data['expanded_search'] = expanded_search
+                    logger.info(f"📍 [/api/events] Búsqueda expandida: {original_location} → {parent_city}")
+
                 # Enviar eventos desde base de datos
-                yield f"data: {json.dumps({'type': 'events', 'scraper': 'mysql_database', 'events': events, 'count': total_events, 'total_events': total_events, 'execution_time': execution_time})}\n\n"
+                yield f"data: {json.dumps(event_data)}\n\n"
                 logger.info(f"📡 [/api/events] MySQL - {total_events} eventos enviados en {execution_time}")
             else:
                 # No se encontraron eventos
-                yield f"data: {json.dumps({'type': 'no_events', 'scraper': 'mysql_database', 'count': 0, 'execution_time': execution_time, 'message': f'No hay eventos disponibles para {location}'})}\n\n"
+                no_events_data = {
+                    'type': 'no_events',
+                    'scraper': 'mysql_database',
+                    'count': 0,
+                    'execution_time': execution_time,
+                    'message': f'No hay eventos disponibles para {location}'
+                }
+
+                # Agregar metadata de ciudad principal si existe (incluso sin eventos)
+                if parent_city and expanded_search:
+                    no_events_data['parent_city'] = parent_city
+                    no_events_data['original_location'] = original_location
+                    no_events_data['expanded_search'] = expanded_search
+                    logger.info(f"📍 [/api/events] Búsqueda expandida sin eventos: {original_location} → {parent_city}")
+
+                yield f"data: {json.dumps(no_events_data)}\n\n"
                 logger.info(f"📡 [/api/events] MySQL - 0 eventos para '{location}' en {execution_time}")
 
             # Enviar evento de completado
