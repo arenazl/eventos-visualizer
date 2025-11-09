@@ -2,13 +2,16 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Eventos Visualizer - Descubre los mejores eventos cerca de ti" />
     <meta name="theme-color" content="#2563eb" />
     <link rel="manifest" href="/manifest.json" />
-    <link rel="apple-touch-icon" href="/icon-192x192.png" />
-    
+    <!-- <link rel="apple-touch-icon" href="/icon-192x192.png" /> -->
+
+    <!-- Flag Icons CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons/css/flag-icons.min.css">
+
     <!-- PWA Meta Tags -->
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -21,8 +24,8 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     
-    <!-- Register Service Worker -->
-    <script>
+    <!-- Register Service Worker - DESACTIVADO TEMPORALMENTE PARA DESARROLLO -->
+    <!-- <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js')
@@ -34,6 +37,6 @@
             });
         });
       }
-    </script>
+    </script> -->
   </body>
 </html>

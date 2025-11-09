@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.config import settings
-from middleware.timeout_interceptor import TimeoutInterceptor
+# from middleware.timeout_interceptor import TimeoutInterceptor  # Comentado - middleware no existe
 
 
 def setup_logging():
@@ -79,8 +79,8 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
     
-    # Middleware de timeout
-    app.add_middleware(TimeoutInterceptor, timeout_seconds=settings.REQUEST_TIMEOUT)
+    # Middleware de timeout (comentado - middleware no existe)
+    # app.add_middleware(TimeoutInterceptor, timeout_seconds=settings.REQUEST_TIMEOUT)
     
     # Handlers de errores globales
     @app.exception_handler(Exception)
@@ -104,33 +104,80 @@ def register_routers(app: FastAPI):
     """
     Registrar todos los routers de la aplicación
     """
-    # Import aquí para evitar circular imports
-    from api.v1.routers import system, events, sources, search, websocket
-    
+    # Import solo los routers que existen
+    from api.v1.routers import sources, search, websocket
+
+    # Health endpoint básico
+    @app.get("/health")
+    async def health():
+        return {
+            "status": "healthy",
+            "service": "eventos-visualizer",
+            "version": settings.APP_VERSION
+        }
+
+    # 🌍 Location enrichment endpoint
+    @app.get("/api/location/enrichment")
+    async def location_enrichment(location: str):
+        """Enriquecer ubicación con ciudades cercanas y provincia"""
+        logging.info(f"📍 Location enrichment request: {location}")
+
+        # Parse location
+        parts = location.split(',')
+        city = parts[0].strip() if parts else location
+
+        return {
+            "success": True,
+            "location_info": {
+                "city": city,
+                "state": "Buenos Aires",  # Mock
+                "country": "Argentina",
+                "nearby_cities": [
+                    f"{city} Centro",
+                    f"{city} Norte",
+                    f"{city} Sur"
+                ],
+                "needs_expansion": False
+            }
+        }
+
+    # 📍 Nearby events endpoint
+    @app.get("/api/events/nearby")
+    async def nearby_events(location: str):
+        """Buscar eventos en ciudades cercanas"""
+        logging.info(f"📍 Nearby events request: {location}")
+
+        return {
+            "success": True,
+            "events": [],
+            "message": f"No hay eventos cercanos disponibles para {location}"
+        }
+
+    # 🌍 Province events endpoint
+    @app.get("/api/events/province")
+    async def province_events(location: str):
+        """Buscar eventos en toda la provincia"""
+        logging.info(f"🌍 Province events request: {location}")
+
+        return {
+            "success": True,
+            "events": [],
+            "message": f"No hay eventos de provincia disponibles para {location}"
+        }
+
     # Registrar routers con prefijos apropiados
-    app.include_router(
-        system.router,
-        tags=["System"]
-    )
-    
-    app.include_router(
-        events.router,
-        prefix="/api",
-        tags=["Events"]
-    )
-    
     app.include_router(
         sources.router,
         prefix="/api",
         tags=["Sources"]
     )
-    
+
     app.include_router(
         search.router,
         prefix="/api",
         tags=["Search"]
     )
-    
+
     app.include_router(
         websocket.router,
         tags=["WebSocket"]

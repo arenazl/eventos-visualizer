@@ -99,3 +99,22 @@ coverage/
 
 # Pytest
 .pytest_cache/
+
+# Test and debug files
+test_*.py
+check_*.py
+fix*.py
+*_test.py
+*_check.py
+
+# Temporary files
+nul
+*.backup
+*.bak
+
+# Scripts and automation
+backend/automation/
+backend/batch/
+backend/scripts/
+cleanup.bat
+start*.bat

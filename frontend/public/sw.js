@@ -1,4 +1,4 @@
-const CACHE_NAME = 'eventos-visualizer-v1';
+const CACHE_NAME = 'eventos-visualizer-v2-no-api-cache';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -35,6 +35,24 @@ self.addEventListener('activate', event => {
 
 // Fetch event
 self.addEventListener('fetch', event => {
+  // NEVER cache API calls - always fetch fresh data
+  if (event.request.url.includes('/api/')) {
+    event.respondWith(
+      fetch(event.request)
+        .catch(() => {
+          // Only on network failure, return offline response
+          return new Response(JSON.stringify({
+            status: 'offline',
+            message: 'No hay conexión a internet'
+          }), {
+            headers: { 'Content-Type': 'application/json' }
+          });
+        })
+    );
+    return;
+  }
+
+  // For non-API requests: Network First, Cache Fallback
   event.respondWith(
     fetch(event.request)
       .then(response => {
@@ -44,7 +62,7 @@ self.addEventListener('fetch', event => {
         caches.open(CACHE_NAME)
           .then(cache => {
             // Cache successful responses, but skip chrome-extension and other unsupported schemes
-            if (event.request.method === 'GET' && 
+            if (event.request.method === 'GET' &&
                 event.request.url.startsWith('http') &&
                 !event.request.url.startsWith('chrome-extension://')) {
               cache.put(event.request, responseToCache);
@@ -60,20 +78,10 @@ self.addEventListener('fetch', event => {
             if (response) {
               return response;
             }
-            
+
             // Return offline page for navigation requests
             if (event.request.mode === 'navigate') {
               return caches.match('/offline.html');
-            }
-            
-            // Return a basic offline response for API calls
-            if (event.request.url.includes('/api/')) {
-              return new Response(JSON.stringify({
-                status: 'offline',
-                message: 'No hay conexión a internet'
-              }), {
-                headers: { 'Content-Type': 'application/json' }
-              });
             }
           });
       })

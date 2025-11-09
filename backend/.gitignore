@@ -34,6 +34,13 @@ logs/
 *.db
 *.sqlite
 
+# Scraped events (private data)
+data/scraped/*.json
+data/ai_scraped/
+data/curated/
+data/*.json
+!data/scraped/README.md
+
 # Cache
 .cache/
 .pytest_cache/

@@ -145,21 +145,25 @@ async def websocket_recommend_streaming(websocket: WebSocket, location: str):
         })
         
         # 🗺️ OBTENER CIUDADES ALEDAÑAS REALES DEL SERVICIO
-        from services.nearby_cities_service import nearby_cities_service
+        # DISABLED - Causes location detection issues
+        # from services.nearby_cities_service import nearby_cities_service
         
-        nearby_locations = nearby_cities_service.get_cached_nearby_cities(location)
+        # nearby_locations = nearby_cities_service.get_cached_nearby_cities(location)
         
-        if not nearby_locations:
-            # Si no están en cache, generarlas
-            nearby_locations = await nearby_cities_service.get_nearby_cities(location)
-            logger.info(f"🗺️ Ciudades aledañas generadas para {location}: {nearby_locations}")
-        else:
-            logger.info(f"🗺️ Ciudades aledañas desde cache para {location}: {nearby_locations}")
+        # if not nearby_locations:
+        #     # Si no están en cache, generarlas
+        #     nearby_locations = await nearby_cities_service.get_nearby_cities(location)
+        #     logger.info(f"🗺️ Ciudades aledañas generadas para {location}: {nearby_locations}")
+        # else:
+        #     logger.info(f"🗺️ Ciudades aledañas desde cache para {location}: {nearby_locations}")
         
         # Fallback si no se encontraron ciudades aledañas
-        if not nearby_locations:
-            nearby_locations = [f"{location} Centro", f"{location} Norte", f"{location} Sur"]
-            logger.warning(f"⚠️ Usando ubicaciones fallback para {location}")
+        # if not nearby_locations:
+        #     nearby_locations = [f"{location} Centro", f"{location} Norte", f"{location} Sur"]
+        #     logger.warning(f"⚠️ Usando ubicaciones fallback para {location}")
+        
+        # Skip nearby cities for now - just use the original location
+        nearby_locations = []
         
         await websocket.send_json({
             "type": "recommend_cities_detected",

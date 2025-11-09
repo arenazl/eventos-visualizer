@@ -91,6 +91,7 @@ class Settings(BaseSettings):
         env_file = ".env"
         env_file_encoding = "utf-8"
         case_sensitive = False
+        extra = 'ignore'  # Ignorar campos del .env que no están en el modelo
     
     def get_database_url(self) -> str:
         """

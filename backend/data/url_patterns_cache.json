@@ -6,42 +6,87 @@
       "pattern": "https://dice.fm/search?location={city}, {country}",
       "example": "https://dice.fm/search?location={city}, {country}",
       "confidence": 0.8,
-      "last_tested": "2025-09-13",
-      "status": "working"
+      "last_tested": "2025-11-02",
+      "status": "timeout",
+      "enabled": false,
+      "disable_reason": "Timeout constante (5s), sin eventos"
     },
     "universe": {
-      "pattern": "https://universe.com/search?q=&location=Villa%20Gesell,Buenos%20Aires,Argentina",
-      "example": "https://universe.com/search?q=&location=Villa%20Gesell,Buenos%20Aires,Argentina",
+      "pattern": "https://universe.com/search?q=&location={city},buenos-aires,{country}",
+      "example": "https://universe.com/search?q=&location=villa-gesell,buenos-aires,argentina",
       "confidence": 0.8,
-      "last_tested": "2025-09-13",
-      "status": "working"
+      "last_tested": "2025-11-02",
+      "status": "timeout",
+      "enabled": false,
+      "disable_reason": "Timeout constante (5s), sin eventos"
     },
     "events": {
       "pattern": "https://www.eventbrite.com/d/{country}--{city}--events/",
       "example": "https://www.eventbrite.com/d/argentina--villa-gesell--events/",
       "confidence": 0.8,
-      "last_tested": "2025-09-13",
-      "status": "working"
+      "last_tested": "2025-11-02",
+      "status": "slow",
+      "enabled": false,
+      "disable_reason": "Muy lento (5s) sin resultados"
     },
     "bandsintown": {
       "pattern": "https://www.bandsintown.com/Villa%20Gesell, Buenos Aires?Argentina",
       "example": "https://www.bandsintown.com/Villa%20Gesell, Buenos Aires?Argentina",
       "confidence": 0.8,
-      "last_tested": "2025-09-13",
-      "status": "working"
+      "last_tested": "2025-11-02",
+      "status": "timeout",
+      "enabled": false,
+      "disable_reason": "Timeout constante (5s), sin eventos"
+    },
+    "facebook": {
+      "enabled": true,
+      "status": "working",
+      "performance": "excellent",
+      "avg_events": 2,
+      "avg_time": "0.02s"
+    },
+    "fever": {
+      "enabled": true,
+      "status": "working",
+      "performance": "good",
+      "avg_events": 12,
+      "avg_time": "1.30s"
+    },
+    "meetup": {
+      "enabled": true,
+      "status": "working",
+      "performance": "good",
+      "avg_events": 8,
+      "avg_time": "1.63s"
+    },
+    "songkick": {
+      "enabled": true,
+      "status": "working",
+      "performance": "fast_but_no_results",
+      "avg_events": 0,
+      "avg_time": "0.74s",
+      "note": "Puede tener eventos en ciudades grandes"
     },
     "eventbrite": {
       "pattern": "https://www.eventbrite.com.ar/d/{country}--{city}--events/",
       "example": "https://www.eventbrite.com.ar/d/argentina--buenos-aires--events/",
       "confidence": 0.8,
-      "last_tested": "2025-09-12",
-      "status": "working"
+      "last_tested": "2025-11-02",
+      "status": "working",
+      "enabled": true,
+      "performance": "moderate",
+      "avg_events": 0,
+      "avg_time": "1.63s",
+      "note": "Sin eventos en Villa Gesell, puede funcionar en ciudades grandes"
     }
   },
   "metadata": {
-    "total_patterns": 5,
-    "cache_hits": 9,
-    "ai_calls_saved": 9,
-    "next_update": "2025-10-12"
+    "total_patterns": 9,
+    "enabled_scrapers": 5,
+    "disabled_scrapers": 4,
+    "cache_hits": 10,
+    "ai_calls_saved": 10,
+    "last_performance_review": "2025-11-02",
+    "next_update": "2025-12-02"
   }
 }

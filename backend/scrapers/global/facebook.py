@@ -23,170 +23,148 @@ class FacebookScraper(IScraper):
     
     def __init__(self, api_key: Optional[str] = None):
         super().__init__(api_key or os.getenv("RAPIDAPI_KEY"))
-        self.base_url = "https://facebook-scraper-api.p.rapidapi.com"
+        self.base_url = "facebook-scraper3.p.rapidapi.com"
         self.headers = {
-            "X-RapidAPI-Key": self.api_key,
-            "X-RapidAPI-Host": "facebook-scraper-api.p.rapidapi.com"
-        } if self.api_key else {}
+            "x-rapidapi-key": self.api_key or "f3435e87bbmsh512cdcef2082564p161dacjsnb5f035481232",
+            "x-rapidapi-host": "facebook-scraper3.p.rapidapi.com"
+        }
     
     async def scrape(self, location: str, limit: int = 10, **kwargs) -> Dict[str, Any]:
         """
-        Busca eventos en Facebook para una ubicación
-        
-        Formato típico de respuesta de Facebook RapidAPI:
-        {
-            "data": [
-                {
-                    "id": "123456789",
-                    "name": "Event Name",
-                    "description": "Event description",
-                    "start_time": "2024-12-25T19:00:00-0300",
-                    "end_time": "2024-12-25T23:00:00-0300",
-                    "place": {
-                        "name": "Venue Name",
-                        "location": {
-                            "city": "Buenos Aires",
-                            "country": "Argentina",
-                            "latitude": -34.603,
-                            "longitude": -58.381,
-                            "street": "Street Address 123"
-                        }
-                    },
-                    "cover": {
-                        "source": "https://scontent.xx.fbcdn.net/..."
-                    },
-                    "attending_count": 150,
-                    "interested_count": 500,
-                    "maybe_count": 200,
-                    "is_online": false,
-                    "ticket_uri": "https://www.facebook.com/events/123456789",
-                    "owner": {
-                        "name": "Event Organizer",
-                        "id": "987654321"
-                    }
-                }
-            ],
-            "paging": {
-                "cursors": {
-                    "before": "...",
-                    "after": "..."
-                },
-                "next": "..."
-            }
-        }
+        Busca eventos en Facebook para una ubicación usando RapidAPI facebook-scraper3
         """
-        
-        if not self.api_key:
-            # Sin API key, retornar vacío
-            return {"data": []}
-        
-        async with aiohttp.ClientSession() as session:
-            # Endpoint para buscar eventos
-            url = f"{self.base_url}/search/events"
-            
-            params = {
-                "query": location,
-                "limit": limit,
-                "start_date": datetime.now().strftime("%Y-%m-%d"),
-                "end_date": (datetime.now().replace(year=datetime.now().year + 1)).strftime("%Y-%m-%d")
-            }
-            
-            try:
-                async with session.get(
-                    url,
-                    headers=self.headers,
-                    params=params,
-                    timeout=aiohttp.ClientTimeout(total=self.timeout)
-                ) as response:
-                    if response.status == 200:
-                        data = await response.json()
-                        return {"data": data.get("events", [])} if isinstance(data, dict) else {"data": data}
-                    else:
-                        return {"data": []}
-                        
-            except asyncio.TimeoutError:
-                raise
-            except Exception as e:
-                return {"data": [], "error": str(e)}
+
+        # Use http.client as per the example
+        import http.client
+        import json
+
+        try:
+            # Create HTTPS connection
+            conn = http.client.HTTPSConnection(self.base_url)
+
+            # Make the request with location as query parameter
+            endpoint = f"/search/events?query={location.replace(' ', '%20')}"
+
+            conn.request("GET", endpoint, headers=self.headers)
+
+            # Get response
+            res = conn.getresponse()
+            data = res.read()
+
+            # Parse JSON response
+            result = json.loads(data.decode("utf-8"))
+
+            # Close connection
+            conn.close()
+
+            # Return in expected format
+            # The new API returns {"results": [...], "cursor": "..."}
+            if isinstance(result, dict):
+                if 'results' in result:
+                    # New format from facebook-scraper3
+                    return {"results": result["results"], "data": result.get("results", [])}
+                elif 'data' in result:
+                    return result
+                elif 'events' in result:
+                    return {"data": result["events"]}
+                else:
+                    return {"data": []}
+            elif isinstance(result, list):
+                return {"data": result}
+            else:
+                return {"data": []}
+
+        except http.client.HTTPException as e:
+            print(f"❌ HTTP Error in Facebook scraper: {e}")
+            return {"data": [], "error": str(e)}
+        except json.JSONDecodeError as e:
+            print(f"❌ JSON Error in Facebook scraper: {e}")
+            return {"data": [], "error": "Invalid JSON response"}
+        except Exception as e:
+            print(f"❌ Error in Facebook scraper: {e}")
+            return {"data": [], "error": str(e)}
     
     def normalize_output(self, raw_data: Dict[str, Any]) -> List[Event]:
         """
         Normaliza la respuesta de Facebook al formato Event estándar
         """
         events = []
-        
-        for item in raw_data.get("data", []):
-            # Extraer datos básicos
-            title = item.get("name", "Sin título")
-            description = item.get("description", "")
-            
-            # Fechas
-            start_date = self.parse_date(item.get("start_time"))
-            end_date = self.parse_date(item.get("end_time"))
-            
-            # Ubicación
-            place = item.get("place", {})
-            venue_name = place.get("name", "")
-            location = place.get("location", {})
-            street = location.get("street", "")
-            city = location.get("city", "")
-            country = location.get("country", "")
-            latitude = location.get("latitude")
-            longitude = location.get("longitude")
-            
-            # Construir dirección completa
-            venue_address = ", ".join(filter(None, [street, city, country]))
-            
-            # Multimedia
-            cover = item.get("cover", {})
-            image_url = cover.get("source") if cover else None
-            
-            # Asistencia
-            attending = item.get("attending_count", 0)
-            interested = item.get("interested_count", 0)
-            maybe = item.get("maybe_count", 0)
-            total_interested = attending + interested + maybe
-            
-            # Organizador
-            owner = item.get("owner", {})
-            organizer_name = owner.get("name", "")
-            
-            # Es online?
-            is_online = item.get("is_online", False)
-            if is_online:
-                venue_name = "Evento Online"
-                venue_address = "Online"
-            
-            # URL del evento
-            event_id = item.get("id", "")
-            source_url = f"https://www.facebook.com/events/{event_id}" if event_id else item.get("ticket_uri", "")
-            
-            # Crear evento normalizado
-            event = Event(
-                title=title,
-                description=description,
-                start_date=start_date,
-                end_date=end_date,
-                venue_name=venue_name,
-                venue_address=venue_address,
-                city=city if not is_online else "Online",
-                country=country,
-                latitude=float(latitude) if latitude else None,
-                longitude=float(longitude) if longitude else None,
-                price=0,  # Facebook no proporciona precios
-                price_display="Ver en Facebook",
-                currency="ARS",
-                is_free=True,  # Asumimos que son gratuitos salvo indicación
-                image_url=image_url,
-                source="facebook",
-                source_url=source_url,
-                source_id=event_id,
-                category=self.detect_category(f"{title} {description}"),
-                organizer_name=organizer_name,
-                attendee_count=total_interested,
-                tags=["facebook", "social"] + (["online"] if is_online else [])
-            )
-            
-            events.append(event)
+
+        # Handle new response format from facebook-scraper3
+        results = raw_data.get("results", raw_data.get("data", []))
+
+        for item in results:
+            # Extract data from new format
+            if item.get("type") == "search_event":
+                # Basic data
+                title = item.get("title", "Sin título").strip()
+                event_id = item.get("event_id", "")
+                event_url = item.get("url", "")
+
+                # Since the new API doesn't provide all details, we'll use what we have
+                # and potentially fetch more details later if needed
+
+                # Create event with available data
+                event = Event(
+                    title=title,
+                    description="",  # Not provided in search results
+                    start_date=None,  # Would need to fetch event details
+                    end_date=None,
+                    venue_name="Ver en Facebook",  # Placeholder
+                    venue_address="",
+                    city="",  # Will be filled from search location
+                    country="",
+                    latitude=None,
+                    longitude=None,
+                    price=0,
+                    price_display="Ver detalles en Facebook",
+                    currency="EUR",
+                    is_free=True,
+                    image_url=None,  # Would need to fetch from event page
+                    source="facebook",
+                    source_url=event_url,
+                    source_id=event_id,
+                    category=self.detect_category(title),
+                    organizer_name="",
+                    attendee_count=0,
+                    tags=["facebook", "social"]
+                )
+
+                events.append(event)
+            elif not item.get("type"):
+                # Handle old format if still used
+                title = item.get("name", item.get("title", "Sin título"))
+                description = item.get("description", "")
+
+                # Try to extract other fields from old format
+                event_id = item.get("id", item.get("event_id", ""))
+                source_url = item.get("url", f"https://www.facebook.com/events/{event_id}" if event_id else "")
+
+                event = Event(
+                    title=title,
+                    description=description,
+                    start_date=self.parse_date(item.get("start_time")),
+                    end_date=self.parse_date(item.get("end_time")),
+                    venue_name=item.get("place", {}).get("name", ""),
+                    venue_address="",
+                    city=item.get("place", {}).get("location", {}).get("city", ""),
+                    country=item.get("place", {}).get("location", {}).get("country", ""),
+                    latitude=None,
+                    longitude=None,
+                    price=0,
+                    price_display="Ver en Facebook",
+                    currency="EUR",
+                    is_free=True,
+                    image_url=item.get("cover", {}).get("source") if item.get("cover") else None,
+                    source="facebook",
+                    source_url=source_url,
+                    source_id=event_id,
+                    category=self.detect_category(f"{title} {description}"),
+                    organizer_name=item.get("owner", {}).get("name", "") if item.get("owner") else "",
+                    attendee_count=0,
+                    tags=["facebook", "social"]
+                )
+
+                events.append(event)
         
         return events
