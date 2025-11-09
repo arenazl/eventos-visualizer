@@ -455,22 +455,10 @@ RECUERDA: Solo ciudades GRANDES y CONOCIDAS. Solo el JSON."""
 
             logger.info(f"🔍 Consultando Gemini para detectar ciudad principal de: {location}")
 
-            prompt = f"""¿"{location}" es un barrio, zona o localidad que pertenece a una ciudad más grande?
+            prompt = f"""¿Cuál es la ciudad/provincia principal de {location}?
 
-Si es parte de una ciudad más grande, responde SOLO con el nombre de la ciudad principal.
-Si "{location}" YA ES la ciudad principal, responde SOLO: "PRINCIPAL"
-
-EJEMPLOS:
-- "Merlo" → Buenos Aires
-- "Tigre" → Buenos Aires
-- "La Boca" → Buenos Aires
-- "Palermo" → Buenos Aires
-- "Buenos Aires" → PRINCIPAL
-- "Barcelona Centro" → Barcelona
-- "Barcelona" → PRINCIPAL
-- "Madrid" → PRINCIPAL
-
-Ahora para "{location}", responde SOLO el nombre de la ciudad o "PRINCIPAL"."""
+Si {location} ya es la ciudad/provincia principal, responde: "PRINCIPAL"
+Si {location} es parte de una ciudad/provincia más grande, responde SOLO con el nombre de esa ciudad/provincia."""
 
             service = GeminiAIService()
             response_text = await service._call_gemini_api(prompt)

@@ -1,0 +1,205 @@
+{
+  "barrio": "Recoleta",
+  "comuna": 2,
+  "zona": "Norte",
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "fuente": "Gemini AI",
+  "descripcion": "Recoleta es uno de los barrios con mayor concentración de actividades culturales y turísticas en Buenos Aires",
+  "centro_cultural_recoleta": {
+    "nombre": "Centro Cultural Recoleta (CCR)",
+    "descripcion": "Epicentro de actividades, la mayoría gratuitas, y tiene una agenda muy activa durante todo el mes",
+    "eventos": [
+      {
+        "titulo": "Exposiciones Permanentes",
+        "fecha": "Martes a Domingo",
+        "lugar": "Salas 1 a 13 y de Exposición",
+        "descripcion": "Muestras inauguradas para el 45° Aniversario, incluyendo obras de Bedel, Benedit, Testa, y la exposición 'César Aira: medio siglo de literatura' (Salas 2 y 3)",
+        "categoria": "cultural",
+        "tipo": "exposicion",
+        "precio": "Gratis"
+      },
+      {
+        "titulo": "Muestras Nuevas",
+        "fecha": "2025-11-13",
+        "horario": "A partir de las 18:00 hs",
+        "lugar": "Varias Salas",
+        "descripcion": "Inauguran las exposiciones 'Políticas del sabor', 'Visión imposible' y 'Fronteras blandas'",
+        "categoria": "cultural",
+        "tipo": "exposicion",
+        "precio": "Gratis"
+      },
+      {
+        "titulo": "Cine: Ciclo BAFICI",
+        "fecha": "Todos los Martes",
+        "horario": "19:00 hs",
+        "lugar": "Salas de Cine del CCR",
+        "descripcion": "Proyecciones seleccionadas del Festival de Cine de Buenos Aires (BAFICI)",
+        "categoria": "cultural",
+        "tipo": "cine",
+        "precio": "Gratis",
+        "recurrente": true
+      },
+      {
+        "titulo": "Cine: Los mundos épicos de Ralph Bakshi",
+        "fecha": "Todos los Viernes",
+        "horario": "18:00 hs",
+        "lugar": "Salas de Cine del CCR",
+        "descripcion": "Proyecciones de este autor británico",
+        "categoria": "cultural",
+        "tipo": "cine",
+        "precio": "Gratis",
+        "recurrente": true
+      },
+      {
+        "titulo": "Festival Retratón",
+        "fecha": "2025-11-15",
+        "horario": "15:00 a 20:00 hs",
+        "lugar": "Centro Cultural Recoleta",
+        "descripcion": "Actividad de fotografía y retratos",
+        "categoria": "cultural",
+        "tipo": "fotografia",
+        "precio": "Gratis"
+      },
+      {
+        "titulo": "Música: Entrelíneas Quinteto",
+        "fecha": "2025-11-15",
+        "horario": "18:00 hs",
+        "lugar": "Centro Cultural Recoleta",
+        "descripcion": "Espectáculo musical",
+        "categoria": "cultural",
+        "tipo": "musica",
+        "precio": "Gratis"
+      },
+      {
+        "titulo": "Cine: Película Sorpresa",
+        "fecha": "2025-11-16",
+        "horario": "18:00 hs",
+        "lugar": "Salas de Cine del CCR",
+        "descripcion": "Proyección sorpresa",
+        "categoria": "cultural",
+        "tipo": "cine",
+        "precio": "Gratis"
+      },
+      {
+        "titulo": "Música: Antidomingos",
+        "fecha": "Todos los Domingos (ejemplo: Hoy 9 de Nov.)",
+        "horario": "19:00 hs",
+        "lugar": "Centro Cultural Recoleta",
+        "descripcion": "Ciclo de música, hoy con Julieta Kitman y Angel Sucheras",
+        "categoria": "cultural",
+        "tipo": "musica",
+        "precio": "Gratis",
+        "recurrente": true
+      },
+      {
+        "titulo": "Música: Dos a Cu4tro – Bollero & Wainz",
+        "fecha": "2025-11-22",
+        "horario": "17:00 hs",
+        "lugar": "Centro Cultural Recoleta",
+        "descripcion": "Presentación musical",
+        "categoria": "cultural",
+        "tipo": "musica",
+        "precio": "Gratis"
+      },
+      {
+        "titulo": "Charla: Cicatrices (Poesía)",
+        "fecha": "2025-11-25",
+        "horario": "19:00 hs",
+        "lugar": "Centro Cultural Recoleta",
+        "descripcion": "Ciclo de lectura de poesía",
+        "categoria": "cultural",
+        "tipo": "literatura",
+        "precio": "Gratis"
+      },
+      {
+        "titulo": "Música: Nélida Sánchez - Piano",
+        "fecha": "2025-11-29",
+        "horario": "19:00 hs",
+        "lugar": "Centro Cultural Recoleta",
+        "descripcion": "Concierto de piano",
+        "categoria": "cultural",
+        "tipo": "musica",
+        "precio": "Gratis"
+      }
+    ]
+  },
+  "ferias_paseos_tradicionales": [
+    {
+      "titulo": "Feria de Artesanos de Plaza Francia",
+      "fecha": "Todos los Sábados, Domingos y Feriados",
+      "horario": "11:00 a 20:00 hs",
+      "lugar": "Plaza Intendente Alvear",
+      "direccion": "Junto a Av. del Libertador y Av. Pueyrredón",
+      "descripcion": "Conocida popularmente como 'la Feria de Plaza Francia'. Es la feria de artesanías más famosa de la ciudad, con música, espectáculos callejeros y muchísimos puestos de diseño, arte y joyería.",
+      "categoria": "feria",
+      "tipo": "artesanias",
+      "precio": "Gratis entrada",
+      "recurrente": true
+    },
+    {
+      "titulo": "Cementerio de la Recoleta",
+      "fecha": "Diario",
+      "horario": "9:00 a 17:00 hs",
+      "lugar": "Cementerio de la Recoleta",
+      "direccion": "Junín 1760",
+      "descripcion": "Más allá de su valor histórico y arquitectónico (con el mausoleo de Eva Perón), se ofrecen visitas guiadas gratuitas en diferentes horarios.",
+      "categoria": "turismo",
+      "tipo": "historico",
+      "precio": "Gratis con DNI"
+    },
+    {
+      "titulo": "Plaza Houssay (Feria Gastronómica)",
+      "fecha": "Fines de Semana",
+      "lugar": "Plaza Houssay",
+      "direccion": "Av. Córdoba y Junín",
+      "descripcion": "Aunque más enfocada en la oferta estudiantil y universitaria, los fines de semana suelen haber puestos de comida street food y un ambiente animado.",
+      "categoria": "gastronomia",
+      "tipo": "feria",
+      "precio": "Gratis entrada"
+    }
+  ],
+  "vida_nocturna_premium": [
+    {
+      "tipo": "Milongas de Tango",
+      "descripcion": "La zona cercana a Recoleta (como la Galería Pacífico, o salones de hoteles) suele tener milongas o clases de tango abiertas a la comunidad, especialmente los miércoles y sábados por la noche.",
+      "categoria": "entretenimiento",
+      "dias_principales": ["miércoles", "sábados"]
+    },
+    {
+      "tipo": "Hoteles y Bares Premium",
+      "lugares": ["Alvear Palace Hotel", "Four Seasons"],
+      "descripcion": "Los bares de hoteles suelen tener música en vivo (jazz, piano, DJ sets) los fines de semana, ofreciendo un ambiente de fiesta sofisticada.",
+      "categoria": "vida_nocturna",
+      "precio": "Premium"
+    }
+  ],
+  "iconos_turisticos": [
+    {
+      "nombre": "Centro Cultural Recoleta",
+      "tipo": "cultural"
+    },
+    {
+      "nombre": "Cementerio de la Recoleta",
+      "tipo": "historico",
+      "destaca": "Mausoleo de Eva Perón"
+    },
+    {
+      "nombre": "Plaza Francia",
+      "tipo": "plaza_feria"
+    },
+    {
+      "nombre": "Alvear Palace Hotel",
+      "tipo": "hotel_historico"
+    }
+  ],
+  "caracteristicas": {
+    "enfoque": "cultural_turistico",
+    "ideal_para": ["cultura", "arte", "historia", "ferias_artesanales", "turismo"],
+    "publico": "adulto_turistas",
+    "ambiente": "sofisticado_cultural"
+  },
+  "total_eventos": 17,
+  "respuesta_completa": "¡Recoleta es uno de los barrios con mayor concentración de actividades culturales y turísticas en Buenos Aires!\n\nBasado en la agenda para lo que resta de noviembre de 2025 (desde hoy, domingo 9), aquí tienes los principales eventos, ferias y actividades:\n\n🏛️ Centro Cultural Recoleta (CCR)\n\nEl CCR es un epicentro de actividades, la mayoría gratuitas, y tiene una agenda muy activa durante todo el mes.\n\nEvento/Actividad\tFecha\tLugar\tNotas/Detalles\nExposiciones Permanentes\tMartes a Domingo\tSalas 1 a 13 y de Exposición\tSe mantienen las muestras inauguradas para el 45° Aniversario, incluyendo obras de Bedel, Benedit, Testa, y la exposición \"César Aira: medio siglo de literatura\" (Salas 2 y 3).\nMuestras Nuevas\tJueves 13 de Noviembre\tVarias Salas\tInauguran las exposiciones \"Políticas del sabor\", \"Visión imposible\" y \"Fronteras blandas\" (A partir de las 18:00 hs).\nCine: Ciclo BAFICI\tTodos los Martes\tSalas de Cine del CCR\tProyecciones seleccionadas del Festival de Cine de Buenos Aires (BAFICI). (Suelen ser a las 19:00 hs).\nCine: Los mundos épicos de Ralph Bakshi\tTodos los Viernes\tSalas de Cine del CCR\tProyecciones de este autor británico. (Suele ser a las 18:00 hs).\nFestival Retratón\tSábado 15 de Noviembre\tCentro Cultural Recoleta\tActividad de fotografía y retratos. (De 15:00 a 20:00 hs).\nMúsica: Entrelíneas Quinteto\tSábado 15 de Noviembre\tCentro Cultural Recoleta\tEspectáculo musical. (A las 18:00 hs).\nCine: Película Sorpresa\tDomingo 16 de Noviembre\tSalas de Cine del CCR\tProyección sorpresa. (A las 18:00 hs).\nMúsica: Antidomingos\tTodos los Domingos (ej. Hoy 9 de Nov.)\tCentro Cultural Recoleta\tCiclo de música, hoy con Julieta Kitman y Angel Sucheras. (A las 19:00 hs).\nMúsica: Dos a Cu4tro – Bollero & Wainz\tSábado 22 de Noviembre\tCentro Cultural Recoleta\tPresentación musical. (A las 17:00 hs).\nCharla: Cicatrices (Poesía)\tMartes 25 de Noviembre\tCentro Cultural Recoleta\tCiclo de lectura de poesía. (A las 19:00 hs).\nMúsica: Nélida Sánchez - Piano\tSábado 29 de Noviembre\tCentro Cultural Recoleta\tConcierto de piano. (A las 19:00 hs).\n\n🎨 Ferias y Paseos Tradicionales\n\nEstas actividades son el corazón del fin de semana en Recoleta.\n\nEvento/Actividad\tFecha\tLugar\tNotas/Detalles\nFeria de Artesanos de Plaza Francia\tTodos los Sábados, Domingos y Feriados (hasta fin de mes)\tPlaza Intendente Alvear (Junto a Av. del Libertador y Av. Pueyrredón)\tConocida popularmente como \"la Feria de Plaza Francia\". Abierta de 11:00 a 20:00 hs. Es la feria de artesanías más famosa de la ciudad, con música, espectáculos callejeros y muchísimos puestos de diseño, arte y joyería.\nCementerio de la Recoleta\tDiario\tJunín 1760\tAbierto de 9:00 a 17:00 hs. Más allá de su valor histórico y arquitectónico (con el mausoleo de Eva Perón), se ofrecen visitas guiadas gratuitas en diferentes horarios.\nPlaza Houssay (Feria Gastronómica)\tFines de Semana\tAv. Córdoba y Junín\tAunque más enfocada en la oferta estudiantil y universitaria, los fines de semana suelen haber puestos de comida street food y un ambiente animado.\n\n🎶 Fiestas y Vida Nocturna\n\nRecoleta es hogar de algunos de los bares y boliches más exclusivos de Buenos Aires, generalmente enfocados en un público adulto y turístico:\n\nMilongas de Tango: La zona cercana a Recoleta (como la Galería Pacífico, o salones de hoteles) suele tener milongas o clases de tango abiertas a la comunidad, especialmente los miércoles y sábados por la noche.\n\nHoteles y Bares Premium: Los bares de hoteles como el Alvear Palace Hotel o el Four Seasons suelen tener música en vivo (jazz, piano, DJ sets) los fines de semana, ofreciendo un ambiente de fiesta sofisticada.\n\n¿Hay algún tipo de actividad en particular que te interese más (por ejemplo, cine, música, museos o paseos al aire libre), para que te pueda dar más detalles?"
+}

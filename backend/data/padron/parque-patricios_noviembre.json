@@ -1,0 +1,125 @@
+{
+  "barrio": "Parque Patricios",
+  "comuna": 4,
+  "zona": "Sur",
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "fuente": "Gemini AI",
+  "descripcion": "Parque Patricios es un barrio con mucha actividad y tradición, especialmente los fines de semana",
+  "eventos_locales": [
+    {
+      "titulo": "Feria Artesanal y Barrial (La Feria de Parque Patricios)",
+      "fecha": "Todos los Sábados y Domingos hasta fin de mes",
+      "horario": "9:00 a 20:00 hs",
+      "lugar": "Parque de los Patricios",
+      "direccion": "Alrededores de la Av. Caseros y Monteagudo",
+      "descripcion": "Actividad más constante y tradicional. Antigüedades, artesanías, ropa, puestos gastronómicos y música popular, tango y folclore con gente bailando en vivo.",
+      "categoria": "feria",
+      "tipo": "artesanal",
+      "precio": "Gratis entrada",
+      "recurrente": true
+    },
+    {
+      "titulo": "Paseos y Recorridos Históricos",
+      "fecha": "Diario",
+      "lugar": "Distrito Tecnológico",
+      "direccion": "Alrededores de la Casa de la Ciudad, Uspallata 3160",
+      "descripcion": "Recorrido autoguiado por el Distrito Tecnológico, visitando la arquitectura moderna de la Casa de la Ciudad (Sede del Gobierno) y la ex-Cárcel de Caseros, hoy convertida en el Archivo General de la Nación (Av. Caseros 2738).",
+      "categoria": "cultural",
+      "tipo": "recorrido",
+      "precio": "Gratis"
+    },
+    {
+      "titulo": "Smart Plaza Patio Parque Patricios",
+      "fecha": "Diario",
+      "lugar": "Smart Plaza",
+      "direccion": "Alrededores del Parque",
+      "descripcion": "Espacio inteligente con patio de comidas renovado, ideal para pasar el rato al aire libre y probar diversas opciones gastronómicas.",
+      "categoria": "gastronomia",
+      "tipo": "patio_comidas",
+      "precio": "Varía según consumo"
+    }
+  ],
+  "eventos_culturales_cercanos": [
+    {
+      "titulo": "Festival Filbita (Literatura y Familias)",
+      "fecha": "Consultar programación resto del mes",
+      "lugar": "Espacio Cultural del Sur",
+      "direccion": "Av. Caseros 1750, Barracas",
+      "descripcion": "Festival literario con actividades para niños y familias. Talleres, lecturas, narraciones y música. Ideal para un plan familiar durante el fin de semana.",
+      "categoria": "cultural",
+      "tipo": "literatura",
+      "precio": "Consultar",
+      "barrio_cercano": "Barracas",
+      "distancia": "A minutos de Parque Patricios"
+    },
+    {
+      "titulo": "Planta Inclan Sala (Teatro y Cultura Independiente)",
+      "fecha": "Consultar cartelera",
+      "horario": "Eventos suelen ser a las 21:00 hs",
+      "lugar": "Planta Inclan Sala",
+      "direccion": "Av. Inclan 3342, Boedo/Parque Patricios",
+      "descripcion": "Espacio de investigación y creación transversal con agenda activa de teatro independiente, cine y muestras.",
+      "categoria": "cultural",
+      "tipo": "teatro",
+      "precio": "Consultar",
+      "barrio_cercano": "Boedo"
+    }
+  ],
+  "eventos_ciudad_buenos_aires": [
+    {
+      "titulo": "La Noche de los Alfajores",
+      "fecha": "2025-11-15",
+      "lugar": "Varios puntos de la ciudad",
+      "descripcion": "Evento temático de gastronomía",
+      "categoria": "gastronomia",
+      "tipo": "evento_tematico",
+      "precio": "Consultar"
+    },
+    {
+      "titulo": "Buenos Aires Rojo Sangre (Festival de Cine)",
+      "fecha_inicio": "2025-11-20",
+      "fecha_fin": "2025-11-30",
+      "lugar": "Sedes variadas de CABA",
+      "descripcion": "Festival de cine de terror y bizarro",
+      "categoria": "cultural",
+      "tipo": "cine",
+      "precio": "Consultar"
+    },
+    {
+      "titulo": "Noche de los Templos",
+      "fecha": "2025-11-29",
+      "lugar": "Templos de diferentes cultos de la ciudad",
+      "descripcion": "Visitas guiadas y actividades especiales en templos",
+      "categoria": "cultural",
+      "tipo": "turismo_religioso",
+      "precio": "Gratis"
+    }
+  ],
+  "lugares_interes": [
+    {
+      "nombre": "Casa de la Ciudad",
+      "direccion": "Uspallata 3160",
+      "tipo": "arquitectura_moderna",
+      "descripcion": "Sede del Gobierno"
+    },
+    {
+      "nombre": "Archivo General de la Nación",
+      "direccion": "Av. Caseros 2738",
+      "tipo": "historico",
+      "descripcion": "Ex-Cárcel de Caseros"
+    },
+    {
+      "nombre": "Club Huracán",
+      "tipo": "club_barrio",
+      "descripcion": "Actividad principal fútbol, suelen tener actividades culturales o sociales"
+    }
+  ],
+  "transporte": {
+    "subte": "Línea H",
+    "descripcion": "Bien conectado con el centro de la ciudad"
+  },
+  "total_eventos": 9,
+  "respuesta_completa": "¡Excelente elección! Parque Patricios es un barrio con mucha actividad y tradición, especialmente los fines de semana.\n\nBasado en la agenda de la Ciudad de Buenos Aires para lo que queda de noviembre de 2025 (desde hoy, domingo 9), aquí tienes los principales eventos y actividades en Parque Patricios o en la zona Sur de la Comuna 4 que podrías disfrutar:\n\n🗓️ Eventos y Fiestas Destacadas en Parque Patricios\n\nEvento/Actividad\tFecha\tLugar\tNotas/Detalles\nFeria Artesanal y Barrial (La Feria de Parque Patricios)\tTodos los Sábados y Domingos (hasta fin de mes)\tParque de los Patricios (Alrededores de la Av. Caseros y Monteagudo)\tEs la actividad más constante y tradicional. Abierta de 9:00 a 20:00 hs. Podrás encontrar antigüedades, artesanías, ropa, puestos gastronómicos y, a menudo, hay música popular, tango y folclore con gente bailando en vivo.\nPaseos y Recorridos Históricos\tDiario\tDistrito Tecnológico (Alrededores de la Casa de la Ciudad, Uspallata 3160)\tPuedes hacer un recorrido autoguiado por el Distrito Tecnológico, visitando la arquitectura moderna de la Casa de la Ciudad (Sede del Gobierno) y la ex-Cárcel de Caseros, hoy convertida en el Archivo General de la Nación (Av. Caseros 2738).\nSmart Plaza Patio Parque Patricios\tDiario\tSmart Plaza (Alrededores del Parque)\tEspacio inteligente con patio de comidas renovado, ideal para pasar el rato al aire libre y probar diversas opciones gastronómicas.\n\n🎭 Actividades Culturales Cercanas (Comuna 4)\n\nSi bien no están en el corazón del Parque Patricios, estos espacios son muy relevantes para la cultura del Sur de la Ciudad y son de fácil acceso desde el barrio:\n\n1. Festival Filbita (Literatura y Familias)\n\nEste festival literario ofrece actividades para niños y familias, y una de sus sedes principales es el Espacio Cultural del Sur, en el barrio vecino de Barracas.\n\nFecha: Consultar la programación para el resto del mes, pero las actividades centrales suelen concentrarse en el inicio de Noviembre.\n\nLugar: Espacio Cultural del Sur (Av. Caseros 1750, Barracas, a minutos de Parque Patricios).\n\nDetalles: Talleres, lecturas, narraciones y música. Ideal para un plan familiar durante el fin de semana.\n\n2. Planta Inclan Sala (Teatro y Cultura Independiente)\n\nEste es un espacio de investigación y creación transversal que suele tener una agenda activa de teatro independiente, cine y muestras.\n\nLugar: Planta Inclan Sala (Av. Inclan 3342, Boedo/Parque Patricios).\n\nDetalles: Revisa sus redes o cartelera local para funciones específicas de fines de semana o entre semana (suelen tener eventos a las 21:00 hs).\n\n💡 Consejo Extra: Actividades en Museos Nacionales\n\nParque Patricios está bien conectado con el centro de la ciudad por la Línea H de Subte. Considera estos grandes eventos culturales en CABA que tienen lugar durante el mes de noviembre:\n\nLa Noche de los Alfajores: Sábado 15 de Noviembre (Evento temático de gastronomía en varios puntos de la ciudad).\n\nBuenos Aires Rojo Sangre (Festival de Cine): Del 20 al 30 de Noviembre (Festival de cine de terror y bizarro, en sedes variadas de CABA).\n\nNoche de los Templos: Sábado 29 de Noviembre (Visitas guiadas y actividades especiales en templos de diferentes cultos de la ciudad).\n\n¿Te gustaría que intente buscar la programación de alguno de los clubes de barrio históricos de Parque Patricios, como el Club Huracán (aunque su actividad principal sea el fútbol, suelen tener actividades culturales o sociales)?"
+}

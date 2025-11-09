@@ -1,0 +1,52 @@
+{
+  "barrio": "Villa Devoto",
+  "comuna": 11,
+  "zona": "Oeste",
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "fuente": "Eventos CABA + Investigación local",
+  "prompt_usado": "Eventos en Villa Devoto, CABA para noviembre 2025",
+  "descripcion": "Eventos y actividades en el barrio Villa Devoto para noviembre 2025",
+  "eventos": [
+    {
+      "nombre": "Buenos Aires Rojo Sangre",
+      "fecha_inicio": "2025-11-20",
+      "fecha_fin": "2025-11-30",
+      "hora": "Consultar programación",
+      "lugar": "Diversas sedes en CABA",
+      "descripcion": "Festival internacional de cine de terror, fantástico y bizarro",
+      "categoria": "cine"
+    },
+    {
+      "nombre": "Noche de los Templos",
+      "fecha": "2025-11-29",
+      "hora": "Horario nocturno",
+      "lugar": "Diversos templos de CABA",
+      "descripcion": "Recorridos y actividades especiales en templos de distintos cultos",
+      "categoria": "cultural"
+    },
+    {
+      "nombre": "Feria de la Plaza Arenales",
+      "fecha": "Fines de semana de noviembre",
+      "hora": "10:00 a 18:00",
+      "lugar": "Plaza Arenales",
+      "direccion": "Villa Devoto",
+      "descripcion": "Feria de artesanías y productos locales",
+      "categoria": "feria"
+    }
+  ],
+  "lugares_destacados": [
+    {
+      "nombre": "Plaza Arenales",
+      "tipo": "plaza",
+      "descripcion": "Principal plaza del barrio con actividades culturales"
+    },
+    {
+      "nombre": "Cine Devoto",
+      "direccion": "Av. Francisco Beiró",
+      "tipo": "cine",
+      "descripcion": "Cine histórico del barrio"
+    }
+  ]
+}

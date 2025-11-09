@@ -1,0 +1,191 @@
+{
+  "barrio": "Retiro",
+  "comuna": 1,
+  "zona": "Centro",
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "fuente": "Gemini AI",
+  "descripcion": "Retiro es un barrio clave que combina la historia, la cultura y un importante centro de transporte, lo que lo hace ideal para el turismo cultural",
+  "palacio_libertad": {
+    "nombre": "Palacio Libertad (Ex Correo Central)",
+    "descripcion": "Gran centro cultural lindero a Retiro, con agenda constante de cine, música y exposiciones",
+    "eventos": [
+      {
+        "titulo": "La Pampa Cósmica de Pérez Celis (Muestra)",
+        "fecha_inicio": "2025-11-12",
+        "fecha_fin": "Continúa hasta Diciembre",
+        "horario": "14:00 a 20:00 hs",
+        "lugar": "Sala Inmersiva",
+        "descripcion": "Exposición - experiencia inmersiva sobre la obra del artista argentino",
+        "categoria": "cultural",
+        "tipo": "exposicion",
+        "precio": "Consultar"
+      },
+      {
+        "titulo": "Conciertos del Mediodía - Mozarteum Argentino",
+        "fecha": "Miércoles 12 y 26 de Noviembre",
+        "horario": "14:00 hs",
+        "lugar": "Sala Argentina",
+        "descripcion": "Conciertos de música clásica de gran nivel. El 26/11, Sinfonías de Mozart y Haydn",
+        "categoria": "cultural",
+        "tipo": "musica_clasica",
+        "precio": "Consultar"
+      },
+      {
+        "titulo": "El Camino de Manuelita (Familiar)",
+        "fecha": "Sábados 15, 22 y 29 de Noviembre (Continúa en Diciembre)",
+        "horario": "14:00 a 20:00 hs",
+        "lugar": "Sala Inmersiva",
+        "descripcion": "Experiencia inmersiva para toda la familia sobre el personaje de María Elena Walsh",
+        "categoria": "cultural",
+        "tipo": "familiar",
+        "precio": "Consultar",
+        "recurrente": true
+      },
+      {
+        "titulo": "Festival Fado Buenos Aires 2025",
+        "fecha": "2025-11-15",
+        "horario": "20:00 hs",
+        "lugar": "Auditorio Nacional",
+        "descripcion": "Concierto en el marco del festival de música portuguesa",
+        "categoria": "cultural",
+        "tipo": "musica",
+        "precio": "Consultar"
+      },
+      {
+        "titulo": "Homenaje a Carlos Paredes (Fado)",
+        "fecha": "2025-11-16",
+        "horario": "19:00 hs",
+        "lugar": "Sala Argentina",
+        "descripcion": "Concierto especial de André Dias y Hugo Gamboias",
+        "categoria": "cultural",
+        "tipo": "musica",
+        "precio": "Consultar"
+      },
+      {
+        "titulo": "Tardes del Mundo: Flamenco",
+        "fecha": "2025-11-21",
+        "horario": "20:00 hs",
+        "lugar": "Plaza Seca",
+        "descripcion": "Espectáculo de flamenco con Maxi Serral",
+        "categoria": "cultural",
+        "tipo": "musica",
+        "precio": "Consultar"
+      },
+      {
+        "titulo": "Divas and Soul",
+        "fecha": "2025-11-29",
+        "horario": "20:00 hs",
+        "lugar": "Sala Argentina",
+        "descripcion": "Espectáculo musical de Soul",
+        "categoria": "cultural",
+        "tipo": "musica",
+        "precio": "Consultar"
+      },
+      {
+        "titulo": "Ciclo Ensambles",
+        "fecha": "Domingos 23 y 30 de Noviembre",
+        "horario": "17:00 hs",
+        "lugar": "Salón de Honor",
+        "descripcion": "Conciertos de diversos ensambles musicales",
+        "categoria": "cultural",
+        "tipo": "musica",
+        "precio": "Consultar",
+        "recurrente": true
+      }
+    ]
+  },
+  "paseos_recorridos_historicos": [
+    {
+      "titulo": "Visita a la Torre Monumental (Torre de los Ingleses)",
+      "fecha": "Diario (Horario Variable)",
+      "lugar": "Plaza de la Fuerza Aérea Argentina",
+      "descripcion": "La torre ofrece la posibilidad de subir a su mirador para obtener una vista panorámica de la zona, incluyendo la Estación Retiro y el puerto",
+      "categoria": "turismo",
+      "tipo": "mirador",
+      "precio": "Consultar"
+    },
+    {
+      "titulo": "Parroquia Santísimo Sacramento",
+      "fecha": "Diario (Horario de Misa/Visita)",
+      "lugar": "Marcelo T. de Alvear 1640",
+      "direccion": "Marcelino de Elizondo 100",
+      "descripcion": "Templo icónico del barrio, considerado uno de los más lujosos de Argentina por su estilo. Es una visita arquitectónica de gran interés",
+      "categoria": "turismo",
+      "tipo": "arquitectura_religiosa",
+      "precio": "Gratis"
+    },
+    {
+      "titulo": "Palacio Paz (Círculo Militar)",
+      "fecha": "Miércoles y Sábados (Consultar horarios)",
+      "lugar": "Av. Santa Fe 750",
+      "descripcion": "Este palacio es uno de los más grandes y lujosos de Buenos Aires. Ofrece visitas guiadas que recorren sus salones ornamentados. Es necesario reservar previamente",
+      "categoria": "turismo",
+      "tipo": "arquitectura_historica",
+      "precio": "Consultar",
+      "nota": "Reserva previa necesaria"
+    },
+    {
+      "titulo": "Museo de Arte Hispanoamericano Isaac Fernández Blanco",
+      "fecha": "Miércoles (Gratis) y Fines de Semana",
+      "lugar": "Palacio Noel",
+      "direccion": "Suipacha 1422",
+      "descripcion": "Aunque su sede principal está en Monserrat, el Palacio Noel en Retiro, dedicado al arte hispanoamericano, es una joya arquitectónica",
+      "categoria": "cultural",
+      "tipo": "museo",
+      "precio": "Miércoles gratis, consultar otros días"
+    }
+  ],
+  "vida_nocturna": [
+    {
+      "zona": "Bares y Restaurantes de la Zona Catalinas",
+      "descripcion": "Los bares ubicados en los edificios corporativos y los hoteles de alta gama (como el Sheraton o el Marriot Plaza) ofrecen un ambiente de after office animado los jueves y viernes por la tarde/noche",
+      "categoria": "vida_nocturna",
+      "tipo": "after_office",
+      "dias_principales": ["jueves", "viernes"],
+      "precio": "Premium"
+    },
+    {
+      "zona": "Zona Esmeralda/San Martín",
+      "descripcion": "La concentración de oficinas y bancos en esta zona hace que las cervecerías y bares sean puntos de encuentro social los días de semana",
+      "categoria": "vida_nocturna",
+      "tipo": "bares_cervecerias",
+      "publico": "corporativo"
+    }
+  ],
+  "iconos_turisticos": [
+    {
+      "nombre": "Torre Monumental (Torre de los Ingleses)",
+      "tipo": "mirador"
+    },
+    {
+      "nombre": "Palacio Libertad (Ex Correo Central)",
+      "tipo": "centro_cultural"
+    },
+    {
+      "nombre": "Parroquia Santísimo Sacramento",
+      "tipo": "templo_historico"
+    },
+    {
+      "nombre": "Palacio Paz (Círculo Militar)",
+      "tipo": "palacio_historico"
+    },
+    {
+      "nombre": "Estación Retiro",
+      "tipo": "centro_transporte"
+    },
+    {
+      "nombre": "Plaza San Martín",
+      "tipo": "plaza_historica"
+    }
+  ],
+  "caracteristicas": {
+    "enfoque": "historia_cultura_turismo",
+    "ideal_para": ["turismo_cultural", "arquitectura", "musica_clasica", "historia"],
+    "centro_transporte": true,
+    "proximidad": ["Puerto Madero", "Recoleta"]
+  },
+  "total_eventos": 12,
+  "respuesta_completa": "¡Excelente! Retiro es un barrio clave que combina la historia, la cultura y un importante centro de transporte, lo que lo hace ideal para el turismo cultural.\n\nBasado en la agenda para lo que queda de noviembre de 2025 (desde hoy, domingo 9), aquí tienes los principales eventos y actividades en Retiro y sus alrededores inmediatos:\n\n🏛️ Eventos Culturales en Palacio Libertad (Ex Correo Central)\n\nEl Palacio Libertad (ex-Correo Central), lindero a Retiro, es un gran centro cultural con una agenda constante de cine, música y exposiciones.\n\nEvento/Actividad\tFecha\tLugar\tNotas/Detalles\nLa Pampa Cósmica de Pérez Celis (Muestra)\tDesde el Miércoles 12 de Noviembre (Continúa hasta Diciembre)\tSala Inmersiva\tExposición de 14:00 a 20:00 hs. Una experiencia inmersiva sobre la obra del artista argentino.\nConciertos del Mediodía - Mozarteum Argentino\tMiércoles 12 y 26 de Noviembre\tSala Argentina\tConciertos de música clásica de gran nivel. El 26/11, Sinfonías de Mozart y Haydn. (14:00 hs).\nEl Camino de Manuelita (Familiar)\tSábados 15, 22 y 29 de Noviembre (Continúa en Diciembre)\tSala Inmersiva\tExperiencia inmersiva para toda la familia sobre el personaje de María Elena Walsh. (14:00 a 20:00 hs).\nFestival Fado Buenos Aires 2025\tSábado 15 de Noviembre\tAuditorio Nacional\tConcierto en el marco del festival de música portuguesa. (20:00 hs).\nHomenaje a Carlos Paredes (Fado)\tDomingo 16 de Noviembre\tSala Argentina\tConcierto especial de André Dias y Hugo Gamboias. (19:00 hs).\nTardes del Mundo: Flamenco\tViernes 21 de Noviembre\tPlaza Seca\tEspectáculo de flamenco con Maxi Serral. (20:00 hs).\nDivas and Soul\tSábado 29 de Noviembre\tSala Argentina\tEspectáculo musical de Soul. (20:00 hs).\nCiclo Ensambles\tDomingos 23 y 30 de Noviembre\tSalón de Honor\tConciertos de diversos ensambles musicales. (17:00 hs).\n\n🎨 Paseos y Recorridos Históricos\n\nRetiro se presta mucho para el turismo histórico y la arquitectura, especialmente en la zona de Plaza San Martín y Cancillería.\n\nActividad\tFecha\tLugar\tNotas/Detalles\nVisita a la Torre Monumental (Torre de los Ingleses)\tDiario (Horario Variable)\tPlaza de la Fuerza Aérea Argentina\tLa torre ofrece la posibilidad de subir a su mirador para obtener una vista panorámica de la zona, incluyendo la Estación Retiro y el puerto.\nParroquia Santísimo Sacramento\tDiario (Horario de Misa/Visita)\tMarcelino de Elizondo 100\tTemplo icónico del barrio, considerado uno de los más lujosos de Argentina por su estilo. Es una visita arquitectónica de gran interés.\nPalacio Paz (Círculo Militar)\tMiércoles y Sábados (Consultar horarios)\tAvenida Santa Fe 750\tEste palacio es uno de los más grandes y lujosos de Buenos Aires. Ofrece visitas guiadas que recorren sus salones ornamentados. Es necesario reservar previamente.\nMuseo de Arte Hispanoamericano Isaac Fernández Blanco\tMiércoles (Gratis) y Fines de Semana\tSede Palacio Noel (Suipacha 1422, cercano a Retiro)\tAunque su sede principal está en Monserrat, el Palacio Noel en Retiro, dedicado al arte hispanoamericano, es una joya arquitectónica que puedes visitar.\n\n💡 Fiestas y Vida Nocturna\n\nRetiro, por su ubicación cercana a Puerto Madero y Recoleta, comparte una oferta de vida nocturna sofisticada, aunque se concentra más en los bares de hoteles y restaurantes premium que en boliches masivos:\n\nBares y Restaurantes de la Zona Catalinas: Los bares ubicados en los edificios corporativos y los hoteles de alta gama (como el Sheraton o el Marriot Plaza) ofrecen un ambiente de after office animado los jueves y viernes por la tarde/noche.\n\nZona Esmeralda/San Martín: La concentración de oficinas y bancos en esta zona hace que las cervecerías y bares sean puntos de encuentro social los días de semana.\n\n¿Te gustaría que investigue los horarios específicos de las visitas guiadas en el Palacio Paz o en la Torre Monumental para alguna fecha de la semana que te interese?"
+}

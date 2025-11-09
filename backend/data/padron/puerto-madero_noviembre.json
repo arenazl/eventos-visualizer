@@ -1,0 +1,154 @@
+{
+  "barrio": "Puerto Madero",
+  "comuna": 1,
+  "zona": "Centro",
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "fuente": "Gemini AI",
+  "descripcion": "Puerto Madero es el barrio más moderno y glamoroso de Buenos Aires, y su agenda es menos 'barrial' y más enfocada en museos, gastronomía de alta gama y vida nocturna premium.",
+  "actividades_diarias": [
+    {
+      "titulo": "Recorrido por los Diques",
+      "fecha": "Diario",
+      "lugar": "Diques 1, 2, 3 y 4",
+      "descripcion": "Pasear a pie o en bicicleta por los diques, que es donde se concentra la vida del barrio, con sus restaurantes, bares y terrazas. Es un clásico para ver el skyline de la ciudad.",
+      "categoria": "paseo",
+      "tipo": "urbano",
+      "precio": "Gratis"
+    },
+    {
+      "titulo": "Visita a Buques Museo",
+      "fecha": "Diario",
+      "lugar": "Dique 3 y 4",
+      "descripcion": "Fragata Sarmiento y Corbeta Uruguay - dos embarcaciones históricas ancladas y convertidas en museos.",
+      "categoria": "cultural",
+      "tipo": "museo",
+      "precio": "Consultar entrada"
+    },
+    {
+      "titulo": "Museo Fortabat",
+      "fecha": "Miércoles a Domingo",
+      "lugar": "Olga Cossettini 141 (Dique 1)",
+      "descripcion": "La Colección de Arte Amalia Lacroze de Fortabat alberga obras de artistas nacionales e internacionales como Andy Warhol y Antonio Berni.",
+      "categoria": "cultural",
+      "tipo": "museo",
+      "precio": "Consultar entrada"
+    },
+    {
+      "titulo": "Reserva Ecológica Costanera Sur",
+      "fecha": "Martes a Domingo",
+      "lugar": "Acceso en Av. Tristán Rodríguez",
+      "descripcion": "El 'pulmón' de la ciudad, lindero a Puerto Madero. Ideal para un paseo tranquilo, caminatas o avistaje de aves. Atención: Cierra los lunes y por mal tiempo.",
+      "categoria": "naturaleza",
+      "tipo": "reserva_ecologica",
+      "precio": "Gratis",
+      "nota_importante": "Cierra los lunes y por mal tiempo"
+    },
+    {
+      "titulo": "Iconos Arquitectónicos",
+      "fecha": "Diario",
+      "lugar": "Diques 3 y 4",
+      "descripcion": "Visitar y fotografiar el Puente de la Mujer (de Santiago Calatrava) y la Fuente de las Nereidas (de Lola Mora) en la entrada de la Reserva.",
+      "categoria": "turismo",
+      "tipo": "arquitectura",
+      "precio": "Gratis"
+    }
+  ],
+  "eventos_fechas_confirmadas": [
+    {
+      "titulo": "Tour: Puerto Madero",
+      "fecha": "2025-11-11",
+      "lugar": "Federico Lacroze 2315 (punto de encuentro)",
+      "descripcion": "Tour guiado a pie por el barrio, ideal para conocer su historia y arquitectura. Revisar plataformas de tours para más horarios en el mes.",
+      "categoria": "turismo",
+      "tipo": "tour_guiado",
+      "precio": "Consultar"
+    },
+    {
+      "titulo": "Festival Buenos Aires Rojo Sangre",
+      "fecha_inicio": "2025-11-20",
+      "fecha_fin": "2025-11-30",
+      "lugar": "Sedes Variadas en CABA",
+      "descripcion": "Festival de cine de terror, fantástico y bizarro más antiguo de Latinoamérica. Es un evento de gran convocatoria.",
+      "categoria": "cultural",
+      "tipo": "cine",
+      "precio": "Consultar"
+    },
+    {
+      "titulo": "Noche de los Templos",
+      "fecha": "2025-11-29",
+      "lugar": "Templos de diversos cultos en CABA",
+      "descripcion": "Evento anual donde se abren las puertas de templos de diferentes religiones con actividades especiales y visitas guiadas gratuitas. Excelente plan cultural de noche.",
+      "categoria": "cultural",
+      "tipo": "turismo_religioso",
+      "precio": "Gratis"
+    }
+  ],
+  "vida_nocturna_alta_gama": [
+    {
+      "nombre": "Madero Tango / Madero Eventos",
+      "direccion": "Alicia Moreau de Justo 2150 (Dique 1)",
+      "descripcion": "Espectáculo de tango de nivel internacional con opción a cena. Es una fiesta de tango garantizada casi todas las noches.",
+      "categoria": "entretenimiento",
+      "tipo": "tango_show",
+      "precio": "Premium"
+    },
+    {
+      "nombre": "Restaurantes con Salones para Eventos",
+      "lugares": ["Estilo Campo", "Puerto Cristal", "Hoteles Madero/Hilton"],
+      "descripcion": "Infraestructura para eventos (cumpleaños, cenas de fin de año, casamientos). Es común que haya cenas privadas con música o DJ los fines de semana.",
+      "categoria": "gastronomia",
+      "tipo": "eventos_privados",
+      "precio": "Premium"
+    },
+    {
+      "nombre": "Bares y Terrazas",
+      "lugares": [
+        {
+          "nombre": "Rooftop",
+          "direccion": "Elvira Rawson de Dellepiane 170"
+        },
+        {
+          "nombre": "Bares del Hilton",
+          "descripcion": "Lugares de encuentro y fiesta informal"
+        }
+      ],
+      "descripcion": "Los más concurridos los viernes y sábados por la noche.",
+      "categoria": "vida_nocturna",
+      "tipo": "bares",
+      "precio": "Premium"
+    }
+  ],
+  "iconos_turisticos": [
+    {
+      "nombre": "Puente de la Mujer",
+      "arquitecto": "Santiago Calatrava",
+      "ubicacion": "Dique 3"
+    },
+    {
+      "nombre": "Fuente de las Nereidas",
+      "artista": "Lola Mora",
+      "ubicacion": "Entrada de la Reserva"
+    },
+    {
+      "nombre": "Fragata Sarmiento",
+      "tipo": "museo_maritimo",
+      "ubicacion": "Dique 3"
+    },
+    {
+      "nombre": "Corbeta Uruguay",
+      "tipo": "museo_maritimo",
+      "ubicacion": "Dique 4"
+    }
+  ],
+  "caracteristicas": {
+    "estilo": "moderno_glamoroso",
+    "enfoque": "museos_gastronomia_vida_nocturna_premium",
+    "ideal_para": ["turistas", "cenas_romanticas", "eventos_corporativos", "fotografia"],
+    "mejor_momento": "atardecer_noche",
+    "accesibilidad": "excelente_transporte_publico"
+  },
+  "total_actividades": 12,
+  "respuesta_completa": "¡Claro! Puerto Madero es el barrio más moderno y glamoroso de Buenos Aires, y su agenda es menos \"barrial\" y más enfocada en museos, gastronomía de alta gama y vida nocturna premium.\n\nBasado en la información disponible para lo que resta de noviembre de 2025 (desde hoy, domingo 9), aquí tienes las mejores opciones y actividades:\n\n🛳️ Actividades Constantes y Paseos (Diarias)\n\nPuerto Madero es un destino en sí mismo. Estas actividades puedes realizarlas cualquier día:\n\nActividad\tFecha\tLugar\tNotas/Detalles\nRecorrido por los Diques\tDiario\tDiques 1, 2, 3 y 4\tPasear a pie o en bicicleta por los diques, que es donde se concentra la vida del barrio, con sus restaurantes, bares y terrazas. Es un clásico para ver el skyline de la ciudad.\nVisita a Buques Museo\tDiario\tDique 3 y 4\tPuedes visitar la Fragata Sarmiento y la Corbeta Uruguay, que son dos embarcaciones históricas ancladas y convertidas en museos.\nMuseo Fortabat\tMiércoles a Domingo\tOlga Cossettini 141\tLa Colección de Arte Amalia Lacroze de Fortabat (Dique 1) alberga obras de artistas nacionales e internacionales como Andy Warhol y Antonio Berni.\nReserva Ecológica Costanera Sur\tMartes a Domingo\tAcceso en Av. Tristán Rodríguez\tEste es el \"pulmón\" de la ciudad, lindero a Puerto Madero. Es ideal para un paseo tranquilo, caminatas o avistaje de aves. (Atención: Cierra los lunes y por mal tiempo).\nIconos Arquitectónicos\tDiario\tDiques 3 y 4\tVisitar y fotografiar el Puente de la Mujer (de Santiago Calatrava) y la Fuente de las Nereidas (de Lola Mora) en la entrada de la Reserva.\n\n📅 Eventos y Espectáculos con Fecha Confirmada\n\nSi bien la agenda en noviembre es más tranquila que en otros meses, hay eventos culturales importantes en toda la Ciudad de Buenos Aires que son accesibles desde Puerto Madero:\n\nEvento\tFecha\tLugar\tNotas/Detalles\nTour: Puerto Madero\tMartes 11 de Noviembre\tFederico Lacroze 2315 (punto de encuentro)\tSe realiza un tour guiado a pie por el barrio, ideal para conocer su historia y arquitectura. (Revisar plataformas de tours para más horarios en el mes).\nFestival Buenos Aires Rojo Sangre\tNoviembre 20 al 30\tSedes Variadas en CABA\tEs el festival de cine de terror, fantástico y bizarro más antiguo de Latinoamérica. Es un evento de gran convocatoria y puedes chequear si alguna sede es cercana.\nNoche de los Templos\tSábado 29 de Noviembre\tTemplos de diversos cultos en CABA\tEvento anual donde se abren las puertas de templos de diferentes religiones con actividades especiales y visitas guiadas gratuitas. Excelente plan cultural de noche.\n\n🥂 Fiestas y Cena Show (Fines de Semana)\n\nPuerto Madero es el epicentro de las cenas show y la vida nocturna de alta gama. Aunque las fiestas masivas se anuncian con poca antelación, puedes contar con estos espacios fijos:\n\nMadero Tango / Madero Eventos: Ubicado en el Dique 1 (Alicia Moreau de Justo 2150), ofrece un espectáculo de tango de nivel internacional con opción a cena. Es una fiesta de tango garantizada casi todas las noches.\n\nRestaurantes con Salones para Eventos: Lugares como Estilo Campo, Puerto Cristal y los salones de los Hoteles Madero/Hilton tienen infraestructura para eventos (cumpleaños, cenas de fin de año, casamientos). Es común que haya cenas privadas con música o DJ los fines de semana. Te recomiendo consultar la agenda de sus rooftops.\n\nBares y Terrazas: Los locales de la zona como Rooftop (Elvira Rawson de Dellepiane 170) o los bares del Hilton suelen ser los lugares de encuentro y fiesta informal más concurridos los viernes y sábados por la noche.\n\n¿Te gustaría que busque algún espectáculo de tango con cena en la zona para alguna fecha en particular, o prefieres enfocarte en las actividades al aire libre cerca de la Reserva Ecológica?"
+}

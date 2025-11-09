@@ -1,0 +1,74 @@
+{
+  "barrio": "Villa Crespo",
+  "comuna": 15,
+  "zona": "Centro",
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "fuente": "Gemini AI",
+  "prompt_usado": "que hay para hacer, eventos, fiestas en el barrio Villa Crespo, CABA, Buenos Aires, argentina desde hoy a fin de mes, que se sepa la fecha, lugar, etc",
+  "descripcion": "Eventos y actividades en el barrio Villa Crespo para noviembre 2025",
+  "eventos": [
+    {
+      "nombre": "Cine para Lectores",
+      "fecha": "Varias fechas en noviembre y diciembre",
+      "hora": "Consultar programación",
+      "lugar": "Casa de la Lectura",
+      "direccion": "Lavalleja 924, Villa Crespo",
+      "descripcion": "Ciclo de cine organizado por la Dirección del Libro, Bibliotecas y la Cultura",
+      "categoria": "cine"
+    },
+    {
+      "nombre": "La Noche de los Alfajores",
+      "fecha": "2025-11-14 al 15",
+      "hora": "Horario comercial",
+      "lugar": "Comercios adheridos en CABA",
+      "descripcion": "Promociones y descuentos para disfrutar de alfajores",
+      "categoria": "gastronomia"
+    },
+    {
+      "nombre": "Buenos Aires Rojo Sangre",
+      "fecha_inicio": "2025-11-20",
+      "fecha_fin": "2025-11-30",
+      "hora": "Consultar programación",
+      "lugar": "Diversas sedes en CABA",
+      "descripcion": "Festival internacional de cine de terror, fantástico y bizarro",
+      "categoria": "cine"
+    },
+    {
+      "nombre": "Noche de los Templos",
+      "fecha": "2025-11-29",
+      "hora": "Horario nocturno",
+      "lugar": "Diversos templos de CABA",
+      "descripcion": "Recorridos y actividades especiales en templos de distintos cultos",
+      "categoria": "cultural"
+    }
+  ],
+  "lugares_destacados": [
+    {
+      "nombre": "Centro Venezolano Argentino",
+      "direccion": "Julián Álvarez 866, Villa Crespo",
+      "tipo": "espacio_cultural"
+    },
+    {
+      "nombre": "Galería Arte x Arte",
+      "direccion": "Lavalleja 1062, Villa Crespo",
+      "tipo": "galeria"
+    },
+    {
+      "nombre": "Monumento a Osvaldo Pugliese",
+      "direccion": "Av. Corrientes y Luis María Drago",
+      "tipo": "monumento"
+    },
+    {
+      "nombre": "Farmacia Antigua del Águila",
+      "direccion": "Av. Corrientes 5000",
+      "tipo": "historico"
+    },
+    {
+      "nombre": "Centro Armenio",
+      "direccion": "Armenia 1353",
+      "tipo": "cultural"
+    }
+  ]
+}

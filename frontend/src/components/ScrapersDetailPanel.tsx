@@ -24,13 +24,7 @@ const ScrapersDetailPanel: React.FC = () => {
       {/* Header siempre visible - CLICKEABLE para expandir/colapsar */}
       <div
         onClick={() => setIsExpanded(!isExpanded)}
-        className={`w-full flex items-center justify-between px-4 py-2 backdrop-blur-xl border transition-all duration-200 cursor-pointer hover:bg-white/5 ${
-          isExpanded ? 'rounded-t-lg' : 'rounded-lg'
-        } ${
-          isStreaming
-            ? 'bg-green-500/20 border-green-400/30 text-green-300'
-            : 'bg-white/10 border-white/20 text-white/80'
-        }`}
+        className="hidden"
       >
         <div className="flex items-center space-x-2">
           <div className={`w-2 h-2 rounded-full ${isStreaming ? 'bg-green-400 animate-pulse' : 'bg-gray-400'}`}></div>

@@ -84,6 +84,8 @@ const HomePageModern: React.FC = () => {
   const [isSearchButtonSpinning, setIsSearchButtonSpinning] = useState(false)
   const [isManualSearch, setIsManualSearch] = useState(false) // 🔥 Evita auto-effects en búsquedas manuales
   const [allEvents, setAllEvents] = useState<any[]>([]) // 🎯 Guardar TODOS los eventos para filtrar localmente
+  const [categories, setCategories] = useState<Array<{name: string, count: number}>>([]) // 🏷️ Categorías dinámicas
+  const [loadingCategories, setLoadingCategories] = useState(false)
 
   // 🔒 Ref para prevenir doble ejecución del auto-load inicial
   const hasAutoLoaded = useRef(false)
@@ -102,6 +104,48 @@ const HomePageModern: React.FC = () => {
       setOnNoEventsCallback(triggerNoEventsComment)
     }
   }, [setOnNoEventsCallback, triggerNoEventsComment])
+
+  // 🏷️ Cargar categorías dinámicamente cuando cambia la ubicación (async, no bloquea)
+  useEffect(() => {
+    console.log('🔄 useEffect de categorías ejecutado - currentLocation:', currentLocation?.name)
+    const loadCategories = async () => {
+      setLoadingCategories(true)
+      try {
+        // Construir URL con ubicación si existe
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8001'
+        const locationParam = currentLocation ? `?location=${encodeURIComponent(currentLocation.name)}` : ''
+        const url = `${apiUrl}/api/events/categories${locationParam}`
+
+        console.log(`🏷️ Cargando categorías desde URL: ${url}`)
+        console.log(`📍 Ubicación actual: ${currentLocation?.name || 'ninguna'}`)
+        const response = await fetch(url)
+        const data = await response.json()
+
+        if (data.categories && data.categories.length > 0) {
+          setCategories(data.categories)
+          console.log(`✅ Cargadas ${data.total} categorías dinámicas${data.location ? ` para ${data.location}` : ''}`)
+        } else {
+          // Si no hay categorías para esta ubicación, mostrar fallback
+          setCategories([])
+          console.log(`⚠️ No hay categorías para esta ubicación`)
+        }
+      } catch (error) {
+        console.error('❌ Error cargando categorías:', error)
+        // Fallback a categorías por defecto
+        setCategories([
+          { name: 'music', count: 0 },
+          { name: 'sports', count: 0 },
+          { name: 'cultural', count: 0 },
+          { name: 'tech', count: 0 },
+          { name: 'party', count: 0 }
+        ])
+      } finally {
+        setLoadingCategories(false)
+      }
+    }
+
+    loadCategories()
+  }, [currentLocation]) // 🔥 Recargar cuando cambia la ubicación
 
   // Detectar ubicación automáticamente al cargar
   useEffect(() => {
@@ -563,6 +607,7 @@ const HomePageModern: React.FC = () => {
       return
     }
 
+    console.log(`🏷️ Categoría seleccionada: ${category}`)
     setActiveCategory(category)
 
     // Trigger assistant comments when category is selected
@@ -574,16 +619,17 @@ const HomePageModern: React.FC = () => {
     if (category === 'Todos') {
       // Mostrar todos los eventos
       setSearchQuery('Todos los eventos')
-      console.log(`✨ Mostrando todos los eventos: ${allEvents.length}`)
+      console.log(`✨ Mostrando todos los eventos: ${events.length}`)
     } else {
-      // Filtrar por categoría
-      const categoryLower = category.toLowerCase()
+      // Contar cuántos eventos coinciden con la categoría
+      const normalizedCategory = category.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      const filteredCount = events.filter(event => {
+        const eventCategory = (event.category || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        return eventCategory.includes(normalizedCategory) || normalizedCategory.includes(eventCategory)
+      }).length
 
       console.log(`🔍 Filtrando eventos por categoría: ${category}`)
-      console.log(`📊 Total eventos antes de filtrar: ${allEvents.length}`)
-
-      // Los eventos del store ya están filtrados por EventsStore.tsx si es necesario
-      // Aquí no hacemos nada más, solo actualizamos la UI
+      console.log(`📊 Total eventos en ${category}: ${filteredCount} de ${events.length}`)
 
       const categoryQueries = {
         'Música': 'música',
@@ -628,16 +674,58 @@ const HomePageModern: React.FC = () => {
       // Streaming con la ubicación seleccionada
       await startStreamingSearch(selectedLocation)
 
-      // Recomendaciones AI en background
-      if (events.length > 0) {
-        getSmartRecommendations(searchQuery, events, selectedLocation.name)
-          .catch(err => console.warn('⚠️ Recomendaciones AI fallaron:', err))
-      }
+      // DISABLED: getSmartRecommendations was removed
+      // Recomendaciones AI ahora se hacen client-side con scoring
     } catch (error) {
       console.error('❌ Error en búsqueda:', error)
       setIsSearchButtonSpinning(false)
     }
   }
+
+  // 🎨 Helper functions para mapear categorías dinámicas
+  const getCategoryDisplayName = (category: string): string => {
+    const displayNames: Record<string, string> = {
+      'music': 'Música',
+      'sports': 'Deportes',
+      'cultural': 'Cultural',
+      'tech': 'Tech',
+      'party': 'Fiestas',
+      'hobbies': 'Hobbies',
+      'international': 'Internacional'
+    }
+    return displayNames[category.toLowerCase()] || category.charAt(0).toUpperCase() + category.slice(1)
+  }
+
+  const getCategoryGradient = (displayName: string): string => {
+    const gradients: Record<string, string> = {
+      'Todos': 'from-gray-600 to-gray-400',
+      'Música': 'from-purple-600 via-pink-500 to-red-500',
+      'Deportes': 'from-green-600 via-emerald-500 to-teal-500',
+      'Cultural': 'from-blue-600 via-indigo-500 to-purple-500',
+      'Tech': 'from-indigo-600 via-blue-500 to-cyan-500',
+      'Fiestas': 'from-pink-600 via-rose-500 to-orange-500',
+      'Hobbies': 'from-yellow-500 via-orange-500 to-red-500',
+      'Internacional': 'from-cyan-500 via-blue-500 to-indigo-500'
+    }
+    return gradients[displayName] || 'from-gray-600 to-gray-400'
+  }
+
+  const getCategoryEmoji = (displayName: string): string => {
+    const emojis: Record<string, string> = {
+      'Todos': '✨',
+      'Música': '🎵',
+      'Deportes': '⚽',
+      'Cultural': '🎭',
+      'Tech': '💻',
+      'Fiestas': '🎉',
+      'Hobbies': '🎨',
+      'Internacional': '🌍'
+    }
+    return emojis[displayName] || '📅'
+  }
+
+  // 🏷️ Construir lista de categorías con "Todos" al principio
+  const displayCategories = ['Todos', ...categories.map(cat => getCategoryDisplayName(cat.name))]
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
@@ -681,50 +769,56 @@ const HomePageModern: React.FC = () => {
             )}
 
             <div className="flex flex-wrap justify-center gap-3">
-              {['Todos', 'Música', 'Deportes', 'Cultural', 'Tech', 'Fiestas'].map((category, index) => {
-                const gradients = {
-                  'Todos': 'from-gray-600 to-gray-400',
-                  'Música': 'from-purple-600 via-pink-500 to-red-500',
-                  'Deportes': 'from-green-600 via-emerald-500 to-teal-500',
-                  'Cultural': 'from-blue-600 via-indigo-500 to-purple-500',
-                  'Tech': 'from-indigo-600 via-blue-500 to-cyan-500',
-                  'Fiestas': 'from-pink-600 via-rose-500 to-orange-500'
-                }
-                const emojis = {
-                  'Todos': '✨',
-                  'Música': '🎵',
-                  'Deportes': '⚽',
-                  'Cultural': '🎭',
-                  'Tech': '💻',
-                  'Fiestas': '🎉'
-                }
-                const isActive = activeCategory === category
-                const isDisabled = !currentLocation // 🔒 Deshabilitar si no hay ubicación
-
-                return (
-                  <button
-                    key={category}
-                    onClick={() => handleCategoryClick(category)}
-                    disabled={isDisabled}
-                    className={`group relative transition-all duration-300 ${isActive ? 'scale-110' : ''
-                      } ${isDisabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'
-                      }`}
-                    title={isDisabled ? 'Elige una ubicación primero' : `Filtrar por ${category}`}
-                  >
-                    <div className={`absolute -inset-1 bg-gradient-to-r ${gradients[category]} rounded-full blur ${isDisabled ? 'opacity-20' : 'opacity-60 group-hover:opacity-100'
-                      } transition-opacity`}></div>
-                    <div className={`relative px-6 py-3 rounded-full font-semibold transition-all ${isActive
-                      ? `bg-gradient-to-r ${gradients[category]} text-white shadow-lg`
-                      : isDisabled
-                        ? 'bg-white/5 backdrop-blur-lg text-white/40'
-                        : 'bg-white/10 backdrop-blur-lg text-white hover:bg-white/20'
-                      }`}>
-                      <span className="mr-2">{emojis[category]}</span>
-                      {category}
+              {/* Skeleton mientras cargan las categorías */}
+              {loadingCategories ? (
+                <>
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <div key={i} className="relative px-6 py-3 rounded-full bg-white/10 backdrop-blur-lg animate-pulse">
+                      <div className="w-20 h-6 bg-white/20 rounded"></div>
                     </div>
-                  </button>
-                )
-              })}
+                  ))}
+                </>
+              ) : (
+                /* Categorías dinámicas desde BD */
+                displayCategories.map((category) => {
+                  const gradient = getCategoryGradient(category)
+                  const emoji = getCategoryEmoji(category)
+                  const isActive = activeCategory === category
+                  const isDisabled = !currentLocation // 🔒 Deshabilitar si no hay ubicación
+                  const isOtherActive = activeCategory !== 'Todos' && !isActive // 🔥 Otra categoría está activa
+
+                  return (
+                    <button
+                      key={category}
+                      onClick={() => handleCategoryClick(category)}
+                      disabled={isDisabled}
+                      className={`group relative transition-all duration-300 ${
+                        isActive ? 'scale-110 z-10' : isOtherActive ? 'scale-95 opacity-40' : ''
+                        } ${isDisabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'
+                        }`}
+                      title={isDisabled ? 'Elige una ubicación primero' : `Filtrar por ${category}`}
+                    >
+                      <div className={`absolute -inset-1 bg-gradient-to-r ${gradient} rounded-full blur ${
+                        isDisabled ? 'opacity-20' :
+                        isOtherActive ? 'opacity-20' :
+                        'opacity-60 group-hover:opacity-100'
+                        } transition-opacity`}></div>
+                      <div className={`relative px-6 py-3 rounded-full font-semibold transition-all ${
+                        isActive
+                        ? `bg-gradient-to-r ${gradient} text-white shadow-lg`
+                        : isDisabled
+                          ? 'bg-white/5 backdrop-blur-lg text-white/40'
+                          : isOtherActive
+                            ? 'bg-white/5 backdrop-blur-lg text-white/30'
+                            : 'bg-white/10 backdrop-blur-lg text-white hover:bg-white/20'
+                        }`}>
+                        <span className="mr-2">{emoji}</span>
+                        {category}
+                      </div>
+                    </button>
+                  )
+                })
+              )}
             </div>
           </div>
 
@@ -848,12 +942,52 @@ const HomePageModern: React.FC = () => {
               <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 pb-20 transition-all duration-300 ${isEventsFadingOut ? 'opacity-20 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'
                 }`}>
                 {events
-                  .filter(event =>
-                    event.title &&
-                    event.title.trim() !== '' &&
-                    event.title.toLowerCase() !== 'sin título' &&
-                    event.title.toLowerCase() !== 'sin titulo'
-                  ) // Filtrar eventos sin título o con "Sin título"
+                  .filter(event => {
+                    // 1️⃣ Filtrar eventos sin título o con "Sin título"
+                    if (!event.title || event.title.trim() === '' ||
+                        event.title.toLowerCase() === 'sin título' ||
+                        event.title.toLowerCase() === 'sin titulo') {
+                      return false
+                    }
+
+                    // 2️⃣ Filtrar por categoría si no es "Todos"
+                    if (activeCategory !== 'Todos') {
+                      const eventCategory = (event.category || '').toLowerCase()
+                        .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Eliminar acentos
+                      const selectedCategory = activeCategory.toLowerCase()
+                        .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Eliminar acentos
+
+                      // Mapeo de categorías en español/inglés
+                      const categoryMap: Record<string, string[]> = {
+                        'musica': ['music', 'musica', 'música'],
+                        'deportes': ['sports', 'deportes'],
+                        'cultural': ['cultural', 'culture'],
+                        'tech': ['tech', 'technology', 'tecnologia', 'tecnología'],
+                        'fiestas': ['party', 'fiestas', 'nightlife'],
+                        'hobbies': ['hobbies', 'hobby'],
+                        'general': ['general']
+                      }
+
+                      // Buscar coincidencia
+                      let matches = false
+                      for (const [key, aliases] of Object.entries(categoryMap)) {
+                        if (aliases.includes(selectedCategory)) {
+                          // Ver si la categoría del evento coincide con algún alias del grupo
+                          matches = aliases.some(alias => eventCategory.includes(alias) || alias.includes(eventCategory))
+                          if (matches) break
+                        }
+                      }
+
+                      // También permitir coincidencia directa parcial
+                      if (!matches) {
+                        matches = eventCategory.includes(selectedCategory) || selectedCategory.includes(eventCategory)
+                      }
+
+                      return matches
+                    }
+
+                    return true
+                  })
                   .map((event, index) => (
                   <div
                     key={event.title + '-' + index}

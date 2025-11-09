@@ -27,6 +27,9 @@ else:
 # Semáforo para limitar requests concurrentes a Gemini
 _gemini_semaphore = asyncio.Semaphore(3)  # Max 3 requests concurrentes
 
+# 💾 Caché en memoria para insights (evitar llamadas repetidas a Gemini)
+_insights_cache = {}
+
 @router.post("/event-insight")
 async def get_event_insight(event_data: Dict[str, Any]):
     """
@@ -38,40 +41,55 @@ async def get_event_insight(event_data: Dict[str, Any]):
             "error": "Gemini no configurado",
             "fallback": generate_fallback_insight(event_data)
         }
-    
+
     try:
         title = event_data.get("title", "")
         venue = event_data.get("venue_name", "")
         category = event_data.get("category", "")
         location = event_data.get("location", "Buenos Aires")
+
+        # 💾 Crear cache key
+        cache_key = f"{title}:{venue}:{category}"
+
+        # ✅ Revisar caché primero
+        if cache_key in _insights_cache:
+            logger.info(f"✅ Insight CACHEADO para: {title[:40]}...")
+            return _insights_cache[cache_key]
+
+        logger.info(f"🎭 Generando insight NUEVO con Gemini para: {title[:40]}...")
         
-        # Prompt específico para análisis rápido
-        prompt = f"""
-        Evento: {title}
-        Lugar: {venue}
-        Categoría: {category}
-        Ciudad: {location}
-        
-        Dame información SUPER CONCISA y ÚTIL sobre este evento.
-        Si conocés la banda/artista/lugar, contame algo interesante.
-        
-        FORMATO de respuesta (JSON):
-        {{
-            "quick_insight": "1 línea sobre qué esperar del evento",
-            "artist_info": "Si es una banda/artista conocido, 1 dato copado",
-            "venue_tip": "1 tip sobre el lugar (dónde es mejor ubicarse, etc)",
-            "transport": "Colectivos que llegan ahí (números)",
-            "nearby": "1 lugar copado para ir antes/después",
-            "vibe": "En 3 palabras el ambiente",
-            "pro_tip": "1 consejo que solo un local sabría",
-            "best_for": "Para quién es ideal este evento"
-        }}
-        
-        Si no conocés algo específico, inventá algo coherente y útil basado en el tipo de evento.
-        Respondé SOLO el JSON, sin explicaciones adicionales.
-        """
-        
-        response = model.generate_content(prompt)
+        # ⚡ Prompt ULTRA CONCISO para respuesta rápida
+        prompt = f"""Evento: {title} | Lugar: {venue} | Categoría: {category}
+
+JSON con info útil (SIN texto adicional):
+{{
+  "quick_insight": "Qué esperar (1 línea)",
+  "artist_info": "Info del artista/tema (1 línea)",
+  "venue_tip": "Tip del lugar (1 línea)",
+  "transport": "Cómo llegar",
+  "nearby": "Qué hacer cerca",
+  "vibe": "Ambiente (3 palabras)",
+  "pro_tip": "Consejo útil"
+}}"""
+
+        # ⚡ Configuración para respuesta RÁPIDA y concisa
+        generation_config = {
+            'temperature': 0.7,
+            'top_p': 0.95,
+            'top_k': 40,
+            'max_output_tokens': 400,  # Limitar a ~400 tokens = respuesta más rápida
+        }
+
+        # ⚡ Usar versión asíncrona para no bloquear el servidor
+        import asyncio
+        loop = asyncio.get_event_loop()
+        response = await loop.run_in_executor(
+            None,
+            lambda: model.generate_content(
+                prompt,
+                generation_config=generation_config
+            )
+        )
         
         # Intentar parsear el JSON de la respuesta
         try:
@@ -94,13 +112,17 @@ async def get_event_insight(event_data: Dict[str, Any]):
                 "best_for": "Todos los públicos"
             }
         
-        return {
+        result = {
             "success": True,
             "event_id": event_data.get("id", "unknown"),
             "insight": insight_data,
             "powered_by": "Gemini AI"
         }
-        
+
+        # 💾 Guardar en caché
+        _insights_cache[cache_key] = result
+        return result
+
     except Exception as e:
         logger.error(f"Error getting Gemini insight: {e}")
         return {

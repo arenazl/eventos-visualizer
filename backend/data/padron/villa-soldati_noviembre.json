@@ -1,0 +1,16 @@
+{
+  "barrio": "Villa Soldati",
+  "comuna": 8,
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "caracteristica": "Villa Soldati es un barrio del sur de la Ciudad de Buenos Aires, parte de la Comuna 8. Se caracteriza por ser una zona mayormente residencial con importantes espacios verdes como el Parque de la Ciudad y el Autódromo Oscar y Juan Gálvez, además de áreas industriales y de servicios. Es un barrio con una rica historia y una fuerte identidad comunitaria.",
+  "eventos_ferias_festivales": [],
+  "recitales_shows_fiestas": [],
+  "notas": [
+    "Dada la fecha de consulta (noviembre de 2025), es extremadamente difícil encontrar eventos, recitales, shows o festivales reales y públicamente anunciados con tanta antelación para el barrio de Villa Soldati. La mayoría de los eventos comunitarios, locales o de menor escala se anuncian con semanas o pocos meses de anticipación. Grandes festivales o conciertos en el Autódromo Oscar y Juan Gálvez (ubicado en Villa Riachuelo, pero cercano e influyente en la zona) podrían tener fechas tentativas, pero los detalles específicos (artistas, horarios, precios) no suelen estar confirmados con más de un año de anticipación. Por lo tanto, los arrays de eventos se encuentran vacíos."
+  ],
+  "total_eventos_festivales": 0,
+  "total_recitales": 0,
+  "fuente": "Gemini AI"
+}

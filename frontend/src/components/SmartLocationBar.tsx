@@ -87,49 +87,40 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
     setIsLoadingSuggestions(true)
 
     try {
-      // Nominatim API (OpenStreetMap) - Gratis, sin API key
+      // Usar backend API para buscar barrios, ciudades, países
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8001'
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?` +
-        `q=${encodeURIComponent(query)}&` +
-        `format=json&` +
-        `addressdetails=1&` +
-        `limit=5&` +
-        `featuretype=city`,
-        {
-          headers: {
-            'User-Agent': 'EventosVisualizerApp/1.0' // Requerido por Nominatim
-          }
-        }
+        `${API_BASE_URL}/api/cities/available?q=${encodeURIComponent(query)}&limit=5`
       )
 
       if (!response.ok) {
-        console.warn('Nominatim API error:', response.status)
+        console.warn('Backend API error:', response.status)
         setIsLoadingSuggestions(false)
         return
       }
 
       const data = await response.json()
 
-      // Parsear resultados a formato CitySuggestion
-      const parsedSuggestions: CitySuggestion[] = data
-        .filter((item: any) =>
-          item.type === 'city' ||
-          item.type === 'town' ||
-          item.type === 'administrative' ||
-          item.class === 'place'
-        )
-        .map((item: any) => ({
-          display_name: item.display_name,
-          name: item.address?.city || item.address?.town || item.address?.village || item.name,
-          country: item.address?.country || '',
-          state: item.address?.state || item.address?.province || '',
-          lat: item.lat,
-          lon: item.lon
-        }))
+      if (!data.success || !data.locations) {
+        setSuggestions([])
+        setShowSuggestions(false)
+        setIsLoadingSuggestions(false)
+        return
+      }
 
-      console.log('🔍 Nominatim sugerencias:', parsedSuggestions)
+      // Parsear resultados del backend a formato CitySuggestion
+      const parsedSuggestions: CitySuggestion[] = data.locations.map((item: any) => ({
+        display_name: item.displayName,
+        name: item.location,
+        country: item.country || item.location_type,
+        state: item.city || '',
+        lat: '0', // No necesitamos coordenadas del backend
+        lon: '0'
+      }))
 
-      setSuggestions(parsedSuggestions.slice(0, 5))
+      console.log('🔍 Backend sugerencias:', parsedSuggestions)
+
+      setSuggestions(parsedSuggestions)
       setShowSuggestions(parsedSuggestions.length > 0)
       setIsLoadingSuggestions(false)
     } catch (error) {
@@ -140,13 +131,9 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
   }
 
   const selectSuggestion = (suggestion: CitySuggestion) => {
-    // 🌍 Formato inteligente: incluir estado si está disponible
-    let locationName = suggestion.name
-    if (suggestion.state) {
-      locationName = `${suggestion.name}, ${suggestion.state}, ${suggestion.country}`
-    } else {
-      locationName = `${suggestion.name}, ${suggestion.country}`
-    }
+    // 🌍 Si es un barrio (tiene state), usar solo el nombre del barrio para búsqueda
+    // pero mostrar la ciudad padre en la UI
+    let locationName = suggestion.name  // Solo el barrio/ciudad, no el formato completo
 
     const selectedLocation: Location = {
       name: locationName,
@@ -159,6 +146,7 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
     }
 
     console.log('✅ Ubicación seleccionada del dropdown:', selectedLocation)
+    console.log('🏙️ Ciudad padre (si es barrio):', suggestion.state || 'N/A')
 
     setLocation(selectedLocation)
     onLocationChange(selectedLocation)
@@ -292,21 +280,25 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
           <div className="flex items-center gap-3 px-6 py-3 bg-white/10 backdrop-blur-xl rounded-full border border-white/20 hover:border-white/40 transition-all duration-300">
             {getLocationIcon(location.detected)}
 
-            {/* 🏙️ Mostrar expansión de búsqueda si existe */}
-            {expandedSearch && searchLocationQuery && parentCityDetected ? (
+            {/* 🏙️ Mostrar ciudad principal detectada - CLICKEABLE */}
+            {expandedSearch && parentCityDetected ? (
               <div className="flex items-center gap-2">
-                <span className="text-white/80 font-medium">{searchLocationQuery}</span>
-                <svg className="w-4 h-4 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-                <span className="text-white font-medium">{parentCityDetected}</span>
+                <button
+                  onClick={() => {
+                    const cityLocation: Location = {
+                      name: parentCityDetected,
+                      detected: 'manual'
+                    }
+                    setLocation(cityLocation)
+                    onLocationChange(cityLocation)
+                  }}
+                  className="text-white font-medium hover:text-blue-300 transition-colors cursor-pointer underline decoration-dotted"
+                  title={`Buscar todos los eventos en ${parentCityDetected}`}
+                >
+                  {parentCityDetected}
+                </button>
 
-                {/* Contador de eventos si está disponible */}
-                {totalEvents !== undefined && totalEvents > 0 && (
-                  <span className="ml-2 px-2 py-1 bg-purple-500/30 rounded-full text-xs text-purple-200 font-medium">
-                    {totalEvents} eventos
-                  </span>
-                )}
+                {/* 🚫 NO mostrar contador aquí - es el count del barrio, no de la ciudad */}
               </div>
             ) : (
               <span className="text-white font-medium">{location.name || "🎩 En Wonderland"}</span>

@@ -1408,6 +1408,74 @@ async def get_city_events(
         logger.error(f"❌ Error buscando eventos en ciudad: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/api/events/categories")
+async def get_event_categories(
+    location: Optional[str] = Query(None, description="Ubicación para filtrar categorías")
+):
+    """🏷️ CATEGORÍAS DINÁMICAS - Obtiene categorías únicas de eventos"""
+    try:
+        from services.events_db_service import search_events_by_location
+
+        # Buscar eventos
+        result = await search_events_by_location(
+            location=location or "Buenos Aires",
+            limit=1000,
+            days_ahead=180
+        )
+
+        # Extraer eventos del resultado (puede ser dict o lista)
+        events = result.get('events', []) if isinstance(result, dict) else result
+
+        # Mapeo de categorías para normalizar
+        category_mapping = {
+            # Música
+            'music': 'Música',
+            'musica': 'Música',
+            'música': 'Música',
+            # Deportes
+            'sports': 'Deportes',
+            'deportes': 'Deportes',
+            # Cultural
+            'cultural': 'Cultural',
+            # Tech
+            'tech': 'Tech',
+            'technology': 'Tech',
+            'tecnologia': 'Tech',
+            'tecnología': 'Tech',
+            # Fiestas
+            'party': 'Fiestas',
+            'fiestas': 'Fiestas',
+            'nightlife': 'Fiestas',
+            # General/Other
+            'general': 'General',
+            'other': 'General'
+        }
+
+        # Hacer distinct de categorías con normalización
+        category_counts = {}
+        for event in events:
+            category = event.get('category')
+            if category and category.strip():
+                # Normalizar: lowercase y sin acentos
+                normalized = category.lower().strip()
+                # Usar mapeo si existe, sino capitalizar la original
+                display_name = category_mapping.get(normalized, category.capitalize())
+                category_counts[display_name] = category_counts.get(display_name, 0) + 1
+
+        # Formatear resultado
+        categories = [
+            {'name': cat, 'count': count}
+            for cat, count in sorted(category_counts.items(), key=lambda x: x[1], reverse=True)
+        ]
+
+        logger.info(f"✅ {len(categories)} categorías" + (f" para {location}" if location else ""))
+
+        return {'categories': categories, 'total': len(categories)}
+
+    except Exception as e:
+        logger.error(f"❌ Error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/api/events/nearby")
 async def get_nearby_events(
     location: str = Query(..., description="Ubicación para detectar ciudades cercanas")
@@ -1619,6 +1687,91 @@ async def get_events(
     # 🔥 RETORNAR EL STREAMING RESPONSE
     return StreamingResponse(event_generator(), media_type="text/event-stream")
 
+@app.get("/api/events/categories")
+async def get_event_categories(
+    location: Optional[str] = Query("Buenos Aires", description="Ubicación para filtrar categorías")
+):
+    """
+    📊 CATEGORÍAS DE EVENTOS - Devuelve categorías únicas con conteo
+
+    Args:
+        location: Ciudad/ubicación (default: "Buenos Aires")
+
+    Returns:
+        [{'name': 'music', 'count': 50}, {'name': 'sports', 'count': 30}, ...]
+    """
+    try:
+        log_method_start("get_event_categories", location=location)
+
+        # 🗄️ BUSCAR TODOS LOS EVENTOS DE LA UBICACIÓN
+        from services.events_db_service import search_events_by_location
+
+        # Consultar con límite alto para obtener todas las categorías
+        logger.info(f"🔵 ANTES de llamar search_events_by_location")
+        search_result = await search_events_by_location(
+            location=location,
+            limit=1000,  # Alto límite para capturar todas las categorías
+            days_ahead=180  # 6 meses hacia adelante
+        )
+        logger.info(f"🟢 DESPUÉS de llamar search_events_by_location")
+
+        # Debug: Ver qué tipo de resultado obtuvimos
+        logger.info(f"🔍 search_result type: {type(search_result)}")
+        logger.info(f"🔍 search_result value: {search_result}")
+
+        # Extraer eventos (manejar diferentes tipos de respuesta)
+        events = []
+        if isinstance(search_result, dict):
+            events = search_result.get('events', [])
+        elif isinstance(search_result, list):
+            events = search_result
+        else:
+            logger.error(f"❌ Tipo inesperado de search_result: {type(search_result)}")
+            events = []
+
+        logger.info(f"📊 Total events encontrados: {len(events)}")
+
+        # 📊 CALCULAR CATEGORÍAS ÚNICAS CON CONTEO
+        category_counts = {}
+        for event in events:
+            if isinstance(event, dict):
+                category = event.get('category')
+            else:
+                logger.warning(f"⚠️ Evento no es dict: {type(event)}")
+                continue
+            if category:
+                # Normalizar categoría (lowercase)
+                category = category.lower()
+                category_counts[category] = category_counts.get(category, 0) + 1
+
+        # Convertir a lista de objetos
+        categories = [
+            {'name': cat, 'count': count}
+            for cat, count in category_counts.items()
+        ]
+
+        # Ordenar por count descendente
+        categories.sort(key=lambda x: x['count'], reverse=True)
+
+        log_method_success(
+            "get_event_categories",
+            location=location,
+            total_categories=len(categories),
+            total_events=len(events)
+        )
+
+        return {
+            'success': True,
+            'location': location,
+            'categories': categories,
+            'total_categories': len(categories),
+            'total_events': len(events)
+        }
+
+    except Exception as e:
+        log_method_error("get_event_categories", str(e), location=location)
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/api/events-fast")
 async def get_events_ultrafast(
     location: str = Query("Buenos Aires", description="Ciudad o ubicación"),
@@ -1778,22 +1931,6 @@ async def search_events(
             "error": str(e),
             "events": []
         }
-
-# Categories endpoint
-@app.get("/api/events/categories")
-async def get_categories():
-    return {
-        "categories": [
-            {"id": "music", "name": "Música", "icon": "🎵"},
-            {"id": "sports", "name": "Deportes", "icon": "⚽"},
-            {"id": "cultural", "name": "Cultural", "icon": "🎭"},
-            {"id": "tech", "name": "Tecnología", "icon": "💻"},
-            {"id": "party", "name": "Fiestas", "icon": "🎉"},
-            {"id": "hobbies", "name": "Hobbies", "icon": "🎨"},
-            {"id": "international", "name": "Internacional", "icon": "🌍"}
-        ]
-    }
-
 # Smart search endpoint with AI
 @app.post("/api/smart/search")
 async def smart_search(
@@ -3126,45 +3263,30 @@ async def analyze_intent(
 @app.post("/api/ai/event-insight")
 async def event_insight(data: Dict[str, Any]):
     """
-    🧠 ENDPOINT DE INSIGHTS DE EVENTO - Genera comentarios contextuales sobre eventos
+    🧠 ENDPOINT DE INSIGHTS DE EVENTO - Respuesta rápida sin IA
+    (Gemini deshabilitado para evitar timeouts de 20 segundos)
 
     Args:
         title: Título del evento
         category: Categoría del evento
-        custom_prompt: Prompt personalizado (opcional)
 
     Returns:
-        insight con quick_insight para Sofia/Juan
+        insight con quick_insight genérico (INSTANTÁNEO)
     """
     try:
         title = data.get("title", "")
         category = data.get("category", "")
-        custom_prompt = data.get("custom_prompt", "")
 
-        logger.info(f"🎭 Generando insight para evento: {title[:40]}... ({category})")
+        logger.info(f"✨ Insight rápido para: {title[:40]}... ({category})")
 
-        # Si hay prompt personalizado, usar Gemini
-        if custom_prompt:
-            from services.ai_service import GeminiAIService
-
-            service = GeminiAIService()
-            response = await service._call_gemini_api(custom_prompt)
-
-            if response:
-                return {
-                    "success": True,
-                    "insight": {
-                        "quick_insight": response.strip()[:150]  # Limitar a 150 caracteres
-                    }
-                }
-
-        # Fallback: comentario genérico
-        return {
+        # ⚡ Respuesta instantánea sin llamadas a IA
+        result = {
             "success": True,
             "insight": {
-                "quick_insight": f"¡Interesante! {title} en {category} 🎉"
+                "quick_insight": f"¡Gran evento! {title[:60]} en {category} 🎉"
             }
         }
+        return result
 
     except Exception as e:
         logger.error(f"❌ Error generando insight: {e}")

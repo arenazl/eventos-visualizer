@@ -1,0 +1,56 @@
+{
+  "barrio": "Vélez Sársfield",
+  "comuna": 10,
+  "zona": "Oeste",
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "fuente": "Gemini AI",
+  "prompt_usado": "que hay para hacer, eventos, fiestas en el barrio Vélez Sársfield, CABA, Buenos Aires, argentina desde hoy a fin de mes, que se sepa la fecha, lugar, etc",
+  "descripcion": "Eventos y actividades en el barrio Vélez Sársfield para noviembre 2025",
+  "eventos": [
+    {
+      "nombre": "La K'onga",
+      "fecha": "2025-11-13",
+      "hora": "Por confirmar",
+      "lugar": "Estadio José Amalfitani (Vélez Sarsfield)",
+      "direccion": "Liniers (barrio vecino)",
+      "descripcion": "Concierto del trío de cuarteto cordobés con puesta renovada",
+      "categoria": "musica"
+    },
+    {
+      "nombre": "Semana del Helado Artesanal",
+      "fecha_inicio": "2025-11-10",
+      "fecha_fin": "2025-11-16",
+      "hora": "Horarios comerciales",
+      "lugar": "Heladerías adheridas en CABA",
+      "descripcion": "Semana con promociones y eventos especiales en heladerías artesanales",
+      "categoria": "gastronomia"
+    },
+    {
+      "nombre": "Buenos Aires Rojo Sangre",
+      "fecha_inicio": "2025-11-20",
+      "fecha_fin": "2025-11-30",
+      "hora": "Consultar programación",
+      "lugar": "Por confirmar (Festival de cine)",
+      "descripcion": "Festival internacional de cine de terror, fantástico y bizarro",
+      "categoria": "cine"
+    },
+    {
+      "nombre": "FUTCON 2025",
+      "fecha": "2025-11-22 al 23",
+      "hora": "Por confirmar",
+      "lugar": "Por confirmar",
+      "descripcion": "Primer festival de cultura futbolera y creatividad",
+      "categoria": "deportes"
+    },
+    {
+      "nombre": "Noche de los Templos",
+      "fecha": "2025-11-29",
+      "hora": "Horario nocturno",
+      "lugar": "Distintos templos en la Ciudad",
+      "descripcion": "Visitas guiadas y actividades especiales en templos de distintos cultos",
+      "categoria": "cultural"
+    }
+  ]
+}

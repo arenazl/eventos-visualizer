@@ -1,6 +1,6 @@
 """
 🗄️ EVENTS DB SERVICE - Consultas rápidas a MySQL Aiven
-Busca eventos en la base de datos por ubicación
+Busca eventos en la base de datos por ubicación (incluye barrios)
 """
 import logging
 import os
@@ -19,6 +19,17 @@ logger = logging.getLogger(__name__)
 DB_URL = os.getenv('DATABASE_URL')
 engine = create_engine(DB_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(bind=engine)
+
+
+async def get_db_connection():
+    """
+    DEPRECATED: Esta función se mantiene solo para compatibilidad con código legacy.
+    Retorna None porque ahora usamos SQLAlchemy SessionLocal() en su lugar.
+
+    TODO: Refactorizar gemini_factory.py para usar SessionLocal() directamente.
+    """
+    logger.warning("⚠️ get_db_connection() está deprecated, usar SessionLocal() en su lugar")
+    return None
 
 
 def remove_accents(text: str) -> str:
@@ -82,53 +93,38 @@ async def search_events_by_location(
 
         logger.info(f" Buscando eventos en MySQL para ubicación: '{search_location}'")
 
-        # Normalizar búsqueda (eliminar acentos para búsqueda insensible)
-        search_normalized = remove_accents(search_location)
-        logger.info(f"🔄 Búsqueda normalizada (sin acentos): '{search_normalized}'")
-
-        # Normalizar ciudad principal si existe
-        parent_normalized = remove_accents(parent_city) if parent_city else None
-
         # Rango de fechas
         now = datetime.utcnow()
         end_date = now + timedelta(days=days_ahead)
 
-        # Query SQL con filtros - buscar en city, venue_address Y country
-        # Usa REPLACE para eliminar acentos comunes en SQL también
-        # Si hay ciudad principal, buscar TAMBIÉN en esa ciudad
+        # Query SQL simplificada - buscar solo en: country, city, external_id
         query = """
         SELECT
             id, title, description, event_url, image_url,
             venue_name, venue_address, city, category,
-            start_datetime, end_datetime, price
+            start_datetime, end_datetime, price, source
         FROM events
         WHERE
             (
-                city LIKE :location_pattern
-                OR venue_address LIKE :location_pattern
-                OR country LIKE :location_pattern
-                OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(city, 'á','a'), 'é','e'), 'í','i'), 'ó','o'), 'ú','u') LIKE :location_normalized
-                OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(venue_address, 'á','a'), 'é','e'), 'í','i'), 'ó','o'), 'ú','u') LIKE :location_normalized
-                OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(country, 'á','a'), 'é','e'), 'í','i'), 'ó','o'), 'ú','u') LIKE :location_normalized
+                country LIKE :location_pattern
+                OR city LIKE :location_pattern
+                OR external_id LIKE :location_pattern
         """
 
         params = {
             'location_pattern': f'%{search_location}%',
-            'location_normalized': f'%{search_normalized}%',
             'now': now,
             'end_date': end_date
         }
 
         # Agregar búsqueda por ciudad principal si existe
-        if parent_city and parent_normalized:
+        if parent_city:
             query += """
+                OR country LIKE :parent_pattern
                 OR city LIKE :parent_pattern
-                OR venue_address LIKE :parent_pattern
-                OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(city, 'á','a'), 'é','e'), 'í','i'), 'ó','o'), 'ú','u') LIKE :parent_normalized
-                OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(venue_address, 'á','a'), 'é','e'), 'í','i'), 'ó','o'), 'ú','u') LIKE :parent_normalized
+                OR external_id LIKE :parent_pattern
             """
             params['parent_pattern'] = f'%{parent_city}%'
-            params['parent_normalized'] = f'%{parent_normalized}%'
             logger.info(f"🔍 También buscando eventos en ciudad principal: {parent_city}")
 
         # Cerrar el WHERE
@@ -143,8 +139,11 @@ async def search_events_by_location(
             query += " AND category LIKE :category"
             params['category'] = f'%{category}%'
 
-        # Ordenar por fecha y limitar
-        query += " ORDER BY start_datetime ASC LIMIT :limit"
+        # Ordenar por fecha
+        query += """
+            ORDER BY start_datetime ASC
+            LIMIT :limit
+        """
         params['limit'] = limit
 
         # Ejecutar query
@@ -153,12 +152,23 @@ async def search_events_by_location(
 
         # Convertir a diccionarios
         events = []
+        detected_city = None  # Para extraer ciudad de eventos con barrio
+
         for row in rows:
             # Convertir precio a float, si falla usar 0.0
             try:
                 price = float(row[11]) if row[11] else 0.0
             except (ValueError, TypeError):
                 price = 0.0
+
+            event_source = row[12] or ''
+            event_city = row[7] or ''
+
+            # Si el evento tiene source (barrio) y coincide con la búsqueda, extraer la ciudad
+            if event_source and not parent_city and not detected_city:
+                if search_location.lower() in event_source.lower():
+                    detected_city = event_city
+                    logger.info(f"🏙️ Detectado que '{search_location}' es un barrio de '{detected_city}'")
 
             event = {
                 'id': str(row[0]),
@@ -168,26 +178,30 @@ async def search_events_by_location(
                 'image_url': row[4] or '',
                 'venue_name': row[5] or '',
                 'venue_address': row[6] or '',
-                'city': row[7] or '',
+                'city': event_city,
                 'category': row[8] or 'General',
                 'start_datetime': row[9].isoformat() if row[9] else None,
                 'end_datetime': row[10].isoformat() if row[10] else None,
                 'price': price,
-                'source': 'database'
+                'source': event_source or 'database',  # Ahora source viene de la DB (barrio)
+                'barrio': event_source or ''  # Alias para claridad
             }
             events.append(event)
 
-        if parent_city:
-            logger.info(f"OK Encontrados {len(events)} eventos en MySQL para '{search_location}' y '{parent_city}'")
+        # Usar ciudad detectada si no hay parent_city de Gemini
+        final_parent_city = parent_city or detected_city
+
+        if final_parent_city:
+            logger.info(f"OK Encontrados {len(events)} eventos en MySQL para '{search_location}' (ciudad padre: {final_parent_city})")
         else:
             logger.info(f"OK Encontrados {len(events)} eventos en MySQL para '{search_location}'")
 
         # Retornar metadata de búsqueda expandida junto con eventos
         return {
             'events': events,
-            'parent_city_detected': parent_city if parent_city else None,
+            'parent_city_detected': final_parent_city if final_parent_city else None,
             'original_location': search_location,
-            'expanded_search': bool(parent_city)
+            'expanded_search': bool(final_parent_city)
         }
 
     except Exception as e:
@@ -279,102 +293,87 @@ async def get_available_cities_with_events(search_query: str, limit: int = 10) -
     try:
         logger.info(f" Buscando ubicaciones con eventos que contengan: '{search_query}'")
 
-        # Normalizar búsqueda (eliminar acentos)
-        search_normalized = remove_accents(search_query)
-        logger.info(f"🔄 Búsqueda normalizada (sin acentos): '{search_normalized}'")
-
-        # Query para buscar en city y venue_address (insensible a acentos)
+        # Query simplificada - buscar en country, city, source (barrios)
         query = """
         SELECT
             city,
-            venue_address,
+            country,
+            source,
             COUNT(*) as event_count
         FROM events
         WHERE
             start_datetime >= :now
             AND (
-                city LIKE :search_pattern
-                OR venue_address LIKE :search_pattern
-                OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(city, 'á','a'), 'é','e'), 'í','i'), 'ó','o'), 'ú','u') LIKE :search_normalized
-                OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(venue_address, 'á','a'), 'é','e'), 'í','i'), 'ó','o'), 'ú','u') LIKE :search_normalized
+                country LIKE :search_pattern
+                OR city LIKE :search_pattern
+                OR source LIKE :search_pattern
             )
-        GROUP BY city, venue_address
+        GROUP BY city, country, source
         ORDER BY event_count DESC
         """
 
         params = {
             'now': datetime.utcnow(),
-            'search_pattern': f'%{search_query}%',
-            'search_normalized': f'%{search_normalized}%'
+            'search_pattern': f'%{search_query}%'
         }
 
         result = session.execute(text(query), params)
         rows = result.fetchall()
 
-        # Procesar resultados para extraer diferentes niveles geográficos
-        locations_map = {}  # key: location_name, value: {type, count}
+        # Procesar resultados - city, country, source (barrios)
+        locations_map = {}  # key: location_name, value: {type, count, city, country}
 
         for row in rows:
             city = row[0] or ''
-            venue_address = row[1] or ''
-            count = row[2]
+            country = row[1] or ''
+            source = row[2] or ''
+            count = row[3]
 
-            # 1. Agregar ciudad si coincide (insensible a acentos)
-            if remove_accents(search_query.lower()) in remove_accents(city.lower()):
+            # Agregar barrio si coincide (PRIORIDAD 1)
+            if source and search_query.lower() in source.lower():
+                if source not in locations_map:
+                    locations_map[source] = {'type': 'barrio', 'count': 0, 'city': city, 'country': country}
+                locations_map[source]['count'] += count
+
+            # Agregar ciudad si coincide
+            if city and search_query.lower() in city.lower():
                 if city not in locations_map:
-                    locations_map[city] = {'type': 'city', 'count': 0}
+                    locations_map[city] = {'type': 'city', 'count': 0, 'city': '', 'country': country}
                 locations_map[city]['count'] += count
 
-            # 2. Parsear venue_address para provincia y país
-            # Formato típico: "Ciudad, Provincia, País" o "Ciudad, País"
-            if venue_address:
-                parts = [p.strip() for p in venue_address.split(',')]
-
-                # Si hay 3 partes: Ciudad, Provincia, País
-                if len(parts) >= 3:
-                    province = parts[1]
-                    country = parts[2]
-
-                    if remove_accents(search_query.lower()) in remove_accents(province.lower()):
-                        key = f"{province}, {country}"
-                        if key not in locations_map:
-                            locations_map[key] = {'type': 'province', 'count': 0}
-                        locations_map[key]['count'] += count
-
-                    if remove_accents(search_query.lower()) in remove_accents(country.lower()):
-                        if country not in locations_map:
-                            locations_map[country] = {'type': 'country', 'count': 0}
-                        locations_map[country]['count'] += count
-
-                # Si hay 2 partes: Ciudad, País
-                elif len(parts) >= 2:
-                    country = parts[1]
-
-                    if remove_accents(search_query.lower()) in remove_accents(country.lower()):
-                        if country not in locations_map:
-                            locations_map[country] = {'type': 'country', 'count': 0}
-                        locations_map[country]['count'] += count
+            # Agregar país si coincide
+            if country and search_query.lower() in country.lower():
+                if country not in locations_map:
+                    locations_map[country] = {'type': 'country', 'count': 0, 'city': '', 'country': ''}
+                locations_map[country]['count'] += count
 
         # Convertir a lista y ordenar
         locations = []
         for location_name, data in locations_map.items():
             location_type = data['type']
             event_count = data['count']
+            parent_city = data.get('city', '')
+            parent_country = data.get('country', '')
 
-            # Iconos según tipo
-            # Icons removed for Windows compatibility
-            type_label = 'ciudad' if location_type == 'city' else 'provincia' if location_type == 'province' else 'país'
+            # Formato displayName con ciudad padre si es barrio
+            if location_type == 'barrio' and parent_city:
+                display_text = f"{location_name}, {parent_city} ({event_count} eventos)"
+            else:
+                display_text = f"{location_name} ({event_count} eventos)"
 
             locations.append({
                 'location': location_name,
                 'location_type': location_type,
                 'event_count': event_count,
-                'displayName': f"{location_name} ({event_count} eventos)"
+                'city': parent_city,
+                'country': parent_country,
+                'displayName': display_text
             })
 
-        # Ordenar por tipo (ciudad > provincia > país) y luego por cantidad
-        priority = {'city': 1, 'province': 2, 'country': 3}
-        locations.sort(key=lambda x: (priority[x['location_type']], -x['event_count']))
+        # Ordenar por tipo (barrio > ciudad > país) y luego por cantidad
+        priority = {'barrio': 0, 'city': 1, 'country': 2}
+        locations.sort(key=lambda x: (priority.get(x['location_type'], 999), -x['event_count']))
+
 
         # Limitar resultados
         locations = locations[:limit]

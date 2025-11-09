@@ -25,7 +25,8 @@
       "Bash(kill:*)",
       "Bash(awk:*)",
       "Bash(tasklist:*)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Bash(timeout:*)"
     ],
     "deny": [],
     "ask": []
