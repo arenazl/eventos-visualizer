@@ -10,6 +10,7 @@ import ScrapersDetailPanel from '../components/ScrapersDetailPanel'
 import { useEvents } from '../stores/EventsStore'
 import { useAuth } from '../contexts/AuthContext'
 import { useAssistants } from '../contexts/AssistantsContext'
+import bgImage from '../assets/bg.webp'
 
 interface Location {
   name: string
@@ -19,6 +20,9 @@ interface Location {
 }
 
 const HomePageModern: React.FC = () => {
+  // 📍 Ref para trackear última ubicación procesada (evitar doble carga de categorías)
+  const lastProcessedLocationRef = useRef<string | null>(null)
+
   const {
     events,
     loading,
@@ -107,7 +111,17 @@ const HomePageModern: React.FC = () => {
 
   // 🏷️ Cargar categorías dinámicamente cuando cambia la ubicación (async, no bloquea)
   useEffect(() => {
+    const locationKey = currentLocation?.name || 'default'
+
+    // ⚡ Evitar doble carga si la ubicación no cambió realmente
+    if (lastProcessedLocationRef.current === locationKey) {
+      console.log(`⏭️ Saltando carga de categorías - ubicación no cambió: ${locationKey}`)
+      return
+    }
+
     console.log('🔄 useEffect de categorías ejecutado - currentLocation:', currentLocation?.name)
+    lastProcessedLocationRef.current = locationKey
+
     const loadCategories = async () => {
       setLoadingCategories(true)
       try {
@@ -226,12 +240,18 @@ const HomePageModern: React.FC = () => {
           }
 
           // 3. Set the detected location in store
+          console.log('📍 [INIT] Seteando ubicación detectada:', detectedLocation.name)
           setLocation(detectedLocation)
 
+          // ⏳ Pequeño delay para asegurar que el store se actualizó
+          await new Promise(resolve => setTimeout(resolve, 100))
+
           // 4. ✨ USAR STREAMING EN LUGAR DE LLAMADA TRADICIONAL
-          console.log('🔍 Iniciando búsqueda streaming para:', detectedLocation.name)
+          console.log('🔍 [INIT] Iniciando búsqueda streaming para:', detectedLocation.name)
+          console.log('🔍 [INIT] currentLocation antes de streaming:', currentLocation?.name)
           await startStreamingSearch(detectedLocation)
 
+          console.log('✅ [INIT] Streaming completado, marcando location como detectada')
           setLocationDetected(true)
         } catch (error) {
           console.error('❌ Error detectando ubicación:', error)
@@ -728,7 +748,23 @@ const HomePageModern: React.FC = () => {
   const displayCategories = ['Todos', ...categories.map(cat => getCategoryDisplayName(cat.name))]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+    <div className="min-h-screen relative">
+      {/* Imagen de fondo */}
+      <div
+        className="fixed inset-0 opacity-5 pointer-events-none"
+        style={{
+          backgroundImage: `url(${bgImage})`,
+          backgroundSize: '100% 100%',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      ></div>
+
+      {/* Gradiente encima de la imagen */}
+      <div className="fixed inset-0 bg-gradient-to-br from-purple-900/85 via-blue-900/80 to-indigo-900/85 pointer-events-none"></div>
+
+      {/* Contenido principal */}
+      <div className="relative z-10">
       {/* HEADER CONSOLIDADO */}
       <Header
         searchQuery={searchQuery}
@@ -793,14 +829,14 @@ const HomePageModern: React.FC = () => {
                       onClick={() => handleCategoryClick(category)}
                       disabled={isDisabled}
                       className={`group relative transition-all duration-300 ${
-                        isActive ? 'scale-110 z-10' : isOtherActive ? 'scale-95 opacity-40' : ''
+                        isActive ? 'scale-110 z-10' : isOtherActive ? 'scale-95 opacity-70' : ''
                         } ${isDisabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'
                         }`}
                       title={isDisabled ? 'Elige una ubicación primero' : `Filtrar por ${category}`}
                     >
                       <div className={`absolute -inset-1 bg-gradient-to-r ${gradient} rounded-full blur ${
                         isDisabled ? 'opacity-20' :
-                        isOtherActive ? 'opacity-20' :
+                        isOtherActive ? 'opacity-40' :
                         'opacity-60 group-hover:opacity-100'
                         } transition-opacity`}></div>
                       <div className={`relative px-6 py-3 rounded-full font-semibold transition-all ${
@@ -809,7 +845,7 @@ const HomePageModern: React.FC = () => {
                         : isDisabled
                           ? 'bg-white/5 backdrop-blur-lg text-white/40'
                           : isOtherActive
-                            ? 'bg-white/5 backdrop-blur-lg text-white/30'
+                            ? 'bg-white/10 backdrop-blur-lg text-white/60'
                             : 'bg-white/10 backdrop-blur-lg text-white hover:bg-white/20'
                         }`}>
                         <span className="mr-2">{emoji}</span>
@@ -991,7 +1027,7 @@ const HomePageModern: React.FC = () => {
                   .map((event, index) => (
                   <div
                     key={event.title + '-' + index}
-                    className={`${isEventsFadingOut
+                    className={`mb-6 md:mb-8 ${isEventsFadingOut
                       ? 'opacity-20'
                       : 'opacity-0 animate-fade-in-up'
                       }`}
@@ -1048,6 +1084,7 @@ const HomePageModern: React.FC = () => {
             ¡Pregúntame sobre eventos!
           </span>
         </button>
+      </div>
       </div>
 
       {/* Auth Modal */}

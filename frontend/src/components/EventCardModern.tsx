@@ -220,7 +220,7 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
       >
         {/* FRONT - Card content - Altura fija para todas las tarjetas */}
         <div
-          className="relative bg-white dark:bg-gray-900 rounded-xl md:rounded-2xl overflow-hidden shadow-2xl h-[420px] sm:h-[450px] md:h-[480px] flex flex-col"
+          className="relative bg-white dark:bg-gray-900 rounded-xl md:rounded-2xl overflow-hidden shadow-2xl h-[420px] sm:h-[450px] md:h-[480px] flex flex-col opacity-90"
           style={{ backfaceVisibility: 'hidden' }}
           onClick={handleCardClick}
         >

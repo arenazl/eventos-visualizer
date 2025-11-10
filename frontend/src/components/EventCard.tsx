@@ -60,7 +60,10 @@ const EventCard: React.FC<EventCardProps> = ({
       'tech': 'from-indigo-600 via-blue-500 to-cyan-500',
       'party': 'from-pink-600 via-rose-500 to-orange-500',
       'hobbies': 'from-yellow-500 via-orange-500 to-red-500',
-      'international': 'from-cyan-500 via-blue-500 to-indigo-500'
+      'international': 'from-cyan-500 via-blue-500 to-indigo-500',
+      'festival': 'from-orange-600 via-amber-500 to-yellow-500',
+      'theater': 'from-red-600 via-rose-500 to-pink-500',
+      'comedy': 'from-yellow-600 via-amber-500 to-orange-500'
     }
     return gradients[category] || 'from-gray-600 via-gray-500 to-gray-400'
   }
@@ -73,7 +76,10 @@ const EventCard: React.FC<EventCardProps> = ({
       'tech': '💻',
       'party': '🎉',
       'hobbies': '🎨',
-      'international': '🌍'
+      'international': '🌍',
+      'festival': '🎪',
+      'theater': '🎬',
+      'comedy': '😂'
     }
     return icons[category] || '📅'
   }

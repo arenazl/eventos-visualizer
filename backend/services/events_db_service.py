@@ -85,9 +85,12 @@ async def search_events_by_location(
         if include_parent_city:
             try:
                 from services.gemini_factory import gemini_factory
+                # Timeout automático de 15s configurado en ai_providers.py
                 parent_city = await gemini_factory.get_parent_location(search_location)
                 if parent_city:
                     logger.info(f"🏙️ Detectada ciudad principal para '{search_location}': {parent_city}")
+            except TimeoutError:
+                logger.warning(f"⏱️ Timeout detectando ciudad principal (15s) - continuando sin detección")
             except Exception as e:
                 logger.warning(f"⚠️ Error detectando ciudad principal: {e}")
 

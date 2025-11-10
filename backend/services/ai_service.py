@@ -1,6 +1,8 @@
 """
 🧠 AI SERVICE - Servicio de Inteligencia Artificial
-Servicio singleton para interacciones con Gemini AI
+Servicio singleton para interacciones con múltiples IAs (Groq, Gemini, Perplexity, OpenRouter)
+
+COMPATIBILIDAD: Mantiene interfaz original GeminiAIService pero usa AIServiceManager internamente
 """
 
 import os
@@ -9,34 +11,50 @@ import aiohttp
 import json
 from typing import Optional, Dict, Any
 
+# Importar el nuevo manager multi-provider
+from .ai_manager import AIServiceManager, detect_location_info as ai_detect_location, get_nearby_cities_with_ai as ai_get_nearby_cities
+
 logger = logging.getLogger(__name__)
 
 class GeminiAIService:
     """
-    🧠 SERVICIO DE IA GEMINI
-    
+    🧠 SERVICIO DE IA MULTI-PROVIDER
+
+    ACTUALIZADO: Ahora usa AIServiceManager con múltiples providers
+    Mantiene compatibilidad con código existente
+
     Patrón Singleton para gestión centralizada de:
     - Detección de ubicaciones y provincias
     - Generación de URLs inteligentes
     - Análisis de contexto de eventos
+
+    Providers soportados:
+    - Groq (por defecto) - Ultra rápido, 14k requests/día
+    - Gemini - 250 requests/día
+    - Perplexity - Búsqueda web en tiempo real
+    - OpenRouter - Múltiples modelos
     """
-    
+
     _instance = None
     _initialized = False
-    
+
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super(GeminiAIService, cls).__new__(cls)
-            logger.info("🧠 Singleton created: GeminiAIService")
+            logger.info("🧠 Singleton created: GeminiAIService (Multi-Provider)")
         return cls._instance
-    
+
     def __init__(self):
         if not self._initialized:
-            logger.info("🧠 Gemini AI Service initialized as Singleton")
+            logger.info("🧠 AI Service initialized as Singleton (usando AIServiceManager)")
             self.session = None
-            self.api_key = os.getenv('GEMINI_API_KEY')
+            self.api_key = os.getenv('GEMINI_API_KEY')  # Mantener compatibilidad
+
+            # Inicializar el nuevo manager
+            self.ai_manager = AIServiceManager()
+
             GeminiAIService._initialized = True
-            logger.info("🧠 AI Service Singleton instance created globally")
+            logger.info("🧠 AI Service Singleton con multi-provider support created")
     
     async def _get_session(self):
         """Obtiene o crea sesión HTTP reutilizable"""
@@ -48,61 +66,18 @@ class GeminiAIService:
     
     async def detect_location_info(self, location: str) -> Dict[str, Any]:
         """
-        🌍 DETECCIÓN INTELIGENTE DE UBICACIÓN CON GEMINI API
-        
-        Usa Gemini API para analizar ubicación y extraer información estructurada
-        """
-        
-        try:
-            if not self.api_key:
-                logger.error("❌ GEMINI_API_KEY no está configurada en las variables de entorno")
-                raise Exception("ERROR: La API key de Gemini no está configurada. Por favor, configure GEMINI_API_KEY en el archivo .env del backend")
-            
-            # Prompt optimizado para Gemini API
-            prompt = f"""Analiza la ubicación "{location}" y devuelve SOLO un JSON válido:
-{{"city": "nombre_ciudad", "province": "nombre_provincia", "country": "nombre_pais", "confidence": 0.95}}
+        🌍 DETECCIÓN INTELIGENTE DE UBICACIÓN
 
-Reglas:
-- Usa nombres en idioma local 
-- Si no reconoces la ubicación, confidence: 0.30
-- SOLO el JSON, sin explicaciones"""
-            
-            # Llamada real a Gemini API
-            response = await self._call_gemini_api(prompt)
-            
-            if response:
-                import json
-                try:
-                    # Limpiar respuesta y parsear JSON
-                    clean_response = response.strip()
-                    if clean_response.startswith('```json'):
-                        clean_response = clean_response.replace('```json', '').replace('```', '').strip()
-                    
-                    location_data = json.loads(clean_response)
-                    
-                    # Validar estructura
-                    required_keys = ['city', 'province', 'country', 'confidence']
-                    if all(key in location_data for key in required_keys):
-                        logger.info(f"✅ Gemini detectó ubicación: {location_data['city']}, {location_data['country']}")
-                        return location_data
-                    else:
-                        logger.warning(f"⚠️ Respuesta Gemini incompleta: {location_data}")
-                        
-                except json.JSONDecodeError as e:
-                    logger.warning(f"⚠️ Error parseando JSON de Gemini: {e}")
-                    logger.warning(f"⚠️ Respuesta raw: {response[:100]}")
-            
-            # Fallback si Gemini no funciona
-            logger.warning("⚠️ Gemini API no disponible, usando fallback básico")
-            return {
-                'city': location,
-                'province': '',
-                'country': '',
-                'confidence': 0.30
-            }
-                
+        ACTUALIZADO: Ahora usa AIServiceManager con multi-provider support
+        Automáticamente usa el provider preferido (Grok, Groq, Gemini, etc.)
+        """
+
+        try:
+            # Usar el nuevo manager multi-provider
+            return await ai_detect_location(location)
+
         except Exception as e:
-            logger.error(f"❌ Error en detección de ubicación con Gemini: {e}")
+            logger.error(f"❌ Error en detección de ubicación: {e}")
             return {
                 'city': location,
                 'province': '',
@@ -438,84 +413,46 @@ MEETUP (FORMATO ESPECÍFICO):
     
     async def _call_gemini_api(self, prompt: str) -> Optional[str]:
         """
-        🤖 LLAMADA REAL A GEMINI API
-        
+        🤖 LLAMADA A AI (MULTI-PROVIDER)
+
+        ACTUALIZADO: Ahora usa AIServiceManager automáticamente
+        Usa el provider preferido (Grok, Groq, Gemini, etc.) con fallback automático
+
         Args:
-            prompt: Prompt para Gemini
-            
+            prompt: Prompt para la IA
+
         Returns:
-            Respuesta de Gemini o None si falla
+            Respuesta del modelo o None si falla
         """
-        
+
         try:
-            if not self.api_key:
-                logger.warning("⚠️ GEMINI_API_KEY no disponible")
+            # Usar el nuevo manager multi-provider
+            response = await self.ai_manager.generate(
+                prompt=prompt,
+                temperature=0.1,
+                use_fallback=True  # Fallback automático si el preferido falla
+            )
+
+            if response:
+                logger.info(f"✅ AI responded successfully")
+                return response.strip()
+            else:
+                logger.warning("⚠️ No AI response available")
                 return None
-            
-            session = await self._get_session()
-            
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={self.api_key}"
-            
-            payload = {
-                "contents": [{
-                    "parts": [{
-                        "text": prompt
-                    }]
-                }],
-                "generationConfig": {
-                    "temperature": 0.1,
-                    "maxOutputTokens": 8192
-                }
-            }
-            
-            async with session.post(url, json=payload) as response:
-                if response.status == 200:
-                    data = await response.json()
-                    logger.debug(f"🔍 Gemini full response: {data}")
-
-                    if 'candidates' in data and len(data['candidates']) > 0:
-                        candidate = data['candidates'][0]
-
-                        # Verificar estructura del candidate
-                        if 'content' not in candidate:
-                            logger.error(f"❌ Gemini response missing 'content'. Response: {data}")
-                            return None
-
-                        content = candidate['content']
-
-                        if 'parts' not in content:
-                            logger.error(f"❌ Gemini response missing 'parts' in content. Content: {content}")
-                            return None
-
-                        if len(content['parts']) == 0:
-                            logger.error(f"❌ Gemini response has empty 'parts' array")
-                            return None
-
-                        text = content['parts'][0]['text']
-                        logger.info(f"✅ Gemini API responded successfully")
-                        return text.strip()
-                    else:
-                        logger.warning(f"⚠️ Gemini API response sin contenido. Response: {data}")
-                        return None
-                else:
-                    error_text = await response.text()
-                    logger.error(f"❌ Gemini API error: HTTP {response.status} - {error_text}")
-                    return None
 
         except Exception as e:
-            logger.error(f"❌ Error llamando Gemini API: {e}")
+            logger.error(f"❌ Error calling AI: {e}")
             import traceback
             logger.error(f"Traceback: {traceback.format_exc()}")
             return None
 
 
-# 🌍 Cache for nearby cities to avoid repeated AI calls
-_nearby_cities_cache = {}
-
 # 🌍 Helper function for nearby cities
 async def get_nearby_cities_with_ai(location: str, limit: int = 10) -> list:
     """
-    Get nearby cities using Gemini AI (with caching)
+    Get nearby cities using multi-provider AI system
+
+    ACTUALIZADO: Usa AIServiceManager automáticamente
 
     Args:
         location: City name to find nearby cities for
@@ -525,74 +462,9 @@ async def get_nearby_cities_with_ai(location: str, limit: int = 10) -> list:
         List of dictionaries with city information
     """
     try:
-        # Check cache first
-        cache_key = f"{location.lower()}:{limit}"
-        if cache_key in _nearby_cities_cache:
-            logger.info(f"✅ Returning cached nearby cities for {location}")
-            return _nearby_cities_cache[cache_key]
-
-        prompt = f"""
-Eres un experto en geografía. Dame una lista de {limit} ciudades cercanas a "{location}", Argentina.
-
-Para cada ciudad, proporciona:
-1. Nombre de la ciudad
-2. Provincia
-3. Distancia aproximada en km desde {location}
-4. Si tiene eventos culturales/deportivos importantes
-
-Responde SOLO en formato JSON válido, sin markdown ni explicaciones adicionales:
-{{
-  "cities": [
-    {{
-      "name": "Nombre Ciudad",
-      "displayName": "Ciudad (50 km)",
-      "province": "Provincia",
-      "country": "Argentina",
-      "countryCode": "AR",
-      "distance": "50 km",
-      "hasEvents": true,
-      "lat": -34.0,
-      "lon": -64.0
-    }}
-  ]
-}}
-"""
-
-        # Create AI service instance
-        ai_service = GeminiAIService()
-
-        # Call Gemini API
-        response_text = await ai_service._call_gemini_api(prompt)
-
-        if not response_text:
-            logger.warning(f"⚠️ No response from Gemini for nearby cities")
-            return []
-
-        # Parse JSON response
-        import json
-        import re
-
-        # Clean response (remove markdown if present)
-        json_text = re.sub(r'```json\n?|\n?```', '', response_text.strip())
-
-        try:
-            data = json.loads(json_text)
-            cities = data.get("cities", [])[:limit]
-
-            # Store in cache for future requests
-            cache_key = f"{location.lower()}:{limit}"
-            _nearby_cities_cache[cache_key] = cities
-
-            logger.info(f"✅ Got {len(cities)} nearby cities for {location} (cached for future use)")
-            return cities
-
-        except json.JSONDecodeError as e:
-            logger.error(f"❌ Error parsing JSON from Gemini: {e}")
-            logger.error(f"Response was: {response_text[:200]}")
-            return []
+        # Usar el nuevo manager multi-provider
+        return await ai_get_nearby_cities(location, limit)
 
     except Exception as e:
         logger.error(f"❌ Error getting nearby cities: {e}")
-        import traceback
-        logger.error(f"Traceback: {traceback.format_exc()}")
         return []

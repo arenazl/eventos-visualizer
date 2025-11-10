@@ -9,8 +9,8 @@ class UserPreferences(Base):
     """Preferencias detalladas del usuario para el algoritmo de IA"""
     __tablename__ = "user_preferences"
     
-    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    user_id = Column(String, ForeignKey("users.id"), nullable=False, unique=True)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = Column(String(36), ForeignKey("users.id"), nullable=False, unique=True)
     
     # Preferencias de categorías con pesos
     category_weights = Column(SQLiteJSON, default={
@@ -77,9 +77,9 @@ class UserInteraction(Base):
     """Registro de cada interacción del usuario para aprendizaje"""
     __tablename__ = "user_interactions"
     
-    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    user_id = Column(String, ForeignKey("users.id"), nullable=False)
-    event_id = Column(String, ForeignKey("events.id"), nullable=True)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = Column(String(36), ForeignKey("users.id"), nullable=False)
+    event_id = Column(String(36), ForeignKey("events.id"), nullable=True)
     
     # Tipo de interacción
     interaction_type = Column(String(50), nullable=False)  # 'view', 'click', 'save', 'share', 'search', 'ai_chat'
@@ -110,8 +110,8 @@ class PreferenceUpdate(Base):
     """Log de actualizaciones de preferencias para auditoría"""
     __tablename__ = "preference_updates"
     
-    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    user_id = Column(String, ForeignKey("users.id"), nullable=False)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = Column(String(36), ForeignKey("users.id"), nullable=False)
     
     # Cambio realizado
     field_changed = Column(String(100), nullable=False)

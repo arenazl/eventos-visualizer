@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { MagnifyingGlassIcon, MapPinIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from 'react-router-dom'
 import { API_BASE_URL } from '../config/api'
+import GoogleLoginButton from './auth/GoogleLoginButton'
 
 interface LocationSuggestion {
   name: string
@@ -435,9 +436,9 @@ const Header: React.FC<HeaderProps> = ({
             >
               <MapPinIcon className="h-5 w-5 md:h-6 md:w-6" />
             </button>
-            <button className="hidden sm:block bg-white/10 hover:bg-white/20 text-white font-semibold py-1.5 md:py-2 px-3 md:px-6 border border-white/30 rounded-full shadow-md hover:shadow-lg transition-all duration-200">
-              <span className={isScrolled ? 'text-xs md:text-sm' : 'text-sm md:text-base'}>Registrarse</span>
-            </button>
+            <div className="hidden sm:block">
+              <GoogleLoginButton />
+            </div>
           </div>
         </div>
       </div>

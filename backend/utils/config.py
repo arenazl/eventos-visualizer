@@ -11,16 +11,19 @@ class Settings(BaseSettings):
     meetup_client_id: Optional[str] = None
     meetup_client_secret: Optional[str] = None
     
-    # Google APIs
+    # Google OAuth Configuration
     google_client_id: Optional[str] = None
     google_client_secret: Optional[str] = None
+    google_redirect_uri: str = "http://localhost:8001/auth/google/callback"
+
+    # Google APIs
     google_calendar_api_key: Optional[str] = None
     google_maps_api_key: Optional[str] = None
-    
+
     # JWT Configuration
     jwt_secret_key: str = "your-super-secret-jwt-key"
     jwt_algorithm: str = "HS256"
-    jwt_expiration_hours: int = 24
+    jwt_access_token_expire_minutes: int = 1440  # 24 horas
     
     # Application Settings
     environment: str = "development"

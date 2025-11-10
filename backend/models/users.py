@@ -8,7 +8,7 @@ from database.connection import Base
 class User(Base):
     __tablename__ = "users"
     
-    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     email = Column(String(255), unique=True, nullable=False)
     name = Column(String(255), nullable=False)
     avatar_url = Column(Text)
@@ -54,9 +54,9 @@ class User(Base):
 class UserEvent(Base):
     __tablename__ = "user_events"
     
-    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    user_id = Column(String, ForeignKey("users.id"), nullable=False)
-    event_id = Column(String, ForeignKey("events.id"), nullable=False)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = Column(String(36), ForeignKey("users.id"), nullable=False)
+    event_id = Column(String(36), ForeignKey("events.id"), nullable=False)
     
     # User's relationship with event
     status = Column(String(50), default='interested')  # 'interested', 'going', 'not_going', 'maybe'
@@ -86,9 +86,9 @@ class UserEvent(Base):
 class Notification(Base):
     __tablename__ = "notifications"
     
-    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    user_id = Column(String, ForeignKey("users.id"), nullable=False)
-    event_id = Column(String, ForeignKey("events.id"))
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = Column(String(36), ForeignKey("users.id"), nullable=False)
+    event_id = Column(String(36), ForeignKey("events.id"))
     
     # Notification details
     type = Column(String(50), nullable=False)  # 'event_reminder', 'new_event', 'event_update'

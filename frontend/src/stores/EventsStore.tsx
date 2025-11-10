@@ -511,22 +511,36 @@ const useEventsStore = create<EventsState>((set, get) => ({
     const state = get()
     const { currentLocation, isStreaming } = state
 
+    console.log('🎬 [STREAM] startStreamingSearch llamado con location:', location?.name || 'undefined')
+    console.log('🎬 [STREAM] currentLocation en store:', currentLocation?.name || 'null')
+    console.log('🎬 [STREAM] isStreaming:', isStreaming)
+
     // 🔒 LOCK ROBUSTO: Prevenir llamadas duplicadas
     if (isStreaming) {
-      console.log('⏸️ [LOCK] Búsqueda en progreso - ignorando llamada duplicada')
+      console.warn('⏸️ [LOCK] Búsqueda en progreso - ignorando llamada duplicada')
       return
     }
 
     const searchLocation = location || currentLocation
 
+    console.log('🎬 [STREAM] searchLocation final:', searchLocation?.name || 'undefined')
+
+    if (!searchLocation) {
+      console.error('❌ [STREAM] No hay ubicación para buscar - abortando')
+      return
+    }
+
     // 🔒 DEBOUNCE: Prevenir llamadas rápidas sucesivas (< 500ms)
     const now = Date.now()
     const lastSearch = (window as any).__lastSearchTime || 0
-    if (now - lastSearch < 500) {
-      console.log('⏸️ [DEBOUNCE] Ignorando búsqueda repetida (< 500ms)')
+    const timeSinceLastSearch = now - lastSearch
+    if (timeSinceLastSearch < 500) {
+      console.warn(`⏸️ [DEBOUNCE] Ignorando búsqueda repetida (${timeSinceLastSearch}ms < 500ms)`)
       return
     }
     (window as any).__lastSearchTime = now
+
+    console.log('✅ [STREAM] Locks pasados - iniciando streaming...')
 
     const startTime = Date.now()
     set({
@@ -679,6 +693,9 @@ const useEventsStore = create<EventsState>((set, get) => ({
         if (event.type === 'complete') {
           const totalEvents = get().events.length
           scrapersData.summary = `${scrapersData.scrapers_info.filter((s: any) => s.events_count > 0).length}/${scrapersData.total_scrapers} scrapers exitosos - ${totalEvents} eventos totales`
+
+          console.log(`✅ [STREAM] Streaming completado - ${totalEvents} eventos encontrados`)
+          console.log('🔓 [STREAM] Liberando lock (isStreaming = false)')
 
           set({
             isStreaming: false,

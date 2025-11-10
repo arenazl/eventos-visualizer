@@ -1,0 +1,84 @@
+{
+  "categoria": "Música Electrónica",
+  "region": "Puerto Rico",
+  "country": "Puerto Rico",
+  "country_code": "PR",
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "descripcion": "Eventos de música electrónica y DJ's en Puerto Rico para noviembre 2025",
+  "eventos": [
+    {
+      "nombre": "Dj Adoni - Bajo la Luna",
+      "fecha": "2025-11-21",
+      "dia_semana": "Viernes",
+      "hora_inicio": "20:00",
+      "hora_fin": null,
+      "lugar": "Anfiteatro Tito Puente",
+      "ciudad": "San Juan",
+      "region": "San Juan",
+      "descripcion": "Disfruta de una noche de energía con DJ Adoni, uno de los DJs internacionales más influyentes del momento en el género urbano y de fusión",
+      "artistas": ["DJ Adoni"],
+      "genero": "electrónica/fusión urbana",
+      "precio": "pago",
+      "plataforma_venta": "Ticketera, PRticket"
+    },
+    {
+      "nombre": "Festival Color Caribe (Noche con DJ)",
+      "fecha": "2025-11-29",
+      "dia_semana": "Sábado",
+      "hora_inicio": "15:00",
+      "hora_fin": null,
+      "lugar": "El Gran Parque Agroturístico Ecológico y Recreativo",
+      "ciudad": "Dorado",
+      "region": "Dorado",
+      "descripcion": "Festival multi-género (rock, indie) con participación del DJ Payola junto a bandas como Draco Rosa, Midnight Generation",
+      "artistas": ["DJ Payola", "Draco Rosa", "Midnight Generation"],
+      "genero": "electrónica/rock/indie",
+      "precio": "pago",
+      "plataforma_venta": "Ticketera, PRticket"
+    },
+    {
+      "nombre": "Club Mako After Party Experience",
+      "fecha": "2025-11-28 a 2025-11-29",
+      "dia_semana": "Viernes y Sábado",
+      "hora_inicio": "22:00",
+      "hora_fin": "04:00",
+      "lugar": "Fairmont El San Juan Hotel",
+      "ciudad": "Isla Verde, San Juan",
+      "region": "San Juan",
+      "descripcion": "Experiencia de after party de música electrónica. Los detalles específicos de los DJs y horarios varían",
+      "artistas": ["Por confirmar"],
+      "genero": "electrónica/house/techno",
+      "precio": "pago",
+      "plataforma_venta": "Verificar en sitio web del hotel"
+    }
+  ],
+  "recomendaciones_adicionales": [
+    {
+      "zona": "Santurce (San Juan)",
+      "descripcion": "Clubes y bares con noches regulares de música electrónica (house, techno, deep house) con DJs locales",
+      "lugares_destacados": ["La Placita de Santurce y alrededores"]
+    },
+    {
+      "zona": "Isla Verde",
+      "descripcion": "Locales en zona turística, especialmente en hoteles, con eventos de música electrónica",
+      "lugares_destacados": ["Hoteles de Isla Verde"]
+    }
+  ],
+  "notas": [
+    "Eventos scrapeados de Gemini web usando Puppeteer",
+    "Fecha de scraping: 2025-11-09",
+    "Se recomienda verificar horarios y disponibilidad en Ticketera o PRticket",
+    "Muchos locales en Santurce e Isla Verde tienen noches regulares de electrónica con DJs locales"
+  ],
+  "total_eventos": 3,
+  "fuente": "Gemini Web (Puppeteer)",
+  "generos_incluidos": [
+    "electrónica",
+    "fusión urbana",
+    "house",
+    "techno",
+    "deep house"
+  ]
+}

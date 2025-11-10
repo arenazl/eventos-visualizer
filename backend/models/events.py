@@ -9,7 +9,7 @@ class Event(Base):
     __tablename__ = "events"
     
     # Primary key
-    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     
     # Basic event information
     title = Column(String(255), nullable=False)
@@ -71,7 +71,7 @@ class Event(Base):
 class Category(Base):
     __tablename__ = "categories"
     
-    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     name = Column(String(100), unique=True, nullable=False)
     slug = Column(String(100), unique=True, nullable=False)
     color = Column(String(7), nullable=False)  # Hex color code
@@ -79,7 +79,7 @@ class Category(Base):
     description = Column(Text)
     
     # Hierarchy support
-    parent_id = Column(String, ForeignKey("categories.id"))
+    parent_id = Column(String(36), ForeignKey("categories.id"))
     
     # External API mappings
     eventbrite_id = Column(String(50))

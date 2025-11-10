@@ -316,6 +316,22 @@ app.add_middleware(
     expose_headers=["*"],  # Expose all headers including cache-control
 )
 
+# Session middleware for OAuth
+from starlette.middleware.sessions import SessionMiddleware
+app.add_middleware(SessionMiddleware, secret_key=os.getenv("JWT_SECRET_KEY", "your-secret-key-here"))
+
+# ═══════════════════════════════════════════════════════════════════
+# 🔐 AUTENTICACIÓN CON GOOGLE OAUTH2
+# ═══════════════════════════════════════════════════════════════════
+try:
+    from api.auth import router as auth_router
+    app.include_router(auth_router)
+    logger.info("🔐 Autenticación Google OAuth2 habilitada")
+except ImportError as e:
+    logger.warning(f"⚠️ No se pudo cargar autenticación: {e}")
+except Exception as e:
+    logger.warning(f"⚠️ Error al configurar autenticación: {e}")
+
 # 🚫 NO-CACHE MIDDLEWARE - Deshabilitar todo el cache
 @app.middleware("http")
 async def add_no_cache_headers(request: Request, call_next):
@@ -1408,23 +1424,59 @@ async def get_city_events(
         logger.error(f"❌ Error buscando eventos en ciudad: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# 💾 CACHE GLOBAL DE CATEGORÍAS (evitar llamadas a IA repetidas)
+_categories_cache = {}
+_categories_cache_ttl = {}
+import time
+
 @app.get("/api/events/categories")
 async def get_event_categories(
     location: Optional[str] = Query(None, description="Ubicación para filtrar categorías")
 ):
-    """🏷️ CATEGORÍAS DINÁMICAS - Obtiene categorías únicas de eventos"""
+    """🏷️ CATEGORÍAS DINÁMICAS - Obtiene categorías únicas de eventos (CON CACHE)"""
     try:
-        from services.events_db_service import search_events_by_location
+        cache_key = location or "Buenos Aires"
+        current_time = time.time()
 
-        # Buscar eventos
-        result = await search_events_by_location(
-            location=location or "Buenos Aires",
-            limit=1000,
-            days_ahead=180
+        # ✅ Revisar caché (válido por 5 minutos)
+        if cache_key in _categories_cache:
+            if current_time - _categories_cache_ttl.get(cache_key, 0) < 300:  # 5 minutos
+                logger.info(f"✅ Categorías CACHEADAS para {cache_key}")
+                return _categories_cache[cache_key]
+
+        logger.info(f"🔄 Generando categorías NUEVAS para {cache_key}...")
+
+        # Consulta DIRECTA a MySQL sin IA (mucho más rápido)
+        import os
+        import pymysql
+        from datetime import datetime, timedelta
+
+        connection = pymysql.connect(
+            host=os.getenv('MYSQL_HOST'),
+            port=int(os.getenv('MYSQL_PORT', '3306')),
+            database=os.getenv('MYSQL_DATABASE'),
+            user=os.getenv('MYSQL_USER'),
+            password=os.getenv('MYSQL_PASSWORD'),
+            charset='utf8mb4'
         )
 
-        # Extraer eventos del resultado (puede ser dict o lista)
-        events = result.get('events', []) if isinstance(result, dict) else result
+        cursor = connection.cursor()
+
+        # Query rápida para categorías
+        future_date = datetime.now() + timedelta(days=180)
+        cursor.execute("""
+            SELECT DISTINCT category, COUNT(*) as count
+            FROM events
+            WHERE city LIKE %s
+            AND (start_datetime >= NOW() OR start_datetime IS NULL)
+            AND start_datetime <= %s
+            GROUP BY category
+            ORDER BY count DESC
+        """, (f"%{cache_key}%", future_date))
+
+        results = cursor.fetchall()
+        cursor.close()
+        connection.close()
 
         # Mapeo de categorías para normalizar
         category_mapping = {
@@ -1446,21 +1498,33 @@ async def get_event_categories(
             'party': 'Fiestas',
             'fiestas': 'Fiestas',
             'nightlife': 'Fiestas',
+            # Festival
+            'festival': 'Festival',
+            # Teatro
+            'theater': 'Teatro',
+            'theatre': 'Teatro',
+            'teatro': 'Teatro',
+            # Comedy
+            'comedy': 'Comedia',
+            'comedia': 'Comedia',
             # General/Other
             'general': 'General',
             'other': 'General'
         }
 
-        # Hacer distinct de categorías con normalización
+        # Procesar categorías con sus counts reales de la DB
         category_counts = {}
-        for event in events:
-            category = event.get('category')
+        for row in results:
+            category = row[0]
+            count = row[1]  # ✅ Usar el count real de la DB, no contar como 1
+
             if category and category.strip():
                 # Normalizar: lowercase y sin acentos
                 normalized = category.lower().strip()
                 # Usar mapeo si existe, sino capitalizar la original
                 display_name = category_mapping.get(normalized, category.capitalize())
-                category_counts[display_name] = category_counts.get(display_name, 0) + 1
+                # Sumar counts (por si múltiples categorías mapean a la misma)
+                category_counts[display_name] = category_counts.get(display_name, 0) + count
 
         # Formatear resultado
         categories = [
@@ -1468,9 +1532,15 @@ async def get_event_categories(
             for cat, count in sorted(category_counts.items(), key=lambda x: x[1], reverse=True)
         ]
 
-        logger.info(f"✅ {len(categories)} categorías" + (f" para {location}" if location else ""))
+        result = {'categories': categories, 'total': len(categories)}
 
-        return {'categories': categories, 'total': len(categories)}
+        # 💾 Guardar en caché para próximas requests (TTL 5 minutos)
+        _categories_cache[cache_key] = result
+        _categories_cache_ttl[cache_key] = current_time
+
+        logger.info(f"✅ {len(categories)} categorías" + (f" para {location}" if location else "") + " (guardadas en caché)")
+
+        return result
 
     except Exception as e:
         logger.error(f"❌ Error: {e}")
@@ -3260,43 +3330,280 @@ async def analyze_intent(
             }
         }
 
+
 @app.post("/api/ai/event-insight")
 async def event_insight(data: Dict[str, Any]):
-    """
-    🧠 ENDPOINT DE INSIGHTS DE EVENTO - Respuesta rápida sin IA
-    (Gemini deshabilitado para evitar timeouts de 20 segundos)
 
-    Args:
-        title: Título del evento
-        category: Categoría del evento
-
-    Returns:
-        insight con quick_insight genérico (INSTANTÁNEO)
-    """
     try:
+
+        from services.ai_manager import AIServiceManager
+
+
         title = data.get("title", "")
+
         category = data.get("category", "")
 
-        logger.info(f"✨ Insight rápido para: {title[:40]}... ({category})")
+        venue_name = data.get("venue_name", "")
 
-        # ⚡ Respuesta instantánea sin llamadas a IA
-        result = {
-            "success": True,
-            "insight": {
-                "quick_insight": f"¡Gran evento! {title[:60]} en {category} 🎉"
+        price = data.get("price", "")
+
+
+
+        logger.info(f"✨ Generando insight con IA para: {title[:40]}... ({category})")
+
+
+
+        # Prompt corto y rápido para Grok/Groq
+
+        prompt = f"""Genera UN comentario breve (máximo 10 palabras) sobre este evento:
+
+Título: {title}
+
+Categoría: {category}
+
+Lugar: {venue_name}
+
+
+
+Responde SOLO el comentario, sin explicaciones. Hazlo atractivo y directo."""
+
+
+
+        manager = AIServiceManager()
+
+
+
+        # Generar con IA (Grok es muy rápido, <1 segundo)
+
+        response = await manager.generate(
+
+            prompt=prompt,
+
+            temperature=0.7,
+
+            use_fallback=True
+
+        )
+
+
+
+        if response:
+
+            result = {
+
+                "success": True,
+
+                "insight": {
+
+                    "quick_insight": response[:100]  # Limitar a 100 caracteres
+
+                }
+
             }
-        }
-        return result
+
+            logger.info(f"✅ Insight generado: {response[:50]}...")
+
+            return result
+
+        else:
+
+            # Fallback a texto genérico si IA falla
+
+            fallback_text = f"Gran evento de {category} en {venue_name or 'la ciudad'}"
+
+            return {
+
+                "success": True,
+
+                "fallback": {
+
+                    "quick_insight": fallback_text
+
+                },
+
+                "insight": {
+
+                    "quick_insight": fallback_text
+
+                }
+
+            }
+
+
 
     except Exception as e:
+
         logger.error(f"❌ Error generando insight: {e}")
+
+
+
+        # Fallback genérico en caso de error
+
+        fallback_text = f"Evento imperdible de {data.get('category', 'entretenimiento')}"
+
         return {
+
             "success": False,
+
             "error": str(e),
+
+            "fallback": {
+
+                "quick_insight": fallback_text
+
+            },
+
             "insight": {
-                "quick_insight": "Error generando comentario"
+
+                "quick_insight": fallback_text
+
+            }
+
+        }
+
+# ============================================
+# 🤖 ENDPOINTS DE GESTIÓN DE AI PROVIDERS
+# ============================================
+
+@app.get("/api/ai/provider/status")
+async def get_ai_provider_status():
+    """
+    📊 ESTADO DE PROVIDERS DE IA
+
+    Retorna el estado de todos los providers de IA disponibles
+    y cuál está configurado como preferido
+
+    Returns:
+        {
+            "preferred": "grok",
+            "providers": {
+                "grok": {"configured": true, "name": "GrokProvider"},
+                "groq": {"configured": false, "name": "GroqProvider"},
+                "gemini": {"configured": true, "name": "GeminiProvider"},
+                ...
             }
         }
+    """
+    try:
+        from services.ai_manager import AIServiceManager
+
+        manager = AIServiceManager()
+        status = manager.get_provider_status()
+
+        logger.info(f"📊 Estado de providers solicitado - Preferido: {status['preferred']}")
+        return status
+
+    except Exception as e:
+        logger.error(f"❌ Error obteniendo estado de providers: {e}")
+        return {
+            "error": str(e),
+            "preferred": "unknown",
+            "providers": {}
+        }
+
+
+@app.post("/api/ai/provider/set")
+async def set_ai_provider(data: Dict[str, Any]):
+    """
+    🔄 CAMBIAR PROVIDER DE IA PREFERIDO
+
+    Args:
+        provider: Nombre del provider (grok, groq, gemini, perplexity, openrouter)
+
+    Returns:
+        {
+            "success": true,
+            "provider": "grok",
+            "message": "Provider cambiado exitosamente"
+        }
+    """
+    try:
+        from services.ai_manager import AIServiceManager
+
+        provider = data.get("provider", "").lower()
+
+        if not provider:
+            return {
+                "success": False,
+                "error": "Provider no especificado"
+            }
+
+        manager = AIServiceManager()
+        success = manager.set_preferred_provider(provider)
+
+        if success:
+            logger.info(f"✅ Provider cambiado a: {provider}")
+            return {
+                "success": True,
+                "provider": provider,
+                "message": f"Provider cambiado a {provider} exitosamente"
+            }
+        else:
+            logger.warning(f"⚠️ No se pudo cambiar a provider: {provider}")
+            return {
+                "success": False,
+                "error": f"Provider {provider} no está configurado o no es válido"
+            }
+
+    except Exception as e:
+        logger.error(f"❌ Error cambiando provider: {e}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+
+@app.post("/api/ai/generate-event-context")
+async def generate_event_context_endpoint(data: Dict[str, Any]):
+    """
+    🎨 GENERAR CONTEXTO ADICIONAL PARA EVENTO
+
+    Usa IA para generar información adicional interesante sobre un evento:
+    - Curiosidades
+    - Qué llevar
+    - Ambiente esperado
+    - Tips locales
+
+    Args:
+        event_data: {
+            title, category, venue_name, city, start_datetime
+        }
+
+    Returns:
+        {
+            "curiosidades": [...],
+            "que_llevar": [...],
+            "ambiente_esperado": "...",
+            "tip_local": "..."
+        }
+    """
+    try:
+        from services.ai_manager import generate_event_context
+
+        event_data = data.get("event_data", data)  # Soportar ambos formatos
+
+        logger.info(f"🎨 Generando contexto para: {event_data.get('title', 'Unknown')}")
+
+        context = await generate_event_context(event_data)
+
+        if context:
+            return {
+                "success": True,
+                **context
+            }
+        else:
+            return {
+                "success": False,
+                "error": "No se pudo generar contexto"
+            }
+
+    except Exception as e:
+        logger.error(f"❌ Error generando contexto de evento: {e}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
 
 # WebSocket endpoint for notifications
 @app.websocket("/ws/notifications")
