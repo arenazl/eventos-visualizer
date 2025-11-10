@@ -218,13 +218,13 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
           transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
         }}
       >
-        {/* FRONT - Card content - Altura fija para todas las tarjetas */}
+        {/* FRONT - Card content - Más compacto para mobile */}
         <div
-          className="relative bg-white dark:bg-gray-900 rounded-xl md:rounded-2xl overflow-hidden shadow-2xl h-[420px] sm:h-[450px] md:h-[480px] flex flex-col opacity-90"
+          className="relative bg-white dark:bg-gray-900 rounded-lg md:rounded-2xl overflow-hidden shadow-2xl min-h-[360px] sm:min-h-[400px] md:h-[480px] flex flex-col opacity-90"
           style={{ backfaceVisibility: 'hidden' }}
           onClick={handleCardClick}
         >
-        {/* Image with overlay */}
+        {/* Image with overlay - más pequeña en mobile */}
         <div className="relative h-40 sm:h-48 md:h-56 overflow-hidden flex-shrink-0">
           {defaultImageError ? (
             // Fallback final: gradiente con emoji
@@ -251,15 +251,15 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
           
-          {/* Date badge */}
-          <div className="absolute top-2 left-2 md:top-4 md:left-4 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md rounded-lg md:rounded-xl px-2 py-1.5 md:px-3 md:py-2 shadow-lg">
+          {/* Date badge - compacto */}
+          <div className="absolute top-2 left-2 md:top-4 md:left-4 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md rounded-md md:rounded-xl px-2 py-1 md:px-3 md:py-2 shadow-lg">
             <div className="text-center">
-              <div className="text-xl md:text-2xl font-black text-gray-900 dark:text-white">{day}</div>
+              <div className="text-lg md:text-2xl font-black text-gray-900 dark:text-white">{day}</div>
               <div className="text-[10px] md:text-xs font-bold text-gray-600 dark:text-gray-400">{month}</div>
             </div>
           </div>
 
-          {/* Category badge with gradient */}
+          {/* Category badge with gradient - compacto */}
           <div className="absolute top-2 right-2 md:top-4 md:right-4">
             <div className={`bg-gradient-to-r ${getCategoryGradient(event.category)} px-2 py-0.5 md:px-3 md:py-1 rounded-full shadow-lg`}>
               <span className="text-white text-[10px] md:text-xs font-bold uppercase tracking-wider flex items-center gap-1">
@@ -269,37 +269,37 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
             </div>
           </div>
 
-          {/* Price badge */}
+          {/* Price badge - compacto */}
           <div className="absolute bottom-2 left-2 md:bottom-4 md:left-4">
-            <div className={`${event.is_free ? 'bg-gradient-to-r from-green-500 to-emerald-500' : 'bg-gradient-to-r from-blue-600 to-indigo-600'} text-white px-2 py-1 md:px-4 md:py-2 rounded-lg md:rounded-xl font-bold text-xs md:text-sm shadow-lg backdrop-blur-md`}>
+            <div className={`${event.is_free ? 'bg-gradient-to-r from-green-500 to-emerald-500' : 'bg-gradient-to-r from-blue-600 to-indigo-600'} text-white px-2 py-1 md:px-4 md:py-2 rounded-md md:rounded-xl font-bold text-xs md:text-sm shadow-lg backdrop-blur-md`}>
               {formatPrice(event.price, event.currency, event.is_free)}
             </div>
           </div>
           
         </div>
 
-        {/* Content - flex-grow para ocupar el espacio restante */}
+        {/* Content - compacto para mobile */}
         <div className="p-3 sm:p-4 md:p-5 flex flex-col flex-grow">
-          {/* Title with gradient on hover - altura fija */}
-          <h3 className="font-bold text-base sm:text-lg md:text-xl text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-pink-600 transition-all duration-300 h-12 sm:h-13 md:h-14">
+          {/* Title with gradient on hover - compacto */}
+          <h3 className="font-bold text-base sm:text-lg md:text-xl text-gray-900 dark:text-white mb-1.5 line-clamp-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-pink-600 transition-all duration-300 min-h-[2.5rem] sm:min-h-[3rem] md:min-h-[3.5rem]">
             {event.title || 'Sin título'}
           </h3>
 
-          {/* Description - altura fija */}
-          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-3 md:mb-4 line-clamp-2 h-9 sm:h-10">
+          {/* Description - compacto */}
+          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2 md:mb-4 line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem]">
             {event.description || 'Sin descripción disponible'}
           </p>
 
-          {/* Location and time with icons */}
-          <div className="space-y-1.5 sm:space-y-2 mb-3 md:mb-4 flex-shrink-0">
+          {/* Location and time with icons - compacto */}
+          <div className="space-y-1 sm:space-y-2 mb-2 md:mb-4 flex-shrink-0">
             <div className="flex items-center text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 text-purple-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
               </svg>
               <span className="font-medium">{time}</span>
             </div>
             <div className="flex items-center text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 text-pink-500" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 text-pink-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
               </svg>
               <span className="truncate">{event.venue_name}</span>
@@ -309,22 +309,22 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
           {/* Spacer para empujar botones al fondo */}
           <div className="flex-grow"></div>
 
-          {/* Action buttons - 80% Ver más + 20% IA */}
+          {/* Action buttons - compacto pero touch-friendly */}
           <div className="flex items-center gap-1.5 sm:gap-2 mt-auto flex-shrink-0">
-            {/* Ver más - 80% del ancho */}
+            {/* Ver más - botón compacto */}
             <button
-              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg md:rounded-xl font-semibold text-xs sm:text-sm hover:shadow-lg transform transition-all duration-300 hover:-translate-y-0.5"
-              style={{ width: '80%' }}
+              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg md:rounded-xl font-semibold text-xs sm:text-sm hover:shadow-lg transform transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
+              style={{ width: '78%' }}
               onClick={handleCardClick}
             >
               Ver más
             </button>
 
-            {/* AI Button - 20% del ancho */}
-            <div style={{ width: '20%' }} className="flex justify-center">
+            {/* AI Button - compacto */}
+            <div style={{ width: '22%' }} className="flex justify-center">
               <button
                 onClick={handleAIClick}
-                className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-2 sm:py-2.5 rounded-lg md:rounded-xl font-semibold text-xs sm:text-sm hover:shadow-lg transform transition-all duration-300 hover:-translate-y-0.5 flex items-center justify-center"
+                className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-2 sm:py-2.5 rounded-lg md:rounded-xl font-semibold hover:shadow-lg transform transition-all duration-300 hover:-translate-y-0.5 active:scale-95 flex items-center justify-center"
               >
                 <span className="text-base sm:text-lg">✨</span>
               </button>

@@ -11,6 +11,12 @@ import { useEvents } from '../stores/EventsStore'
 import { useAuth } from '../contexts/AuthContext'
 import { useAssistants } from '../contexts/AssistantsContext'
 import bgImage from '../assets/bg.webp'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faStar, faMusic, faTrophy, faTheaterMasks, faLaptopCode, faGlassCheers,
+  faPalette, faGlobe, faCalendar, faBullseye, faFilm, faUtensils,
+  faPaintBrush, faDrum, faLandmark, faTicket
+} from '@fortawesome/free-solid-svg-icons'
 
 interface Location {
   name: string
@@ -20,9 +26,6 @@ interface Location {
 }
 
 const HomePageModern: React.FC = () => {
-  // 📍 Ref para trackear última ubicación procesada (evitar doble carga de categorías)
-  const lastProcessedLocationRef = useRef<string | null>(null)
-
   const {
     events,
     loading,
@@ -109,57 +112,51 @@ const HomePageModern: React.FC = () => {
     }
   }, [setOnNoEventsCallback, triggerNoEventsComment])
 
-  // 🏷️ Cargar categorías dinámicamente cuando cambia la ubicación (async, no bloquea)
+  // 🏷️ Calcular categorías dinámicamente desde los eventos VÁLIDOS existentes
   useEffect(() => {
-    const locationKey = currentLocation?.name || 'default'
-
-    // ⚡ Evitar doble carga si la ubicación no cambió realmente
-    if (lastProcessedLocationRef.current === locationKey) {
-      console.log(`⏭️ Saltando carga de categorías - ubicación no cambió: ${locationKey}`)
+    if (events.length === 0) {
+      setCategories([])
+      setLoadingCategories(false)
       return
     }
 
-    console.log('🔄 useEffect de categorías ejecutado - currentLocation:', currentLocation?.name)
-    lastProcessedLocationRef.current = locationKey
-
-    const loadCategories = async () => {
-      setLoadingCategories(true)
-      try {
-        // Construir URL con ubicación si existe
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8001'
-        const locationParam = currentLocation ? `?location=${encodeURIComponent(currentLocation.name)}` : ''
-        const url = `${apiUrl}/api/events/categories${locationParam}`
-
-        console.log(`🏷️ Cargando categorías desde URL: ${url}`)
-        console.log(`📍 Ubicación actual: ${currentLocation?.name || 'ninguna'}`)
-        const response = await fetch(url)
-        const data = await response.json()
-
-        if (data.categories && data.categories.length > 0) {
-          setCategories(data.categories)
-          console.log(`✅ Cargadas ${data.total} categorías dinámicas${data.location ? ` para ${data.location}` : ''}`)
-        } else {
-          // Si no hay categorías para esta ubicación, mostrar fallback
-          setCategories([])
-          console.log(`⚠️ No hay categorías para esta ubicación`)
-        }
-      } catch (error) {
-        console.error('❌ Error cargando categorías:', error)
-        // Fallback a categorías por defecto
-        setCategories([
-          { name: 'music', count: 0 },
-          { name: 'sports', count: 0 },
-          { name: 'cultural', count: 0 },
-          { name: 'tech', count: 0 },
-          { name: 'party', count: 0 }
-        ])
-      } finally {
-        setLoadingCategories(false)
+    // Filtrar eventos válidos (misma lógica que en el render)
+    const validEvents = events.filter(event => {
+      // Excluir eventos sin título o con "Sin título"
+      if (!event.title || event.title.trim() === '' ||
+          event.title.toLowerCase() === 'sin título' ||
+          event.title.toLowerCase() === 'sin titulo') {
+        return false
       }
-    }
+      return true
+    })
 
-    loadCategories()
-  }, [currentLocation]) // 🔥 Recargar cuando cambia la ubicación
+    // Calcular DISTINCT de categorías que tienen eventos VÁLIDOS
+    const categoryCount = new Map<string, number>()
+
+    validEvents.forEach(event => {
+      if (event.category) {
+        // Normalizar: lowercase + quitar acentos
+        const normalizedCategory = event.category.toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '') // Quitar acentos
+
+        categoryCount.set(
+          normalizedCategory,
+          (categoryCount.get(normalizedCategory) || 0) + 1
+        )
+      }
+    })
+
+    // Convertir a array y ordenar por cantidad de eventos
+    const dynamicCategories = Array.from(categoryCount.entries())
+      .map(([name, count]) => ({ name, count }))
+      .filter(cat => cat.count > 0) // Solo categorías con al menos 1 evento
+      .sort((a, b) => b.count - a.count) // Ordenar por cantidad descendente
+
+    setCategories(dynamicCategories)
+    console.log(`✅ Categorías calculadas desde ${validEvents.length} eventos válidos (de ${events.length} totales):`, dynamicCategories)
+  }, [events]) // 🔥 Recalcular cuando cambien los eventos
 
   // Detectar ubicación automáticamente al cargar
   useEffect(() => {
@@ -620,7 +617,7 @@ const HomePageModern: React.FC = () => {
     }
   }
 
-  // Handler para categorías - FILTRADO LOCAL (sin ir al backend)
+  // Handler para categorías - FILTRADO LOCAL (sin modificar search box)
   const handleCategoryClick = (category: string) => {
     if (!currentLocation) {
       console.warn('⚠️ No hay ubicación seleccionada')
@@ -635,10 +632,8 @@ const HomePageModern: React.FC = () => {
       triggerCategoryComment(category)
     }
 
-    // 🎯 FILTRAR LOCALMENTE - No ir al backend
+    // 🎯 FILTRAR LOCALMENTE - Solo cambiar categoría activa, NO modificar search box
     if (category === 'Todos') {
-      // Mostrar todos los eventos
-      setSearchQuery('Todos los eventos')
       console.log(`✨ Mostrando todos los eventos: ${events.length}`)
     } else {
       // Contar cuántos eventos coinciden con la categoría
@@ -650,16 +645,6 @@ const HomePageModern: React.FC = () => {
 
       console.log(`🔍 Filtrando eventos por categoría: ${category}`)
       console.log(`📊 Total eventos en ${category}: ${filteredCount} de ${events.length}`)
-
-      const categoryQueries = {
-        'Música': 'música',
-        'Deportes': 'deportes',
-        'Cultural': 'cultural',
-        'Tech': 'tech',
-        'Fiestas': 'fiestas'
-      }
-
-      setSearchQuery(categoryQueries[category] || category)
     }
   }
 
@@ -711,7 +696,12 @@ const HomePageModern: React.FC = () => {
       'tech': 'Tech',
       'party': 'Fiestas',
       'hobbies': 'Hobbies',
-      'international': 'Internacional'
+      'international': 'Internacional',
+      'film': 'Cine',
+      'theater': 'Teatro',
+      'food': 'Comida',
+      'art': 'Arte',
+      'festival': 'Festival'
     }
     return displayNames[category.toLowerCase()] || category.charAt(0).toUpperCase() + category.slice(1)
   }
@@ -725,27 +715,41 @@ const HomePageModern: React.FC = () => {
       'Tech': 'from-indigo-600 via-blue-500 to-cyan-500',
       'Fiestas': 'from-pink-600 via-rose-500 to-orange-500',
       'Hobbies': 'from-yellow-500 via-orange-500 to-red-500',
-      'Internacional': 'from-cyan-500 via-blue-500 to-indigo-500'
+      'Internacional': 'from-cyan-500 via-blue-500 to-indigo-500',
+      'Cine': 'from-red-600 via-orange-500 to-yellow-500',
+      'Teatro': 'from-purple-600 via-violet-500 to-fuchsia-500',
+      'Comida': 'from-orange-600 via-amber-500 to-yellow-500',
+      'Arte': 'from-pink-600 via-purple-500 to-indigo-500',
+      'Festival': 'from-fuchsia-600 via-pink-500 to-rose-500'
     }
     return gradients[displayName] || 'from-gray-600 to-gray-400'
   }
 
-  const getCategoryEmoji = (displayName: string): string => {
-    const emojis: Record<string, string> = {
-      'Todos': '✨',
-      'Música': '🎵',
-      'Deportes': '⚽',
-      'Cultural': '🎭',
-      'Tech': '💻',
-      'Fiestas': '🎉',
-      'Hobbies': '🎨',
-      'Internacional': '🌍'
+  const getCategoryIcon = (displayName: string) => {
+    const icons: Record<string, any> = {
+      'Todos': faStar,
+      'Música': faMusic,
+      'Deportes': faTrophy,
+      'Cultural': faLandmark,
+      'Tech': faLaptopCode,
+      'Fiestas': faGlassCheers,
+      'Hobbies': faPalette,
+      'Internacional': faGlobe,
+      'General': faCalendar,
+      'Cine': faFilm,
+      'Teatro': faTheaterMasks,
+      'Comida': faUtensils,
+      'Arte': faPaintBrush,
+      'Festival': faDrum
     }
-    return emojis[displayName] || '📅'
+    return icons[displayName] || faTicket
   }
 
-  // 🏷️ Construir lista de categorías con "Todos" al principio
-  const displayCategories = ['Todos', ...categories.map(cat => getCategoryDisplayName(cat.name))]
+  // 🏷️ Construir lista de categorías con "Todos" al principio (sin duplicados)
+  const displayCategories = [
+    'Todos',
+    ...Array.from(new Set(categories.map(cat => getCategoryDisplayName(cat.name))))
+  ]
 
   return (
     <div className="min-h-screen relative">
@@ -777,8 +781,8 @@ const HomePageModern: React.FC = () => {
         currentLocation={currentLocation?.name}
       />
 
-      {/* CONTENIDO PRINCIPAL */}
-      <main className="pt-20 px-4 sm:px-6 lg:px-8">
+      {/* CONTENIDO PRINCIPAL - padding reducido en mobile */}
+      <main className="pt-16 px-2 sm:px-4 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Smart Location Bar */}
           <SmartLocationBar
@@ -793,8 +797,8 @@ const HomePageModern: React.FC = () => {
           {/* Panel Técnico Detallado */}
           <ScrapersDetailPanel />
 
-          {/* Category Filters */}
-          <div className="mb-10">
+          {/* Category Filters - Compact grid for mobile */}
+          <div className="mb-8">
             {/* 🔒 Mensaje cuando no hay ubicación seleccionada */}
             {!currentLocation && (
               <div className="text-center mb-4 px-4 py-3 bg-yellow-500/20 backdrop-blur-xl border border-yellow-400/30 rounded-xl max-w-md mx-auto animate-fade-in">
@@ -804,24 +808,27 @@ const HomePageModern: React.FC = () => {
               </div>
             )}
 
-            <div className="flex flex-wrap justify-center gap-3">
+            {/* Una sola fila - iconos en mobile, texto en desktop */}
+            <div className="flex gap-2 md:gap-3 overflow-x-auto md:overflow-visible scrollbar-hide pb-2 md:flex-wrap md:justify-center">
               {/* Skeleton mientras cargan las categorías */}
               {loadingCategories ? (
                 <>
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <div key={i} className="relative px-6 py-3 rounded-full bg-white/10 backdrop-blur-lg animate-pulse">
-                      <div className="w-20 h-6 bg-white/20 rounded"></div>
+                  {[1, 2, 3, 4, 5, 6].map((i) => (
+                    <div key={i} className="relative rounded-xl bg-white/10 backdrop-blur-lg animate-pulse w-14 h-14 md:w-auto md:h-auto md:px-6 md:py-3 flex-shrink-0">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-8 h-8 bg-white/20 rounded-full"></div>
+                      </div>
                     </div>
                   ))}
                 </>
               ) : (
-                /* Categorías dinámicas desde BD */
+                /* Categorías dinámicas - compact grid style */
                 displayCategories.map((category) => {
                   const gradient = getCategoryGradient(category)
-                  const emoji = getCategoryEmoji(category)
+                  const icon = getCategoryIcon(category)
                   const isActive = activeCategory === category
-                  const isDisabled = !currentLocation // 🔒 Deshabilitar si no hay ubicación
-                  const isOtherActive = activeCategory !== 'Todos' && !isActive // 🔥 Otra categoría está activa
+                  const isDisabled = !currentLocation
+                  const isOtherActive = activeCategory !== 'Todos' && !isActive
 
                   return (
                     <button
@@ -829,27 +836,42 @@ const HomePageModern: React.FC = () => {
                       onClick={() => handleCategoryClick(category)}
                       disabled={isDisabled}
                       className={`group relative transition-all duration-300 ${
-                        isActive ? 'scale-110 z-10' : isOtherActive ? 'scale-95 opacity-70' : ''
+                        isActive ? 'scale-105 z-10' : isOtherActive ? 'opacity-60' : ''
                         } ${isDisabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'
                         }`}
                       title={isDisabled ? 'Elige una ubicación primero' : `Filtrar por ${category}`}
                     >
-                      <div className={`absolute -inset-1 bg-gradient-to-r ${gradient} rounded-full blur ${
+                      {/* Glow effect */}
+                      <div className={`absolute -inset-1 bg-gradient-to-r ${gradient} rounded-xl blur-md ${
                         isDisabled ? 'opacity-20' :
-                        isOtherActive ? 'opacity-40' :
-                        'opacity-60 group-hover:opacity-100'
+                        isActive ? 'opacity-80' :
+                        isOtherActive ? 'opacity-30' :
+                        'opacity-40 group-hover:opacity-70'
                         } transition-opacity`}></div>
-                      <div className={`relative px-6 py-3 rounded-full font-semibold transition-all ${
-                        isActive
-                        ? `bg-gradient-to-r ${gradient} text-white shadow-lg`
+
+                      {/* Card - Solo icono en mobile, icono+texto en desktop */}
+                      <div className={`relative rounded-xl overflow-hidden transition-all flex-shrink-0 flex items-center justify-center
+                        w-14 h-14 md:w-auto md:h-auto md:px-6 md:py-3
+                        ${isActive
+                        ? `bg-gradient-to-br ${gradient} text-white shadow-xl md:scale-110`
                         : isDisabled
                           ? 'bg-white/5 backdrop-blur-lg text-white/40'
-                          : isOtherActive
-                            ? 'bg-white/10 backdrop-blur-lg text-white/60'
-                            : 'bg-white/10 backdrop-blur-lg text-white hover:bg-white/20'
+                          : 'bg-white/10 backdrop-blur-lg text-white hover:bg-white/20'
                         }`}>
-                        <span className="mr-2">{emoji}</span>
-                        {category}
+                        {/* Icono FontAwesome (siempre visible) */}
+                        <FontAwesomeIcon
+                          icon={icon}
+                          className={`text-xl md:text-lg transition-transform ${
+                            isActive ? 'scale-110 md:scale-100' : 'group-hover:scale-110'
+                          }`}
+                        />
+
+                        {/* Texto (solo desktop) */}
+                        <span className={`hidden md:inline-block md:ml-2 font-semibold ${
+                          isActive ? 'text-white' : 'text-white/90'
+                        }`}>
+                          {category}
+                        </span>
                       </div>
                     </button>
                   )
@@ -975,7 +997,7 @@ const HomePageModern: React.FC = () => {
                 )}
               </div>
 
-              <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 pb-20 transition-all duration-300 ${isEventsFadingOut ? 'opacity-20 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'
+              <div className={`grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-6 pb-20 transition-all duration-300 ${isEventsFadingOut ? 'opacity-20 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'
                 }`}>
                 {events
                   .filter(event => {
@@ -993,7 +1015,7 @@ const HomePageModern: React.FC = () => {
                       const selectedCategory = activeCategory.toLowerCase()
                         .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Eliminar acentos
 
-                      // Mapeo de categorías en español/inglés
+                      // Mapeo de categorías en español/inglés (COMPLETO)
                       const categoryMap: Record<string, string[]> = {
                         'musica': ['music', 'musica', 'música'],
                         'deportes': ['sports', 'deportes'],
@@ -1001,7 +1023,13 @@ const HomePageModern: React.FC = () => {
                         'tech': ['tech', 'technology', 'tecnologia', 'tecnología'],
                         'fiestas': ['party', 'fiestas', 'nightlife'],
                         'hobbies': ['hobbies', 'hobby'],
-                        'general': ['general']
+                        'general': ['general'],
+                        'cine': ['film', 'movie', 'cinema', 'cine'],
+                        'teatro': ['theater', 'theatre', 'teatro'],
+                        'comida': ['food', 'comida', 'gastronomy', 'gastronomia', 'gastronomía'],
+                        'arte': ['art', 'arte'],
+                        'festival': ['festival'],
+                        'internacional': ['international', 'internacional']
                       }
 
                       // Buscar coincidencia
@@ -1027,7 +1055,7 @@ const HomePageModern: React.FC = () => {
                   .map((event, index) => (
                   <div
                     key={event.title + '-' + index}
-                    className={`mb-6 md:mb-8 ${isEventsFadingOut
+                    className={`${isEventsFadingOut
                       ? 'opacity-20'
                       : 'opacity-0 animate-fade-in-up'
                       }`}
@@ -1043,7 +1071,7 @@ const HomePageModern: React.FC = () => {
                 {/* Show skeleton cards while streaming */}
                 {isStreaming && (
                   <>
-                    {Array.from({ length: 3 }).map((_, index) => (
+                    {Array.from({ length: 2 }).map((_, index) => (
                       <div key={`skeleton-${index}`} className="animate-pulse">
                         <div className="relative group">
                           <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-pink-600/20 to-cyan-600/20 rounded-2xl blur opacity-30"></div>

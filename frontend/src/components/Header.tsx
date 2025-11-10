@@ -307,16 +307,16 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className={`backdrop-blur-3xl bg-white/5 sticky top-0 z-50 transition-all duration-300 border-b border-white/10 ${
-      isScrolled ? 'py-2' : 'py-2 md:py-3'
+      isScrolled ? 'py-1.5 md:py-2' : 'py-2 md:py-3'
     }`}>
-      <div className="max-w-7xl mx-auto px-3 md:px-6">
-        <div className="flex items-center justify-between gap-2 md:gap-6">
-          {/* Logo a la izquierda con flecha opcional */}
-          <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
+      <div className="max-w-7xl mx-auto px-2 md:px-6">
+        <div className="flex items-center justify-between gap-1.5 md:gap-6">
+          {/* Logo a la izquierda con flecha opcional - más compacto en mobile */}
+          <div className="flex items-center gap-1 md:gap-3 flex-shrink-0">
             {showBackButton && (
               <button
                 onClick={onBackClick}
-                className="p-1.5 md:p-2 hover:bg-white/10 rounded-full transition-colors text-white/80 hover:text-white"
+                className="p-1 md:p-2 hover:bg-white/10 rounded-full transition-colors text-white/80 hover:text-white active:scale-95"
                 title="Volver"
               >
                 <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -326,15 +326,15 @@ const Header: React.FC<HeaderProps> = ({
             )}
             <h1
               onClick={() => navigate('/')}
-              className={`font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 tracking-wider transition-all duration-300 cursor-pointer hover:scale-105 ${
-              isScrolled ? 'text-base md:text-xl' : 'text-lg md:text-2xl'
+              className={`font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 tracking-wider transition-all duration-300 cursor-pointer active:scale-95 md:hover:scale-105 ${
+              isScrolled ? 'text-sm md:text-xl' : 'text-base md:text-2xl'
             }`}>
               <span className="hidden sm:inline">FunAroundYou ✨</span>
               <span className="sm:hidden">Fun ✨</span>
             </h1>
           </div>
 
-          {/* Buscador en el medio */}
+          {/* Buscador en el medio - más compacto en mobile */}
           <div className="flex-1 max-w-2xl">
             <div className="relative group" ref={suggestionsRef}>
               <div className="relative bg-black/40 backdrop-blur-xl border border-white/30 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
@@ -360,12 +360,12 @@ const Header: React.FC<HeaderProps> = ({
                     }}
                     placeholder="Ciudad, provincia o país..."
                     className={`w-full bg-transparent text-white placeholder-white/40 outline-none font-medium transition-all duration-300 ${
-                      isScrolled ? 'py-2 text-xs md:text-sm' : 'py-2 md:py-3 text-xs md:text-base'
+                      isScrolled ? 'py-1.5 text-xs md:text-sm' : 'py-2 md:py-3 text-xs md:text-base'
                     }`}
                   />
                   <button
                     onClick={onVoiceSearch}
-                    className="hidden md:block p-2 rounded-full transition-all duration-300 bg-white/10 hover:bg-white/20 flex-shrink-0"
+                    className="hidden md:block p-2 rounded-full transition-all duration-300 bg-white/10 hover:bg-white/20 active:scale-95 flex-shrink-0"
                     title="Búsqueda por voz"
                   >
                     <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -376,10 +376,10 @@ const Header: React.FC<HeaderProps> = ({
                   <button
                     onClick={onSearchSubmit}
                     disabled={isSearching}
-                    className={`p-1.5 md:p-2 rounded-full transition-all duration-300 flex-shrink-0 ${
+                    className={`p-1.5 md:p-2 rounded-full transition-all duration-300 flex-shrink-0 active:scale-90 ${
                       isSearching
                         ? 'bg-gradient-to-r from-indigo-600 to-purple-700'
-                        : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500'
+                        : 'bg-gradient-to-r from-purple-600 to-pink-600 md:hover:from-purple-500 md:hover:to-pink-500'
                     } disabled:opacity-50 ${isLoadingSuggestions ? 'animate-spin' : ''}`}
                     title="Buscar"
                   >
@@ -392,9 +392,9 @@ const Header: React.FC<HeaderProps> = ({
                 </div>
               </div>
 
-              {/* Dropdown de sugerencias */}
+              {/* Dropdown de sugerencias - mejor para mobile */}
               {showSuggestions && suggestions.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-gray-900/95 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl overflow-hidden z-50">
+                <div className="absolute top-full left-0 right-0 mt-2 bg-gray-900/95 backdrop-blur-xl border border-white/20 rounded-xl md:rounded-2xl shadow-2xl overflow-hidden z-50 max-h-[60vh] overflow-y-auto">
                   {isLoadingSuggestions && (
                     <div className="p-4 text-center text-white/60">
                       <div className="inline-block w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
@@ -405,19 +405,19 @@ const Header: React.FC<HeaderProps> = ({
                       key={index}
                       onClick={() => handleSuggestionClick(suggestion)}
                       onMouseEnter={() => setSelectedIndex(index)}
-                      className={`w-full px-4 py-3 text-left transition-colors border-b border-white/5 last:border-b-0 group ${
+                      className={`w-full px-3 md:px-4 py-2.5 md:py-3 text-left transition-colors border-b border-white/5 last:border-b-0 group active:scale-[0.98] ${
                         selectedIndex === index
                           ? 'bg-gradient-to-r from-purple-600/30 to-pink-600/30'
                           : 'hover:bg-white/10'
                       }`}
                     >
-                      <div className="flex items-center gap-3">
-                        <MapPinIcon className={`w-5 h-5 flex-shrink-0 ${
+                      <div className="flex items-center gap-2 md:gap-3">
+                        <MapPinIcon className={`w-4 h-4 md:w-5 md:h-5 flex-shrink-0 ${
                           selectedIndex === index ? 'text-pink-400' : 'text-purple-400'
                         }`} />
                         <div className="flex-1 min-w-0">
-                          <div className="text-white font-medium truncate">{suggestion.name}</div>
-                          <div className="text-white/50 text-sm truncate">{suggestion.displayName}</div>
+                          <div className="text-white font-medium truncate text-sm md:text-base">{suggestion.name}</div>
+                          <div className="text-white/50 text-xs md:text-sm truncate">{suggestion.displayName}</div>
                         </div>
                       </div>
                     </button>
@@ -427,11 +427,11 @@ const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
 
-          {/* Botones a la derecha */}
-          <div className="flex items-center gap-1.5 md:gap-3 flex-shrink-0">
+          {/* Botones a la derecha - más compacto en mobile */}
+          <div className="flex items-center gap-1 md:gap-3 flex-shrink-0">
             <button
               onClick={onLocationClick}
-              className="p-1.5 md:p-2 text-white/70 hover:text-white transition-colors rounded-full hover:bg-white/10"
+              className="p-1.5 md:p-2 text-white/70 hover:text-white transition-colors rounded-full hover:bg-white/10 active:scale-95"
               title="Cambiar ubicación"
             >
               <MapPinIcon className="h-5 w-5 md:h-6 md:w-6" />
