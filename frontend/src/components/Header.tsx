@@ -436,9 +436,7 @@ const Header: React.FC<HeaderProps> = ({
             >
               <MapPinIcon className="h-5 w-5 md:h-6 md:w-6" />
             </button>
-            <div className="hidden sm:block">
-              <GoogleLoginButton />
-            </div>
+            <GoogleLoginButton />
           </div>
         </div>
       </div>
