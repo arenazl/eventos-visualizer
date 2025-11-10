@@ -91,15 +91,13 @@ async def google_callback(request: Request, db: Session = Depends(get_db)):
         )
 
         # Redirigir al frontend con el token
-        frontend_url = "http://localhost:5174"
-        redirect_url = f"{frontend_url}/auth/callback?token={access_token}"
+        redirect_url = f"{settings.frontend_url}/auth/callback?token={access_token}"
 
         return RedirectResponse(url=redirect_url)
 
     except Exception as e:
         logger.error(f"❌ Error en callback de Google: {str(e)}")
-        frontend_url = "http://localhost:5174"
-        return RedirectResponse(url=f"{frontend_url}/auth/error?message={str(e)}")
+        return RedirectResponse(url=f"{settings.frontend_url}/auth/error?message={str(e)}")
 
 @router.get("/me")
 async def get_current_user_info(current_user: User = Depends(get_current_user)):

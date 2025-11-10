@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     google_client_id: Optional[str] = None
     google_client_secret: Optional[str] = None
     google_redirect_uri: str = "http://localhost:8001/auth/google/callback"
+    frontend_url: str = "http://localhost:5174"  # URL del frontend para redirección después de OAuth
 
     # Google APIs
     google_calendar_api_key: Optional[str] = None

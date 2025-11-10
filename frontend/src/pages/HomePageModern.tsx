@@ -93,6 +93,7 @@ const HomePageModern: React.FC = () => {
   const [allEvents, setAllEvents] = useState<any[]>([]) // 🎯 Guardar TODOS los eventos para filtrar localmente
   const [categories, setCategories] = useState<Array<{name: string, count: number}>>([]) // 🏷️ Categorías dinámicas
   const [loadingCategories, setLoadingCategories] = useState(false)
+  const [shakeSearchBar, setShakeSearchBar] = useState(false) // 🔔 Animación shake cuando no hay eventos
 
   // 🔒 Ref para prevenir doble ejecución del auto-load inicial
   const hasAutoLoaded = useRef(false)
@@ -111,6 +112,16 @@ const HomePageModern: React.FC = () => {
       setOnNoEventsCallback(triggerNoEventsComment)
     }
   }, [setOnNoEventsCallback, triggerNoEventsComment])
+
+  // 🔔 Detectar cuando no hay eventos y sacudir el search bar
+  useEffect(() => {
+    if (!loading && !isStreaming && events.length === 0 && isManualSearch) {
+      console.log('🔔 No hay eventos - activando shake animation')
+      setShakeSearchBar(true)
+      // Remover la animación después de 600ms
+      setTimeout(() => setShakeSearchBar(false), 600)
+    }
+  }, [events.length, loading, isStreaming, isManualSearch])
 
   // 🏷️ Calcular categorías dinámicamente desde los eventos VÁLIDOS existentes
   useEffect(() => {
