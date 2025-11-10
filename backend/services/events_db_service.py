@@ -86,6 +86,7 @@ async def search_events_by_location(
             try:
                 from services.gemini_factory import gemini_factory
                 # Timeout automático de 15s configurado en ai_providers.py
+                # Esto usa Grok automáticamente (PREFERRED_AI_PROVIDER=grok en .env)
                 parent_city = await gemini_factory.get_parent_location(search_location)
                 if parent_city:
                     logger.info(f"🏙️ Detectada ciudad principal para '{search_location}': {parent_city}")

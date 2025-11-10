@@ -449,18 +449,21 @@ RECUERDA: Solo ciudades GRANDES y CONOCIDAS. Solo el JSON."""
                 logger.info(f"⚡ {location} es ciudad principal (cache)")
             return cached_result
 
-        # 2. Si no está en cache, llamar a Gemini
+        # 2. Si no está en cache, llamar a IA (Grok)
         try:
             from services.ai_service import GeminiAIService
 
-            logger.info(f"🔍 Consultando Gemini para detectar ciudad principal de: {location}")
+            logger.info(f"🔍 Consultando IA (Grok) para detectar ciudad principal de: {location}")
 
             prompt = f"""¿Cuál es la ciudad/provincia principal de {location}?
 
 Si {location} ya es la ciudad/provincia principal, responde: "PRINCIPAL"
-Si {location} es parte de una ciudad/provincia más grande, responde SOLO con el nombre de esa ciudad/provincia."""
+Si {location} es parte de una ciudad/provincia más grande, responde SOLO con el nombre de esa ciudad/provincia.
+
+Nota: Si hay múltiples lugares con el mismo nombre en diferentes provincias, devuelve "AMBIGUO" para que el usuario pueda especificar."""
 
             service = GeminiAIService()
+            # Esto usa el AI Service Manager que tiene Grok como provider preferido
             response_text = await service._call_gemini_api(prompt)
 
             if response_text:
@@ -471,6 +474,12 @@ Si {location} es parte de una ciudad/provincia más grande, responde SOLO con el
                     logger.info(f"ℹ️ {location} es ciudad principal")
                     # Guardar en cache
                     self._parent_city_cache[cache_key] = None
+                    return None
+
+                # Si es ambiguo (múltiples lugares con mismo nombre), no asumir nada
+                if response_cleaned.upper() == "AMBIGUO":
+                    logger.info(f"⚠️ {location} es ambiguo - el usuario debe especificar (ej: 'Merlo, Buenos Aires')")
+                    # No guardar en cache para no asumir
                     return None
 
                 # Si hay respuesta, es la ciudad padre

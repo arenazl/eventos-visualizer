@@ -11,21 +11,10 @@
 
 Para procesar múltiples barrios automáticamente:
 
-```bash
-cd backend/data/padron
-python process_barrios.py
-```
-
-**Requisitos**:
-- GEMINI_API_KEY configurada en `.env`
-- Python 3.8+
-- Dependencias: `aiohttp`, `python-dotenv`
 
 ## 📊 Estado Actual
 
 Ver `progreso.md` para estado detallado del scraping.
-
-**Completado**: 48/48 barrios ✅
 
 ## 🔄 Siguientes Pasos
 

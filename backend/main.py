@@ -1105,6 +1105,7 @@ async def stream_events(
                 expanded_search = result.get('expanded_search', False) if isinstance(result, dict) else False
 
                 logger.info(f"✅ search_events_by_location devolvió {len(events)} eventos")
+                logger.info(f"🔍 DEBUG - parent_city: {parent_city_detected}, expanded: {expanded_search}, result type: {type(result)}")
             except Exception as search_err:
                 logger.error(f"❌ Error en search_events_by_location: {search_err}")
                 events = []
@@ -1136,87 +1137,21 @@ async def stream_events(
                 yield f"data: {json.dumps(event_data)}\n\n"
                 logger.info(f"📡 SSE: MySQL - {total_events} eventos enviados en {execution_time}")
             else:
-                # 🔍 NO HAY EVENTOS - Buscar en ciudades cercanas
-                logger.info(f"🔍 No hay eventos en {location}, buscando en ciudades cercanas...")
-                yield f"data: {json.dumps({'type': 'info', 'message': f'No hay eventos en {location}, buscando en zonas cercanas...'})}\n\n"
+                # ❌ NO HAY EVENTOS - NO buscar en ciudades cercanas (solo mostrar mensaje)
+                logger.info(f"❌ No hay eventos en {location}")
+                yield f"data: {json.dumps({'type': 'no_events', 'scraper': 'mysql_database', 'count': 0, 'message': f'No hay eventos disponibles para {location}'})}\n\n"
 
-                try:
-                    from services.gemini_factory import gemini_factory
-
-                    # Obtener ciudades cercanas
-                    enriched = await gemini_factory._enrich_location_once(location)
-
-                    if enriched and enriched.get('nearby_cities'):
-                        nearby_cities = enriched['nearby_cities']
-                        logger.info(f"🌍 Ciudades cercanas a {location}: {nearby_cities}")
-
-                        # Buscar eventos en cada ciudad cercana
-                        nearby_events = []
-                        for nearby_city in nearby_cities:
-                            try:
-                                nearby_result = await search_events_by_location(
-                                    location=nearby_city,
-                                    category=category,
-                                    limit=limit,
-                                    days_ahead=180
-                                )
-                                # Extraer eventos del resultado
-                                nearby_results = nearby_result.get('events', []) if isinstance(nearby_result, dict) else nearby_result
-
-                                if nearby_results:
-                                    # Agregar metadata de ciudad cercana
-                                    for event in nearby_results:
-                                        event['from_nearby_city'] = nearby_city
-                                    nearby_events.extend(nearby_results)
-                                    logger.info(f"✅ Encontrados {len(nearby_results)} eventos en {nearby_city}")
-                            except Exception as nearby_err:
-                                logger.warning(f"⚠️ Error buscando en {nearby_city}: {nearby_err}")
-
-                        if nearby_events:
-                            # Enviar eventos de ciudades cercanas
-                            yield f"data: {json.dumps({{'type': 'events', 'scraper': 'nearby_cities', 'events': nearby_events, 'count': len(nearby_events), 'total_events': len(nearby_events), 'message': f'Eventos encontrados en zonas cercanas a {location}'}})}\n\n"
-                            logger.info(f"📡 SSE: Ciudades cercanas - {len(nearby_events)} eventos enviados")
-                            total_events = len(nearby_events)
-                        else:
-                            yield f"data: {json.dumps({'type': 'no_events', 'scraper': 'nearby_cities', 'count': 0, 'message': f'No hay eventos en {location} ni en zonas cercanas'})}\n\n"
-                            logger.info(f"📡 SSE: No hay eventos en ciudades cercanas tampoco")
-                    else:
-                        yield f"data: {json.dumps({'type': 'no_events', 'scraper': 'mysql_database', 'count': 0, 'message': f'No hay eventos disponibles para {location}'})}\n\n"
-                        logger.info(f"📡 SSE: No se pudo obtener ciudades cercanas")
-
-                except Exception as nearby_err:
-                    logger.error(f"❌ Error buscando en ciudades cercanas: {nearby_err}")
-                    yield f"data: {json.dumps({'type': 'no_events', 'scraper': 'mysql_database', 'count': 0, 'message': f'No hay eventos disponibles para {location}'})}\n\n"
+                # 🔒 BÚSQUEDA AUTOMÁTICA EN CIUDADES CERCANAS DESHABILITADA
+                # El usuario debe buscar manualmente en otras ciudades
+                # (El frontend mostrará shake animation en el search bar)
 
             # ✅ Enviar evento de completado INMEDIATAMENTE (eventos ya enviados)
             yield f"data: {json.dumps({'type': 'complete', 'total_events': total_events, 'scrapers_completed': 1})}\n\n"
             logger.info(f"🏁 SSE: Streaming completado - {total_events} eventos totales")
 
-            # 🌍 ENRIQUECIMIENTO ASÍNCRONO - Solo si HAY eventos (si no hay, ya se buscó en ciudades cercanas)
-            # El frontend ya recibió los eventos, esto es un "bonus" que llega después
-            global _last_enriched_location
-            if total_events > 0 and location != _last_enriched_location:
-                try:
-                    logger.info(f"🔄 Iniciando enriquecimiento para: {location}")
-                    from services.gemini_factory import gemini_factory
-
-                    # Esto puede tardar ~5-10 segundos, pero los eventos YA fueron enviados
-                    enriched = await gemini_factory._enrich_location_once(location)
-
-                    if enriched and enriched.get('nearby_cities'):
-                        # Enviar ciudades cercanas y provincia
-                        enrichment_data = {
-                            'type': 'enrichment',
-                            'nearby_cities': enriched['nearby_cities'],
-                            'state': enriched.get('state'),
-                            'country': enriched.get('country')
-                        }
-                        yield f"data: {json.dumps(enrichment_data)}\n\n"
-                        _last_enriched_location = location  # Actualizar caché
-                        logger.info(f"✅ Enriquecimiento enviado: {len(enriched.get('nearby_cities', []))} ciudades cercanas")
-                except Exception as enrich_err:
-                    logger.warning(f"⚠️ Error en enriquecimiento (no crítico): {enrich_err}")
-                    # No enviar error al cliente, es opcional
+            # 🚫 ENRIQUECIMIENTO DESACTIVADO
+            # NO buscar ciudades cercanas automáticamente
+            # El usuario debe buscar manualmente si quiere ver otras ciudades
 
         except Exception as e:
             logger.error(f"❌ Error en SSE streaming desde MySQL: {e}")

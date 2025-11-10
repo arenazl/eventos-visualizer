@@ -93,7 +93,6 @@ const HomePageModern: React.FC = () => {
   const [allEvents, setAllEvents] = useState<any[]>([]) // 🎯 Guardar TODOS los eventos para filtrar localmente
   const [categories, setCategories] = useState<Array<{name: string, count: number}>>([]) // 🏷️ Categorías dinámicas
   const [loadingCategories, setLoadingCategories] = useState(false)
-  const [shakeSearchBar, setShakeSearchBar] = useState(false) // 🔔 Animación shake cuando no hay eventos
 
   // 🔒 Ref para prevenir doble ejecución del auto-load inicial
   const hasAutoLoaded = useRef(false)
@@ -112,16 +111,6 @@ const HomePageModern: React.FC = () => {
       setOnNoEventsCallback(triggerNoEventsComment)
     }
   }, [setOnNoEventsCallback, triggerNoEventsComment])
-
-  // 🔔 Detectar cuando no hay eventos y sacudir el search bar
-  useEffect(() => {
-    if (!loading && !isStreaming && events.length === 0 && isManualSearch) {
-      console.log('🔔 No hay eventos - activando shake animation')
-      setShakeSearchBar(true)
-      // Remover la animación después de 600ms
-      setTimeout(() => setShakeSearchBar(false), 600)
-    }
-  }, [events.length, loading, isStreaming, isManualSearch])
 
   // 🏷️ Calcular categorías dinámicamente desde los eventos VÁLIDOS existentes
   useEffect(() => {
@@ -532,7 +521,21 @@ const HomePageModern: React.FC = () => {
   }
 
   const handleSearch = async () => {
-    // ✅ Permitir búsqueda con ubicación incluso sin query text
+    // ✅ Si hay texto en searchQuery, usarlo como ubicación temporal
+    let searchLocation = currentLocation
+
+    if (searchQuery.trim()) {
+      // Crear ubicación temporal desde el texto del search bar
+      searchLocation = {
+        name: searchQuery.trim(),
+        coordinates: undefined,
+        country: '',
+        detected: 'manual'
+      }
+      // Actualizar también el currentLocation en el store
+      setLocation(searchLocation)
+    }
+
     if (!searchQuery.trim() && !currentLocation) {
       console.warn('⚠️ Búsqueda bloqueada: Se requiere ubicación o query text')
       return
@@ -553,13 +556,13 @@ const HomePageModern: React.FC = () => {
 
     try {
       // 🚀 PRIMERO: Streaming para mostrar eventos progresivamente
-      console.log(`🔍 Búsqueda: "${searchQuery}" en ${currentLocation?.name || 'ubicación actual'}`)
+      console.log(`🔍 Búsqueda: "${searchQuery}" en ${searchLocation?.name || 'ubicación actual'}`)
 
       // 🎭 Disparar comentario general de búsqueda (basado en día/hora + ciudad)
-      triggerSearchComment(currentLocation?.name)
+      triggerSearchComment(searchLocation?.name)
 
       // Iniciar streaming SSE para resultados progresivos
-      await startStreamingSearch(currentLocation)
+      await startStreamingSearch(searchLocation)
 
       // 🧠 SEGUNDO: Después del streaming, pedir recomendaciones AI
       // Esto NO bloquea la UI, los eventos ya se están mostrando
@@ -847,27 +850,27 @@ const HomePageModern: React.FC = () => {
                       onClick={() => handleCategoryClick(category)}
                       disabled={isDisabled}
                       className={`group relative transition-all duration-300 ${
-                        isActive ? 'scale-105 z-10' : isOtherActive ? 'opacity-60' : ''
+                        isActive ? 'z-10' : isOtherActive ? 'opacity-60' : ''
                         } ${isDisabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'
                         }`}
                       title={isDisabled ? 'Elige una ubicación primero' : `Filtrar por ${category}`}
                     >
-                      {/* Glow effect */}
-                      <div className={`absolute -inset-1 bg-gradient-to-r ${gradient} rounded-xl blur-md ${
-                        isDisabled ? 'opacity-20' :
-                        isActive ? 'opacity-80' :
-                        isOtherActive ? 'opacity-30' :
-                        'opacity-40 group-hover:opacity-70'
+                      {/* Glow effect - más brillante */}
+                      <div className={`absolute -inset-1 bg-gradient-to-r ${gradient} rounded-xl blur-lg ${
+                        isDisabled ? 'opacity-30' :
+                        isActive ? 'opacity-100' :
+                        isOtherActive ? 'opacity-40' :
+                        'opacity-60 group-hover:opacity-90'
                         } transition-opacity`}></div>
 
                       {/* Card - Solo icono en mobile, icono+texto en desktop */}
                       <div className={`relative rounded-xl overflow-hidden transition-all flex-shrink-0 flex items-center justify-center
                         w-14 h-14 md:w-auto md:h-auto md:px-6 md:py-3
                         ${isActive
-                        ? `bg-gradient-to-br ${gradient} text-white shadow-xl md:scale-110`
+                        ? `bg-gradient-to-br ${gradient} text-white shadow-2xl`
                         : isDisabled
                           ? 'bg-white/5 backdrop-blur-lg text-white/40'
-                          : 'bg-white/10 backdrop-blur-lg text-white hover:bg-white/20'
+                          : 'bg-white/15 backdrop-blur-lg text-white hover:bg-white/30'
                         }`}>
                         {/* Icono FontAwesome (siempre visible) */}
                         <FontAwesomeIcon

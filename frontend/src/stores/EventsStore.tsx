@@ -682,11 +682,8 @@ const useEventsStore = create<EventsState>((set, get) => ({
         // Mensaje informativo (buscando en ciudades cercanas, etc.)
         if (event.type === 'info' && event.message) {
           console.log('ℹ️ Info:', event.message)
-          // Disparar comentario de los bots
-          const { onNoEventsCallback, currentLocation } = get()
-          if (onNoEventsCallback && currentLocation?.name) {
-            onNoEventsCallback(currentLocation.name, true) // true = está buscando en ciudades cercanas
-          }
+          // NO disparar búsqueda automática en ciudades cercanas
+          // El usuario verá el mensaje pero no se hará otra búsqueda
         }
 
         // Búsqueda completa
