@@ -3,8 +3,7 @@
  */
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001';
+import { API_BASE_URL } from '../../config/api';
 
 // Función para obtener las iniciales del nombre (tipo Gmail)
 const getInitials = (name: string): string => {

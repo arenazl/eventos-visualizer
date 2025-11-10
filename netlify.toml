@@ -11,3 +11,4 @@
 
 [build.environment]
   NODE_VERSION = "18"
+  VITE_API_URL = "https://funaroundyou-f21e91cae36c.herokuapp.com"
