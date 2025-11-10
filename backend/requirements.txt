@@ -29,6 +29,9 @@ aiofiles==23.2.1
 # Security & Auth
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
+itsdangerous==2.1.2
+authlib==1.3.0
+pydantic-settings==2.1.0
 
 # Cache (optional but recommended)
 redis==5.0.1
