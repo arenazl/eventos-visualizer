@@ -1,0 +1,12 @@
+{
+  "region": "Biobío",
+  "country": "Chile",
+  "source": "gemini",
+  "timestamp": "2025-11-09T07:30:00",
+  "eventos": [
+    {"nombre": "XVI Festival Internacional de Teatro del Biobío", "ciudad": "Concepción", "fecha": "09 NOV 2025", "descripcion": "Continúa varios días. Ofrece diversas funciones de teatro y danza en el Teatro Biobío, con una amplia variedad de propuestas culturales."},
+    {"nombre": "Fiesta 90 2000 Concepción", "ciudad": "Talcahuano", "fecha": "08 NOV 2025", "descripcion": "En Espacio Marina. Una gran fiesta bailable para mayores de 18 años con música de las décadas de los 90 y 2000, con DJs conocidos y concursos (como pasajes a Río de Janeiro)."},
+    {"nombre": "Miranda! En Concepción", "ciudad": "Concepción", "fecha": "12 NOV 2025", "descripcion": "Concierto de la popular banda argentina de pop, programado en el Estadio Ester Roa Rebolledo."},
+    {"nombre": "Javiera Mena: Nuevo Álbum Inmersión", "ciudad": "Concepción", "fecha": "14 NOV", "descripcion": "Concierto de la reconocida artista chilena de electropop."}
+  ]
+}

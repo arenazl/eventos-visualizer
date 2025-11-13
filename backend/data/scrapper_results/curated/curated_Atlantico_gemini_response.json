@@ -1,0 +1,48 @@
+{
+  "source_file": "Atlantico_gemini_response.json",
+  "curated_at": "2025-11-09T10:37:08.189251",
+  "events": [
+    {
+      "nombre": "Concierto de HAMILTON",
+      "fecha": "14 de Noviembre",
+      "ciudad": "Barranquilla",
+      "descripcion": "Espectáculo musical de gran formato. Se realizará en el Centro De Eventos Y Exposiciones Del Caribe S.a.s.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Atlántico",
+      "country": "Colombia",
+      "image_url": "https://images.unsplash.com/photo-1506905925346-21bea4d5618d?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Concierto de Alex Campos",
+      "fecha": "16 de Noviembre",
+      "ciudad": "Barranquilla",
+      "descripcion": "Presentación de música cristiana y góspel en el Romelio Martínez Stadium.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Atlántico",
+      "country": "Colombia",
+      "image_url": "https://images.unsplash.com/photo-1506905925346-21bea4d5618d?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Festival Infantil Puerto Colombia Atlántico",
+      "fecha": "Semana del 17 de Noviembre",
+      "ciudad": "Puerto Colombia",
+      "descripcion": "Evento deportivo de tenis, enfocado en el desarrollo del deporte base en la región.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Atlántico",
+      "country": "Colombia",
+      "image_url": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    }
+  ]
+}

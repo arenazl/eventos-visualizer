@@ -1,0 +1,88 @@
+{
+  "eventos": [
+    {
+      "nombre": "La Noche de los Museos",
+      "fecha": "2025-11-08",
+      "hora_inicio": "20:00",
+      "hora_fin": "03:00",
+      "lugar": "Museo Nacional de Bellas Artes, Centro Cultural Recoleta, Palacio Paz, Malba",
+      "descripcion": "La gran noche cultural de Buenos Aires. Más de 300 espacios abren sus puertas de forma gratuita hasta la madrugada, con actividades especiales, música y exposiciones en Recoleta y toda CABA",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "confirmado",
+      "image_url": "https://servicioscf.afip.gob.ar/publico/sitio/contenido/common/image.aspx?i\\u003d4805|nov_03_lndlm.jpg"
+    },
+    {
+      "nombre": "Muestras de Arte en el CCR",
+      "fecha": "2025-11-01",
+      "hora_inicio": "todo el día",
+      "hora_fin": null,
+      "lugar": "Centro Cultural Recoleta (Salas 2, 3, 4, 5, 7, 8, 9, 13)",
+      "descripcion": "Exposición de las ediciones originales de los libros de César Aira y diversas muestras del colectivo HÍBRIDA Laboratorio, María Martha Pichel y otros artistas contemporáneos",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "diario",
+      "image_url": "https://www.arte-online.net/var/arte_online_net/storage/images/arte-online/agenda/exposiciones_muestras/amor_de_verano_en_el_ccr/733943-1-esl-AR/Amor_de_Verano_en_el_CCR_nota.jpg"
+    },
+    {
+      "nombre": "Ciclo Antidomingos de Jazz",
+      "fecha": "2025-11-09",
+      "hora_inicio": "19:00",
+      "hora_fin": "21:00",
+      "lugar": "Centro Cultural Recoleta (Capilla)",
+      "descripcion": "Concierto de jazz con repertorio de standards de distintas épocas, a cargo de intérpretes y músicos destacados",
+      "categoria": "música",
+      "precio": "Gratis",
+      "estado": "confirmado",
+      "image_url": "https://i0.wp.com/www.palermomio.com.ar/wp-content/uploads/2025/06/ElRecoleta.musica.junio_.2025.s.jpg"
+    },
+    {
+      "nombre": "Nuevas Exposiciones Visuales en el CCR",
+      "fecha": "2025-11-13",
+      "hora_inicio": "14:00",
+      "hora_fin": "20:00",
+      "lugar": "Centro Cultural Recoleta (Junín 1930)",
+      "descripcion": "El Centro Cultural Recoleta inaugura nuevas muestras de artes visuales, proporcionando un espacio para artistas emergentes y consagrados",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "confirmado",
+      "image_url": "https://fotos.perfil.com/2025/03/25/trim/987/555/el-recoleta-inauguro-5-exposiciones-que-celebran-sus-45-anos-20250325-1991403.jpg"
+    },
+    {
+      "nombre": "Festival Fado Buenos Aires",
+      "fecha": "2025-11-15",
+      "hora_inicio": "18:00",
+      "hora_fin": "22:00",
+      "lugar": "Palacio Libertad (CABA, cercano a Recoleta)",
+      "descripcion": "Festival que celebra el tradicional género musical portugués (el Fado) con música en vivo, cine y conferencias sobre sus grandes exponentes, como un homenaje a Carlos Paredes",
+      "categoria": "música",
+      "precio": "$5000",
+      "estado": "confirmado",
+      "image_url": "https://palaciolibertad.gob.ar/wp-content/uploads/2025/10/FADO-2025_principal.jpg"
+    },
+    {
+      "nombre": "Festival Retratón 2025",
+      "fecha": "2025-11-15",
+      "hora_inicio": "15:00",
+      "hora_fin": "20:00",
+      "lugar": "Centro Cultural Recoleta (Patio del Aljibe)",
+      "descripcion": "Festival y actividad enfocada en la fotografía, donde se realizan sesiones de retratos y actividades relacionadas con la imagen y la comunidad fotográfica",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "confirmado",
+      "image_url": "https://sobrelibrosycultura.com/wp-content/uploads/2024/11/festival-retraton-2024.jpg"
+    },
+    {
+      "nombre": "La Noche de las Librerías",
+      "fecha": "2025-11-22",
+      "hora_inicio": "20:00",
+      "hora_fin": "02:00",
+      "lugar": "Av. Corrientes (Zona centro, accesible desde Recoleta)",
+      "descripcion": "Más de 45 librerías en la zona de Avenida Corrientes abren hasta la madrugada con programación gratuita, charlas y lecturas al aire libre",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "confirmado",
+      "image_url": "https://www.clarin.com/2022/10/14/4IrqB4h3v_2000x1500__1.jpg"
+    }
+  ]
+}

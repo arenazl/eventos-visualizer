@@ -1,0 +1,16 @@
+[
+  {
+    "region_name": "Buenos Aires",
+    "region_type": "provincia",
+    "country": "Argentina",
+    "chatgpt": {
+      "region": "Buenos Aires",
+      "country": "Argentina",
+      "source": "chatgpt",
+      "response": "[ERROR: Respuesta vacía - ver screenshot]",
+      "timestamp": "2025-11-09T05:24:43.760514"
+    },
+    "gemini": null,
+    "timestamp": "2025-11-09T05:25:19.544713"
+  }
+]

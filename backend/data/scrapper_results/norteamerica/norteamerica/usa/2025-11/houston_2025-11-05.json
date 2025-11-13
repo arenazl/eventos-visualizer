@@ -1,0 +1,307 @@
+{
+  "ciudad": "Houston",
+  "pais": "USA",
+  "periodo": "Noviembre 2025",
+  "eventos": [
+    {
+      "nombre": "Texas Renaissance Festival",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Todd Mission (cerca de Houston)",
+      "categoria": "Cultural",
+      "descripcion": "Festival que recrea una aldea inglesa del siglo XVI con más de 200 intérpretes, juegos, desfiles y costumbres históricas",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/340/800/600"
+    },
+    {
+      "nombre": "Desfile H-E-B del Día de Acción de Gracias",
+      "fecha": "2025-11-27",
+      "lugar": "Centro de Houston",
+      "categoria": "Cultural",
+      "descripcion": "Desfile anual que da inicio a la temporada festiva con carrozas, bandas y celebraciones por el centro de la ciudad",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/128/800/600"
+    },
+    {
+      "nombre": "Arte y Vida en la Roma Imperial",
+      "fecha": "2025-11-04/2026-01-25",
+      "lugar": "MFAH (Museo de Bellas Artes de Houston)",
+      "categoria": "Cultural",
+      "descripcion": "Exposición de arte centrada en la vida y el arte de la antigua Roma",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/528/800/600"
+    },
+    {
+      "nombre": "ARTECHOUSE: Fractal Worlds",
+      "fecha": "2025-11-04/2025-11-30",
+      "lugar": "ARTECHOUSE Houston",
+      "categoria": "Cultural",
+      "descripcion": "Exposición de arte digital inmersiva ofreciendo un viaje cósmico a través de mundos fractales",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/973/800/600"
+    },
+    {
+      "nombre": "Extreme Animals Alive!",
+      "fecha": "2025-11-04/2025-12-31",
+      "lugar": "HMNS (Museo de Ciencias Naturales)",
+      "categoria": "Cultural",
+      "descripcion": "Exhibición en el Museo de Ciencias Naturales de Houston",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/809/800/600"
+    },
+    {
+      "nombre": "Informed Informalism: Gramcko, Otero, Pardo, and Sanin",
+      "fecha": "2025-11-04/2025-11-22",
+      "lugar": "Sicardi Gallery",
+      "categoria": "Cultural",
+      "descripcion": "Exposición de arte con obras de estos artistas latinoamericanos",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/105/800/600"
+    },
+    {
+      "nombre": "Maroon 5 Houston Concert Tour 2025",
+      "fecha": "2025-11-05",
+      "lugar": "Toyota Center",
+      "categoria": "Música",
+      "descripcion": "Concierto de la icónica banda global conocida por su mezcla de pop, rock y soul",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/246/800/600"
+    },
+    {
+      "nombre": "31st Annual Clear Lake Greek Festival",
+      "fecha": "2025-11-07/2025-11-09",
+      "lugar": "Clear Lake Park",
+      "categoria": "Cultural",
+      "descripcion": "Festival anual griego con comida, música y cultura griega",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/785/800/600"
+    },
+    {
+      "nombre": "Comedian Giulio Gallarotti",
+      "fecha": "2025-11-07",
+      "lugar": "The Riot Comedy Club",
+      "categoria": "Hobbies",
+      "descripcion": "Presentación de stand-up comedy",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/394/800/600"
+    },
+    {
+      "nombre": "Comedian Ms. Pat",
+      "fecha": "2025-11-07",
+      "lugar": "Houston Improv",
+      "categoria": "Hobbies",
+      "descripcion": "Presentación de stand-up comedy",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/997/800/600"
+    },
+    {
+      "nombre": "28th Annual BBQ Cook-Off & Fall Market",
+      "fecha": "2025-11-07/2025-11-08",
+      "lugar": "Pasadena (área de Houston)",
+      "categoria": "Hobbies",
+      "descripcion": "Concurso anual de barbacoa y mercado de otoño",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/499/800/600"
+    },
+    {
+      "nombre": "Houston Bluesfest 2025",
+      "fecha": "2025-11-08",
+      "lugar": "Houston",
+      "categoria": "Música",
+      "descripcion": "Festival de música Blues",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/344/800/600"
+    },
+    {
+      "nombre": "Calf Scramble Progress Show",
+      "fecha": "2025-11-09",
+      "lugar": "Washington County Fairgrounds",
+      "categoria": "Deportes",
+      "descripcion": "Evento relacionado con el Houston Livestock Show and Rodeo",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/565/800/600"
+    },
+    {
+      "nombre": "Nutcracker Ballet Market",
+      "fecha": "2025-11-13/2025-11-16",
+      "lugar": "Houston",
+      "categoria": "Cultural",
+      "descripcion": "Mercado navideño festivo con más de 270 vendedores, preparando el ambiente para las fiestas de fin de año",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/738/800/600"
+    },
+    {
+      "nombre": "ROCO Connections: From Silence to Sound",
+      "fecha": "2025-11-14",
+      "lugar": "River Oaks Theatre",
+      "categoria": "Música",
+      "descripcion": "Presentación musical de orquesta de cámara",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/340/800/600"
+    },
+    {
+      "nombre": "Comedian Adam Ray",
+      "fecha": "2025-11-14",
+      "lugar": "Houston Improv",
+      "categoria": "Hobbies",
+      "descripcion": "Presentación de stand-up comedy con doble función",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/479/800/600"
+    },
+    {
+      "nombre": "FreeCover: Carlos Baute, Diveana y más",
+      "fecha": "2025-11-15",
+      "lugar": "Houston",
+      "categoria": "Música",
+      "descripcion": "Concierto internacional con artistas latinos como Carlos Baute, Diveana, Chulius de Los Amigos Invisibles, Luis F. Borjas y Alejandro Palacio",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/117/800/600"
+    },
+    {
+      "nombre": "Veteran's Day Chili & Gumbo Cook Off",
+      "fecha": "2025-11-15",
+      "lugar": "Jackie's Bar & Grill",
+      "categoria": "Hobbies",
+      "descripcion": "Concurso de cocina en honor al Día de los Veteranos",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/879/800/600"
+    },
+    {
+      "nombre": "Galaxy Lights",
+      "fecha": "2025-11-15/2026-01-04",
+      "lugar": "Space Center Houston",
+      "categoria": "Cultural",
+      "descripcion": "Exhibición cósmica de luces navideñas y diversión festiva",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/246/800/600"
+    },
+    {
+      "nombre": "12th Annual Islamic Arts Festival",
+      "fecha": "2025-11-16",
+      "lugar": "Universidad de Houston",
+      "categoria": "Cultural",
+      "descripcion": "Festival anual de artes islámicas",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/957/800/600"
+    },
+    {
+      "nombre": "Gentle Yoga Flow and Sound Meditation",
+      "fecha": "2025-11-04/2025-11-18",
+      "lugar": "Discovery Green",
+      "categoria": "Deportes",
+      "descripcion": "Clase de yoga y meditación recurrente cada martes",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/571/800/600"
+    },
+    {
+      "nombre": "Cook Off & Craft Show",
+      "fecha": "2025-11-21/2025-11-22",
+      "lugar": "Bull Sallas Park (Humble/Kingwood)",
+      "categoria": "Hobbies",
+      "descripcion": "Concurso de cocina y espectáculo de artesanía",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/829/800/600"
+    },
+    {
+      "nombre": "Classic Christmas Alpine Adventure Lights Up Houston",
+      "fecha": "2025-11-21/2025-12-31",
+      "lugar": "Houston",
+      "categoria": "Cultural",
+      "descripcion": "País de las maravillas invernal con luces, patinaje sobre hielo y entretenimiento",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/823/800/600"
+    },
+    {
+      "nombre": "Lucy Darling",
+      "fecha": "2025-11-21/2025-11-22",
+      "lugar": "Zilkha Hall",
+      "categoria": "Hobbies",
+      "descripcion": "Espectáculo de magia y comedia galardonado",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/356/800/600"
+    },
+    {
+      "nombre": "Burna Boy at Toyota Center",
+      "fecha": "2025-11-21",
+      "lugar": "Toyota Center",
+      "categoria": "Música",
+      "descripcion": "Concierto del ícono global Burna Boy, celebrando su nuevo álbum",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/819/800/600"
+    },
+    {
+      "nombre": "The Jury Experience",
+      "fecha": "2025-11-01/2025-11-22",
+      "lugar": "Houston",
+      "categoria": "Cultural",
+      "descripcion": "Teatro inmersivo único donde los asistentes son parte del jurado en un caso moralmente complejo",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/193/800/600"
+    },
+    {
+      "nombre": "New Classicism in Collage: Edgar Negret, Louise Nevelson y Eduardo Ramírez Villamizar",
+      "fecha": "2025-11-04/2025-11-22",
+      "lugar": "Sicardi Gallery",
+      "categoria": "Cultural",
+      "descripcion": "Exposición de arte en Sicardi Gallery",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/666/800/600"
+    },
+    {
+      "nombre": "Drunk Dracula",
+      "fecha": "2025-11-01/2025-11-15",
+      "lugar": "Houston",
+      "categoria": "Hobbies",
+      "descripcion": "Experiencia de teatro inmersivo donde un actor ebrio intenta contar la historia de Drácula",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/816/800/600"
+    },
+    {
+      "nombre": "Fitbreak: Hip-Hop Dance Fitness",
+      "fecha": "2025-11-04/2025-11-25",
+      "lugar": "Market Square Park",
+      "categoria": "Deportes",
+      "descripcion": "Clase de fitness de baile hip-hop recurrente cada martes",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/333/800/600"
+    },
+    {
+      "nombre": "Coastal Cowboys Exhibit",
+      "fecha": "2025-11-01/2025-12-31",
+      "lugar": "The Heritage Society at Sam Houston Park",
+      "categoria": "Cultural",
+      "descripcion": "Exposición sobre los cowboys costeros de Texas",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/575/800/600"
+    }
+  ]
+}

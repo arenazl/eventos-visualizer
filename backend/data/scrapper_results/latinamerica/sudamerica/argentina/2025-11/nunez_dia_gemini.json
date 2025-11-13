@@ -1,0 +1,76 @@
+{
+  "eventos": [
+    {
+      "nombre": "Oasis - Gira Mundial",
+      "fecha": "2025-11-15",
+      "hora_inicio": "21:00",
+      "hora_fin": null,
+      "lugar": "Estadio River Plate (Monumental), Núñez",
+      "descripcion": "Conciertos de la icónica banda británica, atrayendo a una gran multitud. Es el evento musical más grande del mes en la zona. 15 y 16 de noviembre",
+      "categoria": "música",
+      "precio": "$50000",
+      "estado": "confirmado",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/threads/DC1O0rxt6NE/0/image.jpg"
+    },
+    {
+      "nombre": "Partidos de Liga Argentina y Copa Nacional",
+      "fecha": "2025-11-01",
+      "hora_inicio": "18:00",
+      "hora_fin": "20:00",
+      "lugar": "Estadio River Plate (Monumental), Núñez",
+      "descripcion": "El Club Atlético River Plate disputa partidos de la Liga Profesional de Fútbol Argentino o de la Copa Nacional. Consultar calendario AFA",
+      "categoria": "deportes",
+      "precio": "$15000",
+      "estado": "diario",
+      "image_url": "https://www.ole.com.ar/2023/06/15/LCds-Rz_4_1290x650__1.jpg"
+    },
+    {
+      "nombre": "Recorridos por el Barrio River y el Monumental",
+      "fecha": "2025-11-01",
+      "hora_inicio": "10:00",
+      "hora_fin": "18:00",
+      "lugar": "Estadio River Plate y alrededores, Núñez",
+      "descripcion": "Visitas guiadas por el estadio de River Plate y el museo del club, además de caminatas por el pintoresco Barrio River con sus casas bajas y tranquilas",
+      "categoria": "cultura-turismo",
+      "precio": "$5000",
+      "estado": "diario",
+      "image_url": "https://es.wikipedia.org/wiki/Archivo:Barrio_River_1938.jpg"
+    },
+    {
+      "nombre": "Noche de los Alfajores",
+      "fecha": "2025-11-14",
+      "hora_inicio": "todo el día",
+      "hora_fin": null,
+      "lugar": "Comercios de Núñez y Belgrano",
+      "descripcion": "Evento gastronómico que celebra el alfajor argentino. Participan panaderías y confiterías de la zona con promociones y descuentos especiales",
+      "categoria": "gastronomía",
+      "precio": "Gratis",
+      "estado": "confirmado",
+      "image_url": "https://www.canal26.com/resizer/v2/L5Y4GIHSJZCVTPDZT3TRCDLSCU.jpg"
+    },
+    {
+      "nombre": "Paseos por la Costanera Norte",
+      "fecha": "2025-11-15",
+      "hora_inicio": "10:00",
+      "hora_fin": "20:00",
+      "lugar": "Costanera Norte, Núñez",
+      "descripcion": "La zona costera ofrece actividades recreativas al aire libre, incluyendo ferias gastronómicas temporales (food trucks) y mercadillos de fin de semana",
+      "categoria": "gastronomía",
+      "precio": "Variable",
+      "estado": "diario",
+      "image_url": "https://es.wikipedia.org/wiki/Archivo:Reserva_Ecol%C3%B3gica_Ciudad_Universitaria-Costanera_Norte,_Buenos_Aires_10.jpg"
+    },
+    {
+      "nombre": "Museo Malvinas e Islas del Atlántico Sur",
+      "fecha": "2025-11-01",
+      "hora_inicio": "10:00",
+      "hora_fin": "18:00",
+      "lugar": "Ex-ESMA, Avenida del Libertador 8151 (cercano a Núñez)",
+      "descripcion": "Museo que ofrece exposiciones históricas y reflexivas sobre la soberanía argentina en las Islas Malvinas",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "diario",
+      "image_url": "https://es.wikipedia.org/wiki/Archivo:Museo_Malvinas_e_Islas_del_Atl%C3%A1ntico_Sur_6.jpg"
+    }
+  ]
+}

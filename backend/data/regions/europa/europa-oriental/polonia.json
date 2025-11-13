@@ -1,0 +1,22 @@
+{
+  "country": "Polonia",
+  "country_code": "PL",
+  "region": "Europa Oriental",
+  "cities": [
+    {
+      "name": "Varsovia",
+      "latitude": 52.2297,
+      "longitude": 21.0122
+    },
+    {
+      "name": "Cracovia",
+      "latitude": 50.0647,
+      "longitude": 19.9450
+    },
+    {
+      "name": "Gdansk",
+      "latitude": 54.3520,
+      "longitude": 18.6466
+    }
+  ]
+}

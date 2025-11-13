@@ -1,0 +1,239 @@
+{
+  "source": "gemini",
+  "ciudad": "Cartagena",
+  "pais": "Colombia",
+  "fecha_consulta": "2025-11-03",
+  "periodo": "Noviembre 2025",
+  "evento_principal": "Fiestas de la Independencia del 11 de Noviembre",
+  "duracion_fiestas": "6 al 17 de noviembre",
+  "total_eventos": 30,
+  "fiestas_independencia": [
+    {
+      "numero": 1,
+      "nombre": "Gran Desfile de Independencia (El Bando)",
+      "fecha": "2025-11-13",
+      "descripcion": "El evento más multitudinario. Desfile de comparsas, disfraces, carrozas y música",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 2,
+      "nombre": "Conmemoración del Grito de Independencia",
+      "fecha": "2025-11-11",
+      "descripcion": "Actos cívicos y conmemorativos que recuerdan el 11 de noviembre de 1811",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 3,
+      "nombre": "Velada de Elección y Coronación Reina de la Independencia",
+      "fecha": "2025-11-15",
+      "lugar": "Centro de Convenciones",
+      "descripcion": "Gran final del Reinado Popular de Cartagena",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 4,
+      "nombre": "Festival Náutico de la Independencia",
+      "fecha": "2025-11-14",
+      "descripcion": "Espectáculo en el mar con embarcaciones, música y fiesta (incluye el Bololó del Arsenal)",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 5,
+      "nombre": "Cabildo de Getsemaní",
+      "fecha": "2025-11-11",
+      "lugar": "Barrio Getsemaní",
+      "descripcion": "Desfile y manifestación cultural en el emblemático barrio, honrando la resistencia",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 6,
+      "nombre": "Desfile de las Diversidades",
+      "fecha": "2025-11-08",
+      "descripcion": "Desfile en honor a la comunidad LGBTQ+ y la diversidad cultural",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 7,
+      "nombre": "Cabildo Vivo de Bocachica Itmina Fanti",
+      "fecha": "2025-11-07",
+      "descripcion": "Manifestación cultural y folclórica",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 8,
+      "nombre": "Desfile de Tradición Festiva - Traje Artesanal",
+      "fecha": "2025-11-02",
+      "lugar": "Plaza de la Aduana",
+      "descripcion": "Exhibición de creatividad local de las candidatas",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 9,
+      "nombre": "Ángeles Somos",
+      "fecha": "2025-11-01",
+      "descripcion": "Toma de barrios y desfile infantil que promueve la solidaridad",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 10,
+      "nombre": "Preludio Cultural Universitario",
+      "fecha": "2025-11-13",
+      "lugar": "Las Bóvedas",
+      "descripcion": "Inicio formal de las fiestas",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 11,
+      "nombre": "Gran Cabildo Festivo",
+      "fecha": "2025-11-10",
+      "descripcion": "Representación de la resistencia afrodescendiente y expresiones culturales",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 12,
+      "nombre": "Noche de Talentos",
+      "fecha": "2025-11-05",
+      "lugar": "Teatro Adolfo Mejía",
+      "descripcion": "Presentaciones de música, danza y poesía",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 13,
+      "nombre": "Cabildo de la Escuela Normal Superior",
+      "fecha": "2025-11-06",
+      "descripcion": "Espacio de reflexión y memoria histórica",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 14,
+      "nombre": "Cabildo de San Diego y de Sombreros",
+      "fecha": "2025-10-31",
+      "descripcion": "Tradicional cabildo barrial (preludio)",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 15,
+      "nombre": "Cabildo de Lo Amador",
+      "fecha": "2025-11-01",
+      "lugar": "Las botas viejas",
+      "descripcion": "Cabildo barrial",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 16,
+      "nombre": "Cabildos de Negros de Cartagena",
+      "fecha": "2025-11-01",
+      "descripcion": "Cabildo tradicional con enfoque ancestral",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 17,
+      "nombre": "Cabildo de Torices",
+      "fecha": "2025-11-02",
+      "lugar": "Barrio Torices",
+      "descripcion": "Cabildo folclórico en el barrio",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 18,
+      "nombre": "Desfile Folclórico por la Paz y los Valores",
+      "fecha": "2025-11-02",
+      "lugar": "Barrio El Líbano",
+      "descripcion": "Desfile comunitario",
+      "categoria": "Cultural"
+    }
+  ],
+  "conciertos": [
+    {
+      "numero": 19,
+      "artista": "Maluma",
+      "genero": "Música urbana/Pop",
+      "fecha": "2025-11-12",
+      "categoria": "Música"
+    },
+    {
+      "numero": 20,
+      "artista": "Marc Anthony",
+      "genero": "Salsa",
+      "fecha": "2025-11-13",
+      "categoria": "Música"
+    },
+    {
+      "numero": 21,
+      "artista": "Carlos Vives",
+      "genero": "Vallenato/Pop",
+      "fecha": "2025-11-14",
+      "categoria": "Música"
+    },
+    {
+      "numero": 22,
+      "artista": "Elder Dayán",
+      "genero": "Vallenato",
+      "fecha": "2025-11-10",
+      "categoria": "Música"
+    },
+    {
+      "numero": 23,
+      "artista": "Puerto Rican Power",
+      "genero": "Salsa",
+      "fecha": "2025-11-11",
+      "categoria": "Música"
+    },
+    {
+      "numero": 24,
+      "artista": "Rikarena",
+      "genero": "Merengue",
+      "fecha": "2025-11-15",
+      "categoria": "Música"
+    },
+    {
+      "numero": 25,
+      "artista": "Poncho Zuleta",
+      "genero": "Vallenato",
+      "fecha": "2025-11-09",
+      "categoria": "Música"
+    }
+  ],
+  "otros_eventos": [
+    {
+      "numero": 26,
+      "nombre": "Cartagena Jazz Festival",
+      "fecha_inicio": "2025-10-31",
+      "fecha_fin": "2025-11-16",
+      "descripcion": "Festival de música jazz",
+      "categoria": "Música"
+    },
+    {
+      "numero": 27,
+      "nombre": "Festival Regional de Gaitas",
+      "fecha_inicio": "2025-11-01",
+      "fecha_fin": "2025-11-04",
+      "lugar": "Barrio El Socorro",
+      "descripcion": "Música tradicional de gaitas",
+      "categoria": "Música"
+    },
+    {
+      "numero": 28,
+      "nombre": "Agenda Cultural del Banco de la República",
+      "periodo": "Todo el mes",
+      "descripcion": "Programación permanente de exposiciones, conciertos y conferencias",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 29,
+      "nombre": "Temporada Permanente de Teatro y Títeres",
+      "periodo": "Todo el mes",
+      "descripcion": "Eventos en salas concertadas de la ciudad",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 30,
+      "nombre": "Exploradores del Patrimonio (Ruta Patrimonial)",
+      "periodo": "Todo el mes",
+      "descripcion": "Actividades y recorridos para explorar la historia de Cartagena",
+      "categoria": "Turismo"
+    }
+  ],
+  "artistas_adicionales": "Sergio Vargas, DJ Natalia París, Eddy Herrera, Mr. Black",
+  "nota_importante": "Las Fiestas de la Independencia son el evento cultural y festivo más grande de Cartagena. La mayoría de eventos giran en torno a ellas, combinando historia, cultura, música y desfiles del 6 al 17 de noviembre."
+}

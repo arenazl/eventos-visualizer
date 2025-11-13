@@ -1,0 +1,261 @@
+{
+  "source": "gemini",
+  "ciudad": "Ciudad de México",
+  "pais": "México",
+  "fecha_consulta": "2025-11-03",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 30,
+  "eventos": [
+    {
+      "numero": 1,
+      "nombre": "Gran Desfile de Día de Muertos",
+      "fecha": "2025-11-01",
+      "lugar": "Paseo de la Reforma y Centro Histórico",
+      "descripcion": "Un recorrido espectacular con carros alegóricos, comparsas y miles de participantes",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 2,
+      "nombre": "Ofrenda Monumental del Zócalo",
+      "fecha_inicio": "2025-11-01",
+      "fecha_fin": "2025-11-02",
+      "lugar": "Plaza de la Constitución (Zócalo)",
+      "descripcion": "La megaofrenda central en la Plaza de la Constitución, un altar gigante con temáticas variadas y gran convocatoria",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 3,
+      "nombre": "Procesión de Catrinas",
+      "fecha": "2025-11-01",
+      "lugar": "Paseo de la Reforma",
+      "descripcion": "Miles de personas caracterizadas como Catrinas y Catrines recorren Paseo de la Reforma",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 4,
+      "nombre": "Alumbrada en Mixquic",
+      "fecha_inicio": "2025-11-01",
+      "fecha_fin": "2025-11-02",
+      "lugar": "San Andrés Mixquic, Tláhuac",
+      "descripcion": "La celebración en San Andrés Mixquic, famosa por la velada y el ambiente en el cementerio, que atrae a cerca de 3 millones de personas",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 5,
+      "nombre": "Exposición de Alebrijes Monumentales",
+      "fecha_fin": "2025-11-09",
+      "lugar": "Paseo de la Reforma",
+      "descripcion": "Cerca de 200 piezas gigantes exhibidas en Paseo de la Reforma, después del desfile de alebrijes de octubre",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 6,
+      "nombre": "Obra de Teatro La Llorona",
+      "fecha_fin": "2025-11-16",
+      "lugar": "Embarcadero de Cuemanco, Xochimilco",
+      "descripcion": "Tradicional puesta en escena en el embarcadero de Cuemanco, Xochimilco (Fines de semana)",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 7,
+      "nombre": "Ópera Cuauhtemóctzin en el Zócalo",
+      "fecha": "2025-11-01",
+      "lugar": "Zócalo",
+      "descripcion": "Proyección o puesta en escena gratuita de la obra lírica, un evento de gran formato",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 8,
+      "nombre": "Proyección Gratuita de Juan Gabriel",
+      "fecha": "2025-11-01",
+      "lugar": "Zócalo",
+      "descripcion": "Proyección de un concierto del Divo de Juárez en el Zócalo",
+      "categoria": "Música"
+    },
+    {
+      "numero": 9,
+      "nombre": "Altar a Frida Kahlo y Juan O'Gorman",
+      "periodo": "Todo el mes",
+      "lugar": "Casa Azul (Museo Frida Kahlo)",
+      "descripcion": "Exposición especial de Día de Muertos y fotografías en la Casa Azul",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 10,
+      "nombre": "Festival Fogones de México",
+      "descripcion": "Reúne a más de 100 cocineras tradicionales y promueve la diversidad gastronómica del país",
+      "categoria": "Gastronomía"
+    },
+    {
+      "numero": 11,
+      "nombre": "Festival Corona Capital 2025",
+      "fecha_inicio": "2025-11-14",
+      "fecha_fin": "2025-11-16",
+      "lugar": "Autódromo Hermanos Rodríguez",
+      "genero": "Rock y música alternativa",
+      "descripcion": "Uno de los festivales de rock y música alternativa más grandes de México y Latinoamérica",
+      "categoria": "Música"
+    },
+    {
+      "numero": 12,
+      "nombre": "Coca Cola Flow Fest 2025",
+      "fecha_inicio": "2025-11-22",
+      "fecha_fin": "2025-11-23",
+      "lugar": "Autódromo Hermanos Rodríguez",
+      "genero": "Reggaetón y Trap",
+      "descripcion": "El festival de música urbana (reggaetón y trap) más grande de la CDMX",
+      "categoria": "Música"
+    },
+    {
+      "numero": 13,
+      "artista": "Guns N' Roses",
+      "fecha": "2025-11-08",
+      "lugar": "Estadio GNP",
+      "genero": "Rock",
+      "descripcion": "Concierto de la legendaria banda de rock",
+      "categoria": "Música"
+    },
+    {
+      "numero": 14,
+      "artista": "Rauw Alejandro",
+      "fecha_inicio": "2025-11-04",
+      "fecha_fin": "2025-11-09",
+      "lugar": "Palacio de los Deportes",
+      "genero": "Urbano",
+      "descripcion": "Múltiples fechas del cantante puertorriqueño (4, 5, 6, 8 y 9 de noviembre)",
+      "categoria": "Música"
+    },
+    {
+      "numero": 15,
+      "artista": "Junior H",
+      "fecha_inicio": "2025-11-29",
+      "fecha_fin": "2025-11-30",
+      "lugar": "Monumental Plaza de Toros",
+      "genero": "Corridos Tumbados",
+      "descripcion": "Concierto épico de corridos tumbados",
+      "categoria": "Música"
+    },
+    {
+      "numero": 16,
+      "artista": "Matute",
+      "fecha": "2025-11-28",
+      "lugar": "Arena CDMX",
+      "genero": "Pop Retro",
+      "descripcion": "Show popular con éxitos de los 80 y 90",
+      "categoria": "Música"
+    },
+    {
+      "numero": 17,
+      "artista": "Billy Idol",
+      "lugar": "Estadio Alfredo Harp Helú",
+      "genero": "Punk Rock",
+      "descripcion": "Concierto del ícono del punk rock",
+      "categoria": "Música"
+    },
+    {
+      "numero": 18,
+      "artista": "Humbe",
+      "fecha": "2025-11-30",
+      "lugar": "Palacio de los Deportes",
+      "genero": "Pop",
+      "descripcion": "El cantautor mexicano en el Palacio de los Deportes",
+      "categoria": "Música"
+    },
+    {
+      "numero": 19,
+      "artista": "Los Bunkers",
+      "fecha": "2025-11-26",
+      "lugar": "La Maraka",
+      "genero": "Rock",
+      "descripcion": "El regreso de la banda chilena",
+      "categoria": "Música"
+    },
+    {
+      "numero": 20,
+      "artista": "Edén Muñoz",
+      "fecha": "2025-11-01",
+      "lugar": "Auditorio Nacional",
+      "genero": "Regional Mexicano",
+      "descripcion": "Músico de regional mexicano",
+      "categoria": "Música"
+    },
+    {
+      "numero": 21,
+      "nombre": "Cirque du Soleil - OVO",
+      "fecha_inicio": "2025-11-12",
+      "fecha_fin": "2025-11-23",
+      "descripcion": "El icónico circo regresa con un espectáculo de acrobacias dedicado al mundo de los insectos",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 22,
+      "nombre": "DramaFest 2025",
+      "fecha_inicio": "2025-11-11",
+      "fecha_fin": "2025-12-07",
+      "lugar": "Teatro de la Ciudad y Teatro El Galeón",
+      "descripcion": "Festival de dramaturgia contemporánea con Polonia como país invitado",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 23,
+      "nombre": "FILIJ (Feria Internacional del Libro Infantil y Juvenil)",
+      "fecha_inicio": "2025-11-07",
+      "fecha_fin": "2025-11-17",
+      "lugar": "Bosque de Chapultepec",
+      "descripcion": "Gran feria editorial dedicada al público joven y niños",
+      "categoria": "Feria"
+    },
+    {
+      "numero": 24,
+      "nombre": "Expo Beauty Show 2025 (EBS)",
+      "descripcion": "La exposición más importante de belleza profesional en América Latina",
+      "categoria": "Feria"
+    },
+    {
+      "numero": 25,
+      "nombre": "ORIGINAL (Encuentro de Arte Textil)",
+      "fecha_inicio": "2025-11-13",
+      "fecha_fin": "2025-11-16",
+      "lugar": "Complejo Cultural Los Pinos",
+      "descripcion": "Muestra y venta de arte textil y artesanal de pueblos originarios y afromexicanos",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 26,
+      "nombre": "Noche de Estrellas",
+      "fecha": "2025-11-30",
+      "descripcion": "Evento masivo y gratuito de divulgación científica con telescopios en sedes por toda la ciudad",
+      "categoria": "Ciencia"
+    },
+    {
+      "numero": 27,
+      "nombre": "Advertising Week LATAM",
+      "descripcion": "Evento clave para la industria de la publicidad, el marketing y la tecnología en Latinoamérica",
+      "categoria": "Negocios"
+    },
+    {
+      "numero": 28,
+      "nombre": "Festival Las Cuatro Casas",
+      "fecha": "2025-11-27",
+      "descripcion": "Un evento cultural con actividades diversas",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 29,
+      "nombre": "Exposición de Piñatas",
+      "periodo": "Todo el mes",
+      "descripcion": "Exposiciones temporales de arte popular con piñatas gigantes y temáticas",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 30,
+      "nombre": "Despechadas Tour de Mujer a Mujer",
+      "fecha": "2025-11-20",
+      "lugar": "Arena CDMX",
+      "genero": "Regional y Popular",
+      "descripcion": "Concierto de música regional y popular con artistas femeninas",
+      "categoria": "Música"
+    }
+  ],
+  "nota_importante": "Noviembre en CDMX inicia con las celebraciones masivas de Día de Muertos (1 y 2 de nov) que atraen millones de personas. Incluye dos de los festivales de música más grandes: Corona Capital (rock/alternativo) y Flow Fest (urbano/reggaetón). Las fechas de algunos eventos están sujetas a confirmación."
+}

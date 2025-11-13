@@ -1,0 +1,11 @@
+{
+  "region": "Atlántico",
+  "country": "Colombia",
+  "source": "gemini",
+  "timestamp": "2025-11-09T07:15:00",
+  "eventos": [
+    {"nombre": "Concierto de HAMILTON", "ciudad": "Barranquilla", "fecha": "14 de Noviembre", "descripcion": "Espectáculo musical de gran formato. Se realizará en el Centro De Eventos Y Exposiciones Del Caribe S.a.s."},
+    {"nombre": "Concierto de Alex Campos", "ciudad": "Barranquilla", "fecha": "16 de Noviembre", "descripcion": "Presentación de música cristiana y góspel en el Romelio Martínez Stadium."},
+    {"nombre": "Festival Infantil Puerto Colombia Atlántico", "ciudad": "Puerto Colombia", "fecha": "Semana del 17 de Noviembre", "descripcion": "Evento deportivo de tenis, enfocado en el desarrollo del deporte base en la región."}
+  ]
+}

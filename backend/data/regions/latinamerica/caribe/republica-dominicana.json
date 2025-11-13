@@ -1,0 +1,22 @@
+{
+  "country": "República Dominicana",
+  "country_code": "DO",
+  "region": "Caribe",
+  "cities": [
+    {
+      "name": "Santo Domingo",
+      "latitude": 18.4861,
+      "longitude": -69.9312
+    },
+    {
+      "name": "Punta Cana",
+      "latitude": 18.5601,
+      "longitude": -68.3725
+    },
+    {
+      "name": "Santiago",
+      "latitude": 19.4517,
+      "longitude": -70.6970
+    }
+  ]
+}

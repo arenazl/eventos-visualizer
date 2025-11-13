@@ -1,0 +1,22 @@
+{
+  "country": "Italia",
+  "country_code": "IT",
+  "region": "Europa Meridional",
+  "cities": [
+    {
+      "name": "Roma",
+      "latitude": 41.9028,
+      "longitude": 12.4964
+    },
+    {
+      "name": "Milán",
+      "latitude": 45.4642,
+      "longitude": 9.1900
+    },
+    {
+      "name": "Nápoles",
+      "latitude": 40.8518,
+      "longitude": 14.2681
+    }
+  ]
+}

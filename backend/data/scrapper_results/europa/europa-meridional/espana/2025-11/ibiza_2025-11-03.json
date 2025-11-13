@@ -1,0 +1,241 @@
+{
+  "source": "gemini",
+  "ciudad": "Ibiza",
+  "pais": "España",
+  "fecha_consulta": "2025-11-03",
+  "periodo": "Noviembre 2025",
+  "temporada": "Temporada Baja",
+  "total_eventos": 30,
+  "eventos": [
+    {
+      "numero": 1,
+      "nombre": "Programación en Teatro Pereyra",
+      "periodo": "Todo el mes",
+      "lugar": "Teatro Pereyra",
+      "descripcion": "Agenda variada con ópera, cabaret, conciertos benéficos, monólogos como 'Rossita' y eventos de Rotary e-Club",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 2,
+      "nombre": "Conciertos en Pequeños Locales",
+      "periodo": "Todo el mes",
+      "lugar": "Café Pereyra, Las Dalias Café",
+      "descripcion": "Música en vivo y sesiones de DJ, incluyendo Ibiza Vinyl Club - Vinyl Voyagers",
+      "categoria": "Música"
+    },
+    {
+      "numero": 3,
+      "nombre": "Festival del Humor de Ibiza",
+      "periodo": "Noviembre",
+      "descripcion": "16ª edición del festival, evento popular de otoño",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 4,
+      "nombre": "Festival Eivissa Clàssica",
+      "periodo": "Noviembre",
+      "genero": "Música Clásica",
+      "descripcion": "Festival centrado en música clásica",
+      "categoria": "Música"
+    },
+    {
+      "numero": 5,
+      "nombre": "Ciclos de Conciertos de Música Clásica y de Cámara",
+      "periodo": "Noviembre",
+      "lugar": "Can Ventosa, Sala Capitular",
+      "descripcion": "Ciclo de conciertos 'del laúd renacentista a Broadway'",
+      "categoria": "Música"
+    },
+    {
+      "numero": 6,
+      "nombre": "Sueños - Espectáculo de Tango y Danza Butoh",
+      "fecha": "2025-11-02",
+      "artista": "Armin Heinemann",
+      "genero": "Danza / Tango",
+      "descripcion": "Espectáculo de danza contemporánea fusionando tango y butoh",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 7,
+      "nombre": "Exposiciones en MACE",
+      "periodo": "Todo el mes",
+      "lugar": "Museo de Arte Contemporáneo de Ibiza",
+      "descripcion": "Visitas guiadas y exposiciones como 'Marines' y 'ARTNT 03'",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 8,
+      "nombre": "Mercadillo de Las Dalias",
+      "periodo": "Fines de semana",
+      "lugar": "Las Dalias",
+      "descripcion": "Famoso mercadillo de artesanía hippie",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 9,
+      "nombre": "Mercadillo de Sant Joan",
+      "periodo": "Fines de semana",
+      "lugar": "Sant Joan",
+      "descripcion": "Mercadillo de artesanía local",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 10,
+      "nombre": "Fiesta de Cierre Club Chinois",
+      "periodo": "Noviembre",
+      "lugar": "Club Chinois",
+      "descripcion": "Fiesta de cierre de temporada en club selectivo",
+      "categoria": "Música"
+    },
+    {
+      "numero": 11,
+      "nombre": "Caminata Nocturna con Luna Llena",
+      "periodo": "Luna llena de noviembre",
+      "descripcion": "Caminata nocturna con torrada de sobrasada tradicional",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 12,
+      "nombre": "Ibiza Trail Marathon",
+      "periodo": "Noviembre",
+      "descripcion": "Una de las citas deportivas más importantes de la temporada baja, maratón y otras distancias por paisajes costeros",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 13,
+      "nombre": "X Sant Carles Trail",
+      "periodo": "Noviembre",
+      "lugar": "Sant Carles",
+      "descripcion": "Décimo aniversario de esta carrera de montaña con nuevas rutas",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 14,
+      "nombre": "Cursa Sant Carles Xtrem",
+      "periodo": "Noviembre",
+      "lugar": "Sant Carles",
+      "descripcion": "Carrera de obstáculos y resistencia",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 15,
+      "nombre": "Campeonato de España de Triatlón y Aquabike Media Distancia",
+      "periodo": "Noviembre",
+      "descripcion": "Campeonato de alto nivel deportivo que atrae participantes y público",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 16,
+      "nombre": "Walking Ibiza - Wednesdays are PURE",
+      "periodo": "Miércoles de noviembre",
+      "descripcion": "Serie de senderismo gratuito explorando rutas y rincones secretos",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 17,
+      "nombre": "Walking Ibiza - Sunday Social Walk",
+      "periodo": "Domingos de noviembre",
+      "descripcion": "Caminata social dominical por la isla",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 18,
+      "nombre": "Torneo Ibiza Beach Tennis",
+      "periodo": "Noviembre",
+      "lugar": "Cala Llonga",
+      "descripcion": "Torneo de tenis playa",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 19,
+      "nombre": "Certamen Gastronómico Restaurat",
+      "periodo": "Noviembre",
+      "lugar": "San Antonio",
+      "descripcion": "Promoción de cocina local a precios especiales",
+      "categoria": "Gastronomía"
+    },
+    {
+      "numero": 20,
+      "nombre": "Cata de Vinos y Aceites",
+      "periodo": "Todo el mes",
+      "lugar": "Bodegas y almazaras locales",
+      "descripcion": "Experiencias de cata y visita a productores locales",
+      "categoria": "Gastronomía"
+    },
+    {
+      "numero": 21,
+      "nombre": "Rutas Gastronómicas",
+      "periodo": "Todo el mes",
+      "lugar": "Santa Gertrudis y otros pueblos",
+      "descripcion": "Exploración de restaurantes abiertos todo el año",
+      "categoria": "Gastronomía"
+    },
+    {
+      "numero": 22,
+      "nombre": "Excursiones en Barco a Formentera",
+      "periodo": "Todo el mes",
+      "descripcion": "Ferry y tours con snorkel, paddle surf y show cooking de paella a bordo",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 23,
+      "nombre": "Paseo en Globo Aerostático",
+      "periodo": "Todo el mes",
+      "descripcion": "Experiencia única para ver la isla desde el aire con clima fresco",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 24,
+      "nombre": "Tour Guiado Cueva de Can Marçá",
+      "periodo": "Todo el mes",
+      "descripcion": "Atracción natural y cultural icónica de la isla",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 25,
+      "nombre": "Excursiones de Kayak y Snorkel",
+      "periodo": "Todo el mes",
+      "descripcion": "Exploración de la costa ibicenca y sus cuevas",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 26,
+      "nombre": "Retiros de Yoga y Bienestar",
+      "periodo": "Todo el mes",
+      "descripcion": "Múltiples centros ofrecen retiros aprovechando la tranquilidad de temporada baja",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 27,
+      "nombre": "Visitas al Parque Natural de Ses Salines",
+      "periodo": "Todo el mes",
+      "descripcion": "Exploración del parque natural con paisajes únicos y avifauna",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 28,
+      "nombre": "Exploración de Dalt Vila",
+      "periodo": "Todo el mes",
+      "lugar": "Casco histórico de Ibiza",
+      "descripcion": "Patrimonio de la Humanidad sin aglomeraciones turísticas",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 29,
+      "nombre": "Puestas de Sol Tranquilas",
+      "periodo": "Todo el mes",
+      "lugar": "Cala Conta, Benirràs",
+      "descripcion": "Disfrutar de atardeceres icónicos sin multitudes",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 30,
+      "nombre": "Días de Spa y Relax",
+      "periodo": "Todo el mes",
+      "lugar": "Hoteles y spas de la isla",
+      "descripcion": "Servicios de bienestar en hoteles que mantienen operaciones en temporada baja",
+      "categoria": "Entretenimiento"
+    }
+  ],
+  "nota_importante": "Noviembre es temporada baja en Ibiza. Las grandes discotecas cierran tras sus fiestas de cierre en octubre. La isla se centra en una agenda cultural, deportiva y gastronómica más local y tranquila, con eventos de trail running, música clásica, humor, y actividades de bienestar. Ideal para disfrutar de la isla sin aglomeraciones turísticas."
+}

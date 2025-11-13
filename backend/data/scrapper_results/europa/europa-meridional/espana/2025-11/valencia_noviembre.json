@@ -1,0 +1,141 @@
+{
+  "ciudad": "Valencia",
+  "pais": "España",
+  "mes": "noviembre",
+  "anio": 2025,
+  "eventos": [
+    {
+      "nombre": "El Ballet de Kirov: El lago de los cisnes",
+      "fecha": "2025-11-10",
+      "hora_inicio": "varios",
+      "hora_fin": null,
+      "lugar": "Teatro Olympia, Valencia",
+      "descripcion": "Representación de uno de los ballets más famosos y queridos",
+      "categoria": "artes-escenicas",
+      "precio": "variable (consultar teatro)",
+      "estado": "confirmado",
+      "image_url": "https://i.ytimg.com/vi/9rJoB7y6Ncs/maxresdefault.jpg"
+    },
+    {
+      "nombre": "Libreries Fest 2025 (Día de las Librerías)",
+      "fecha": "2025-11-10",
+      "hora_inicio": "varios",
+      "hora_fin": "2025-11-11",
+      "lugar": "Varias librerías en Valencia",
+      "descripcion": "Actividades gratuitas de todo tipo en los refugios literarios de la ciudad",
+      "categoria": "cultura",
+      "precio": "gratuito",
+      "estado": "confirmado",
+      "image_url": "https://gremidellibrers.com/wp-content/uploads/2025/10/Cuadrado_Instagram_LLF25_LunaPan.jpg"
+    },
+    {
+      "nombre": "El amor brujo de Manuel Falla",
+      "fecha": "2025-11-10",
+      "hora_inicio": "varios",
+      "hora_fin": "2025-11-16",
+      "lugar": "Palau de les Arts, Valencia",
+      "descripcion": "Representación de la famosa obra de Manuel de Falla",
+      "categoria": "artes-escenicas",
+      "precio": "variable (consultar)",
+      "estado": "confirmado",
+      "image_url": "https://www.melomanodigital.com/wp-content/uploads/2018/10/DISCOS-231-EUSKAL.jpg"
+    },
+    {
+      "nombre": "Aniversario Centro de Arte Homenaje Herrero",
+      "fecha": "2025-11-11",
+      "hora_inicio": "varios",
+      "hora_fin": "2025-11-16",
+      "lugar": "Centro de Arte Homenaje Herrero, Valencia",
+      "descripcion": "Semana con diversas actividades para celebrar el aniversario del centro",
+      "categoria": "arte-cultura",
+      "precio": "variable (consultar)",
+      "estado": "confirmado",
+      "image_url": "https://officialpress.es/wp-content/uploads/2024/10/cc6db69f6b1588dc90a734d77cbebc1b646b693fw.jpg"
+    },
+    {
+      "nombre": "Exposición «Encuentros en la Patagonia»",
+      "fecha": "variable",
+      "hora_inicio": "varios",
+      "hora_fin": "noviembre",
+      "lugar": "La Lonja de Valencia (Consultar ubicación exacta)",
+      "descripcion": "Exposición que trae a Valencia historias, dinosaurios del Museo de la Patagonia",
+      "categoria": "cultura-exposicion",
+      "precio": "variable (consultar)",
+      "estado": "confirmado",
+      "image_url": "https://pescare.com.ar/wp-content/uploads/2023/01/EVENPa-2023-2.jpg"
+    },
+    {
+      "nombre": "Exposición «Ruta del Bakalao»",
+      "fecha": "variable",
+      "hora_inicio": null,
+      "hora_fin": "noviembre",
+      "lugar": "(Consultar lugar exacto)",
+      "descripcion": "Muestra con música, objetos y fotos de época sobre la famosa 'Ruta del Bakalao'",
+      "categoria": "cultura-exposicion-historia",
+      "precio": "variable (consultar)",
+      "estado": "confirmado",
+      "image_url": "https://offloadmedia.feverup.com/valenciasecreta.com/wp-content/uploads/2025/10/03164225/BOMBAS-GENS_La-Ruta_Imagenes-iniciales_Agencia-Districte_Patricia-Vargas_51-1024x683.jpg"
+    },
+    {
+      "nombre": "Fira de les Comarques 2025",
+      "fecha": "variable",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Els Viveros de Valencia",
+      "descripcion": "Feria de las comarcas (consultar fechas y horarios exactos)",
+      "categoria": "feria",
+      "precio": "consultar",
+      "estado": "por-confirmar",
+      "image_url": "https://www.moixent.es/sites/www.moixent.es/files/styles/interior_contenido_/public/cartell_vert_FCom20252.jpg"
+    },
+    {
+      "nombre": "Promoción especial noviembre Bioparc Valencia",
+      "fecha": "variable",
+      "hora_inicio": null,
+      "hora_fin": "noviembre",
+      "lugar": "Bioparc Valencia",
+      "descripcion": "Consultar detalles de la promoción en el bioparque",
+      "categoria": "ocio-familiar",
+      "precio": "consultar promoción",
+      "estado": "confirmado",
+      "image_url": "https://bioparcvalencia.es/wp-content/uploads/2025/10/Cartel-BIOdias-promocion-noviembre-2025-BIOPARC-Valencia-724x1024.jpg"
+    },
+    {
+      "nombre": "Papel Invite 2025",
+      "fecha": "variable",
+      "hora_inicio": null,
+      "hora_fin": "noviembre",
+      "lugar": "La Casa de la Mar Valencia",
+      "descripcion": "Conciertos gratis (consultar fechas y artistas)",
+      "categoria": "musica",
+      "precio": "gratuito",
+      "estado": "confirmado",
+      "image_url": "https://i.etsystatic.com/56210102/r/il/0faef7/6832002955/il_570xN.6832002955_flys.jpg"
+    },
+    {
+      "nombre": "La ruta de cocas gourmet",
+      "fecha": "variable",
+      "hora_inicio": null,
+      "hora_fin": "noviembre",
+      "lugar": "Vuelve a Valencia (consultar locales y fechas)",
+      "descripcion": "Ruta gastronómica de cocas gourmet por la ciudad",
+      "categoria": "gastronomia",
+      "precio": "variable",
+      "estado": "confirmado",
+      "image_url": "https://www.visitvalencia.com/sites/default/files/media/media-images/images/Ciro%201.jpg"
+    },
+    {
+      "nombre": "Mostra Internacional de Pallasses i Pallassos",
+      "fecha": "variable",
+      "hora_inicio": null,
+      "hora_fin": "noviembre",
+      "lugar": "Xàtiva (localidad cercana)",
+      "descripcion": "Vuelve en noviembre (consultar fechas exactas)",
+      "categoria": "espectaculo",
+      "precio": "consultar",
+      "estado": "confirmado",
+      "image_url": "https://clownplanet.com/wp-content/uploads/mostra-de-pallassos-de-xirivella.jpg"
+    }
+  ],
+  "nota": "La información sobre eventos en Valencia se actualiza constantemente. Se recomienda verificar en Visit Valencia o Valencia Bonita, así como en las páginas web oficiales de teatros y centros culturales para obtener horarios exactos, precios actualizados y confirmación del lugar."
+}

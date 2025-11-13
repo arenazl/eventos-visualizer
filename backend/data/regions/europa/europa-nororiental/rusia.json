@@ -1,0 +1,22 @@
+{
+  "country": "Rusia",
+  "country_code": "RU",
+  "region": "Europa Nororiental",
+  "cities": [
+    {
+      "name": "Moscú",
+      "latitude": 55.7558,
+      "longitude": 37.6173
+    },
+    {
+      "name": "San Petersburgo",
+      "latitude": 59.9311,
+      "longitude": 30.3609
+    },
+    {
+      "name": "Kazán",
+      "latitude": 55.7887,
+      "longitude": 49.1221
+    }
+  ]
+}

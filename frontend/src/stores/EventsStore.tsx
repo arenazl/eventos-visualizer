@@ -114,6 +114,7 @@ interface EventsState {
   fetchNearbyEvents: () => Promise<void>
   fetchProvinceEvents: () => Promise<void>
   autoLoadExpandedEvents: () => Promise<void>
+  searchMultipleNearbyCities: (location: Location) => Promise<void>
   nearbyEventsAvailable: boolean
   nearbyCities: string[]  // Array de 3 ciudades cercanas
   nearbyCity: string | null  // Mantener por compatibilidad
@@ -1181,6 +1182,25 @@ const useEventsStore = create<EventsState>((set, get) => ({
     await get().fetchProvinceEvents()
 
     console.log(`✅ Auto-load completo: ${get().events.length} eventos totales`)
+  },
+
+  // 🌍 BUSCAR EVENTOS EN MÚLTIPLES CIUDADES CERCANAS - Auto-detección inicial
+  searchMultipleNearbyCities: async (location: Location) => {
+    console.log('🌍 [INIT] searchMultipleNearbyCities llamado con:', location.name)
+
+    // 🚀 SIMPLIFICADO: Usar directamente el sistema SSE streaming que ya busca en ciudades cercanas
+    // El backend SSE automáticamente detecta ciudades cercanas y busca en múltiples fuentes
+    try {
+      await get().startStreamingSearch(location)
+      console.log('✅ [INIT] Búsqueda SSE completada desde searchMultipleNearbyCities')
+    } catch (error) {
+      console.error('❌ Error en búsqueda multi-ciudad:', error)
+      set({
+        loading: false,
+        isStreaming: false,
+        error: 'Error al buscar eventos'
+      })
+    }
   }
 }))
 

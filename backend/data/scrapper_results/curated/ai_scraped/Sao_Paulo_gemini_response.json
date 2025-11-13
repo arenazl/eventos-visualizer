@@ -1,0 +1,20 @@
+{
+  "region": "São Paulo",
+  "country": "Brasil",
+  "source": "gemini",
+  "timestamp": "2025-11-09T06:40:00",
+  "eventos": [
+    {"nome": "Grande Prêmio São Paulo de Fórmula 1", "cidade": "São Paulo", "data": "07 a 09 de Novembro", "descricao": "A etapa brasileira do campeonato mundial de Fórmula 1, um dos maiores eventos esportivos e de entretenimento do país."},
+    {"nome": "Macbeth, de Giuseppe Verdi", "cidade": "São Paulo", "data": "09 de Novembro", "descricao": "Apresentação da ópera no Theatro Municipal de São Paulo, um destaque na programação cultural clássica."},
+    {"nome": "Massive Attack", "cidade": "São Paulo", "data": "12 de Novembro", "descricao": "Show de uma das bandas mais influentes do trip hop, no Espaço Unimed."},
+    {"nome": "ExpoCannabis Brasil 2025 - 3ª Edição", "cidade": "São Paulo", "data": "14 a 16 de Novembro", "descricao": "Feira e congresso sobre a cannabis medicinal e industrial, um evento de destaque no setor."},
+    {"nome": "Tattoo Week", "cidade": "São Paulo", "data": "14 a 16 de Novembro", "descricao": "Um dos maiores e mais importantes eventos de tatuagem e body piercing do mundo, realizado na São Paulo Expo."},
+    {"nome": "Rogério Rochlitz – Piano Solo", "cidade": "São Paulo", "data": "15 de Novembro", "descricao": "Recital gratuito de piano na Praça das Bibliotecas do Centro Cultural São Paulo (CCSP)."},
+    {"nome": "PHONICA - Marisa Monte & Orquestra Ao Vivo", "cidade": "São Paulo", "data": "29 de Novembro", "descricao": "Show da cantora Marisa Monte acompanhada por uma orquestra no Parque Ibirapuera."},
+    {"nome": "Product Camp 2025", "cidade": "São Paulo", "data": "10 a 11 de Dezembro", "descricao": "Conferência sobre o mercado de Produtos Digitais, focada em gestores e profissionais da área."}
+  ],
+  "outras_atracoes": [
+    {"nome": "36ª Bienal de São Paulo", "descricao": "Continua em cartaz no Pavilhão da Bienal, com dezenas de artistas e instalações focadas no tema 'Nem todo viandante anda estradas – Da humanidade como prática'."},
+    {"nome": "Programação do Theatro Municipal e Sala São Paulo", "descricao": "Diversos concertos, balés e recitais estão programados, incluindo a ópera 'Wozzeck' de Alban Berg na Sala São Paulo em dezembro."}
+  ]
+}

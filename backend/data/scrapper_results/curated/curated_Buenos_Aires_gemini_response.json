@@ -1,0 +1,90 @@
+{
+  "source_file": "Buenos_Aires_gemini_response.json",
+  "curated_at": "2025-11-09T10:37:08.200665",
+  "events": [
+    {
+      "nombre": "La Noche de los Museos",
+      "fecha": "Sábado 8 de Noviembre",
+      "ciudad": "CABA (Ciudad de Buenos Aires)",
+      "descripcion": "Una de las noches culturales más grandes de la ciudad. Más de 200 museos, espacios culturales y edificios emblemáticos abren sus puertas de noche de forma gratuita con actividades especiales, shows y recorridos.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Buenos Aires",
+      "country": "Argentina",
+      "image_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Grandes Recitales en Movistar Arena y otros venues",
+      "fecha": "9, 12, 14, 15, 16, 19, 20, 22, 25, 27, 29, 30 de Noviembre",
+      "ciudad": "CABA (Ciudad de Buenos Aires)",
+      "descripcion": "Noviembre es un mes cargado de música con shows de artistas muy populares como Divididos (12 y 29), Bersuit (14), Billy Idol (15), Melendi (16), Rata Blanca (19), Marco Antonio Solís (20), Luciano Pereyra (22), Andrés Calamaro (25) y La Delio Valdez (27), entre otros.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Buenos Aires",
+      "country": "Argentina",
+      "image_url": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Semana del Patrimonio",
+      "fecha": "Del 10 al 16 de Noviembre",
+      "ciudad": "CABA (Ciudad de Buenos Aires)",
+      "descripcion": "Una semana de actividades dedicadas a resaltar la riqueza arquitectónica, cultural e histórica de la ciudad. Incluye recorridos, charlas y visitas a palacios y edificios emblemáticos.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Buenos Aires",
+      "country": "Argentina",
+      "image_url": "https://images.unsplash.com/photo-1544947950-5b1c4b0d6b8d?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Candlelight Concerts",
+      "fecha": "Noviembre (varias fechas, consultar)",
+      "ciudad": "CABA (Ciudad de Buenos Aires)",
+      "descripcion": "Conciertos que se realizan a la luz de las velas en lugares emblemáticos, ofreciendo una experiencia musical y multisensorial con repertorios que van desde homenajes a artistas clásicos hasta bandas de rock/pop.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Buenos Aires",
+      "country": "Argentina",
+      "image_url": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Buenos Aires Rojo Sangre (BARS)",
+      "fecha": "Del 20 al 30 de Noviembre",
+      "ciudad": "CABA (Ciudad de Buenos Aires)",
+      "descripcion": "Nueva edición del festival internacional de cine de terror, fantástico y bizarro más antiguo de Latinoamérica, una cita clave para los amantes del género.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Buenos Aires",
+      "country": "Argentina",
+      "image_url": "https://images.unsplash.com/photo-1506905925346-21bea4d5618d?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Marcha del Orgullo LGBTQ+",
+      "fecha": "Finales de Noviembre/Principios de Diciembre",
+      "ciudad": "CABA (Ciudad de Buenos Aires)",
+      "descripcion": "Una de las manifestaciones más grandes y coloridas, celebrando la diversidad y visibilizando los reclamos de la comunidad. (La fecha exacta puede variar).",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Buenos Aires",
+      "country": "Argentina",
+      "image_url": "https://images.unsplash.com/photo-1506905925346-21bea4d5618d?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    }
+  ]
+}

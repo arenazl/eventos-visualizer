@@ -1,0 +1,11 @@
+{
+  "region": "Arequipa",
+  "country": "Perú",
+  "source": "gemini",
+  "timestamp": "2025-11-09T07:50:00",
+  "eventos": [
+    {"nombre": "Hay Festival Arequipa 2025", "ciudad": "Arequipa", "fecha": "6 al 9 de noviembre", "descripcion": "Undécima edición de este importante festival de literatura, arte, ciencia y pensamiento, con charlas, talleres, conciertos y homenajes a grandes figuras como Mario Vargas Llosa. Muchos eventos son gratuitos o a bajo costo."},
+    {"nombre": "Aniversario con Yarita Lizeth y más", "ciudad": "Arequipa (Alto Selva Alegre)", "fecha": "9 de noviembre", "descripcion": "Celebración popular del 33° Aniversario del distrito de Alto Selva Alegre con la presentación de artistas de cumbia como Yarita Lizeth y Amor Rebelde."},
+    {"nombre": "Festival del Rocoto", "ciudad": "Arequipa (Tiabaya)", "fecha": "9 de noviembre", "descripcion": "Evento gastronómico que celebra al rocoto, ingrediente emblemático de la cocina arequipeña, con platos típicos y actividades culturales."}
+  ]
+}

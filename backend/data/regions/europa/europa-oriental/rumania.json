@@ -1,0 +1,22 @@
+{
+  "country": "Rumania",
+  "country_code": "RO",
+  "region": "Europa Oriental",
+  "cities": [
+    {
+      "name": "Bucarest",
+      "latitude": 44.4268,
+      "longitude": 26.1025
+    },
+    {
+      "name": "Cluj-Napoca",
+      "latitude": 46.7712,
+      "longitude": 23.6236
+    },
+    {
+      "name": "Timișoara",
+      "latitude": 45.7489,
+      "longitude": 21.2087
+    }
+  ]
+}

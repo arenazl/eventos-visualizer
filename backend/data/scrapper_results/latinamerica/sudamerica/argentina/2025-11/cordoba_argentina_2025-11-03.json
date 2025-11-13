@@ -1,0 +1,282 @@
+{
+  "source": "gemini",
+  "ciudad": "Córdoba",
+  "pais": "Argentina",
+  "fecha_consulta": "2025-11-03",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 30,
+  "eventos": [
+    {
+      "numero": 1,
+      "artista": "Paulo Londra",
+      "fecha": "2025-11-29",
+      "lugar": "Quality Arena",
+      "genero": "Música Urbana/Pop",
+      "categoria": "Música",
+      "image_url": "https://www.shutterstock.com/shutterstock/videos/3605476015/thumb/1.jpg?ip=x480"
+    },
+    {
+      "numero": 2,
+      "artista": "AIRBAG Oficial",
+      "fecha": "2025-11-29",
+      "lugar": "Estadio Mario Alberto Kempes",
+      "genero": "Rock",
+      "categoria": "Música",
+      "image_url": "https://sportsmatik.com/uploads/wiki-venues/estadio-mario-alberto-kempes_1615196503.jpg"
+    },
+    {
+      "numero": 3,
+      "artista": "Patricia Sosa - Gira Alquimia",
+      "fecha": "2025-11-06",
+      "lugar": "Quality Espacio",
+      "genero": "Música Nacional",
+      "categoria": "Música",
+      "image_url": "https://res.cloudinary.com/dhh19fozh/q_auto:good,f_auto,dpr_1.0/w_auto:breakpoints_85_850_10_10:412/jb7production-uploads/2023/04/luciano-pereyra-1200x675.png"
+    },
+    {
+      "numero": 4,
+      "artista": "Palito Ortega - 55° Aniversario",
+      "fecha": "2025-11-27",
+      "lugar": "Quality Arena",
+      "genero": "Música Nacional",
+      "categoria": "Música",
+      "image_url": "https://www.shutterstock.com/shutterstock/videos/3605476015/thumb/1.jpg?ip=x480"
+    },
+    {
+      "numero": 5,
+      "nombre": "Festival Internacional de Jazz de Córdoba",
+      "fecha_inicio": "2025-11-08",
+      "fecha_fin": "2025-11-20",
+      "lugar": "Teatro Real, Paseo del Buen Pastor y otros",
+      "genero": "Jazz",
+      "descripcion": "Ciclo de conciertos gratuitos en distintos escenarios",
+      "categoria": "Música",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3326626762778659822"
+    },
+    {
+      "numero": 6,
+      "artista": "RATA BLANCA",
+      "periodo": "Noviembre (varias fechas)",
+      "lugar": "Quality Espacio/Plaza de la Música",
+      "genero": "Rock",
+      "categoria": "Música",
+      "image_url": "https://res.cloudinary.com/dhh19fozh/q_auto:good,f_auto,dpr_1.0/w_auto:breakpoints_85_850_10_10:412/jb7production-uploads/2024/05/trueno-1200x675.png"
+    },
+    {
+      "numero": 7,
+      "artista": "Ke Personajes",
+      "periodo": "Mediados de Noviembre",
+      "lugar": "Quality Espacio",
+      "genero": "Cumbia / Música Popular",
+      "categoria": "Música",
+      "image_url": "https://res.cloudinary.com/dhh19fozh/q_auto:good,f_auto,dpr_1.0/w_auto:breakpoints_85_850_10_10:412/jb7production-uploads/2023/04/luciano-pereyra-1200x675.png"
+    },
+    {
+      "numero": 8,
+      "artista": "Ulises Bueno - Aniversario",
+      "periodo": "Fines de Noviembre (varias fechas)",
+      "lugar": "Plaza de la Música",
+      "genero": "Cuarteto",
+      "categoria": "Música",
+      "image_url": "https://res.cloudinary.com/dhh19fozh/q_auto:good,f_auto,dpr_1.0/w_auto:breakpoints_85_850_10_10:412/jb7production-uploads/2024/05/trueno-1200x675.png"
+    },
+    {
+      "numero": 9,
+      "nombre": "Cantoría de la Merced y Orquesta Municipal",
+      "fecha": "2025-11-06",
+      "lugar": "Teatro del Libertador",
+      "genero": "Música Clásica/Coral",
+      "categoria": "Música",
+      "image_url": "https://recursocoral.com.ar/wp-content/uploads/2025/10/eternu-768x427.jpg"
+    },
+    {
+      "numero": 10,
+      "nombre": "Fiesta Provincial del Salame Típico Caroyense",
+      "fecha": "2025-11-02",
+      "lugar": "Colonia Caroya",
+      "descripcion": "Evento gastronómico tradicional y muy concurrido",
+      "categoria": "Gastronomía",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3476031095051275985"
+    },
+    {
+      "numero": 11,
+      "nombre": "Fiesta Nacional del Maní",
+      "fecha_inicio": "2025-11-14",
+      "fecha_fin": "2025-11-16",
+      "lugar": "Hernando",
+      "descripcion": "Celebración de la cosecha y la tradición manisera. Con música, elección de reina y espectáculos",
+      "categoria": "Fiestas Populares",
+      "image_url": "https://fiestasnacionales.org/img/GestionFiesta/Hernando-Cordoba.jpeg"
+    },
+    {
+      "numero": 12,
+      "nombre": "Fiesta de la Cerveza Artesanal",
+      "fecha_inicio": "2025-11-06",
+      "fecha_fin": "2025-11-09",
+      "lugar": "Villa Nueva",
+      "categoria": "Gastronomía",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3763144314999064033"
+    },
+    {
+      "numero": 13,
+      "nombre": "Mercado de Viajes 2025 (Feria de Turismo)",
+      "fecha": "2025-11-01",
+      "lugar": "Centro de Convenciones Córdoba",
+      "categoria": "Feria",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3755817538258127850"
+    },
+    {
+      "numero": 14,
+      "nombre": "Fiesta de la Tierra y la Tradición",
+      "fecha_inicio": "2025-11-07",
+      "fecha_fin": "2025-11-09",
+      "lugar": "Morteros",
+      "categoria": "Fiestas Populares",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3721774897316343359"
+    },
+    {
+      "numero": 15,
+      "nombre": "Fiesta Nacional del Tambero y su Familia",
+      "periodo": "Mediados de Noviembre",
+      "lugar": "Tránsito",
+      "descripcion": "Celebración de la producción láctea y la vida rural",
+      "categoria": "Fiestas Populares",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3306489067671580913"
+    },
+    {
+      "numero": 16,
+      "nombre": "Encuentro de Fuegos y Sabores",
+      "fecha": "2025-11-23",
+      "lugar": "Villa Santa Cruz del Lago",
+      "descripcion": "Evento gastronómico que destaca los sabores locales y la cocina a las brasas",
+      "categoria": "Gastronomía",
+      "image_url": "https://0.academia-photos.com/attachment_thumbnails/118414968/mini_magick20240924-1-ournaz.png?1727197033"
+    },
+    {
+      "numero": 17,
+      "nombre": "Fantasmáticas (Teatro Comedia)",
+      "periodo": "Continuidad en Noviembre",
+      "lugar": "Teatro Comedia",
+      "descripcion": "Entrada Gratuita",
+      "categoria": "Entretenimiento",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=2814874707948758131"
+    },
+    {
+      "numero": 18,
+      "nombre": "Hotel Open 24/7",
+      "fecha_inicio": "2025-11-20",
+      "fecha_fin": "2025-11-27",
+      "lugar": "Teatro Real",
+      "categoria": "Entretenimiento",
+      "image_url": "https://www.capradio.org/cdn-cgi/image/format=auto,width=780/media/12277993/052625_medi-cal-assets_aj_cm_15.jpg"
+    },
+    {
+      "numero": 19,
+      "nombre": "Buenos Aires Ballet",
+      "periodo": "Principios de Noviembre",
+      "lugar": "Teatro Ciudad de las Artes",
+      "genero": "Danza Clásica",
+      "categoria": "Entretenimiento",
+      "image_url": "https://media.tacdn.com/media/attractions-splice-spp-674x446/06/6e/b6/16.jpg"
+    },
+    {
+      "numero": 20,
+      "nombre": "La luna es un águila blanca",
+      "fecha_inicio": "2025-11-07",
+      "fecha_fin": "2025-11-08",
+      "lugar": "Teatro Real",
+      "genero": "Teatro Independiente",
+      "categoria": "Entretenimiento",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3731915241182695992"
+    },
+    {
+      "numero": 21,
+      "nombre": "Yerma",
+      "fecha": "2025-11-15",
+      "lugar": "Teatro Ciudad de las Artes",
+      "genero": "Teatro / Clásico",
+      "categoria": "Entretenimiento",
+      "image_url": "https://tablaolascarboneras.com/wp-content/uploads/2018/02/manuel-li%C3%B1an-optim-02.jpg"
+    },
+    {
+      "numero": 22,
+      "nombre": "Black Tango",
+      "fecha": "2025-11-09",
+      "lugar": "Teatro Real",
+      "genero": "Danza / Musical",
+      "categoria": "Entretenimiento",
+      "image_url": "https://www.tangol.com/Fotos/Tours/20140729.BuenosAiresShows.Mobile.jpg"
+    },
+    {
+      "numero": 23,
+      "nombre": "Stand Up de Humoristas Nacionales",
+      "periodo": "Varias fechas en noviembre",
+      "lugar": "Quality Espacio / Teatros locales",
+      "genero": "Humor / Stand Up",
+      "categoria": "Entretenimiento",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=1282390003562359"
+    },
+    {
+      "numero": 24,
+      "nombre": "Noche de los Museos",
+      "periodo": "Noviembre (fecha a confirmar)",
+      "lugar": "Museos y Espacios de la Ciudad",
+      "descripcion": "Apertura simultánea y gratuita de más de 140 espacios culturales",
+      "categoria": "Cultural",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/4b/f0/4f/caption.jpg?w=900&h=500&s=1"
+    },
+    {
+      "numero": 25,
+      "nombre": "Congreso de Bienestar, Tecnología y Educación",
+      "periodo": "Mediados de Noviembre",
+      "lugar": "Centro Cultural Córdoba y Concejo Deliberante",
+      "categoria": "Conferencia",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3763064406319177856"
+    },
+    {
+      "numero": 26,
+      "nombre": "Congreso 2025 FLACSO – Pensar el Futuro",
+      "fecha_inicio": "2025-11-05",
+      "fecha_fin": "2025-11-07",
+      "lugar": "FLACSO Argentina (Sede CABA, con gran convocatoria federal)",
+      "categoria": "Conferencia",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3755510501020136188"
+    },
+    {
+      "numero": 27,
+      "nombre": "Feria del Libro Local/Ciclos de Poesía",
+      "periodo": "Varias fechas en Noviembre",
+      "lugar": "Biblioteca Córdoba / Paseo del Buen Pastor",
+      "categoria": "Cultural",
+      "image_url": "https://0.academia-photos.com/attachment_thumbnails/118414968/mini_magick20240924-1-ournaz.png?1727197033"
+    },
+    {
+      "numero": 28,
+      "nombre": "Córdoba en Movimiento: Festival Arte Urbano",
+      "fecha": "2025-11-29",
+      "lugar": "Ciudad de Córdoba",
+      "descripcion": "Festival de arte urbano, workshops, música y actividades para la familia",
+      "categoria": "Cultural",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Festival_de_Cosqu%C3%ADn_1970_ca.jpg"
+    },
+    {
+      "numero": 29,
+      "nombre": "Despeñaderos Corre - Trail Race",
+      "fecha": "2025-11-21",
+      "lugar": "Despeñaderos",
+      "descripcion": "Carrera de Trail Running en entorno natural",
+      "categoria": "Deportes",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=2835935494896385318"
+    },
+    {
+      "numero": 30,
+      "nombre": "Peregrinación a Carreta Quemada (Camino de Brochero)",
+      "fecha": "2025-11-23",
+      "lugar": "Villa Santa Rosa (al sitio de nacimiento de Brochero)",
+      "genero": "Religioso / Trekking",
+      "categoria": "Religioso",
+      "image_url": "https://cordobaturismo.gov.ar/wp-content/uploads/2025/09/WhatsApp-Image-2025-09-22-at-10.03.06.jpeg"
+    }
+  ],
+  "nota_importante": "Lista completa de 30 eventos convocantes en Córdoba para noviembre 2025, incluyendo grandes conciertos, fiestas populares, teatro, conferencias y eventos deportivos. Las fechas se basan en la recurrencia anual y están sujetas a confirmación oficial."
+}

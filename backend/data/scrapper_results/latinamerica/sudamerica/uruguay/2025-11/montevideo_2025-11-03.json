@@ -1,0 +1,314 @@
+{
+  "source": "gemini",
+  "ciudad": "Montevideo",
+  "pais": "Uruguay",
+  "fecha_consulta": "2025-11-03",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 30,
+  "eventos": [
+    {
+      "numero": 1,
+      "artista": "Trueno",
+      "nombre": "El último baile DELUXE Tour 2025",
+      "fecha": "2025-11-02",
+      "lugar": "Antel Arena",
+      "genero": "Hip-hop/Trap",
+      "descripcion": "Concierto del artista argentino de trap y hip-hop",
+      "categoria": "Música",
+      "image_url": "https://res.cloudinary.com/dhh19fozh/q_auto:good,f_auto,dpr_1.0/w_auto:breakpoints_85_850_10_10:412/jb7production-uploads/2024/05/trueno-1200x675.png"
+    },
+    {
+      "numero": 2,
+      "artista": "Melendi",
+      "fecha": "2025-11-18",
+      "lugar": "Antel Arena",
+      "genero": "Pop/Rock",
+      "descripcion": "Concierto del cantante español de pop-rock",
+      "categoria": "Música",
+      "image_url": "https://concerts50.com/uploads/venue/d1/cd/antel-arena-23036759/venue_page/antel-arena.jpg"
+    },
+    {
+      "numero": 3,
+      "nombre": "El Fiestun",
+      "artistas": "Cruzando el Charco, The La Planta, Luck Ra",
+      "fecha": "2025-11-23",
+      "lugar": "Antel Arena",
+      "genero": "Varios Géneros",
+      "descripcion": "Festival con múltiples artistas de música urbana y latina",
+      "categoria": "Música",
+      "image_url": "https://concerts50.com/uploads/venue/d1/cd/antel-arena-23036759/venue_page/antel-arena.jpg"
+    },
+    {
+      "numero": 4,
+      "artista": "Erreway",
+      "fecha": "2025-11-22",
+      "lugar": "Antel Arena",
+      "genero": "Pop/Teen",
+      "descripcion": "Concierto de la banda argentina icónica de principios de 2000",
+      "categoria": "Música",
+      "image_url": "https://concerts50.com/uploads/venue/d1/cd/antel-arena-23036759/venue_page/antel-arena.jpg"
+    },
+    {
+      "numero": 5,
+      "artista": "Emma Shapplin",
+      "nombre": "Venere Tour 2025",
+      "fecha": "2025-11-21",
+      "lugar": "Auditorio Nacional Adela Reta (Sodre)",
+      "genero": "Soprano/Música Clásica Contemporánea",
+      "descripcion": "Concierto de la soprano francesa de crossover clásico",
+      "categoria": "Música",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=1285690380235611"
+    },
+    {
+      "numero": 6,
+      "artista": "La Triple Nelson",
+      "fecha": "2025-11-19",
+      "lugar": "Por confirmar (Calendario Sodre)",
+      "genero": "Rock",
+      "descripcion": "Concierto de la banda uruguaya de rock",
+      "categoria": "Música",
+      "image_url": "https://0.academia-photos.com/attachment_thumbnails/98006557/mini_magick20230130-1-i714bz.png?1675095129"
+    },
+    {
+      "numero": 7,
+      "nombre": "Cumbia Club",
+      "fecha": "2025-11-14",
+      "lugar": "Sala del Museo Del Carnaval",
+      "genero": "Cumbia",
+      "descripcion": "Evento de música cumbia",
+      "categoria": "Música",
+      "image_url": "https://thisis-images.spotifycdn.com/37i9dQZF1DZ06evO0ZFWPT-default.jpg"
+    },
+    {
+      "numero": 8,
+      "artista": "El Zar",
+      "fecha": "2025-11-21",
+      "lugar": "Sala del Museo Del Carnaval",
+      "genero": "Pop/Indie",
+      "descripcion": "Concierto de música pop e indie",
+      "categoria": "Música",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100064810326254"
+    },
+    {
+      "numero": 9,
+      "artista": "NOREH",
+      "fecha": "2025-11-22",
+      "lugar": "Teatro Stella D'Italia",
+      "genero": "Música",
+      "descripcion": "Concierto de la artista",
+      "categoria": "Música",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/ab/a6/c3/fuente-dos-candados.jpg?w=900&h=500&s=1"
+    },
+    {
+      "numero": 10,
+      "artista": "La Tabaré",
+      "nombre": "40 años",
+      "periodo": "Noviembre (Varias Fechas)",
+      "lugar": "Teatro de Verano",
+      "genero": "Rock",
+      "descripcion": "Celebración de 40 años de la banda uruguaya de rock",
+      "categoria": "Música",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=800077725970378"
+    },
+    {
+      "numero": 11,
+      "nombre": "Maria Callas",
+      "fecha": "2025-11-02",
+      "lugar": "Auditorio Nacional Adela Reta (Sodre)",
+      "genero": "Ballet",
+      "descripcion": "Ballet Nacional del Sodre presentando obra sobre Maria Callas",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=1092109409608613"
+    },
+    {
+      "numero": 12,
+      "nombre": "TIRRIA",
+      "artistas": "Capusotto, Politti y Spregelburd",
+      "fecha": "2025-11-01",
+      "lugar": "Por confirmar (Cooltivarte)",
+      "genero": "Teatro",
+      "descripcion": "Obra de teatro con destacados actores argentinos",
+      "categoria": "Entretenimiento",
+      "image_url": "https://entrenoslibroscine.wordpress.com/wp-content/uploads/2023/06/festivalondo-insta-vertical.png?w=584"
+    },
+    {
+      "numero": 13,
+      "nombre": "El beso de la mujer araña",
+      "periodo": "Noviembre (Varias Fechas)",
+      "lugar": "Por confirmar (Calendario Sodre)",
+      "genero": "Musical",
+      "descripcion": "Espectáculo musical basado en la obra de Manuel Puig",
+      "categoria": "Entretenimiento",
+      "image_url": "https://0.academia-photos.com/attachment_thumbnails/65575835/mini_magick20220708-15275-19rqhyk.png?1657347042"
+    },
+    {
+      "numero": 14,
+      "nombre": "Filtro",
+      "periodo": "Noviembre (Varias Fechas)",
+      "lugar": "Por confirmar (Cooltivarte)",
+      "genero": "Teatro Documental",
+      "descripcion": "Obra de teatro documental",
+      "categoria": "Cultural",
+      "image_url": "https://entrenoslibroscine.wordpress.com/wp-content/uploads/2025/10/img-20250930-wa0020.jpg?w=584"
+    },
+    {
+      "numero": 15,
+      "nombre": "Memoria sumergida",
+      "fecha_inicio": "2025-11-03",
+      "fecha_fin": "2025-11-05",
+      "lugar": "Por confirmar (Calendario Sodre)",
+      "genero": "Teatro",
+      "descripcion": "Espectáculo teatral",
+      "categoria": "Entretenimiento",
+      "image_url": "https://0.academia-photos.com/attachment_thumbnails/98006557/mini_magick20230130-1-i714bz.png?1675095129"
+    },
+    {
+      "numero": 16,
+      "nombre": "Pago & Arrabal",
+      "fecha": "2025-11-14",
+      "lugar": "Por confirmar (Calendario Sodre)",
+      "genero": "Tango",
+      "descripcion": "Espectáculo de música y tango",
+      "categoria": "Música",
+      "image_url": "https://0.academia-photos.com/attachment_thumbnails/48677479/mini_magick20220708-10768-u24v50.png?1657264665"
+    },
+    {
+      "numero": 17,
+      "nombre": "Ginastera, Respighi, Villa-Lobos",
+      "fecha": "2025-11-15",
+      "lugar": "Por confirmar (Calendario Sodre)",
+      "genero": "Música Clásica/Sinfónica",
+      "descripcion": "Concierto de música clásica con obras de compositores latinoamericanos",
+      "categoria": "Música"
+    },
+    {
+      "numero": 18,
+      "artista": "Élida Gencarelli",
+      "fecha": "2025-11-20",
+      "lugar": "Por confirmar (Calendario Sodre)",
+      "genero": "Espectáculo",
+      "descripcion": "Espectáculo de la artista",
+      "categoria": "Entretenimiento",
+      "image_url": "https://0.academia-photos.com/attachment_thumbnails/98006557/mini_magick20230130-1-i714bz.png?1675095129"
+    },
+    {
+      "numero": 19,
+      "nombre": "Tango animal",
+      "fecha": "2025-11-21",
+      "lugar": "Por confirmar (Calendario Sodre)",
+      "genero": "Tango",
+      "descripcion": "Espectáculo de tango",
+      "categoria": "Música",
+      "image_url": "https://entrenoslibroscine.wordpress.com/wp-content/uploads/2025/10/img-20250930-wa0020.jpg?w=584"
+    },
+    {
+      "numero": 20,
+      "nombre": "Monteboedo",
+      "fecha": "2025-11-27",
+      "lugar": "Por confirmar (Calendario Sodre)",
+      "genero": "Espectáculo",
+      "descripcion": "Espectáculo artístico",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 21,
+      "nombre": "China Lac & China International Import Expo",
+      "fecha_inicio": "2025-11-03",
+      "fecha_fin": "2025-11-10",
+      "lugar": "Delegación Uruguaya (evento internacional)",
+      "descripcion": "Feria multisectorial internacional con participación uruguaya",
+      "categoria": "Feria",
+      "image_url": "https://unesdoc.unesco.org/in/rest/Thumb/image?id=p%3A%3Ausmarcdef_0000392478&author=UNESCO.+Executive+Board&title=Summary+records+%28of+the+220th+session+of+the+Executive+Board%2C+Paris%2C+9-23+October+2024%29&year=2025&TypeOfDocument=UnescoPhysicalDocument&mat=PGD&ct=true&size=512&isPhysical=1"
+    },
+    {
+      "numero": 22,
+      "nombre": "Visita Comercial a México",
+      "fecha_inicio": "2025-11-03",
+      "fecha_fin": "2025-11-06",
+      "lugar": "Delegación Uruguaya (evento internacional)",
+      "descripcion": "Evento internacional de alimentos y bebidas con participación uruguaya",
+      "categoria": "Conferencia",
+      "image_url": "https://uy.usembassy.gov/wp-content/uploads/sites/170/2025/09/WEB-Amb-Rinaldi-w-Orsi-Cartas-Credenciales-02-750x450.jpg"
+    },
+    {
+      "numero": 23,
+      "nombre": "City Nation Place Global 2025",
+      "fecha_inicio": "2025-11-05",
+      "fecha_fin": "2025-11-06",
+      "lugar": "Marca País Uruguay (evento internacional)",
+      "descripcion": "Evento internacional de liderazgo de marca con participación de Uruguay",
+      "categoria": "Conferencia",
+      "image_url": "https://www.uruguayxxi.gub.uy/uploads/evento/ef70c3ca38a76236efc8f9dbf76b0e0808dca15b.png?grilla"
+    },
+    {
+      "numero": 24,
+      "nombre": "EXPOCONVENTION HALLOWEEN",
+      "fecha_inicio": "2025-10-31",
+      "fecha_fin": "2025-11-02",
+      "lugar": "Centro de Eventos del LATU",
+      "descripcion": "Convención y feria temática de Halloween",
+      "categoria": "Feria",
+      "image_url": "https://www.tiktok.com/api/img/?itemId=7351623940772596998&location=0&aid=1988"
+    },
+    {
+      "numero": 25,
+      "nombre": "Murga Joven",
+      "fecha_inicio": "2025-11-02",
+      "fecha_fin": "2025-11-12",
+      "lugar": "Centro Cultural Florencio Sánchez",
+      "genero": "Carnaval",
+      "descripcion": "Festival de carnaval y cultura popular uruguaya",
+      "categoria": "Cultural",
+      "image_url": "https://media.licdn.com/dms/image/v2/D4D22AQF6FtKfxFTPyQ/feedshare-shrink_480/B4DZotAbN5JIAY-/0/1761691678504?e=2147483647&v=beta&t=WyvAZJOY3D29bXDpqIdI_b1wpemBcllXwAb_UqZwMYU"
+    },
+    {
+      "numero": 26,
+      "nombre": "Carrera San Felipe y Santiago",
+      "fecha_inicio": "2025-11-04",
+      "fecha_fin": "2025-11-06",
+      "lugar": "Recorrido por Montevideo",
+      "descripcion": "Evento deportivo histórico de running",
+      "categoria": "Deportes",
+      "image_url": "https://www.sandiegouniontribune.com/wp-content/uploads/migration/2012/12/09/00000169-69c4-da6f-abeb-7fffcfb20000.jpg?w=535"
+    },
+    {
+      "numero": 27,
+      "nombre": "Olimpíada de Robótica, Programación y Videojuegos",
+      "fecha_inicio": "2025-11-05",
+      "fecha_fin": "2025-11-06",
+      "lugar": "Por confirmar (Encuentro de Cierre)",
+      "descripcion": "Evento educativo y tecnológico de competencias",
+      "categoria": "Ciencia",
+      "image_url": "https://pbs.twimg.com/profile_images/1897656832367230976/BoECRrkj_400x400.png"
+    },
+    {
+      "numero": 28,
+      "nombre": "11vo Festival Internacional Temporada Alta en Montevideo 2025",
+      "fecha_inicio": "2025-11-01",
+      "fecha_fin": "2025-11-30",
+      "lugar": "Varios Teatros",
+      "descripcion": "Festival internacional de teatro con múltiples obras durante todo el mes",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3728252501025056356"
+    },
+    {
+      "numero": 29,
+      "nombre": "Cierre Living 2025",
+      "fecha": "2025-11-29",
+      "lugar": "Sala del Museo del Carnaval",
+      "descripcion": "Fiesta y evento social de cierre",
+      "categoria": "Entretenimiento",
+      "image_url": "https://online.fliphtml5.com/woejv/lgsa/files/thumb/1.webp?1584628468&1584628468"
+    },
+    {
+      "numero": 30,
+      "nombre": "Limonada",
+      "fecha": "2025-11-07",
+      "lugar": "Sala del Museo del Carnaval",
+      "descripcion": "Fiesta y evento social",
+      "categoria": "Entretenimiento",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100064810326254"
+    }
+  ],
+  "nota_importante": "Montevideo en noviembre 2025 ofrece una agenda diversa con grandes conciertos en Antel Arena (Trueno, Melendi, Erreway, El Fiestun), programación del Auditorio del Sodre (Emma Shapplin, Ballet Nacional), Festival Internacional Temporada Alta que dura todo el mes, eventos de carnaval (Murga Joven), y ferias empresariales. Se recomienda verificar fechas y entradas en Tickantel, Sodre o productoras oficiales cerca de la fecha del evento."
+}

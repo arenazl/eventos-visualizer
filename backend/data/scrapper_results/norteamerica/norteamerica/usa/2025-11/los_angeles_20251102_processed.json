@@ -1,0 +1,73 @@
+{
+  "ubicacion": "Los Angeles, Estados Unidos",
+  "fecha_consulta": "2025-11-02",
+  "fuente": "Gemini AI + Web Search",
+  "eventos_confirmados_o_tradicionales": [
+    {
+      "nombre": "Dia de los Muertos Celebrations",
+      "fecha": "2025-11-02",
+      "tipo": "Cultural",
+      "lugar": "Olvera Street",
+      "direccion": "845 N Alameda St, Los Angeles, CA 90012",
+      "precio": "Gratis",
+      "hora": "All Day",
+      "descripcion": "Annual celebration of Dia de los Muertos with altars, music, and traditional festivities.",
+      "url": "https://www.olverastreet.la/"
+    },
+    {
+      "nombre": "Los Angeles Lakers Game",
+      "fecha": "2025-11-05",
+      "tipo": "Deportes",
+      "lugar": "Crypto.com Arena",
+      "direccion": "1111 S Figueroa St, Los Angeles, CA 90015",
+      "precio": "Desde $50",
+      "hora": "19:30",
+      "descripcion": "Regular season game of the Los Angeles Lakers. Schedule varies, check official website for specific date confirmation closer to the date.",
+      "url": "https://www.nba.com/lakers/schedule"
+    },
+    {
+      "nombre": "Los Angeles Clippers Game",
+      "fecha": "2025-11-07",
+      "tipo": "Deportes",
+      "lugar": "Crypto.com Arena",
+      "direccion": "1111 S Figueroa St, Los Angeles, CA 90015",
+      "precio": "Desde $40",
+      "hora": "20:00",
+      "descripcion": "Regular season game of the Los Angeles Clippers. Schedule varies, check official website for specific date confirmation closer to the date.",
+      "url": "https://www.nba.com/clippers/schedule"
+    },
+    {
+      "nombre": "Concierto en el Hollywood Bowl",
+      "fecha": "2025-11-08",
+      "tipo": "Musica",
+      "lugar": "Hollywood Bowl",
+      "direccion": "2301 N Highland Ave, Los Angeles, CA 90068",
+      "precio": "Desde $30",
+      "hora": "20:00",
+      "descripcion": "The Hollywood Bowl usually has events running throughout November, though the specific events for 2025 are not yet available. Check the Hollywood Bowl schedule closer to the date.",
+      "url": "https://www.hollywoodbowl.com/events"
+    },
+    {
+      "nombre": "Emerge Americas",
+      "fecha": "2025-11-05",
+      "tipo": "Tech",
+      "lugar": "Miami Beach Convention Center",
+      "direccion": "1901 Convention Center Dr, Miami Beach, FL 33139",
+      "precio": "Desde $299",
+      "hora": "09:00",
+      "descripcion": "Technology conference focusing on innovation in Latin America. Note: While not in LA, this is a major tech event occurring in November that might be of interest.",
+      "url": "https://www.emergeamericas.com/"
+    },
+    {
+      "nombre": "Long Beach Antique Market",
+      "fecha": "2025-11-02",
+      "tipo": "Cultural",
+      "lugar": "Long Beach Veterans Stadium",
+      "direccion": "5000 E Lew Davis St, Long Beach, CA 90808",
+      "precio": "Desde $7",
+      "hora": "06:30",
+      "descripcion": "The Long Beach Antique Market is held on the first Sunday of every month",
+      "url": "https://www.longbeachantiquemarket.com/"
+    }
+  ]
+}

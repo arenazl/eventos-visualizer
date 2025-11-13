@@ -1,0 +1,302 @@
+{
+  "source": "gemini",
+  "ciudad": "Mendoza",
+  "pais": "Argentina",
+  "fecha_consulta": "2025-11-03",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 30,
+  "eventos": [
+    {
+      "numero": 1,
+      "nombre": "Peatonal del Vino 2025",
+      "fecha_inicio": "2025-11-15",
+      "fecha_fin": "2025-11-16",
+      "lugar": "Calles céntricas, Ciudad de Mendoza",
+      "genero": "Música/Vino/Gastronomía",
+      "descripcion": "Festival de vino, música y gastronomía en las calles del centro de Mendoza",
+      "categoria": "Gastronomía",
+      "image_url": "https://online.fliphtml5.com/bxikb/fyah/files/thumb/1.webp?1646801115&1646801115"
+    },
+    {
+      "numero": 2,
+      "nombre": "Mendotaku 2025",
+      "fecha_inicio": "2025-11-15",
+      "fecha_fin": "2025-11-16",
+      "lugar": "Nave Cultural, Ciudad de Mendoza",
+      "genero": "Cultura Pop/Anime/Gaming",
+      "descripcion": "Convención de cultura pop, anime y gaming de gran convocatoria",
+      "categoria": "Cultural",
+      "image_url": "https://i.ytimg.com/vi/GRM_ug8syW0/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AH-CYAC0AWKAgwIABABGGUgZShlMA8=&rs=AOn4CLCq4WC2Yf07ZWXcWGEm6HgqvChtSA"
+    },
+    {
+      "numero": 3,
+      "nombre": "Copa Parque Urbano",
+      "fecha_inicio": "2025-11-22",
+      "fecha_fin": "2025-11-23",
+      "lugar": "Parque Urbano, Ciudad de Mendoza",
+      "genero": "Deportes Extremos",
+      "descripcion": "Competencia de deportes extremos en el Parque Urbano",
+      "categoria": "Deportes",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100068562936703"
+    },
+    {
+      "numero": 4,
+      "nombre": "Festival Insurgente",
+      "artistas": "Mala Rodríguez, Sara Hebe",
+      "fecha": "2025-11-02",
+      "lugar": "Espacio Cultural Julio Le Parc, Guaymallén",
+      "genero": "Música",
+      "descripcion": "Festival de música con artistas de hip hop y rap",
+      "categoria": "Música",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3214898614131130001"
+    },
+    {
+      "numero": 5,
+      "artista": "Caras Extrañas",
+      "fecha": "2025-11-02",
+      "lugar": "Arena Maipú, Maipú",
+      "genero": "Rock",
+      "descripcion": "Banda de rock de Junior Lescano en concierto",
+      "categoria": "Música",
+      "image_url": "https://i.ytimg.com/vi/5J0vTHqt-2w/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDm7aSswToUyZTLWkkDR0CMFuhHHg"
+    },
+    {
+      "numero": 6,
+      "nombre": "Mendoza Sax Fest 2025",
+      "fecha_inicio": "2025-11-21",
+      "fecha_fin": "2025-11-24",
+      "lugar": "Espacios Culturales (Le Parc, Teatros)",
+      "genero": "Jazz",
+      "descripcion": "Festival de jazz y saxofón de gran nivel",
+      "categoria": "Música",
+      "image_url": "https://assets.prod.bandsintown.com/images/homeIcon/heroBannerMobile.png"
+    },
+    {
+      "numero": 7,
+      "artista": "Coti",
+      "fecha": "2025-11-02",
+      "lugar": "Teatro Mendoza, Ciudad",
+      "genero": "Pop/Rock",
+      "descripcion": "Concierto celebrando 20 años de 'Esta Mañana...'",
+      "categoria": "Música",
+      "image_url": "https://travel-guide.daytours4u.com/en/wp-content/uploads/sites/2/2025/02/Vendimia-Mendoza-Argentina-blog.png.webp"
+    },
+    {
+      "numero": 8,
+      "nombre": "Yoga por los Caminos del Vino",
+      "fecha_inicio": "2025-11-01",
+      "fecha_fin": "2025-11-15",
+      "lugar": "Viñedos y Espacios Vitivinícolas",
+      "genero": "Bienestar/Vino",
+      "descripcion": "Práctica de yoga en viñedos con vistas a la cordillera (1, 8 y 15 de noviembre)",
+      "categoria": "Entretenimiento",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3699289609300372176"
+    },
+    {
+      "numero": 9,
+      "nombre": "Rock Mendocino en la Nave",
+      "fecha": "2025-11-08",
+      "lugar": "Nave Cultural, Ciudad de Mendoza",
+      "genero": "Rock Local",
+      "descripcion": "Doble presentación de bandas de rock mendocino",
+      "categoria": "Música",
+      "image_url": "https://somosprimos.com/sp2017/spnov17/mendezfestival.jpg"
+    },
+    {
+      "numero": 10,
+      "nombre": "Encuentro Nacional de Artesanías",
+      "fecha_inicio": "2025-10-30",
+      "fecha_fin": "2025-11-02",
+      "lugar": "Plaza Independencia, Ciudad de Mendoza",
+      "descripcion": "Feria nacional de artesanías con cientos de expositores",
+      "categoria": "Feria",
+      "image_url": "https://image.isu.pub/221001193754-3fec26ee62aefa19fb70c8cd10834d75/jpg/page_1_thumb_large.jpg"
+    },
+    {
+      "numero": 11,
+      "nombre": "Atardeceres del Vino en La Finquita",
+      "fecha_inicio": "2025-11-01",
+      "lugar": "La Finquita 1920, Maipú",
+      "genero": "Gastronomía/Vino/Música",
+      "descripcion": "Experiencia gastronómica con vino y música en vivo todos los sábados",
+      "categoria": "Gastronomía",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3199902389383941938"
+    },
+    {
+      "numero": 12,
+      "nombre": "Cantapueblo - Concierto por la paz",
+      "fecha": "2025-11-14",
+      "lugar": "Espacio Cultural Julio Le Parc / Teatros",
+      "genero": "Coral/Música",
+      "descripcion": "Festival coral con múltiples coros en un concierto por la paz",
+      "categoria": "Música",
+      "image_url": "https://recursocoral.com.ar/wp-content/uploads/2025/10/cantapue-768x427.jpg"
+    },
+    {
+      "numero": 13,
+      "nombre": "Pre Laborde Mendoza",
+      "periodo": "Noviembre",
+      "lugar": "Teatro Independencia, Ciudad",
+      "genero": "Folclore",
+      "descripcion": "Pre-selección para el Festival de Laborde, folclore argentino",
+      "categoria": "Música",
+      "image_url": "https://0.academia-photos.com/attachment_thumbnails/118414968/mini_magick20240924-1-ournaz.png?1727197033"
+    },
+    {
+      "numero": 14,
+      "artista": "Sofía Viola",
+      "fecha": "2025-11-14",
+      "lugar": "Teatro / Espacio Cultural",
+      "genero": "Música",
+      "descripcion": "Concierto de la cantante argentina",
+      "categoria": "Música",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/ba/6d/95/fiesta-de-la-vendimia.jpg?w=900&h=-1&s=1"
+    },
+    {
+      "numero": 15,
+      "nombre": "Sábados Sorprendentes en la Ciudad",
+      "periodo": "Todos los sábados de noviembre",
+      "lugar": "Pérgola de la Peatonal, Ciudad de Mendoza",
+      "genero": "Tango, Tradición, Coros, Rock, Jazz",
+      "descripcion": "Ciclo semanal de espectáculos gratuitos con variedad de géneros musicales",
+      "categoria": "Música",
+      "image_url": "https://media.sitioandino.com.ar/p/265d07df2cb19587f9574aeb1b6b66d5/adjuntos/335/imagenes/000/726/0000726467/790x0/smart/imagepng.png"
+    },
+    {
+      "numero": 16,
+      "nombre": "Tours de Vinos de Día Completo",
+      "periodo": "Todo el mes",
+      "lugar": "Bodegas de Luján de Cuyo y Maipú",
+      "descripcion": "Experiencias diarias en bodegas emblemáticas con almuerzo incluido",
+      "categoria": "Turismo",
+      "image_url": "https://media.tacdn.com/media/attractions-splice-spp-674x446/0f/41/28/5b.jpg"
+    },
+    {
+      "numero": 17,
+      "nombre": "Visitas a Bodegas Premium",
+      "periodo": "Todo el mes",
+      "lugar": "Catena Zapata, Norton, Trapiche",
+      "descripcion": "Degustaciones premium en bodegas de alta gama",
+      "categoria": "Turismo",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/06/09/b1/1f/bodega-catena-zapata.jpg?w=900&h=500&s=1"
+    },
+    {
+      "numero": 18,
+      "nombre": "Circuitos de Alta Montaña",
+      "periodo": "Todo el mes",
+      "lugar": "Puente del Inca, Aconcagua",
+      "descripcion": "Excursiones diarias a destinos emblemáticos de alta montaña",
+      "categoria": "Turismo",
+      "image_url": "https://media.tacdn.com/media/attractions-splice-spp-674x446/0a/a8/ca/d7.jpg"
+    },
+    {
+      "numero": 19,
+      "nombre": "Cena Show en Centro Cultural Le Parc",
+      "periodo": "Fines de semana",
+      "lugar": "Centro Cultural Le Parc",
+      "descripcion": "Propuestas de teatro y música con cena incluida",
+      "categoria": "Entretenimiento",
+      "image_url": "https://www.bilietai.lt/imageGenerator/eventDetails/3680adbd201af687b4072d15b209bbc2.webp"
+    },
+    {
+      "numero": 20,
+      "nombre": "Teatro Independiente",
+      "periodo": "Todo el mes",
+      "lugar": "El Galpón, Enkosala, Cajita Feliz",
+      "descripcion": "Estrenos y reposiciones en salas de teatro independiente",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 21,
+      "nombre": "Ciclo de Museos Abiertos",
+      "periodo": "Todo el mes",
+      "lugar": "MMAMM, Museo Cornelio Moyano",
+      "descripcion": "Exposiciones y visitas guiadas gratuitas o de bajo costo",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/instagram/museofadermza/profile_pic.jpg"
+    },
+    {
+      "numero": 22,
+      "nombre": "Ciclo de Cine",
+      "periodo": "Todo el mes",
+      "lugar": "Nave Cultural, Cine Universidad",
+      "descripcion": "Proyecciones de cine de autor y festivales temáticos",
+      "categoria": "Cultural",
+      "image_url": "https://floresprats.com/wordpress/wp-content/uploads/2025/02/3_WEB-797x540.jpg"
+    },
+    {
+      "numero": 23,
+      "nombre": "Ferias de Diseño y Emprendedores",
+      "periodo": "Fines de semana",
+      "lugar": "Parque Central y plazas",
+      "descripcion": "Ferias de diseño local y productos artesanales",
+      "categoria": "Feria",
+      "image_url": "https://online.fliphtml5.com/kepuu/wbyb/files/thumb/fcaeafaf05acd304840e903c30a0d938.webp?1676648728&1676648728"
+    },
+    {
+      "numero": 24,
+      "nombre": "Turismo de Aventura",
+      "periodo": "Todo el mes",
+      "lugar": "Río Mendoza, Cordillera",
+      "descripcion": "Rafting en el Río Mendoza y trekking en la Cordillera",
+      "categoria": "Deportes",
+      "image_url": "https://media.tacdn.com/media/attractions-splice-spp-674x446/0f/dd/81/7b.jpg"
+    },
+    {
+      "numero": 25,
+      "nombre": "Astronomía y Star Party",
+      "periodo": "Noviembre",
+      "lugar": "Ciudad de Mendoza",
+      "descripcion": "Eventos de divulgación científica y observación astronómica",
+      "categoria": "Cultural",
+      "image_url": "https://media.springernature.com/lw685/springer-static/image/art%3A10.1007%2Fs11207-022-02021-5/MediaObjects/11207_2022_2021_Fig7_HTML.jpg"
+    },
+    {
+      "numero": 26,
+      "nombre": "Mercado Chileno",
+      "periodo": "Fines de semana",
+      "lugar": "Parque General San Martín",
+      "descripcion": "Feria de gastronomía chilena, artesanías y espectáculos",
+      "categoria": "Gastronomía",
+      "image_url": "https://media.timeout.com/images/106186894/750/562/image.jpg"
+    },
+    {
+      "numero": 27,
+      "nombre": "Gastronomía de Autor y Maridaje",
+      "periodo": "Todo el mes",
+      "lugar": "Chacras de Coria, Arístides Villanueva",
+      "descripcion": "Eventos especiales en restaurantes y wine bars",
+      "categoria": "Gastronomía",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/instagram/citaenmendoza/profile_pic.jpg"
+    },
+    {
+      "numero": 28,
+      "nombre": "Marcha del Orgullo LGBT+ 2025",
+      "periodo": "Noviembre (fecha por confirmar)",
+      "lugar": "Ciudad de Mendoza",
+      "descripcion": "Evento de gran convocatoria si la fecha cae en noviembre",
+      "categoria": "Cultural",
+      "image_url": "https://www.losangelesblade.com/content/files/2021/04/Aldo_Davila_at_Guatemala_City_protest_c_Washington_Blade_by_Michael_K_Lavers.jpg"
+    },
+    {
+      "numero": 29,
+      "nombre": "Carreras de Montaña o Ciudad",
+      "periodo": "Noviembre",
+      "lugar": "Mendoza",
+      "descripcion": "Maratones de running o trail running en ciudad o montaña",
+      "categoria": "Deportes",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/fd/d3/ef/caption.jpg?w=500&h=400&s=1"
+    },
+    {
+      "numero": 30,
+      "nombre": "Día de los Difuntos - Cementerio Nocturno",
+      "fecha_inicio": "2025-11-01",
+      "fecha_fin": "2025-11-02",
+      "lugar": "Cementerio de la Ciudad",
+      "descripcion": "Recorridos especiales nocturnos en el cementerio",
+      "categoria": "Cultural",
+      "image_url": "https://dims.apnews.com/dims4/default/a649282/2147483647/strip/true/crop/4824x3216+0+0/resize/599x399!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F7f%2Fb7%2Fcecffaa8cb50e816b6df3ad87e1a%2F9f2388ef8abb4e44b8e9d74f991a36de"
+    }
+  ],
+  "nota_importante": "Mendoza en noviembre 2025 ofrece una agenda muy diversa destacándose la Peatonal del Vino y Mendotaku (15-16 nov), festivales de música (Festival Insurgente, Mendoza Sax Fest), deportes extremos (Copa Parque Urbano) y experiencias vitivinícolas continuas. La ciudad mantiene una oferta constante de turismo de vino, alta montaña, teatro independiente y gastronomía. Se recomienda verificar fechas exactas con los organizadores oficiales."
+}

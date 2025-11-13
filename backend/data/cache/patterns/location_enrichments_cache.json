@@ -1,0 +1,78 @@
+{
+  "version": "1.0",
+  "last_updated": "1762093527.464609",
+  "enrichments": {
+    "Moreno, Buenos Aires, Argentina_unknown": {
+      "original": "Moreno, Buenos Aires, Argentina",
+      "city": "Moreno",
+      "state": "Buenos Aires",
+      "country": "Argentina",
+      "nearby_cities": [
+        "Merlo, Buenos Aires, Argentina",
+        "Ituzaingó, Buenos Aires, Argentina",
+        "General Rodríguez, Buenos Aires, Argentina"
+      ],
+      "needs_expansion": true
+    },
+    "París, Isla de Francia, Francia_unknown": {
+      "original": "París, Isla de Francia, Francia",
+      "city": "París",
+      "state": "Isla de Francia",
+      "country": "Francia",
+      "nearby_cities": [
+        "Versailles, Yvelines, Francia",
+        "Saint-Denis, Seine-Saint-Denis, Francia",
+        "Boulogne-Billancourt, Hauts-de-Seine, Francia"
+      ],
+      "needs_expansion": true
+    },
+    "Villa Gesell, Argentina_unknown": {
+      "original": "Villa Gesell, Argentina",
+      "city": "Villa Gesell",
+      "state": "Buenos Aires",
+      "country": "Argentina",
+      "nearby_cities": [
+        "Pinamar, Buenos Aires, Argentina",
+        "Cariló, Buenos Aires, Argentina",
+        "Mar de las Pampas, Buenos Aires, Argentina"
+      ],
+      "needs_expansion": true
+    },
+    "Palermo, Buenos Aires, Ciudad Autónoma de Buenos Aires, Argentina_unknown": {
+      "original": "Palermo, Buenos Aires, Ciudad Autónoma de Buenos Aires, Argentina",
+      "city": "Ciudad Autónoma de Buenos Aires",
+      "state": "Ciudad Autónoma de Buenos Aires",
+      "country": "Argentina",
+      "nearby_cities": [
+        "La Plata, Buenos Aires, Argentina",
+        "Tigre, Buenos Aires, Argentina",
+        "San Isidro, Buenos Aires, Argentina"
+      ],
+      "needs_expansion": true
+    },
+    "Palermo_unknown": {
+      "original": "Palermo",
+      "city": "Palermo",
+      "state": "",
+      "country": "Argentina",
+      "nearby_cities": [],
+      "needs_expansion": false
+    },
+    "Villa Gesell_unknown": {
+      "original": "Villa Gesell",
+      "city": "Villa Gesell",
+      "state": "Buenos Aires",
+      "country": "Argentina",
+      "nearby_cities": [
+        "Pinamar, Buenos Aires, Argentina",
+        "Cariló, Buenos Aires, Argentina",
+        "Mar de las Pampas, Buenos Aires, Argentina"
+      ],
+      "needs_expansion": true
+    }
+  },
+  "metadata": {
+    "total_enrichments": 6,
+    "cache_file": "C:\\Code\\eventos-visualizer\\backend\\services\\../data/location_enrichments_cache.json"
+  }
+}

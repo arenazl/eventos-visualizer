@@ -1,0 +1,58 @@
+{
+  "region": "Ciudad de México",
+  "country": "México",
+  "source": "gemini",
+  "timestamp": "2025-11-09T06:20:00",
+  "eventos_principales": [
+    {
+      "nombre": "Concierto de Guns N' Roses",
+      "ciudad": "Ciudad de México",
+      "fecha": "8 de noviembre",
+      "descripcion": "Concierto de Guns N' Roses en el Estadio GNP. Un evento de rock clásico muy esperado, parte de su gira, con la participación especial de Public Enemy."
+    },
+    {
+      "nombre": "Concierto de Rauw Alejandro",
+      "ciudad": "Ciudad de México",
+      "fecha": "4, 5, 6, 8 y 9 de noviembre",
+      "descripcion": "El artista puertorriqueño presenta su gira en el Palacio de los Deportes, consolidándose como uno de los shows más importantes del género urbano y pop del momento."
+    },
+    {
+      "nombre": "Festival Corona Capital 2025",
+      "ciudad": "Ciudad de México",
+      "fecha": "14 al 16 de noviembre",
+      "descripcion": "Festival Corona Capital 2025 en el Autódromo Hermanos Rodríguez. El festival de música internacional más importante de México. Cuenta con un cartel diverso que incluye bandas como Foo Fighters, Vampire Weekend, Linkin Park, Queens of the Stone Age, y muchos más."
+    },
+    {
+      "nombre": "Coca Cola Flow Fest 2025",
+      "ciudad": "Ciudad de México",
+      "fecha": "22 al 23 de noviembre",
+      "descripcion": "Coca Cola Flow Fest 2025 en el Autódromo Hermanos Rodríguez. Uno de los mayores festivales de música urbana y reggaetón en el país, con J Balvin como parte del elenco."
+    },
+    {
+      "nombre": "Concierto de María José",
+      "ciudad": "Ciudad de México",
+      "fecha": "13, 14 y 15 de noviembre",
+      "descripcion": "Concierto de María José en el Auditorio Nacional. La cantante mexicana se presenta con su show, muy popular en la escena del pop en español."
+    },
+    {
+      "nombre": "Exposición Tim Burton, El Laberinto",
+      "ciudad": "Ciudad de México",
+      "fecha": "Todo el mes de noviembre",
+      "descripcion": "Exposición Tim Burton, El Laberinto (Experiencia Inmersiva) en el Museo Franz Mayer o en el Espacio CDMX Arquitectura y Diseño. Una experiencia que sumerge a los visitantes en el universo creativo del aclamado director de cine."
+    }
+  ],
+  "eventos_culturales": [
+    {
+      "nombre": "Feria Internacional del Libro Infantil y Juvenil (FILIJ)",
+      "descripcion": "Se lleva a cabo en el Bosque de Chapultepec. Es un evento familiar con venta de libros, talleres y actividades."
+    },
+    {
+      "nombre": "La Dama de Negro (Teatro)",
+      "descripcion": "Una de las obras de teatro más longevas y exitosas de México, con funciones todos los fines de semana en el Teatro 11 de Julio."
+    },
+    {
+      "nombre": "Malinche: El Musical",
+      "descripcion": "Un espectáculo de gran producción, creado por Nacho Cano, con funciones en el Frontón México."
+    }
+  ]
+}

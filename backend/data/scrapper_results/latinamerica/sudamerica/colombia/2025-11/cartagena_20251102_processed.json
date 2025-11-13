@@ -1,0 +1,73 @@
+{
+  "ubicacion": "Cartagena, Colombia",
+  "fecha_consulta": "2025-11-02",
+  "fuente": "Gemini AI + Web Search",
+  "eventos_confirmados_o_tradicionales": [
+    {
+      "nombre": "Hay Festival Cartagena",
+      "fecha": "2025-01-30",
+      "tipo": "Cultural",
+      "lugar": "Centro Histórico de Cartagena",
+      "direccion": "Diversas ubicaciones en el centro histórico",
+      "precio": "Varía según el evento",
+      "hora": "Varía según el evento",
+      "descripcion": "Festival literario y cultural internacional que presenta autores, pensadores y artistas de todo el mundo.",
+      "url": "https://www.hayfestival.com/cartagena"
+    },
+    {
+      "nombre": "Fiestas de la Independencia de Cartagena",
+      "fecha": "2025-11-11",
+      "tipo": "Cultural",
+      "lugar": "Diversas ubicaciones en Cartagena",
+      "direccion": "Diversas ubicaciones en la ciudad",
+      "precio": "Generalmente gratis, algunos eventos pueden tener costo",
+      "hora": "Diversas horas",
+      "descripcion": "Celebración de la independencia de Cartagena con desfiles, música, bailes y eventos culturales.",
+      "url": "https://www.colombia.co/calendario-de-eventos/fiestas-de-independencia-de-cartagena/"
+    },
+    {
+      "nombre": "Concierto en el Teatro Adolfo Mejía",
+      "fecha": "2025-11-05",
+      "tipo": "Música",
+      "lugar": "Teatro Adolfo Mejía",
+      "direccion": "Calle del Curato # 36-21",
+      "precio": "Desde $50.000 COP",
+      "hora": "20:00",
+      "descripcion": "Concierto de música clásica o contemporánea en el emblemático teatro de Cartagena. Verificar programación específica.",
+      "url": "https://www.teatroadolfomejia.gov.co/"
+    },
+    {
+      "nombre": "Exposición de Arte en el Museo de Arte Moderno",
+      "fecha": "2025-11-03",
+      "tipo": "Cultural",
+      "lugar": "Museo de Arte Moderno de Cartagena",
+      "direccion": "Plaza de San Pedro Claver",
+      "precio": "Desde $15.000 COP",
+      "hora": "10:00",
+      "descripcion": "Exposición de arte moderno y contemporáneo de artistas colombianos e internacionales.",
+      "url": "https://mamcartagena.com/"
+    },
+    {
+      "nombre": "Tour de Comida Callejera",
+      "fecha": "2025-11-06",
+      "tipo": "Cultural",
+      "lugar": "Punto de encuentro en el Centro Histórico",
+      "direccion": "Por confirmar",
+      "precio": "Desde $80.000 COP",
+      "hora": "17:00",
+      "descripcion": "Recorrido gastronómico por los mejores puestos de comida callejera de Cartagena.",
+      "url": "Por confirmar, buscar tours en línea"
+    },
+    {
+      "nombre": "Clases de Cocina Caribeña",
+      "fecha": "2025-11-07",
+      "tipo": "Cultural",
+      "lugar": "Escuela de Cocina local",
+      "direccion": "Barrio Getsemaní (ejemplo)",
+      "precio": "Desde $120.000 COP",
+      "hora": "10:00",
+      "descripcion": "Aprende a preparar platos típicos de la cocina caribeña colombiana.",
+      "url": "Por confirmar, buscar escuelas de cocina en línea"
+    }
+  ]
+}

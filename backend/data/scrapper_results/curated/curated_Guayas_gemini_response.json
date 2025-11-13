@@ -1,0 +1,48 @@
+{
+  "source_file": "Guayas_gemini_response.json",
+  "curated_at": "2025-11-09T10:37:08.210389",
+  "events": [
+    {
+      "nombre": "Concierto de Alejandro Fernández",
+      "fecha": "8 de Noviembre",
+      "ciudad": "Guayaquil",
+      "descripcion": "El reconocido cantante mexicano ofrece un espectáculo en el Coliseo Voltaire Paladines Polo - Arena Pacificard, siendo uno de los shows musicales más grandes y populares de la temporada.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Guayas",
+      "country": "Ecuador",
+      "image_url": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "LAS GUARDIANAS KPOP GUAYAQUIL",
+      "fecha": "9 al 30 de Noviembre",
+      "ciudad": "Guayaquil",
+      "descripcion": "Un espectáculo de KPOP (pop coreano) que se presenta durante varias fechas en Guayaquil, atrayendo a una considerable base de fans de la cultura pop asiática.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Guayas",
+      "country": "Ecuador",
+      "image_url": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "ELDORA: INSTITUTO DE MAGIA",
+      "fecha": "14 de Noviembre",
+      "ciudad": "Guayaquil",
+      "descripcion": "Un show de magia y entretenimiento en Guayaquil, ofreciendo una opción familiar y cultural.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Guayas",
+      "country": "Ecuador",
+      "image_url": "https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    }
+  ]
+}

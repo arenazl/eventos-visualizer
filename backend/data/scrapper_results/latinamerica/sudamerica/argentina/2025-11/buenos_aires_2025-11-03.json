@@ -1,0 +1,297 @@
+{
+  "source": "gemini",
+  "ciudad": "Buenos Aires",
+  "pais": "Argentina",
+  "fecha_consulta": "2025-11-03",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 28,
+  "eventos": [
+    {
+      "numero": 1,
+      "artista": "Purple Disco Machine",
+      "fecha": "2025-11-01",
+      "lugar": "Autódromo de Buenos Aires",
+      "genero": "DJ / Electrónica",
+      "nota": "El DJ alemán de fama mundial",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 2,
+      "artista": "La Vela Puerca",
+      "fecha": "2025-11-01",
+      "lugar": "Por confirmar",
+      "genero": "Rock / Ska",
+      "nota": "Celebración de sus 30 años de historia",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 3,
+      "artista": "Cazzu",
+      "fecha": "2025-11-01",
+      "lugar": "Movistar Arena",
+      "genero": "Trap / Urbano",
+      "nota": "Presentando su álbum 'Latinaje'",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 4,
+      "artista": "Día de Muertos",
+      "fecha": "2025-11-01",
+      "fecha_fin": "2025-11-02",
+      "lugar": "Centro Cultural Recoleta",
+      "genero": "Música Autóctona",
+      "nota": "Incluye concierto de Orquesta de Instrumentos Autóctonos de la UNTREF",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 5,
+      "artista": "Music Wins Festival",
+      "fecha": "2025-11-02",
+      "lugar": "Por confirmar",
+      "genero": "Bandas Consagradas y Emergentes",
+      "nota": "4ta edición del festival",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 6,
+      "artista": "TIAGO PZK",
+      "fecha": "2025-11-04",
+      "lugar": "Movistar Arena",
+      "genero": "Pop Urbano",
+      "nota": "Presentando su nueva etapa con 'Gotti'",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 7,
+      "artista": "Weezer",
+      "fecha": "2025-11-05",
+      "lugar": "Movistar Arena",
+      "genero": "Rock Alternativo",
+      "nota": "Show confirmado",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 8,
+      "artista": "DUKI",
+      "fecha": "2025-11-06",
+      "lugar": "Movistar Arena (y 3 fechas más)",
+      "genero": "Trap",
+      "nota": "Parte de su World Tour",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 9,
+      "artista": "Dua Lipa",
+      "fecha": "2025-11-07",
+      "fecha_fin": "2025-11-08",
+      "lugar": "Estadio River Plate",
+      "genero": "Pop",
+      "nota": "2 fechas confirmadas",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 10,
+      "artista": "Orquesta Sinfónica Nacional (con So Young Park)",
+      "fecha": "2025-11-07",
+      "lugar": "Auditorio Nacional (Palacio Libertad)",
+      "genero": "Música Académica",
+      "nota": "Transmisión en vivo por radio online",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 11,
+      "artista": "MORRISSEY",
+      "fecha": "2025-11-08",
+      "lugar": "Movistar Arena",
+      "genero": "Rock Alternativo",
+      "nota": "Show confirmado",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 12,
+      "artista": "Keinemusik",
+      "fecha": "2025-11-08",
+      "lugar": "Parque de la Ciudad",
+      "genero": "Electrónica",
+      "nota": "Vanguardia sonora europea",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 13,
+      "artista": "Damiano David",
+      "fecha": "2025-11-11",
+      "lugar": "C Art Media",
+      "genero": "Rock Solista (Líder de Maneskin)",
+      "nota": "Primer show solista en Argentina",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 14,
+      "artista": "Divididos",
+      "fecha": "2025-11-12",
+      "lugar": "Movistar Arena",
+      "genero": "Rock Nacional",
+      "nota": "Show confirmado",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 15,
+      "artista": "Oasis",
+      "fecha": "2025-11-15",
+      "fecha_fin": "2025-11-16",
+      "lugar": "Estadio River Plate",
+      "genero": "Britpop / Rock",
+      "nota": "Gira mundial con 2 fechas",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 16,
+      "artista": "BILLY IDOL",
+      "fecha": "2025-11-15",
+      "lugar": "Movistar Arena",
+      "genero": "Rock",
+      "nota": "Con su gira 'It's a Nice Day To Tour Again!'",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 17,
+      "artista": "Carminho",
+      "fecha": "2025-11-15",
+      "lugar": "Auditorio Nacional (Festival Fado BA)",
+      "genero": "Fado",
+      "nota": "Parte del Festival Fado Buenos Aires",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 18,
+      "artista": "Melendi",
+      "fecha": "2025-11-16",
+      "lugar": "Movistar Arena",
+      "genero": "Pop/Balada",
+      "nota": "Show confirmado",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 19,
+      "artista": "RATA BLANCA",
+      "fecha": "2025-11-19",
+      "lugar": "Movistar Arena",
+      "genero": "Heavy Metal",
+      "nota": "Celebrando 35 años de 'Magos, espadas y rosas'",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 20,
+      "artista": "Marco Antonio Solís",
+      "fecha": "2025-11-20",
+      "lugar": "Movistar Arena (y 2 fechas más)",
+      "genero": "Balada / Pop Latino",
+      "nota": "El 'Buki' en Buenos Aires",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 21,
+      "artista": "Miranda!",
+      "fecha": "2025-11-22",
+      "fecha_fin": "2025-11-23",
+      "lugar": "Estadio Ferro",
+      "genero": "Pop Electrónico",
+      "nota": "Presentando su nuevo disco",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 22,
+      "artista": "Michel Bibi: One Life",
+      "fecha": "2025-11-22",
+      "lugar": "Por confirmar",
+      "genero": "Electrónica",
+      "nota": "Evento de música electrónica, reivindicación de esperanza",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 23,
+      "artista": "ANDRES CALAMARO",
+      "fecha": "2025-11-25",
+      "lugar": "Movistar Arena (y 2 fechas más)",
+      "genero": "Rock/Pop",
+      "nota": "Show confirmado",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 24,
+      "artista": "LA DELIO VALDEZ",
+      "fecha": "2025-11-27",
+      "lugar": "Movistar Arena",
+      "genero": "Cumbia",
+      "nota": "Show confirmado",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 25,
+      "artista": "Divididos",
+      "fecha": "2025-11-29",
+      "lugar": "Movistar Arena",
+      "genero": "Rock Nacional",
+      "nota": "Segunda fecha",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 26,
+      "artista": "Leiva",
+      "fecha": "2025-11-29",
+      "lugar": "Estadio Obras",
+      "genero": "Rock/Pop",
+      "nota": "El madrileño ex Pereza",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    },
+    {
+      "numero": 27,
+      "artista": "Ulises Bueno",
+      "fecha": "2025-11-30",
+      "lugar": "Movistar Arena",
+      "genero": "Cuarteto",
+      "nota": "Show confirmado",
+      "categoria": "Música",
+      "image_url": "https://www.protocoloimep.com/app/uploads/2018/11/que-es-un-evento.jpg"
+    }
+  ],
+  "otros_eventos": {
+    "la_trastienda": {
+      "descripcion": "Hay shows programados para el 5, 6, 7, 14 y 27 de noviembre, aunque no se especificaron los artistas",
+      "cantidad": 5
+    },
+    "musica_academica": {
+      "mozarteum_argentino": "Conciertos del Mediodía el 12 y el 26 de noviembre",
+      "festival_fado": "Se extiende con conferencias y homenajes (15 y 16 de noviembre) en el Palacio Libertad"
+    },
+    "cck": "Suele haber conciertos gratuitos y ciclos de música académica, jazz y folclore",
+    "fiba": "Festival Internacional de Buenos Aires - incluye performances musicales experimentales"
+  },
+  "nota_importante": "Es difícil llegar a 30 eventos únicos y completamente confirmados con detalle tan anticipado, pero la búsqueda arrojó más de 20 eventos musicales importantes entre conciertos de grandes figuras, festivales y shows en distintas salas."
+}

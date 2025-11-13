@@ -1,0 +1,255 @@
+{
+  "source": "gemini",
+  "ciudad": "New York",
+  "pais": "Estados Unidos",
+  "fecha_consulta": "2025-11-03",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 30,
+  "eventos": [
+    {
+      "numero": 1,
+      "nombre": "TCS NYC Marathon (Maratón de Nueva York)",
+      "fecha": "2025-11-02",
+      "lugar": "Los cinco distritos de NYC",
+      "descripcion": "Uno de los maratones más grandes y prestigiosos del mundo. Atrae a más de 50,000 corredores y dos millones de espectadores",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 2,
+      "nombre": "Desfile del Día de Acción de Gracias de Macy's",
+      "fecha": "2025-11-27",
+      "lugar": "Manhattan (desde Central Park West hasta Macy's Herald Square)",
+      "descripcion": "El desfile más famoso de EE. UU. con globos gigantes, carrozas y actuaciones. Evento gratuito y masivo que marca Thanksgiving",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 3,
+      "nombre": "Black Friday",
+      "fecha": "2025-11-28",
+      "lugar": "5ª Avenida, Macy's y toda la ciudad",
+      "descripcion": "El día de compras con grandes descuentos después de Acción de Gracias. Multitudes en tiendas",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 4,
+      "nombre": "Inflado de Globos del Desfile de Macy's",
+      "fecha": "2025-11-26",
+      "lugar": "Cerca del Museo Americano de Historia Natural",
+      "descripcion": "Espectáculo gratuito el día antes del desfile donde inflan los gigantescos globos. Muy concurrido",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 5,
+      "nombre": "Comienzo de las Fiestas Navideñas",
+      "periodo": "Mediados de Noviembre",
+      "lugar": "Bryant Park, Union Square",
+      "descripcion": "Apertura de mercados navideños (Holiday Markets) y revelación de escaparates navideños en grandes almacenes",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 6,
+      "nombre": "Radio City Christmas Spectacular (The Rockettes)",
+      "fecha_inicio": "2025-11-01",
+      "lugar": "Radio City Music Hall",
+      "genero": "Espectáculo",
+      "descripcion": "El espectáculo navideño más icónico de la ciudad, con las famosas Rockettes. Atrae a miles de visitantes durante toda la temporada",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 7,
+      "nombre": "NBA - New York Knicks (Temporada Regular)",
+      "periodo": "Múltiples partidos en noviembre",
+      "lugar": "Madison Square Garden",
+      "descripcion": "Partidos con entradas muy solicitadas y un ambiente vibrante",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 8,
+      "nombre": "NBA - Brooklyn Nets (Temporada Regular)",
+      "periodo": "Múltiples partidos en noviembre",
+      "lugar": "Barclays Center, Brooklyn",
+      "descripcion": "Partidos populares con un estadio moderno y excelente",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 9,
+      "nombre": "NHL - New York Rangers (Temporada Regular)",
+      "periodo": "Múltiples partidos en noviembre",
+      "lugar": "Madison Square Garden",
+      "descripcion": "Partidos de hockey sobre hielo con mucha tradición y seguidores",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 10,
+      "nombre": "NFL - New York Giants (Temporada Regular)",
+      "periodo": "Partidos en noviembre",
+      "lugar": "MetLife Stadium (Nueva Jersey, cerca de NYC)",
+      "descripcion": "El fútbol americano genera una gran convocatoria en el área de Nueva York",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 11,
+      "nombre": "NHL - New York Islanders (Temporada Regular)",
+      "periodo": "Múltiples partidos en noviembre",
+      "lugar": "UBS Arena",
+      "descripcion": "Partidos de hockey que atraen a la base de fans del equipo",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 12,
+      "nombre": "Musicales de Broadway",
+      "periodo": "Todo el mes",
+      "lugar": "Broadway, Manhattan",
+      "descripcion": "Los espectáculos más populares como El Rey León, Wicked, Hamilton, etc., agotan entradas. Mayor atracción turística teatral",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 13,
+      "nombre": "Holiday Train Show",
+      "fecha_inicio": "2025-11-15",
+      "lugar": "New York Botanical Garden",
+      "descripcion": "Exhibición anual de maquetas de trenes a través de un paisaje de monumentos de Nueva York. Suele iniciar a mediados de noviembre",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 14,
+      "nombre": "New York Comedy Festival (NYCF)",
+      "periodo": "Noviembre",
+      "lugar": "Múltiples lugares de la ciudad",
+      "genero": "Comedia",
+      "descripcion": "Festival anual de comedia con más de 200 comediantes en múltiples lugares de la ciudad",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 15,
+      "nombre": "The Great Jack O'Lantern Blaze",
+      "fecha_inicio": "2025-10-01",
+      "fecha_fin": "2025-11-15",
+      "lugar": "Van Cortlandt Manor, Croton-on-Hudson",
+      "descripcion": "Exhibición de miles de calabazas talladas que se extiende hasta mediados de noviembre. Muy popular",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 16,
+      "nombre": "The Rink en Rockefeller Center",
+      "fecha_inicio": "2025-11-01",
+      "lugar": "Rockefeller Center",
+      "descripcion": "La pista de patinaje más icónica, con el árbol de Navidad de fondo (aún sin encender)",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 17,
+      "nombre": "The Rink en Bryant Park (Winter Village)",
+      "fecha_inicio": "2025-10-30",
+      "lugar": "Bryant Park",
+      "descripcion": "Pista de hielo gratuita para patinar y rodeada del mercado navideño (Holiday Market)",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 18,
+      "nombre": "Wollman Rink en Central Park",
+      "fecha_inicio": "2025-11-01",
+      "lugar": "Central Park",
+      "descripcion": "Patinaje en un entorno natural y escénico",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 19,
+      "nombre": "Veterans Day Parade",
+      "fecha": "2025-11-11",
+      "lugar": "5ª Avenida",
+      "descripcion": "Gran desfile por la 5ª Avenida en honor a los veteranos de las Fuerzas Armadas de EE. UU.",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 20,
+      "nombre": "Día de Acción de Gracias (Thanksgiving)",
+      "fecha": "2025-11-27",
+      "lugar": "Toda la ciudad",
+      "descripcion": "La gran fiesta nacional que se celebra con cenas tradicionales y el Desfile de Macy's",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 21,
+      "nombre": "Visita al SUMMIT One Vanderbilt",
+      "periodo": "Todo el mes",
+      "lugar": "One Vanderbilt",
+      "descripcion": "Plataforma de observación con experiencia inmersiva que atrae a multitudes",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 22,
+      "nombre": "Observatorio One World Observatory",
+      "periodo": "Todo el mes",
+      "lugar": "One World Trade Center",
+      "descripcion": "Visitar la cima del One World Trade Center es muy popular",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 23,
+      "nombre": "Visita al Empire State Building",
+      "periodo": "Todo el mes",
+      "lugar": "Empire State Building",
+      "descripcion": "La vista clásica de la ciudad sigue siendo un imán de visitantes",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 24,
+      "nombre": "Cruceros con Cena",
+      "periodo": "Todo el mes",
+      "lugar": "Alrededor de Manhattan",
+      "descripcion": "Varias compañías ofrecen cruceros alrededor de Manhattan, muy populares, especialmente en la época de Acción de Gracias",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 25,
+      "nombre": "Recorrido por Central Park",
+      "periodo": "Todo el mes",
+      "lugar": "Central Park",
+      "descripcion": "Los colores otoñales hacen que los paseos y recorridos en bicicleta sean muy concurridos",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 26,
+      "nombre": "Visitas a museos principales",
+      "periodo": "Todo el mes",
+      "lugar": "MET, MoMA, Museo Americano de Historia Natural",
+      "descripcion": "Los principales museos siempre están llenos de visitantes",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 27,
+      "nombre": "Llegada del Árbol del Rockefeller Center",
+      "periodo": "Mediados de noviembre",
+      "lugar": "Rockefeller Center",
+      "descripcion": "Aunque la ceremonia de encendido es en diciembre, la llegada y colocación del gigantesco árbol a mediados de noviembre es un evento mediático",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 28,
+      "nombre": "Compras en la 5ª Avenida",
+      "periodo": "Todo el mes",
+      "lugar": "5ª Avenida",
+      "descripcion": "El tránsito a las fiestas hace que esta zona sea de las más concurridas para ver luces, decoraciones y tiendas",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 29,
+      "nombre": "Cena de Thanksgiving en restaurantes",
+      "fecha": "2025-11-27",
+      "lugar": "Toda la ciudad",
+      "descripcion": "La demanda de reservas para una cena tradicional de Acción de Gracias en los restaurantes de la ciudad es muy alta",
+      "categoria": "Gastronomía"
+    },
+    {
+      "numero": 30,
+      "nombre": "Candlelight Concerts",
+      "periodo": "Todo el mes",
+      "lugar": "Lugares históricos de la ciudad",
+      "genero": "Música Clásica",
+      "descripcion": "Una serie de conciertos temáticos a la luz de las velas en lugares históricos, ganando mucha popularidad",
+      "categoria": "Música"
+    }
+  ],
+  "nota_importante": "Nueva York en noviembre 2025 marca la transición al espíritu navideño con eventos masivos como el TCS NYC Marathon (2 nov), el Desfile de Macy's Thanksgiving (27 nov), Black Friday (28 nov), múltiples partidos deportivos (NBA, NHL, NFL), apertura de pistas de patinaje, mercados navideños, Radio City Christmas Spectacular y Broadway. Se recomienda comprar entradas con mucha anticipación ya que se agotan rápidamente."
+}

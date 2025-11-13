@@ -1,0 +1,73 @@
+{
+  "ubicacion": "Miami, Estados Unidos",
+  "fecha_consulta": "2025-11-02",
+  "fuente": "Gemini AI + Web Search",
+  "eventos_confirmados_o_tradicionales": [
+    {
+      "nombre": "Miami Book Fair International",
+      "fecha": "2025-11-02",
+      "tipo": "Cultural",
+      "lugar": "Miami Dade College - Wolfson Campus",
+      "direccion": "300 NE 2nd Ave, Miami, FL 33132",
+      "precio": "Desde $0 (algunos eventos son pagos)",
+      "hora": "10:00",
+      "descripcion": "Una de las ferias del libro más grandes y reconocidas de Estados Unidos, que ofrece charlas con autores, presentaciones de libros, talleres y actividades para niños.",
+      "url": "https://www.miamibookfair.com/"
+    },
+    {
+      "nombre": "Formula 1 Miami Grand Prix (subject to 2025 date confirmation)",
+      "fecha": "2025-11-09",
+      "tipo": "Deportes",
+      "lugar": "Miami International Autodrome",
+      "direccion": "347 Don Shula Dr, Miami Gardens, FL 33056",
+      "precio": "Desde $500 (aproximado)",
+      "hora": "14:00",
+      "descripcion": "Gran Premio de Miami de Fórmula 1.  Fecha sujeta a confirmación oficial por parte de la F1 para 2025.",
+      "url": "https://f1miamigp.com/"
+    },
+    {
+      "nombre": "III Points Music Festival (subject to 2025 date confirmation)",
+      "fecha": "2025-11-07",
+      "tipo": "Musica",
+      "lugar": "Mana Wynwood",
+      "direccion": "318 NW 23rd St, Miami, FL 33127",
+      "precio": "Desde $150 (aproximado)",
+      "hora": "16:00",
+      "descripcion": "Festival de música con artistas de música electrónica, rock indie y hip-hop. Fecha sujeta a confirmación oficial para 2025.",
+      "url": "https://www.iiipoints.com/"
+    },
+    {
+      "nombre": "Miami Marathon and Half Marathon (Note: Usually held in January/February.  Checking for potential date shift)",
+      "fecha": "2025-11-02",
+      "tipo": "Deportes",
+      "lugar": "Bayfront Park",
+      "direccion": "301 Biscayne Blvd, Miami, FL 33132",
+      "precio": "Desde $100",
+      "hora": "06:00",
+      "descripcion": "Maratón y medio maratón anual en Miami.  **Nota: Usualmente se realiza en enero/febrero. Se está verificando si hay un posible cambio de fecha para noviembre.**",
+      "url": "https://www.themiamimarathon.com/"
+    },
+    {
+      "nombre": "Art Basel Miami Beach (date is usually in December, early information might be available)",
+      "fecha": "2025-11-06",
+      "tipo": "Cultural",
+      "lugar": "Miami Beach Convention Center",
+      "direccion": "1901 Convention Center Dr, Miami Beach, FL 33139",
+      "precio": "Desde $50",
+      "hora": "11:00",
+      "descripcion": "Feria de arte internacional. **Nota: Generalmente se celebra en diciembre, pero la información inicial podría estar disponible en noviembre.**",
+      "url": "https://www.artbasel.com/miami-beach"
+    },
+    {
+      "nombre": "Miami Art Week - Various Events",
+      "fecha": "2025-11-03",
+      "tipo": "Cultural",
+      "lugar": "Various locations throughout Miami",
+      "direccion": "Various locations throughout Miami",
+      "precio": "Desde Gratis (dependiendo del evento)",
+      "hora": "Variable",
+      "descripcion": "Series of Art fairs and exhibitions during Miami Art Week leading up to Art Basel.  Many smaller fairs and exhibits occur throughout the week",
+      "url": "N/A (check local listings closer to the date)"
+    }
+  ]
+}

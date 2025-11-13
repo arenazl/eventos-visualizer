@@ -1,0 +1,62 @@
+{
+  "source_file": "Bogota_DC_gemini_response.json",
+  "curated_at": "2025-11-09T10:37:08.197664",
+  "events": [
+    {
+      "nombre": "Carín León - Boca Chueca Tour 2025",
+      "fecha": "8 de noviembre",
+      "ciudad": "Bogotá D.C.",
+      "descripcion": "Concierto de música regional mexicana en el Estadio El Campín.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Bogotá D.C.",
+      "country": "Colombia",
+      "image_url": "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Gran gala de cierre del Festival Ópera al Parque, Ciudad lírica 2025",
+      "fecha": "9 de noviembre",
+      "ciudad": "Bogotá D.C.",
+      "descripcion": "Evento gratuito con la Orquesta Filarmónica Juvenil y el Coro Filarmónico Juvenil en el Teatro El Ensueño.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Bogotá D.C.",
+      "country": "Colombia",
+      "image_url": "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Festival Danza en la Ciudad",
+      "fecha": "Hasta el 9 de noviembre",
+      "ciudad": "Bogotá D.C.",
+      "descripcion": "Festival que presenta diversas obras, talleres y experiencias de danza en varios teatros de la ciudad.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Bogotá D.C.",
+      "country": "Colombia",
+      "image_url": "https://images.unsplash.com/photo-1506905925346-21bea4d5618d?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Marc Anthony - En Vivo Tour",
+      "fecha": "13 y 14 de noviembre",
+      "ciudad": "Bogotá D.C.",
+      "descripcion": "Concierto de salsa y música latina en el Coliseo MedPlus (anteriormente Coliseo Live).",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Bogotá D.C.",
+      "country": "Colombia",
+      "image_url": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    }
+  ]
+}

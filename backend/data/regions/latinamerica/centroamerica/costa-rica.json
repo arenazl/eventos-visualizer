@@ -1,0 +1,22 @@
+{
+  "country": "Costa Rica",
+  "country_code": "CR",
+  "region": "Centroamérica",
+  "cities": [
+    {
+      "name": "San José",
+      "latitude": 9.9281,
+      "longitude": -84.0907
+    },
+    {
+      "name": "Heredia",
+      "latitude": 9.9989,
+      "longitude": -84.1199
+    },
+    {
+      "name": "Cartago",
+      "latitude": 9.8626,
+      "longitude": -83.9195
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "location": "Caguas",
+  "region": "Caguas",
+  "country": "Puerto Rico",
+  "country_code": "PR",
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "caracteristica": "Ciudad del Turabo, centro comercial importante",
+  "eventos_ferias_festivales": [
+    {
+      "nombre": "Los Sábados Pa' La Plaza",
+      "fecha": "Todos los Sábados",
+      "hora_inicio": "18:00",
+      "hora_fin": null,
+      "lugar": "Plaza Santiago R. Palmer, Caguas",
+      "descripcion": "La plaza se llena de vida con música, kioscos, expositores, y una iluminación especial, incluyendo carrusel para la familia",
+      "categoria": "festival",
+      "precio": "gratuito",
+      "estado": "continuo",
+      "image_url": "https://www.discoverpuertorico.com/sites/default/files/listing_images/event/753/191-3-15190_jpeg_2EAB989E-5056-A36A-089D39799B8B913C_2ee5fb84-5056-a36a-0851ad310af63dfd.jpg"
+    },
+    {
+      "nombre": "Fiesta en Paseo de los Artistas",
+      "fecha": "2025-11-15",
+      "hora_inicio": "17:00",
+      "hora_fin": "23:59",
+      "lugar": "Paseo de las Artes Abelardo Díaz Alfaro, Caguas",
+      "descripcion": "Evento artístico y gastronómico al aire libre con música en vivo y variedad de ofertas culturales",
+      "categoria": "cultural",
+      "precio": "gratuito",
+      "estado": "próximo",
+      "image_url": "https://www.datachaco.com/content/bucket/0/171430w850h566c.jpg"
+    },
+    {
+      "nombre": "Vive el Paseo de las Artes",
+      "fecha": "2025-11-29",
+      "hora_inicio": "19:00",
+      "hora_fin": "23:59",
+      "lugar": "Paseo de las Artes Abelardo Díaz Alfaro, Caguas",
+      "descripcion": "Evento cultural y gastronómico con música en vivo, artistas plásticos, artesanías y espectáculos de baile",
+      "categoria": "cultural",
+      "precio": "gratuito",
+      "estado": "próximo",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/e9/7d/fe/nice-place-to-stroll.jpg"
+    },
+    {
+      "nombre": "Encendido de la Navidad Criolla en Caguas",
+      "fecha": "2025-11-28",
+      "hora_inicio": "17:00",
+      "hora_fin": null,
+      "lugar": "Paseo de las Artes, Plaza Santiago R. Palmer y Paseo Gautier Benítez, Caguas",
+      "descripcion": "Gran evento con 3 tarimas y artistas de renombre: Los Hermanos Rosario, El Gran Combo de Puerto Rico, La India, Bony Cepeda, Josie Esteban Patrulla 15, Plenéalo",
+      "categoria": "festival",
+      "precio": "gratuito",
+      "estado": "próximo",
+      "image_url": "https://caguas.gov.pr/wp-content/uploads/2024/11/Encendido-3-tarimas-2024.jpg"
+    },
+    {
+      "nombre": "2da edición de EXPO VET (Mes del Veterano)",
+      "fecha": "2025-11-12",
+      "hora_inicio": "10:00",
+      "hora_fin": null,
+      "lugar": "Jardín Botánico y Cultural William Miranda Marín, Caguas",
+      "descripcion": "Exposición dedicada a veteranos",
+      "categoria": "cultural",
+      "precio": "gratuito",
+      "estado": "próximo",
+      "image_url": "https://ospaca.com/upload/novedades/ospaca-novedades-veterano-caidos-malvinas-2024-01.jpg"
+    },
+    {
+      "nombre": "Antología de un Artista",
+      "fecha": "2025-11-13 a 2025-11-30",
+      "hora_inicio": "Varía",
+      "hora_fin": null,
+      "lugar": "Centro de Bellas Artes, Caguas",
+      "descripcion": "Exposición de arte",
+      "categoria": "cultural",
+      "precio": "gratuito",
+      "estado": "próximo",
+      "image_url": "https://www.tiposinfames.com/media/img/portadas/9791387552862.jpg"
+    },
+    {
+      "nombre": "El Círculo de la Vida",
+      "fecha": "2025-10-03 a 2026-03-31",
+      "hora_inicio": "Varía",
+      "hora_fin": null,
+      "lugar": "Centro de Bellas Artes, Caguas",
+      "descripcion": "Exposición de larga duración",
+      "categoria": "cultural",
+      "precio": "gratuito",
+      "estado": "en curso",
+      "image_url": "https://www.esneca.com/wp-content/uploads/rueda-de-la-vida-coaching-1200x900.jpg"
+    },
+    {
+      "nombre": "Criollos de Caguas - LBPRC",
+      "fecha": "Noviembre (varios juegos)",
+      "hora_inicio": "19:00",
+      "hora_fin": null,
+      "lugar": "Estadio Yldefonso Solá Morales, Caguas",
+      "descripcion": "Temporada de béisbol profesional 2025-2026",
+      "categoria": "deportes",
+      "precio": "pago",
+      "estado": "en curso",
+      "image_url": "https://static.wbsc.org/uploads/federations/0/cms/photos/657fd6f1-5c49-b03b-fb4c-1f090d9c7a3f.jpg"
+    }
+  ],
+  "recitales_shows_fiestas": [
+    {
+      "nombre": "Evento Teatral / Show",
+      "fecha": "2025-11-15",
+      "hora_inicio": "20:30",
+      "hora_fin": null,
+      "lugar": "Sala Felipe 'La Voz' Rodríguez, Centro de Bellas Artes, Caguas",
+      "descripcion": "Show teatral",
+      "categoria": "teatro",
+      "precio": "pago",
+      "image_url": "https://cerri.com.ar/wp-content/uploads/2025/09/DSC_2007-696x464-1.jpg"
+    },
+    {
+      "nombre": "Evento Teatral / Show",
+      "fecha": "2025-11-16",
+      "hora_inicio": "16:00",
+      "hora_fin": null,
+      "lugar": "Sala Felipe 'La Voz' Rodríguez, Centro de Bellas Artes, Caguas",
+      "descripcion": "Show teatral",
+      "categoria": "teatro",
+      "precio": "pago",
+      "image_url": "https://cerri.com.ar/wp-content/uploads/2025/09/DSC_2007-696x464-1.jpg"
+    },
+    {
+      "nombre": "Un Cuarto Pa' La Chilla (Solo Para Adultos)",
+      "fecha": "2025-11-22",
+      "hora_inicio": "20:30",
+      "hora_fin": null,
+      "lugar": "Sala Felipe 'La Voz' Rodríguez, Centro de Bellas Artes, Caguas",
+      "descripcion": "Show para adultos",
+      "categoria": "comedia",
+      "precio": "pago",
+      "image_url": "https://guayciba.com/wp-content/uploads/2025/09/UN-CUARTO-PA-LA-CHILLA-1-1-819x1024.jpg"
+    },
+    {
+      "nombre": "Cumbre Navideña",
+      "fecha": "2025-11-30",
+      "hora_inicio": "16:00",
+      "hora_fin": null,
+      "lugar": "Sala Felipe 'La Voz' Rodríguez, Centro de Bellas Artes, Caguas",
+      "descripcion": "Show navideño",
+      "categoria": "música",
+      "precio": "pago",
+      "image_url": "https://i.ytimg.com/vi/lt7k-vJurng/hq720.jpg"
+    }
+  ],
+  "notas": [
+    "Caguas conocida como 'Ciudad del Turabo'",
+    "Eventos scrapeados de Gemini web usando Puppeteer",
+    "Fecha de scraping: 2025-11-09",
+    "Gran evento del mes: Encendido de la Navidad Criolla el 28 de noviembre con múltiples artistas",
+    "Atracciones permanentes: Jardín Botánico y Cultural, Centro de Bellas Artes",
+    "A partir del 28 nov: Tren 'Caguas Express' disponible viernes, sábados, domingos y festivos hasta 6 de enero"
+  ],
+  "total_eventos_festivales": 8,
+  "total_recitales": 4,
+  "fuente": "Gemini Web (Puppeteer)",
+  "fuentes_detalle": {
+    "gemini_web": 12
+  }
+}

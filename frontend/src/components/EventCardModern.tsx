@@ -9,6 +9,7 @@ interface Event {
   title: string
   description?: string
   start_datetime?: string | null
+  end_datetime?: string | null
   venue_name: string
   venue_address?: string
   category: string
@@ -20,6 +21,7 @@ interface Event {
   longitude?: number
   source?: string
   status?: string
+  has_multiple_times?: boolean
 }
 
 interface EventCardModernProps {
@@ -107,6 +109,11 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
   }
 
   const { day, month, time } = formatDate(event.start_datetime)
+
+  // Si tiene múltiples horarios, calcular el rango
+  const displayTime = event.has_multiple_times && event.end_datetime
+    ? `${formatDate(event.start_datetime).time} - ${formatDate(event.end_datetime).time}`
+    : time
 
   const handleCardClick = () => {
     // Generar ID basado en título para navegación - mejorado para manejar caracteres especiales
@@ -296,7 +303,7 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
               <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 text-purple-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
               </svg>
-              <span className="font-medium">{time}</span>
+              <span className="font-medium">{displayTime}</span>
             </div>
             <div className="flex items-center text-xs sm:text-sm text-gray-600 dark:text-gray-400">
               <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 text-pink-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">

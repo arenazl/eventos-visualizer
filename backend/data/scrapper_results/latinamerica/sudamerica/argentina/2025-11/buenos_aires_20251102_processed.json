@@ -1,0 +1,73 @@
+{
+  "ubicacion": "Buenos Aires, Argentina",
+  "fecha_consulta": "2025-11-02",
+  "fuente": "Gemini AI + Web Search",
+  "eventos_confirmados_o_tradicionales": [
+    {
+      "nombre": "Festival Internacional de Jazz de Buenos Aires",
+      "fecha": "2025-11-05",
+      "tipo": "Musica",
+      "lugar": "Usina del Arte",
+      "direccion": "Agustín R. Caffarena 1, CABA",
+      "precio": "Desde $2000",
+      "hora": "20:00",
+      "descripcion": "Conciertos de jazz de artistas internacionales y locales.",
+      "url": "https://festjazzba.buenosaires.gob.ar/"
+    },
+    {
+      "nombre": "Final del Campeonato Argentino de Polo",
+      "fecha": "2025-11-09",
+      "tipo": "Deportes",
+      "lugar": "Campo Argentino de Polo",
+      "direccion": "Av. del Libertador y Dorrego, CABA",
+      "precio": "Desde $3000",
+      "hora": "14:00",
+      "descripcion": "Partido final del campeonato de polo más importante de Argentina.",
+      "url": "https://www.aapolo.com/"
+    },
+    {
+      "nombre": "Feria de Mataderos",
+      "fecha": "2025-11-02",
+      "tipo": "Cultural",
+      "lugar": "Feria de Mataderos",
+      "direccion": "Av. Lisandro de la Torre y Av. de los Corrales, CABA",
+      "precio": "Gratis",
+      "hora": "11:00",
+      "descripcion": "Feria tradicional con música folclórica, artesanías y comidas típicas.",
+      "url": "https://www.buenosaires.gob.ar/cultura/ferias/feria-de-mataderos"
+    },
+    {
+      "nombre": "Buenos Aires Tech Week",
+      "fecha": "2025-11-03",
+      "tipo": "Tech",
+      "lugar": "Distrito Tecnológico",
+      "direccion": "Diversas ubicaciones en Parque Patricios, CABA",
+      "precio": "Gratis/Algunas actividades pagas",
+      "hora": "09:00",
+      "descripcion": "Semana de eventos, charlas y talleres sobre tecnología e innovación.",
+      "url": "https://www.batech.gob.ar/"
+    },
+    {
+      "nombre": "Creamfields Buenos Aires",
+      "fecha": "2025-11-08",
+      "tipo": "Musica",
+      "lugar": "Espacio al aire libre (TBD)",
+      "direccion": "A confirmar",
+      "precio": "Desde $15000",
+      "hora": "16:00",
+      "descripcion": "Festival de música electrónica con DJs internacionales.",
+      "url": "https://www.creamfieldsba.com/"
+    },
+    {
+      "nombre": "Noche de los Museos",
+      "fecha": "2025-11-08",
+      "tipo": "Cultural",
+      "lugar": "Varios museos de la ciudad",
+      "direccion": "Varios",
+      "precio": "Gratis",
+      "hora": "19:00",
+      "descripcion": "Apertura nocturna y gratuita de los museos de la ciudad con actividades especiales.",
+      "url": "https://www.buenosaires.gob.ar/cultura/museos/noche-de-los-museos"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "source_file": "Arequipa_gemini_response.json",
+  "curated_at": "2025-11-09T10:37:08.188251",
+  "events": [
+    {
+      "nombre": "Hay Festival Arequipa 2025",
+      "fecha": "6 al 9 de noviembre",
+      "ciudad": "Arequipa",
+      "descripcion": "Undécima edición de este importante festival de literatura, arte, ciencia y pensamiento, con charlas, talleres, conciertos y homenajes a grandes figuras como Mario Vargas Llosa. Muchos eventos son gratuitos o a bajo costo.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Arequipa",
+      "country": "Perú",
+      "image_url": "https://images.unsplash.com/photo-1506905925346-21bea4d5618d?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Aniversario con Yarita Lizeth y más",
+      "fecha": "9 de noviembre",
+      "ciudad": "Arequipa (Alto Selva Alegre)",
+      "descripcion": "Celebración popular del 33° Aniversario del distrito de Alto Selva Alegre con la presentación de artistas de cumbia como Yarita Lizeth y Amor Rebelde.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Arequipa",
+      "country": "Perú",
+      "image_url": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Festival del Rocoto",
+      "fecha": "9 de noviembre",
+      "ciudad": "Arequipa (Tiabaya)",
+      "descripcion": "Evento gastronómico que celebra al rocoto, ingrediente emblemático de la cocina arequipeña, con platos típicos y actividades culturales.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Arequipa",
+      "country": "Perú",
+      "image_url": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "source_file": "Valle_del_Cauca_gemini_response.json",
+  "curated_at": "2025-11-09T10:37:08.236109",
+  "events": [
+    {
+      "nombre": "Carnaval de la Uva y el Vino",
+      "fecha": "Del 4 al 14 de Noviembre de 2025",
+      "ciudad": "La Unión",
+      "descripcion": "Un festival tradicional que celebra la cosecha de la uva y la producción de vino colombiano en el municipio, con desfiles, actividades culturales y catas.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Valle del Cauca",
+      "country": "Colombia",
+      "image_url": "https://images.unsplash.com/photo-1574269909862-7e1d70841ce6?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "River View Park Cali",
+      "fecha": "5 de Noviembre hasta el 12 de Enero de 2026",
+      "ciudad": "Cali",
+      "descripcion": "Un parque de diversiones y entretenimiento que se instala por temporada, ofreciendo atracciones mecánicas, shows y opciones de ocio para toda la familia.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Valle del Cauca",
+      "country": "Colombia",
+      "image_url": "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Expo Crecer",
+      "fecha": "Sábado 8 de Noviembre",
+      "ciudad": "Palmira",
+      "descripcion": "Un evento que puede estar enfocado en emprendimiento, negocios o desarrollo personal.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Valle del Cauca",
+      "country": "Colombia",
+      "image_url": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    }
+  ]
+}

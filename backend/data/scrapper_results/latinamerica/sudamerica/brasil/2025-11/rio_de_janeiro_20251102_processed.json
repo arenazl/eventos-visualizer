@@ -1,0 +1,62 @@
+{
+  "ubicacion": "Rio de Janeiro, Brasil",
+  "fecha_consulta": "2025-11-02",
+  "fuente": "Gemini AI + Web Search",
+  "eventos_confirmados_o_tradicionales": [
+    {
+      "nombre": "Rio Music Carnival",
+      "fecha": "2025-11-08",
+      "tipo": "Musica/Fiestas",
+      "lugar": "Marina da Glória",
+      "direccion": "Av. Infante Dom Henrique, S/N - Glória, Rio de Janeiro - RJ, Brazil",
+      "precio": "Desde R$300",
+      "hora": "22:00",
+      "descripcion": "Festival de música electrónica y fiestas temáticas con DJs internacionales.",
+      "url": "https://www.riomusiccarnival.com.br/"
+    },
+    {
+      "nombre": "Campeonato Brasileiro de Futebol - Série A (Partido)",
+      "fecha": "2025-11-02",
+      "tipo": "Deportes",
+      "lugar": "Estádio do Maracanã (A confirmar)",
+      "direccion": "Av. Prof. Eurico Borba Filho, s/n - Maracanã, Rio de Janeiro - RJ, Brazil",
+      "precio": "Desde R$50",
+      "hora": "16:00 (A confirmar)",
+      "descripcion": "Partido de la Série A del Campeonato Brasileiro de Futebol. El equipo y horario se confirman más cerca de la fecha.",
+      "url": "https://www.cbf.com.br/"
+    },
+    {
+      "nombre": "Festival Internacional de Cinema do Rio",
+      "fecha": "2025-11-07",
+      "tipo": "Cultural",
+      "lugar": "Varios cines de Rio de Janeiro",
+      "direccion": "Centros culturales y cines de la ciudad (varias localizaciones)",
+      "precio": "Desde R$20",
+      "hora": "Variable",
+      "descripcion": "Festival de cine con proyecciones de películas internacionales y brasileñas.",
+      "url": "https://www.festivaldorio.com.br/"
+    },
+    {
+      "nombre": "Feira Rio Antigo",
+      "fecha": "2025-11-02",
+      "tipo": "Cultural",
+      "lugar": "Rua do Lavradio",
+      "direccion": "Rua do Lavradio, Centro, Rio de Janeiro - RJ, Brazil",
+      "precio": "Gratis",
+      "hora": "10:00",
+      "descripcion": "Feria de antigüedades y artesanía en el centro histórico de Río.",
+      "url": "https://www.facebook.com/feirariodasantiguidades/"
+    },
+    {
+      "nombre": "Mostra de Cinema Infantil de Florianópolis (Edición Rio)",
+      "fecha": "2025-11-05",
+      "tipo": "Cultural",
+      "lugar": "Espaço Itaú de Cinema (A confirmar)",
+      "direccion": "Praia de Botafogo, 316 - Botafogo, Rio de Janeiro - RJ, Brazil",
+      "precio": "Desde R$30",
+      "hora": "Variable",
+      "descripcion": "Muestra de cine infantil con películas para niños y actividades relacionadas.",
+      "url": "https://mostradecinemainfantil.com.br/"
+    }
+  ]
+}

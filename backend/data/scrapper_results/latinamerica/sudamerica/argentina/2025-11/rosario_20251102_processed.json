@@ -1,0 +1,73 @@
+{
+  "ubicacion": "Rosario, Argentina",
+  "fecha_consulta": "2025-11-02",
+  "fuente": "Gemini AI + Web Search",
+  "eventos_confirmados_o_tradicionales": [
+    {
+      "nombre": "Festival Bandera",
+      "fecha": "2025-11-08",
+      "tipo": "Musica",
+      "lugar": "Hipódromo de Rosario",
+      "direccion": "Av. Dante Alighieri 200, Rosario",
+      "precio": "Desde $15.000",
+      "hora": "14:00",
+      "descripcion": "Festival de música con múltiples artistas nacionales e internacionales.",
+      "url": "https://www.allaccess.com.ar/"
+    },
+    {
+      "nombre": "Campeonato Argentino de Motociclismo de Velocidad",
+      "fecha": "2025-11-09",
+      "tipo": "Deportes",
+      "lugar": "Autódromo Municipal Juan Manuel Fangio",
+      "direccion": "Bv. Oroño 4800, Rosario",
+      "precio": "Desde $3.000",
+      "hora": "09:00",
+      "descripcion": "Competencia de motociclismo de velocidad a nivel nacional.",
+      "url": "https://camvelocidad.com.ar/"
+    },
+    {
+      "nombre": "Feria del Libro de Rosario",
+      "fecha": "2025-11-06",
+      "tipo": "Cultural",
+      "lugar": "Centro Cultural Roberto Fontanarrosa",
+      "direccion": "San Martín 1080, Rosario",
+      "precio": "Gratis",
+      "hora": "10:00",
+      "descripcion": "Exposición y venta de libros, charlas y actividades culturales.",
+      "url": "https://www.rosario.gob.ar/web/ciudad/cultura"
+    },
+    {
+      "nombre": "Noche de los Museos Abiertos",
+      "fecha": "2025-11-02",
+      "tipo": "Cultural",
+      "lugar": "Diversos museos de Rosario",
+      "direccion": "Consultar programación",
+      "precio": "Gratis",
+      "hora": "18:00",
+      "descripcion": "Apertura nocturna y gratuita de museos con actividades especiales.",
+      "url": "https://www.rosario.gob.ar/web/ciudad/cultura"
+    },
+    {
+      "nombre": "Congreso de Ingeniería en Sistemas",
+      "fecha": "2025-11-05",
+      "tipo": "Tech",
+      "lugar": "Facultad de Ciencias Exactas, Ingeniería y Agrimensura (UNR)",
+      "direccion": "Av. Pellegrini 250, Rosario",
+      "precio": "Desde $5.000",
+      "hora": "09:00",
+      "descripcion": "Congreso sobre las últimas tendencias en ingeniería en sistemas.",
+      "url": "https://www.fceia.unr.edu.ar/"
+    },
+    {
+      "nombre": "Fiesta Provincial del Teatro",
+      "fecha": "2025-11-03",
+      "tipo": "Cultural",
+      "lugar": "Teatro La Comedia",
+      "direccion": "Mitre 958, Rosario",
+      "precio": "Desde $1.500",
+      "hora": "20:00",
+      "descripcion": "Muestra de obras teatrales de la provincia de Santa Fe.",
+      "url": "https://www.plateanet.com/"
+    }
+  ]
+}

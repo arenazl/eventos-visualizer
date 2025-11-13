@@ -1,0 +1,11 @@
+{
+  "region": "Pichincha",
+  "country": "Ecuador",
+  "source": "gemini",
+  "timestamp": "2025-11-09T08:20:00",
+  "eventos": [
+    {"nombre": "Te Deum", "ciudad": "Quito", "fecha": "Noviembre 19", "descripcion": "En el Teatro Nacional Sucre. Es un acto cívico-religioso que marca el inicio de las festividades de la capital."},
+    {"nombre": "Desfiles de la Confraternidad Norte y Sur", "ciudad": "Quito", "fecha": "Noviembre 22 y 23", "descripcion": "Coloridos desfiles con la participación de escuelas, colegios e instituciones, llenos de música, danza y carros alegóricos en homenaje a la ciudad."},
+    {"nombre": "Fiesta mayor del Encuentro de las Culturas de las Parroquias Rurales 2025", "ciudad": "Chavezpamba", "fecha": "Noviembre 22 y 23", "descripcion": "Una celebración para destacar la riqueza cultural de las parroquias rurales de Quito."}
+  ]
+}

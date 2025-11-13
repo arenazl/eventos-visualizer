@@ -1,0 +1,62 @@
+{
+  "source_file": "Antofagasta_gemini_response.json",
+  "curated_at": "2025-11-09T10:37:08.182134",
+  "events": [
+    {
+      "nombre": "Concierto de Myriam Hernández",
+      "fecha": "8 de Noviembre de 2025",
+      "ciudad": "Antofagasta",
+      "descripcion": "La reconocida cantante chilena de baladas y música romántica presentará su Tauro World Tour en el Estadio Sokol.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Antofagasta",
+      "country": "Chile",
+      "image_url": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Dios Salve a la Reina (Tributo a Queen)",
+      "fecha": "15 de Noviembre de 2025",
+      "ciudad": "Antofagasta",
+      "descripcion": "Este popular espectáculo tributo a la banda británica Queen se presentará en el recinto Rock & Soccer Antofagasta.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Antofagasta",
+      "country": "Chile",
+      "image_url": "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Se llamaba Julieta - Obra Interdisciplinaria",
+      "fecha": "13 al 15 de Noviembre de 2025",
+      "ciudad": "Antofagasta",
+      "descripcion": "Una presentación de la Universidad de Antofagasta, que probablemente combine varias disciplinas artísticas.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Antofagasta",
+      "country": "Chile",
+      "image_url": "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Dino Adventure Antofagasta 2025",
+      "fecha": "21 de Noviembre al 21 de Diciembre",
+      "ciudad": "Antofagasta",
+      "descripcion": "Una exhibición o evento familiar centrado en dinosaurios, con una duración de un mes.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Antofagasta",
+      "country": "Chile",
+      "image_url": "https://images.unsplash.com/photo-1506905925346-21bea4d5618d?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    }
+  ]
+}

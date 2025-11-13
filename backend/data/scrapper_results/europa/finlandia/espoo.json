@@ -1,0 +1,48 @@
+{
+  "source": "apis_oficiales",
+  "city": "Espoo",
+  "country": "Finlandia",
+  "scraped_at": "2025-11-13T05:13:59.551407",
+  "total_events": 3,
+  "eventos": [
+    {
+      "title": "The Ultimate Greatest Christmas Carols – Mass Sing-along Event",
+      "date": "2025-12-23",
+      "time": "18:00:00",
+      "venue": "",
+      "address": "Urheilupuistontie 3",
+      "city": "Espoo",
+      "country": "FI",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.ticketmaster.fi/event/the-ultimate-greatest-christmas-carols--mass-sing-along-event-tickets/807317885?language=en-us",
+      "image_url": "https://s1.ticketm.net/dam/e/9e5/a236553c-a661-4cc3-9e84-bd1b45c339e5_SOURCE"
+    },
+    {
+      "title": "BE:HERE NEW YEAR",
+      "date": "2025-12-31",
+      "time": "22:00:00",
+      "venue": "Espoon Hybridiarena Hype",
+      "address": "Vanha Jorvaksentie 3",
+      "city": "Espoo",
+      "country": "FI",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.ticketmaster.fi/event/behere-new-year-tickets/185575993?language=en-us",
+      "image_url": "https://s1.ticketm.net/dam/e/b95/16670d24-519e-4abc-bef6-a251c7793b95_SOURCE"
+    },
+    {
+      "title": "EMMA GAALA 2026",
+      "date": "2026-03-07",
+      "time": "17:00:00",
+      "venue": "",
+      "address": "Urheilupuistontie 3",
+      "city": "Espoo",
+      "country": "FI",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.ticketmaster.fi/event/emma-gaala-2026-tickets/55906487?language=en-us",
+      "image_url": "https://s1.ticketm.net/dam/a/868/d6c01874-b1d1-4e73-ba5f-10f13ed45868_SOURCE"
+    }
+  ]
+}

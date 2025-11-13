@@ -332,6 +332,18 @@ except ImportError as e:
 except Exception as e:
     logger.warning(f"⚠️ Error al configurar autenticación: {e}")
 
+# ═══════════════════════════════════════════════════════════════════
+# 📍 GEOLOCALIZACIÓN
+# ═══════════════════════════════════════════════════════════════════
+try:
+    from api.geolocation import router as geolocation_router
+    app.include_router(geolocation_router, prefix="/api/location", tags=["location"])
+    logger.info("📍 Geolocalización habilitada")
+except ImportError as e:
+    logger.warning(f"⚠️ No se pudo cargar geolocalización: {e}")
+except Exception as e:
+    logger.warning(f"⚠️ Error al configurar geolocalización: {e}")
+
 # 🚫 NO-CACHE MIDDLEWARE - Deshabilitar todo el cache
 @app.middleware("http")
 async def add_no_cache_headers(request: Request, call_next):
@@ -1297,6 +1309,181 @@ async def get_available_cities(
     except Exception as e:
         logger.error(f"❌ Error buscando ubicaciones disponibles: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/neighborhoods/{city}")
+async def get_neighborhoods_by_city(city: str):
+    """
+    🏘️ BARRIOS POR CIUDAD - Retorna barrios con conteo de eventos
+
+    Args:
+        city: Nombre de la ciudad (ej: "Buenos Aires")
+
+    Returns:
+        - city: Ciudad consultada
+        - neighborhoods: Lista de barrios con event_count
+        - total_neighborhoods: Total de barrios con eventos
+        - total_events: Total de eventos en todos los barrios
+    """
+    try:
+        import pymysql
+
+        logger.info(f"🏘️ Obteniendo barrios de {city}")
+
+        # Conectar a MySQL
+        connection = pymysql.connect(
+            host=os.getenv('MYSQL_HOST', 'localhost'),
+            port=int(os.getenv('MYSQL_PORT', 3306)),
+            user=os.getenv('MYSQL_USER', 'root'),
+            password=os.getenv('MYSQL_PASSWORD', ''),
+            database=os.getenv('MYSQL_DATABASE', 'events'),
+            charset='utf8mb4',
+            cursorclass=pymysql.cursors.DictCursor
+        )
+
+        cursor = connection.cursor()
+
+        # Query para obtener barrios con conteo
+        query = '''
+            SELECT neighborhood, COUNT(*) as event_count
+            FROM events
+            WHERE city = %s
+            AND neighborhood IS NOT NULL
+            AND neighborhood != ''
+            GROUP BY neighborhood
+            ORDER BY event_count DESC, neighborhood ASC
+        '''
+
+        cursor.execute(query, (city,))
+        results = cursor.fetchall()
+
+        cursor.close()
+        connection.close()
+
+        # Formatear respuesta
+        neighborhoods = [
+            {
+                "name": row['neighborhood'],
+                "event_count": row['event_count']
+            }
+            for row in results
+        ]
+
+        total_events = sum(n['event_count'] for n in neighborhoods)
+
+        logger.info(f"✅ Encontrados {len(neighborhoods)} barrios con {total_events} eventos")
+
+        return {
+            "success": True,
+            "city": city,
+            "neighborhoods": neighborhoods,
+            "total_neighborhoods": len(neighborhoods),
+            "total_events": total_events
+        }
+
+    except Exception as e:
+        logger.error(f"❌ Error obteniendo barrios: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/popular-places/{location}")
+async def get_popular_places_nearby(location: str):
+    """
+    🎯 LUGARES POPULARES CERCANOS - Barrios/zonas cerca de la ubicación que tienen eventos
+
+    Flujo:
+    1. Grok sugiere 5 lugares geográficamente cercanos
+    2. Verificamos cuáles tienen eventos en MySQL
+    3. Devolvemos solo los que tienen eventos
+
+    Args:
+        location: Ubicación de referencia (ej: "Palermo", "Buenos Aires", "Mendoza")
+
+    Returns:
+        - places: Lista con lugares cercanos que tienen eventos
+    """
+    try:
+        import pymysql
+        from services.ai_manager import AIServiceManager
+
+        logger.info(f"🎯 Buscando lugares populares cerca de: {location}")
+
+        # PASO 1: Pedirle a Grok que sugiera 5 barrios/lugares cercanos
+        ai_manager = AIServiceManager()
+
+        prompt = f"""Listame 5 ciudades populares cercanas a {location}.
+
+Responde SOLO con los 5 nombres separados por comas, sin números ni explicaciones:
+nombre1, nombre2, nombre3, nombre4, nombre5
+"""
+
+        logger.info(f"🤖 Preguntando a AI por lugares cerca de '{location}'...")
+        response = await ai_manager.generate(
+            prompt=prompt,
+            temperature=0.3
+        )
+
+        # Parsear respuesta de Grok - obtener 5 sugerencias
+        suggested_places = [name.strip() for name in response.split(',')[:5]]
+        logger.info(f"✅ Grok sugirió 5 lugares cercanos: {suggested_places}")
+
+        # Verificar cuáles de estos lugares tienen eventos en la base de datos
+        verified_places = []
+
+        # Reusar conexión para verificación
+        verify_connection = pymysql.connect(
+            host=os.getenv('MYSQL_HOST', 'localhost'),
+            port=int(os.getenv('MYSQL_PORT', 3306)),
+            user=os.getenv('MYSQL_USER', 'root'),
+            password=os.getenv('MYSQL_PASSWORD', ''),
+            database=os.getenv('MYSQL_DATABASE', 'events'),
+            charset='utf8mb4',
+            cursorclass=pymysql.cursors.DictCursor
+        )
+
+        try:
+            verify_cursor = verify_connection.cursor()
+
+            for place_name in suggested_places:
+                # Query para verificar si tiene eventos
+                verify_query = '''
+                    SELECT COUNT(*) as event_count
+                    FROM events
+                    WHERE start_datetime >= NOW()
+                    AND (
+                        city LIKE %s
+                        OR neighborhood LIKE %s
+                    )
+                '''
+
+                verify_cursor.execute(verify_query, (f'%{place_name}%', f'%{place_name}%'))
+                result = verify_cursor.fetchone()
+
+                if result and result['event_count'] > 0:
+                    verified_places.append(place_name)
+                    logger.info(f"✅ '{place_name}' tiene {result['event_count']} eventos")
+                else:
+                    logger.info(f"⏭️ '{place_name}' sin eventos en DB")
+
+            verify_cursor.close()
+        finally:
+            verify_connection.close()
+
+        top_places = verified_places
+        logger.info(f"✅ Lugares verificados con eventos: {top_places}")
+
+        return {
+            "success": True,
+            "places": top_places
+        }
+
+    except Exception as e:
+        logger.error(f"❌ Error obteniendo lugares populares: {e}")
+        # En caso de error, retornar vacío
+        return {
+            "success": False,
+            "places": []
+        }
+
 
 @app.get("/api/events/city")
 async def get_city_events(
@@ -2662,6 +2849,193 @@ async def get_event_by_id(event_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# Update event category endpoint
+@app.patch("/api/events/{event_id}/category")
+async def update_event_category(event_id: str, request: dict):
+    """
+    Actualizar la categoría de un evento
+    """
+    try:
+        import pymysql
+
+        new_category = request.get('category')
+        if not new_category:
+            raise HTTPException(status_code=400, detail="Category is required")
+
+        # Conectar a MySQL
+        connection = pymysql.connect(
+            host=os.getenv('MYSQL_HOST', 'localhost'),
+            port=int(os.getenv('MYSQL_PORT', 3306)),
+            user=os.getenv('MYSQL_USER', 'root'),
+            password=os.getenv('MYSQL_PASSWORD', ''),
+            database=os.getenv('MYSQL_DATABASE', 'events'),
+            charset='utf8mb4',
+            cursorclass=pymysql.cursors.DictCursor
+        )
+
+        cursor = connection.cursor()
+
+        # Normalizar el event_id para buscar por título
+        event_id_normalized = event_id.replace('-', ' ')
+
+        # Actualizar categoría
+        update_query = '''
+            UPDATE events
+            SET category = %s
+            WHERE LOWER(REPLACE(title, ' ', '-')) = LOWER(%s)
+            OR LOWER(title) LIKE LOWER(%s)
+        '''
+
+        cursor.execute(update_query, (new_category, event_id, f'%{event_id_normalized}%'))
+        connection.commit()
+
+        rows_affected = cursor.rowcount
+
+        cursor.close()
+        connection.close()
+
+        if rows_affected > 0:
+            logger.info(f"✅ Categoría actualizada para evento {event_id}: {new_category}")
+            return {
+                "success": True,
+                "message": f"Category updated to {new_category}",
+                "rows_affected": rows_affected
+            }
+        else:
+            raise HTTPException(status_code=404, detail="Event not found")
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"❌ Error updating category for {event_id}: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# Update event image endpoint
+@app.post("/api/events/{event_id}/update-image")
+async def update_event_image(event_id: str, request: dict):
+    """
+    Buscar y actualizar la imagen de un evento usando Google Images
+    """
+    try:
+        import pymysql
+
+        title = request.get('title')
+        venue_name = request.get('venue_name', '')
+        city = request.get('city', '')
+
+        if not title:
+            raise HTTPException(status_code=400, detail="Title is required")
+
+        logger.info(f"🖼️ Buscando imagen para: {title} (venue: {venue_name}, city: {city})")
+
+        # Usar el servicio de Google Images con 5 estrategias:
+        # 1. Solo título
+        # 2. Título + venue
+        # 3. Solo venue
+        # 4. Primeras 3 palabras
+        # 5. Solo ciudad
+        from services.google_images_service import search_google_image
+
+        image_url = await search_google_image(title, venue=venue_name, city=city)
+
+        if not image_url or 'gstatic' in image_url:
+            logger.warning(f"⚠️ No se encontró imagen válida para: {title}")
+            return {
+                "success": False,
+                "message": "No valid image found"
+            }
+
+        # Solo retornar la imagen encontrada (no actualizar DB porque eventos son de APIs)
+        logger.info(f"✅ Imagen encontrada para '{title}': {image_url[:50]}...")
+
+        # Intentar actualizar en MySQL si existe (opcional, no falla si no existe)
+        try:
+            connection = pymysql.connect(
+                host=os.getenv('MYSQL_HOST', 'localhost'),
+                port=int(os.getenv('MYSQL_PORT', 3306)),
+                user=os.getenv('MYSQL_USER', 'root'),
+                password=os.getenv('MYSQL_PASSWORD', ''),
+                database=os.getenv('MYSQL_DATABASE', 'events'),
+                charset='utf8mb4',
+                cursorclass=pymysql.cursors.DictCursor
+            )
+
+            cursor = connection.cursor()
+            event_id_normalized = event_id.replace('-', ' ')
+
+            update_query = '''
+                UPDATE events
+                SET image_url = %s
+                WHERE LOWER(REPLACE(title, ' ', '-')) = LOWER(%s)
+                OR LOWER(title) LIKE LOWER(%s)
+            '''
+
+            cursor.execute(update_query, (image_url, event_id, f'%{event_id_normalized}%'))
+            connection.commit()
+            rows_affected = cursor.rowcount
+
+            cursor.close()
+            connection.close()
+
+            if rows_affected > 0:
+                logger.info(f"✅ Imagen también actualizada en DB (opcional)")
+        except Exception as db_error:
+            logger.debug(f"DB update skipped (evento probablemente de API): {db_error}")
+
+        # Siempre retornar éxito si encontramos imagen
+        return {
+            "success": True,
+            "image_url": image_url,
+            "message": "Image found successfully"
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"❌ Error updating image for {event_id}: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# Test endpoint para probar búsqueda de imágenes con palabra hardcodeada
+@app.get("/api/test/image-search")
+async def test_image_search():
+    """
+    🧪 Endpoint de prueba para búsqueda de imágenes en Google
+    Busca imágenes para palabras fáciles como "pizza", "cafe", "music"
+    """
+    try:
+        from services.google_images_service import search_google_image
+
+        # Probar con palabras fáciles
+        test_queries = [
+            ("pizza", ""),
+            ("cafe", "Buenos Aires"),
+            ("music concert", ""),
+            ("football", "")
+        ]
+
+        results = []
+        for query, venue in test_queries:
+            logger.info(f"🧪 Probando búsqueda: '{query}' (venue: '{venue}')")
+            image_url = await search_google_image(query, venue=venue)
+            results.append({
+                "query": query,
+                "venue": venue,
+                "image_url": image_url,
+                "found": image_url is not None
+            })
+
+        return {
+            "success": True,
+            "results": results
+        }
+
+    except Exception as e:
+        logger.error(f"❌ Error en test: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # Similar events streaming endpoint
 @app.get("/api/events/{event_id}/similar/stream")
 async def stream_similar_events(event_id: str):
@@ -3288,9 +3662,9 @@ async def event_insight(data: Dict[str, Any]):
 
 
 
-        # Prompt corto y rápido para Grok/Groq
+        # Prompt detallado para describir qué esperar del evento
 
-        prompt = f"""Genera UN comentario breve (máximo 10 palabras) sobre este evento:
+        prompt = f"""Genera una descripción detallada y atractiva (2-3 oraciones, máximo 250 caracteres) de qué puede esperar el asistente en este evento:
 
 Título: {title}
 
@@ -3298,9 +3672,11 @@ Categoría: {category}
 
 Lugar: {venue_name}
 
+Precio: {price if price else 'Gratis'}
 
 
-Responde SOLO el comentario, sin explicaciones. Hazlo atractivo y directo."""
+
+Describe la experiencia, ambiente, y qué hace especial a este evento. Sé específico y entusiasta. Responde SOLO la descripción, sin títulos ni explicaciones adicionales."""
 
 
 
@@ -3330,7 +3706,7 @@ Responde SOLO el comentario, sin explicaciones. Hazlo atractivo y directo."""
 
                 "insight": {
 
-                    "quick_insight": response[:100]  # Limitar a 100 caracteres
+                    "quick_insight": response[:300]  # Limitar a 300 caracteres para descripciones detalladas
 
                 }
 

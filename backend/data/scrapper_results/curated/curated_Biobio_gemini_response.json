@@ -1,0 +1,62 @@
+{
+  "source_file": "Biobio_gemini_response.json",
+  "curated_at": "2025-11-09T10:37:08.194209",
+  "events": [
+    {
+      "nombre": "XVI Festival Internacional de Teatro del Biobío",
+      "fecha": "09 NOV 2025",
+      "ciudad": "Concepción",
+      "descripcion": "Continúa varios días. Ofrece diversas funciones de teatro y danza en el Teatro Biobío, con una amplia variedad de propuestas culturales.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Biobío",
+      "country": "Chile",
+      "image_url": "https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Fiesta 90 2000 Concepción",
+      "fecha": "08 NOV 2025",
+      "ciudad": "Talcahuano",
+      "descripcion": "En Espacio Marina. Una gran fiesta bailable para mayores de 18 años con música de las décadas de los 90 y 2000, con DJs conocidos y concursos (como pasajes a Río de Janeiro).",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Biobío",
+      "country": "Chile",
+      "image_url": "https://images.unsplash.com/photo-1506905925346-21bea4d5618d?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Miranda! En Concepción",
+      "fecha": "12 NOV 2025",
+      "ciudad": "Concepción",
+      "descripcion": "Concierto de la popular banda argentina de pop, programado en el Estadio Ester Roa Rebolledo.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Biobío",
+      "country": "Chile",
+      "image_url": "https://images.unsplash.com/photo-1506905925346-21bea4d5618d?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Javiera Mena: Nuevo Álbum Inmersión",
+      "fecha": "14 NOV",
+      "ciudad": "Concepción",
+      "descripcion": "Concierto de la reconocida artista chilena de electropop.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Biobío",
+      "country": "Chile",
+      "image_url": "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    }
+  ]
+}

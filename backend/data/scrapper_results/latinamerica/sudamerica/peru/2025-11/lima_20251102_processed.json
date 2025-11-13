@@ -1,0 +1,73 @@
+{
+  "ubicacion": "Lima, Perú",
+  "fecha_consulta": "2025-11-02",
+  "fuente": "Gemini AI + Web Search",
+  "eventos_confirmados_o_tradicionales": [
+    {
+      "nombre": "Lima Music Fest",
+      "fecha": "2025-11-07",
+      "tipo": "Musica",
+      "lugar": "Estadio Nacional del Perú",
+      "direccion": "Calle José Díaz s/n, Cercado de Lima 15046, Perú",
+      "precio": "Desde S/ 150",
+      "hora": "17:00",
+      "descripcion": "Festival anual de música con artistas nacionales e internacionales.",
+      "url": "https://www.stubhub.pe/entradas-lima-music-fest-lima/ca14897"
+    },
+    {
+      "nombre": "Feria Internacional del Libro de Lima",
+      "fecha": "2025-11-02",
+      "tipo": "Cultural",
+      "lugar": "Parque de los Próceres",
+      "direccion": "Av. Salaverry, Jesús María 15076, Perú",
+      "precio": "Desde S/ 7",
+      "hora": "10:00",
+      "descripcion": "Evento cultural que reúne a editoriales, autores y lectores.",
+      "url": "https://fil.lima.pe/"
+    },
+    {
+      "nombre": "Campeonato Nacional de Tabla",
+      "fecha": "2025-11-08",
+      "tipo": "Deportes",
+      "lugar": "Playa Makaha",
+      "direccion": "Malecón Cisneros, Miraflores, Lima, Perú",
+      "precio": "Gratis",
+      "hora": "08:00",
+      "descripcion": "Competencia nacional de surf con los mejores tablistas del país.",
+      "url": "https://www.surfplace.com/surf-spots/playa-makaha"
+    },
+    {
+      "nombre": "Oktoberfest Peruano",
+      "fecha": "2025-11-01",
+      "tipo": "Fiestas",
+      "lugar": "Huanchaco",
+      "direccion": "Huanchaco, Trujillo, Perú",
+      "precio": "Desde S/ 50",
+      "hora": "12:00",
+      "descripcion": "Celebración de la cultura alemana con música, comida y cerveza artesanal.",
+      "url": "https://www.ytuqueplanes.com/eventos/festividades/oktoberfest-peruano-huanchaco"
+    },
+    {
+      "nombre": "ExpoTech Lima",
+      "fecha": "2025-11-05",
+      "tipo": "Tech",
+      "lugar": "Centro de Convenciones de Lima",
+      "direccion": "Av. Javier Prado Este 1598, San Borja 15036, Perú",
+      "precio": "Desde S/ 80",
+      "hora": "09:00",
+      "descripcion": "Feria tecnológica con exposiciones, conferencias y talleres sobre innovación.",
+      "url": "https://www.ccpl.pe/"
+    },
+    {
+      "nombre": "Festival Internacional de Jazz de Lima",
+      "fecha": "2025-11-03",
+      "tipo": "Musica",
+      "lugar": "Gran Teatro Nacional",
+      "direccion": "Av. Javier Prado Este 2225, San Borja 15036, Perú",
+      "precio": "Desde S/ 60",
+      "hora": "20:00",
+      "descripcion": "Presentación de artistas de jazz de renombre internacional.",
+      "url": "https://granteatronacional.pe/programacion"
+    }
+  ]
+}

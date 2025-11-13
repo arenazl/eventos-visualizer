@@ -1,0 +1,268 @@
+{
+  "source": "gemini",
+  "ciudad": "Madrid",
+  "pais": "España",
+  "fecha_consulta": "2025-11-03",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 30,
+  "eventos": [
+    {
+      "numero": 1,
+      "nombre": "43º Festival de Otoño de la Comunidad de Madrid",
+      "fecha_inicio": "2025-11-06",
+      "fecha_fin": "2025-11-30",
+      "descripcion": "Una de las citas más importantes de las artes escénicas en España, con una programación internacional de teatro, danza y performance en diversos espacios de la ciudad",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 2,
+      "nombre": "JazzMadrid",
+      "periodo": "Durante todo noviembre",
+      "lugar": "Teatro Fernán Gómez y Conde Duque",
+      "descripcion": "Festival dedicado al jazz con conciertos en lugares emblemáticos, atrayendo a figuras internacionales y locales",
+      "categoria": "Música"
+    },
+    {
+      "numero": 3,
+      "nombre": "Día de la Almudena",
+      "fecha": "2025-11-09",
+      "lugar": "Catedral de la Almudena, Plaza Mayor",
+      "descripcion": "Fiesta de la Patrona de Madrid, con ceremonias religiosas, ofrendas florales y actividades populares. Es día festivo en la capital",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 4,
+      "nombre": "Semana de la Ciencia y la Innovación de Madrid",
+      "fecha_inicio": "2025-11-03",
+      "fecha_fin": "2025-11-16",
+      "descripcion": "Evento de divulgación científica con cientos de actividades gratuitas, como visitas a laboratorios, jornadas de puertas abiertas, workshops y conferencias",
+      "categoria": "Ciencia"
+    },
+    {
+      "numero": 5,
+      "nombre": "Festival Eñe, la fiesta de la literatura",
+      "fecha_inicio": "2025-11-11",
+      "fecha_fin": "2025-11-30",
+      "descripcion": "Un encuentro dedicado a la literatura con mesas redondas, performances, encuentros con autores y recitales",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 6,
+      "nombre": "LesGaiCineMad, festival de cine LGBTIAQ+",
+      "fecha_inicio": "2025-11-11",
+      "fecha_fin": "2025-11-23",
+      "descripcion": "Festival internacional de cine que proyecta películas y documentales con temáticas de la diversidad sexual",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 7,
+      "nombre": "Festival Grande del Góspel",
+      "fecha_inicio": "2025-11-28",
+      "fecha_fin": "2025-12-13",
+      "lugar": "Teatro Fernán Gómez",
+      "descripcion": "Cita anual para los amantes de la música góspel",
+      "categoria": "Música"
+    },
+    {
+      "numero": 8,
+      "artista": "Joaquín Sabina - Gira de Despedida Hola y adiós",
+      "fecha": "2025-11-12, 17, 25 y 30",
+      "lugar": "Movistar Arena",
+      "genero": "Rock en Español",
+      "descripcion": "Una de las giras más esperadas y emotivas, con múltiples fechas en la capital para decir adiós a los escenarios",
+      "categoria": "Música"
+    },
+    {
+      "numero": 9,
+      "artista": "Radiohead",
+      "fecha": "2025-11-04, 05, 07 y 08",
+      "lugar": "Movistar Arena",
+      "genero": "Rock Alternativo",
+      "descripcion": "La aclamada banda británica regresa a Madrid con varias fechas tras varios años de ausencia",
+      "categoria": "Música"
+    },
+    {
+      "numero": 10,
+      "artista": "Dani Martín - Gira 25 P*t*s Años",
+      "periodo": "Varias fechas en noviembre",
+      "lugar": "Movistar Arena",
+      "genero": "Pop Rock",
+      "descripcion": "El exvocalista de El Canto del Loco celebra sus 25 años de carrera musical",
+      "categoria": "Música"
+    },
+    {
+      "numero": 11,
+      "artista": "Katy Perry - The Lifetimes Tour",
+      "fecha": "2025-11-11",
+      "lugar": "Movistar Arena",
+      "genero": "Pop",
+      "descripcion": "Concierto de la estrella estadounidense del pop, con gran despliegue escénico",
+      "categoria": "Música"
+    },
+    {
+      "numero": 12,
+      "artista": "OneRepublic - Escape to Europe 2025",
+      "fecha": "2025-11-14",
+      "lugar": "Palacio Vistalegre",
+      "genero": "Pop Alternativo",
+      "descripcion": "La popular banda de pop alternativo ofrece un único concierto en Madrid",
+      "categoria": "Música"
+    },
+    {
+      "numero": 13,
+      "artista": "Anuel AA - Europe Tour 2025",
+      "fecha": "2025-11-23 y 24",
+      "lugar": "Movistar Arena",
+      "genero": "Trap / Reggaetón",
+      "descripcion": "El referente del trap y reguetón puertorriqueño con un espectáculo de gran energía",
+      "categoria": "Música"
+    },
+    {
+      "numero": 14,
+      "artista": "Marilyn Manson - One Assassination Under God Tour",
+      "periodo": "Fecha en noviembre",
+      "lugar": "Palacio Vistalegre Arena",
+      "genero": "Rock",
+      "descripcion": "El icónico artista de rock ofrece una potente actuación",
+      "categoria": "Música"
+    },
+    {
+      "numero": 15,
+      "artista": "The Hives",
+      "fecha": "2025-11-02",
+      "lugar": "Movistar Arena",
+      "genero": "Garage Rock",
+      "descripcion": "Concierto de la banda sueca, conocida por sus energéticos directos",
+      "categoria": "Música"
+    },
+    {
+      "numero": 16,
+      "artista": "Zaz",
+      "fecha": "2025-11-05",
+      "lugar": "Sala La Riviera",
+      "genero": "Chanson Française / Jazz / Pop",
+      "descripcion": "La artista francesa con su fusión única",
+      "categoria": "Música"
+    },
+    {
+      "numero": 17,
+      "artista": "Hauser",
+      "fecha": "2025-11-22",
+      "lugar": "Palacio Vistalegre",
+      "genero": "Música Clásica / Pop",
+      "descripcion": "El famoso violonchelista con su mezcla de música clásica y pop",
+      "categoria": "Música"
+    },
+    {
+      "numero": 18,
+      "nombre": "NFL Madrid 2025: Miami Dolphins - Washington Commanders",
+      "fecha": "2025-11-16",
+      "lugar": "Estadio Santiago Bernabéu",
+      "descripcion": "Primer partido de la liga regular de la NFL en España, un evento de magnitud internacional en el renovado estadio",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 19,
+      "nombre": "Real Madrid C.F. / Atlético de Madrid",
+      "periodo": "Varias fechas",
+      "descripcion": "Partidos de fútbol de los equipos de la capital (Liga y/o Champions League), que siempre generan gran expectación",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 20,
+      "nombre": "Black Friday 2025",
+      "fecha": "2025-11-28",
+      "lugar": "Gran Vía y centros comerciales",
+      "descripcion": "La jornada de mayores descuentos comerciales en toda la ciudad, atrayendo a miles de compradores",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 21,
+      "nombre": "El Lago de los Cisnes: La Nueva Generación de Matthew Bourne",
+      "fecha_inicio": "2025-11-19",
+      "fecha_fin": "2025-11-22",
+      "lugar": "Teatro Real",
+      "genero": "Ballet",
+      "descripcion": "Una aclamada y rompedora versión del ballet clásico de Chaikovski",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 22,
+      "nombre": "Meninas Madrid Gallery 2025",
+      "fecha_inicio": "2025-11-15",
+      "fecha_fin": "2025-12-15",
+      "descripcion": "Exposición urbana de grandes figuras de la Menina decoradas por artistas, repartidas por las calles de Madrid",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 23,
+      "nombre": "Encendido de las Luces de Navidad",
+      "periodo": "Finales de noviembre (fecha por confirmar)",
+      "lugar": "Centro de Madrid",
+      "descripcion": "Tradicional evento que marca el inicio de la temporada navideña, con un acto de encendido que congrega a miles de personas",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 24,
+      "nombre": "BioCultura Madrid 2025",
+      "fecha_inicio": "2025-11-06",
+      "fecha_fin": "2025-11-09",
+      "lugar": "IFEMA",
+      "descripcion": "La feria internacional de productos ecológicos y consumo responsable más importante de España",
+      "categoria": "Feria"
+    },
+    {
+      "numero": 25,
+      "nombre": "Advanced Manufacturing Madrid",
+      "fecha_inicio": "2025-11-05",
+      "fecha_fin": "2025-11-06",
+      "lugar": "IFEMA",
+      "descripcion": "Cita clave para la industria del futuro, abarcando automatización, composites e innovación industrial",
+      "categoria": "Feria"
+    },
+    {
+      "numero": 26,
+      "nombre": "GENERA 2025 (Feria Internacional de Energía y Medio Ambiente)",
+      "fecha_inicio": "2025-11-18",
+      "fecha_fin": "2025-11-20",
+      "lugar": "IFEMA",
+      "descripcion": "Evento de referencia en el sector energético, centrada en la sostenibilidad y las energías renovables",
+      "categoria": "Feria"
+    },
+    {
+      "numero": 27,
+      "nombre": "Retromóvil Madrid 2025",
+      "fecha_inicio": "2025-11-28",
+      "fecha_fin": "2025-11-30",
+      "lugar": "IFEMA",
+      "descripcion": "Salón dedicado al automóvil y la motocicleta de época y colección",
+      "categoria": "Feria"
+    },
+    {
+      "numero": 28,
+      "nombre": "Rastrillo Nuevo Futuro",
+      "fecha_inicio": "2025-11-13",
+      "fecha_fin": "2025-11-16",
+      "lugar": "Palacio de Cibeles",
+      "descripcion": "Tradicional mercadillo benéfico de gran popularidad que recauda fondos para obras sociales",
+      "categoria": "Feria"
+    },
+    {
+      "numero": 29,
+      "nombre": "Oliver Twist, el Musical",
+      "fecha_inicio": "2025-11-12",
+      "lugar": "Teatro La Latina",
+      "descripcion": "Adaptación musical del clásico literario",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 30,
+      "nombre": "El Mago Yunke - Hangar 52",
+      "fecha_inicio": "2025-11-14",
+      "lugar": "Terrazas CC La Vaguada",
+      "descripcion": "Espectáculo de gran magia e ilusión, con mucha expectación en Madrid",
+      "categoria": "Entretenimiento"
+    }
+  ],
+  "nota_importante": "Madrid ofrece una amplia agenda cultural y de entretenimiento en noviembre 2025, incluyendo grandes conciertos internacionales (Radiohead, Katy Perry, Joaquín Sabina), festivales culturales, ferias profesionales y el primer partido de NFL en España. Las fechas están sujetas a confirmación oficial."
+}

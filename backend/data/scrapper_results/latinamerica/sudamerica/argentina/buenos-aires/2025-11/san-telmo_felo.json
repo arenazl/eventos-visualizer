@@ -1,0 +1,124 @@
+{
+  "eventos": [
+    {
+      "nombre": "Noche de los Museos",
+      "fecha": "2025-11-08",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Varios museos en San Telmo.",
+      "descripcion": "Este evento cultural permite a los visitantes explorar museos y espacios culturales de forma gratuita durante toda la noche, con actividades especiales y exposiciones.",
+      "categoria": "cultural",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/5c/aa/a6/caption.jpg?w=900&h=500&s=1"
+    },
+    {
+      "nombre": "Sticky - Fiesta de Reggaetón",
+      "fecha": "2025-11-08",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Club Museum",
+      "descripcion": "Fiesta exclusiva de reggaetón en el Club Museum, un boliche icónico de San Telmo, con música en vivo y un ambiente festivo.",
+      "categoria": "música",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://www.odu.edu/sites/default/files/styles/featured_content_image/public/images/barry-art-museum-groundbreaking-234.jpg?h=5303d571"
+    },
+    {
+      "nombre": "Feria de San Telmo",
+      "fecha": "2025-11-12",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Plaza Dorrego",
+      "descripcion": "Mercado de antigüedades y artesanías, donde se pueden encontrar productos locales y disfrutar de la cultura del barrio.",
+      "categoria": "cultural",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/1c/96/c3/muito-legal-com-muitas.jpg?w=900&h=500&s=1"
+    },
+    {
+      "nombre": "Visita Guiada a San Telmo",
+      "fecha": "2025-11-11",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Punto de encuentro en la Plaza Dorrego.",
+      "descripcion": "Recorrido gratuito por los puntos más emblemáticos de San Telmo, explorando su historia y cultura.",
+      "categoria": "cultural",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://media.tacdn.com/media/attractions-splice-spp-674x446/15/bf/6a/f8.jpg"
+    },
+    {
+      "nombre": "Recital en La Carbonera",
+      "fecha": "2025-11-19",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "La Carbonera",
+      "descripcion": "Concierto de Rodrigo Flores & The Ratpackers Big Band, ofreciendo una noche de jazz y música en vivo.",
+      "categoria": "música",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://www.tiktok.com/api/img/?itemId=7374044322158677254&location=0&aid=1988"
+    },
+    {
+      "nombre": "Noche de las Heladerías",
+      "fecha": "2025-11-13",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Varias heladerías en San Telmo.",
+      "descripcion": "Evento donde las heladerías ofrecen descuentos y promociones especiales en sus productos.",
+      "categoria": "otro",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/5c/aa/a6/caption.jpg?w=900&h=500&s=1"
+    },
+    {
+      "nombre": "Noche de los Alfajores",
+      "fecha": "2025-11-14",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Diferentes locales en San Telmo.",
+      "descripcion": "Celebración dedicada al alfajor argentino, con degustaciones y actividades relacionadas.",
+      "categoria": "otro",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://media.tacdn.com/media/attractions-splice-spp-674x446/15/bf/6a/f8.jpg"
+    },
+    {
+      "nombre": "Concierto de Verde Aluminio",
+      "fecha": "2025-11-15",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Perón Perón",
+      "descripcion": "Presentación musical en el bar Perón Perón, con un enfoque en la música local.",
+      "categoria": "música",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1157737443%2F2845495813621%2F1%2Foriginal.20251020-191829?w=600&auto=format%2Ccompress&q=75&sharp=10&rect=96%2C0%2C1088%2C544&s=29cfcc684bb4d29b4456bb3212b422b5"
+    },
+    {
+      "nombre": "Festival de Cine de Mar del Plata",
+      "fecha": "2025-11-12",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Varias locaciones en San Telmo.",
+      "descripcion": "Aunque el festival principal se lleva a cabo en Mar del Plata, habrá proyecciones y eventos relacionados en San Telmo.",
+      "categoria": "música",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://0.academia-photos.com/attachment_thumbnails/118414968/mini_magick20240924-1-ournaz.png?1727197033"
+    },
+    {
+      "nombre": "Ciclo de Jazz en San Telmo",
+      "fecha": "2025-11-28",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Bares seleccionados en San Telmo.",
+      "descripcion": "Presentaciones de diferentes artistas de jazz en varios bares del barrio, celebrando la música en vivo.",
+      "categoria": "música",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://image.isu.pub/230719015412-a291c5a7cee93d282d97a321f796c818/jpg/page_1_thumb_large.jpg"
+    }
+  ]
+}

@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import SidePanel from '../components/SidePanel'
 import Header from '../components/Header'
+import FloatingChat from '../components/FloatingChat'
+import FloatingJuan from '../components/FloatingJuan'
 import { useAssistants } from '../contexts/AssistantsContext'
 import { API_BASE_URL } from '../config/api'
+import bgImage from '../assets/bg.webp'
 
 interface Event {
   title: string
@@ -11,6 +14,7 @@ interface Event {
   start_datetime: string
   venue_name: string
   venue_address?: string
+  city?: string
   category: string
   price: number | null | undefined
   currency: string
@@ -45,6 +49,8 @@ const EventDetailPage: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [imageError, setImageError] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [updatingCategory, setUpdatingCategory] = useState(false)
+  const [updatingImage, setUpdatingImage] = useState(false)
 
   useEffect(() => {
     console.log('🔄 EventDetailPage useEffect triggered - ID changed to:', id)
@@ -281,6 +287,130 @@ const EventDetailPage: React.FC = () => {
     navigate('/', { state: { selectedLocation: location } })
   }
 
+  // Handler para actualizar categoría
+  const handleCategoryChange = async (newCategory: string) => {
+    if (!event || !id) return
+
+    setUpdatingCategory(true)
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/events/${id}/category`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ category: newCategory })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        console.log('✅ Categoría actualizada:', newCategory)
+
+        // Actualizar el evento local
+        setEvent({ ...event, category: newCategory })
+
+        // Actualizar en sessionStorage
+        const eventKey = `event-${id}`
+        const storedEvent = sessionStorage.getItem(eventKey)
+        if (storedEvent) {
+          const parsedEvent = JSON.parse(storedEvent)
+          parsedEvent.category = newCategory
+          sessionStorage.setItem(eventKey, JSON.stringify(parsedEvent))
+        }
+      } else {
+        console.error('❌ Error actualizando categoría')
+      }
+    } catch (error) {
+      console.error('❌ Error:', error)
+    } finally {
+      setUpdatingCategory(false)
+    }
+  }
+
+  // Handler para actualizar imagen
+  const handleUpdateImage = async () => {
+    if (!event || !id) return
+
+    setUpdatingImage(true)
+    try {
+      console.log('🖼️ Buscando nueva imagen para:', event.title)
+
+      const response = await fetch(`${API_BASE_URL}/api/events/${id}/update-image`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: event.title,
+          venue_name: event.venue_name,
+          city: event.city || ''
+        })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        if (data.success && data.image_url) {
+          console.log('✅ Nueva imagen encontrada:', data.image_url)
+
+          // Actualizar el evento local
+          setEvent({ ...event, image_url: data.image_url })
+          setImageError(false)
+
+          // Actualizar en localStorage - evento individual
+          const eventKey = `event-${id}`
+          const storedEvent = localStorage.getItem(eventKey)
+          if (storedEvent) {
+            const parsedEvent = JSON.parse(storedEvent)
+            parsedEvent.image_url = data.image_url
+            localStorage.setItem(eventKey, JSON.stringify(parsedEvent))
+          }
+
+          // También actualizar en sessionStorage - evento individual
+          const sessionEvent = sessionStorage.getItem(eventKey)
+          if (sessionEvent) {
+            const parsedEvent = JSON.parse(sessionEvent)
+            parsedEvent.image_url = data.image_url
+            sessionStorage.setItem(eventKey, JSON.stringify(parsedEvent))
+          }
+
+          // Actualizar en la lista de eventos del home (localStorage)
+          const eventsListKey = 'events-list'
+          const storedEventsList = localStorage.getItem(eventsListKey)
+          if (storedEventsList) {
+            const eventsList = JSON.parse(storedEventsList)
+            const eventIndex = eventsList.findIndex((e: any) => {
+              const eId = e.title.toLowerCase().replace(/ /g, '-')
+              return eId === id || e.id === id
+            })
+            if (eventIndex !== -1) {
+              eventsList[eventIndex].image_url = data.image_url
+              localStorage.setItem(eventsListKey, JSON.stringify(eventsList))
+              console.log('✅ Imagen actualizada en localStorage')
+            }
+          }
+
+          // También actualizar en sessionStorage la lista
+          const sessionEventsList = sessionStorage.getItem(eventsListKey)
+          if (sessionEventsList) {
+            const eventsList = JSON.parse(sessionEventsList)
+            const eventIndex = eventsList.findIndex((e: any) => {
+              const eId = e.title.toLowerCase().replace(/ /g, '-')
+              return eId === id || e.id === id
+            })
+            if (eventIndex !== -1) {
+              eventsList[eventIndex].image_url = data.image_url
+              sessionStorage.setItem(eventsListKey, JSON.stringify(eventsList))
+              console.log('✅ Imagen actualizada en sessionStorage')
+            }
+          }
+        } else {
+          console.warn('⚠️ No se encontró nueva imagen')
+        }
+      } else {
+        console.error('❌ Error actualizando imagen')
+      }
+    } catch (error) {
+      console.error('❌ Error:', error)
+    } finally {
+      setUpdatingImage(false)
+    }
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -306,7 +436,23 @@ const EventDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+    <div className="min-h-screen relative">
+      {/* Imagen de fondo */}
+      <div
+        className="fixed inset-0 opacity-5 pointer-events-none"
+        style={{
+          backgroundImage: `url(${bgImage})`,
+          backgroundSize: '100% 100%',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      ></div>
+
+      {/* Gradiente encima de la imagen */}
+      <div className="fixed inset-0 bg-gradient-to-br from-purple-900/85 via-blue-900/80 to-indigo-900/85 pointer-events-none"></div>
+
+      {/* Contenido principal */}
+      <div className="relative z-10">
       {/* Header completo igual que en landing page */}
       <Header
         searchQuery={searchQuery}
@@ -320,10 +466,10 @@ const EventDetailPage: React.FC = () => {
         onBackClick={() => navigate(-1)}
       />
 
-      <div className="pt-20">
+      <div>
 
         {/* Hero Image */}
-        <div className="relative h-64 md:h-96 w-full">
+        <div className="relative h-64 md:h-96 w-full mt-16">
           {!imageError && event.image_url && event.image_url.trim() !== "" ? (
             <img
               src={event.image_url}
@@ -336,17 +482,77 @@ const EventDetailPage: React.FC = () => {
               <span className="text-9xl">{getCategoryIcon(event.category)}</span>
             </div>
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
         </div>
 
         {/* Content */}
         <div className="max-w-4xl mx-auto px-4 py-8 -mt-20 relative z-10">
-          <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl shadow-lg p-6 md:p-8">
-            {/* Category & Price badges */}
-            <div className="flex items-center justify-between mb-4">
-              <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                {event.category}
-              </span>
+          {/* Background pattern container */}
+          <div className="relative">
+            {/* Subtle background pattern */}
+            <div
+              className="absolute inset-0 rounded-xl opacity-30"
+              style={{
+                backgroundImage: `
+                  radial-gradient(circle at 25px 25px, rgba(255, 255, 255, 0.1) 2%, transparent 0%),
+                  radial-gradient(circle at 75px 75px, rgba(255, 255, 255, 0.1) 2%, transparent 0%)
+                `,
+                backgroundSize: '100px 100px'
+              }}
+            />
+
+            {/* Content card with opacity */}
+            <div className="relative bg-white/5 backdrop-blur-xl border border-white/20 rounded-xl shadow-lg p-6 md:p-8">
+            {/* Category & Price badges + Edit buttons */}
+            <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+              <div className="flex items-center gap-2">
+                {/* Category dropdown */}
+                <select
+                  value={event.category}
+                  onChange={(e) => handleCategoryChange(e.target.value)}
+                  disabled={updatingCategory}
+                  className={`bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium border-none outline-none cursor-pointer hover:bg-blue-700 transition-colors ${updatingCategory ? 'opacity-50' : ''}`}
+                >
+                  <option value="music">Música</option>
+                  <option value="sports">Deportes</option>
+                  <option value="cultural">Cultural</option>
+                  <option value="tech">Tech</option>
+                  <option value="party">Fiestas</option>
+                  <option value="hobbies">Hobbies</option>
+                  <option value="international">Internacional</option>
+                  <option value="food">Comida</option>
+                  <option value="art">Arte</option>
+                  <option value="theater">Teatro</option>
+                  <option value="film">Cine</option>
+                  <option value="festival">Festival</option>
+                </select>
+
+                {/* Update Image button */}
+                <button
+                  onClick={handleUpdateImage}
+                  disabled={updatingImage}
+                  className={`bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded-full text-sm font-medium transition-colors flex items-center gap-2 ${updatingImage ? 'opacity-50 cursor-wait' : ''}`}
+                  title="Actualizar imagen"
+                >
+                  {updatingImage ? (
+                    <>
+                      <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      <span className="hidden sm:inline">Buscando...</span>
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <span className="hidden sm:inline">Actualizar imagen</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
               <span className={`${event.is_free ? 'bg-green-600' : 'bg-gray-800'} text-white px-4 py-2 rounded-lg font-bold`}>
                 {formatPrice(event.price, event.currency, event.is_free)}
               </span>
@@ -414,6 +620,7 @@ const EventDetailPage: React.FC = () => {
                 </svg>
                 <span>Compartir</span>
               </button>
+            </div>
             </div>
           </div>
 
@@ -496,7 +703,7 @@ const EventDetailPage: React.FC = () => {
                 <div className="flex items-center gap-2 mb-6">
                   <span className="text-2xl">✨</span>
                   <h3 className="text-lg font-semibold text-white">Análisis Inteligente</h3>
-                  <span className="ml-auto text-xs text-purple-300 bg-purple-500/20 px-2 py-1 rounded-full">Powered by Gemini AI</span>
+                  <span className="ml-auto text-xs text-purple-300 bg-purple-500/20 px-2 py-1 rounded-full">Powered by Grok AI</span>
                 </div>
                 <div className="grid md:grid-cols-2 gap-6">
                   {/* Columna izquierda */}
@@ -572,7 +779,7 @@ const EventDetailPage: React.FC = () => {
                     </div>
                     <div className="text-xs text-purple-300 flex items-center gap-1">
                       <span>✨</span>
-                      <span>Powered by Gemini AI</span>
+                      <span>Powered by Grok AI</span>
                     </div>
                   </div>
                 )}
@@ -698,6 +905,11 @@ const EventDetailPage: React.FC = () => {
           </div>
         </form>
       </SidePanel>
+
+      {/* Floating Assistants with Grok */}
+      <FloatingChat />
+      <FloatingJuan />
+      </div>
     </div>
   )
 }

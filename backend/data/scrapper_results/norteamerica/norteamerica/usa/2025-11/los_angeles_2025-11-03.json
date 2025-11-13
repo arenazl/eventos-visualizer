@@ -1,0 +1,216 @@
+{
+  "source": "gemini",
+  "ciudad": "Los Angeles",
+  "pais": "Estados Unidos",
+  "fecha_consulta": "2025-11-03",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 24,
+  "eventos": [
+    {
+      "numero": 1,
+      "nombre": "Los Angeles Auto Show 2025",
+      "fecha_inicio": "2025-11-21",
+      "fecha_fin": "2025-11-30",
+      "lugar": "Los Angeles Convention Center",
+      "descripcion": "Uno de los salones del automóvil más influyentes a nivel mundial, presentando los vehículos y tecnologías más recientes",
+      "categoria": "Feria"
+    },
+    {
+      "numero": 2,
+      "nombre": "Greenbuild Expo 2025",
+      "fecha_inicio": "2025-11-04",
+      "fecha_fin": "2025-11-07",
+      "lugar": "LA Convention Center",
+      "descripcion": "Conferencia y exposición internacional sobre construcción sostenible",
+      "categoria": "Feria"
+    },
+    {
+      "numero": 3,
+      "nombre": "Camp Flog Gnaw Carnival 2025",
+      "fecha_inicio": "2025-11-15",
+      "fecha_fin": "2025-11-16",
+      "lugar": "Dodger Stadium",
+      "genero": "Hip Hop / R&B",
+      "descripcion": "Festival de música muy popular, curado por Tyler, The Creator",
+      "categoria": "Música"
+    },
+    {
+      "numero": 4,
+      "nombre": "Apocalypse: Zombieland 2025",
+      "fecha_inicio": "2025-11-28",
+      "fecha_fin": "2025-11-29",
+      "lugar": "The Queen Mary Waterfront, Long Beach",
+      "genero": "Música Electrónica",
+      "descripcion": "Festival de música electrónica, ideal para los amantes de la cultura rave",
+      "categoria": "Música"
+    },
+    {
+      "numero": 5,
+      "artista": "Junior H - $AD BOYZ LIVE & BROKEN TOUR",
+      "fecha": "2025-11-07 y 08",
+      "lugar": "Hollywood Bowl",
+      "genero": "Regional Mexicana / Urbano",
+      "descripcion": "Concierto del popular artista de música regional mexicana/urbana",
+      "categoria": "Música"
+    },
+    {
+      "numero": 6,
+      "artista": "Quevedo - Buenas Noches USA Tour",
+      "fecha": "2025-11-02",
+      "lugar": "The Wiltern",
+      "genero": "Rap / Pop Latino",
+      "descripcion": "Concierto del popular cantante y rapero español",
+      "categoria": "Música"
+    },
+    {
+      "numero": 7,
+      "nombre": "Substance 2025",
+      "fecha_inicio": "2025-11-07",
+      "fecha_fin": "2025-11-08",
+      "lugar": "The Belasco Theater",
+      "genero": "Post-Punk / New Wave",
+      "descripcion": "Festival de música alternativa",
+      "categoria": "Música"
+    },
+    {
+      "numero": 8,
+      "artista": "PinkPantheress",
+      "fecha": "2025-11-05 y 06",
+      "lugar": "The Wiltern",
+      "genero": "Pop / Electrónica",
+      "descripcion": "Conciertos de la cantante y productora de música pop/electrónica",
+      "categoria": "Música"
+    },
+    {
+      "numero": 9,
+      "artista": "Joey Bada$$ - DARK AURA TOUR",
+      "fecha": "2025-11-06",
+      "lugar": "Hollywood Palladium",
+      "genero": "Hip Hop",
+      "descripcion": "Concierto del rapero y actor",
+      "categoria": "Música"
+    },
+    {
+      "numero": 10,
+      "nombre": "Otros Conciertos Diversos",
+      "periodo": "Varias fechas",
+      "lugar": "The Fonda Theatre, The Novo, El Rey Theatre",
+      "descripcion": "Artistas como Faye Webster, Tee Grizzley, Rudimental, That Mexican OT y más",
+      "categoria": "Música"
+    },
+    {
+      "numero": 11,
+      "nombre": "NBA - Los Angeles Lakers",
+      "periodo": "Múltiples partidos temporada regular",
+      "lugar": "Crypto.com Arena",
+      "descripcion": "Lakers vs Miami Heat el 2 de noviembre, más otros partidos en casa",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 12,
+      "nombre": "NBA - LA Clippers",
+      "periodo": "Múltiples partidos temporada regular",
+      "lugar": "Crypto.com Arena / The Intuit Dome",
+      "descripcion": "Partidos en casa de los Clippers",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 13,
+      "nombre": "NFL - Los Angeles Rams",
+      "periodo": "Partidos temporada regular",
+      "lugar": "SoFi Stadium",
+      "descripcion": "Los Rams suelen tener uno o dos partidos de local en noviembre",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 14,
+      "nombre": "NFL - Los Angeles Chargers",
+      "periodo": "Partidos temporada regular",
+      "lugar": "SoFi Stadium",
+      "descripcion": "Los Chargers tienen juegos de local durante el mes",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 15,
+      "nombre": "NHL - LA Kings",
+      "periodo": "Múltiples partidos temporada regular",
+      "lugar": "Crypto.com Arena",
+      "descripcion": "Juegos de hockey de los Kings en casa",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 16,
+      "nombre": "College Football - UCLA Bruins / USC Trojans",
+      "periodo": "Partidos universitarios importantes",
+      "lugar": "Rose Bowl / Los Angeles Memorial Coliseum",
+      "descripcion": "Partidos de fútbol americano universitario con gran afluencia",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 17,
+      "nombre": "Eventos de Boxeo/MMA",
+      "periodo": "Posibles grandes carteleras",
+      "lugar": "Crypto.com Arena u otros grandes recintos",
+      "descripcion": "Noviembre suele ser un mes con eventos importantes de deportes de contacto",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 18,
+      "nombre": "The Obscure: Experiencia de Destilería y Coctelería",
+      "periodo": "Todo noviembre",
+      "lugar": "The Obscure",
+      "descripcion": "Experiencia inmersiva centrada en la destilería y coctelería",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 19,
+      "nombre": "Tarantino Live",
+      "fecha_inicio": "2025-11-02",
+      "fecha_fin": "2025-11-16",
+      "lugar": "CineVita",
+      "descripcion": "Espectáculo que rinde homenaje a la obra cinematográfica de Quentin Tarantino",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 20,
+      "nombre": "DroneArt Show",
+      "fecha": "2025-11-15",
+      "lugar": "Rose Bowl Stadium",
+      "descripcion": "Espectáculo de música combinado con un show de drones",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 21,
+      "nombre": "The Jury Experience",
+      "periodo": "Varias fechas",
+      "lugar": "Glorya Kaufman Performing Arts Center / Historic Glendale Theater",
+      "descripcion": "Experiencias de teatro inmersivo sobre temas de jurados",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 22,
+      "nombre": "Titanic: A Voyage Through Time",
+      "periodo": "Todo noviembre",
+      "lugar": "LA Beverly Center",
+      "descripcion": "Exposición temática sobre el famoso transatlántico",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 23,
+      "nombre": "Paseo por Santa (Passport to Santa)",
+      "fecha_inicio": "2025-11-22",
+      "lugar": "Beverly Center LA",
+      "descripcion": "Actividades y experiencias temáticas navideñas que inician a finales de mes",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 24,
+      "nombre": "Exposiciones de Museos",
+      "periodo": "Todo noviembre",
+      "lugar": "Getty Center, LACMA, The Broad",
+      "descripcion": "Las grandes exposiciones en museos siempre son un gran atractivo",
+      "categoria": "Cultural"
+    }
+  ],
+  "nota_importante": "Los Angeles en noviembre 2025 ofrece una agenda muy diversa con el LA Auto Show, Camp Flog Gnaw Festival, múltiples partidos de NBA (Lakers, Clippers), NFL (Rams, Chargers), NHL (Kings), conciertos internacionales y experiencias culturales. La programación deportiva y de conciertos se finaliza con menor anticipación, por lo que se recomienda verificar calendarios cerca de la fecha."
+}

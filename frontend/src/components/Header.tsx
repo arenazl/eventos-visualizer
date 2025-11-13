@@ -363,6 +363,25 @@ const Header: React.FC<HeaderProps> = ({
                       isScrolled ? 'py-1.5 text-xs md:text-sm' : 'py-2 md:py-3 text-xs md:text-base'
                     }`}
                   />
+
+                  {/* Botón para limpiar texto (X) */}
+                  {searchQuery.length > 0 && (
+                    <button
+                      onClick={() => {
+                        onSearchChange('')
+                        setNearbyCitiesLoaded(false)
+                        setSuggestions([])
+                        setShowSuggestions(false)
+                      }}
+                      className="p-2 rounded-full transition-all duration-300 bg-white/10 hover:bg-white/20 active:scale-95 flex-shrink-0"
+                      title="Limpiar búsqueda"
+                    >
+                      <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  )}
+
                   <button
                     onClick={onVoiceSearch}
                     className="hidden md:block p-2 rounded-full transition-all duration-300 bg-white/10 hover:bg-white/20 active:scale-95 flex-shrink-0"

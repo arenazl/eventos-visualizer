@@ -15,6 +15,9 @@ interface CitySuggestion {
   state?: string
   lat: string
   lon: string
+  event_count?: number // Para barrios
+  is_neighborhood?: boolean // Indica si es un barrio
+  parent_city?: string // Ciudad padre del barrio
 }
 
 interface SmartLocationBarProps {
@@ -49,10 +52,52 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
   const [hasSelectedFromDropdown, setHasSelectedFromDropdown] = useState(false) // 🔒 Solo permitir búsqueda si seleccionó del dropdown
   const debounceTimer = useRef<NodeJS.Timeout | null>(null)
 
+  // 🏘️ Neighborhoods state
+  const [neighborhoods, setNeighborhoods] = useState<Map<string, CitySuggestion[]>>(new Map())
+  const [expandedCities, setExpandedCities] = useState<Set<string>>(new Set())
+
+  // 🎯 Popular places state
+  const [popularPlaces, setPopularPlaces] = useState<string[]>([])
+  const [loadingPopularPlaces, setLoadingPopularPlaces] = useState(false)
+
+  // 🎯 Fetch popular places nearby
+  const fetchPopularPlaces = async (locationName: string) => {
+    if (!locationName || locationName.trim() === '') return
+
+    setLoadingPopularPlaces(true)
+    try {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8001'
+      const response = await fetch(
+        `${API_BASE_URL}/api/popular-places/${encodeURIComponent(locationName)}`
+      )
+
+      if (!response.ok) {
+        console.warn('Popular places API error:', response.status)
+        setPopularPlaces([])
+        return
+      }
+
+      const data = await response.json()
+      if (data.success && data.places && data.places.length > 0) {
+        setPopularPlaces(data.places)
+        console.log('✅ Lugares populares:', data.places)
+      } else {
+        setPopularPlaces([])
+      }
+    } catch (error) {
+      console.error('❌ Error fetching popular places:', error)
+      setPopularPlaces([])
+    } finally {
+      setLoadingPopularPlaces(false)
+    }
+  }
+
   // Sincronizar con currentLocation cuando cambie
   useEffect(() => {
     if (currentLocation) {
       setLocation(currentLocation)
+      // Cargar lugares populares cuando cambie la ubicación
+      fetchPopularPlaces(currentLocation.name)
     }
   }, [currentLocation])
 
@@ -81,6 +126,45 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
     }
   }, [manualInput])
 
+  const fetchNeighborhoods = async (cityName: string) => {
+    try {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8001'
+      const response = await fetch(
+        `${API_BASE_URL}/api/neighborhoods/${encodeURIComponent(cityName)}`
+      )
+
+      if (!response.ok) {
+        console.warn('Neighborhoods API error:', response.status)
+        return []
+      }
+
+      const data = await response.json()
+
+      if (!data.success || !data.neighborhoods) {
+        return []
+      }
+
+      // Parsear barrios a formato CitySuggestion
+      const neighborhoodSuggestions: CitySuggestion[] = data.neighborhoods.map((n: any) => ({
+        display_name: `${n.name} (${n.event_count} eventos)`,
+        name: n.name,
+        country: 'Argentina',
+        state: cityName,
+        lat: '0',
+        lon: '0',
+        event_count: n.event_count,
+        is_neighborhood: true,
+        parent_city: cityName
+      }))
+
+      console.log(`🏘️ Barrios de ${cityName}:`, neighborhoodSuggestions)
+      return neighborhoodSuggestions
+    } catch (error) {
+      console.error('Error fetching neighborhoods:', error)
+      return []
+    }
+  }
+
   const fetchCitySuggestions = async (query: string) => {
     if (query.length < 3) return
 
@@ -108,20 +192,73 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
         return
       }
 
-      // Parsear resultados del backend a formato CitySuggestion
-      const parsedSuggestions: CitySuggestion[] = data.locations.map((item: any) => ({
-        display_name: item.displayName,
-        name: item.location,
-        country: item.country || item.location_type,
-        state: item.city || '',
-        lat: '0', // No necesitamos coordenadas del backend
-        lon: '0'
-      }))
+      // 🏘️ Procesar resultados: separar barrios y ciudades
+      const cities: CitySuggestion[] = []
+      const neighborhoodsByCity: Map<string, CitySuggestion[]> = new Map()
 
-      console.log('🔍 Backend sugerencias:', parsedSuggestions)
+      data.locations.forEach((item: any) => {
+        if (item.location_type === 'barrio' && item.city) {
+          // Es un barrio
+          const parentCity = item.city
+          const neighborhood: CitySuggestion = {
+            display_name: `${item.location} (${item.event_count} eventos)`,
+            name: item.location,
+            country: item.country || 'Argentina',
+            state: parentCity,
+            lat: '0',
+            lon: '0',
+            event_count: item.event_count,
+            is_neighborhood: true,
+            parent_city: parentCity
+          }
 
-      setSuggestions(parsedSuggestions)
-      setShowSuggestions(parsedSuggestions.length > 0)
+          // Agrupar barrio bajo ciudad
+          if (!neighborhoodsByCity.has(parentCity)) {
+            neighborhoodsByCity.set(parentCity, [])
+          }
+          neighborhoodsByCity.get(parentCity)!.push(neighborhood)
+
+          // Asegurarse de que la ciudad padre esté en la lista
+          if (!cities.find(c => c.name === parentCity)) {
+            cities.push({
+              display_name: parentCity,
+              name: parentCity,
+              country: item.country || 'Argentina',
+              state: '',
+              lat: '0',
+              lon: '0'
+            })
+          }
+        } else {
+          // Es ciudad o país
+          cities.push({
+            display_name: item.displayName,
+            name: item.location,
+            country: item.country || item.location_type,
+            state: item.city || '',
+            lat: '0',
+            lon: '0'
+          })
+        }
+      })
+
+      console.log('🔍 Ciudades:', cities)
+      console.log('🏘️ Barrios por ciudad:', neighborhoodsByCity)
+
+      // Actualizar estado de barrios y expandir ciudades con barrios
+      const newNeighborhoods = new Map(neighborhoods)
+      const citiesToExpand = new Set<string>()
+
+      neighborhoodsByCity.forEach((barrios, ciudad) => {
+        newNeighborhoods.set(ciudad, barrios)
+        citiesToExpand.add(ciudad)
+      })
+
+      setNeighborhoods(newNeighborhoods)
+      setExpandedCities(citiesToExpand)
+
+      setSuggestions(cities)
+      setShowSuggestions(cities.length > 0)
       setIsLoadingSuggestions(false)
     } catch (error) {
       console.error('Error fetching city suggestions:', error)
@@ -166,6 +303,12 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
   // }, [])
 
   const detectLocation = async () => {
+    // 🔒 NO ejecutar si ya hay ubicación válida (GPS o manual)
+    if (currentLocation && currentLocation.detected !== 'fallback') {
+      console.log('✅ Ya hay ubicación válida, no re-detectar:', currentLocation.name)
+      return
+    }
+
     setIsDetecting(true)
     setError(null)
 
@@ -182,14 +325,25 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
                 `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=es`
               )
               const data = await response.json()
-              
+
+              let cityName = data.locality || data.city
+
+              // 🔧 CORRECCIÓN: Villa Gesell está en coordenadas aproximadas: lat -37.26, lon -56.97
+              // Si el servicio devuelve "La Pampa" pero las coordenadas están en Villa Gesell, corregir
+              if ((cityName === 'La Pampa' || data.principalSubdivision === 'La Pampa') &&
+                  latitude > -37.5 && latitude < -37.0 &&
+                  longitude > -57.2 && longitude < -56.7) {
+                console.log('🔧 Corrección aplicada: La Pampa → Villa Gesell (coordenadas GPS correctas)')
+                cityName = 'Villa Gesell'
+              }
+
               const detectedLocation: Location = {
-                name: `${data.locality || data.city}, ${data.countryName}`,
+                name: `${cityName}, ${data.countryName}`,
                 coordinates: { lat: latitude, lng: longitude },
                 country: data.countryName,
                 detected: 'gps'
               }
-              
+
               setLocation(detectedLocation)
               onLocationChange(detectedLocation)
             } catch {
@@ -221,17 +375,24 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
 
   const fallbackToIPLocation = async () => {
     try {
-      // Usar IP geolocation como fallback
+      // 🔒 NO sobrescribir si ya hay una ubicación válida detectada
+      if (currentLocation && currentLocation.detected !== 'fallback') {
+        console.log('✅ Ya hay ubicación válida, no sobrescribir con IP:', currentLocation.name)
+        setIsDetecting(false)
+        return
+      }
+
+      // Usar IP geolocation como fallback SOLO si no hay ubicación previa
       const response = await fetch('https://ipapi.co/json/')
       const data = await response.json()
-      
+
       const ipLocation: Location = {
         name: `${data.city}, ${data.country_name}`,
         coordinates: { lat: data.latitude, lng: data.longitude },
         country: data.country_name,
         detected: 'fallback'
       }
-      
+
       setLocation(ipLocation)
       onLocationChange(ipLocation)
       setIsDetecting(false)
@@ -354,28 +515,73 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
 
                   {/* 🔍 Autocomplete Dropdown */}
                   {showSuggestions && suggestions.length > 0 && (
-                    <div className="absolute top-full left-0 right-0 mt-2 bg-black/90 backdrop-blur-xl border border-white/20 rounded-xl overflow-hidden z-50 shadow-2xl">
-                      {suggestions.map((suggestion, index) => (
-                        <button
-                          key={index}
-                          onClick={() => selectSuggestion(suggestion)}
-                          className="w-full px-4 py-3 text-left hover:bg-white/10 transition-colors border-b border-white/10 last:border-b-0 group"
-                        >
-                          <div className="flex items-center gap-3">
-                            <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                            </svg>
-                            <div className="flex-1">
-                              <div className="text-white font-medium group-hover:text-blue-300 transition-colors">
-                                {suggestion.name}
+                    <div className="absolute top-full left-0 right-0 mt-2 bg-black/90 backdrop-blur-xl border border-white/20 rounded-xl overflow-hidden z-50 shadow-2xl max-h-96 overflow-y-auto">
+                      {suggestions.map((suggestion, index) => {
+                        const cityNeighborhoods = neighborhoods.get(suggestion.name) || []
+                        const isCityExpanded = expandedCities.has(suggestion.name)
+                        const hasNeighborhoods = cityNeighborhoods.length > 0
+
+                        return (
+                          <div key={index}>
+                            {/* Ciudad */}
+                            <button
+                              onClick={() => selectSuggestion(suggestion)}
+                              className="w-full px-4 py-3 text-left hover:bg-white/10 transition-colors border-b border-white/10 group"
+                            >
+                              <div className="flex items-center gap-3">
+                                <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                </svg>
+                                <div className="flex-1">
+                                  <div className="text-white font-medium group-hover:text-blue-300 transition-colors">
+                                    {suggestion.name}
+                                  </div>
+                                  <div className="text-white/60 text-sm">
+                                    {suggestion.state && `${suggestion.state}, `}{suggestion.country}
+                                  </div>
+                                </div>
+                                {hasNeighborhoods && (
+                                  <svg
+                                    className={`w-4 h-4 text-white/60 transition-transform ${isCityExpanded ? 'rotate-180' : ''}`}
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                                  </svg>
+                                )}
                               </div>
-                              <div className="text-white/60 text-sm">
-                                {suggestion.state && `${suggestion.state}, `}{suggestion.country}
+                            </button>
+
+                            {/* Barrios (si está expandido) */}
+                            {hasNeighborhoods && isCityExpanded && (
+                              <div className="bg-black/50">
+                                {cityNeighborhoods.map((neighborhood, nIndex) => (
+                                  <button
+                                    key={nIndex}
+                                    onClick={() => selectSuggestion(neighborhood)}
+                                    className="w-full pl-12 pr-4 py-2 text-left hover:bg-white/10 transition-colors border-b border-white/5 last:border-b-0 group"
+                                  >
+                                    <div className="flex items-center gap-2">
+                                      <svg className="w-4 h-4 text-blue-300/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                      </svg>
+                                      <div className="flex-1">
+                                        <div className="text-white/90 text-sm group-hover:text-blue-300 transition-colors">
+                                          {neighborhood.name}
+                                        </div>
+                                        <div className="text-white/40 text-xs">
+                                          {neighborhood.event_count} eventos
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </button>
+                                ))}
                               </div>
-                            </div>
+                            )}
                           </div>
-                        </button>
-                      ))}
+                        )
+                      })}
                     </div>
                   )}
 
@@ -440,6 +646,49 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
               <>💡 Tip: Escribe "bares en Barcelona" para cambiar la ubicación automáticamente</>
             )}
           </p>
+        </div>
+      )}
+
+      {/* 🎯 Popular Places - Top 3 lugares cercanos */}
+      {location && popularPlaces.length > 0 && (
+        <div className="text-center mt-3">
+         
+          <div className="flex justify-center gap-2 flex-wrap">
+            {popularPlaces.map((place, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  const newLocation: Location = {
+                    name: place,
+                    coordinates: undefined,
+                    detected: 'manual'
+                  }
+                  setLocation(newLocation)
+                  onLocationChange(newLocation)
+                  setManualInput('')
+                  setShowManualInput(false)
+                }}
+                className="px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white/80 text-md font-large hover:bg-white/20 transition-colors cursor-pointer"
+              >
+                {place}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Loading state para lugares populares */}
+      {location && loadingPopularPlaces && (
+        <div className="text-center mt-3">
+          <div className="flex justify-center gap-2">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="px-3 py-1 bg-white/5 backdrop-blur-sm rounded-full animate-pulse"
+                style={{ width: '80px', height: '26px' }}
+              />
+            ))}
+          </div>
         </div>
       )}
     </div>

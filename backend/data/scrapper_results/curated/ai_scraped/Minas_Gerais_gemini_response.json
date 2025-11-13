@@ -1,0 +1,13 @@
+{
+  "region": "Minas Gerais",
+  "country": "Brasil",
+  "source": "gemini",
+  "timestamp": "2025-11-09T06:50:00",
+  "eventos": [
+    {"nome": "Projeto Seis & Meia", "cidade": "Belo Horizonte/MG", "data": "09/11/2025", "descricao": "Teatro. O evento com Biafra e LLari, uma atração cultural."},
+    {"nome": "11º Congresso Mineiro de Vereadores", "cidade": "Belo Horizonte/MG", "data": "11/11/2025", "descricao": "Congresso. Evento político/administrativo."},
+    {"nome": "Seminário Internacional dos 30 anos da Pesquisa do Déficit Habitacional 2025", "cidade": "Belo Horizonte/MG", "data": "11/11/2025 a 12/11/2025", "descricao": "Seminário. Focado em Política e Planejamento Urbano."},
+    {"nome": "SAMBA DO GENERAL 2025", "cidade": "Belo Horizonte/MG", "data": "14/11/2025", "descricao": "Música/Festa. No Mercado San Pietro Eventos."},
+    {"nome": "Show Maurício Tizumba", "cidade": "Belo Horizonte/MG", "data": "16/11/2025", "descricao": "Música. Apresentação gratuita com Maíra Manga e a Guarda de Congo Feminino Nossa Senhora do Rosário."}
+  ]
+}

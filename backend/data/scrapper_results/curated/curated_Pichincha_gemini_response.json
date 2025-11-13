@@ -1,0 +1,48 @@
+{
+  "source_file": "Pichincha_gemini_response.json",
+  "curated_at": "2025-11-09T10:37:08.226100",
+  "events": [
+    {
+      "nombre": "Te Deum",
+      "fecha": "Noviembre 19",
+      "ciudad": "Quito",
+      "descripcion": "En el Teatro Nacional Sucre. Es un acto cívico-religioso que marca el inicio de las festividades de la capital.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Pichincha",
+      "country": "Ecuador",
+      "image_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Desfiles de la Confraternidad Norte y Sur",
+      "fecha": "Noviembre 22 y 23",
+      "ciudad": "Quito",
+      "descripcion": "Coloridos desfiles con la participación de escuelas, colegios e instituciones, llenos de música, danza y carros alegóricos en homenaje a la ciudad.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Pichincha",
+      "country": "Ecuador",
+      "image_url": "https://images.unsplash.com/photo-1506905925346-21bea4d5618d?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Fiesta mayor del Encuentro de las Culturas de las Parroquias Rurales 2025",
+      "fecha": "Noviembre 22 y 23",
+      "ciudad": "Chavezpamba",
+      "descripcion": "Una celebración para destacar la riqueza cultural de las parroquias rurales de Quito.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Pichincha",
+      "country": "Ecuador",
+      "image_url": "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    }
+  ]
+}

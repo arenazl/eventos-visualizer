@@ -1,0 +1,10 @@
+{
+  "region": "Antioquia",
+  "country": "Colombia",
+  "source": "gemini",
+  "timestamp": "2025-11-09T07:05:00",
+  "eventos": [
+    {"nombre": "Ritvales 2025", "ciudad": "Medellín", "fecha": "1 y 2 de noviembre", "descripcion": "Festival de Música Electrónica de gran formato en el Parque Norte. Contará con la participación de más de 60 artistas globales, incluyendo figuras como Charlotte de Witte y Adam Beyer. Ideal para amantes de la electrónica."},
+    {"nombre": "Julieta Venegas en Concierto", "ciudad": "Medellín", "fecha": "29 de noviembre", "descripcion": "Presentación de la reconocida artista mexicana Julieta Venegas en el Teatro Metropolitano. Un concierto de música pop-rock latino muy esperado."}
+  ]
+}

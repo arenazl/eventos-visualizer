@@ -1,0 +1,76 @@
+{
+  "eventos": [
+    {
+      "nombre": "Adidas 10K Night Run",
+      "fecha": "2025-11-29",
+      "hora_inicio": "20:00",
+      "hora_fin": "23:00",
+      "lugar": "Diques de Puerto Madero",
+      "descripcion": "Una de las carreras nocturnas más importantes de la ciudad. El circuito de 10 kilómetros se realiza a lo largo de los diques, ofreciendo una vista espectacular de los edificios iluminados",
+      "categoria": "deportes",
+      "precio": "$8000",
+      "estado": "confirmado",
+      "image_url": "https://www.berlin-citynight.de/fileadmin/_processed_/8/1/csm_Cn23_10KmLauf.jpg__89ddf9da15.jpg"
+    },
+    {
+      "nombre": "Colección Amalita (Museo) - La Noche de los Museos",
+      "fecha": "2025-11-08",
+      "hora_inicio": "20:00",
+      "hora_fin": "03:00",
+      "lugar": "Colección Amalita - Olga Cossettini 141",
+      "descripcion": "La colección de arte moderno y contemporáneo abre sus puertas de forma gratuita con actividades especiales durante la Noche de los Museos",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "confirmado",
+      "image_url": "https://www.infobae.com/resizer/v2/IMJIN33S2VHJ7INFRQND3MNZXQ.jpg"
+    },
+    {
+      "nombre": "Museo Marítimo Ing. Cerviño - Noche de los Museos",
+      "fecha": "2025-11-08",
+      "hora_inicio": "20:00",
+      "hora_fin": "03:00",
+      "lugar": "Escuela Nacional de Náutica, Puerto Madero",
+      "descripcion": "Museo de la historia marítima argentina con visitas y actividades especiales durante la Noche de los Museos",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "confirmado",
+      "image_url": "https://api.gacetamarinera.com.ar/uploads/2025/11/10/1765/1762799522291.jpg"
+    },
+    {
+      "nombre": "Pabellón de las Bellas Artes de la UCA",
+      "fecha": "2025-11-01",
+      "hora_inicio": "10:00",
+      "hora_fin": "20:00",
+      "lugar": "Universidad Católica Argentina, Puerto Madero",
+      "descripcion": "Espacio cultural que alberga exposiciones de arte contemporáneo en el corazón del barrio",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "diario",
+      "image_url": "https://www.arte-online.net/var/arte_online_net/storage/images/arte-online/directorio/fundaciones/pabellon-de-las-bellas-artes-de-la-uca/728686-1-esl-AR/PABELLON-DE-LAS-BELLAS-ARTES-de-la-UCA.jpg"
+    },
+    {
+      "nombre": "Recorridos Históricos por la Reserva Ecológica",
+      "fecha": "2025-11-16",
+      "hora_inicio": "10:00",
+      "hora_fin": "13:00",
+      "lugar": "Reserva Ecológica Costanera Sur (acceso desde Puerto Madero)",
+      "descripcion": "Visitas guiadas gratuitas a pie o en bicicleta para conocer la flora y fauna de la costanera. Fines de semana",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "diario",
+      "image_url": "https://resizer.glanacion.com/resizer/v2/4PSLAKIHXNFXDF5BLIVQIBWJIA.jpg"
+    },
+    {
+      "nombre": "Paseos Guiados: Las Mujeres de Puerto Madero",
+      "fecha": "2025-11-01",
+      "hora_inicio": "11:00",
+      "hora_fin": "13:00",
+      "lugar": "Puerto Madero (inicio variable)",
+      "descripcion": "Tours a pie que narran la historia de las mujeres argentinas destacadas que dan nombre a las calles del barrio y la evolución de Puerto Madero",
+      "categoria": "cultura-turismo",
+      "precio": "$3000",
+      "estado": "diario",
+      "image_url": "https://turismo.buenosaires.gob.ar/sites/turismo/files/field/image/puente_de_la_mujer_puerto_madero_1500x610.jpg"
+    }
+  ]
+}

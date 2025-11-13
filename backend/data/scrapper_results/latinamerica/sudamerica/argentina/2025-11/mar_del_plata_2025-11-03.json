@@ -1,0 +1,284 @@
+{
+  "source": "gemini",
+  "ciudad": "Mar del Plata",
+  "pais": "Argentina",
+  "fecha_consulta": "2025-11-03",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 30,
+  "eventos": [
+    {
+      "numero": 1,
+      "nombre": "Festival Internacional de Cine de Mar del Plata",
+      "fecha_inicio": "2025-11-06",
+      "fecha_fin": "2025-11-16",
+      "lugar": "Teatro Auditorium, Paseo Aldrey, Teatro Colón, Ambassador",
+      "descripcion": "Festival de cine de gran convocatoria internacional, suele durar 10 días",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3574414417812162097"
+    },
+    {
+      "numero": 2,
+      "nombre": "NB Medio Maratón de Mar del Plata (21K)",
+      "fecha": "2025-11-09",
+      "lugar": "Largada en Playa Grande, recorrido costero",
+      "descripcion": "Media maratón con recorrido por la costa marplatense",
+      "categoria": "Deportes",
+      "image_url": "https://www.mardelplata.gob.ar/sites/default/files/xFoto,P20MGP,P20-Maratonweb.jpg.pagespeed.ic.89EkPCJFlp.jpg"
+    },
+    {
+      "numero": 3,
+      "nombre": "20° Feria del Libro 'Mar del Plata Puerto de Lectura'",
+      "periodo": "Noviembre (una semana o más)",
+      "lugar": "Villa Victoria (Centro Cultural Victoria Ocampo)",
+      "descripcion": "Feria del libro anual con múltiples actividades literarias",
+      "categoria": "Cultural",
+      "image_url": "https://0.academia-photos.com/attachment_thumbnails/118414968/mini_magick20240924-1-ournaz.png?1727197033"
+    },
+    {
+      "numero": 4,
+      "nombre": "Pre Cosquín - Sede Mar del Plata",
+      "fecha_inicio": "2025-11-01",
+      "fecha_fin": "2025-11-02",
+      "lugar": "Teatro Tronador / Costa Galana",
+      "genero": "Folklore",
+      "descripcion": "Pre-selección para el Festival Nacional de Folklore de Cosquín",
+      "categoria": "Música",
+      "image_url": "https://website-assets.studocu.com/img/document_thumbnails/f2843fccf734c3c0d84938528dc03b13/thumb_300_533.png"
+    },
+    {
+      "numero": 5,
+      "nombre": "78º Congreso Aniversario Federación Argentina de ORL",
+      "fecha_inicio": "2025-11-26",
+      "fecha_fin": "2025-11-28",
+      "lugar": "Hotel Costa Galana",
+      "descripcion": "Congreso de otorrinolaringología con gran convocatoria profesional",
+      "categoria": "Conferencia",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/instagram/aaofp/profile_pic.jpg"
+    },
+    {
+      "numero": 6,
+      "nombre": "XVI Coloquio Internacional de Historiografía Europea",
+      "fecha_inicio": "2025-11-26",
+      "fecha_fin": "2025-11-28",
+      "lugar": "Sede a confirmar",
+      "descripcion": "Encuentro académico internacional de historiografía",
+      "categoria": "Conferencia",
+      "image_url": "https://0.academia-photos.com/attachment_thumbnails/62968153/mini_magick20200928-16644-rhywbx.png?1601352814"
+    },
+    {
+      "numero": 7,
+      "nombre": "Mar del Plata Fashion Week",
+      "periodo": "Noviembre",
+      "lugar": "Club Once Unidos u otros",
+      "descripcion": "Semana de la moda marplatense con desfiles y eventos",
+      "categoria": "Cultural",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/11/19/0f/e7/photo0jpg.jpg?w=900&h=500&s=1"
+    },
+    {
+      "numero": 8,
+      "nombre": "43° Rally de Mar del Plata",
+      "fecha": "2025-11-09",
+      "lugar": "Largada en Playa Grande y zonas cercanas",
+      "descripcion": "Rally automovilístico tradicional de la ciudad",
+      "categoria": "Deportes",
+      "image_url": "https://online.fliphtml5.com/bxikb/cegj/files/thumb/f08d4e56a78d9e8e8f603da9a10ed1f1.webp?1660802480&1660802480"
+    },
+    {
+      "numero": 9,
+      "artista": "Conociendo Rusia",
+      "fecha": "2025-11-08",
+      "lugar": "Plaza de la Música o similar",
+      "genero": "Rock/Indie",
+      "descripcion": "Concierto de la popular banda argentina",
+      "categoria": "Música",
+      "image_url": "https://media.tacdn.com/media/attractions-splice-spp-674x446/12/27/43/12.jpg"
+    },
+    {
+      "numero": 10,
+      "artista": "Las Pelotas",
+      "fecha": "2025-11-15",
+      "lugar": "Bar de Fábrica o similar",
+      "genero": "Rock",
+      "descripcion": "Concierto de la emblemática banda de rock argentina",
+      "categoria": "Música",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/f4/06/0a/cheverry-bar-de-fabrica.jpg?w=900&h=500&s=1"
+    },
+    {
+      "numero": 11,
+      "artista": "Dyango",
+      "fecha": "2025-11-22",
+      "lugar": "Por confirmar",
+      "genero": "Balada Romántica",
+      "descripcion": "Concierto del cantante español de baladas",
+      "categoria": "Música",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=817082080710962"
+    },
+    {
+      "numero": 12,
+      "nombre": "Noches de Película - Pantalla al Aire Libre",
+      "periodo": "Noviembre",
+      "lugar": "Villa Victoria y otros espacios",
+      "descripcion": "Ciclo de cine al aire libre",
+      "categoria": "Cultural",
+      "image_url": "https://images.trvl-media.com/lodging/50000000/49010000/49006200/49006194/16c1eaa7.jpg?impolicy=resizecrop&rw=575&rh=575&ra=fill"
+    },
+    {
+      "numero": 13,
+      "nombre": "12ª Edición Pericón de la Costa",
+      "periodo": "Noviembre",
+      "descripcion": "Celebración de la danza folklórica en la costa",
+      "categoria": "Cultural",
+      "image_url": "https://i.ytimg.com/vi/xeeX8ZAJ0sM/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCXMaitD3kG_Vq5q_z526uNENbzCA"
+    },
+    {
+      "numero": 14,
+      "nombre": "65ª Caravana de la Primavera",
+      "periodo": "Noviembre",
+      "descripcion": "Desfile/Caravana popular tradicional",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3432425750798907547"
+    },
+    {
+      "numero": 15,
+      "nombre": "Día de la Tradición",
+      "fecha": "2025-11-16",
+      "lugar": "Museo Municipal José Hernández, Laguna de los Padres",
+      "descripcion": "Actividades relacionadas al folklore y la tradición",
+      "categoria": "Cultural",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Festival_de_Cosqu%C3%ADn_1970_ca.jpg"
+    },
+    {
+      "numero": 16,
+      "nombre": "163º Aniversario Natalicio de Alberto Williams",
+      "periodo": "Noviembre",
+      "lugar": "Casa Sobre El Arroyo",
+      "genero": "Música Clásica",
+      "descripcion": "Música en los Jardines en homenaje al compositor",
+      "categoria": "Música",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3757962131309427505"
+    },
+    {
+      "numero": 17,
+      "nombre": "Purple Night - Tributo a Deep Purple",
+      "fecha": "2025-11-01",
+      "lugar": "Teatros o espacios de música",
+      "genero": "Rock",
+      "descripcion": "Tributo a la banda Deep Purple",
+      "categoria": "Música",
+      "image_url": "x-raw-image:///b2735eae6d44fab23af5383dd55e99e4d761e99cca5ed330327be9a38ee5af46"
+    },
+    {
+      "numero": 18,
+      "nombre": "La venganza del Stand Up",
+      "fecha": "2025-11-14",
+      "lugar": "Teatros locales",
+      "genero": "Humor / Stand Up",
+      "descripcion": "Ciclo de stand up en teatros de la ciudad",
+      "categoria": "Entretenimiento",
+      "image_url": "https://s.yimg.com/ny/api/res/1.2/AU8RxZ7LtCX11GSs1N_MMQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTE1MzY7aD0xMDI0O2NmPXdlYnA-/https://media.zenfs.com/es/lanacion.com.ar/8c48d5a39fcd597fd8558bc05d0842d0"
+    },
+    {
+      "numero": 19,
+      "nombre": "Muestras y Exposiciones en Museos",
+      "periodo": "Todo noviembre",
+      "lugar": "Villa Victoria, Villa Mitre, Museo Mar",
+      "descripcion": "Programación habitual de museos de la ciudad",
+      "categoria": "Cultural",
+      "image_url": "https://0.academia-photos.com/attachment_thumbnails/118414968/mini_magick20240924-1-ournaz.png?1727197033"
+    },
+    {
+      "numero": 20,
+      "nombre": "Torneo Internacional de Vóley Menores",
+      "fecha_inicio": "2025-11-14",
+      "fecha_fin": "2025-11-16",
+      "lugar": "Clubes de la ciudad",
+      "descripcion": "Torneo internacional de vóley categorías menores",
+      "categoria": "Deportes",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100063563501808"
+    },
+    {
+      "numero": 21,
+      "nombre": "Baumfest - Aniversario 15 años",
+      "fecha": "2025-11-15",
+      "lugar": "Bar de Fábrica",
+      "descripcion": "Festival de Cerveza Artesanal y Gastronómico",
+      "categoria": "Gastronomía",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/instagram/cervezabaum/profile_pic.jpg"
+    },
+    {
+      "numero": 22,
+      "nombre": "Expo Jardín MDP Tercera Edición",
+      "fecha": "2025-11-08",
+      "descripcion": "Feria de jardinería y paisajismo",
+      "categoria": "Feria",
+      "image_url": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1117849883%2F258083984685%2F1%2Foriginal.20250908-184652?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C2160%2C1080&s=a48e1601786d814e1e560f2f61d7e845"
+    },
+    {
+      "numero": 23,
+      "nombre": "25ª Exposición anual de Cactus y Crasas",
+      "fecha": "2025-11-22",
+      "descripcion": "Exposición temática de cactus y plantas crasas",
+      "categoria": "Cultural",
+      "image_url": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1141965063%2F2464072006821%2F1%2Foriginal.20251001-225321?h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&rect=5%2C0%2C1590%2C795&s=5310f2befe5db0afda1e335c1095d53a"
+    },
+    {
+      "numero": 24,
+      "nombre": "Partido del Centenario Club Náutico Mar Del Plata",
+      "fecha": "2025-11-29",
+      "lugar": "Club Náutico",
+      "descripcion": "Evento deportivo/social del centenario del club",
+      "categoria": "Deportes",
+      "image_url": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1164822383%2F2338420758193%2F1%2Foriginal.20251028-202505?h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C2160%2C1080&s=989a9f7aaeddd9fdf93aee10e7d5a293"
+    },
+    {
+      "numero": 25,
+      "nombre": "Congresos y Jornadas Académicas",
+      "periodo": "Noviembre",
+      "descripcion": "Diversos encuentros de facultades y colegios profesionales, jornadas de Urología y más",
+      "categoria": "Conferencia",
+      "image_url": "https://cdn.dental-tribune.com/dti//0001/0af62d6a/cmVzaXplLWNyb3Aodz00MTM7aD0yMzIpOnNoYXJwZW4obGV2ZWw9MCk6b3V0cHV0KGZvcm1hdD1qcGVnKQ/up/dt/2025/11/0-Ayub-inauguracion.jpg"
+    },
+    {
+      "numero": 26,
+      "nombre": "Retiro de Tinta",
+      "fecha": "2025-11-29",
+      "descripcion": "Evento relacionado al tatuaje y arte",
+      "categoria": "Cultural",
+      "image_url": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1099030933%2F2633932374091%2F1%2Foriginal.20250818-225004?w=600&auto=format%2Ccompress&q=75&sharp=10&s=7656eb274f2f4eabd7d044049e9301f5"
+    },
+    {
+      "numero": 27,
+      "nombre": "Expo Celebrar 2025",
+      "periodo": "Noviembre",
+      "descripcion": "Feria de pymes y servicios para eventos y fiestas",
+      "categoria": "Feria",
+      "image_url": "https://i8.amplience.net/i/naras/ICE_1600x1100_LOGO.jpg?w=821&sm=c"
+    },
+    {
+      "numero": 28,
+      "nombre": "Ciclos de Ferias de Emprendedores Locales",
+      "periodo": "Noviembre",
+      "descripcion": "Ferias frecuentes en espacios públicos o culturales",
+      "categoria": "Feria",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3741144026264178682"
+    },
+    {
+      "numero": 29,
+      "nombre": "Jornadas Deportivas Interdepartamentales",
+      "periodo": "Noviembre",
+      "descripcion": "Organizadas por colegios profesionales",
+      "categoria": "Deportes",
+      "image_url": "https://i.ytimg.com/vi/c7KCfvMP1sw/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAUp6MuK1AleWxFVZ2epP9hvNuDBg"
+    },
+    {
+      "numero": 30,
+      "nombre": "Torneos de Golf y Náutica",
+      "periodo": "Noviembre",
+      "lugar": "Clubes de golf y náuticos",
+      "descripcion": "Eventos propios de los clubes de golf y náuticos de la ciudad",
+      "categoria": "Deportes",
+      "image_url": "https://img.yumpu.com/6117291/1/500x640/date-event-country-city-grade-entries-entry-deadline-courts-m-venue-.jpg"
+    }
+  ],
+  "nota_importante": "Noviembre es un mes de transición en Mar del Plata. Destaca el Festival Internacional de Cine (6-16 nov), NB Medio Maratón (9 nov), congresos profesionales y eventos culturales. Muchos eventos son congresos y jornadas que convocan a mucha gente, además de eventos culturales, deportivos y gastronómicos tradicionales."
+}

@@ -1,0 +1,124 @@
+{
+  "eventos": [
+    {
+      "nombre": "Noche de Trivia - WACHAS",
+      "fecha": "2025-11-12",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Av. Juan Bautista Justo 2959",
+      "descripcion": "Una divertida noche de trivia donde los participantes pueden poner a prueba sus conocimientos en diversas categorías.",
+      "categoria": "otro",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://imgv2-1-f.scribdassets.com/img/document/313323035/298x396/0c115e189d/1542730239?v=1"
+    },
+    {
+      "nombre": "La Noche de las Heladerías",
+      "fecha": "2025-11-13",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Varias heladerías en Villa Crespo.",
+      "descripcion": "Un evento donde las heladerías ofrecen descuentos y promociones especiales en sus productos.",
+      "categoria": "otro",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3617348535290645599"
+    },
+    {
+      "nombre": "La Noche de los Alfajores",
+      "fecha": "2025-11-14",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Varias confiterías en Villa Crespo.",
+      "descripcion": "Un evento dedicado a los alfajores, con promociones y degustaciones en diferentes locales.",
+      "categoria": "otro",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/instagram/DFnWv6FR8s1/0/image.jpg"
+    },
+    {
+      "nombre": "Concierto de La Beriso",
+      "fecha": "2025-11-15",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Club V",
+      "descripcion": "Un esperado reencuentro de la banda con su público tras varios años sin presentarse en la ciudad.",
+      "categoria": "música",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://i.ytimg.com/vi/UpXoaDidDS8/sddefault.jpg"
+    },
+    {
+      "nombre": "Fuerza Bruta",
+      "fecha": "2025-11-26",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Espacio de eventos en Villa Crespo (consultar localización exacta).",
+      "descripcion": "Un espectáculo innovador que combina teatro, danza y acrobacias en un ambiente interactivo.",
+      "categoria": "otro",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://online.fliphtml5.com/bxikb/rqlj/files/thumb/e9fea92d90b0b04fb1d47b81a69bb11e.webp?1665039311&1665039311"
+    },
+    {
+      "nombre": "Devconnect ARG",
+      "fecha": "2025-11-17",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Centro Costa Salguero",
+      "descripcion": "Feria mundial de Ethereum, donde se discutirán las últimas innovaciones en tecnología blockchain.",
+      "categoria": "tech",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://pbs.twimg.com/media/G5KSsIKXAAAUXCZ.jpg"
+    },
+    {
+      "nombre": "CATA DE LECTURAS PSICONAUTAS",
+      "fecha": "2025-11-08",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Sede social nodo Buenos Aires del Colectivo Cannábico Traslasierra.",
+      "descripcion": "Un evento literario donde se explorarán lecturas relacionadas con la psicología y la conciencia.",
+      "categoria": "cultural",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3494185969694300561"
+    },
+    {
+      "nombre": "Clases de Tango",
+      "fecha": "2025-11-12",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Salón Presidente Perón",
+      "descripcion": "Clases abiertas y gratuitas de tango para todos los niveles.",
+      "categoria": "otro",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=7940733289278288"
+    },
+    {
+      "nombre": "Festival 'Valorando Nuestras Raíces'",
+      "fecha": "2025-11-19",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Espacio cultural en Villa Crespo (consultar localización exacta).",
+      "descripcion": "Un festival cultural que celebra las tradiciones y raíces de la comunidad.",
+      "categoria": "música",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://imgv2-2-f.scribdassets.com/img/document/737920111/298x396/f0af5dd6a1/1717147490?v=1"
+    },
+    {
+      "nombre": "Actividades Culturales en la Legislatura",
+      "fecha": "2025-11-12",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Legislatura de la Ciudad Autónoma de Buenos Aires.",
+      "descripcion": "Una serie de actividades culturales abiertas a la comunidad, incluyendo ensayos de coro y exposiciones de arte.",
+      "categoria": "cultural",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://i.ytimg.com/vi/siqF4swCbrs/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAMYaiHQJX6xHRP2JKTKBN3Pa2Shg"
+    }
+  ]
+}

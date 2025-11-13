@@ -1,0 +1,88 @@
+{
+  "eventos": [
+    {
+      "nombre": "Rata Blanca",
+      "fecha": "2025-11-19",
+      "hora_inicio": "21:00",
+      "hora_fin": null,
+      "lugar": "Movistar Arena, Villa Crespo",
+      "descripcion": "Concierto de la legendaria banda argentina de heavy metal y hard rock en el principal estadio cubierto de la ciudad",
+      "categoria": "música",
+      "precio": "$25000",
+      "estado": "confirmado",
+      "image_url": "https://es.wikipedia.org/wiki/Archivo:Rata_Blanca_11.jpg"
+    },
+    {
+      "nombre": "Luciano Pereyra - Gira Te Sigo Amando",
+      "fecha": "2025-11-22",
+      "hora_inicio": "21:00",
+      "hora_fin": null,
+      "lugar": "Movistar Arena, Villa Crespo",
+      "descripcion": "Dos fechas de uno de los cantautores más populares de Argentina, con un show que fusiona pop, folclore y balada. 22 y 23 de noviembre",
+      "categoria": "música",
+      "precio": "$18000",
+      "estado": "confirmado",
+      "image_url": "https://lucianopereyra.com/wp-content/uploads/2025/08/Cover_Te-Sigo.jpg"
+    },
+    {
+      "nombre": "Andrés Calamaro - El Salmón",
+      "fecha": "2025-11-25",
+      "hora_inicio": "21:00",
+      "hora_fin": null,
+      "lugar": "Movistar Arena, Villa Crespo",
+      "descripcion": "Serie de conciertos del icónico músico argentino, presentando su vasto repertorio de rock y pop. Fechas: 25, 26 y 28 de noviembre",
+      "categoria": "música",
+      "precio": "$22000",
+      "estado": "confirmado",
+      "image_url": "https://www.calamaro.com/wp-content/uploads/2024/09/elsalmon2000.jpg"
+    },
+    {
+      "nombre": "Divididos - Aplanadora del Rock",
+      "fecha": "2025-11-29",
+      "hora_inicio": "21:00",
+      "hora_fin": null,
+      "lugar": "Movistar Arena, Villa Crespo",
+      "descripcion": "Concierto de una de las bandas más influyentes del rock nacional, celebrando su trayectoria con un show potente",
+      "categoria": "música",
+      "precio": "$20000",
+      "estado": "confirmado",
+      "image_url": "https://canalabierto.com.ar/wp-content/uploads/2021/11/da71fc5d-05d1-4eb0-b36d-d188b249e553.jpg"
+    },
+    {
+      "nombre": "La Noche de los Alfajores",
+      "fecha": "2025-11-14",
+      "hora_inicio": "todo el día",
+      "hora_fin": null,
+      "lugar": "Comercios de Villa Crespo",
+      "descripcion": "Evento gastronómico que celebra el alfajor argentino. Numerosas panaderías y confiterías del barrio se adhieren con promociones y descuentos especiales",
+      "categoria": "gastronomía",
+      "precio": "Gratis",
+      "estado": "confirmado",
+      "image_url": "https://www.canal26.com/resizer/v2/L5Y4GIHSJZCVTPDZT3TRCDLSCU.jpg"
+    },
+    {
+      "nombre": "Recorridos por el Polo Gastronómico",
+      "fecha": "2025-11-01",
+      "hora_inicio": "todo el día",
+      "hora_fin": null,
+      "lugar": "Calles Gurruchaga, Malabia y adyacentes",
+      "descripcion": "El barrio se ha consolidado con una gran variedad de bares, restaurantes y cervecerías artesanales. Tour gastronómico informal",
+      "categoria": "gastronomía",
+      "precio": "Variable",
+      "estado": "diario",
+      "image_url": "https://turismo.buenosaires.gob.ar/sites/turismo/files/field/image/polo_gastro_madero1200.jpg"
+    },
+    {
+      "nombre": "Muestra de Arte y Fotografía en el Centro Cultural",
+      "fecha": "2025-11-01",
+      "hora_inicio": "15:00",
+      "hora_fin": "20:00",
+      "lugar": "Centro Cultural Resurgimiento, Villa Crespo",
+      "descripcion": "Espacios culturales del barrio albergan exposiciones de artistas locales y ciclos de cine y música independiente",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "diario",
+      "image_url": "https://es.wikipedia.org/wiki/Archivo:Muestra_art%C3%ADstica_en_la_sala_pict%C3%B3rica_del_Centro_Cultural_%22Ing._Juan_Carlos_Recalcatti%22.JPG"
+    }
+  ]
+}

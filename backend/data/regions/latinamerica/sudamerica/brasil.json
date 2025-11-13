@@ -1,0 +1,22 @@
+{
+  "country": "Brasil",
+  "country_code": "BR",
+  "region": "Sudamérica",
+  "cities": [
+    {
+      "name": "São Paulo",
+      "latitude": -23.5505,
+      "longitude": -46.6333
+    },
+    {
+      "name": "Río de Janeiro",
+      "latitude": -22.9068,
+      "longitude": -43.1729
+    },
+    {
+      "name": "Brasília",
+      "latitude": -15.8267,
+      "longitude": -47.9218
+    }
+  ]
+}

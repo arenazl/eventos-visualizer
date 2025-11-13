@@ -1,0 +1,11 @@
+{
+  "region": "Guayas",
+  "country": "Ecuador",
+  "source": "gemini",
+  "timestamp": "2025-11-09T08:25:00",
+  "eventos": [
+    {"nombre": "Concierto de Alejandro Fernández", "ciudad": "Guayaquil", "fecha": "8 de Noviembre", "descripcion": "El reconocido cantante mexicano ofrece un espectáculo en el Coliseo Voltaire Paladines Polo - Arena Pacificard, siendo uno de los shows musicales más grandes y populares de la temporada."},
+    {"nombre": "LAS GUARDIANAS KPOP GUAYAQUIL", "ciudad": "Guayaquil", "fecha": "9 al 30 de Noviembre", "descripcion": "Un espectáculo de KPOP (pop coreano) que se presenta durante varias fechas en Guayaquil, atrayendo a una considerable base de fans de la cultura pop asiática."},
+    {"nombre": "ELDORA: INSTITUTO DE MAGIA", "ciudad": "Guayaquil", "fecha": "14 de Noviembre", "descripcion": "Un show de magia y entretenimiento en Guayaquil, ofreciendo una opción familiar y cultural."}
+  ]
+}

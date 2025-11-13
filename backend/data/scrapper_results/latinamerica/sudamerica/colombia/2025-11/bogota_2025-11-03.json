@@ -1,0 +1,293 @@
+{
+  "source": "gemini",
+  "ciudad": "Bogotá",
+  "pais": "Colombia",
+  "fecha_consulta": "2025-11-03",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 30,
+  "eventos": [
+    {
+      "numero": 1,
+      "artista": "Shakira",
+      "fecha": "2025-11-01",
+      "lugar": "Vive Claro Distrito Cultural (Cierre de Gira/Filarmónica)",
+      "genero": "Pop Global, Sinfónico",
+      "categoria": "Música",
+      "image_url": "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1PFoxq.img?w=768&h=432&m=6&x=331&y=120&s=39&d=39"
+    },
+    {
+      "numero": 2,
+      "artista": "Natalia Natalia - A Mala Hora Tour",
+      "fecha": "2025-11-04",
+      "lugar": "Cumbia House",
+      "genero": "Indie/Rock",
+      "categoria": "Música",
+      "image_url": "https://media-cdn.tripadvisor.com/media/photo-s/0f/52/a9/81/whole-restaurant.jpg"
+    },
+    {
+      "numero": 3,
+      "artista": "Massive Attack",
+      "fecha": "2025-11-05",
+      "lugar": "Movistar Arena",
+      "genero": "Trip Hop, Electrónica",
+      "categoria": "Música",
+      "image_url": "https://movistararena.co/wp-content/uploads/2024/02/borrador-automatico-302.png"
+    },
+    {
+      "numero": 4,
+      "artista": "Latin Mafia - Tour Latinoamérica 2025",
+      "fecha": "2025-11-06",
+      "lugar": "Movistar Arena",
+      "genero": "Música Latina",
+      "categoria": "Música",
+      "image_url": "https://movistararena.co/wp-content/uploads/2024/02/borrador-automatico-302.png"
+    },
+    {
+      "numero": 5,
+      "artista": "Margarita Siempre Viva - El Principio Tour",
+      "fecha": "2025-11-06",
+      "lugar": "Bonfire",
+      "genero": "Rock Alternativo",
+      "categoria": "Música",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3752218416245746321"
+    },
+    {
+      "numero": 6,
+      "artista": "Molchat Doma",
+      "fecha": "2025-11-07",
+      "lugar": "Centro de Eventos Royal Center",
+      "genero": "Post-Punk, New Wave",
+      "categoria": "Música",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3593259377961399390"
+    },
+    {
+      "numero": 7,
+      "artista": "Candlelight: Coldplay e Imagine Dragons",
+      "fecha": "2025-11-07",
+      "lugar": "Bogotá (Recinto Candlelight)",
+      "genero": "Homenaje Orquestal",
+      "categoria": "Música",
+      "image_url": "https://concerts50.com/uploads/artist/b3/ab/candlelight-tributo-a-queen/artist_page/candlelight-tributo-a-queen.jpg"
+    },
+    {
+      "numero": 8,
+      "artista": "Carín León - Boca Chueca Tour 2025",
+      "fecha": "2025-11-08",
+      "lugar": "Estadio Nemesio Camacho El Campín",
+      "genero": "Regional Mexicano",
+      "categoria": "Música",
+      "image_url": "https://sportsmatik.com/uploads/wiki-venues/estadio-el-campin_1581069372.jpg"
+    },
+    {
+      "numero": 9,
+      "artista": "Vilma Palma e Vampiros - 35 Años de Música",
+      "fecha": "2025-11-08",
+      "lugar": "Movistar Arena",
+      "genero": "Rock en Español",
+      "categoria": "Música",
+      "image_url": "https://movistararena.co/wp-content/uploads/2024/02/borrador-automatico-302.png"
+    },
+    {
+      "numero": 10,
+      "artista": "Festival de Fado 2025: Carminho",
+      "fecha": "2025-11-08",
+      "lugar": "Teatro Mayor Julio Mario Santo Domingo",
+      "genero": "Fado",
+      "categoria": "Música",
+      "image_url": "https://colombia.travel/sites/default/files/styles/imagen_650x450_escala_y_recorte/public/actividades/Teatro-mayor-julio-mario-santo-domingo-bogota.jpg?itok=bkLY24uI"
+    },
+    {
+      "numero": 11,
+      "artista": "Ela Minus - [Live]",
+      "fecha": "2025-11-09",
+      "lugar": "Bonfire",
+      "genero": "Electrónica, Pop Experimental",
+      "categoria": "Música",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3752218416245746321"
+    },
+    {
+      "numero": 12,
+      "artista": "Candlelight: Queen vs. ABBA",
+      "fecha": "2025-11-09",
+      "lugar": "Bogotá (Recinto Candlelight)",
+      "genero": "Homenaje Orquestal",
+      "categoria": "Música",
+      "image_url": "https://concerts50.com/uploads/artist/b3/ab/candlelight-tributo-a-queen/artist_page/candlelight-tributo-a-queen.jpg"
+    },
+    {
+      "numero": 13,
+      "artista": "Natanael Cano - Tour Latinoamérica 2025",
+      "fecha": "2025-11-13",
+      "lugar": "Movistar Arena",
+      "genero": "Corridos Tumbados",
+      "categoria": "Música",
+      "image_url": "https://movistararena.co/wp-content/uploads/2024/02/borrador-automatico-302.png"
+    },
+    {
+      "numero": 14,
+      "artista": "Damiano David (Måneskin) - Funny Little Fears World Tour",
+      "fecha": "2025-11-13",
+      "lugar": "Centro de Eventos Royal Center",
+      "genero": "Rock, Pop",
+      "categoria": "Música",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3593259377961399390"
+    },
+    {
+      "numero": 15,
+      "artista": "Beéle",
+      "fecha": "2025-11-14",
+      "lugar": "Movistar Arena",
+      "genero": "Música Latina, Reggaetón",
+      "categoria": "Música",
+      "image_url": "https://movistararena.co/wp-content/uploads/2024/02/borrador-automatico-302.png"
+    },
+    {
+      "numero": 16,
+      "artista": "Mitu",
+      "fecha": "2025-11-14",
+      "lugar": "Bonfire",
+      "genero": "Electrónica, World Music",
+      "categoria": "Música",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3752218416245746321"
+    },
+    {
+      "numero": 17,
+      "artista": "Beéle - Segunda Fecha",
+      "fecha": "2025-11-15",
+      "lugar": "Movistar Arena",
+      "genero": "Música Latina, Reggaetón",
+      "categoria": "Música",
+      "image_url": "https://movistararena.co/wp-content/uploads/2024/02/borrador-automatico-302.png"
+    },
+    {
+      "numero": 18,
+      "artista": "Candlelight: Los Mejores Vallenatos Clásicos",
+      "fecha": "2025-11-15",
+      "lugar": "Bogotá (Recinto Candlelight)",
+      "genero": "Homenaje Orquestal (Vallenato)",
+      "categoria": "Música",
+      "image_url": "https://concerts50.com/uploads/artist/b3/ab/candlelight-tributo-a-queen/artist_page/candlelight-tributo-a-queen.jpg"
+    },
+    {
+      "numero": 19,
+      "artista": "Beéle - Tercera Fecha",
+      "fecha": "2025-11-16",
+      "lugar": "Movistar Arena",
+      "genero": "Música Latina, Reggaetón",
+      "categoria": "Música",
+      "image_url": "https://movistararena.co/wp-content/uploads/2024/02/borrador-automatico-302.png"
+    },
+    {
+      "numero": 20,
+      "artista": "Candlelight: Lo Mejor de Mozart y Beethoven",
+      "fecha": "2025-11-16",
+      "lugar": "Bogotá (Recinto Candlelight)",
+      "genero": "Música Clásica",
+      "categoria": "Música",
+      "image_url": "https://concerts50.com/uploads/artist/b3/ab/candlelight-tributo-a-queen/artist_page/candlelight-tributo-a-queen.jpg"
+    },
+    {
+      "numero": 21,
+      "artista": "Beéle - Cuarta Fecha",
+      "fecha": "2025-11-17",
+      "lugar": "Movistar Arena",
+      "genero": "Música Latina, Reggaetón",
+      "categoria": "Música",
+      "image_url": "https://movistararena.co/wp-content/uploads/2024/02/borrador-automatico-302.png"
+    },
+    {
+      "numero": 22,
+      "artista": "Melendi - 20 Años Tour",
+      "fecha": "2025-11-20",
+      "lugar": "Movistar Arena",
+      "genero": "Pop, Balada, Rock",
+      "categoria": "Música",
+      "image_url": "https://movistararena.co/wp-content/uploads/2024/02/borrador-automatico-302.png"
+    },
+    {
+      "numero": 23,
+      "artista": "Heredero",
+      "fecha": "2025-11-21",
+      "lugar": "Movistar Arena",
+      "genero": "Música local/alternativa",
+      "categoria": "Música",
+      "image_url": "https://movistararena.co/wp-content/uploads/2024/02/borrador-automatico-302.png"
+    },
+    {
+      "numero": 24,
+      "artista": "Morrissey",
+      "fecha": "2025-11-22",
+      "lugar": "Movistar Arena",
+      "genero": "Pop Británico, Rock Alternativo",
+      "categoria": "Música",
+      "image_url": "https://movistararena.co/wp-content/uploads/2024/02/borrador-automatico-302.png"
+    },
+    {
+      "numero": 25,
+      "artista": "Blessd - Trinidad Bendita - Siempre Blessd",
+      "fecha": "2025-11-22",
+      "lugar": "Vive Claro Distrito Cultural",
+      "genero": "Reggaetón, Urbano",
+      "categoria": "Música",
+      "image_url": "https://i.ytimg.com/vi/UIvpNDeRbk8/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBygBHn48LZkDM4-xd6lYxRzN0gPg"
+    },
+    {
+      "numero": 26,
+      "artista": "Candlelight: Bruno Mars",
+      "fecha": "2025-11-22",
+      "lugar": "Bogotá (Recinto Candlelight)",
+      "genero": "Homenaje Orquestal",
+      "categoria": "Música",
+      "image_url": "https://concerts50.com/uploads/artist/b3/ab/candlelight-tributo-a-queen/artist_page/candlelight-tributo-a-queen.jpg"
+    },
+    {
+      "numero": 27,
+      "artista": "Todos Juntos (Evento)",
+      "fecha": "2025-11-23",
+      "lugar": "Movistar Arena",
+      "genero": "Evento con varios artistas (Social/Música)",
+      "categoria": "Música",
+      "image_url": "https://movistararena.co/wp-content/uploads/2024/02/borrador-automatico-302.png"
+    },
+    {
+      "numero": 28,
+      "artista": "Kei Linch",
+      "fecha": "2025-11-23",
+      "lugar": "Bonfire",
+      "genero": "Urbano, Hip Hop",
+      "categoria": "Música",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3752218416245746321"
+    },
+    {
+      "numero": 29,
+      "artista": "Candlelight: De Música Ligera",
+      "fecha": "2025-11-23",
+      "lugar": "Bogotá (Recinto Candlelight)",
+      "genero": "Homenaje Orquestal",
+      "categoria": "Música",
+      "image_url": "https://concerts50.com/uploads/artist/b3/ab/candlelight-tributo-a-queen/artist_page/candlelight-tributo-a-queen.jpg"
+    },
+    {
+      "numero": 30,
+      "artista": "Dua Lipa - Radical Optimism Tour",
+      "fecha": "2025-11-28",
+      "lugar": "Estadio Nemesio Camacho El Campín",
+      "genero": "Pop",
+      "categoria": "Música",
+      "image_url": "https://sportsmatik.com/uploads/wiki-venues/estadio-el-campin_1581069372.jpg"
+    }
+  ],
+  "eventos_adicionales": [
+    {
+      "artista": "Dennis Cruz Bogotá",
+      "fecha": "2025-11-28",
+      "lugar": "Chamorro City Hall",
+      "genero": "Electrónica"
+    }
+  ],
+  "notas": {
+    "candlelight": "Son conciertos de música clásica, pop, rock o géneros específicos, interpretados por músicos en locaciones únicas a la luz de las velas. Cuentan como eventos musicales importantes por su popularidad.",
+    "beele": "La alta demanda ha generado múltiples fechas, lo que resalta su importancia en la agenda.",
+    "festivales": "Festival de Danza en la Ciudad y Festival Arte a la KY pueden incluir música en sus programaciones, aunque no son exclusivamente conciertos."
+  }
+}

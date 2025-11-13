@@ -1,0 +1,22 @@
+{
+  "country": "Suiza",
+  "country_code": "CH",
+  "region": "Europa Occidental",
+  "cities": [
+    {
+      "name": "Zúrich",
+      "latitude": 47.3769,
+      "longitude": 8.5417
+    },
+    {
+      "name": "Ginebra",
+      "latitude": 46.2044,
+      "longitude": 6.1432
+    },
+    {
+      "name": "Basilea",
+      "latitude": 47.5596,
+      "longitude": 7.5886
+    }
+  ]
+}

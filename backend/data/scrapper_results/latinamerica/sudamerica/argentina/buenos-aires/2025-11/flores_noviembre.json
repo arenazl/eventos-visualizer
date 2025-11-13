@@ -1,0 +1,187 @@
+{
+  "barrio": "Flores",
+  "mes": "noviembre",
+  "año": 2025,
+  "eventos": [
+    {
+      "nombre": "La Noche de los Museos",
+      "fecha": "2025-11-08",
+      "tipo": "Cultural",
+      "lugar": "Museo Barrio de Flores",
+      "direccion": "Ramón Falcón 2207, Flores, Buenos Aires",
+      "precio": "Gratuito",
+      "hora": "19:00 a 02:00",
+      "descripcion": "Más de 300 espacios culturales abren gratis. En Flores: Museo Barrio de Flores, Estación de Bomberos, Escuelas Museo, 921 Casa Cultural, Espacio Cultural Adán Buenosayres, etc.",
+      "url": "",
+      "categoria": "cultural",
+      "image_url": "https://servicioscf.afip.gob.ar/publico/sitio/contenido/common/image.aspx?i\\u003d4805|nov_03_lndlm.jpg"
+    },
+    {
+      "nombre": "Show de Rock - Nueva Ética",
+      "fecha": "2025-11-09",
+      "tipo": "Musica",
+      "lugar": "El Teatro Flores",
+      "direccion": "Av. Rivadavia 7806, Flores, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Espectáculo de rock.",
+      "url": "",
+      "categoria": "concierto",
+      "image_url": "https://i.postimg.cc/zD9Lbtzs/1000247713.jpg"
+    },
+    {
+      "nombre": "Show de Rock - ASSPERA",
+      "fecha": "2025-11-15",
+      "tipo": "Musica",
+      "lugar": "El Teatro Flores",
+      "direccion": "Av. Rivadavia 7806, Flores, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Espectáculo de rock y metal.",
+      "url": "",
+      "categoria": "concierto",
+      "image_url": "https://www.infocielo.com/wp-content/uploads/2025/07/ASSPERA-PORTADA.jpg"
+    },
+    {
+      "nombre": "Show de Rock - NVLO",
+      "fecha": "2025-11-16",
+      "tipo": "Musica",
+      "lugar": "El Teatro Flores",
+      "direccion": "Av. Rivadavia 7806, Flores, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Espectáculo de rock y metal.",
+      "url": "",
+      "categoria": "concierto",
+      "image_url": "https://cdn.getcrowder.com/images/7d658821-901c-453b-9956-e54b2ce18119-640x640-nvlo-vtx25-al-access.jpg"
+    },
+    {
+      "nombre": "Feria del Libro Punky y Derivados",
+      "fecha": "2025-11-15",
+      "tipo": "Feria",
+      "lugar": "Casona de Flores",
+      "direccion": "Morón 2453, Flores, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Feria de fanzines, publicaciones y libros alternativos.",
+      "url": "",
+      "categoria": "feria",
+      "image_url": "https://cronicasonora.cl/wp-content/uploads/2020/11/PUNK.jpg"
+    },
+    {
+      "nombre": "Feria del Libro Punky y Derivados",
+      "fecha": "2025-11-16",
+      "tipo": "Feria",
+      "lugar": "Casona de Flores",
+      "direccion": "Morón 2453, Flores, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Feria de fanzines, publicaciones y libros alternativos.",
+      "url": "",
+      "categoria": "feria",
+      "image_url": "https://cronicasonora.cl/wp-content/uploads/2020/11/PUNK.jpg"
+    },
+    {
+      "nombre": "Show de Rock - Científicos del Palo",
+      "fecha": "2025-11-21",
+      "tipo": "Musica",
+      "lugar": "El Teatro Flores",
+      "direccion": "Av. Rivadavia 7806, Flores, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Espectáculo de rock.",
+      "url": "",
+      "categoria": "concierto",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/b8/Foto_de_Prensa_CDP.jpg"
+    },
+    {
+      "nombre": "Show de Rock - Avantasia",
+      "fecha": "2025-11-27",
+      "tipo": "Musica",
+      "lugar": "El Teatro Flores",
+      "direccion": "Av. Rivadavia 7806, Flores, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Espectáculo de rock y metal.",
+      "url": "",
+      "categoria": "concierto",
+      "image_url": "https://i.ytimg.com/vi/IDz_EmQ514M/sddefault.jpg"
+    },
+    {
+      "nombre": "Buenos Aires Rojo Sangre (Festival de Cine)",
+      "fecha": "2025-11-20",
+      "tipo": "Cine",
+      "lugar": "Sedes por confirmar en CABA",
+      "direccion": "CABA, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Festival internacional de cine de terror, fantástico y bizarro. Del 20 al 30 de Nov.",
+      "url": "",
+      "categoria": "festival",
+      "image_url": "https://turismo.buenosaires.gob.ar/sites/turismo/files/field/image/bsas-rojo-sangre1500x610_0.jpg"
+    },
+    {
+      "nombre": "Noche de los Templos",
+      "fecha": "2025-11-29",
+      "tipo": "Cultural",
+      "lugar": "Varios templos de distintos cultos en CABA",
+      "direccion": "CABA, Buenos Aires",
+      "precio": "Gratuito",
+      "hora": "",
+      "descripcion": "Recorridos y actividades especiales para conocer la diversidad religiosa de la Ciudad.",
+      "url": "",
+      "categoria": "cultural",
+      "image_url": "https://resizer.glanacion.com/resizer/v2/la-noche-de-los-templos-2024-sera-este-sabado-14-DWFSPSNOVZCE5A74FWAJPV4TI4.JPG"
+    }
+  ],
+  "lugares_interes": [
+    {
+      "nombre": "Museo Barrio de Flores",
+      "direccion": "Ramón Falcón 2207, Flores, Buenos Aires",
+      "tipo": "Museo",
+      "descripcion": "Museo del barrio que participa en La Noche de los Museos.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Estación VII Flores - Bomberos de la Ciudad",
+      "direccion": "Coronel Ramón L. Falcón 2255, Flores, Buenos Aires",
+      "tipo": "Museo",
+      "descripcion": "Estación de bomberos que participa en La Noche de los Museos.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Escuela N° 8 Cnel. Ing. Pedro Antonio Cerviño",
+      "direccion": "Varela 358, Flores, Buenos Aires",
+      "tipo": "Escuela Museo",
+      "descripcion": "Escuela museo que participa en La Noche de los Museos.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Espacio Cultural Adán Buenosayres",
+      "direccion": "Flores, Buenos Aires",
+      "tipo": "Centro Cultural",
+      "descripcion": "Centro cultural barrial con agenda semanal.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "El Teatro Flores",
+      "direccion": "Av. Rivadavia 7806, Flores, Buenos Aires",
+      "tipo": "Teatro",
+      "descripcion": "Teatro con espectáculos de rock y metal.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Casona de Flores",
+      "direccion": "Morón 2453, Flores, Buenos Aires",
+      "tipo": "Centro Cultural",
+      "descripcion": "Espacio cultural que alberga ferias y eventos.",
+      "horario": "",
+      "precio": ""
+    }
+  ]
+}

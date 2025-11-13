@@ -1,0 +1,189 @@
+{
+  "source": "gemini",
+  "ciudad": "Miami",
+  "pais": "Estados Unidos",
+  "fecha_consulta": "2025-11-03",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 21,
+  "eventos": [
+    {
+      "numero": 1,
+      "nombre": "Miami Book Fair",
+      "fecha_inicio": "2025-11-16",
+      "fecha_fin": "2025-11-23",
+      "lugar": "Downtown Miami",
+      "descripcion": "Una de las ferias de libros más grandes de Estados Unidos, con cientos de autores, charlas, paneles y actividades para toda la familia",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 2,
+      "nombre": "Miami Beach Polo World Cup",
+      "fecha_inicio": "2025-11-06",
+      "fecha_fin": "2025-11-09",
+      "lugar": "South Beach",
+      "genero": "Deportivo/Social",
+      "descripcion": "Glamuroso torneo internacional de polo que se celebra directamente en las arenas de South Beach",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 3,
+      "nombre": "URGE Festival de Acción de Gracias",
+      "fecha_inicio": "2025-11-28",
+      "fecha_fin": "2025-11-30",
+      "lugar": "Miami",
+      "genero": "Festival LGBTQ+",
+      "descripcion": "Uno de los eventos y fiestas de circuito LGBTQ más grandes del mundo, coincidiendo con el fin de semana de Acción de Gracias",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 4,
+      "nombre": "South Florida Seafood Festival",
+      "fecha": "2025-11-09",
+      "lugar": "Wynwood",
+      "genero": "Gastronómico",
+      "descripcion": "Festival gastronómico muy popular centrado en mariscos y cocina local",
+      "categoria": "Gastronomía"
+    },
+    {
+      "numero": 5,
+      "nombre": "Semana del Arte de Miami (Art Week)",
+      "periodo": "Finales de noviembre",
+      "lugar": "Toda la ciudad",
+      "descripcion": "Aunque Art Basel es en diciembre, la ciudad comienza a llenarse de ferias de arte, proyectos e instalaciones a finales de noviembre como antesala",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 6,
+      "nombre": "Conciertos Candlelight",
+      "periodo": "Todo el mes",
+      "lugar": "Varios lugares de Miami",
+      "genero": "Música Clásica",
+      "descripcion": "Experiencias musicales multisensoriales con tributos a artistas como Queen, Vivaldi o Coldplay, en lugares inspiradores",
+      "categoria": "Música"
+    },
+    {
+      "numero": 7,
+      "nombre": "Proyecciones de Cine al Aire Libre",
+      "periodo": "Miércoles por la noche",
+      "lugar": "SoundScape Park, Miami Beach",
+      "descripcion": "Ciclo de cine al aire libre todos los miércoles",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 8,
+      "artista": "EBI",
+      "nombre": "Live in Miami",
+      "fecha": "2025-11-01",
+      "lugar": "Miami",
+      "genero": "Pop",
+      "descripcion": "Concierto del ícono del pop iraní",
+      "categoria": "Música"
+    },
+    {
+      "numero": 9,
+      "nombre": "Afro Spirit Fest",
+      "periodo": "Noviembre",
+      "lugar": "Miami",
+      "descripcion": "Celebración de la música, danza y gastronomía africana",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 10,
+      "nombre": "NBA - Miami Heat (Temporada Regular)",
+      "periodo": "Múltiples partidos en noviembre",
+      "lugar": "Kaseya Center",
+      "descripcion": "Partidos de temporada regular del Miami Heat",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 11,
+      "nombre": "NFL - Miami Dolphins (Temporada Regular)",
+      "periodo": "Múltiples partidos en noviembre",
+      "lugar": "Hard Rock Stadium",
+      "descripcion": "Partidos de temporada regular de los Miami Dolphins",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 12,
+      "nombre": "Carreras y Maratones Locales",
+      "periodo": "Noviembre",
+      "lugar": "Miami",
+      "descripcion": "Eventos de running que aprovechan el clima más fresco de noviembre",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 13,
+      "nombre": "Grace Jamaican Jerk Festival (GJJF)",
+      "periodo": "Noviembre",
+      "lugar": "Miami",
+      "genero": "Gastronómico",
+      "descripcion": "Festival de comida caribeña y jerk que ofrece un viaje culinario y cultural",
+      "categoria": "Gastronomía"
+    },
+    {
+      "numero": 14,
+      "nombre": "Día de Acción de Gracias (Thanksgiving)",
+      "fecha": "2025-11-27",
+      "lugar": "Toda la ciudad",
+      "descripcion": "Celebración nacional con muchos restaurantes ofreciendo menús especiales y eventos",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 15,
+      "nombre": "Hometown Heroes Parade",
+      "fecha": "2025-11-01",
+      "lugar": "Tropical Park",
+      "descripcion": "Desfile celebrando a los héroes de la comunidad de Miami-Dade",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 16,
+      "nombre": "FIBA-FELABAN CLAB",
+      "periodo": "Noviembre",
+      "lugar": "Miami Convention Center",
+      "descripcion": "Congreso para entidades financieras y tecnología",
+      "categoria": "Conferencia"
+    },
+    {
+      "numero": 17,
+      "nombre": "NMSDC Conference and Business Opportunity Exchange",
+      "periodo": "Noviembre",
+      "lugar": "Miami",
+      "descripcion": "Evento de negocios y oportunidades empresariales",
+      "categoria": "Conferencia"
+    },
+    {
+      "numero": 18,
+      "nombre": "South Florida Real Estate Forum",
+      "periodo": "Noviembre",
+      "lugar": "Miami",
+      "descripcion": "Conferencia sobre bienes raíces",
+      "categoria": "Conferencia"
+    },
+    {
+      "numero": 19,
+      "nombre": "Air Cargo Americas / Transport Logistic Americas",
+      "periodo": "Noviembre",
+      "lugar": "Miami Beach Convention Center",
+      "descripcion": "Ferias de transporte y logística",
+      "categoria": "Feria"
+    },
+    {
+      "numero": 20,
+      "nombre": "World Architecture Festival",
+      "periodo": "Noviembre",
+      "lugar": "Miami",
+      "descripcion": "Evento global sobre arquitectura",
+      "categoria": "Conferencia"
+    },
+    {
+      "numero": 21,
+      "nombre": "Miami Neonatology International Conference",
+      "periodo": "Noviembre",
+      "lugar": "Miami",
+      "descripcion": "Conferencia médica especializada en neonatología",
+      "categoria": "Conferencia"
+    }
+  ],
+  "nota_importante": "Miami en noviembre 2025 ofrece una agenda muy diversa destacándose el Miami Book Fair (16-23 nov), Miami Beach Polo World Cup (6-9 nov), URGE Festival LGBTQ+ (28-30 nov), eventos deportivos (Heat, Dolphins), y múltiples conferencias de negocios. Noviembre es un mes activo previo a Art Basel que comienza en diciembre. Muchos eventos se anuncian más cerca de la fecha, se recomienda verificar calendarios oficiales."
+}

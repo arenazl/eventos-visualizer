@@ -1,0 +1,174 @@
+{
+  "source": "gemini",
+  "ciudad": "Caracas",
+  "pais": "Venezuela",
+  "fecha_consulta": "2025-11-05",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 16,
+  "eventos": [
+    {
+      "numero": 1,
+      "nombre": "Bucle Lunar",
+      "fecha": "2025-11-07",
+      "lugar": "Caracas Music Hall",
+      "genero": "Concierto",
+      "descripcion": "Concierto de música en vivo.",
+      "categoria": "Música",
+      "image_url": "https://thisis-images.spotifycdn.com/37i9dQZF1DZ06evO0czTqM-default.jpg"
+    },
+    {
+      "numero": 2,
+      "nombre": "Orquesta de Cámara Simón Bolívar",
+      "fecha": "2025-11-07",
+      "lugar": "Centro de Acción Social por la Música",
+      "genero": "Música Clásica",
+      "descripcion": "Evento de música clásica, muy concurrido por amantes de la cultura.",
+      "categoria": "Música",
+      "image_url": "https://wrpmzgezgoftdxuxuene.supabase.co/storage/v1/object/public/caracascity/279b22a9-1fa3-4902-b4b2-2d867f88a3f4.webp"
+    },
+    {
+      "numero": 3,
+      "nombre": "Gaitas Vogue Srl 2025",
+      "fecha": "2025-11-08",
+      "lugar": "Colegio Santa Rosa de Lima",
+      "genero": "Cultural/Musical",
+      "descripcion": "Tradicional evento de gaitas, muy popular por la cercanía a la época navideña.",
+      "categoria": "Cultural",
+      "image_url": "https://i.ytimg.com/vi/NpbgpMh0Qk0/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AH-CYAC0AWKAgwIABABGGIgTShlMA8=&rs=AOn4CLCYtdE-D95fgsTuaHGZPS0ru-tD3Q"
+    },
+    {
+      "numero": 4,
+      "nombre": "Orquesta Sinfónica Juan José Landaeta",
+      "fecha": "2025-11-14",
+      "lugar": "Centro de Acción Social por la Música",
+      "genero": "Música Clásica",
+      "descripcion": "Evento de música sinfónica de alto nivel cultural.",
+      "categoria": "Música",
+      "image_url": "https://wrpmzgezgoftdxuxuene.supabase.co/storage/v1/object/public/caracascity/7d0765b4-c355-4b0e-982a-204a5d156672.webp"
+    },
+    {
+      "numero": 5,
+      "nombre": "Los Satélites de Venezuela 59 Aniversario",
+      "fecha": "2025-11-14",
+      "lugar": "El Sótano Sala",
+      "genero": "Concierto",
+      "descripcion": "Celebración de aniversario de una agrupación musical con gran asistencia de fanáticos.",
+      "categoria": "Música",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100052710943693"
+    },
+    {
+      "numero": 6,
+      "nombre": "Lo Mejor de Tempano y Pentágono",
+      "fecha": "2025-11-20",
+      "lugar": "Centro Cultural Chacao",
+      "genero": "Concierto",
+      "descripcion": "Presentación musical de bandas reconocidas.",
+      "categoria": "Música",
+      "artistas": "Tempano, Pentágono",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3518692350346369282"
+    },
+    {
+      "numero": 7,
+      "nombre": "Anakena",
+      "fecha": "2025-11-22",
+      "lugar": "Hacienda La Vega",
+      "genero": "Concierto",
+      "descripcion": "Concierto de la banda Anakena.",
+      "categoria": "Música",
+      "artistas": "Anakena",
+      "image_url": "https://is1-ssl.mzstatic.com/image/thumb/AMCArtistImages211/v4/82/9a/43/829a4334-919c-0c30-3f08-2ca2bf58e173/01d94eda-d2f1-4380-bd2b-58a9ae717e4d_file_cropped.png/400x400bb.jpg"
+    },
+    {
+      "numero": 8,
+      "nombre": "Magic Juan",
+      "fecha": "2025-11-25",
+      "lugar": "Estadio Monumental Simón Bolívar",
+      "genero": "Concierto Masivo",
+      "descripcion": "Concierto de gran formato, probablemente uno de los más masivos del mes.",
+      "categoria": "Música",
+      "artistas": "Magic Juan",
+      "image_url": "https://media.coliseum-online.com/2024/12/Coliseum-GSVA-News-Rose-Bowl-renovation-USD80m-2.jpg"
+    },
+    {
+      "numero": 9,
+      "nombre": "Gala Navideña del Capítulo Venezolano del ACP",
+      "fecha": "2025-11-27",
+      "lugar": "Centro de Acción Social por la Música",
+      "genero": "Cultural/Musical",
+      "descripcion": "Evento especial de temporada navideña.",
+      "categoria": "Cultural",
+      "image_url": "https://img.v3.goliiive.com/experiencia/flyer/7204.jpg"
+    },
+    {
+      "numero": 10,
+      "nombre": "Orquesta Sinfónica Juan José Landaeta",
+      "fecha": "2025-11-28",
+      "lugar": "Centro de Acción Social por la Música",
+      "genero": "Música Clásica",
+      "descripcion": "Presentación sinfónica.",
+      "categoria": "Música",
+      "image_url": "https://wrpmzgezgoftdxuxuene.supabase.co/storage/v1/object/public/caracascity/7d0765b4-c355-4b0e-982a-204a5d156672.webp"
+    },
+    {
+      "numero": 11,
+      "nombre": "Anime Symphony",
+      "fecha": "2025-11-30",
+      "lugar": "Teatrex El Bosque",
+      "genero": "Concierto Temático",
+      "descripcion": "Concierto temático, popular entre la comunidad de anime y cultura pop.",
+      "categoria": "Entretenimiento",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100083306860701"
+    },
+    {
+      "numero": 12,
+      "nombre": "Classic Metal Fest Edición Especial",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Teatrex El Bosque",
+      "genero": "Festival Musical",
+      "descripcion": "Festival para amantes del metal.",
+      "categoria": "Música",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=3884243078552648"
+    },
+    {
+      "numero": 13,
+      "nombre": "Festival de Cine Venezolano",
+      "fecha": "2025-11-01/2025-11-09",
+      "lugar": "Caracas",
+      "genero": "Cultural/Cine",
+      "descripcion": "Festival de cine nacional.",
+      "categoria": "Cultural",
+      "image_url": "https://s.yimg.com/ny/api/res/1.2/8Lgtv58mLjLodDFEulEZfA--/YXBwaWQ9aGlnaGxhbmRlcjt3PTE1MzY7aD0xMDI0O2NmPXdlYnA-/https://media.zenfs.com/es/lanacion.com.ar/30731561caefc45481c808e16edb4193"
+    },
+    {
+      "numero": 14,
+      "nombre": "Caracas Comic Con",
+      "fecha": "2025-11-15/2025-11-16",
+      "lugar": "C.C. Líder, Nivel Eventos",
+      "genero": "Convención",
+      "descripcion": "La convención más grande de Venezuela para fans de cómics, anime y cultura pop.",
+      "categoria": "Entretenimiento",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3751472309954802100"
+    },
+    {
+      "numero": 15,
+      "nombre": "Alopecia Fashion Show 2025",
+      "fecha": "2025-11-22",
+      "lugar": "Caracas",
+      "genero": "Moda",
+      "descripcion": "Evento de moda e inclusión.",
+      "categoria": "Cultural",
+      "image_url": "https://www.usnews.com/object/image/0000019a-083f-ded1-a5db-febfb50f0000/gettyimages-2196111183.jpg?update-time=1761075073745&size=responsive640"
+    },
+    {
+      "numero": 16,
+      "nombre": "Evento Online de Develación del Maratón CAF 2026",
+      "fecha": "2025-11-13",
+      "lugar": "Virtual",
+      "genero": "Deportes",
+      "descripcion": "Anuncio virtual del Maratón CAF 2026, evento deportivo icónico de la ciudad.",
+      "categoria": "Deportes",
+      "image_url": "https://www.caf.com/media/4679259/inv-4.jpg?anchor=center&mode=crop&width=576&height=374&rnd=134064059740000000"
+    }
+  ],
+  "nota_importante": "Noviembre 2025 en Caracas incluye temporada de béisbol LVBP, eventos navideños, actividades culturales constantes en Centro Cultural Chacao y Trasnocho Cultural. La Feria del Libro (FILVEN) y la segunda fase del Festival de Teatro Venezolano podrían ocurrir este mes."
+}

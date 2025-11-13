@@ -1,0 +1,48 @@
+{
+  "source": "apis_oficiales",
+  "city": "Trondheim",
+  "country": "Noruega",
+  "scraped_at": "2025-11-13T05:14:17.962437",
+  "total_events": 3,
+  "eventos": [
+    {
+      "title": "Roxette",
+      "date": "2025-12-13",
+      "time": "19:00:00",
+      "venue": "",
+      "address": "Klostergata 90",
+      "city": "Trondheim",
+      "country": "NO",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.ticketmaster.no/event/roxette-tickets/625137859?language=en-us",
+      "image_url": "https://s1.ticketm.net/dam/a/7a0/b76b9686-a3bf-4390-9c4d-0ccee9e4e7a0_SOURCE"
+    },
+    {
+      "title": "Trondheim Calling 2026",
+      "date": "2026-01-29",
+      "time": "11:00:00",
+      "venue": "",
+      "address": "",
+      "city": "Trondheim",
+      "country": "NO",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.universe.com/events/trondheim-calling-2026-tickets-56JYDF?ref=ticketmaster",
+      "image_url": "https://s1.ticketm.net/dam/c/ab4/6367448e-7474-4650-bd2d-02a8f7166ab4_106161_TABLET_LANDSCAPE_LARGE_16_9.jpg"
+    },
+    {
+      "title": "STING 3.0 TOUR",
+      "date": "2026-06-29",
+      "time": "18:00:00",
+      "venue": "Sverresborg",
+      "address": "Sverresborg Allè 13",
+      "city": "Trondheim",
+      "country": "NO",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.ticketmaster.no/event/sting-30-tour-tickets/1130204300?language=en-us",
+      "image_url": "https://s1.ticketm.net/dam/a/0ca/42733b41-0ce3-4f12-a608-daaf529e60ca_SOURCE"
+    }
+  ]
+}

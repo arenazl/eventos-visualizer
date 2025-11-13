@@ -1,0 +1,45 @@
+{
+  "region": "Buenos Aires",
+  "country": "Argentina",
+  "source": "gemini",
+  "timestamp": "2025-11-09T05:45:00",
+  "eventos": [
+    {
+      "nombre": "La Noche de los Museos",
+      "ciudad": "CABA (Ciudad de Buenos Aires)",
+      "fecha": "Sábado 8 de Noviembre",
+      "descripcion": "Una de las noches culturales más grandes de la ciudad. Más de 200 museos, espacios culturales y edificios emblemáticos abren sus puertas de noche de forma gratuita con actividades especiales, shows y recorridos."
+    },
+    {
+      "nombre": "Grandes Recitales en Movistar Arena y otros venues",
+      "ciudad": "CABA (Ciudad de Buenos Aires)",
+      "fecha": "9, 12, 14, 15, 16, 19, 20, 22, 25, 27, 29, 30 de Noviembre",
+      "descripcion": "Noviembre es un mes cargado de música con shows de artistas muy populares como Divididos (12 y 29), Bersuit (14), Billy Idol (15), Melendi (16), Rata Blanca (19), Marco Antonio Solís (20), Luciano Pereyra (22), Andrés Calamaro (25) y La Delio Valdez (27), entre otros."
+    },
+    {
+      "nombre": "Semana del Patrimonio",
+      "ciudad": "CABA (Ciudad de Buenos Aires)",
+      "fecha": "Del 10 al 16 de Noviembre",
+      "descripcion": "Una semana de actividades dedicadas a resaltar la riqueza arquitectónica, cultural e histórica de la ciudad. Incluye recorridos, charlas y visitas a palacios y edificios emblemáticos."
+    },
+    {
+      "nombre": "Candlelight Concerts",
+      "ciudad": "CABA (Ciudad de Buenos Aires)",
+      "fecha": "Noviembre (varias fechas, consultar)",
+      "descripcion": "Conciertos que se realizan a la luz de las velas en lugares emblemáticos, ofreciendo una experiencia musical y multisensorial con repertorios que van desde homenajes a artistas clásicos hasta bandas de rock/pop."
+    },
+    {
+      "nombre": "Buenos Aires Rojo Sangre (BARS)",
+      "ciudad": "CABA (Ciudad de Buenos Aires)",
+      "fecha": "Del 20 al 30 de Noviembre",
+      "descripcion": "Nueva edición del festival internacional de cine de terror, fantástico y bizarro más antiguo de Latinoamérica, una cita clave para los amantes del género."
+    },
+    {
+      "nombre": "Marcha del Orgullo LGBTQ+",
+      "ciudad": "CABA (Ciudad de Buenos Aires)",
+      "fecha": "Finales de Noviembre/Principios de Diciembre",
+      "descripcion": "Una de las manifestaciones más grandes y coloridas, celebrando la diversidad y visibilizando los reclamos de la comunidad. (La fecha exacta puede variar)."
+    }
+  ],
+  "raw_response": "¡Claro que sí! Aquí tienes un resumen de algunos de los eventos más populares que se esperan en Buenos Aires y sus alrededores durante los próximos 30 días, con la información solicitada:\n\n📅 Eventos Populares en Buenos Aires (Noviembre 2025)\n\nCiudad\tFecha\tEvento\tDescripción\nCABA (Ciudad de Buenos Aires)\tSábado 8 de Noviembre\tLa Noche de los Museos\tUna de las noches culturales más grandes de la ciudad. Más de 200 museos, espacios culturales y edificios emblemáticos abren sus puertas de noche de forma gratuita con actividades especiales, shows y recorridos.\nCABA (Ciudad de Buenos Aires)\t9, 12, 14, 15, 16, 19, 20, 22, 25, 27, 29, 30 de Noviembre\tGrandes Recitales en Movistar Arena y otros venues\tNoviembre es un mes cargado de música con shows de artistas muy populares como Divididos (12 y 29), Bersuit (14), Billy Idol (15), Melendi (16), Rata Blanca (19), Marco Antonio Solís (20), Luciano Pereyra (22), Andrés Calamaro (25) y La Delio Valdez (27), entre otros.\nCABA (Ciudad de Buenos Aires)\tDel 10 al 16 de Noviembre\tSemana del Patrimonio\tUna semana de actividades dedicadas a resaltar la riqueza arquitectónica, cultural e histórica de la ciudad. Incluye recorridos, charlas y visitas a palacios y edificios emblemáticos.\nCABA (Ciudad de Buenos Aires)\tNoviembre (varias fechas, consultar)\tCandlelight Concerts\tConciertos que se realizan a la luz de las velas en lugares emblemáticos, ofreciendo una experiencia musical y multisensorial con repertorios que van desde homenajes a artistas clásicos hasta bandas de rock/pop.\nCABA (Ciudad de Buenos Aires)\tDel 20 al 30 de Noviembre\tBuenos Aires Rojo Sangre (BARS)\tNueva edición del festival internacional de cine de terror, fantástico y bizarro más antiguo de Latinoamérica, una cita clave para los amantes del género.\nCABA (Ciudad de Buenos Aires)\tFinales de Noviembre/Principios de Diciembre\tMarcha del Orgullo LGBTQ+\tUna de las manifestaciones más grandes y coloridas, celebrando la diversidad y visibilizando los reclamos de la comunidad. (La fecha exacta puede variar)."
+}

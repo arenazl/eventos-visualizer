@@ -1,0 +1,73 @@
+{
+  "ubicacion": "Montevideo, Uruguay",
+  "fecha_consulta": "2025-11-02",
+  "fuente": "Gemini AI + Web Search",
+  "eventos_confirmados_o_tradicionales": [
+    {
+      "nombre": "Festival Internacional de Jazz de Montevideo",
+      "fecha": "2025-11-05",
+      "tipo": "Musica",
+      "lugar": "Teatro Solís",
+      "direccion": "Buenos Aires s/n, 11000 Montevideo, Departamento de Montevideo, Uruguay",
+      "precio": "Desde $U 800",
+      "hora": "20:00",
+      "descripcion": "Festival anual de jazz con artistas internacionales y locales.",
+      "url": "https://www.teatrosolis.uy/"
+    },
+    {
+      "nombre": "Feria Ideas + Diseño",
+      "fecha": "2025-11-07",
+      "tipo": "Cultural",
+      "lugar": "LATU (Laboratorio Tecnológico del Uruguay)",
+      "direccion": "Av. Italia 6201, Montevideo, Uruguay",
+      "precio": "Gratis",
+      "hora": "10:00",
+      "descripcion": "Feria de diseño independiente con productos originales y creativos.",
+      "url": "https://www.latu.org.uy/"
+    },
+    {
+      "nombre": "Partido de Rugby: Uruguay vs. Chile",
+      "fecha": "2025-11-08",
+      "tipo": "Deportes",
+      "lugar": "Estadio Charrúa",
+      "direccion": "Av. Dr. Manuel Albo 1002, 11400 Montevideo, Departamento de Montevideo, Uruguay",
+      "precio": "Desde $U 500",
+      "hora": "16:00",
+      "descripcion": "Partido internacional de rugby entre las selecciones de Uruguay y Chile.",
+      "url": "https://uru.org.uy/"
+    },
+    {
+      "nombre": "Fiesta de la Cerveza en Montevideo",
+      "fecha": "2025-11-02",
+      "tipo": "Fiestas",
+      "lugar": "Predio Ferial de la Rural del Prado",
+      "direccion": "Av. Lucas Obes 1080, 11700 Montevideo, Departamento de Montevideo, Uruguay",
+      "precio": "Desde $U 300",
+      "hora": "18:00",
+      "descripcion": "Celebración con degustación de cervezas artesanales, gastronomía y música en vivo.",
+      "url": "https://www.ruraldelprado.uy/"
+    },
+    {
+      "nombre": "Conferencia de Tecnología y Startups",
+      "fecha": "2025-11-06",
+      "tipo": "Tech",
+      "lugar": "Auditorio Nacional del SODRE Dra. Adela Reta",
+      "direccion": "Andes esq. Mercedes, 11100 Montevideo, Departamento de Montevideo, Uruguay",
+      "precio": "Desde $U 1000",
+      "hora": "09:00",
+      "descripcion": "Evento con charlas, paneles y workshops sobre innovación y emprendimiento tecnológico.",
+      "url": "https://www.auditorio.com.uy/"
+    },
+    {
+      "nombre": "Festival de Cine Internacional del Uruguay",
+      "fecha": "2025-11-03",
+      "tipo": "Cultural",
+      "lugar": "Cinemateca Uruguaya",
+      "direccion": "Lorenzo Carnelli 1311, 11200 Montevideo, Departamento de Montevideo, Uruguay",
+      "precio": "Desde $U 250",
+      "hora": "10:00",
+      "descripcion": "Proyecciones de películas internacionales, cortometrajes y documentales.",
+      "url": "https://www.cinemateca.org.uy/"
+    }
+  ]
+}

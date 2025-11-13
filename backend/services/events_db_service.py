@@ -297,12 +297,12 @@ async def get_available_cities_with_events(search_query: str, limit: int = 10) -
     try:
         logger.info(f" Buscando ubicaciones con eventos que contengan: '{search_query}'")
 
-        # Query simplificada - buscar en country, city, source (barrios)
+        # Query simplificada - buscar en country, city, neighborhood (barrios)
         query = """
         SELECT
             city,
             country,
-            source,
+            neighborhood,
             COUNT(*) as event_count
         FROM events
         WHERE
@@ -310,9 +310,9 @@ async def get_available_cities_with_events(search_query: str, limit: int = 10) -
             AND (
                 country LIKE :search_pattern
                 OR city LIKE :search_pattern
-                OR source LIKE :search_pattern
+                OR neighborhood LIKE :search_pattern
             )
-        GROUP BY city, country, source
+        GROUP BY city, country, neighborhood
         ORDER BY event_count DESC
         """
 
@@ -324,23 +324,38 @@ async def get_available_cities_with_events(search_query: str, limit: int = 10) -
         result = session.execute(text(query), params)
         rows = result.fetchall()
 
-        # Procesar resultados - city, country, source (barrios)
+        # Función para normalizar nombres de ciudades
+        def normalize_city_name(city_name: str) -> str:
+            """Normaliza variantes de nombres de ciudades"""
+            city_lower = city_name.lower().strip()
+
+            # Buenos Aires y variantes
+            if city_lower in ['caba', 'ciudad de buenos aires', 'ciudad autonoma de buenos aires', 'c.a.b.a.']:
+                return 'Buenos Aires'
+
+            return city_name.strip()
+
+        # Procesar resultados - city, country, neighborhood (barrios)
         locations_map = {}  # key: location_name, value: {type, count, city, country}
 
         for row in rows:
-            city = row[0] or ''
+            city_raw = row[0] or ''
             country = row[1] or ''
-            source = row[2] or ''
+            neighborhood = row[2] or ''
             count = row[3]
 
-            # Agregar barrio si coincide (PRIORIDAD 1)
-            if source and search_query.lower() in source.lower():
-                if source not in locations_map:
-                    locations_map[source] = {'type': 'barrio', 'count': 0, 'city': city, 'country': country}
-                locations_map[source]['count'] += count
+            # Normalizar nombre de ciudad
+            city = normalize_city_name(city_raw) if city_raw else ''
 
-            # Agregar ciudad si coincide
+            # Agregar barrio si coincide (PRIORIDAD 1)
+            if neighborhood and search_query.lower() in neighborhood.lower():
+                if neighborhood not in locations_map:
+                    locations_map[neighborhood] = {'type': 'barrio', 'count': 0, 'city': city, 'country': country}
+                locations_map[neighborhood]['count'] += count
+
+            # Agregar ciudad si coincide (buscar en nombre normalizado)
             if city and search_query.lower() in city.lower():
+                # Usar nombre normalizado como key
                 if city not in locations_map:
                     locations_map[city] = {'type': 'city', 'count': 0, 'city': '', 'country': country}
                 locations_map[city]['count'] += count

@@ -1,0 +1,48 @@
+{
+  "barrio": "Villa Lugano",
+  "comuna": 8,
+  "zona": "Sur",
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "fuente": "Eventos CABA + Investigación local",
+  "prompt_usado": "Eventos en Villa Lugano, CABA para noviembre 2025",
+  "descripcion": "Eventos y actividades en el barrio Villa Lugano para noviembre 2025",
+  "eventos": [
+    {
+      "nombre": "Buenos Aires Rojo Sangre",
+      "fecha_inicio": "2025-11-20",
+      "fecha_fin": "2025-11-30",
+      "hora": "Consultar programación",
+      "lugar": "Diversas sedes en CABA",
+      "descripcion": "Festival internacional de cine de terror, fantástico y bizarro",
+      "categoria": "cine",
+      "image_url": "https://turismo.buenosaires.gob.ar/sites/turismo/files/field/image/bsas-rojo-sangre1500x610_0.jpg"
+    },
+    {
+      "nombre": "Noche de los Templos",
+      "fecha": "2025-11-29",
+      "hora": "Horario nocturno",
+      "lugar": "Diversos templos de CABA",
+      "descripcion": "Recorridos y actividades especiales en templos de distintos cultos",
+      "categoria": "cultural",
+      "image_url": "https://resizer.glanacion.com/resizer/v2/la-noche-de-los-templos-2024-sera-este-sabado-14-DWFSPSNOVZCE5A74FWAJPV4TI4.JPG"
+    },
+    {
+      "nombre": "Actividades en Centros Culturales Comuna 8",
+      "fecha": "Durante todo noviembre",
+      "hora": "Consultar programación",
+      "lugar": "Centros culturales de la Comuna 8",
+      "descripcion": "Talleres, exposiciones y eventos comunitarios",
+      "categoria": "cultural",
+      "image_url": "https://i0.wp.com/www.barriada.com.ar/wp-content/uploads/2017/03/JEHVRVL_TallerGuitarra.jpg"
+    }
+  ],
+  "lugares_destacados": [
+    {
+      "nombre": "Parque Indoamericano",
+      "tipo": "parque",
+      "descripcion": "Gran parque del barrio con espacios recreativos"
+    }
+  ]
+}

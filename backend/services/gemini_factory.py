@@ -437,8 +437,56 @@ RECUERDA: Solo ciudades GRANDES y CONOCIDAS. Solo el JSON."""
         Returns:
             Nombre de la ciudad principal, o None si la ubicación ya es la ciudad principal
         """
+        # 🚫 WHITELIST DE CIUDADES IMPORTANTES - NUNCA EXPANDIR
+        # Estas son ciudades independientes con eventos propios
+        IMPORTANT_CITIES = {
+            'mar del plata', 'mdq', 'mardel',
+            'villa gesell', 'gesell', 'v gesell',
+            'pinamar',
+            'rosario',
+            'córdoba', 'cordoba',
+            'mendoza',
+            'salta',
+            'bariloche',
+            'tucumán', 'tucuman',
+            'la plata',
+            'neuquén', 'neuquen',
+            'resistencia',
+            'corrientes',
+            'posadas',
+            'santa fe',
+            'san miguel de tucumán', 'san miguel de tucuman',
+            # Internacional
+            'lima',
+            'arequipa',
+            'cusco',
+            'trujillo',
+            'medellín', 'medellin',
+            'cali',
+            'cartagena',
+            'santiago',
+            'valparaíso', 'valparaiso',
+            'concepción', 'concepcion',
+            'montevideo',
+            'punta del este',
+            'são paulo', 'sao paulo',
+            'rio de janeiro',
+            'brasília', 'brasilia',
+            'salvador',
+            'fortaleza'
+        }
+
         # Normalizar para usar como key del cache (lowercase, sin espacios extras)
         cache_key = location.lower().strip()
+
+        # 0. Verificar whitelist primero
+        logger.info(f"🔍 Verificando whitelist para: '{location}' (normalized: '{cache_key}')")
+        if cache_key in IMPORTANT_CITIES:
+            logger.info(f"✅ '{location}' está en whitelist de ciudades importantes - NO expandir")
+            self._parent_city_cache[cache_key] = None
+            return None
+        else:
+            logger.info(f"⚠️ '{location}' NO está en whitelist - procederá a detectar parent city")
 
         # 1. Revisar cache primero
         if cache_key in self._parent_city_cache:
@@ -455,12 +503,23 @@ RECUERDA: Solo ciudades GRANDES y CONOCIDAS. Solo el JSON."""
 
             logger.info(f"🔍 Consultando IA (Grok) para detectar ciudad principal de: {location}")
 
-            prompt = f"""¿Cuál es la ciudad/provincia principal de {location}?
+            prompt = f"""¿{location} es un BARRIO/SUBURBIO de una ciudad más grande, o es una CIUDAD INDEPENDIENTE?
 
-Si {location} ya es la ciudad/provincia principal, responde: "PRINCIPAL"
-Si {location} es parte de una ciudad/provincia más grande, responde SOLO con el nombre de esa ciudad/provincia.
+🎯 REGLAS CRÍTICAS:
+- Si {location} es un BARRIO o SUBURBIO (ej: Palermo, Tigre, Merlo) → Responde con el nombre de la CIUDAD
+- Si {location} es una CIUDAD INDEPENDIENTE (ej: Mar del Plata, Rosario, Córdoba) → Responde "PRINCIPAL"
+- Si {location} es ambiguo (varios lugares con mismo nombre) → Responde "AMBIGUO"
 
-Nota: Si hay múltiples lugares con el mismo nombre en diferentes provincias, devuelve "AMBIGUO" para que el usuario pueda especificar."""
+⚠️ IMPORTANTE:
+- Mar del Plata, Rosario, Córdoba son CIUDADES INDEPENDIENTES (no barrios de Buenos Aires)
+- Palermo, Recoleta, Tigre, Merlo son BARRIOS/SUBURBIOS de Buenos Aires
+
+Responde SOLO:
+- "PRINCIPAL" si es ciudad independiente
+- "Buenos Aires" (o nombre de ciudad) si es barrio/suburbio
+- "AMBIGUO" si hay duda
+
+¿Qué es {location}?"""
 
             service = GeminiAIService()
             # Esto usa el AI Service Manager que tiene Grok como provider preferido

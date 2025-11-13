@@ -1,0 +1,62 @@
+{
+  "source_file": "Valparaiso_gemini_response.json",
+  "curated_at": "2025-11-09T10:37:08.238265",
+  "events": [
+    {
+      "nombre": "DESTINO VALPARAÍSO – Grandes Cresciones de la Humanidad",
+      "fecha": "8 al 29 de noviembre 2025 (Fechas específicas dentro del rango)",
+      "ciudad": "Valparaíso",
+      "descripcion": "Cartelera cultural municipal con conciertos gratuitos de música clásica, piano y canto lírico.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Valparaíso",
+      "country": "Chile",
+      "image_url": "https://images.unsplash.com/photo-1544947950-5b1c4b0d6b8d?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Homenaje a Los Blue Splendor",
+      "fecha": "Sábado, 8 de noviembre 2025",
+      "ciudad": "Valparaíso",
+      "descripcion": "Un tributo a la trayectoria de uno de los grupos más importantes de la historia musical del puerto. (Teatro Municipal de Valparaíso).",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Valparaíso",
+      "country": "Chile",
+      "image_url": "https://images.unsplash.com/photo-1506905925346-21bea4d5618d?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "BALLET OF LIGHTS: LA BELLA DURMIENTE EN UN ESPECTÁCULO DESLUMBRANTE",
+      "fecha": "Domingo, 9 de noviembre 2025",
+      "ciudad": "Viña del Mar",
+      "descripcion": "Un show de ballet con luces en el Teatro Municipal de Viña del Mar.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Valparaíso",
+      "country": "Chile",
+      "image_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Aniversario Casa de la Cultura de Valparaíso",
+      "fecha": "Viernes, 21 de noviembre",
+      "ciudad": "Valparaíso",
+      "descripcion": "Celebración del aniversario de la Casa de la Cultura de Valparaíso.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Valparaíso",
+      "country": "Chile",
+      "image_url": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    }
+  ]
+}

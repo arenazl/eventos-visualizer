@@ -1,0 +1,22 @@
+{
+  "country": "Guatemala",
+  "country_code": "GT",
+  "region": "Centroamérica",
+  "cities": [
+    {
+      "name": "Ciudad de Guatemala",
+      "latitude": 14.6349,
+      "longitude": -90.5069
+    },
+    {
+      "name": "Antigua",
+      "latitude": 14.5586,
+      "longitude": -90.7339
+    },
+    {
+      "name": "Quetzaltenango",
+      "latitude": 14.8333,
+      "longitude": -91.5167
+    }
+  ]
+}

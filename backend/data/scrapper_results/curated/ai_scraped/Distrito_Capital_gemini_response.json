@@ -1,0 +1,11 @@
+{
+  "region": "Distrito Capital",
+  "country": "Venezuela",
+  "source": "gemini",
+  "timestamp": "2025-11-09T08:00:00",
+  "eventos": [
+    {"nombre": "Concierto de Anakena", "ciudad": "Caracas", "fecha": "Sábado, 22 de noviembre de 2025", "descripcion": "En Hacienda La Vega. La banda venezolana de pop tropical es muy popular en la escena musical actual."},
+    {"nombre": "Orquesta Sinfónica Juan José Landaeta", "ciudad": "Caracas", "fecha": "Viernes, 14 de noviembre de 2025", "descripcion": "En el Centro de Acción Social por la Música. Presentación de música clásica."},
+    {"nombre": "Lo Mejor de Tempano y Pentágono", "ciudad": "Caracas", "fecha": "Jueves, 20 de noviembre de 2025", "descripcion": "En el Centro Cultural Chacao. Un espectáculo que reúne a dos bandas icónicas del rock venezolano."}
+  ]
+}

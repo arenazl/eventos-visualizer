@@ -1,0 +1,222 @@
+[
+  {
+    "titulo": "CERRO AZUL TRAIL CHALLENGE",
+    "descripcion": "Carrera de trail en Cerro Azul, cercano a la ciudad.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "General",
+    "fecha_inicio": "2025-11-16T00:00:00",
+    "venue": "Cerro Azul",
+    "precio": "Gratis",
+    "image_url": "https://siemprerunning.com/wp-content/uploads/2022/10/1666039765351.webp-1.jpg"
+  },
+  {
+    "titulo": "CERRO AZUL TRAIL CHALLENGE",
+    "descripcion": "Carrera de trail en Cerro Azul, cercano a la ciudad.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "Deportes",
+    "fecha_inicio": "2025-11-16T00:00:00",
+    "venue": "Cerro Azul",
+    "precio": 0,
+    "image_url": "https://siemprerunning.com/wp-content/uploads/2022/10/1666039765351.webp-1.jpg"
+  },
+  {
+    "titulo": "XXVII Congreso Iberoamericano de la Sociedad Cardiovascular",
+    "descripcion": "VII Encuentro de Ministros de Salud de la Región. Evento médico internacional.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "Negocios",
+    "fecha_inicio": "2025-11-19T00:00:00",
+    "venue": "Panamá Convention Center",
+    "precio": 0,
+    "image_url": "https://static.wixstatic.com/media/19e2e5_d7279b966b9f418282e5db6e8ea5f5be~mv2.jpg/v1/fill/w_640,h_354,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/19e2e5_d7279b966b9f418282e5db6e8ea5f5be~mv2.jpg"
+  },
+  {
+    "titulo": "Congreso Internacional Minero 2025",
+    "descripcion": "Congreso internacional del sector minería.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "Negocios",
+    "fecha_inicio": "2025-11-25T00:00:00",
+    "venue": "Panamá Convention Center",
+    "precio": 0,
+    "image_url": "https://www.cobre.com.ar/wp/wp-content/uploads/2025/07/Imagen-Gacetilla-Argentina-Cobre-ESP-PANORAMA-MINERO-1000x600.jpg"
+  },
+  {
+    "titulo": "Concapan 2025",
+    "descripcion": "Congreso de ingeniería, eléctrica e industrial.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "Negocios",
+    "fecha_inicio": "2025-11-26T00:00:00",
+    "venue": "Panamá Convention Center",
+    "precio": 0,
+    "image_url": "https://dissetigreen.com/wp-content/uploads/2025/02/logo-concapan.jpg"
+  },
+  {
+    "titulo": "Día de la Independencia de Panamá de España",
+    "descripcion": "Feriado nacional. Desfiles cívicos y folklóricos, y actos protocolarios que cierran el Mes de la Patria.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "General",
+    "fecha_inicio": "2025-11-28T00:00:00",
+    "venue": "Ciudad de Panamá",
+    "precio": "Gratis",
+    "image_url": "https://i0.wp.com/www.zolicol.gob.pa/wp-content/uploads/2023/11/28-nov-arte-de-2023.jpg"
+  },
+  {
+    "titulo": "Día de la Independencia de Panamá de España",
+    "descripcion": "Feriado nacional. Desfiles cívicos y folklóricos, y actos protocolarios que cierran el Mes de la Patria.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "Cultural",
+    "fecha_inicio": "2025-11-28T00:00:00",
+    "venue": "Ciudad de Panamá",
+    "precio": 0,
+    "image_url": "https://i0.wp.com/www.zolicol.gob.pa/wp-content/uploads/2023/11/28-nov-arte-de-2023.jpg"
+  },
+  {
+    "titulo": "CARRERA CAMINATA CHINITA 10KM 2025",
+    "descripcion": "Carrera de 10km en la Cinta Costera.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "General",
+    "fecha_inicio": "2025-11-30T00:00:00",
+    "venue": "Cinta Costera",
+    "precio": "Gratis",
+    "image_url": "https://3eravoz.com/wp-content/uploads/2025/09/regresa-la-carrera-caminata-chinita-10k-2025.jpg"
+  },
+  {
+    "titulo": "CARRERA CAMINATA CHINITA 10KM 2025",
+    "descripcion": "Carrera de 10km en la Cinta Costera.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "Deportes",
+    "fecha_inicio": "2025-11-30T00:00:00",
+    "venue": "Cinta Costera",
+    "precio": 0,
+    "image_url": "https://3eravoz.com/wp-content/uploads/2025/09/regresa-la-carrera-caminata-chinita-10k-2025.jpg"
+  },
+  {
+    "titulo": "Conciertos y Espectáculos en Arenas",
+    "descripcion": "Conciertos y espectáculos masivos en recintos principales.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "General",
+    "fecha_inicio": "2025-12-31T00:00:00",
+    "venue": "Amador Convention Center, Plaza Figali",
+    "precio": "Gratis",
+    "image_url": "https://ecocuyo.com/uploads/noticias/2/2025/05/20250518170049_taipei.jpg"
+  },
+  {
+    "titulo": "Concapan 2025",
+    "descripcion": "Congreso de ingeniería, eléctrica e industrial.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "General",
+    "fecha_inicio": "2025-12-31T00:00:00",
+    "venue": "Panamá Convention Center",
+    "precio": "Gratis",
+    "image_url": "https://source.unsplash.com/800x600/?Concapan%202025%20Panam%C3%A1"
+  },
+  {
+    "titulo": "XXVII Congreso Iberoamericano de la Sociedad Cardiovascular",
+    "descripcion": "VII Encuentro de Ministros de Salud de la Región. Evento médico internacional.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "General",
+    "fecha_inicio": "2025-12-31T00:00:00",
+    "venue": "Panamá Convention Center",
+    "precio": "Gratis",
+    "image_url": "https://source.unsplash.com/800x600/?XXVII%20Congreso%20Iberoamericano%20de%20la%20Sociedad%20Cardiovascular%20Panam%C3%A1"
+  },
+  {
+    "titulo": "MOTOVELOCIDAD & STREET LEGAL NOVIEMBRE",
+    "descripcion": "Eventos de automovilismo y motociclismo.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "General",
+    "fecha_inicio": "2025-12-31T00:00:00",
+    "venue": "Pistas/Autódromos cercanos",
+    "precio": "Gratis",
+    "image_url": "https://source.unsplash.com/800x600/?MOTOVELOCIDAD%20%26%20STREET%20LEGAL%20NOVIEMBRE%20Panam%C3%A1"
+  },
+  {
+    "titulo": "Otras Ferias y Exposiciones Empresariales",
+    "descripcion": "Múltiples ferias de negocios durante el mes.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "General",
+    "fecha_inicio": "2025-12-31T00:00:00",
+    "venue": "Recintos MICE",
+    "precio": "Gratis",
+    "image_url": "https://source.unsplash.com/800x600/?Otras%20Ferias%20y%20Exposiciones%20Empresariales%20Panam%C3%A1"
+  },
+  {
+    "titulo": "Eventos de Entidades Públicas y Privadas",
+    "descripcion": "Múltiples instituciones y empresas organizan actos, conferencias y eventos temáticos en honor a la patria.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "General",
+    "fecha_inicio": "2025-12-31T00:00:00",
+    "venue": "Diversos puntos de la ciudad",
+    "precio": "Gratis",
+    "image_url": "https://source.unsplash.com/800x600/?Eventos%20de%20Entidades%20P%C3%BAblicas%20y%20Privadas%20Panam%C3%A1"
+  },
+  {
+    "titulo": "Eventos de Teatro y Ballet",
+    "descripcion": "Programación teatral y de ballet durante el mes.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "General",
+    "fecha_inicio": "2025-12-31T00:00:00",
+    "venue": "Teatro Nacional, Teatro Balboa",
+    "precio": "Gratis",
+    "image_url": "https://source.unsplash.com/800x600/?Eventos%20de%20Teatro%20y%20Ballet%20Panam%C3%A1"
+  },
+  {
+    "titulo": "Congreso Internacional Minero 2025",
+    "descripcion": "Congreso internacional del sector minería.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "General",
+    "fecha_inicio": "2025-12-31T00:00:00",
+    "venue": "Panamá Convention Center",
+    "precio": "Gratis",
+    "image_url": "https://source.unsplash.com/800x600/?Congreso%20Internacional%20Minero%202025%20Panam%C3%A1"
+  },
+  {
+    "titulo": "FIRST Global Challenge",
+    "descripcion": "Competencia internacional de robótica, termina a inicios de noviembre.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "General",
+    "fecha_inicio": "2025-12-31T00:00:00",
+    "venue": "Ciudad de Panamá",
+    "precio": "Gratis",
+    "image_url": "https://source.unsplash.com/800x600/?FIRST%20Global%20Challenge%20Panam%C3%A1"
+  },
+  {
+    "titulo": "Actividades Cívicas y Culturales en Casco Antiguo",
+    "descripcion": "El mes entero está lleno de conciertos, presentaciones de bandas, izada de banderas y actos culturales en el centro histórico.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "General",
+    "fecha_inicio": "2025-12-31T00:00:00",
+    "venue": "Casco Antiguo",
+    "precio": "Gratis",
+    "image_url": "https://source.unsplash.com/800x600/?Actividades%20C%C3%ADvicas%20y%20Culturales%20en%20Casco%20Antiguo%20Panam%C3%A1"
+  },
+  {
+    "titulo": "Mes de la Patria - Actividades Generales",
+    "descripcion": "Noviembre es el Mes de la Patria con múltiples actividades cívicas, culturales y festivas en toda la ciudad.",
+    "ciudad": "Ciudad de Panamá",
+    "pais": "Panamá",
+    "categoria": "General",
+    "fecha_inicio": "2025-12-31T00:00:00",
+    "venue": "Toda la ciudad",
+    "precio": "Gratis",
+    "image_url": "https://source.unsplash.com/800x600/?Mes%20de%20la%20Patria%20-%20Actividades%20Generales%20Panam%C3%A1"
+  }
+]

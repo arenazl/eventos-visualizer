@@ -1,0 +1,22 @@
+{
+  "country": "Uruguay",
+  "country_code": "UY",
+  "region": "Sudamérica",
+  "cities": [
+    {
+      "name": "Montevideo",
+      "latitude": -34.9011,
+      "longitude": -56.1645
+    },
+    {
+      "name": "Punta del Este",
+      "latitude": -34.9495,
+      "longitude": -54.9469
+    },
+    {
+      "name": "Colonia",
+      "latitude": -34.4631,
+      "longitude": -57.8397
+    }
+  ]
+}

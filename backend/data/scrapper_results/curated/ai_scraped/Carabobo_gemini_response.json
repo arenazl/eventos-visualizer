@@ -1,0 +1,11 @@
+{
+  "region": "Carabobo",
+  "country": "Venezuela",
+  "source": "gemini",
+  "timestamp": "2025-11-09T08:10:00",
+  "eventos": [
+    {"nombre": "Maga Urdaneta", "ciudad": "Valencia", "fecha": "8 de noviembre", "descripcion": "Concierto con entrada gratuita en el Cristal Shopping Mall."},
+    {"nombre": "Eliezer Boyer", "ciudad": "Valencia", "fecha": "22 de noviembre", "descripcion": "Evento musical con entrada gratuita en la Iglesia Evangélica Libre 'EMANUEL'."},
+    {"nombre": "Anakena", "ciudad": "Valencia", "fecha": "27 de noviembre", "descripcion": "Concierto de la banda de pop con fusión de ritmos tropicales en el CCVM (Centro Comercial Vía Veneto) de Valencia."}
+  ]
+}

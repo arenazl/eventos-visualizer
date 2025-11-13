@@ -1,0 +1,70 @@
+{
+  "region": "Ciudad Autónoma de Buenos Aires",
+  "country": "Argentina",
+  "source": "gemini",
+  "timestamp": "2025-11-09T06:00:00",
+  "eventos_destacados": [
+    {
+      "nombre": "Dua Lipa en River Plate",
+      "ciudad": "CABA",
+      "fecha": "Noviembre 7 y 8",
+      "descripcion": "La aclamada cantante pop internacional se presenta por tercera vez con dos fechas, ofreciendo sus mayores éxitos y una espectacular puesta en escena."
+    },
+    {
+      "nombre": "La Noche de los Museos",
+      "ciudad": "CABA",
+      "fecha": "Noviembre 8",
+      "descripcion": "Una de las citas culturales más esperadas del año. Más de 300 espacios abren sus puertas gratuitamente y ofrecen actividades especiales hasta la madrugada, permitiendo recorrer la ciudad a través del arte y la cultura."
+    },
+    {
+      "nombre": "Oasis en River Plate",
+      "ciudad": "CABA",
+      "fecha": "Noviembre 15 y 16",
+      "descripcion": "La banda de rock británica llega a Buenos Aires con su gira mundial para dos shows masivos."
+    },
+    {
+      "nombre": "Buenos Aires Rojo Sangre (BARS)",
+      "ciudad": "CABA",
+      "fecha": "Noviembre 20 al 30",
+      "descripcion": "Festival internacional de cine de terror, fantástico y bizarro, el más antiguo de su tipo en Latinoamérica, con competencias, estrenos y actividades para los amantes del género."
+    },
+    {
+      "nombre": "Andrés Calamaro en Movistar Arena",
+      "ciudad": "CABA",
+      "fecha": "Noviembre 25, 26 y 28",
+      "descripcion": "El Salmón regresa a Buenos Aires con tres noches para repasar sus clásicos y presentar su material más reciente."
+    },
+    {
+      "nombre": "La Noche de los Templos",
+      "ciudad": "CABA",
+      "fecha": "Noviembre 29",
+      "descripcion": "Jornada para vivir la riqueza religiosa y cultural de los distintos cultos, con visitas guiadas gratuitas y actividades especiales en templos de diversas religiones que conviven en la Ciudad."
+    }
+  ],
+  "otros_eventos": [
+    {
+      "nombre": "Fuerza Bruta - Volvió Aven",
+      "ciudad": "CABA",
+      "fecha": "hasta 30 de noviembre",
+      "descripcion": "Un show sorprendente y renovado, lleno de adrenalina y con funciones hasta el 30 de noviembre."
+    },
+    {
+      "nombre": "FIM World Supercross Championship",
+      "ciudad": "CABA",
+      "fecha": "8 de noviembre",
+      "descripcion": "Por primera vez, Argentina es sede de este mega evento mundial de Supercross."
+    },
+    {
+      "nombre": "Tecweek",
+      "ciudad": "CABA",
+      "fecha": "5 al 15 de noviembre",
+      "descripcion": "La Semana de las Tecnologías Emergentes y Creativas, con eventos sobre innovación, tecnología y creatividad."
+    },
+    {
+      "nombre": "Luciano Pereyra",
+      "ciudad": "CABA",
+      "fecha": "22 y 23 de noviembre",
+      "descripcion": "Conciertos en el marco de su gira Te Sigo."
+    }
+  ]
+}

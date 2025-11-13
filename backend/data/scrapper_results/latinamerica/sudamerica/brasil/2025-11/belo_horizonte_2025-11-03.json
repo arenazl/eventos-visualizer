@@ -1,0 +1,315 @@
+{
+  "source": "gemini",
+  "ciudad": "Belo Horizonte",
+  "pais": "Brasil",
+  "fecha_consulta": "2025-11-05",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 30,
+  "eventos": [
+    {
+      "numero": 1,
+      "nombre": "Semana Internacional do Café (SIC)",
+      "fecha": "2025-11-05/2025-11-07",
+      "lugar": "Belo Horizonte",
+      "genero": "Feria/Congreso",
+      "descripcion": "Uno de los mayores encuentros de la cadena productiva del café en Brasil, atrayendo público de negocios y entusiastas.",
+      "categoria": "Negocios",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3762323626356992789"
+    },
+    {
+      "numero": 2,
+      "nombre": "Rogério Koury – Piano Love Songs",
+      "fecha": "2025-11-07",
+      "lugar": "Belo Horizonte",
+      "genero": "Show Musical",
+      "descripcion": "Espectáculo de piano romántico en un lugar de gran afluencia.",
+      "categoria": "Música",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/instagram/DFoGbGGu7qO/0/image.jpg"
+    },
+    {
+      "numero": 3,
+      "nombre": "Revelação – 30 Anos de Carreira",
+      "fecha": "2025-11-08",
+      "lugar": "Arena Independência",
+      "genero": "Show Musical",
+      "descripcion": "Presentación de samba/pagode con show de apertura del grupo Akatu.",
+      "categoria": "Música",
+      "artistas": "Revelação, Akatu",
+      "image_url": "https://barreiroempauta.com.br/wp-content/uploads/2025/09/Screenshot_20250910-120944.Fotos_-750x400.png"
+    },
+    {
+      "numero": 4,
+      "nombre": "27º FestCurtasBH",
+      "fecha": "2025-10-31/2025-11-09",
+      "lugar": "Belo Horizonte",
+      "genero": "Festival de Cine",
+      "descripcion": "Festival de cortometrajes de gran tradición en la ciudad.",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3759245195318770843"
+    },
+    {
+      "numero": 5,
+      "nombre": "Clube da Esquina & Coral do Minas",
+      "fecha": "2025-11-06",
+      "lugar": "Minas Tênis Clube",
+      "genero": "Show Musical",
+      "descripcion": "Presentación especial de integrantes del histórico grupo musical mineiro con el Coral del Minas Tênis Clube.",
+      "categoria": "Música",
+      "artistas": "Clube da Esquina",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/99/4b/26/bradesco-theater.jpg?w=900&h=500&s=1"
+    },
+    {
+      "numero": 6,
+      "nombre": "BRINQUEDO DE CHÃO",
+      "fecha": "2025-11-14/2025-11-16",
+      "lugar": "Belo Horizonte",
+      "genero": "Teatro/Show",
+      "descripcion": "Espectáculo de la Insensata Cia de Teatro, con múltiples funciones.",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/instagram/DC1qtAbpPsq/0/image.jpg"
+    },
+    {
+      "numero": 7,
+      "nombre": "LA CAMBIALE DI MATRIMONIO - ÓPERA DE GIOACHINO ROSSINI",
+      "fecha": "2025-11-27/2025-11-28",
+      "lugar": "Belo Horizonte",
+      "genero": "Ópera",
+      "descripcion": "Presentación de la Cia Mineira de Ópera, un evento cultural importante.",
+      "categoria": "Cultural",
+      "artistas": "Cia Mineira de Ópera",
+      "image_url": "https://media.stubhubstatic.com/stubhub-v2-catalog/d_defaultLogo.jpg/t_f-fs-0fv,q_auto:low,f_auto,c_fill,$w_280_mul_3,$h_180_mul_3/categories/89796/6538999"
+    },
+    {
+      "numero": 8,
+      "nombre": "BEATLES IN CONCERT",
+      "fecha": "2025-11-30",
+      "lugar": "Belo Horizonte",
+      "genero": "Show Musical",
+      "descripcion": "Presentación de la banda Beatles Rockshow, un evento con gran potencial de público.",
+      "categoria": "Música",
+      "artistas": "Beatles Rockshow",
+      "image_url": "https://applications-media.feverup.com/image/upload/f_auto,w_800,h_450/fever2/plan/photo/8c4e4914-0bcf-11f0-b7c1-fe3d0d932306.jpg"
+    },
+    {
+      "numero": 9,
+      "nombre": "Conceição Evaristo no Sempre um Papo",
+      "fecha": "2025-11-04",
+      "lugar": "Belo Horizonte",
+      "genero": "Literatura/Debate",
+      "descripcion": "Participación de una de las escritoras brasileñas más importantes en un proyecto cultural renombrado.",
+      "categoria": "Cultural",
+      "image_url": "https://i.ytimg.com/vi/gwCyk5LlXHo/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDg4EiiJMLiQP6g_aZ_ON43GT0aLA"
+    },
+    {
+      "numero": 10,
+      "nombre": "Mostra SUBACA",
+      "fecha": "2025-11-04/2025-12-03",
+      "lugar": "Belo Horizonte",
+      "genero": "Festival de Artes Escénicas",
+      "descripcion": "Celebración de aniversario de la Cia. Caxangá, con espectáculos, oficinas y actividades culturales gratuitas.",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3708715562160957253"
+    },
+    {
+      "numero": 11,
+      "nombre": "Mostra Habitando espaços, criando seres",
+      "fecha": "2025-11-10/2025-12-10",
+      "lugar": "Galeria de Arte do Minas II",
+      "genero": "Artes Visuales",
+      "descripcion": "Exposición de Gabriela Carvalho.",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100068799708934"
+    },
+    {
+      "numero": 12,
+      "nombre": "Debuta (Palhaçaria Feminina)",
+      "fecha": "2025-11-13/2025-11-20",
+      "lugar": "Belo Horizonte",
+      "genero": "Circo/Teatro",
+      "descripcion": "Muestra de palhaçaria (clown) femenina con espectáculos y talleres gratuitos.",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3745465857691427804"
+    },
+    {
+      "numero": 13,
+      "nombre": "Proclamação da República",
+      "fecha": "2025-11-15",
+      "lugar": "Belo Horizonte",
+      "genero": "Feriado Nacional",
+      "descripcion": "Feriado nacional que impulsa eventos turísticos, culturales y fiestas.",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3759401682518258052"
+    },
+    {
+      "numero": 14,
+      "nombre": "Dia Nacional de Zumbi e da Consciência Negra",
+      "fecha": "2025-11-20",
+      "lugar": "Belo Horizonte",
+      "genero": "Feriado",
+      "descripcion": "Fecha importante con actos y eventos relacionados con la cultura y la conciencia negra.",
+      "categoria": "Cultural",
+      "image_url": "https://q-xx.bstatic.com/xdata/images/hotel/840x460/653139469.jpg?k=4c42b1006be859eb2c63fb34d7ee6e9b57215f6873d7c8f7c28b9b2a8d073866&o="
+    },
+    {
+      "numero": 15,
+      "nombre": "Burger Fest",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Belo Horizonte",
+      "genero": "Festival Gastronómico",
+      "descripcion": "Festival que celebra la hamburguesa en varias capitales, incluyendo Belo Horizonte.",
+      "categoria": "Gastronomía",
+      "image_url": "https://a57.foxnews.com/static.foxnews.com/foxnews.com/content/uploads/2018/09/918/516/cf6ed6d0d1247617570f6a7067000b9b-1.jpg?ve=1&tl=1"
+    },
+    {
+      "numero": 16,
+      "nombre": "Festival Literário Internacional de Belo Horizonte (FLI BH)",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Belo Horizonte",
+      "genero": "Literatura",
+      "descripcion": "Importante festival literario bianual, puede tener edición en 2025.",
+      "categoria": "Cultural",
+      "image_url": "https://portalbelohorizonte.com.br/sites/default/files/styles/normal_size/public/arquivos/eventos/2025-10/fli25_pbh-770x420-1.png?itok=GFqX960B"
+    },
+    {
+      "numero": 17,
+      "nombre": "Feira da Agricultura Familiar de Minas Gerais (Faminas)",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Belo Horizonte",
+      "genero": "Feria de Agronegocios",
+      "descripcion": "Una feria sectorial relevante en el estado.",
+      "categoria": "Negocios",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100066710805642"
+    },
+    {
+      "numero": 18,
+      "nombre": "Festival Sarará",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Belo Horizonte",
+      "genero": "Festival Musical",
+      "descripcion": "Uno de los festivales de música pop y alternativa más grandes de BH.",
+      "categoria": "Música",
+      "image_url": "https://image.rinse.fm/_/igormxnte_baile-sarara-193-Baile-Room.png?w=600&h=600"
+    },
+    {
+      "numero": 19,
+      "nombre": "Festival Transborda",
+      "fecha": "2025-11-01/2025-12-31",
+      "lugar": "Belo Horizonte",
+      "genero": "Festival de Artes Integradas",
+      "descripcion": "Evento que celebra diversas formas de arte en la ciudad.",
+      "categoria": "Cultural",
+      "image_url": "https://www.pipaprize.com/wp-content/uploads/2010/07/Barbara-Wagner-3.jpg"
+    },
+    {
+      "numero": 20,
+      "nombre": "Power Day Belo Horizonte",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Belo Horizonte",
+      "genero": "Evento de Negocios/Motivacional",
+      "descripcion": "Evento de capacitación y negocios con potencial de gran convocatoria.",
+      "categoria": "Negocios",
+      "image_url": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1128393113%2F177440749086%2F1%2Foriginal.20250918-173039?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C1170%2C585&s=224fd376bfeeb2cc937793f1ac7932a2"
+    },
+    {
+      "numero": 21,
+      "nombre": "Rodadas de Futebol (Campeonato Brasileiro/Copa do Brasil)",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Estadios de Belo Horizonte",
+      "genero": "Deportes",
+      "descripcion": "Los partidos de los principales clubes (Atlético Mineiro, Cruzeiro) atraen a miles de personas a los estadios.",
+      "categoria": "Deportes",
+      "image_url": "https://media.gettyimages.com/id/1519789663/photo/belo-horizonte-brazil-everaldo-silva-of-america-mineiro-plays-against-f%C3%A1bio-santos-of.jpg?s=612x612&w=gi&k=20&c=5lkbHPeA8KvNj1MGR6ArjAvt6HJCJB4OQ5R0J3myA-M="
+    },
+    {
+      "numero": 22,
+      "nombre": "Grandes Shows e Turnês Internacionais",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Belo Horizonte",
+      "genero": "Show Musical",
+      "descripcion": "Belo Horizonte es parada frecuente para grandes artistas internacionales al final del año.",
+      "categoria": "Música",
+      "image_url": "https://media.tacdn.com/media/attractions-splice-spp-674x446/15/7d/57/65.jpg"
+    },
+    {
+      "numero": 23,
+      "nombre": "Feira Hippie da Afonso Pena",
+      "fecha": "2025-11-02/2025-11-30",
+      "lugar": "Centro de Belo Horizonte",
+      "genero": "Feria de Artesanato",
+      "descripcion": "Tradicional y muy concurrida feria al aire libre en el centro. Todos los domingos.",
+      "categoria": "Cultural",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/08/96/70/30/programa-legal-de-domingo.jpg?w=900&h=500&s=1"
+    },
+    {
+      "numero": 24,
+      "nombre": "Conexão CNM",
+      "fecha": "2025-11-11",
+      "lugar": "Belo Horizonte",
+      "genero": "Congreso de Gestión Pública",
+      "descripcion": "Seminarios y congresos de la Confederação Nacional de Municípios.",
+      "categoria": "Negocios",
+      "image_url": "https://admin.conexaocnm.org.br/media/eventos/cover/Contabilidade_-_Orienta%C3%A7%C3%B5es_para_Presta%C3%A7%C3%A3o_de_Contas_no_Primeiro_Ano_de_Ge_6Svchh4.png"
+    },
+    {
+      "numero": 25,
+      "nombre": "Circuito Cultural Praça da Liberdade",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Praça da Liberdade",
+      "genero": "Eventos Culturales",
+      "descripcion": "Actividades, exposiciones y shows en el complejo cultural más importante de BH. Fines de semana.",
+      "categoria": "Cultural",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/ce/64/b3/palacio-da-liberdade.jpg?w=900&h=500&s=1"
+    },
+    {
+      "numero": 26,
+      "nombre": "Encontro dos Blocos Caricatos (Pré-Carnaval)",
+      "fecha": "2025-11-20/2025-12-31",
+      "lugar": "Belo Horizonte",
+      "genero": "Cultural/Folklorico",
+      "descripcion": "Eventos y ensayos que marcan el inicio del pre-Carnaval de BH, atrayendo multitudes.",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3577168249046561675"
+    },
+    {
+      "numero": 27,
+      "nombre": "Programação de Final de Ano em Shoppings",
+      "fecha": "2025-11-20/2025-11-30",
+      "lugar": "Shoppings de Belo Horizonte",
+      "genero": "Eventos Navideños",
+      "descripcion": "Encendido de luces, llegada de Papá Noel y espectáculos temáticos en los principales centros comerciales.",
+      "categoria": "Entretenimiento",
+      "image_url": "https://www.tiktok.com/api/img/?itemId=7532845039676869894&location=3&aid=1988&index=2"
+    },
+    {
+      "numero": 28,
+      "nombre": "Exposiciones en el Palácio das Artes",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Palácio das Artes",
+      "genero": "Artes/Teatro/Música",
+      "descripcion": "El principal complejo cultural suele tener exposiciones y espectáculos de alto nivel.",
+      "categoria": "Cultural",
+      "image_url": "https://a.travel-assets.com/findyours-php/viewfinder/images/res70/262000/262504-Minas-Gerais-State.jpg?impolicy=fcrop&w=450&h=280&q=medium"
+    },
+    {
+      "numero": 29,
+      "nombre": "Eventos Gastronómicos en Mercado Central",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Mercado Central",
+      "genero": "Gastronomía",
+      "descripcion": "Fiestas temáticas, degustaciones y lanzamientos de productos en el tradicional mercado.",
+      "categoria": "Gastronomía",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/13/46/0c/99/mercado-de-produtores.jpg?w=900&h=500&s=1"
+    },
+    {
+      "numero": 30,
+      "nombre": "Eventos Universitarios y de Formatura (Final de Semestre)",
+      "fecha": "2025-11-20/2025-11-30",
+      "lugar": "Universidades de Belo Horizonte",
+      "genero": "Académico/Social",
+      "descripcion": "Eventos de graduación y fiestas universitarias que mueven un gran volumen de personas.",
+      "categoria": "Entretenimiento",
+      "image_url": "https://online.fliphtml5.com/bfjq/xjoy/files/shot.jpg"
+    }
+  ],
+  "nota_importante": "Belo Horizonte en noviembre 2025 presenta una mezcla de eventos confirmados y probables. Incluye festivales culturales, shows musicales, eventos deportivos, ferias gastronómicas y de negocios. La ciudad es parada frecuente de artistas internacionales y tiene una rica agenda cultural durante todo el mes."
+}

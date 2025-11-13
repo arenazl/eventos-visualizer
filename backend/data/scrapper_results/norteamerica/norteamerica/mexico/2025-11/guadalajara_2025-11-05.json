@@ -1,0 +1,167 @@
+{
+  "ciudad": "Guadalajara",
+  "pais": "México",
+  "periodo": "Diciembre 2025",
+  "eventos": [
+    {
+      "nombre": "Feria Internacional del Libro de Guadalajara (FIL)",
+      "fecha": "2025-12-01/2025-12-07",
+      "lugar": "Expo Guadalajara",
+      "categoria": "Cultural",
+      "descripcion": "El encuentro editorial más destacado del mundo hispanohablante",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/544/800/600"
+    },
+    {
+      "nombre": "Earth, Wind & Fire",
+      "fecha": "2025-12-01",
+      "lugar": "Arena Guadalajara",
+      "categoria": "Música",
+      "descripcion": "Concierto de la icónica banda Earth, Wind & Fire",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/393/800/600"
+    },
+    {
+      "nombre": "Pierce the Veil",
+      "fecha": "2025-12-02",
+      "lugar": "Guanamor Teatro Studio (Zapopan)",
+      "categoria": "Música",
+      "descripcion": "Experiencia de rock vibrante y llena de energía",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/79/800/600"
+    },
+    {
+      "nombre": "Manuel Turizo - 201 Tour",
+      "fecha": "2025-12-02",
+      "lugar": "Arena Guadalajara",
+      "categoria": "Música",
+      "descripcion": "Presentación del artista Manuel Turizo como parte de su '201 Tour'",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/99/800/600"
+    },
+    {
+      "nombre": "The Black Dahlia Murder",
+      "fecha": "2025-12-04",
+      "lugar": "FORO INDEPENDENCIA GUADALAJARA",
+      "categoria": "Música",
+      "descripcion": "Concierto de la banda de death metal melódico",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/902/800/600"
+    },
+    {
+      "nombre": "El Trono de México",
+      "fecha": "2025-12-04",
+      "lugar": "Auditorio Telmex (Zapopan)",
+      "categoria": "Música",
+      "descripcion": "Presentación de El Trono de México",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/292/800/600"
+    },
+    {
+      "nombre": "Camilo Séptimo",
+      "fecha": "2025-12-05",
+      "lugar": "Teatro Diana",
+      "categoria": "Música",
+      "descripcion": "Concierto de la banda Camilo Séptimo",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/403/800/600"
+    },
+    {
+      "nombre": "Maldita Vecindad & Inspector",
+      "fecha": "2025-12-05",
+      "lugar": "Arena Guadalajara",
+      "categoria": "Música",
+      "descripcion": "Presentación de Maldita Vecindad e Inspector",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/688/800/600"
+    },
+    {
+      "nombre": "Matute: Disco Stereo Tour",
+      "fecha": "2025-12-06",
+      "lugar": "Arena Guadalajara",
+      "categoria": "Música",
+      "descripcion": "Concierto de Matute con su 'Disco Stereo Tour'",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/683/800/600"
+    },
+    {
+      "nombre": "The Rasmus - Weirdo Tour",
+      "fecha": "2025-12-10",
+      "lugar": "Auditorio Telmex",
+      "categoria": "Música",
+      "descripcion": "Celebración del 30 aniversario de la banda finlandesa de rock alternativo",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/735/800/600"
+    },
+    {
+      "nombre": "Gloria Trevi: La Fiesta",
+      "fecha": "2025-12-12",
+      "lugar": "Arena Guadalajara",
+      "categoria": "Música",
+      "descripcion": "Concierto de Gloria Trevi",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/539/800/600"
+    },
+    {
+      "nombre": "Vive la Conco 2025",
+      "fecha": "2025-12-13/2025-12-14",
+      "lugar": "Expo Guadalajara",
+      "categoria": "Hobbies",
+      "descripcion": "Evento que reúne lo mejor del entretenimiento, cultura pop, gaming y cosplay",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/187/800/600"
+    },
+    {
+      "nombre": "Weekend Bazar",
+      "fecha": "2025-12-20/2025-12-21",
+      "lugar": "Expo Guadalajara",
+      "categoria": "Hobbies",
+      "descripcion": "Bazar de fin de semana con horario de 12:00 a 20:00 horas",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/352/800/600"
+    },
+    {
+      "nombre": "Candlelight: Dulce Navidad (Casa Xalisco)",
+      "fecha": "2025-12-20",
+      "lugar": "Casa Xalisco",
+      "categoria": "Música",
+      "descripcion": "Concierto de villancicos navideños a la luz de las velas",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/507/800/600"
+    },
+    {
+      "nombre": "La Única e Internacional Sonora Santanera",
+      "fecha": "2025-12-20",
+      "lugar": "Arena Guadalajara",
+      "categoria": "Música",
+      "descripcion": "Presentación de La Única e Internacional Sonora Santanera",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/394/800/600"
+    },
+    {
+      "nombre": "Candlelight: Dulce Navidad (Mansión Magnolia)",
+      "fecha": "2025-12-22",
+      "lugar": "Mansión Magnolia",
+      "categoria": "Música",
+      "descripcion": "Concierto de villancicos navideños a la luz de las velas",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/315/800/600"
+    }
+  ]
+}

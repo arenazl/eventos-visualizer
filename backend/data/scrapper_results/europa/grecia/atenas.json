@@ -1,0 +1,11 @@
+{
+  "source": "direct_scraping",
+  "city": "Atenas",
+  "country": "Grecia",
+  "urls": [
+    "https://www.residentadvisor.net/events/gr/atenas",
+    "https://www.eventbrite.com/d/grecia--atenas/music--events/"
+  ],
+  "total_events": 0,
+  "eventos": []
+}

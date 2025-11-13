@@ -1,0 +1,11 @@
+{
+  "region": "Valle del Cauca",
+  "country": "Colombia",
+  "source": "gemini",
+  "timestamp": "2025-11-09T07:10:00",
+  "eventos": [
+    {"nombre": "Carnaval de la Uva y el Vino", "ciudad": "La Unión", "fecha": "Del 4 al 14 de Noviembre de 2025", "descripcion": "Un festival tradicional que celebra la cosecha de la uva y la producción de vino colombiano en el municipio, con desfiles, actividades culturales y catas."},
+    {"nombre": "River View Park Cali", "ciudad": "Cali", "fecha": "5 de Noviembre hasta el 12 de Enero de 2026", "descripcion": "Un parque de diversiones y entretenimiento que se instala por temporada, ofreciendo atracciones mecánicas, shows y opciones de ocio para toda la familia."},
+    {"nombre": "Expo Crecer", "ciudad": "Palmira", "fecha": "Sábado 8 de Noviembre", "descripcion": "Un evento que puede estar enfocado en emprendimiento, negocios o desarrollo personal."}
+  ]
+}

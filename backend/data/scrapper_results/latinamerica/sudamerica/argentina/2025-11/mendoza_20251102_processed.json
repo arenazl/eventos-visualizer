@@ -1,0 +1,73 @@
+{
+  "ubicacion": "Mendoza, Argentina",
+  "fecha_consulta": "2025-11-02",
+  "fuente": "Gemini AI + Web Search",
+  "eventos_confirmados_o_tradicionales": [
+    {
+      "nombre": "Fiesta Nacional del Vino",
+      "fecha": "2025-11-07",
+      "tipo": "Cultural",
+      "lugar": "Teatro Griego Frank Romero Day",
+      "direccion": "Parque General San Martín, Mendoza",
+      "precio": "Desde $2000",
+      "hora": "21:00",
+      "descripcion": "Celebración anual de la vendimia con espectáculos artísticos y degustación de vinos.",
+      "url": "https://www.mendoza.gov.ar/cultura/"
+    },
+    {
+      "nombre": "Torneo de Golf Abierto de Mendoza",
+      "fecha": "2025-11-06",
+      "tipo": "Deportes",
+      "lugar": "Mendoza Golf Club",
+      "direccion": "Rodeo de la Cruz, Guaymallén, Mendoza",
+      "precio": "Variable según categoría",
+      "hora": "08:00",
+      "descripcion": "Competencia anual de golf de nivel nacional e internacional.",
+      "url": "http://www.mendozagolfclub.com.ar/"
+    },
+    {
+      "nombre": "Festival de Jazz de Mendoza",
+      "fecha": "2025-11-05",
+      "tipo": "Musica",
+      "lugar": "Distintos espacios culturales de la ciudad",
+      "direccion": "Consultar programación",
+      "precio": "Algunos gratuitos, otros pagos",
+      "hora": "Consultar programación",
+      "descripcion": "Ciclo de conciertos de jazz con artistas locales e invitados.",
+      "url": "https://www.mendoza.gov.ar/cultura/"
+    },
+    {
+      "nombre": "Feria del Libro de Mendoza",
+      "fecha": "2025-11-03",
+      "tipo": "Cultural",
+      "lugar": "Espacio Cultural Julio Le Parc",
+      "direccion": "Mitre y Godoy Cruz, Guaymallén, Mendoza",
+      "precio": "Gratis",
+      "hora": "10:00",
+      "descripcion": "Exposición de libros, charlas y actividades literarias.",
+      "url": "https://www.mendoza.gov.ar/cultura/"
+    },
+    {
+      "nombre": "Mendoza Wine Fair",
+      "fecha": "2025-11-08",
+      "tipo": "Fiestas",
+      "lugar": "Hotel Intercontinental Mendoza",
+      "direccion": "Boulevard Pérez Cuesta esquina Acceso Este Lateral Norte, Villa Nueva, Guaymallén, Mendoza",
+      "precio": "Desde $5000",
+      "hora": "19:00",
+      "descripcion": "Exposición y degustación de vinos de las principales bodegas de Mendoza.",
+      "url": "https://www.vinosyspirit.com/"
+    },
+    {
+      "nombre": "Congreso Argentino de Ciencias de la Computación (CACIC)",
+      "fecha": "2025-11-04",
+      "tipo": "Tech",
+      "lugar": "Universidad Nacional de Cuyo",
+      "direccion": "Centro Universitario, Mendoza",
+      "precio": "Variable según categoría",
+      "hora": "09:00",
+      "descripcion": "Congreso anual de investigadores y profesionales de la computación.",
+      "url": "https://cacic.unaj.edu.ar/"
+    }
+  ]
+}

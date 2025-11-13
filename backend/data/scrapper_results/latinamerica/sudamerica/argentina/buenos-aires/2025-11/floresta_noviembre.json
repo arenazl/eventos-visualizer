@@ -1,0 +1,142 @@
+{
+  "barrio": "Floresta",
+  "mes": "noviembre",
+  "año": 2025,
+  "eventos": [
+    {
+      "nombre": "Vivir Soñando",
+      "fecha": "2025-11-15",
+      "tipo": "Circo",
+      "lugar": "Playón Antiguo Tambo - Complejo Cultural Chacra de los Remedios",
+      "direccion": "Av. Directorio y Lacarra, Parque Avellaneda (cercano a Floresta), Buenos Aires",
+      "precio": "",
+      "hora": "16:00",
+      "descripcion": "Show de circo, magia, clown, burbujas gigantes e improvisación.",
+      "url": "",
+      "categoria": "espectaculo",
+      "image_url": "https://images.cdn2.buscalibre.com/fit-in/360x360/8f/7b/8f7be06ca52ba966743afb78ca4d7302.jpg"
+    },
+    {
+      "nombre": "Vivir Soñando",
+      "fecha": "2025-11-29",
+      "tipo": "Circo",
+      "lugar": "Playón Antiguo Tambo - Complejo Cultural Chacra de los Remedios",
+      "direccion": "Av. Directorio y Lacarra, Parque Avellaneda (cercano a Floresta), Buenos Aires",
+      "precio": "",
+      "hora": "16:00",
+      "descripcion": "Show de circo, magia, clown, burbujas gigantes e improvisación.",
+      "url": "",
+      "categoria": "espectaculo",
+      "image_url": "https://images.cdn2.buscalibre.com/fit-in/360x360/8f/7b/8f7be06ca52ba966743afb78ca4d7302.jpg"
+    },
+    {
+      "nombre": "Vivir Soñando",
+      "fecha": "2025-11-30",
+      "tipo": "Circo",
+      "lugar": "Playón Antiguo Tambo - Complejo Cultural Chacra de los Remedios",
+      "direccion": "Av. Directorio y Lacarra, Parque Avellaneda (cercano a Floresta), Buenos Aires",
+      "precio": "",
+      "hora": "16:00",
+      "descripcion": "Show de circo, magia, clown, burbujas gigantes e improvisación.",
+      "url": "",
+      "categoria": "espectaculo",
+      "image_url": "https://images.cdn2.buscalibre.com/fit-in/360x360/8f/7b/8f7be06ca52ba966743afb78ca4d7302.jpg"
+    },
+    {
+      "nombre": "Visita - Taller Mañanitas Creativas: Arte & Naturaleza",
+      "fecha": "2025-11-30",
+      "tipo": "Taller",
+      "lugar": "Casona de los Olivera - Complejo Cultural Chacra de los Remedios",
+      "direccion": "Av. Directorio y Lacarra, Parque Avellaneda (cercano a Floresta), Buenos Aires",
+      "precio": "",
+      "hora": "16:00",
+      "descripcion": "Visita-taller sobre la relación entre arte y naturaleza urbana.",
+      "url": "",
+      "categoria": "taller",
+      "image_url": "https://www.eneldiario.com.ar/images/202305/20230516parque.jpg"
+    },
+    {
+      "nombre": "Muestras Cierre Talleres Ciclo 2025",
+      "fecha": "2025-11-30",
+      "tipo": "Cultural",
+      "lugar": "Casona de los Olivera - Complejo Cultural Chacra de los Remedios",
+      "direccion": "Av. Directorio y Lacarra, Parque Avellaneda (cercano a Floresta), Buenos Aires",
+      "precio": "",
+      "hora": "16:00",
+      "descripcion": "Muestras de cierre de los talleres del complejo cultural.",
+      "url": "",
+      "categoria": "cultural",
+      "image_url": "https://arroyonoticias.com.ar/fotosnoticias/28627_original.jpg"
+    },
+    {
+      "nombre": "Festival Internacional de Cine Buenos Aires Rojo Sangre",
+      "fecha": "2025-11-20",
+      "tipo": "Cine",
+      "lugar": "CABA",
+      "direccion": "Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Festival internacional de cine de terror, fantástico y bizarro. Del 20 al 30 de Noviembre.",
+      "url": "",
+      "categoria": "festival",
+      "image_url": "https://turismo.buenosaires.gob.ar/sites/turismo/files/field/image/bsas-rojo-sangre1500x610_0.jpg"
+    },
+    {
+      "nombre": "FUTCON 2025",
+      "fecha": "2025-11-22",
+      "tipo": "Festival",
+      "lugar": "CABA",
+      "direccion": "Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "El primer festival de cultura futbolera y creatividad.",
+      "url": "",
+      "categoria": "festival",
+      "image_url": "https://www.adlatina.com/uploads/img/251110120405_FUTCON.jpg"
+    },
+    {
+      "nombre": "FUTCON 2025",
+      "fecha": "2025-11-23",
+      "tipo": "Festival",
+      "lugar": "CABA",
+      "direccion": "Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "El primer festival de cultura futbolera y creatividad.",
+      "url": "",
+      "categoria": "festival",
+      "image_url": "https://www.adlatina.com/uploads/img/251110120405_FUTCON.jpg"
+    },
+    {
+      "nombre": "La Noche de los Templos",
+      "fecha": "2025-11-29",
+      "tipo": "Cultural",
+      "lugar": "Distintas ubicaciones de la Ciudad",
+      "direccion": "CABA, Buenos Aires",
+      "precio": "Gratuito",
+      "hora": "20:00",
+      "descripcion": "Distintos templos y lugares de culto abren sus puertas con entrada libre y gratuita para visitas y actividades especiales.",
+      "url": "",
+      "categoria": "cultural",
+      "image_url": "https://resizer.glanacion.com/resizer/v2/la-noche-de-los-templos-2024-sera-este-sabado-14-DWFSPSNOVZCE5A74FWAJPV4TI4.JPG"
+    }
+  ],
+  "lugares_interes": [
+    {
+      "nombre": "Teatro Flores",
+      "direccion": "Av. Rivadavia 7806 (muy cerca de Floresta), Buenos Aires",
+      "tipo": "Teatro",
+      "descripcion": "Lugar con programación variada cerca de Floresta.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Complejo Cultural Chacra de los Remedios",
+      "direccion": "Av. Directorio y Lacarra, Parque Avellaneda (cercano a Floresta), Buenos Aires",
+      "tipo": "Centro Cultural",
+      "descripcion": "Complejo con agenda cultural continua.",
+      "horario": "",
+      "precio": ""
+    }
+  ]
+}

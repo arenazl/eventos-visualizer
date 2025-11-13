@@ -50,6 +50,20 @@ CITY_COORDINATES = {
     "Montevideo": {"lat": -34.9011, "lng": -56.1645, "country": "Uruguay"}
 }
 
+# Barrios de Buenos Aires (neighborhoods)
+BUENOS_AIRES_NEIGHBORHOODS = {
+    "Palermo": {"lat": -34.5875, "lng": -58.4189, "country": "Argentina"},
+    "Villa Crespo": {"lat": -34.5998, "lng": -58.4398, "country": "Argentina"},
+    "Almagro": {"lat": -34.6056, "lng": -58.4207, "country": "Argentina"},
+    "Flores": {"lat": -34.6324, "lng": -58.4669, "country": "Argentina"},
+    "Recoleta": {"lat": -34.5886, "lng": -58.3956, "country": "Argentina"},
+    "Belgrano": {"lat": -34.5634, "lng": -58.4555, "country": "Argentina"},
+    "Caballito": {"lat": -34.6182, "lng": -58.4417, "country": "Argentina"},
+    "San Telmo": {"lat": -34.6214, "lng": -58.3724, "country": "Argentina"},
+    "Puerto Madero": {"lat": -34.6120, "lng": -58.3631, "country": "Argentina"},
+    "Núñez": {"lat": -34.5450, "lng": -58.4638, "country": "Argentina"}
+}
+
 @router.get("/detect")
 async def detect_location(request: Request):
     """
@@ -203,12 +217,106 @@ async def get_available_cities():
             "latitude": data["lat"],
             "longitude": data["lng"]
         })
-    
+
     # Ordenar por país y luego por ciudad
     cities.sort(key=lambda x: (x["country"], x["city"]))
-    
+
     return {
         "status": "success",
         "cities": cities,
         "total": len(cities)
     }
+
+@router.get("/nearby-cities")
+async def get_nearby_cities_with_events(lat: float, lng: float, limit: int = 5):
+    """
+    Devuelve los lugares más cercanos con eventos basado en coordenadas
+
+    🎯 INTELIGENCIA: Si el usuario está en Buenos Aires, devuelve BARRIOS
+    Si está en otra ciudad, devuelve ciudades cercanas
+
+    Args:
+        lat: Latitud del usuario
+        lng: Longitud del usuario
+        limit: Número de lugares a retornar (default: 5)
+
+    Returns:
+        Lista de ciudades/barrios más cercanos ordenados por distancia
+    """
+    try:
+        import math
+
+        def calculate_distance(lat1, lon1, lat2, lon2):
+            """Calcula distancia en km usando fórmula de Haversine"""
+            R = 6371  # Radio de la Tierra en km
+
+            lat1_rad = math.radians(lat1)
+            lat2_rad = math.radians(lat2)
+            delta_lat = math.radians(lat2 - lat1)
+            delta_lon = math.radians(lon2 - lon1)
+
+            a = math.sin(delta_lat/2)**2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(delta_lon/2)**2
+            c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+
+            return R * c
+
+        # 🎯 DETECTAR SI ESTÁ EN BUENOS AIRES (distancia < 30km del centro)
+        ba_coords = CITY_COORDINATES["Buenos Aires"]
+        distance_to_ba = calculate_distance(lat, lng, ba_coords["lat"], ba_coords["lng"])
+
+        if distance_to_ba < 30:
+            # 🏘️ USUARIO EN BUENOS AIRES - Devolver barrios
+            logger.info(f"📍 Usuario en Buenos Aires (distancia: {distance_to_ba:.2f}km) - Mostrando BARRIOS")
+
+            neighborhoods_with_distance = []
+            for neighborhood, data in BUENOS_AIRES_NEIGHBORHOODS.items():
+                distance = calculate_distance(lat, lng, data["lat"], data["lng"])
+                neighborhoods_with_distance.append({
+                    "city": neighborhood,
+                    "country": data["country"],
+                    "display_name": neighborhood,  # Solo nombre del barrio
+                    "latitude": data["lat"],
+                    "longitude": data["lng"],
+                    "distance_km": round(distance, 2),
+                    "is_neighborhood": True
+                })
+
+            # Ordenar por distancia y tomar los primeros 'limit'
+            neighborhoods_with_distance.sort(key=lambda x: x["distance_km"])
+            nearby_places = neighborhoods_with_distance[:limit]
+
+            logger.info(f"🏘️ Encontrados {len(nearby_places)} barrios cercanos: {[n['city'] for n in nearby_places]}")
+        else:
+            # 🌍 USUARIO EN OTRA CIUDAD - Devolver ciudades
+            logger.info(f"📍 Usuario fuera de Buenos Aires (distancia: {distance_to_ba:.2f}km) - Mostrando CIUDADES")
+
+            cities_with_distance = []
+            for city, data in CITY_COORDINATES.items():
+                distance = calculate_distance(lat, lng, data["lat"], data["lng"])
+                cities_with_distance.append({
+                    "city": city,
+                    "country": data["country"],
+                    "display_name": f"{city}, {data['country']}",
+                    "latitude": data["lat"],
+                    "longitude": data["lng"],
+                    "distance_km": round(distance, 2),
+                    "is_neighborhood": False
+                })
+
+            # Ordenar por distancia y tomar los primeros 'limit'
+            cities_with_distance.sort(key=lambda x: x["distance_km"])
+            nearby_places = cities_with_distance[:limit]
+
+            logger.info(f"🌍 Encontradas {len(nearby_places)} ciudades cercanas: {[c['city'] for c in nearby_places]}")
+
+        return {
+            "status": "success",
+            "nearby_cities": nearby_places,
+            "user_location": {"latitude": lat, "longitude": lng},
+            "total_found": len(nearby_places),
+            "in_buenos_aires": distance_to_ba < 30
+        }
+
+    except Exception as e:
+        logger.error(f"Error finding nearby cities: {e}")
+        raise HTTPException(status_code=500, detail=str(e))

@@ -1,0 +1,12 @@
+{
+  "region": "Metropolitana de Santiago",
+  "country": "Chile",
+  "source": "gemini",
+  "timestamp": "2025-11-09T07:20:00",
+  "eventos": [
+    {"nombre": "Jimin Exhibition The Truth Untold in Chile", "ciudad": "Santiago Centro", "fecha": "9 al 15 de Noviembre 2025", "descripcion": "Exposición relacionada con el artista de K-pop, un género con gran arrastre."},
+    {"nombre": "Dua Lipa - Radical Optimism Tour", "ciudad": "Santiago Centro", "fecha": "11 y 12 de Noviembre 2025", "descripcion": "Concierto de la reconocida estrella pop internacional."},
+    {"nombre": "Melendi", "ciudad": "Santiago Centro", "fecha": "12 y 13 de Noviembre 2025", "descripcion": "Conciertos del popular cantante español de pop/balada."},
+    {"nombre": "Los Vásquez - 15 Años - La FIESTA", "ciudad": "Huechuraba", "fecha": "14 y 15 de Noviembre 2025", "descripcion": "Celebración y fiesta de la banda chilena de pop cebolla/cumbia."}
+  ]
+}

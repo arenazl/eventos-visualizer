@@ -1,0 +1,22 @@
+{
+  "country": "Noruega",
+  "country_code": "NO",
+  "region": "Europa Septentrional",
+  "cities": [
+    {
+      "name": "Oslo",
+      "latitude": 59.9139,
+      "longitude": 10.7522
+    },
+    {
+      "name": "Bergen",
+      "latitude": 60.3913,
+      "longitude": 5.3221
+    },
+    {
+      "name": "Trondheim",
+      "latitude": 63.4305,
+      "longitude": 10.3951
+    }
+  ]
+}

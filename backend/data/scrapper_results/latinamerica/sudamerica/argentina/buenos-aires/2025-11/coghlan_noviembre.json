@@ -1,0 +1,132 @@
+{
+  "barrio": "Coghlan",
+  "mes": "noviembre",
+  "año": 2025,
+  "eventos": [
+    {
+      "nombre": "La Noche de los Museos",
+      "fecha": "2025-11-08",
+      "tipo": "Cultural",
+      "lugar": "Centro Ana Frank Argentina",
+      "direccion": "Superí 2647, Coghlan, Buenos Aires",
+      "precio": "Gratuito",
+      "hora": "19:00 a 02:00",
+      "descripcion": "Los museos del barrio participan activamente.",
+      "url": "",
+      "categoria": "cultural",
+      "image_url": "https://servicioscf.afip.gob.ar/publico/sitio/contenido/common/image.aspx?i\\u003d4805|nov_03_lndlm.jpg"
+    },
+    {
+      "nombre": "La Noche de los Museos",
+      "fecha": "2025-11-08",
+      "tipo": "Cultural",
+      "lugar": "Museo Padre Antonio de Monterosso",
+      "direccion": "Rómulo Naón 3250, Coghlan, Buenos Aires",
+      "precio": "Gratuito",
+      "hora": "19:00 a 02:00",
+      "descripcion": "Los museos del barrio participan activamente.",
+      "url": "",
+      "categoria": "cultural",
+      "image_url": "https://servicioscf.afip.gob.ar/publico/sitio/contenido/common/image.aspx?i\\u003d4805|nov_03_lndlm.jpg"
+    },
+    {
+      "nombre": "JAM DE IMPRO",
+      "fecha": "2025-11-14",
+      "tipo": "Teatro",
+      "lugar": "HAIKU MULTIESPACIO",
+      "direccion": "Coghlan, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Teatro físico.",
+      "url": "",
+      "categoria": "teatro",
+      "image_url": "https://static.wixstatic.com/media/36cd62_f955fd0580b949b19a62726885599058~mv2.jpg/v1/fill/w_1080,h_1350,al_c,q_85/36cd62_f955fd0580b949b19a62726885599058~mv2.jpg"
+    },
+    {
+      "nombre": "RABONA FEST",
+      "fecha": "2025-11-15",
+      "tipo": "Festival",
+      "lugar": "HAIKU MULTIESPACIO",
+      "direccion": "Coghlan, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Festival/Música.",
+      "url": "",
+      "categoria": "festival",
+      "image_url": "https://img.alternativateatral.com/scripts/es/fotos/obras/resumen/29/000305429.jpg"
+    },
+    {
+      "nombre": "SEMILLITAS",
+      "fecha": "2025-11-15",
+      "tipo": "Infantil",
+      "lugar": "HAIKU MULTIESPACIO",
+      "direccion": "Coghlan, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Evento Infantil/Familiar.",
+      "url": "",
+      "categoria": "infantil",
+      "image_url": "https://commons.wikimedia.org/wiki/File:Semillitas.1.jpg"
+    },
+    {
+      "nombre": "TEATROCRACIA, todo ciclo es político",
+      "fecha": "2025-11-22",
+      "tipo": "Teatro",
+      "lugar": "HAIKU MULTIESPACIO",
+      "direccion": "Coghlan, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Teatro.",
+      "url": "",
+      "categoria": "teatro",
+      "image_url": "https://img.alternativateatral.com/scripts/es/fotos/obras/resumen/10/000297910.jpg"
+    },
+    {
+      "nombre": "PERINOLA",
+      "fecha": "2025-11-22",
+      "tipo": "Infantil",
+      "lugar": "HAIKU MULTIESPACIO",
+      "direccion": "Coghlan, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Evento Infantil/Familiar.",
+      "url": "",
+      "categoria": "infantil",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Perinola_plastico.jpg"
+    }
+  ],
+  "lugares_interes": [
+    {
+      "nombre": "Centro Ana Frank Argentina",
+      "direccion": "Superí 2647, Coghlan, Buenos Aires",
+      "tipo": "Centro Cultural",
+      "descripcion": "Centro cultural que participa en La Noche de los Museos.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Museo Padre Antonio de Monterosso",
+      "direccion": "Rómulo Naón 3250, Coghlan, Buenos Aires",
+      "tipo": "Museo",
+      "descripcion": "Museo que participa en La Noche de los Museos.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "HAIKU MULTIESPACIO",
+      "direccion": "Coghlan, Buenos Aires",
+      "tipo": "Teatro",
+      "descripcion": "Multiespacio teatral con cartelera activa.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Club Coghlan",
+      "direccion": "Coghlan, Buenos Aires",
+      "tipo": "Club",
+      "descripcion": "Centro cultural barrial.",
+      "horario": "",
+      "precio": ""
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "source_file": "Distrito_Capital_gemini_response.json",
+  "curated_at": "2025-11-09T10:37:08.209072",
+  "events": [
+    {
+      "nombre": "Concierto de Anakena",
+      "fecha": "Sábado, 22 de noviembre de 2025",
+      "ciudad": "Caracas",
+      "descripcion": "En Hacienda La Vega. La banda venezolana de pop tropical es muy popular en la escena musical actual.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Distrito Capital",
+      "country": "Venezuela",
+      "image_url": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Orquesta Sinfónica Juan José Landaeta",
+      "fecha": "Viernes, 14 de noviembre de 2025",
+      "ciudad": "Caracas",
+      "descripcion": "En el Centro de Acción Social por la Música. Presentación de música clásica.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Distrito Capital",
+      "country": "Venezuela",
+      "image_url": "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Lo Mejor de Tempano y Pentágono",
+      "fecha": "Jueves, 20 de noviembre de 2025",
+      "ciudad": "Caracas",
+      "descripcion": "En el Centro Cultural Chacao. Un espectáculo que reúne a dos bandas icónicas del rock venezolano.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Distrito Capital",
+      "country": "Venezuela",
+      "image_url": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    }
+  ]
+}

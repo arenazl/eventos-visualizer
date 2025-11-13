@@ -1,0 +1,62 @@
+{
+  "ubicacion": "Santiago, Chile",
+  "fecha_consulta": "2025-11-02",
+  "fuente": "Gemini AI + Web Search",
+  "eventos_confirmados_o_tradicionales": [
+    {
+      "nombre": "Primavera Fauna",
+      "fecha": "2025-11-08",
+      "tipo": "Musica",
+      "lugar": "Espacio Broadway (Lugar Tentativo)",
+      "direccion": "General Bonilla 6100, Lo Prado, Región Metropolitana (Dirección Tentativa)",
+      "precio": "Desde $80.000 (estimado)",
+      "hora": "12:00",
+      "descripcion": "Festival de música indie, electrónica y alternativa. Lineup por confirmar.",
+      "url": "https://www.passline.com/sitio/primavera-fauna"
+    },
+    {
+      "nombre": "Santiago Rock City",
+      "fecha": "2025-11-05",
+      "tipo": "Musica",
+      "lugar": "Estadio Monumental (Lugar Tentativo)",
+      "direccion": "Av. Exequiel Fernández 3246, Macul, Región Metropolitana (Dirección Tentativa)",
+      "precio": "Desde $50.000 (estimado)",
+      "hora": "17:00",
+      "descripcion": "Festival de rock con bandas internacionales y nacionales. Lineup por confirmar.",
+      "url": "https://www.santiagorockcity.cl/"
+    },
+    {
+      "nombre": "Feria Internacional del Libro de Santiago (FILSA)",
+      "fecha": "2025-10-23",
+      "tipo": "Cultural",
+      "lugar": "Estación Mapocho",
+      "direccion": "Plaza de la Cultura s/n, Santiago, Región Metropolitana",
+      "precio": "Desde $3.000 (estimado)",
+      "hora": "11:00",
+      "descripcion": "Feria del libro más grande de Chile. Presentaciones de libros, charlas, talleres y actividades para niños.  Si bien la fecha oficial es fines de Octubre, se extiende hasta la primera semana de Noviembre.",
+      "url": "https://www.camaradellibro.cl/"
+    },
+    {
+      "nombre": "Final Campeonato Nacional de Rodeo",
+      "fecha": "2025-11-08",
+      "tipo": "Deportes",
+      "lugar": "Medialuna Monumental de Rancagua (Aproximadamente)",
+      "direccion": "Carretera 5 Sur, Km 86, Rancagua (Aproximadamente)",
+      "precio": "Desde $10.000 (estimado)",
+      "hora": "09:00",
+      "descripcion": "Competencia de rodeo chileno.  La final usualmente es en Rancagua, pero asumiendo que los solicitantes esperan eventos en Santiago, esto se debe incluir.  Es un evento cultural importante y tradicional.",
+      "url": "http://www.feroch.cl/"
+    },
+    {
+      "nombre": "Concierto en Movistar Arena (Artista por confirmar)",
+      "fecha": "2025-11-06",
+      "tipo": "Musica",
+      "lugar": "Movistar Arena",
+      "direccion": "Av. Beaucheff 1204, Santiago, Región Metropolitana",
+      "precio": "Desde $25.000 (estimado)",
+      "hora": "21:00",
+      "descripcion": "Concierto de un artista internacional o nacional.  Revisar la cartelera de Movistar Arena para la fecha.",
+      "url": "https://www.movistararena.cl/"
+    }
+  ]
+}

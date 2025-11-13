@@ -1,0 +1,183 @@
+{
+  "source": "gemini",
+  "ciudad": "Villa Gesell",
+  "pais": "Argentina",
+  "fecha_consulta": "2025-11-03",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 22,
+  "eventos_confirmados": [
+    {
+      "numero": 1,
+      "nombre": "Festival Trip en el Bocho",
+      "fecha": "2025-11-01",
+      "lugar": "Casa de la Música y Auditorio Municipal (Av. 3 y P. 141)",
+      "tipo_musica": "Rock Nacional - Homenaje a Charly García",
+      "categoria": "Música"
+    },
+    {
+      "numero": 2,
+      "nombre": "Mamma Mía! - Musical",
+      "fecha": "2025-11-16",
+      "lugar": "Teatro San Martín (Av. 3 y P. 105)",
+      "tipo_musica": "Musical - Muestra de fin de año de Taller de Montaje",
+      "categoria": "Música"
+    },
+    {
+      "numero": 3,
+      "nombre": "Gesell Reggae - 6° Edición",
+      "fecha": "2025-11-22",
+      "lugar": "Polo Cultural Sur (Av. 4 entre P. 140 y 141)",
+      "tipo_musica": "Reggae, Dub, Soundsystem - Festival Autogestivo, Entrada Libre y Gratuita",
+      "categoria": "Música"
+    },
+    {
+      "numero": 4,
+      "nombre": "Musical (Sin título específico)",
+      "fecha": "2025-11-17",
+      "lugar": "Teatro San Martín (Av. 3 y P. 105)",
+      "tipo_musica": "Musical - Posiblemente otra muestra o presentación",
+      "categoria": "Música"
+    }
+  ],
+  "ciclos_y_eventos_posibles": [
+    {
+      "numero": 5,
+      "nombre": "Conciertos de la Orquesta Municipal",
+      "lugar": "Plaza Primera Junta (Av. 3 y P. 104) / Auditorio Municipal",
+      "tipo_musica": "Música clásica, popular o académica",
+      "nota": "Presentaciones que se mantienen durante todo el año",
+      "categoria": "Música"
+    },
+    {
+      "numero": 6,
+      "nombre": "Cierre Anual de Danza Coreográfica",
+      "lugar": "Auditorio Municipal (Av. 3 y P. 141)",
+      "tipo_musica": "Danzas con música (Show tipo Eclipse)",
+      "nota": "Basado en programaciones de cierres de año",
+      "categoria": "Danza"
+    },
+    {
+      "numero": 7,
+      "nombre": "Cierre Anual de Talleres (Música y Canto)",
+      "lugar": "Casa de la Cultura (Av. 3 y P. 141)",
+      "tipo_musica": "Canto, bandas y muestra de instrumentos",
+      "nota": "Shows a menudo gratuitos o a la gorra",
+      "categoria": "Música"
+    },
+    {
+      "numero": 8,
+      "nombre": "Muestra de Danza/Candombe",
+      "lugar": "Casa de la Cultura Mar Azul (Calle 46 y Miramar)",
+      "tipo_musica": "Música y ritmos afro-uruguayos",
+      "nota": "Cierres de talleres de Candombe que se realizan en noviembre",
+      "categoria": "Música"
+    },
+    {
+      "numero": 9,
+      "nombre": "Ikecanta - Coro de mujeres",
+      "fecha": "2025-11-09",
+      "lugar": "Casa de la Cultura Mar Azul (Calle 46 y Miramar)",
+      "tipo_musica": "Música coral",
+      "categoria": "Música"
+    },
+    {
+      "numero": 10,
+      "nombre": "Encuentro Coral",
+      "lugar": "Sociedad Alemana (Camino de los Pioneros 1997)",
+      "tipo_musica": "Música coral, con participación de coros invitados",
+      "nota": "Basado en el tradicional 29° Encuentro Coral que suele ser en noviembre",
+      "categoria": "Música"
+    },
+    {
+      "numero": 11,
+      "nombre": "Mar de las Pampas en Concierto",
+      "lugar": "Mar de las Pampas (Bosque, Capilla, etc.)",
+      "tipo_musica": "Música Clásica y Lírica (Suele ser gratuito)",
+      "nota": "Ciclo musical que se realiza en la zona sur del partido",
+      "categoria": "Música"
+    },
+    {
+      "numero": 12,
+      "nombre": "Noches de Música en Pipach",
+      "lugar": "Centro Cultural Pipach (Av. Buenos Aires y Playa)",
+      "tipo_musica": "Shows de jazz, tango o música popular",
+      "nota": "Espacio que alberga eventos musicales y culturales",
+      "categoria": "Música"
+    },
+    {
+      "numero": 13,
+      "nombre": "Shows en Pubs y Bares - Zona Centro",
+      "lugar": "Av. 3 y Paseos principales",
+      "tipo_musica": "Bandas de rock, pop, acústicos, DJs",
+      "nota": "La actividad musical nocturna se mantiene, especialmente los fines de semana",
+      "categoria": "Música"
+    },
+    {
+      "numero": 14,
+      "nombre": "Sets de DJs en Bares de Playa",
+      "lugar": "Paradores y Balnearios",
+      "tipo_musica": "Música electrónica, chill-out",
+      "nota": "Algunos paradores comienzan a activar su agenda de fin de año",
+      "categoria": "Música"
+    }
+  ],
+  "muestras_artisticas_mar_azul": [
+    {
+      "numero": 15,
+      "nombre": "Bosques - Muestra Artística",
+      "fecha": "2025-11-02",
+      "lugar": "Casa de la Cultura Mar Azul",
+      "categoria": "Arte"
+    },
+    {
+      "numero": 16,
+      "nombre": "Bosques - Muestra Artística",
+      "fecha": "2025-11-03",
+      "lugar": "Casa de la Cultura Mar Azul",
+      "categoria": "Arte"
+    },
+    {
+      "numero": 17,
+      "nombre": "Bosques - Muestra Artística",
+      "fecha": "2025-11-04",
+      "lugar": "Casa de la Cultura Mar Azul",
+      "categoria": "Arte"
+    },
+    {
+      "numero": 18,
+      "nombre": "Bosques - Muestra Artística",
+      "fecha": "2025-11-12",
+      "lugar": "Casa de la Cultura Mar Azul",
+      "categoria": "Arte"
+    },
+    {
+      "numero": 19,
+      "nombre": "Bosques - Muestra Artística",
+      "fecha": "2025-11-13",
+      "lugar": "Casa de la Cultura Mar Azul",
+      "categoria": "Arte"
+    },
+    {
+      "numero": 20,
+      "nombre": "Bosques - Muestra Artística",
+      "fecha": "2025-11-14",
+      "lugar": "Casa de la Cultura Mar Azul",
+      "categoria": "Arte"
+    },
+    {
+      "numero": 21,
+      "nombre": "Bosques - Muestra Artística",
+      "fecha": "2025-11-15",
+      "lugar": "Casa de la Cultura Mar Azul",
+      "categoria": "Arte"
+    },
+    {
+      "numero": 22,
+      "nombre": "Bosques - Muestra Artística",
+      "fecha": "2025-11-18",
+      "lugar": "Casa de la Cultura Mar Azul",
+      "categoria": "Arte"
+    }
+  ],
+  "nota_importante": "La agenda cultural y de eventos de Villa Gesell se detalla semanalmente en la web oficial del municipio (Gesell.gov.ar) y Gesell.tur.ar. Para obtener eventos específicos con bandas y horarios definidos, se debe consultar estas fuentes a medida que avanza el mes."
+}

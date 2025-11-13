@@ -1,0 +1,122 @@
+{
+  "barrio": "Palermo",
+  "comuna": 14,
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "caracteristica": "Barrio más grande y con la agenda de eventos, recitales y fiestas más densa de Buenos Aires",
+  "eventos_ferias_festivales": [
+    {
+      "nombre": "Festival JOY",
+      "fecha": "2025-11-09",
+      "hora_inicio": "12:00",
+      "hora_fin": "23:00",
+      "lugar": "Hipódromo de Palermo (Av. del Libertador 4001)",
+      "descripcion": "Más de 35 propuestas gastronómicas de todo tipo (clásicas, innovadoras, cocina de bodegón, asiática, etc.). Entrada libre y gratuita",
+      "categoria": "gastronomia",
+      "precio": "gratuito",
+      "estado": "hoy",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/instagram/DQuet_fEelC/0/image.jpg"
+    },
+    {
+      "nombre": "Feria Francesa",
+      "fecha": "2025-11-09",
+      "hora_inicio": "11:00",
+      "hora_fin": "18:30",
+      "lugar": "Plaza Francia (Palermo / Recoleta)",
+      "descripcion": "Última edición del año. Ofrece gastronomía francesa, masterclasses de chefs y música en vivo",
+      "categoria": "gastronomia-cultural",
+      "precio": "gratuito",
+      "estado": "hoy",
+      "image_url": "https://resizer.glanacion.com/resizer/v2/la-edicion-de-julio-de-la-feria-francesa-celebra-KQZJJKNB75CMHLAIRDSX7YQ4OA.jpg"
+    },
+    {
+      "nombre": "Tecweek",
+      "fecha": "Hasta el Sábado 15 de Noviembre",
+      "hora_inicio": "Consultar agenda",
+      "hora_fin": null,
+      "lugar": "Distintos puntos de la Ciudad",
+      "descripcion": "Eventos de la Semana de las Tecnologías Emergentes y Creativas (IA, gaming, fintech, blockchain, etc.)",
+      "categoria": "tecnologia",
+      "precio": "variable",
+      "image_url": "https://fotos.perfil.com/2024/10/25/trim/1140/641/lanzamiento-de-la-tecweek-2024-1898582.jpg"
+    },
+    {
+      "nombre": "La Noche de los Alfajores",
+      "fecha": "Viernes 14 y Sábado 15 de Noviembre",
+      "hora_inicio": "Todo el día",
+      "hora_fin": null,
+      "lugar": "Palermo y otros barrios",
+      "descripcion": "Promociones y degustaciones de alfajores en diversos puntos de venta",
+      "categoria": "gastronomia",
+      "precio": "variable",
+      "image_url": "https://www.canal26.com/resizer/v2/L5Y4GIHSJZCVTPDZT3TRCDLSCU.jpg"
+    },
+    {
+      "nombre": "Buenos Aires Rojo Sangre (BARS)",
+      "fecha": "Jueves 20 al Domingo 30 de Noviembre",
+      "hora_inicio": "Consultar programación",
+      "hora_fin": null,
+      "lugar": "Festival internacional de cine",
+      "descripcion": "Festival internacional de cine de terror, fantástico y bizarro más antiguo de Latinoamérica",
+      "categoria": "cine",
+      "precio": "pago",
+      "image_url": "https://filmfreeway-production-storage-01-connector.filmfreeway.com/festivals/logos/000/001/891/large/BARS.jpg"
+    },
+    {
+      "nombre": "Noche de los Templos",
+      "fecha": "2025-11-29",
+      "hora_inicio": "20:00",
+      "hora_fin": null,
+      "lugar": "Templos de diferentes cultos en distintos puntos de la ciudad",
+      "descripcion": "Templos abren sus puertas para visitas guiadas gratuitas",
+      "categoria": "cultural-religioso",
+      "precio": "gratuito",
+      "image_url": "https://resizer.glanacion.com/resizer/v2/la-noche-de-los-templos-2024-sera-este-sabado-14-DWFSPSNOVZCE5A74FWAJPV4TI4.JPG"
+    },
+    {
+      "nombre": "FUTCON 2025",
+      "fecha": "Sábado 22 y Domingo 23 de Noviembre",
+      "hora_inicio": "Consultar hora",
+      "hora_fin": null,
+      "lugar": "Primer festival de cultura futbolera",
+      "descripcion": "Festival para mirar al fútbol desde la innovación, la identidad y la cultura contemporánea",
+      "categoria": "deportes-cultura",
+      "precio": "variable",
+      "image_url": "https://www.adlatina.com/uploads/img/251110120405_FUTCON.jpg"
+    }
+  ],
+  "recitales_shows_fiestas": [
+    {
+      "nombre": "**FUERZA BRUTA (AVEN)**",
+      "fecha": "Jueves 13, 20 y 27 de Noviembre",
+      "hora_inicio": "Consultar hora",
+      "lugar": "Consultar",
+      "descripcion": "Show de teatro inmersivo",
+      "categoria": "teatro-show",
+      "precio": "pago",
+      "image_url": "https://turismo.buenosaires.gob.ar/sites/turismo/files/field/image/fuerza-bruta-1-1500x610.jpg"
+    },
+    {
+      "nombre": "Divididos",
+      "fecha": "2025-11-12",
+      "hora_inicio": "Consultar hora",
+      "hora_fin": null,
+      "lugar": "Movistar Arena (Humboldt 450)",
+      "descripcion": "Concierto de la 'aplanadora del rock'",
+      "categoria": "rock",
+      "precio": "pago",
+      "image_url": "https://www.fundacionkonex.org/custom/web/data/imagenes/repositorio/2025/06/10/19759/2025061001243694f877f01e9ce8766e077f9c054535f4.jpg"
+    }
+  ],
+  "notas": [
+    "Palermo es el barrio más grande y con la agenda de eventos más densa de Buenos Aires",
+    "Es sede de grandes festivales gastronómicos, culturales y de entretenimiento",
+    "Concentra los principales escenarios de música en vivo y las fiestas",
+    "La respuesta de Gemini fue muy extensa, estos son los eventos principales",
+    "Palermo tiene actividad constante en bares, clubes y espacios culturales que anuncian eventos con poca antelación"
+  ],
+  "total_eventos_festivales": 7,
+  "total_recitales": 2,
+  "fuente": "Gemini AI"
+}

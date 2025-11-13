@@ -1,0 +1,21 @@
+{
+  "region": "Quintana Roo",
+  "country": "México",
+  "source": "gemini",
+  "timestamp": "2025-11-09T06:35:00",
+  "eventos": [
+    {"nombre": "Festival de la Pescadilla 2025", "ciudad": "Cancún", "fecha": "Jueves 06 al Domingo 09 de Noviembre de 2025", "descripcion": "Celebración por el 21º Aniversario de Fish Fritanga con varios días dedicados a este platillo local."},
+    {"nombre": "Nicho Hinojosa y su Bohemia Descarada", "ciudad": "Cancún", "fecha": "Sábado 08 de Noviembre de 2025", "descripcion": "Concierto del reconocido cantautor en el Teatro Álamos Cancún."},
+    {"nombre": "Show Rey del Pop (Hard Rock Hotel Cancún)", "ciudad": "Cancún", "fecha": "Sábado 08 de Noviembre de 2025", "descripcion": "Un espectáculo con los mejores éxitos de Michael Jackson."},
+    {"nombre": "30 Aniversario del Parque Kabah - Conmemoración", "ciudad": "Cancún", "fecha": "Lunes 10 de Noviembre 2025", "descripcion": "Una semana de exposiciones, talleres, recorridos y más para reconectar con la naturaleza en este parque emblemático."},
+    {"nombre": "Tiago Dima (Akin Beach Tulum)", "ciudad": "Playa del Carmen", "fecha": "Viernes 14 de Noviembre de 2025", "descripcion": "Evento musical con entrada gratuita. (Aunque la ubicación es en Tulum, se lista como popular cerca de Playa del Carmen)."},
+    {"nombre": "Triatlón Xel-Há 2025", "ciudad": "Parque Xel-Há (Riviera Maya)", "fecha": "Sábado 15 y Domingo 16 de Noviembre de 2025", "descripcion": "Una competencia que combina natación en la hermosa caleta y carrera en los caminos de la selva maya."},
+    {"nombre": "La Magia de la Mente con: Armando Coda Mentalista", "ciudad": "Cancún", "fecha": "Sábado 15 de Noviembre 2025", "descripcion": "Espectáculo de mentalismo en el Teatro de Cancún."},
+    {"nombre": "Guille López es: 'El Wey Pelón'", "ciudad": "Playa del Carmen", "fecha": "Domingo 16 de Noviembre de 2025", "descripcion": "Presentación de comedia en Buzo´s Restaurant-Bar."},
+    {"nombre": "Montesanto", "ciudad": "Playa del Carmen", "fecha": "Sábado 22 de Noviembre de 2025", "descripcion": "Concierto en un lugar aún no especificado."},
+    {"nombre": "IRONMAN Cozumel 2025", "ciudad": "Isla de Cozumel", "fecha": "Domingo 23 de Noviembre de 2025", "descripcion": "Una mega competencia internacional de triatlón que atrae a miles de atletas y espectadores al Caribe mexicano."},
+    {"nombre": "Los Auténticos Decadentes", "ciudad": "Playa del Carmen", "fecha": "Viernes 28 de Noviembre de 2025", "descripcion": "Concierto de la popular banda en el Auditorio Stoa."},
+    {"nombre": "Noches del Carmen 2ª Edición", "ciudad": "Playa del Carmen", "fecha": "Sábado 29 de Noviembre de 2025", "descripcion": "Un evento en la ciudad."},
+    {"nombre": "Riviera Maya Jazz Festival", "ciudad": "Playa del Carmen", "fecha": "Finales de Noviembre de 2025 (fechas por confirmar)", "descripcion": "Uno de los festivales de jazz más importantes de México, de entrada libre y al aire libre, frente a Mamita's Beach Club."}
+  ]
+}

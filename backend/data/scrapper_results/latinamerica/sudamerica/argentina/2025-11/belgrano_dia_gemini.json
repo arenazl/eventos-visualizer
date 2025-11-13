@@ -1,0 +1,100 @@
+{
+  "eventos": [
+    {
+      "nombre": "Feria de Artesanos y Emprendedores en Plaza Belgrano",
+      "fecha": "2025-11-15",
+      "hora_inicio": "10:00",
+      "hora_fin": "19:00",
+      "lugar": "Plaza Belgrano",
+      "descripcion": "Feria tradicional de fin de semana que ofrece una gran variedad de artesanías, productos de diseño, antigüedades y gastronomía local en el corazón del barrio. Sábados y domingos",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "diario",
+      "image_url": "https://www.diarioel9dejulio.com.ar/wp-content/uploads/2024/01/FERIA8-3.jpg"
+    },
+    {
+      "nombre": "Festival de Música Japonesa (Ciclo Cultural)",
+      "fecha": "2025-11-15",
+      "hora_inicio": "14:00",
+      "hora_fin": "20:00",
+      "lugar": "Jardín Japonés o Centro Cultural Belgrano",
+      "descripcion": "Evento que celebra la cultura japonesa con música en vivo (incluyendo el tradicional taiko), gastronomía temática y talleres culturales",
+      "categoria": "cultura-turismo",
+      "precio": "$5000",
+      "estado": "confirmado",
+      "image_url": "https://museosdetenerife.b-cdn.net/muna-museo-de-naturaleza-y-arqueologia/wp-content/uploads/sites/2/2019/09/event--492ce17355.jpg"
+    },
+    {
+      "nombre": "Mercado de las Pulgas (Barrio River)",
+      "fecha": "2025-11-01",
+      "hora_inicio": "10:00",
+      "hora_fin": "18:00",
+      "lugar": "Mercado de las Pulgas, límite Belgrano-Núñez",
+      "descripcion": "Mercado que ofrece artículos de decoración, muebles restaurados, arte y objetos únicos en un espacio cubierto. Mayor actividad los fines de semana",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "diario",
+      "image_url": "https://i0.wp.com/tiempodebelgrano.com.ar/wp-content/uploads/2021/10/Mercado-de-Pulgas-4.jpg"
+    },
+    {
+      "nombre": "Museo Larreta - Jardín Andaluz",
+      "fecha": "2025-11-01",
+      "hora_inicio": "13:00",
+      "hora_fin": "19:00",
+      "lugar": "Museo Larreta, Belgrano",
+      "descripcion": "El museo ofrece visitas guiadas por su casona de estilo español y su famoso jardín andaluz, un oasis cultural en Belgrano. Talleres de arte y literatura",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "diario",
+      "image_url": "https://es.wikipedia.org/wiki/Archivo:Museo_de_Arte_Espa%C3%B1ol_Enrique_Larreta_escalera_jard%C3%ADn_andaluz_2.jpg"
+    },
+    {
+      "nombre": "Conciertos de Oasis - Gira Mundial",
+      "fecha": "2025-11-15",
+      "hora_inicio": "21:00",
+      "hora_fin": null,
+      "lugar": "Estadio River Plate (límite Belgrano-Núñez)",
+      "descripcion": "Evento masivo. La banda británica de rock Oasis ofrece dos shows con entradas agotadas. 15 y 16 de noviembre",
+      "categoria": "música",
+      "precio": "$50000",
+      "estado": "confirmado",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/threads/DC1O0rxt6NE/0/image.jpg"
+    },
+    {
+      "nombre": "Estreno en el Teatro Emad (Belgrano)",
+      "fecha": "2025-11-01",
+      "hora_inicio": "20:00",
+      "hora_fin": "22:00",
+      "lugar": "Teatro EMAD, Belgrano",
+      "descripcion": "La Escuela Metropolitana de Arte Dramático presenta ciclos de obras de teatro contemporáneo y performances de sus alumnos y docentes",
+      "categoria": "cultura-turismo",
+      "precio": "$5000",
+      "estado": "diario",
+      "image_url": "https://emad-caba.infd.edu.ar/sitio/wp-content/uploads/2022/12/317393379_701486241365702_4751838688057815600_n.jpg"
+    },
+    {
+      "nombre": "Torneo de Golf Abierto del Jockey Club",
+      "fecha": "2025-11-27",
+      "hora_inicio": "08:00",
+      "hora_fin": "18:00",
+      "lugar": "Jockey Club, San Isidro (cercano a Belgrano)",
+      "descripcion": "Evento deportivo de golf de gran convocatoria que atrae a los aficionados de la zona norte. Del 27 al 30 de noviembre",
+      "categoria": "deportes",
+      "precio": "$10000",
+      "estado": "confirmado",
+      "image_url": "https://www.aag.org.ar/wp-content/uploads/2025/09/jockey-rosario-2025-2.jpg"
+    },
+    {
+      "nombre": "Paseo por el Barrio Chino",
+      "fecha": "2025-11-01",
+      "hora_inicio": "todo el día",
+      "hora_fin": null,
+      "lugar": "Barrio Chino, Belgrano (Arribeños y Juramento)",
+      "descripcion": "Paseo por los arcos, visita a supermercados y tiendas temáticas asiáticas, y degustación de comida asiática. Mayor afluencia los fines de semana",
+      "categoria": "gastronomía",
+      "precio": "Gratis",
+      "estado": "diario",
+      "image_url": "https://viajandosoy.com/wp-content/uploads/2023/10/nuevo-polo-barrio-chino-1200x1500.jpg"
+    }
+  ]
+}

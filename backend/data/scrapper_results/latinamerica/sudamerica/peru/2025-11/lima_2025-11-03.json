@@ -1,0 +1,298 @@
+{
+  "source": "gemini",
+  "ciudad": "Lima",
+  "pais": "Perú",
+  "fecha_consulta": "2025-11-03",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 29,
+  "eventos": [
+    {
+      "numero": 1,
+      "artista": "Shakira",
+      "fecha": "2025-11-15, 16 y 18",
+      "lugar": "Estadio Nacional",
+      "genero": "Pop Latino",
+      "descripcion": "Múltiples fechas por su gira mundial",
+      "categoria": "Música",
+      "image_url": "https://static01.nyt.com/images/2022/10/02/world/02indonesia-soccer-disasters1/02indonesia-soccer-disasters1-articleLarge.jpg?quality=75&auto=webp&disable=upscale"
+    },
+    {
+      "numero": 2,
+      "artista": "Dua Lipa",
+      "fecha": "2025-11-25",
+      "lugar": "Estadio Nacional (por confirmar)",
+      "genero": "Pop",
+      "descripcion": "Concierto de gran convocatoria",
+      "categoria": "Música",
+      "image_url": "https://es.thechurchnews.com/resizer/v2/P54UVBDRCVAFNI4SRPFVJQY5PI.JPG?auth=5b73b617bad9be5fcb534463ff6b02eebd07bf1b3e374ed655ceeb93938e279f&focal=0%2C0&width=800&height=533"
+    },
+    {
+      "numero": 3,
+      "artista": "Guns N' Roses",
+      "fecha": "2025-11-05",
+      "lugar": "Estadio Nacional (por confirmar)",
+      "genero": "Rock",
+      "descripcion": "Show de rock de alto impacto",
+      "categoria": "Música",
+      "image_url": "https://es.thechurchnews.com/resizer/v2/P54UVBDRCVAFNI4SRPFVJQY5PI.JPG?auth=5b73b617bad9be5fcb534463ff6b02eebd07bf1b3e374ed655ceeb93938e279f&focal=0%2C0&width=800&height=533"
+    },
+    {
+      "numero": 4,
+      "artista": "Los Fabulosos Cadillacs",
+      "fecha": "2025-11-13",
+      "lugar": "Estadio (por confirmar)",
+      "genero": "Ska / Rock Latino",
+      "descripcion": "Celebración de su 40 aniversario",
+      "categoria": "Música",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/31/9f/44/cada-butaca-esta-hecha.jpg?w=900&h=-1&s=1"
+    },
+    {
+      "numero": 5,
+      "artista": "Marco Antonio Solís",
+      "fecha": "2025-11-07",
+      "lugar": "Arena 1",
+      "genero": "Música Romántica",
+      "descripcion": "Un referente de la música romántica",
+      "categoria": "Música",
+      "image_url": "https://www.bestbeerfestivals.com/admin/img/oktoberfest-peru1.jpg"
+    },
+    {
+      "numero": 6,
+      "artista": "Pink Floyd Experience",
+      "fecha": "2025-11-04",
+      "lugar": "Por confirmar",
+      "genero": "Rock / Tributo",
+      "descripcion": "Espectáculo de tributo de gran nivel",
+      "categoria": "Música",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/31/9f/44/cada-butaca-esta-hecha.jpg?w=900&h=-1&s=1"
+    },
+    {
+      "numero": 7,
+      "artista": "Billy Idol",
+      "fecha": "2025-11-22",
+      "lugar": "Por confirmar",
+      "genero": "Rock / Punk",
+      "descripcion": "Ícono del rock",
+      "categoria": "Música",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/31/9f/44/cada-butaca-esta-hecha.jpg?w=900&h=-1&s=1"
+    },
+    {
+      "numero": 8,
+      "artista": "Airbag",
+      "fecha": "2025-11-22",
+      "lugar": "Por confirmar",
+      "genero": "Rock",
+      "descripcion": "Banda argentina de rock muy popular",
+      "categoria": "Música",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/31/9f/44/cada-butaca-esta-hecha.jpg?w=900&h=-1&s=1"
+    },
+    {
+      "numero": 9,
+      "artista": "Servando y Florentino",
+      "fecha": "2025-11-21",
+      "lugar": "Multiespacio Costa 21",
+      "genero": "Pop Latino",
+      "descripcion": "Gira 'Se Buscan Vivo o Inmortales'",
+      "categoria": "Música",
+      "image_url": "https://ultraperu.com/wp-content/uploads/2024/09/ULTRA-PERU-2025-EVENT-ANNOUCEMENT-WEBBANNER-English.png"
+    },
+    {
+      "numero": 10,
+      "artista": "Yesenia Then",
+      "fecha": "2025-11-01",
+      "lugar": "Anfiteatro del Parque de la Exposición",
+      "genero": "Música Popular",
+      "descripcion": "Evento de gran alcance",
+      "categoria": "Música",
+      "image_url": "https://i.ytimg.com/vi/LMT8Sv2183k/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDT9-usRB_HD3wQSBqyi7dihNaNKA"
+    },
+    {
+      "numero": 11,
+      "artista": "Koino Yokan & Los Rumberos",
+      "fecha": "2025-11-05",
+      "lugar": "Lima",
+      "genero": "Fusión",
+      "descripcion": "Show musical conjunto",
+      "categoria": "Música",
+      "image_url": "https://www.lima2025.com/img/about/about_lima.png"
+    },
+    {
+      "numero": 12,
+      "artista": "Michale Graves",
+      "fecha": "2025-11-12",
+      "lugar": "Vichama Conciertos",
+      "genero": "Rock / Punk",
+      "descripcion": "Show de rock",
+      "categoria": "Música",
+      "image_url": "https://i.ytimg.com/vi/1JGaBF3KIgY/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAzYnviMIADIXHHre4zwHUQwQdJig"
+    },
+    {
+      "numero": 13,
+      "nombre": "Cumbia Sinfónica 2.0",
+      "fecha": "2025-11-08",
+      "lugar": "Gran Teatro Nacional",
+      "genero": "Fusión Musical",
+      "descripcion": "Formato musical que fusiona géneros",
+      "categoria": "Música",
+      "image_url": "http://images.sk-static.com/images/media/img/col6/20241223-040458-992664.jpg"
+    },
+    {
+      "numero": 14,
+      "nombre": "Monólogos de la Vagina",
+      "fecha_inicio": "2025-11-02",
+      "fecha_fin": "2025-11-12",
+      "lugar": "Gran Teatro Nacional",
+      "descripcion": "Obra de teatro de amplio reconocimiento",
+      "categoria": "Entretenimiento",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3681979212539141645"
+    },
+    {
+      "numero": 15,
+      "nombre": "Luz de Fantasía - El Musical",
+      "fecha_inicio": "2025-11-02",
+      "fecha_fin": "2025-11-23",
+      "lugar": "Teatro Ricardo Blume",
+      "descripcion": "Espectáculo de teatro musical",
+      "categoria": "Entretenimiento",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3761052673978970719"
+    },
+    {
+      "numero": 16,
+      "nombre": "Mozart Interactivo 3era Temporada",
+      "fecha_inicio": "2025-11-02",
+      "fecha_fin": "2025-11-30",
+      "lugar": "Teatro Juanita T. (Ex Mocha Graña)",
+      "descripcion": "Experiencia teatral interactiva",
+      "categoria": "Entretenimiento",
+      "image_url": "https://cdn.teleticket.com.pe/images/eventos/pie018_calugalistado.jpg"
+    },
+    {
+      "numero": 17,
+      "nombre": "TOUR DEL MIEDO 2025",
+      "fecha_inicio": "2025-11-02",
+      "fecha_fin": "2025-12-21",
+      "lugar": "Cementerio Presbítero Matías Maestro",
+      "descripcion": "Recorrido temático nocturno",
+      "categoria": "Entretenimiento",
+      "image_url": "https://freewalkingtoursperu.com/wp-content/uploads/2023/02/paseo-nocturno-cementerio-presbitero-maestro-lima-7.jpg"
+    },
+    {
+      "numero": 18,
+      "nombre": "TOUR DEL MIEDO NOCTURNO 2025",
+      "fecha_inicio": "2025-11-07",
+      "fecha_fin": "2025-12-27",
+      "lugar": "Fortaleza Real Felipe",
+      "descripcion": "Recorrido temático de miedo",
+      "categoria": "Entretenimiento",
+      "image_url": "https://cdn.joinnus.com/user/1322235/kC4VnZ1ouy0skkA.webp"
+    },
+    {
+      "numero": 19,
+      "nombre": "La Fiesta de Cumpleaños del Lobo Feroz",
+      "fecha_inicio": "2025-11-08",
+      "fecha_fin": "2025-11-29",
+      "lugar": "Centro Cultural CAFAE - SE",
+      "descripcion": "Obra de teatro para público familiar",
+      "categoria": "Entretenimiento",
+      "image_url": "https://cdn.atrapalo.com/o/event/4925932/1699020.jpg?auto=avif&width=372&quality=75"
+    },
+    {
+      "numero": 20,
+      "nombre": "THE BEATLES SINFONÍA 360°",
+      "fecha_inicio": "2025-11-13",
+      "fecha_fin": "2025-11-20",
+      "lugar": "La Cúpula de las Artes",
+      "genero": "Tributo Sinfónico",
+      "descripcion": "Tributo sinfónico a la icónica banda",
+      "categoria": "Música",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3725273706382082681"
+    },
+    {
+      "numero": 21,
+      "artista": "Amanda Portales",
+      "fecha": "2025-11-22 y 23",
+      "lugar": "Gran Teatro Nacional",
+      "genero": "Folclore Peruano",
+      "descripcion": "Ícono del folclore peruano",
+      "categoria": "Música",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/31/9f/44/cada-butaca-esta-hecha.jpg?w=900&h=-1&s=1"
+    },
+    {
+      "numero": 22,
+      "nombre": "Festival Internacional del Fado 2025",
+      "fecha": "2025-11-10",
+      "lugar": "La Estación de Barranco",
+      "genero": "Fado",
+      "descripcion": "Evento musical dedicado al Fado",
+      "categoria": "Música",
+      "image_url": "https://www.shutterstock.com/image-vector/street-art-festival-school-poster-260nw-2222751487.jpg"
+    },
+    {
+      "numero": 23,
+      "nombre": "Geek Festival 2025",
+      "fecha_inicio": "2025-11-14",
+      "fecha_fin": "2025-11-16",
+      "lugar": "Parque de la Exposición",
+      "descripcion": "Festival que reúne cultura pop, cómics y más",
+      "categoria": "Cultural",
+      "image_url": "https://p16-common-sign.tiktokcdn-us.com/tos-useast8-p-0068-tx2/o4Bix6lDAAEiyAmbIqv8HEABOIaRPYi64RDHA~tplv-photomode-video-share-card:630:630:20.jpeg?dr=9616&refresh_token=4d1ae3d6&x-expires=1794528000&x-signature=bDKl%2FwYdysG7UJ50s52EwMKtlbQ%3D&t=4d5b0474&ps=13740610&shp=55bbe6a9&shcp=f07906a3&idc=useast5&ftpl=1"
+    },
+    {
+      "numero": 24,
+      "nombre": "City Tour en Lima",
+      "fecha_inicio": "2025-11-03",
+      "fecha_fin": "2025-12-31",
+      "lugar": "Plaza San Martín (Punto de partida)",
+      "descripcion": "Recorridos turísticos por el centro de Lima",
+      "categoria": "Turismo",
+      "image_url": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-674x446/0f/6f/87/18.jpg"
+    },
+    {
+      "numero": 25,
+      "nombre": "Full Day Chancay + Huaral",
+      "fecha_inicio": "2025-11-07",
+      "fecha_fin": "2025-12-31",
+      "descripcion": "Visita al Castillo de Chancay, Huando. Tour de día completo fuera de la ciudad",
+      "categoria": "Turismo",
+      "image_url": "https://cdn.getyourguide.com/image/format=auto,fit=crop,gravity=auto,quality=60,width=620,height=400,dpr=1/tour_img/48a0dfb942c51ed32aee8a645acc8fffec7b03b8617dac35c591bb0dc07a4ae7.jpg"
+    },
+    {
+      "numero": 26,
+      "nombre": "Full Day Cordillera de la Viuda",
+      "fecha_inicio": "2025-11-07",
+      "fecha_fin": "2025-12-28",
+      "descripcion": "Tour de aventura en la sierra de Lima. Recorrido por paisajes naturales",
+      "categoria": "Turismo",
+      "image_url": "https://media.tacdn.com/media/attractions-splice-spp-674x446/06/75/aa/57.jpg"
+    },
+    {
+      "numero": 27,
+      "nombre": "SUPERLIGA PROFESIONAL DAYR",
+      "fecha_inicio": "2025-11-08",
+      "fecha_fin": "2025-11-21",
+      "lugar": "Museo Fortaleza Real Felipe",
+      "descripcion": "Exhibición o evento deportivo/competitivo",
+      "categoria": "Deportes",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Rivaldo_bunyodkor_2010.jpg/330px-Rivaldo_bunyodkor_2010.jpg"
+    },
+    {
+      "numero": 28,
+      "nombre": "Desde la vereda",
+      "fecha_inicio": "2025-09-26",
+      "fecha_fin": "2025-11-19",
+      "descripcion": "Exposición de Piero Quijano (arte)",
+      "categoria": "Cultural",
+      "image_url": "https://media.gettyimages.com/id/57147337/photo/to-go-with-afp-story-visitors-enjoy-21-march-2006-the-huge-installation-grande-sertao-veredas.jpg?s=612x612&w=gi&k=20&c=BYrLEpoNglBF6NAWJluMzh0Y2l9J_Z3xD5as7UGOhpc="
+    },
+    {
+      "numero": 29,
+      "nombre": "Álex Ángeles: Conexiones internas",
+      "fecha_inicio": "2025-09-18",
+      "fecha_fin": "2025-12-13",
+      "descripcion": "Exhibición de arte de larga duración",
+      "categoria": "Cultural",
+      "image_url": "https://enlima.pe/sites/default/files/styles/imagen_masonry/public/alex_angeles.png"
+    }
+  ],
+  "nota_importante": "Lima en noviembre 2025 presenta una agenda diversa con grandes conciertos internacionales (Shakira, Guns N' Roses, Dua Lipa), espectáculos teatrales, festivales culturales y tours turísticos. La programación con tanta antelación puede estar sujeta a cambios de fecha, lugar o cancelación. Se recomienda verificar en Teleticket o Joinnus."
+}

@@ -1,0 +1,57 @@
+{
+  "ciudad": "Guayaquil",
+  "pais": "Ecuador",
+  "periodo": "Noviembre 2025",
+  "eventos": [
+    {
+      "nombre": "Concierto de Shakira",
+      "fecha": "2025-11-08",
+      "lugar": "Coliseo Voltaire Paladines Polo",
+      "categoria": "Música",
+      "descripcion": "Concierto internacional de la icónica cantante colombiana Shakira como parte de su gira mundial",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/578/800/600"
+    },
+    {
+      "nombre": "Feria EducationUSA 2025",
+      "fecha": "2025-11-15",
+      "lugar": "Guayaquil",
+      "categoria": "Cultural",
+      "descripcion": "Feria educativa que conecta a estudiantes ecuatorianos con oportunidades de estudio en Estados Unidos",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/131/800/600"
+    },
+    {
+      "nombre": "Feria Internacional del Libro de Guayaquil",
+      "fecha": "2025-11-25",
+      "lugar": "Centro de Convenciones",
+      "categoria": "Cultural",
+      "descripcion": "Evento cultural anual que reúne a autores, editores y lectores de Ecuador y el mundo",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/382/800/600"
+    },
+    {
+      "nombre": "Concierto de Daniel y los Yadas con Señor Jáid y Penicilina",
+      "fecha": "2025-11-08",
+      "lugar": "Atrako Records",
+      "categoria": "Música",
+      "descripcion": "Concierto de rock alternativo con bandas locales e internacionales",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/218/800/600"
+    },
+    {
+      "nombre": "4th International Conference on Multidisciplinary Research in Education Science and Technology (ICMREST-2025)",
+      "fecha": "2025-11-15",
+      "lugar": "Guayaquil",
+      "categoria": "Tech",
+      "descripcion": "Conferencia internacional que reúne a académicos, investigadores y profesionales",
+      "precio": null,
+      "url": null,
+      "image_url": "https://picsum.photos/seed/719/800/600"
+    }
+  ]
+}

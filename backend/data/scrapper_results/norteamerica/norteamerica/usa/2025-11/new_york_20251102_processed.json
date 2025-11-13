@@ -1,0 +1,62 @@
+{
+  "ubicacion": "New York, Estados Unidos",
+  "fecha_consulta": "2025-11-02",
+  "fuente": "Gemini AI + Web Search",
+  "eventos_confirmados_o_tradicionales": [
+    {
+      "nombre": "TCS New York City Marathon",
+      "fecha": "2025-11-02",
+      "tipo": "Deportes",
+      "lugar": "Throughout New York City",
+      "direccion": "Starts in Staten Island, ends in Manhattan",
+      "precio": "Gratis (para espectadores)",
+      "hora": "Varies",
+      "descripcion": "The world's largest marathon, traversing all five boroughs of New York City.",
+      "url": "https://www.nycmarathon.org/"
+    },
+    {
+      "nombre": "New York Comedy Festival",
+      "fecha": "2025-11-03",
+      "tipo": "Cultural",
+      "lugar": "Various locations throughout NYC",
+      "direccion": "Various Locations",
+      "precio": "Varies by show",
+      "hora": "Varies by show",
+      "descripcion": "A week-long comedy festival featuring top comedians.",
+      "url": "https://nycomedyfestival.com/"
+    },
+    {
+      "nombre": "NYC Veterans Day Parade",
+      "fecha": "2025-11-11",
+      "tipo": "Cultural",
+      "lugar": "Fifth Avenue, Manhattan",
+      "direccion": "Fifth Avenue",
+      "precio": "Gratis",
+      "hora": "12:00",
+      "descripcion": "Annual parade honoring veterans.  Usually held on November 11th but check for 2025 details",
+      "url": "https://www.nycveteransday.org/"
+    },
+    {
+      "nombre": "The Armory Show",
+      "fecha": "2025-11-06",
+      "tipo": "Cultural",
+      "lugar": "Javits Center",
+      "direccion": "429 11th Ave, New York, NY 10001",
+      "precio": "Varies",
+      "hora": "Varies",
+      "descripcion": "A leading international art fair presenting modern and contemporary art.",
+      "url": "https://www.thearmoryshow.com/"
+    },
+    {
+      "nombre": "NYC Craft Beer Festival",
+      "fecha": "2025-11-08",
+      "tipo": "Fiestas",
+      "lugar": "Brooklyn Navy Yard",
+      "direccion": "Brooklyn Navy Yard",
+      "precio": "Varies",
+      "hora": "Varies",
+      "descripcion": "Showcasing a wide selection of craft beers from local and national breweries. Check specific dates for 2025.",
+      "url": "https://www.nyccraftbeerfest.com/"
+    }
+  ]
+}

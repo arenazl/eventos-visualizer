@@ -1,0 +1,22 @@
+{
+  "country": "Perú",
+  "country_code": "PE",
+  "region": "Sudamérica",
+  "cities": [
+    {
+      "name": "Lima",
+      "latitude": -12.0464,
+      "longitude": -77.0428
+    },
+    {
+      "name": "Cusco",
+      "latitude": -13.5319,
+      "longitude": -71.9675
+    },
+    {
+      "name": "Arequipa",
+      "latitude": -16.4090,
+      "longitude": -71.5375
+    }
+  ]
+}

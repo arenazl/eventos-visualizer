@@ -1,0 +1,22 @@
+{
+  "country": "Austria",
+  "country_code": "AT",
+  "region": "Europa Occidental",
+  "cities": [
+    {
+      "name": "Viena",
+      "latitude": 48.2082,
+      "longitude": 16.3738
+    },
+    {
+      "name": "Salzburgo",
+      "latitude": 47.8095,
+      "longitude": 13.0550
+    },
+    {
+      "name": "Innsbruck",
+      "latitude": 47.2692,
+      "longitude": 11.4041
+    }
+  ]
+}

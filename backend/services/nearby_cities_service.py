@@ -32,13 +32,77 @@ class NearbyCitiesService:
     def _build_city_database(self) -> Dict[str, List[CityInfo]]:
         """
         🏗️ BASE DE DATOS DE CIUDADES ALEDAÑAS
-        
+
         Returns:
             Diccionario con ciudades y sus aledañas
         """
-        
-        # DISABLED - No hardcoded city relationships
-        return {}
+
+        return {
+            # 🇦🇷 ARGENTINA - Ciudades principales
+            "Buenos Aires": [
+                CityInfo("Córdoba", 700, "Argentina", "Córdoba"),
+                CityInfo("Rosario", 300, "Argentina", "Santa Fe"),
+                CityInfo("Mendoza", 1040, "Argentina", "Mendoza")
+            ],
+            "Córdoba": [
+                CityInfo("Buenos Aires", 700, "Argentina", "Buenos Aires"),
+                CityInfo("Rosario", 400, "Argentina", "Santa Fe"),
+                CityInfo("Villa Carlos Paz", 36, "Argentina", "Córdoba")
+            ],
+            "Rosario": [
+                CityInfo("Buenos Aires", 300, "Argentina", "Buenos Aires"),
+                CityInfo("Córdoba", 400, "Argentina", "Córdoba"),
+                CityInfo("Santa Fe", 160, "Argentina", "Santa Fe")
+            ],
+            "Mendoza": [
+                CityInfo("San Rafael", 230, "Argentina", "Mendoza"),
+                CityInfo("Córdoba", 660, "Argentina", "Córdoba"),
+                CityInfo("Buenos Aires", 1040, "Argentina", "Buenos Aires")
+            ],
+
+            # 🌊 ARGENTINA - Costa Atlántica
+            "Mar del Plata": [
+                CityInfo("Buenos Aires", 400, "Argentina", "Buenos Aires"),
+                CityInfo("Villa Gesell", 110, "Argentina", "Buenos Aires"),
+                CityInfo("Pinamar", 125, "Argentina", "Buenos Aires")
+            ],
+            "Villa Gesell": [
+                CityInfo("Mar del Plata", 110, "Argentina", "Buenos Aires"),
+                CityInfo("Pinamar", 27, "Argentina", "Buenos Aires"),
+                CityInfo("Buenos Aires", 380, "Argentina", "Buenos Aires")
+            ],
+            "Pinamar": [
+                CityInfo("Villa Gesell", 27, "Argentina", "Buenos Aires"),
+                CityInfo("Mar del Plata", 125, "Argentina", "Buenos Aires"),
+                CityInfo("Buenos Aires", 340, "Argentina", "Buenos Aires")
+            ],
+
+            # 🇪🇸 ESPAÑA
+            "Barcelona": [
+                CityInfo("Madrid", 621, "España", "Madrid"),
+                CityInfo("Valencia", 349, "España", "Valencia"),
+                CityInfo("Zaragoza", 307, "España", "Aragón")
+            ],
+            "Madrid": [
+                CityInfo("Barcelona", 621, "España", "Cataluña"),
+                CityInfo("Valencia", 357, "España", "Valencia"),
+                CityInfo("Sevilla", 534, "España", "Andalucía")
+            ],
+
+            # 🇫🇷 FRANCIA
+            "Paris": [
+                CityInfo("Lyon", 465, "Francia", "Auvergne-Rhône-Alpes"),
+                CityInfo("Marseille", 775, "Francia", "Provence-Alpes-Côte d'Azur"),
+                CityInfo("Bordeaux", 584, "Francia", "Nouvelle-Aquitaine")
+            ],
+
+            # 🇲🇽 MÉXICO
+            "Mexico City": [
+                CityInfo("Guadalajara", 535, "México", "Jalisco"),
+                CityInfo("Monterrey", 921, "México", "Nuevo León"),
+                CityInfo("Puebla", 127, "México", "Puebla")
+            ]
+        }
     
     async def get_nearby_cities(self, location: str) -> List[str]:
         """
@@ -95,13 +159,21 @@ class NearbyCitiesService:
             "cordoba": "Córdoba",
             "buenos aires": "Buenos Aires",
             "caba": "Buenos Aires",
+            "bsas": "Buenos Aires",
             "cdmx": "Mexico City",
             "ciudad de méxico": "Mexico City",
             "df": "Mexico City",
             "bcn": "Barcelona",
             "barna": "Barcelona",
             "parís": "Paris",
-            "sao paulo": "São Paulo"
+            "sao paulo": "São Paulo",
+            # Costa Atlántica Argentina
+            "gesell": "Villa Gesell",
+            "villa gesell": "Villa Gesell",
+            "v gesell": "Villa Gesell",
+            "mdq": "Mar del Plata",
+            "mardel": "Mar del Plata",
+            "mar del plata": "Mar del Plata"
         }
         
         normalized = location_mapping.get(location.lower(), location)

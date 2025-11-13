@@ -1,0 +1,124 @@
+{
+  "eventos": [
+    {
+      "nombre": "adidas 10K Night Run",
+      "fecha": "2025-11-29",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Av. de los Italianos y Marta Lynch",
+      "descripcion": "Una carrera nocturna de 10 kilómetros que combina deporte y fiesta. Los participantes disfrutarán de un recorrido iluminado y un after run con música y sorpresas.",
+      "categoria": "música",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://img.yumpu.com/37036878/1/500x640/download-pdf-distance-running-magazine.jpg"
+    },
+    {
+      "nombre": "Casa FOA 40 años",
+      "fecha": "2025-11-02",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Madero Harbour",
+      "descripcion": "Celebración de los 40 años de Casa FOA, un evento de diseño y arquitectura que presenta diversas propuestas creativas.",
+      "categoria": "otro",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://i.ytimg.com/vi/WNDUk2NkmgY/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLA3xxJcyQZ-oRGIQjn69lFmhimcCQ"
+    },
+    {
+      "nombre": "La Noche de las Heladerías",
+      "fecha": "2025-11-13",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Varias heladerías en Puerto Madero.",
+      "descripcion": "Un evento gastronómico donde se celebran horas de degustación y descuentos en heladerías de la zona.",
+      "categoria": "otro",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/5c/aa/a6/caption.jpg?w=900&h=500&s=1"
+    },
+    {
+      "nombre": "Burger Fest",
+      "fecha": "2025-11-20",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Puerto Madero.",
+      "descripcion": "Festival dedicado a las hamburguesas y el street food, con una variedad de opciones para los amantes de la comida.",
+      "categoria": "música",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhdPcHXaKhD2zbkG_6y4ylqn-LJGtrzsj6duLHKcNzSc45J7iM2ELaCGCj30Kqv6cpcImUJ0oht66uAWvKqTfo5dsfdU0jLX3SFe712jTEGAbwWDWQX1nT8q679AIxtbUbJ8sX_X_pFHNs/s640/15230613_1347330241985846_6994171990777516593_n.jpg"
+    },
+    {
+      "nombre": "La Noche de la Pizza y la Empanada",
+      "fecha": "2025-11-25",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Puerto Madero.",
+      "descripcion": "Evento gastronómico que ofrece promociones especiales en pizzerías y locales de empanadas.",
+      "categoria": "otro",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://www.mibsas.com/wp-content/uploads/2020/09/la-noche-de-la-pizza-y-la-empanada-768x432.jpg"
+    },
+    {
+      "nombre": "FIBA: Festival Internacional de Buenos Aires",
+      "fecha": "2025-11-01",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Varias locaciones en Puerto Madero.",
+      "descripcion": "Un festival que reúne lo mejor de las artes escénicas, con presentaciones de teatro, danza y más.",
+      "categoria": "música",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://online.fliphtml5.com/afgpv/picb/files/thumb/1.webp?1628276764&1628276764"
+    },
+    {
+      "nombre": "Concierto de la Orquesta Filarmónica de Buenos Aires",
+      "fecha": "2025-11-05",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Puerto Madero.",
+      "descripcion": "Concierto especial en celebración del Día Internacional de la Música.",
+      "categoria": "música",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0c/3c/aa/40/photo1jpg.jpg?w=700&h=400&s=1"
+    },
+    {
+      "nombre": "Tattoo Show",
+      "fecha": "2025-11-10",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Puerto Madero.",
+      "descripcion": "La 21° edición de este evento que reúne a artistas del tatuaje y aficionados.",
+      "categoria": "otro",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://media.gettyimages.com/id/928941322/photo/buenos-aires-argentina-juana-viale-attends-the-premiere-of-the-netflix-series-edha-at-cinemark.jpg?s=612x612&w=gi&k=20&c=QfJzvW4vVaXKXS70oRa374tsGuFfPeuOuWtmj7tTJmk="
+    },
+    {
+      "nombre": "Semana del Orgullo",
+      "fecha": "2025-11-01",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Puerto Madero.",
+      "descripcion": "Una serie de actividades y eventos para celebrar la diversidad y promover la inclusión.",
+      "categoria": "otro",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://lp-cms-production.imgix.net/2025-06/shutterstock2584378923.jpg?auto=format,compress&q=72&fit=crop&ar=16:9&w=712&h=400"
+    },
+    {
+      "nombre": "Noche de los Museos",
+      "fecha": "2025-11-07",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Varias instituciones en Puerto Madero.",
+      "descripcion": "Evento cultural donde los museos abren sus puertas de forma gratuita, ofreciendo actividades especiales.",
+      "categoria": "cultural",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://0.academia-photos.com/attachment_thumbnails/118414968/mini_magick20240924-1-ournaz.png?1727197033"
+    }
+  ]
+}

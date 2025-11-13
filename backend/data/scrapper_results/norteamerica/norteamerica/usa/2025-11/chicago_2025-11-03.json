@@ -1,0 +1,291 @@
+{
+  "source": "gemini",
+  "ciudad": "Chicago",
+  "pais": "Estados Unidos",
+  "fecha_consulta": "2025-11-05",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 30,
+  "eventos": [
+    {
+      "numero": 1,
+      "nombre": "Chicago Thanksgiving Parade",
+      "fecha": "2025-11-27",
+      "lugar": "State Street",
+      "genero": "Desfile",
+      "descripcion": "El gran desfile anual que recorre State Street, un evento masivo y tradicional antes de la cena de Acción de Gracias.",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 2,
+      "nombre": "Christkindlmarket",
+      "fecha": "2025-11-21/2025-12-24",
+      "lugar": "Daley Plaza y Wrigleyville",
+      "genero": "Mercado Navideño",
+      "descripcion": "Popular mercado navideño de estilo alemán, muy concurrido para compras, comida y ambiente festivo.",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 3,
+      "nombre": "Lighting Ceremony - Millennium Park",
+      "fecha": "2025-11-21",
+      "lugar": "Millennium Park",
+      "genero": "Evento Festivo",
+      "descripcion": "Encendido del Árbol de Navidad oficial de la ciudad y apertura de la pista de patinaje sobre hielo.",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 4,
+      "nombre": "Magnificent Mile Lights Festival",
+      "fecha": "2025-11-22",
+      "lugar": "Magnificent Mile",
+      "genero": "Festival de Luces",
+      "descripcion": "Desfile nocturno y encendido de las luces de Navidad a lo largo de Magnificent Mile, culminando con fuegos artificiales.",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 5,
+      "nombre": "Holiday Magic en Brookfield Zoo",
+      "fecha": "2025-11-21/2025-12-31",
+      "lugar": "Brookfield Zoo",
+      "genero": "Evento Familiar",
+      "descripcion": "Evento nocturno con millones de luces navideñas, atracciones familiares y actividades en el zoológico.",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 6,
+      "nombre": "Ice Skating at Maggie Daley Park",
+      "fecha": "2025-11-14/2026-03-15",
+      "lugar": "Maggie Daley Park",
+      "genero": "Deportes/Recreación",
+      "descripcion": "Apertura de la popular pista de hielo de cinta en Maggie Daley Park.",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 7,
+      "nombre": "A Christmas Carol",
+      "fecha": "2025-11-15/2025-12-31",
+      "lugar": "Teatro Goodman",
+      "genero": "Teatro",
+      "descripcion": "La tradicional y popular puesta en escena navideña que atrae a miles de espectadores anualmente.",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 8,
+      "nombre": "The Nutcracker - Ballet Joffrey",
+      "fecha": "2025-11-06/2025-11-09",
+      "lugar": "Harris Theater",
+      "genero": "Ballet",
+      "descripcion": "El clásico ballet navideño, una de las producciones de danza más importantes de la ciudad.",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 9,
+      "nombre": "Turkey Trot Chicago",
+      "fecha": "2025-11-27",
+      "lugar": "Chicago",
+      "genero": "Deportes",
+      "descripcion": "Popular carrera de 5K/10K que atrae a miles de corredores antes del festín de Acción de Gracias.",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 10,
+      "nombre": "Quevedo",
+      "fecha": "2025-11-09",
+      "lugar": "Concord Music Hall",
+      "genero": "Concierto",
+      "descripcion": "Concierto de Quevedo.",
+      "categoria": "Música",
+      "artistas": "Quevedo"
+    },
+    {
+      "numero": 11,
+      "nombre": "KJARKAS",
+      "fecha": "2025-11-13",
+      "lugar": "Chicago",
+      "genero": "Concierto",
+      "descripcion": "Concierto de KJARKAS.",
+      "categoria": "Música",
+      "artistas": "KJARKAS"
+    },
+    {
+      "numero": 12,
+      "nombre": "Diego Schoening (de Timbiriche)",
+      "fecha": "2025-11-14",
+      "lugar": "Distro Music Hall, Berwyn",
+      "genero": "Concierto",
+      "descripcion": "Concierto de Diego Schoening de Timbiriche.",
+      "categoria": "Música",
+      "artistas": "Diego Schoening"
+    },
+    {
+      "numero": 13,
+      "nombre": "EL GRAN CARIBE EN CONCIERTO",
+      "fecha": "2025-11-15",
+      "lugar": "Chicago",
+      "genero": "Concierto",
+      "descripcion": "Concierto de música caribeña.",
+      "categoria": "Música"
+    },
+    {
+      "numero": 14,
+      "nombre": "MANOLO, MARIA DE LOS ANGELES, MELA N, LA SONORA DINAMITA",
+      "fecha": "2025-11-21",
+      "lugar": "Chicago",
+      "genero": "Concierto",
+      "descripcion": "Concierto con múltiples artistas latinos.",
+      "categoria": "Música",
+      "artistas": "Manolo, Maria de los Angeles, Mela N, La Sonora Dinamita"
+    },
+    {
+      "numero": 15,
+      "nombre": "Almighty en Chicago",
+      "fecha": "2025-11-22",
+      "lugar": "Chicago",
+      "genero": "Concierto",
+      "descripcion": "Concierto de Almighty.",
+      "categoria": "Música",
+      "artistas": "Almighty"
+    },
+    {
+      "numero": 16,
+      "nombre": "ASKIS, YAGUARU, CONDOR",
+      "fecha": "2025-11-26",
+      "lugar": "Stone Park",
+      "genero": "Concierto",
+      "descripcion": "Concierto de música andina.",
+      "categoria": "Música",
+      "artistas": "Askis, Yaguaru, Condor"
+    },
+    {
+      "numero": 17,
+      "nombre": "Set It Off: The Self Titled Tour",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "House Of Blues - Chicago",
+      "genero": "Concierto",
+      "descripcion": "Tour de Set It Off.",
+      "categoria": "Música",
+      "artistas": "Set It Off"
+    },
+    {
+      "numero": 18,
+      "nombre": "Alessia Cara: Love & Hyperbole Tour",
+      "fecha": "2025-11-06",
+      "lugar": "House of Blues - Music Hall",
+      "genero": "Concierto",
+      "descripcion": "Tour de Alessia Cara.",
+      "categoria": "Música",
+      "artistas": "Alessia Cara"
+    },
+    {
+      "numero": 19,
+      "nombre": "THOUSAND FOOT KRUTCH",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Concord Music Hall",
+      "genero": "Concierto",
+      "descripcion": "Concierto de Thousand Foot Krutch.",
+      "categoria": "Música",
+      "artistas": "Thousand Foot Krutch"
+    },
+    {
+      "numero": 20,
+      "nombre": "Grand Kyiv Ballet - The Nutcracker",
+      "fecha": "2025-11-20",
+      "lugar": "Athenaeum Theater",
+      "genero": "Ballet",
+      "descripcion": "Presentación del ballet El Cascanueces por Grand Kyiv Ballet.",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 21,
+      "nombre": "312 Comedy Festival",
+      "fecha": "2025-11-04/2025-11-09",
+      "lugar": "Múltiples lugares",
+      "genero": "Festival de Comedia",
+      "descripcion": "Festival de comedia de varios días en múltiples lugares de la ciudad.",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 22,
+      "nombre": "Fortune Feimster",
+      "fecha": "2025-11-08",
+      "lugar": "Chicago Theatre",
+      "genero": "Comedia",
+      "descripcion": "Show de comedia de Fortune Feimster.",
+      "categoria": "Entretenimiento",
+      "artistas": "Fortune Feimster"
+    },
+    {
+      "numero": 23,
+      "nombre": "Yoko Ono: Music of the Mind",
+      "fecha": "2025-10-18/2026-02-22",
+      "lugar": "Museo de Arte Contemporáneo (MCA)",
+      "genero": "Exposición",
+      "descripcion": "Gran exposición en el Museo de Arte Contemporáneo.",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 24,
+      "nombre": "Chicago Bears vs. New York Giants",
+      "fecha": "2025-11-09",
+      "lugar": "Soldier Field",
+      "genero": "Deportes",
+      "descripcion": "Partido de la NFL con alta convocatoria.",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 25,
+      "nombre": "Chicago Bears vs. Pittsburgh Steelers",
+      "fecha": "2025-11-23",
+      "lugar": "Soldier Field",
+      "genero": "Deportes",
+      "descripcion": "Partido de la NFL con alta convocatoria.",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 26,
+      "nombre": "Tours de Arquitectura del Río Chicago",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Río Chicago",
+      "genero": "Turismo",
+      "descripcion": "Tours muy populares antes de que el río se congele.",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 27,
+      "nombre": "Visita a los Museos Principales",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Art Institute, Field Museum, Shedd Aquarium, Adler Planetarium",
+      "genero": "Turismo",
+      "descripcion": "Atracciones de alta convocatoria constante.",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 28,
+      "nombre": "Observación en 360 CHICAGO / Skydeck Chicago",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Willis Tower",
+      "genero": "Turismo",
+      "descripcion": "Miradores con gran afluencia de público, especialmente con la llegada de las luces festivas.",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 29,
+      "nombre": "Take Care with Peanuts: The Exhibit",
+      "fecha": "2025-11-05/2026-01-05",
+      "lugar": "Chicago Children's Museum",
+      "genero": "Exhibición Familiar",
+      "descripcion": "Exhibición familiar en el Chicago Children's Museum.",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 30,
+      "nombre": "Candlelight Concerts",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Varios lugares",
+      "genero": "Conciertos",
+      "descripcion": "Conciertos populares con velas que rinden homenaje a artistas como Queen o Coldplay en lugares únicos.",
+      "categoria": "Música"
+    }
+  ],
+  "nota_importante": "Noviembre en Chicago marca la transición al espíritu festivo y de invierno, con eventos icónicos como el Chicago Thanksgiving Parade, Christkindlmarket, Magnificent Mile Lights Festival, y múltiples eventos deportivos de la NFL. La ciudad ofrece tours de arquitectura, museos de clase mundial, y una rica agenda cultural."
+}

@@ -1,0 +1,73 @@
+{
+  "ubicacion": "Mar del Plata, Argentina",
+  "fecha_consulta": "2025-11-02",
+  "fuente": "Gemini AI + Web Search",
+  "eventos_confirmados_o_tradicionales": [
+    {
+      "nombre": "Festival Internacional de Cine de Mar del Plata",
+      "fecha": "2025-11-06",
+      "tipo": "Cultural",
+      "lugar": "Teatro Auditorium, Ambassador, Cinema Los Gallegos, otros",
+      "direccion": "Boulevard Marítimo Patricio Peralta Ramos 2280",
+      "precio": "Variable, según función. Consultar programación.",
+      "hora": "Variable, según función. Consultar programación.",
+      "descripcion": "Evento cinematográfico de renombre internacional. Proyecciones, charlas y eventos especiales.",
+      "url": "https://www.mardelplatafilmfest.com/"
+    },
+    {
+      "nombre": "Campeonato Argentino de Surf",
+      "fecha": "2025-11-05",
+      "tipo": "Deportes",
+      "lugar": "Playa Grande (estimado)",
+      "direccion": "Playa Grande, Mar del Plata",
+      "precio": "Gratis (para espectadores)",
+      "hora": "09:00",
+      "descripcion": "Competencia nacional de surf con los mejores surfistas del país.",
+      "url": "URL del evento no disponible, consultar Asociación de Surf Argentina"
+    },
+    {
+      "nombre": "Feria de Artesanos de Plaza Rocha",
+      "fecha": "2025-11-02",
+      "tipo": "Cultural",
+      "lugar": "Plaza Rocha",
+      "direccion": "Avenida Luro y Peatonal San Martín",
+      "precio": "Gratis",
+      "hora": "10:00",
+      "descripcion": "Feria de artesanos locales con productos hechos a mano.",
+      "url": "No disponible"
+    },
+    {
+      "nombre": "Ciclo de Música Clásica en el Teatro Colón Mar del Plata",
+      "fecha": "2025-11-04",
+      "tipo": "Musica",
+      "lugar": "Teatro Colón Mar del Plata",
+      "direccion": "Hipólito Yrigoyen 1665",
+      "precio": "Desde $1500 (estimado)",
+      "hora": "20:00",
+      "descripcion": "Presentaciones de música clásica por orquestas y solistas.",
+      "url": "URL del evento no disponible, consultar cartelera del teatro"
+    },
+    {
+      "nombre": "Mar del Plata Moda Show (posible)",
+      "fecha": "2025-11-08",
+      "tipo": "Cultural",
+      "lugar": "Escenario Playa Grande (posible)",
+      "direccion": "Playa Grande, Mar del Plata",
+      "precio": "Gratis (Generalmente)",
+      "hora": "20:00 (aproximadamente)",
+      "descripcion": "Desfile de moda con diseñadores y modelos reconocidos. Confirmar fecha.",
+      "url": "Consultar fuentes de noticias locales, aun no disponible"
+    },
+    {
+      "nombre": "Hackathon Mar del Plata (posible)",
+      "fecha": "2025-11-07",
+      "tipo": "Tech",
+      "lugar": "A Confirmar (Universidades locales o espacios de coworking)",
+      "direccion": "A confirmar",
+      "precio": "Gratis (generalmente con inscripción previa)",
+      "hora": "Todo el día (evento de 24-48hs)",
+      "descripcion": "Competencia de programación y desarrollo de software. Consultar por edicion 2025.",
+      "url": "Consultar en universidades locales y comunidades de desarrolladores."
+    }
+  ]
+}

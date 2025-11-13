@@ -1,0 +1,22 @@
+{
+  "country": "Dinamarca",
+  "country_code": "DK",
+  "region": "Europa Septentrional",
+  "cities": [
+    {
+      "name": "Copenhague",
+      "latitude": 55.6761,
+      "longitude": 12.5683
+    },
+    {
+      "name": "Aarhus",
+      "latitude": 56.1629,
+      "longitude": 10.2039
+    },
+    {
+      "name": "Odense",
+      "latitude": 55.4038,
+      "longitude": 10.4024
+    }
+  ]
+}

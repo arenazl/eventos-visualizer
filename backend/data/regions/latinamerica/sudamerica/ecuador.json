@@ -1,0 +1,22 @@
+{
+  "country": "Ecuador",
+  "country_code": "EC",
+  "region": "Sudamérica",
+  "cities": [
+    {
+      "name": "Quito",
+      "latitude": -0.1807,
+      "longitude": -78.4678
+    },
+    {
+      "name": "Guayaquil",
+      "latitude": -2.1894,
+      "longitude": -79.8873
+    },
+    {
+      "name": "Cuenca",
+      "latitude": -2.9001,
+      "longitude": -79.0059
+    }
+  ]
+}

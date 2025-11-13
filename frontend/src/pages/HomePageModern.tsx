@@ -7,6 +7,8 @@ import { EmptyEventsAnimation, EmptyEventsCompact } from '../components/EmptyEve
 import AuthModal from '../components/AuthModal'
 import Header from '../components/Header'
 import ScrapersDetailPanel from '../components/ScrapersDetailPanel'
+import FloatingChat from '../components/FloatingChat'
+import FloatingJuan from '../components/FloatingJuan'
 import { useEvents } from '../stores/EventsStore'
 import { useAuth } from '../contexts/AuthContext'
 import { useAssistants } from '../contexts/AssistantsContext'
@@ -59,6 +61,7 @@ const HomePageModern: React.FC = () => {
     fetchNearbyEvents,
     fetchProvinceEvents,
     autoLoadExpandedEvents,
+    searchMultipleNearbyCities,
     nearbyEventsAvailable,
     nearbyCities,
     nearbyCity,
@@ -93,6 +96,7 @@ const HomePageModern: React.FC = () => {
   const [allEvents, setAllEvents] = useState<any[]>([]) // 🎯 Guardar TODOS los eventos para filtrar localmente
   const [categories, setCategories] = useState<Array<{name: string, count: number}>>([]) // 🏷️ Categorías dinámicas
   const [loadingCategories, setLoadingCategories] = useState(false)
+  const [isDetectingLocation, setIsDetectingLocation] = useState(false)
 
   // 🔒 Ref para prevenir doble ejecución del auto-load inicial
   const hasAutoLoaded = useRef(false)
@@ -184,6 +188,7 @@ const HomePageModern: React.FC = () => {
       if (!locationDetected) {
         console.log('🌍 Iniciando detección de ubicación...')
         hasAutoLoaded.current = true // 🔒 Marcar como ejecutado
+        setIsDetectingLocation(true) // Mostrar loading state
 
         try {
           let detectedLocation: Location | null = null
@@ -207,8 +212,10 @@ const HomePageModern: React.FC = () => {
               )
               const reverseData = await reverseResponse.json()
 
+              let cityName = 'Buenos Aires'
+
               detectedLocation = {
-                name: reverseData.address.city || reverseData.address.town || reverseData.address.state || 'Buenos Aires',
+                name: cityName,
                 coordinates: { lat: position.coords.latitude, lng: position.coords.longitude },
                 country: reverseData.address.country,
                 detected: 'gps'
@@ -243,13 +250,14 @@ const HomePageModern: React.FC = () => {
           // ⏳ Pequeño delay para asegurar que el store se actualizó
           await new Promise(resolve => setTimeout(resolve, 100))
 
-          // 4. ✨ USAR STREAMING EN LUGAR DE LLAMADA TRADICIONAL
-          console.log('🔍 [INIT] Iniciando búsqueda streaming para:', detectedLocation.name)
-          console.log('🔍 [INIT] currentLocation antes de streaming:', currentLocation?.name)
-          await startStreamingSearch(detectedLocation)
+          // 4. 🌍 BUSCAR EN MÚLTIPLES CIUDADES CERCANAS
+          console.log('🔍 [INIT] Iniciando búsqueda multi-ciudad para:', detectedLocation.name)
+          console.log('🔍 [INIT] currentLocation antes de búsqueda:', currentLocation?.name)
+          await searchMultipleNearbyCities(detectedLocation)
 
-          console.log('✅ [INIT] Streaming completado, marcando location como detectada')
+          console.log('✅ [INIT] Búsqueda multi-ciudad completada, marcando location como detectada')
           setLocationDetected(true)
+          setIsDetectingLocation(false) // Ocultar loading state
         } catch (error) {
           console.error('❌ Error detectando ubicación:', error)
           // Fallback a ubicación por defecto
@@ -261,8 +269,9 @@ const HomePageModern: React.FC = () => {
           }
           console.log('🔄 Usando ubicación por defecto:', fallbackLocation.name)
           setLocation(fallbackLocation)
-          await startStreamingSearch(fallbackLocation)
+          await searchMultipleNearbyCities(fallbackLocation)
           setLocationDetected(true)
+          setIsDetectingLocation(false) // Ocultar loading state
         }
       }
     }
@@ -798,6 +807,27 @@ const HomePageModern: React.FC = () => {
       {/* CONTENIDO PRINCIPAL - padding reducido en mobile */}
       <main className="pt-16 px-2 sm:px-4 lg:px-8">
         <div className="max-w-7xl mx-auto">
+          {/* Loading inicial - Detectando ubicación */}
+          {isDetectingLocation && (
+            <div className="mb-6 bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-orange-500/20 backdrop-blur-xl border border-white/20 rounded-2xl p-6 animate-pulse">
+              <div className="flex items-center justify-center gap-3">
+                <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <div className="text-white">
+                  <p className="font-semibold">Detectando tu ubicación...</p>
+                  <p className="text-sm text-white/70 mt-1">{streamingMessage || 'Buscando ciudades cercanas'}</p>
+                </div>
+              </div>
+              {streamingProgress > 0 && (
+                <div className="mt-4 w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 transition-all duration-300"
+                    style={{ width: `${streamingProgress}%` }}
+                  ></div>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Smart Location Bar */}
           <SmartLocationBar
             onLocationChange={handleLocationChange}
@@ -821,6 +851,13 @@ const HomePageModern: React.FC = () => {
                 </p>
               </div>
             )}
+
+            {/* Header de Categorías */}
+            <div className="text-center mb-3">
+              <p className="text-white/60 text-sm font-medium">
+                🏷️ Categorías
+              </p>
+            </div>
 
             {/* Una sola fila - iconos en mobile, texto en desktop */}
             <div className="flex gap-2 md:gap-3 overflow-x-auto md:overflow-visible scrollbar-hide pb-2 md:flex-wrap md:justify-center">
@@ -892,6 +929,47 @@ const HomePageModern: React.FC = () => {
                 })
               )}
             </div>
+
+            {/* Botones de ciudades cercanas - justo después de categorías */}
+            {nearbyCities.length > 0 && (
+              <div className="mt-4 flex justify-center">
+                <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl px-4 py-3 inline-flex flex-col items-center gap-2">
+                  <span className="text-white/60 text-xs">📍 Ciudades cercanas</span>
+                  <div className="flex gap-2 flex-wrap justify-center">
+                    {/* Ciudad actual */}
+                    <button
+                      className="px-3 py-1.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg text-xs font-medium shadow-lg cursor-default"
+                    >
+                      {currentLocation?.name}
+                    </button>
+
+                    {/* Ciudades cercanas */}
+                    {nearbyCities.slice(0, 4).map((city, idx) => (
+                      <button
+                        key={idx}
+                        onClick={async () => {
+                          console.log(`🏙️ Cambiando a ciudad: ${city}`)
+                          setIsSearchButtonSpinning(true)
+
+                          if (events.length > 0) {
+                            setIsEventsFadingOut(true)
+                            await new Promise(resolve => setTimeout(resolve, 300))
+                          }
+
+                          await searchSpecificCity(city, true)
+
+                          setIsEventsFadingOut(false)
+                          setIsSearchButtonSpinning(false)
+                        }}
+                        className="px-3 py-1.5 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-lg text-xs font-medium hover:bg-white/20 hover:border-white/30 transform hover:scale-105 transition-all duration-200"
+                      >
+                        {city}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* ❌ MENSAJES AUTO-LOAD ELIMINADOS - Ya no se auto-cargan eventos expandidos */}
@@ -930,7 +1008,7 @@ const HomePageModern: React.FC = () => {
 
 
           {/* Events Stats */}
-          <div className="mb-8 flex justify-center">
+          <div className="mb-8 flex flex-col items-center gap-3">
             <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl px-6 py-3 inline-flex items-center gap-6">
               <div className="text-white">
                 <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
@@ -1013,14 +1091,56 @@ const HomePageModern: React.FC = () => {
 
               <div className={`grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-6 pb-20 transition-all duration-300 ${isEventsFadingOut ? 'opacity-20 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'
                 }`}>
-                {events
-                  .filter(event => {
-                    // 1️⃣ Filtrar eventos sin título o con "Sin título"
-                    if (!event.title || event.title.trim() === '' ||
-                        event.title.toLowerCase() === 'sin título' ||
-                        event.title.toLowerCase() === 'sin titulo') {
-                      return false
+                {(() => {
+                  // 🔥 DEDUPLICACIÓN MEJORADA: Agrupar por título + venue, mostrar rango de horarios
+                  const eventsGroupMap = new Map()
+
+                  events.forEach(event => {
+                    // Clave sin horario (solo título + venue)
+                    const groupKey = `${event.title}-${event.venue_name || ''}`
+
+                    if (!eventsGroupMap.has(groupKey)) {
+                      eventsGroupMap.set(groupKey, [event])
+                    } else {
+                      eventsGroupMap.get(groupKey).push(event)
                     }
+                  })
+
+                  // Procesar grupos: si hay múltiples horarios, usar rango
+                  const uniqueEvents = Array.from(eventsGroupMap.values()).map(group => {
+                    if (group.length === 1) {
+                      return group[0]
+                    }
+
+                    // Múltiples eventos con mismo título + venue → Calcular rango de horarios
+                    const sortedByTime = group
+                      .filter(e => e.start_datetime)
+                      .sort((a, b) => new Date(a.start_datetime).getTime() - new Date(b.start_datetime).getTime())
+
+                    if (sortedByTime.length === 0) return group[0]
+
+                    // Tomar el primer evento como base
+                    const mergedEvent = { ...sortedByTime[0] }
+
+                    // Si hay múltiples horarios, crear un campo especial para el rango
+                    if (sortedByTime.length > 1) {
+                      mergedEvent.start_datetime = sortedByTime[0].start_datetime // Hora más temprana
+                      mergedEvent.end_datetime = sortedByTime[sortedByTime.length - 1].start_datetime // Hora más tardía
+                      mergedEvent.has_multiple_times = true // Flag para el componente
+                    }
+
+                    return mergedEvent
+                  })
+
+
+                  return uniqueEvents
+                    .filter(event => {
+                      // 1️⃣ Filtrar eventos sin título o con "Sin título"
+                      if (!event.title || event.title.trim() === '' ||
+                          event.title.toLowerCase() === 'sin título' ||
+                          event.title.toLowerCase() === 'sin titulo') {
+                        return false
+                      }
 
                     // 2️⃣ Filtrar por categoría si no es "Todos"
                     if (activeCategory !== 'Todos') {
@@ -1066,21 +1186,25 @@ const HomePageModern: React.FC = () => {
 
                     return true
                   })
-                  .map((event, index) => (
-                  <div
-                    key={event.title + '-' + index}
-                    className={`${isEventsFadingOut
-                      ? 'opacity-20'
-                      : 'opacity-0 animate-fade-in-up'
-                      }`}
-                    style={{
-                      animationDelay: isEventsFadingOut ? '0s' : `${(index % 6) * 0.1}s`,
-                      animationFillMode: 'forwards'
-                    }}
-                  >
-                    <EventCardModern event={event} />
-                  </div>
-                ))}
+                  .map((event, index) => {
+                    const uniqueKey = `${event.title}-${event.start_datetime}-${event.venue_name || ''}-${index}`
+                    return (
+                      <div
+                        key={uniqueKey}
+                        className={`${isEventsFadingOut
+                          ? 'opacity-20'
+                          : 'opacity-0 animate-fade-in-up'
+                          }`}
+                        style={{
+                          animationDelay: isEventsFadingOut ? '0s' : `${(index % 6) * 0.1}s`,
+                          animationFillMode: 'forwards'
+                        }}
+                      >
+                        <EventCardModern event={event} />
+                      </div>
+                    )
+                  })
+                })()}
 
                 {/* Show skeleton cards while streaming */}
                 {isStreaming && (
@@ -1134,6 +1258,10 @@ const HomePageModern: React.FC = () => {
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
       />
+
+      {/* Floating Assistants with Grok */}
+      <FloatingChat />
+      <FloatingJuan />
     </div>
   )
 }

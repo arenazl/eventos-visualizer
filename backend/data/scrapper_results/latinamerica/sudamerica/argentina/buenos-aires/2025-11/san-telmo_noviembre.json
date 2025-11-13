@@ -1,0 +1,126 @@
+{
+  "barrio": "San Telmo",
+  "comuna": 1,
+  "zona": "Sur",
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "fuente": "Gemini AI",
+  "prompt_usado": "que hay para hacer, eventos, fiestas en el barrio San Telmo, CABA, Buenos Aires, argentina desde hoy a fin de mes, que se sepa la fecha, lugar, etc",
+  "descripcion": "Eventos, fiestas y actividades en el barrio San Telmo para noviembre 2025",
+  "eventos": [
+    {
+      "nombre": "Feria de San Telmo",
+      "fecha": "Todos los Domingos (9, 16, 23, 30 de Noviembre)",
+      "hora": "Todo el día",
+      "lugar": "Plaza Dorrego y Calle Defensa",
+      "descripcion": "Feria tradicional de antigüedades y artesanías con shows de tango y arte callejero",
+      "categoria": "cultural",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/1c/96/c3/muito-legal-com-muitas.jpg"
+    },
+    {
+      "nombre": "Virginia Innocenti - Canta a Gabo Ferro",
+      "fecha": "2025-11-09",
+      "hora": "21:00 hs",
+      "lugar": "La Carbonera",
+      "direccion": "Carlos Calvo 299",
+      "descripcion": "Concierto dedicado a Gabo Ferro y otras cositas nuestras",
+      "categoria": "musica",
+      "image_url": "https://imagenes.passline.com/eventos/-613642-rec.jpg"
+    },
+    {
+      "nombre": "Rodrigo Flores & The Ratpackers Big Band",
+      "fecha": "2025-11-19",
+      "hora": "21:00 hs",
+      "lugar": "La Carbonera",
+      "direccion": "Carlos Calvo 299",
+      "descripcion": "Show de Big Band",
+      "categoria": "musica",
+      "image_url": "https://imagenes.passline.com/eventos/rodrigo-flores-the-ratpackers-big-band-444233-rec.jpg"
+    },
+    {
+      "nombre": "Buenos Aires Rojo Sangre",
+      "fecha_inicio": "2025-11-20",
+      "fecha_fin": "2025-11-30",
+      "hora": "Consultar programación",
+      "lugar": "Múltiples sedes en CABA",
+      "descripcion": "Festival internacional de cine de terror, fantástico y bizarro",
+      "categoria": "cine",
+      "image_url": "https://turismo.buenosaires.gob.ar/sites/turismo/files/field/image/bsas-rojo-sangre1500x610_0.jpg"
+    },
+    {
+      "nombre": "WoM Covers de Época",
+      "fecha": "2025-11-23",
+      "hora": "21:00 hs",
+      "lugar": "La Carbonera",
+      "direccion": "Carlos Calvo 299",
+      "descripcion": "Covers de música de época",
+      "categoria": "musica",
+      "image_url": "https://imagenes.passline.com/eventos/wom-covers-de-epoca-en-la-carbonera-437702-rec.jpg"
+    },
+    {
+      "nombre": "Nina Suárez a voz y guitarra",
+      "fecha": "2025-11-26",
+      "hora": "21:00 hs",
+      "lugar": "La Carbonera",
+      "direccion": "Carlos Calvo 299",
+      "descripcion": "Show íntimo de voz y guitarra",
+      "categoria": "musica",
+      "image_url": "https://imagenes.passline.com/eventos/nina-suarez-a-voz-y-guitarra-en-san-telmo-437700-rec.jpg"
+    },
+    {
+      "nombre": "Azabachería",
+      "fecha": "2025-11-27",
+      "hora": "21:00 hs",
+      "lugar": "La Carbonera",
+      "direccion": "Carlos Calvo 299",
+      "descripcion": "Concierto",
+      "categoria": "musica",
+      "image_url": "https://es.wikipedia.org/wiki/Archivo:Plaza_de_la_Azabacher%C3%ADa,_Santiago_de_Compostela.jpg"
+    },
+    {
+      "nombre": "Noche de los Templos",
+      "fecha": "2025-11-29",
+      "hora": "Horario nocturno",
+      "lugar": "Múltiples templos en CABA",
+      "descripcion": "Recorrido nocturno con visitas guiadas y actividades especiales en templos de diferentes cultos",
+      "categoria": "cultural",
+      "image_url": "https://resizer.glanacion.com/resizer/v2/la-noche-de-los-templos-2024-sera-este-sabado-14-DWFSPSNOVZCE5A74FWAJPV4TI4.JPG"
+    },
+    {
+      "nombre": "Adrián Iaies Trío",
+      "fecha": "2025-11-30",
+      "hora": "21:00 hs",
+      "lugar": "La Carbonera",
+      "direccion": "Carlos Calvo 299",
+      "descripcion": "Show de jazz",
+      "categoria": "musica",
+      "image_url": "https://cultura.amia.org.ar/wp-content/uploads/2021/02/Adrian-Iaies.jpg"
+    }
+  ],
+  "lugares_destacados": [
+    {
+      "nombre": "Rey Castro",
+      "direccion": "Perú 350",
+      "tipo": "disco",
+      "descripcion": "Disco con música cachengue, cumbia, cuarteto y pop"
+    },
+    {
+      "nombre": "Sticky",
+      "direccion": "Perú 535 - Club Museum",
+      "tipo": "evento",
+      "descripcion": "Evento de Reggaetón dos jueves al mes"
+    },
+    {
+      "nombre": "Syria",
+      "direccion": "Salta 335",
+      "tipo": "boliche",
+      "descripcion": "Boliche para mayores de 25 con cena y cachengue"
+    },
+    {
+      "nombre": "Mercado de San Telmo",
+      "tipo": "mercado",
+      "descripcion": "Mercado con puestos de frutas, verduras, antigüedades y gastronomía"
+    }
+  ]
+}

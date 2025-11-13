@@ -1,0 +1,40 @@
+{
+  "eventos": [
+    {
+      "nombre": "Semana del Patrimonio",
+      "fecha": "2025-11-13",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Varios lugares",
+      "descripcion": "Actividades culturales para explorar el patrimonio porteño, incluyendo visitas a archivos y museos.",
+      "categoria": "cultural",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/18/88/85/c5/fb-img-1564297381043.jpg?w=900&h=500&s=1"
+    },
+    {
+      "nombre": "Conciertos en el ciclo Antidomingos",
+      "fecha": "2025-11-12",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Centro Cultural Recoleta",
+      "descripcion": "Conciertos en un ambiente relajado, ideales para disfrutar de la música en vivo.",
+      "categoria": "música",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3300671068867171535"
+    },
+    {
+      "nombre": "Día de Muertos",
+      "fecha": "2025-11-02",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Centro Cultural Recoleta",
+      "descripcion": "Celebración cultural con actividades y exposiciones en honor a esta tradición mexicana.",
+      "categoria": "cultural",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://uchealth-wp-uploads.s3.amazonaws.com/wp-content/uploads/sites/6/2023/10/15103750/DCC-L-DayDead317-longmont-web-1.webp"
+    }
+  ]
+}

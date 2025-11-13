@@ -1,0 +1,22 @@
+{
+  "country": "Irlanda",
+  "country_code": "IE",
+  "region": "Europa Septentrional",
+  "cities": [
+    {
+      "name": "Dublín",
+      "latitude": 53.3498,
+      "longitude": -6.2603
+    },
+    {
+      "name": "Cork",
+      "latitude": 51.8969,
+      "longitude": -8.4863
+    },
+    {
+      "name": "Galway",
+      "latitude": 53.2707,
+      "longitude": -9.0568
+    }
+  ]
+}

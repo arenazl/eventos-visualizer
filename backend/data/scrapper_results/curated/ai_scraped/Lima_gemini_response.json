@@ -1,0 +1,12 @@
+{
+  "region": "Lima",
+  "country": "Perú",
+  "source": "gemini",
+  "timestamp": "2025-11-09T07:40:00",
+  "eventos": [
+    {"nombre": "Geek Festival 2025", "ciudad": "Lima (San Miguel)", "fecha": "Viernes, 14 al Domingo, 16 de Noviembre de 2025", "descripcion": "En el Parque de la Exposición. Un festival enfocado en la cultura pop, cómics, videojuegos, cine y más."},
+    {"nombre": "35° Aniversario de Dina Paucar", "ciudad": "Lima (Los Olivos)", "fecha": "Domingo, 16 de Noviembre de 2025", "descripcion": "En el Huaralino. Un gran evento de folklore y música popular con la reconocida cantante Dina Páucar en El Huaralino Internacional."},
+    {"nombre": "Ghibli en Concierto en Perú", "ciudad": "Lima (Barranco)", "fecha": "Martes, 11 de Noviembre de 2025", "descripcion": "En el Teatro Nós. Un homenaje musical a las películas del Studio Ghibli."},
+    {"nombre": "All You Can Wine", "ciudad": "Lima (La Molina)", "fecha": "Viernes, 14 de Noviembre de 2025", "descripcion": "En el Parque Zonal Sinchi Roca (Comas). Aunque el snippet lo sitúa en Comas, otra fuente indica el parque Sinchi Roca en Comas, puede ser un evento de degustación de vinos."}
+  ]
+}

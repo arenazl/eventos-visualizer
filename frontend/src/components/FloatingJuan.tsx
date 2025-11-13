@@ -272,13 +272,13 @@ const FloatingJuan: React.FC = () => {
   return (
     <div className="fixed bottom-4 left-4 md:bottom-6 md:left-6 z-50">
       <div className="relative group">
-        {/* Toggle Button */}
+        {/* Toggle Button Modernizado */}
         <button
           onClick={() => setJuanEnabled(!juanEnabled)}
-          className={`absolute -top-2 -right-2 md:-top-3 md:-right-3 w-5 h-5 md:w-6 md:h-6 rounded-full text-xs font-bold transition-all duration-300 ${
+          className={`absolute -top-1 -right-1 md:-top-2 md:-right-2 w-6 h-6 md:w-7 md:h-7 rounded-full text-xs font-bold transition-all duration-300 backdrop-blur-xl border-2 z-10 shadow-lg ${
             juanEnabled
-              ? 'bg-green-500 text-white hover:bg-green-600'
-              : 'bg-gray-400 text-white hover:bg-gray-500'
+              ? 'bg-gradient-to-br from-teal-400 to-cyan-600 border-white/30 text-white hover:scale-110 hover:shadow-teal-500/50'
+              : 'bg-gray-500/80 border-gray-400/50 text-white/70 hover:bg-gray-400/80'
           }`}
           title={juanEnabled ? 'Desactivar Juan' : 'Activar Juan'}
         >
@@ -292,16 +292,24 @@ const FloatingJuan: React.FC = () => {
           onMouseLeave={() => {
             // Juan solo comenta sobre eventos reales, no tips hardcodeados
           }}
-          className={`relative transform transition-all duration-300 animate-bounce ${
+          className={`relative transform transition-all duration-500 ${
             juanEnabled
-              ? 'hover:scale-110 drop-shadow-2xl'
-              : 'opacity-50 cursor-not-allowed'
+              ? 'hover:scale-110 animate-float'
+              : 'opacity-40 cursor-not-allowed grayscale'
           }`}
           disabled={!juanEnabled}
         >
-          {/* Juan - Simple Emoji Avatar */}
-          <div className="relative w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full flex items-center justify-center shadow-2xl">
-            <span className="text-5xl md:text-6xl">🧑‍💼</span>
+          {/* Glow effect exterior */}
+          <div className={`absolute -inset-2 bg-gradient-to-br from-cyan-400 via-blue-500 to-cyan-600 rounded-full blur-xl transition-opacity duration-500 ${
+            juanEnabled ? 'opacity-60 group-hover:opacity-90' : 'opacity-0'
+          }`}></div>
+
+          {/* Juan Avatar Modernizado */}
+          <div className="relative w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-cyan-400 via-blue-500 to-cyan-600 rounded-full flex items-center justify-center shadow-2xl overflow-hidden border-4 border-white/20 backdrop-blur-xl">
+            {/* Brillo animado */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-transparent animate-pulse"></div>
+            {/* Emoji */}
+            <span className="relative text-5xl md:text-6xl filter drop-shadow-lg">🧑‍💼</span>
           </div>
 
         </button>

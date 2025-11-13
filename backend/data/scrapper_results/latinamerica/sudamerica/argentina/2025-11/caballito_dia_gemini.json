@@ -1,0 +1,76 @@
+{
+  "eventos": [
+    {
+      "nombre": "Feria del Libro y Discos Usados en Parque Rivadavia",
+      "fecha": "2025-11-15",
+      "hora_inicio": "10:00",
+      "hora_fin": "19:00",
+      "lugar": "Parque Rivadavia, Caballito",
+      "descripcion": "La feria más grande y tradicional del barrio. Punto de encuentro para coleccionistas y lectores, donde se venden libros usados, revistas, cómics y discos de vinilo y CD. Sábados y domingos",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "diario",
+      "image_url": "https://buenosaires.gob.ar/sites/default/files/media/image/2021/08/10/3f11be7366278aa6db9a520357c1c3875a2fb7d0.jpg"
+    },
+    {
+      "nombre": "Feria de Artesanos y Emprendedores en Parque Centenario",
+      "fecha": "2025-11-15",
+      "hora_inicio": "10:00",
+      "hora_fin": "19:00",
+      "lugar": "Parque Centenario (límite con Caballito)",
+      "descripcion": "Espacio de gran convocatoria que ofrece una variada feria de artesanos, productos de diseño y opciones gastronómicas. Sábados y domingos",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "diario",
+      "image_url": "https://buenosaires.gob.ar/sites/default/files/media/image/2021/06/16/3eb51dee903e101fcc11f21499a376c1a8a1123a.jpg"
+    },
+    {
+      "nombre": "La Noche de los Alfajores",
+      "fecha": "2025-11-14",
+      "hora_inicio": "todo el día",
+      "hora_fin": null,
+      "lugar": "Panaderías y confiterías de Caballito",
+      "descripcion": "Evento gastronómico que celebra el alfajor argentino. Participan panaderías y confiterías del barrio con degustaciones y descuentos especiales",
+      "categoria": "gastronomía",
+      "precio": "Gratis",
+      "estado": "confirmado",
+      "image_url": "https://www.canal26.com/resizer/v2/L5Y4GIHSJZCVTPDZT3TRCDLSCU.jpg"
+    },
+    {
+      "nombre": "Museo de Ciencias Naturales Bernardino Rivadavia",
+      "fecha": "2025-11-01",
+      "hora_inicio": "14:00",
+      "hora_fin": "19:00",
+      "lugar": "Parque Centenario, Caballito",
+      "descripcion": "Museo ícono del barrio con exposiciones de dinosaurios, fauna y colecciones de minerales. Ofrece visitas guiadas y actividades educativas especiales",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "diario",
+      "image_url": "https://es.wikipedia.org/wiki/Archivo:Museo_de_Ciencias_Naturales_Bernardino_Rivadavia.JPG"
+    },
+    {
+      "nombre": "Ciclo de Cine Independiente en el Espacio INCAA",
+      "fecha": "2025-11-01",
+      "hora_inicio": "18:00",
+      "hora_fin": "22:00",
+      "lugar": "Cine Teatro 25 de Mayo (cercano a Caballito)",
+      "descripcion": "Proyecta cine nacional e independiente a precios accesibles. Noviembre trae estrenos de fin de año",
+      "categoria": "cultura-turismo",
+      "precio": "$2000",
+      "estado": "diario",
+      "image_url": "https://www.recursosculturales.com/wp-content/uploads/2020/09/festivales-independientes.jpg"
+    },
+    {
+      "nombre": "Recorridos a Pie por el Casco Histórico de Caballito",
+      "fecha": "2025-11-01",
+      "hora_inicio": "11:00",
+      "hora_fin": "13:00",
+      "lugar": "Punto de inicio: Plaza Caballito",
+      "descripcion": "Caminatas guiadas que exploran la historia del tranvía, la arquitectura de las casonas antiguas y los pasajes del barrio",
+      "categoria": "cultura-turismo",
+      "precio": "$3000",
+      "estado": "diario",
+      "image_url": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-674x446/09/74/6d/c7.jpg"
+    }
+  ]
+}

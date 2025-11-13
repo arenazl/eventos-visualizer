@@ -1,0 +1,64 @@
+{
+  "ciudad": "El Pireo",
+  "pais": "Grecia",
+  "mes": "noviembre",
+  "anio": 2025,
+  "eventos": [
+    {
+      "nombre": "Aniversario de la Revuelta Politécnica de Atenas de 1973 (cercano a El Pireo)",
+      "fecha": "2025-11-17",
+      "hora_inicio": "durante el día (manifestaciones/conciertos suelen ser por la mañana/tarde)",
+      "hora_fin": null,
+      "lugar": "Atenas (zona de la Universidad Politécnica)",
+      "descripcion": "Aunque no es una fiesta, es una fecha importante que puede influir en la actividad y el ambiente en la zona de Atenas y El Pireo. Se conmemora con marchas y se recuerdan la lucha contra la dictadura militar. Aunque el epicentro está en Atenas, es una fecha nacional importante",
+      "categoria": "conmemoracion-civico",
+      "precio": "gratis (participación)",
+      "estado": "confirmado",
+      "image_url": "https://www.panoramagriego.gr/wp-content/uploads/sites/5/2016/11/politechnieo_1.jpg"
+    }
+  ],
+  "actividades_permanentes": [
+    {
+      "nombre": "Museo Arqueológico de El Pireo",
+      "ubicacion": "Charilaou Trikoupi",
+      "categoria": "museo-historia",
+      "horario_tipico": "cierra los martes (verfa, según temporada)",
+      "precio_tipico": "variable",
+      "descripcion": "Dedicado a la rica historia naval de Grecia y del Mediterráneo. Exhibe artefactos y hallazgos marinos de la región del Pireo"
+    },
+    {
+      "nombre": "Museo Marítimo Helénico",
+      "ubicacion": "Akti Themistokleous, Piraeus",
+      "categoria": "museo-maritimo",
+      "horario_tipico": "9:00 a 14:00 (cierra domingos, lunes y festivos)",
+      "precio_tipico": "general: 4 EUR",
+      "descripcion": "Dedicado a la rica historia naval de Grecia y del Mediterráneo"
+    },
+    {
+      "nombre": "Teatro Municipal de El Pireo",
+      "ubicacion": "Plaza Korai (Plateia Korai)",
+      "categoria": "arquitectura-cultural",
+      "horario_tipico": "varies, al evento/POR confirmación de eventos",
+      "precio_tipico": null,
+      "descripcion": "Impresionante edificio neoclásico. Importante centro cultural del Pireo. Revisa la programación específica para posibles espectáculos"
+    },
+    {
+      "nombre": "Paseo por Mikrolimano",
+      "ubicacion": "Pequeño puerto al este de El Pireo",
+      "categoria": "recreacion-ocio",
+      "horario_tipico": "todo el día",
+      "precio_tipico": "gratis",
+      "descripcion": "Zona encantadora con tabernas y restaurantes alrededor de un pequeño puerto. Ideal para pasear y disfrutar de vistas"
+    },
+    {
+      "nombre": "Marina Zeas",
+      "ubicacion": "Marina de Yates",
+      "categoria": "recreacion-ocio",
+      "horario_tipico": "todo el día",
+      "precio_tipico": "gratis",
+      "descripcion": "Paseo por la Marina de Yates con vistas a las embarcaciones y vista a las bahía y yates, cerca del Museo Marítimo Helénico"
+    }
+  ],
+  "consejo_para_fiestas": "Para encontrar fiestas, conciertos o eventos puntuales con fecha y hora exacta, te recomiendo buscar en la siguiente plataforma a medida que se acerque noviembre, consultando la programación de:\n\n- Teatro Municipal de El Pireo: Suele tener eventos culturales (teatro, música, etc.)\n- Bares y tabernas en Mikrolimano y Marina Zeas: A menudo ofrecen música en vivo y ambiente nocturno\n- Sitios web de turismo local en Atenas y El Pireo: Buscar 'Piraeus events November 2025' o 'Athens events November 2025' a partir de septiembre u octubre",
+  "nota": "La búsqueda de eventos puntuales con todos esos detalles para un período futuro (noviembre de 2025) en El Pireo no ha arrojado resultados de eventos o fiestas específicos con horarios y precios definidos. Es común que la programación cultural detallada se publique con menos antelación."
+}

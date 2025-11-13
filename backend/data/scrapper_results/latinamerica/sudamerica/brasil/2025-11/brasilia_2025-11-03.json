@@ -1,0 +1,318 @@
+{
+  "source": "gemini",
+  "ciudad": "Brasília",
+  "pais": "Brasil",
+  "fecha_consulta": "2025-11-05",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 30,
+  "eventos": [
+    {
+      "numero": 1,
+      "nombre": "Linkin Park - From Zero World Tour",
+      "fecha": "2025-11-11",
+      "lugar": "Arena BRB Mané Garrincha",
+      "genero": "Show Musical",
+      "descripcion": "Tour mundial de Linkin Park en Brasília.",
+      "categoria": "Música",
+      "artistas": "Linkin Park",
+      "image_url": "https://www.premiertickets.co/assets/uploads/2025/08/LINKIN-PARK-From-Zero-World-Tour-2025.jpg"
+    },
+    {
+      "numero": 2,
+      "nombre": "Marisa Monte",
+      "fecha": "2025-11-29",
+      "lugar": "Gramado do Eixo Cultural Íbero-americano / Clube do Choro",
+      "genero": "Show Musical",
+      "descripcion": "Concierto de Marisa Monte en Brasília.",
+      "categoria": "Música",
+      "artistas": "Marisa Monte",
+      "image_url": "https://i.scdn.co/image/ab6761610000e5ebdf680c991c829899faf1283c"
+    },
+    {
+      "numero": 3,
+      "nombre": "Guns N' Roses",
+      "fecha": "2025-11-02",
+      "lugar": "Arena BRB Mané Garrincha",
+      "genero": "Show Musical",
+      "descripcion": "Show de Guns N' Roses en Brasília.",
+      "categoria": "Música",
+      "artistas": "Guns N' Roses",
+      "image_url": "https://thisis-images.spotifycdn.com/37i9dQZF1DZ06evO1Ziym4-default.jpg"
+    },
+    {
+      "numero": 4,
+      "nombre": "Maiara & Maraisa - Turnê In Concert",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Arena BRB Nilson Nelson",
+      "genero": "Show Musical",
+      "descripcion": "Turnê de Maiara & Maraisa en Brasília.",
+      "categoria": "Música",
+      "artistas": "Maiara & Maraisa",
+      "image_url": "https://brasilia.deboa.com/wp-content/uploads/2024/03/Maiara-e-Maraisa-In-Concert-Bras%C3%ADlia_DeBoa-Bras%C3%ADlia.jpg"
+    },
+    {
+      "numero": 5,
+      "nombre": "Rock In House – Festival",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Brasília",
+      "genero": "Festival Musical",
+      "descripcion": "Festival de rock en Brasília.",
+      "categoria": "Música",
+      "image_url": "https://res.cloudinary.com/graham-media-group/image/upload/f_auto/q_auto/c_scale,w_640/v1/media/gmg/3TVSYHEW5JBQXGU6SROAYV3LRA.jpg?_a=DAJHqpE+ZAAA"
+    },
+    {
+      "numero": 6,
+      "nombre": "Festival Estilo Brasil",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Varios lugares",
+      "genero": "Festival Cultural",
+      "descripcion": "Festival de 3 meses que incluye eventos en noviembre.",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3749080295949888587"
+    },
+    {
+      "numero": 7,
+      "nombre": "Baile Lotadão c/ Victor Lou & Dj GBR",
+      "fecha": "2025-11-08",
+      "lugar": "Fabrica 040",
+      "genero": "Show Musical/Baile",
+      "descripcion": "Baile con DJ y artista local.",
+      "categoria": "Música",
+      "artistas": "Victor Lou, Dj GBR",
+      "image_url": "https://images.sympla.com.br/68c02d2b56266-xs.png"
+    },
+    {
+      "numero": 8,
+      "nombre": "Quinta Aumentada Instrumental de Novembro",
+      "fecha": "2025-11-13",
+      "lugar": "Clube do Choro de Brasília",
+      "genero": "Show Musical",
+      "descripcion": "Show instrumental en el Clube do Choro.",
+      "categoria": "Música",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/instagram/DQumR64j955/0/image.jpg"
+    },
+    {
+      "numero": 9,
+      "nombre": "Projeto Sola",
+      "fecha": "2025-10-31/2025-11-07",
+      "lugar": "Lagoinha Brasilia Capital",
+      "genero": "Cultural/Religioso",
+      "descripcion": "Proyecto cultural/religioso de finales de octubre a principios de noviembre.",
+      "categoria": "Cultural",
+      "image_url": "https://photos.bandsintown.com/large/23364081.jpeg"
+    },
+    {
+      "numero": 10,
+      "nombre": "Dani Black",
+      "fecha": "2025-11-06",
+      "lugar": "Clube do Choro de Brasília",
+      "genero": "Show Musical",
+      "descripcion": "Concierto de Dani Black.",
+      "categoria": "Música",
+      "artistas": "Dani Black",
+      "image_url": "https://i.ytimg.com/vi/pvH5z0ckd0I/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AH-CYAC0AWKAgwIABABGDkgEyh_MA8=&rs=AOn4CLCnGhMlsHVJvjtmYAIX_wKuA6A7Ag"
+    },
+    {
+      "numero": 11,
+      "nombre": "Poppy",
+      "fecha": "2025-11-11",
+      "lugar": "Arena BRB Mané Garrincha",
+      "genero": "Show Musical",
+      "descripcion": "Show de Poppy en Brasília.",
+      "categoria": "Música",
+      "artistas": "Poppy",
+      "image_url": "https://s1.ticketm.net/dam/a/dea/efcfbbd4-0de4-4de8-bd9b-5d5042ff7dea_RETINA_PORTRAIT_3_2.jpg"
+    },
+    {
+      "numero": 12,
+      "nombre": "Maratón Monumental de Brasilia",
+      "fecha": "2025-11-23",
+      "lugar": "Explanada dos Ministerios / Eje Monumental",
+      "genero": "Deportes",
+      "descripcion": "Maratón tradicional de Brasília con gran convocatoria.",
+      "categoria": "Deportes",
+      "image_url": "https://www.shutterstock.com/image-photo/brazil-june-25-2024-esplanade-260nw-2591717851.jpg"
+    },
+    {
+      "numero": 13,
+      "nombre": "Mega Drift Brasil – Final da Temporada",
+      "fecha": "2025-11-08/2025-11-09",
+      "lugar": "Parque da Cidade Sarah Kubitschek",
+      "genero": "Deportes/Automovilismo",
+      "descripcion": "Final de la temporada de drift en Brasil.",
+      "categoria": "Deportes",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3763471262681143732"
+    },
+    {
+      "numero": 14,
+      "nombre": "7ª edición del Brasília Burlesque Festival",
+      "fecha": "2025-11-07/2025-11-09",
+      "lugar": "Centro de Dança do DF",
+      "genero": "Festival Cultural",
+      "descripcion": "Festival de Burlesque en su séptima edición.",
+      "categoria": "Cultural",
+      "image_url": "https://imgv2-1-f.scribdassets.com/img/document/530301030/298x396/c2250f532c/1633526701?v=1"
+    },
+    {
+      "numero": 15,
+      "nombre": "Espetáculo Deu a Louca na I.A.",
+      "fecha": "2025-11-01/2025-11-09",
+      "lugar": "Teatro La Salle",
+      "genero": "Teatro/Comedia",
+      "descripcion": "Espectáculo de comedia sobre inteligencia artificial.",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3753994163352279336"
+    },
+    {
+      "numero": 16,
+      "nombre": "Programação Clube do Choro de Brasília",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Clube do Choro de Brasília",
+      "genero": "Musical",
+      "descripcion": "Programación mensual de choro y música brasileña.",
+      "categoria": "Música",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/18/66/d8/area-interna.jpg?w=900&h=-1&s=1"
+    },
+    {
+      "numero": 17,
+      "nombre": "Simplesmente eu, Clarice!",
+      "fecha": "2025-11-07/2025-11-09",
+      "lugar": "Teatro Royal Tulip",
+      "genero": "Teatro",
+      "descripcion": "Obra de teatro sobre Clarice Lispector.",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3725506510874066656"
+    },
+    {
+      "numero": 18,
+      "nombre": "Conferencia de Ministros de Agricultura de las Américas 2025",
+      "fecha": "2025-11-01/2025-11-07",
+      "lugar": "Palacio Itamaraty",
+      "genero": "Conferencia",
+      "descripcion": "Conferencia internacional de ministros de agricultura.",
+      "categoria": "Negocios",
+      "image_url": "https://iica.int/wp-content/uploads/2025/11/Apertura-Junta-Interamericana-de-Agriculta-2025-768x512.jpeg"
+    },
+    {
+      "numero": 19,
+      "nombre": "Duodécima Sesión de UN-GGIM: Américas",
+      "fecha": "2025-11-05/2025-11-07",
+      "lugar": "Sede de la CEPAL",
+      "genero": "Conferencia",
+      "descripcion": "Comité ejecutivo de UN-GGIM para las Américas.",
+      "categoria": "Negocios",
+      "image_url": "https://live.staticflickr.com/65535/54903322252_6db181eca8_c.jpg"
+    },
+    {
+      "numero": 20,
+      "nombre": "Seminario regional anual sobre encuestas de hogares, 2025",
+      "fecha": "2025-11-11/2025-11-13",
+      "lugar": "Sede de la CEPAL",
+      "genero": "Conferencia",
+      "descripcion": "Seminario sobre encuestas de hogares en la región.",
+      "categoria": "Negocios",
+      "image_url": "http://www.oas.org/summit/sisca/Download.aspx?type=C&lang=en&id=1026"
+    },
+    {
+      "numero": 21,
+      "nombre": "XIII Reunión de la Conferencia Estadística de las Américas de la CEPAL",
+      "fecha": "2025-11-25/2025-11-27",
+      "lugar": "Sede de la CEPAL",
+      "genero": "Conferencia",
+      "descripcion": "Reunión anual de la conferencia estadística de la CEPAL.",
+      "categoria": "Negocios",
+      "image_url": "https://www.cepal.org/sites/default/files/pr/images/_mg_2447t_edit675.jpg"
+    },
+    {
+      "numero": 22,
+      "nombre": "Halloween (Fiestas y Eventos)",
+      "fecha": "2025-10-31/2025-11-02",
+      "lugar": "Diversos locales y clubes",
+      "genero": "Entretenimiento",
+      "descripcion": "Fiestas de Halloween en diversos locales de Brasília.",
+      "categoria": "Entretenimiento",
+      "image_url": "https://sdpride.org/wp-content/uploads/2025/10/header-1.png"
+    },
+    {
+      "numero": 23,
+      "nombre": "ICA Global Board meeting",
+      "fecha": "2025-11-11/2025-11-12",
+      "lugar": "Brasília/Belém",
+      "genero": "Conferencia",
+      "descripcion": "Reunión de junta directiva de ICA, relacionada con COP 30.",
+      "categoria": "Negocios",
+      "image_url": "https://caribbeannewsglobal.com/wp-content/uploads/2025/11/iica_agr2025.jpg"
+    },
+    {
+      "numero": 24,
+      "nombre": "Visitas a Praça dos Três Poderes",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Praça dos Três Poderes",
+      "genero": "Turismo",
+      "descripcion": "Plaza de los Tres Poderes, atracción turística permanente.",
+      "categoria": "Turismo",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/06/70/a2/06/praca-dos-tres-poderes.jpg?w=900&h=500&s=1"
+    },
+    {
+      "numero": 25,
+      "nombre": "Visitas al Congresso Nacional",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Congresso Nacional",
+      "genero": "Turismo",
+      "descripcion": "Congreso Nacional, una de las principales atracciones arquitectónicas.",
+      "categoria": "Turismo",
+      "image_url": "https://i.ytimg.com/vi/AYb_jGRae6Q/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AH-CYAC0AWKAgwIABABGEogTShlMA8=&rs=AOn4CLD_X5QNNpi9iYWXbVBbvBXnb4W06w"
+    },
+    {
+      "numero": 26,
+      "nombre": "Visitas a la Catedral Metropolitana",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Catedral Metropolitana de Brasília",
+      "genero": "Turismo",
+      "descripcion": "Catedral diseñada por Oscar Niemeyer, icono de la ciudad.",
+      "categoria": "Turismo",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/3d/ea/f1/photo0jpg.jpg?w=900&h=500&s=1"
+    },
+    {
+      "numero": 27,
+      "nombre": "Memorial JK",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Memorial Juscelino Kubitschek",
+      "genero": "Turismo",
+      "descripcion": "Memorial del presidente fundador de Brasília.",
+      "categoria": "Turismo",
+      "image_url": "https://l450v.alamy.com/450v/2x4rdhe/the-jk-memorial-with-sitting-bronze-statues-of-the-former-president-juscelino-kubitschek-and-first-lady-sarah-kubitschek-brasilia-brazil-2x4rdhe.jpg"
+    },
+    {
+      "numero": 28,
+      "nombre": "Actividades en Parque da Cidade Sarah Kubitschek",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Parque da Cidade Sarah Kubitschek",
+      "genero": "Turismo/Deportes",
+      "descripcion": "Uno de los parques urbanos más grandes del mundo, con actividades todo el mes.",
+      "categoria": "Turismo",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/14/01/46/cd/visao-aerea.jpg?w=500&h=500&s=1"
+    },
+    {
+      "numero": 29,
+      "nombre": "Visitas al Jardim Botânico de Brasília",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Jardim Botânico de Brasília",
+      "genero": "Turismo",
+      "descripcion": "Jardín botánico con flora del cerrado brasileño.",
+      "categoria": "Turismo",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/c7/19/8d/foto-alexandre-machado.jpg?w=900&h=500&s=1"
+    },
+    {
+      "numero": 30,
+      "nombre": "Recorridos por el Eixo Monumental",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Eixo Monumental",
+      "genero": "Turismo",
+      "descripcion": "Eje monumental de la ciudad, Patrimonio de la Humanidad UNESCO.",
+      "categoria": "Turismo",
+      "image_url": "https://d2kihw5e8drjh5.cloudfront.net/eyJidWNrZXQiOiJ1dGEtaW1hZ2VzIiwia2V5IjoicGxhY2VfaW1nL2xLemluUWZRU1FLVktPVER5dllEdGciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjY0MCwiaGVpZ2h0Ijo2NDAsImZpdCI6Imluc2lkZSJ9LCJyb3RhdGUiOm51bGwsInRvRm9ybWF0IjogIndlYnAifX0="
+    }
+  ],
+  "nota_importante": "Brasília en noviembre 2025 combina grandes shows internacionales (Linkin Park, Guns N' Roses, Marisa Monte), eventos deportivos (Maratón Monumental), conferencias internacionales, y una rica oferta cultural permanente. La ciudad es sede de múltiples conferencias de la CEPAL y tiene conexión con la COP 30 que se realizará en Belém."
+}

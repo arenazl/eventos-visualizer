@@ -1,0 +1,73 @@
+{
+  "ubicacion": "Barcelona, España",
+  "fecha_consulta": "2025-11-02",
+  "fuente": "Gemini AI + Web Search",
+  "eventos_confirmados_o_tradicionales": [
+    {
+      "nombre": "Zurich Marató Barcelona 2025",
+      "fecha": "2025-11-02",
+      "tipo": "Deportes",
+      "lugar": "Avenida Diagonal, Barcelona",
+      "direccion": "Avenida Diagonal, Barcelona, España",
+      "precio": "Desde 74.90€",
+      "hora": "08:30",
+      "descripcion": "Maratón anual que recorre los lugares más emblemáticos de Barcelona.",
+      "url": "https://www.zurichmaratobarcelona.es/"
+    },
+    {
+      "nombre": "Festival Internacional de Jazz de Barcelona",
+      "fecha": "2025-11-02",
+      "tipo": "Musica",
+      "lugar": "Diversos lugares en Barcelona",
+      "direccion": "Consultar programación",
+      "precio": "Depende del concierto",
+      "hora": "Depende del concierto",
+      "descripcion": "Festival de jazz de renombre internacional con actuaciones de artistas de todo el mundo.",
+      "url": "https://www.barcelonajazzfestival.com/en/"
+    },
+    {
+      "nombre": "Salón Náutico Internacional de Barcelona",
+      "fecha": "2025-11-08",
+      "tipo": "Tech",
+      "lugar": "Fira de Barcelona - Gran Via",
+      "direccion": "Av. Joan Carles I, 64, L'Hospitalet de Llobregat, Barcelona",
+      "precio": "A consultar",
+      "hora": "10:00",
+      "descripcion": "Evento clave para los amantes de la náutica y la innovación marítima.  Presenta las últimas novedades en embarcaciones, equipamiento y servicios del sector.",
+      "url": "https://www.salonnautico.com/"
+    },
+    {
+      "nombre": "La Castanyada",
+      "fecha": "2025-11-01",
+      "tipo": "Cultural",
+      "lugar": "Calles y plazas de Barcelona",
+      "direccion": "Diversas ubicaciones",
+      "precio": "Gratis",
+      "hora": "Todo el día",
+      "descripcion": "Celebración tradicional catalana con castañas asadas, panellets y boniatos.  Aunque comienza el 1 de noviembre, se extiende durante el fin de semana.",
+      "url": "https://www.barcelona.cat/ca/que-pots-fer-a-barcelona/festes-populars-i-tradicions/castanyada"
+    },
+    {
+      "nombre": "Indie Week Barcelona",
+      "fecha": "2025-11-03",
+      "tipo": "Musica",
+      "lugar": "Varios locales de Barcelona",
+      "direccion": "Consultar programación",
+      "precio": "Depende del concierto",
+      "hora": "Consultar programación",
+      "descripcion": "Festival de música independiente con bandas emergentes y consolidadas.",
+      "url": "https://www.indieweek.com/"
+    },
+    {
+      "nombre": "Mercat de Sant Antoni",
+      "fecha": "2025-11-02",
+      "tipo": "Cultural",
+      "lugar": "Mercat de Sant Antoni",
+      "direccion": "Carrer del Comte d'Urgell, 1, 08011 Barcelona, España",
+      "precio": "Gratis",
+      "hora": "08:00",
+      "descripcion": "Mercado histórico con productos frescos, ropa y libros.",
+      "url": "https://www.mercatsantantoni.com/ca"
+    }
+  ]
+}

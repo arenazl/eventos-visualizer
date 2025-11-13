@@ -1,0 +1,22 @@
+{
+  "country": "Venezuela",
+  "country_code": "VE",
+  "region": "Sudamérica",
+  "cities": [
+    {
+      "name": "Caracas",
+      "latitude": 10.4806,
+      "longitude": -66.9036
+    },
+    {
+      "name": "Maracaibo",
+      "latitude": 10.6666,
+      "longitude": -71.6123
+    },
+    {
+      "name": "Valencia",
+      "latitude": 10.1621,
+      "longitude": -68.0078
+    }
+  ]
+}

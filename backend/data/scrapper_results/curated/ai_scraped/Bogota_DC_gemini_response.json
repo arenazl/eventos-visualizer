@@ -1,0 +1,12 @@
+{
+  "region": "Bogotá D.C.",
+  "country": "Colombia",
+  "source": "gemini",
+  "timestamp": "2025-11-09T07:00:00",
+  "eventos": [
+    {"nombre": "Carín León - Boca Chueca Tour 2025", "ciudad": "Bogotá D.C.", "fecha": "8 de noviembre", "descripcion": "Concierto de música regional mexicana en el Estadio El Campín."},
+    {"nombre": "Gran gala de cierre del Festival Ópera al Parque, Ciudad lírica 2025", "ciudad": "Bogotá D.C.", "fecha": "9 de noviembre", "descripcion": "Evento gratuito con la Orquesta Filarmónica Juvenil y el Coro Filarmónico Juvenil en el Teatro El Ensueño."},
+    {"nombre": "Festival Danza en la Ciudad", "ciudad": "Bogotá D.C.", "fecha": "Hasta el 9 de noviembre", "descripcion": "Festival que presenta diversas obras, talleres y experiencias de danza en varios teatros de la ciudad."},
+    {"nombre": "Marc Anthony - En Vivo Tour", "ciudad": "Bogotá D.C.", "fecha": "13 y 14 de noviembre", "descripcion": "Concierto de salsa y música latina en el Coliseo MedPlus (anteriormente Coliseo Live)."}
+  ]
+}

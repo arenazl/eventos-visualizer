@@ -1,0 +1,22 @@
+{
+  "country": "Bolivia",
+  "country_code": "BO",
+  "region": "Sudamérica",
+  "cities": [
+    {
+      "name": "La Paz",
+      "latitude": -16.5000,
+      "longitude": -68.1500
+    },
+    {
+      "name": "Santa Cruz",
+      "latitude": -17.8146,
+      "longitude": -63.1561
+    },
+    {
+      "name": "Cochabamba",
+      "latitude": -17.3895,
+      "longitude": -66.1568
+    }
+  ]
+}

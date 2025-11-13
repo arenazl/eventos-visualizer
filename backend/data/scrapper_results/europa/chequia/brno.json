@@ -1,0 +1,113 @@
+{
+  "source": "apis_oficiales",
+  "city": "Brno",
+  "country": "Chequia",
+  "scraped_at": "2025-11-13T05:13:17.121416",
+  "total_events": 8,
+  "eventos": [
+    {
+      "title": "THE RASMUS",
+      "date": "2025-11-14",
+      "time": "20:00:00",
+      "venue": "Sono Centrum",
+      "address": "Veveří 113",
+      "city": "Brno",
+      "country": "CZ",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.ticketmaster.cz/event/the-rasmus-tickets/52075?language=en-us",
+      "image_url": "https://s1.ticketm.net/dam/a/af6/ac5cff97-026e-4f6e-8db2-156270605af6_SOURCE"
+    },
+    {
+      "title": "Suzi Quatro",
+      "date": "2025-12-17",
+      "time": "20:00:00",
+      "venue": "Bobycentrum Brno",
+      "address": "Sportovní 2A",
+      "city": "Brno",
+      "country": "CZ",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.ticketmaster.cz/event/suzi-quatro-tickets/188782301?language=en-us",
+      "image_url": "https://s1.ticketm.net/dam/a/da5/d719e87f-2d3d-4d72-a468-2d8c16ebbda5_SOURCE"
+    },
+    {
+      "title": "Deep Purple Tribute – Strange Kind Of Women (IT/FR), support: Škaredá",
+      "date": "2026-01-31",
+      "time": "19:00:00",
+      "venue": "Sono Centrum",
+      "address": "Veveří 113",
+      "city": "Brno",
+      "country": "CZ",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.ticketmaster.cz/event/deep-purple-tribute--strange-kind-of-women-it-fr--support-skareda-tickets/576998294?language=en-us",
+      "image_url": "https://s1.ticketm.net/dam/a/7c9/3ac9d4e7-34dd-4d65-b2dc-9e794255c7c9_SOURCE"
+    },
+    {
+      "title": "MARCUS & MARTINUS European Tour 2026",
+      "date": "2026-02-09",
+      "time": "19:00:00",
+      "venue": "Sono Centrum",
+      "address": "Veveří 113",
+      "city": "Brno",
+      "country": "CZ",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.ticketmaster.cz/event/marcus--martinus-european-tour-2026-tickets/214385267?language=en-us",
+      "image_url": "https://s1.ticketm.net/dam/a/1e4/a5b7efe4-8670-4ad9-b02f-4ab2669ab1e4_SOURCE"
+    },
+    {
+      "title": "NAZARETH /UK/",
+      "date": "2026-02-26",
+      "time": "19:30:00",
+      "venue": "Sono Centrum",
+      "address": "Veveří 113",
+      "city": "Brno",
+      "country": "CZ",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.ticketmaster.cz/event/nazareth-uk--tickets/979337281?language=en-us",
+      "image_url": "https://s1.ticketm.net/dam/a/b3e/284f0bfa-97f8-47b7-ba0a-082ead0e1b3e_SOURCE"
+    },
+    {
+      "title": "ZZ Top Experience – Fuzz Top (FR), support: Škaredá holka",
+      "date": "2026-03-17",
+      "time": "19:00:00",
+      "venue": "Sono Centrum",
+      "address": "Veveří 113",
+      "city": "Brno",
+      "country": "CZ",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.ticketmaster.cz/event/zz-top-experience--fuzz-top-fr--support-skareda-holka-tickets/667355539?language=en-us",
+      "image_url": "https://s1.ticketm.net/dam/a/663/07e073f2-3216-43c7-afa1-9e94154af663_SOURCE"
+    },
+    {
+      "title": "Magic of Miyazaki. Voice of Japan",
+      "date": "2026-03-22",
+      "time": "20:00:00",
+      "venue": "První Patro",
+      "address": "Dominikánská 342/19",
+      "city": "Brno",
+      "country": "CZ",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.ticketmaster.cz/event/magic-of-miyazaki-voice-of-japan-tickets/940563271?language=en-us",
+      "image_url": "https://s1.ticketm.net/dam/a/9d4/be272e60-4a0e-4dd5-93bc-3247411779d4_SOURCE"
+    },
+    {
+      "title": "Anastacia",
+      "date": "2026-10-15",
+      "time": "19:30:00",
+      "venue": "STAREZ Aréna Vodova",
+      "address": "Vodova 108",
+      "city": "Brno",
+      "country": "CZ",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.ticketmaster.cz/event/anastacia-tickets/1551916002?language=en-us",
+      "image_url": "https://s1.ticketm.net/dam/a/7c8/5d77e22f-6305-4639-b292-24d8eb8a67c8_SOURCE"
+    }
+  ]
+}

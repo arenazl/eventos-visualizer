@@ -1,0 +1,20 @@
+{
+  "source_file": "Zulia_gemini_response.json",
+  "curated_at": "2025-11-09T10:37:08.240284",
+  "events": [
+    {
+      "nombre": "Feria de la Chinita",
+      "fecha": "15 al 22 de Noviembre de 2025 (Fechas centrales, el día central es 18 de noviembre - Día de la Virgen)",
+      "ciudad": "Maracaibo",
+      "descripcion": "Esta es la fiesta popular y religiosa más importante del estado Zulia, en honor a Nuestra Señora de Chiquinquirá, cariñosamente llamada 'La Chinita'. Las festividades se extienden a lo largo de varias semanas, pero los días centrales y más populares son alrededor del 18 de noviembre. Incluyen procesiones multitudinarias, ferias agropecuarias, espectáculos musicales con el tradicional género de la Gaita Zuliana, corridas de toros y eventos deportivos. El inicio y fin de las fiestas generalmente se marcan con el Encendido de la Avenida Bella Vista y la Bajada de la Virgen.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Zulia",
+      "country": "Venezuela",
+      "image_url": "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    }
+  ]
+}

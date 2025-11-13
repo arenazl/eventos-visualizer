@@ -1,0 +1,318 @@
+{
+  "source": "gemini",
+  "ciudad": "Cali",
+  "pais": "Colombia",
+  "fecha_consulta": "2025-11-05",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 30,
+  "eventos": [
+    {
+      "numero": 1,
+      "nombre": "Feria Internacional del Libro de Cali (FIL Cali)",
+      "fecha": "2025-10-24/2025-11-03",
+      "lugar": "Cali",
+      "genero": "Cultural/Literario",
+      "descripcion": "Uno de los eventos culturales más grandes de la ciudad, con cientos de actividades literarias y culturales.",
+      "categoria": "Cultural",
+      "image_url": "https://www.spiwak.com/media/uploads/cms_apps/imagenes/filcali2024_cenajaponesa_banner.webp?q=pr:sharp/rs:fill/w:900/h:500/f:jpg"
+    },
+    {
+      "numero": 2,
+      "nombre": "Final Nacional de Juegos Intercolegiados",
+      "fecha": "2025-10-20/2025-11-09",
+      "lugar": "Cali",
+      "genero": "Deportivo",
+      "descripcion": "Evento deportivo que convoca a jóvenes atletas de todo el país.",
+      "categoria": "Deportes",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3745750035192422127"
+    },
+    {
+      "numero": 3,
+      "nombre": "Elemental - Carl Cox",
+      "fecha": "2025-11-15",
+      "lugar": "Centro de Eventos Valle del Pacífico",
+      "genero": "Música Electrónica/Festival",
+      "descripcion": "Gran evento de música electrónica con la presentación de Carl Cox.",
+      "categoria": "Música",
+      "artistas": "Carl Cox",
+      "image_url": "https://sesh.sx/_next/image?url=https%3A%2F%2Fdice-media.imgix.net%2Fattachments%2F2024-08-14%2F98e855a6-d6af-4047-a4f1-e351b3b5baee.jpg%3Frect%3D0%252C0%252C640%252C640&w=1920&q=75"
+    },
+    {
+      "numero": 4,
+      "nombre": "Jhonny Rivera",
+      "fecha": "2025-11-29",
+      "lugar": "Plaza de Toros Cañaveralejo",
+      "genero": "Música Popular/Concierto",
+      "descripcion": "Concierto de música popular de gran convocatoria.",
+      "categoria": "Música",
+      "artistas": "Jhonny Rivera",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3754302139050125789"
+    },
+    {
+      "numero": 5,
+      "nombre": "Torneo ATP Cali Open y WTA 125",
+      "fecha": "2025-10-01/2025-11-30",
+      "lugar": "Cali",
+      "genero": "Deportivo",
+      "descripcion": "Torneos internacionales de tenis que atraen a deportistas profesionales.",
+      "categoria": "Deportes",
+      "image_url": "https://photoresources.wtatennis.com/photo-resources/2024/11/10/455b44f4-386b-4c3b-954d-371c5522cf1b/KR2_5420.jpg?width=478&height=306"
+    },
+    {
+      "numero": 6,
+      "nombre": "Ciclo de Conciertos Candlelight - Bridgerton",
+      "fecha": "2025-11-07",
+      "lugar": "Cali",
+      "genero": "Música/Espectáculos",
+      "descripcion": "Concierto a la luz de las velas con tributo a Bridgerton.",
+      "categoria": "Música",
+      "image_url": "https://p16-common-sign.tiktokcdn-us.com/tos-maliva-p-0068/oY8jEIWeu2X1AAfOSLEvIufqgAXsCQAVHBMSAQ~tplv-photomode-video-share-card:630:630:20.jpeg?dr=9616&refresh_token=53e48561&x-expires=1794366000&x-signature=rSTFdT6S4UWNg9TGGFcIc7yIRQg%3D&t=4d5b0474&ps=13740610&shp=55bbe6a9&shcp=f07906a3&idc=useast5&ftpl=1"
+    },
+    {
+      "numero": 7,
+      "nombre": "Ciclo de Conciertos Candlelight - Coldplay",
+      "fecha": "2025-11-15",
+      "lugar": "Cali",
+      "genero": "Música/Espectáculos",
+      "descripcion": "Concierto a la luz de las velas con tributo a Coldplay.",
+      "categoria": "Música",
+      "artistas": "Tributo a Coldplay",
+      "image_url": "https://vivalugo.es/wp-content/uploads/2025/10/conciertos-luz-velas.jpg"
+    },
+    {
+      "numero": 8,
+      "nombre": "Ciclo de Conciertos Candlelight - Queen vs. ABBA",
+      "fecha": "2025-11-16",
+      "lugar": "Cali",
+      "genero": "Música/Espectáculos",
+      "descripcion": "Concierto a la luz de las velas con tributo a Queen y ABBA.",
+      "categoria": "Música",
+      "artistas": "Tributo a Queen y ABBA",
+      "image_url": "https://cdn.prod.discovery.evvnt.com/uploads/event_image/2459259/event_image/hero_California_Symphony_8_by_Kristen_Loken.webp"
+    },
+    {
+      "numero": 9,
+      "nombre": "Ciclo de Conciertos Candlelight - Vallenatos Clásicos",
+      "fecha": "2025-11-16",
+      "lugar": "Cali",
+      "genero": "Música/Espectáculos",
+      "descripcion": "Concierto a la luz de las velas con vallenatos clásicos.",
+      "categoria": "Música",
+      "image_url": "https://www.tiktok.com/api/img/?itemId=7560175452367686967&location=0&aid=1988"
+    },
+    {
+      "numero": 10,
+      "nombre": "Ciclo de Conciertos Candlelight - Adele",
+      "fecha": "2025-11-16",
+      "lugar": "Cali",
+      "genero": "Música/Espectáculos",
+      "descripcion": "Concierto a la luz de las velas con tributo a Adele.",
+      "categoria": "Música",
+      "artistas": "Tributo a Adele",
+      "image_url": "https://i.calameoassets.com/200903220006-7e217304220dfd157813c3c68301e8b4/large.jpg"
+    },
+    {
+      "numero": 11,
+      "nombre": "Ciclo de Conciertos Candlelight - Vivaldi",
+      "fecha": "2025-11-16",
+      "lugar": "Cali",
+      "genero": "Música/Espectáculos",
+      "descripcion": "Concierto a la luz de las velas con obras de Vivaldi.",
+      "categoria": "Música",
+      "artistas": "Vivaldi",
+      "image_url": "https://p16-common-sign.tiktokcdn-us.com/tos-maliva-p-0068/oY8jEIWeu2X1AAfOSLEvIufqgAXsCQAVHBMSAQ~tplv-photomode-video-share-card:630:630:20.jpeg?dr=9616&refresh_token=53e48561&x-expires=1794366000&x-signature=rSTFdT6S4UWNg9TGGFcIc7yIRQg%3D&t=4d5b0474&ps=13740610&shp=55bbe6a9&shcp=f07906a3&idc=useast5&ftpl=1"
+    },
+    {
+      "numero": 12,
+      "nombre": "Juliana Cali - La Pista Tour",
+      "fecha": "2025-11-22",
+      "lugar": "Teatro Municipal Enrique Buenaventura",
+      "genero": "Teatro/Música",
+      "descripcion": "Evento de música o espectáculo en el Teatro Municipal.",
+      "categoria": "Música",
+      "artistas": "Juliana Cali",
+      "image_url": "https://cdn.getcrowder.com/images/43a2d381-8017-412c-8ba7-6e63a74066cf-banner-pag-evento-1920-x-720.png?w=640"
+    },
+    {
+      "numero": 13,
+      "nombre": "El Mundo de la Fantasía",
+      "fecha": "2025-11-23",
+      "lugar": "Cali",
+      "genero": "Comedia/Teatro",
+      "descripcion": "Espectáculo programado en dos funciones, para público familiar o infantil.",
+      "categoria": "Entretenimiento",
+      "image_url": "https://www.vivecali.com/wp-content/uploads/2025/11/el-mundo-1.webp"
+    },
+    {
+      "numero": 14,
+      "nombre": "TEDx CALI Mujeres",
+      "fecha": "2025-11-23",
+      "lugar": "Cali",
+      "genero": "Cultura/Conferencias",
+      "descripcion": "Evento de charlas inspiradoras centrado en la perspectiva de las mujeres.",
+      "categoria": "Cultural",
+      "image_url": "https://media.licdn.com/dms/image/v2/D4D22AQE0sCVveoTfUw/feedshare-shrink_800/B4DZVg381TG8Ag-/0/1741087044646?e=2147483647&v=beta&t=6jncghKty5aaiYAwDNuJvZlbGdAnhfKMnOxoxLvUiIQ"
+    },
+    {
+      "numero": 15,
+      "nombre": "Congreso Anual SIBEN 2025",
+      "fecha": "2025-11-29/2025-12-01",
+      "lugar": "Cali",
+      "genero": "Negocios/Salud",
+      "descripcion": "Evento importante en el sector de la salud y la medicina.",
+      "categoria": "Negocios",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100064533528462"
+    },
+    {
+      "numero": 16,
+      "nombre": "Partidos de Fútbol - América de Cali",
+      "fecha": "2025-11-03",
+      "lugar": "Estadio Pascual Guerrero",
+      "genero": "Deporte",
+      "descripcion": "Partidos de los equipos locales que generan gran afluencia.",
+      "categoria": "Deportes",
+      "image_url": "https://library.sportingnews.com/styles/crop_style_16_9_desktop_webp/s3/2025-04/GettyImages-2208655886.jpg.webp?itok=dOOuPE3E"
+    },
+    {
+      "numero": 17,
+      "nombre": "Exposición Museo La Tertulia",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Museo La Tertulia",
+      "genero": "Cultura/Arte",
+      "descripcion": "El principal museo de arte de la ciudad con exposiciones temporales.",
+      "categoria": "Cultural",
+      "image_url": "https://www.artealdia.com/var/artealdia_com/storage/images/convocatorias/vision-de-ciudad-una-convocatoria-nacional-del-museo-la-tertulia/821537-1-esl-AR/VISION-DE-CIUDAD-UNA-CONVOCATORIA-NACIONAL-DEL-MUSEO-LA-TERTULIA_grid_horizontal.jpg"
+    },
+    {
+      "numero": 18,
+      "nombre": "LA ULTIMA COPA ALCI ACOSTA",
+      "fecha": "2025-11-06",
+      "lugar": "Cali",
+      "genero": "Artes Escénicas",
+      "descripcion": "Espectáculo de comedia o teatro.",
+      "categoria": "Cultural",
+      "image_url": "https://www.vivecali.com/wp-content/uploads/2025/09/la-ultima-copa-alci-acosta.webp"
+    },
+    {
+      "numero": 19,
+      "nombre": "VILLA ARRUGA EN LA SUCURSAL DE CIELO",
+      "fecha": "2025-11-07",
+      "lugar": "Cali",
+      "genero": "Artes Escénicas",
+      "descripcion": "Espectáculo de comedia o teatro local.",
+      "categoria": "Cultural",
+      "image_url": "https://www.vivecali.com/wp-content/uploads/2025/09/WEB-VILLA-CALI-1.jpg"
+    },
+    {
+      "numero": 20,
+      "nombre": "Sábados de literatura - Comfandi",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Comfandi",
+      "genero": "Cultura/Literatura",
+      "descripcion": "Actividades literarias continuas todos los sábados del mes.",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3758563016132654392"
+    },
+    {
+      "numero": 21,
+      "nombre": "Programación Biblioteca Departamental",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Biblioteca Departamental",
+      "genero": "Cine/Audiovisual",
+      "descripcion": "Agenda cultural variada con cineforos, exposiciones y conciertos.",
+      "categoria": "Cultural",
+      "image_url": "https://cdntattoofilter.com/event/13740/s.jpg"
+    },
+    {
+      "numero": 22,
+      "nombre": "Espectáculos en el Teatro Jorge Isaacs",
+      "fecha": "2025-11-23",
+      "lugar": "Teatro Jorge Isaacs",
+      "genero": "Cultura/Teatro",
+      "descripcion": "Teatro tradicional con diversas presentaciones musicales y escénicas, incluyendo Las Reinas Del Kpop Cali.",
+      "categoria": "Cultural",
+      "image_url": "https://live.staticflickr.com/7104/7312612554_7a8f837213_c.jpg"
+    },
+    {
+      "numero": 23,
+      "nombre": "Exposiciones de Arte",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Galerías de Bellas Artes",
+      "genero": "Arte/Exposiciones",
+      "descripcion": "Programación constante en galerías y centros culturales.",
+      "categoria": "Cultural",
+      "image_url": "https://www.mapr.org/sites/default/files/styles/artist-artwork-main/public/artwork/06.antoniomartorell_web.jpg?itok=c_tj9iRN"
+    },
+    {
+      "numero": 24,
+      "nombre": "Eventos de Salsa y Baile",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Diversos lugares",
+      "genero": "Cultura/Danza",
+      "descripcion": "Cali, la Capital Mundial de la Salsa, con espectáculos, clases y eventos de salsa.",
+      "categoria": "Cultural",
+      "image_url": "https://www.dancesportclub.com/content/images/thumbs/0000796_6-week-intermediate-salsa-course-mondays-8pm_550.jpeg"
+    },
+    {
+      "numero": 25,
+      "nombre": "Circo Hermanos Gasca en Cali",
+      "fecha": "2025-10-17/2025-11-30",
+      "lugar": "Cali",
+      "genero": "Deporte/Familiar",
+      "descripcion": "Espectáculo circense de gran tradición y convocatoria familiar.",
+      "categoria": "Entretenimiento",
+      "image_url": "https://i.ytimg.com/vi/G7xKOamZGDk/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLC_6bUpdeBwOTthUUe5SDgxv_PJqw"
+    },
+    {
+      "numero": 26,
+      "nombre": "Mal Pelo - Bach",
+      "fecha": "2025-11-12",
+      "lugar": "Cali",
+      "genero": "Cultura/Musical",
+      "descripcion": "Espectáculo de danza o música clásica.",
+      "categoria": "Cultural",
+      "image_url": "https://www.malpelo.org/wp-content/uploads/2025/03/MP-WE_1566web%C2%A9Tristan-Perez-Martin-690x400.jpg"
+    },
+    {
+      "numero": 27,
+      "nombre": "Programación Universitaria - Universidad del Valle",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Universidad del Valle",
+      "genero": "Cultura/Académico",
+      "descripcion": "Eventos culturales y académicos universitarios.",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100067484133220"
+    },
+    {
+      "numero": 28,
+      "nombre": "Ferias de Emprendimiento",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Diversos lugares",
+      "genero": "Negocios",
+      "descripcion": "Ferias de emprendimiento y mercados campesinos.",
+      "categoria": "Negocios",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/instagram/facultadceeusc/profile_pic.jpg"
+    },
+    {
+      "numero": 29,
+      "nombre": "Presentaciones de Danza y Folclore",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Teatros y casas culturales",
+      "genero": "Cultural",
+      "descripcion": "Presentaciones de danza y folclore en diversos espacios culturales.",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100067655536773"
+    },
+    {
+      "numero": 30,
+      "nombre": "Eventos de la Alcaldía de Cali",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Diversos lugares",
+      "genero": "Cívico",
+      "descripcion": "Rendiciones de cuentas, jornadas de esterilización y otros eventos municipales.",
+      "categoria": "Cívico",
+      "image_url": "https://www.vivecali.com/wp-content/uploads/2025/10/actividades.webp"
+    }
+  ],
+  "nota_importante": "Noviembre 2025 en Cali se perfila con eventos deportivos internacionales, el cierre de la Feria del Libro, conciertos de alto perfil (Carl Cox, Jhonny Rivera), y una constante agenda cultural. Cali es la Capital Mundial de la Salsa, por lo que siempre hay eventos de baile y música."
+}

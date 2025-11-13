@@ -1,0 +1,22 @@
+{
+  "country": "Chequia",
+  "country_code": "CZ",
+  "region": "Europa Oriental",
+  "cities": [
+    {
+      "name": "Praga",
+      "latitude": 50.0755,
+      "longitude": 14.4378
+    },
+    {
+      "name": "Brno",
+      "latitude": 49.1951,
+      "longitude": 16.6068
+    },
+    {
+      "name": "Ostrava",
+      "latitude": 49.8209,
+      "longitude": 18.2625
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "region": "Córdoba",
+  "country": "Argentina",
+  "source": "gemini",
+  "timestamp": "2025-11-09T06:10:00",
+  "eventos": [
+    {
+      "nombre": "Festival Internacional de Jazz de Córdoba",
+      "ciudad": "Córdoba Capital",
+      "fecha": "8 al 20 de Noviembre",
+      "descripcion": "Un evento cultural muy importante con 13 días de conciertos gratuitos en distintos escenarios de la capital y la provincia. Participan músicos de gran trayectoria y nuevos talentos."
+    },
+    {
+      "nombre": "Concierto de Trueno",
+      "ciudad": "Córdoba Capital",
+      "fecha": "Viernes 21 de Noviembre",
+      "descripcion": "El reconocido artista de trap y freestyle se presenta en la Plaza de la Música. Es uno de los espectáculos de música urbana más convocantes."
+    },
+    {
+      "nombre": "Concierto de Axel",
+      "ciudad": "Córdoba Capital",
+      "fecha": "Viernes 21 de Noviembre",
+      "descripcion": "El popular cantautor argentino inicia su gira 'Alquimia' en Quality Espacio, un show muy esperado por su trayectoria en la balada y el pop-rock."
+    },
+    {
+      "nombre": "Concierto de Paulo Londra",
+      "ciudad": "Córdoba Capital",
+      "fecha": "Sábado 29 de Noviembre",
+      "descripcion": "El rapero cordobés más famoso se presenta en el Quality Arena. Un evento masivo y de gran popularidad local e internacional."
+    },
+    {
+      "nombre": "Concierto de Airbag",
+      "ciudad": "Córdoba Capital",
+      "fecha": "Sábado 29 de Noviembre",
+      "descripcion": "La banda de rock argentina se presenta en el Estadio Mario Alberto Kempes, un show de gran convocatoria para el público rockero."
+    },
+    {
+      "nombre": "Amelie Lens en La Fábrica",
+      "ciudad": "La Calera",
+      "fecha": "Viernes 12 de Diciembre",
+      "descripcion": "Un evento destacado de música electrónica con la DJ y productora belga, reconocida a nivel mundial. (Aunque es un poco más de 30 días, es un evento muy popular que se está vendiendo rápido)."
+    },
+    {
+      "nombre": "62° Oktoberfest Argentina (Fiesta Nacional de la Cerveza)",
+      "ciudad": "Villa General Belgrano",
+      "fecha": "Sábado 21 a Martes 24 de Noviembre",
+      "descripcion": "Si bien el evento principal fue en octubre, el fragmento de búsqueda menciona fechas del 21 al 24 de noviembre, lo que podría indicar una extensión o fechas alternativas de la celebración, que es muy conocida. Es un festival de gastronomía típica centroeuropea, cerveza y espectáculos de música y danza."
+    }
+  ]
+}

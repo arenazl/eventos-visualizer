@@ -1,0 +1,22 @@
+{
+  "country": "Grecia",
+  "country_code": "GR",
+  "region": "Europa Meridional",
+  "cities": [
+    {
+      "name": "Atenas",
+      "latitude": 37.9838,
+      "longitude": 23.7275
+    },
+    {
+      "name": "Salónica",
+      "latitude": 40.6401,
+      "longitude": 22.9444
+    },
+    {
+      "name": "Patras",
+      "latitude": 38.2466,
+      "longitude": 21.7346
+    }
+  ]
+}

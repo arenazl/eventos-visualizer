@@ -1,0 +1,111 @@
+{
+  "source": "gemini",
+  "ciudad": "Cusco",
+  "pais": "Perú",
+  "fecha_consulta": "2025-11-05",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 10,
+  "eventos": [
+    {
+      "numero": 1,
+      "nombre": "Día de Todos los Santos",
+      "fecha": "2025-11-01",
+      "lugar": "Iglesias y hogares de Cusco",
+      "genero": "Festividad Religiosa",
+      "descripcion": "Celebración profundamente arraigada. Las familias preparan las T'anta Wawas (panes con forma de bebés) y platos favoritos para honrar a los santos y difuntos.",
+      "categoria": "Cultural",
+      "image_url": "https://image.isu.pub/230511142724-e37026f8c0904700029f61884ee7965b/jpg/page_1_thumb_large.jpg"
+    },
+    {
+      "numero": 2,
+      "nombre": "Día de los Muertos (Día de los Difuntos)",
+      "fecha": "2025-11-02",
+      "lugar": "Cementerio La Almudena y cementerios rurales",
+      "genero": "Festividad Religiosa",
+      "descripcion": "El día más significativo. Las familias visitan cementerios para llevar ofrendas a las tumbas. Mezcla de solemnidad y celebración.",
+      "categoria": "Cultural",
+      "image_url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEivZk2MiggNYWL1oK13R-W2U24rxofZoHh3VeSsZSl2L8beaXpkKUxtiGPK4pk_s5m0QJLXjMiV6vaBtaxaASNLd1pCquUBkUNYsTf18irL4mIF6fryy7Ep4SP-94_qSimQEOj7AFgPP7Y/s1600/Nueva+imagen.png"
+    },
+    {
+      "numero": 3,
+      "nombre": "Homenaje a Túpac Amaru II",
+      "fecha": "2025-11-04",
+      "lugar": "Plaza Túpac Amaru",
+      "genero": "Ceremonia Cívica",
+      "descripcion": "Conmemoración del líder de la rebelión indígena contra la corona española en 1780. Ceremonia cívica con desfiles y actos protocolares.",
+      "categoria": "Cultural",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/8a/4d/6a/caption.jpg?w=900&h=500&s=1"
+    },
+    {
+      "numero": 4,
+      "nombre": "Conciertos en Teatro Municipal del Cusco",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Teatro Municipal del Cusco",
+      "genero": "Conciertos",
+      "descripcion": "Presentaciones de música folclórica, rock y espectáculos culturales.",
+      "categoria": "Música",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/21/93/79/66/view-from-the-second.jpg?w=900&h=500&s=1"
+    },
+    {
+      "numero": 5,
+      "nombre": "Eventos en IZA Club y Centro de Convenciones",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "IZA Club, Centro de Convenciones",
+      "genero": "Entretenimiento",
+      "descripcion": "Espectáculos y eventos musicales de diversos géneros.",
+      "categoria": "Entretenimiento",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3723262713188332163"
+    },
+    {
+      "numero": 6,
+      "nombre": "Feria Gastronómica de Lechón y Tamales",
+      "fecha": "2025-11-01/2025-11-02",
+      "lugar": "Plaza Túpac Amaru",
+      "genero": "Feria Gastronómica",
+      "descripcion": "Feria asociada con las festividades del Día de Todos los Santos y Difuntos.",
+      "categoria": "Gastronomía",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100068881367423"
+    },
+    {
+      "numero": 7,
+      "nombre": "Aniversario de Quillabamba",
+      "fecha": "2025-11-29",
+      "lugar": "Quillabamba (provincia de Cusco)",
+      "genero": "Aniversario",
+      "descripcion": "Celebración de aniversario con fiestas, desfiles y conciertos, atrayendo gente de toda la región.",
+      "categoria": "Cultural",
+      "image_url": "https://www.op.org/wp-content/uploads/2024/12/HOME-Aniversario-Frank-Leo-760x428.jpg"
+    },
+    {
+      "numero": 8,
+      "nombre": "Actividades Culturales y Exposiciones",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Museos, centros culturales, UNSAAC",
+      "genero": "Cultural",
+      "descripcion": "Exposiciones de arte y teatro en museos y la Universidad Nacional de San Antonio Abad del Cusco.",
+      "categoria": "Cultural",
+      "image_url": "x-raw-image:///90c2dd87b90537f824bf5703c50aead28d686844079faf84f5cf78935918766e"
+    },
+    {
+      "numero": 9,
+      "nombre": "Visitas a Machu Picchu",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Machu Picchu",
+      "genero": "Turismo",
+      "descripcion": "Actividad turística fija con gran convocatoria diaria.",
+      "categoria": "Turismo",
+      "image_url": "https://whc.unesco.org/uploads/thumbs/site_0274_0045-400-400-20241106125224.webp"
+    },
+    {
+      "numero": 10,
+      "nombre": "Tours del Valle Sagrado y Montaña de 7 Colores",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Valle Sagrado, Vinicunca",
+      "genero": "Turismo",
+      "descripcion": "Actividades turísticas regulares muy concurridas durante todo el mes.",
+      "categoria": "Turismo",
+      "image_url": "https://cuscoperu.b-cdn.net/wp-content/uploads/2023/02/Caminata-a-la-montana-de-7-colores.jpg"
+    }
+  ],
+  "nota_importante": "Noviembre en Cusco está marcado principalmente por la conmemoración a los difuntos (1 y 2 de noviembre) con tradiciones andinas y católicas. El calendario completo de conciertos y eventos culturales se publica cerca de la fecha por la Municipalidad Provincial del Cusco."
+}

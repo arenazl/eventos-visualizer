@@ -1,0 +1,19 @@
+{
+  "region": "Nuevo León",
+  "country": "México",
+  "source": "gemini",
+  "timestamp": "2025-11-09T06:30:00",
+  "eventos": [
+    {"nombre": "Festival Arre", "ciudad": "Monterrey", "fecha": "7 y 8 de noviembre de 2025", "descripcion": "Un gran festival de música regional mexicana con artistas como Grupo Firme, Fuerza Regida, Eslabón Armado y más. Se realiza en el Parque Fundidora."},
+    {"nombre": "Corona Capital Sessions", "ciudad": "Monterrey", "fecha": "12 de noviembre de 2025", "descripcion": "Conciertos en un formato especial con bandas internacionales de rock como Foo Fighters y Queens of the Stone Age, junto a Jehnny Beth. Se lleva a cabo en el Estadio Banorte."},
+    {"nombre": "Caifanes", "ciudad": "Monterrey", "fecha": "13 de noviembre de 2025", "descripcion": "Concierto de la icónica banda de rock mexicana, presentando sus éxitos y nuevos temas. Tendrá lugar en el Auditorio Citibanamex."},
+    {"nombre": "Banda MS", "ciudad": "Monterrey", "fecha": "14 y 15 de noviembre de 2025", "descripcion": "Doble fecha de la popular banda de música regional. Sus conciertos se realizarán en la Arena Monterrey."},
+    {"nombre": "Bendito Rodeo", "ciudad": "Santiago, Nuevo León", "fecha": "15, 22 y 29 de noviembre de 2025", "descripcion": "Un festival que fusiona el rodeo con música regional mexicana y cumbia, con artistas como Los Ángeles Azules, Los Invasores de Nuevo León y La Leyenda. Se celebra en Santiago, Nuevo León."},
+    {"nombre": "Rauw Alejandro", "ciudad": "Monterrey", "fecha": "18 y 19 de noviembre de 2025", "descripcion": "Dos fechas para el concierto del reconocido artista de música urbana con su gira. Los shows serán en la Arena Monterrey."},
+    {"nombre": "Edén Muñoz", "ciudad": "Monterrey", "fecha": "22 de noviembre de 2025", "descripcion": "Concierto del popular cantante de música regional mexicana. Se llevará a cabo en la Arena Monterrey."},
+    {"nombre": "Earth, Wind & Fire", "ciudad": "Monterrey", "fecha": "27 de noviembre de 2025", "descripcion": "Concierto de la legendaria banda de funk, soul y disco. Su presentación será en la Arena Monterrey."}
+  ],
+  "otros_eventos": [
+    {"nombre": "Festival de la Migración de la Mariposa Monarca", "descripcion": "Un evento natural con talleres y recorridos guiados en la Meseta, Parque Ecológico Chipinque (Monterrey/San Pedro Garza García) el 9 de noviembre."}
+  ]
+}

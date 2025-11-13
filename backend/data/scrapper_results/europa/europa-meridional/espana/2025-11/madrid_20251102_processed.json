@@ -1,0 +1,62 @@
+{
+  "ubicacion": "Madrid, España",
+  "fecha_consulta": "2025-11-02",
+  "fuente": "Gemini AI + Web Search",
+  "eventos_confirmados_o_tradicionales": [
+    {
+      "nombre": "Real Madrid CF partidos en casa (por confirmar calendario)",
+      "fecha": "2025-11-02/2025-11-09 (aproximado)",
+      "tipo": "Deportes",
+      "lugar": "Estadio Santiago Bernabéu",
+      "direccion": "Av. de Concha Espina, 1, Chamartín, 28036 Madrid",
+      "precio": "Desde 50€",
+      "hora": "Por confirmar",
+      "descripcion": "Partidos de futbol del Real Madrid en casa. Calendario sujeto a confirmación.",
+      "url": "https://www.realmadrid.com/"
+    },
+    {
+      "nombre": "Conciertos en WiZink Center (por confirmar calendario)",
+      "fecha": "2025-11-02/2025-11-09 (aproximado)",
+      "tipo": "Musica",
+      "lugar": "WiZink Center",
+      "direccion": "Av. Felipe II, s/n, Salamanca, 28009 Madrid",
+      "precio": "Desde 30€",
+      "hora": "Por confirmar",
+      "descripcion": "Conciertos variados en el WiZink Center. Calendario sujeto a confirmación.",
+      "url": "https://www.wizinkcenter.es/"
+    },
+    {
+      "nombre": "Musicales en Gran Vía (por confirmar cartelera)",
+      "fecha": "2025-11-02/2025-11-09 (aproximado)",
+      "tipo": "Cultural",
+      "lugar": "Teatros en Gran Vía",
+      "direccion": "Gran Vía, Madrid",
+      "precio": "Desde 25€",
+      "hora": "Por confirmar",
+      "descripcion": "Cartelera variada de musicales en los teatros de la Gran Vía. Calendario sujeto a confirmación.",
+      "url": "https://www.esmadrid.com/planes-madrid/musicales-cartelera"
+    },
+    {
+      "nombre": "Eventos en IFEMA Madrid (por confirmar calendario)",
+      "fecha": "2025-11-02/2025-11-09 (aproximado)",
+      "tipo": "Tech/Cultural/Deportes/Fiestas",
+      "lugar": "IFEMA Madrid",
+      "direccion": "Av. del Partenón, 5, Barajas, 28042 Madrid",
+      "precio": "Variable",
+      "hora": "Por confirmar",
+      "descripcion": "Ferias, congresos y eventos en IFEMA. Calendario sujeto a confirmación.",
+      "url": "https://www.ifema.es/"
+    },
+    {
+      "nombre": "Mercado de Motores",
+      "fecha": "2025-11-08/2025-11-09 (aproximado)",
+      "tipo": "Cultural/Fiestas",
+      "lugar": "Museo del Ferrocarril",
+      "direccion": "Paseo de las Delicias, 61, Delicias, 28045 Madrid",
+      "precio": "Gratis",
+      "hora": "11:00",
+      "descripcion": "Mercado de diseño, moda, música y gastronomía en el Museo del Ferrocarril.",
+      "url": "https://mercadodemotores.es/"
+    }
+  ]
+}

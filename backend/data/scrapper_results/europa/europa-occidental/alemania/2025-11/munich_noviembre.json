@@ -1,0 +1,153 @@
+{
+  "ciudad": "Múnich",
+  "pais": "Alemania",
+  "mes": "noviembre",
+  "anio": 2025,
+  "eventos": [
+    {
+      "nombre": "Mercado de Navidad de Múnich (Christkindlmarkt)",
+      "fecha": "desde 2025-11-24",
+      "hora_inicio": "varios horarios (suele ser por la mañana/mediodía)",
+      "hora_fin": "hasta 2025-12-24",
+      "lugar": "Marienplatz y varios de la ciudad (varios mercados en el casco antiguo)",
+      "descripcion": "Entrada gratuita al mercado (pero se compra la comida/bebidas/productos)",
+      "categoria": "mercado-navidad",
+      "precio": "entrada gratuita (se compra lo que se consuma)",
+      "estado": "confirmado",
+      "image_url": "https://www.muenchen.travel/var/ger_muc/storage/images/_aliases/stage_large/0/5/7/5/1495750-1-ger-DE/weihnachtsmarkt-8973-foto-lukas-barth-3000.jpg"
+    },
+    {
+      "nombre": "Münchner Bücherschau (Feria del Libro)",
+      "fecha": "2025-11-20",
+      "hora_inicio": "15 horas al día (horario específico a confirmar)",
+      "hora_fin": "2025-12-07",
+      "lugar": "Haus der Kunst (West Wing)",
+      "descripcion": "Feria de literatura cultural y libros",
+      "categoria": "cultura-literatura",
+      "precio": "a confirmar (generalmente asequible)",
+      "estado": "confirmado",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/91/M%C3%BCnchner_B%C3%BCcherschau_2009.jpg"
+    },
+    {
+      "nombre": "FC Bayern Múnich Baloncesto vs. FC Baloncesto",
+      "fecha": "2025-11-12",
+      "hora_inicio": "20:30 (18:30 PM)",
+      "hora_fin": null,
+      "lugar": "SAP Garden, Múnich",
+      "descripcion": "Partido de baloncesto",
+      "categoria": "deporte",
+      "precio": "variable (consultar)",
+      "estado": "confirmado",
+      "image_url": "https://i.ytimg.com/vi/AHelaO7zstY/hq720.jpg"
+    },
+    {
+      "nombre": "Concierto: Kontra",
+      "fecha": "2025-11-18",
+      "hora_inicio": "20:00 (8:00 PM)",
+      "hora_fin": null,
+      "lugar": "Olympiahalle München",
+      "descripcion": "Concierto de música",
+      "categoria": "concierto-musica",
+      "precio": "variable (consultar)",
+      "estado": "confirmado",
+      "image_url": "https://commons.wikimedia.org/wiki/File:KONTRA_K_-_Southside_Festival_2022_-_IMG_4516.jpg"
+    },
+    {
+      "nombre": "Concierto: Sabaton",
+      "fecha": "2025-11-19",
+      "hora_inicio": "19:00 (7:00 PM)",
+      "hora_fin": null,
+      "lugar": "Olympiahalle München",
+      "descripcion": "Concierto de música",
+      "categoria": "concierto-musica",
+      "precio": "variable (consultar)",
+      "estado": "confirmado",
+      "image_url": "https://es.wikipedia.org/wiki/Archivo:2019_RiP_Sabaton_-_by_2eight_-_DSC1378.jpg"
+    },
+    {
+      "nombre": "FC Bayern Múnich vs. SC Freiburg",
+      "fecha": "2025-11-22",
+      "hora_inicio": "16:30 (3:30 PM)",
+      "hora_fin": null,
+      "lugar": "Allianz Arena, Múnich",
+      "descripcion": "Partido de fútbol",
+      "categoria": "deporte",
+      "precio": "variable (consultar)",
+      "estado": "confirmado",
+      "image_url": "https://artwork.espncdn.com/events/401448693/16x9/1280x720_20221008220046.jpg"
+    },
+    {
+      "nombre": "Concierto: Till",
+      "fecha": "2025-11-25",
+      "hora_inicio": "20:00 (8:00 PM)",
+      "hora_fin": null,
+      "lugar": "Olympiahalle München",
+      "descripcion": "Concierto de música",
+      "categoria": "concierto-musica",
+      "precio": "variable (consultar)",
+      "estado": "confirmado",
+      "image_url": "https://es.wikipedia.org/wiki/Archivo:Till_Lindemann_live.jpg"
+    },
+    {
+      "nombre": "FC Bayern Múnich vs. FC St. Pauli",
+      "fecha": "2025-11-29",
+      "hora_inicio": "horario (suele ser por la tarde)",
+      "hora_fin": null,
+      "lugar": "Allianz Arena, Múnich",
+      "descripcion": "Partido de fútbol",
+      "categoria": "deporte",
+      "precio": "variable (consultar)",
+      "estado": "confirmado",
+      "image_url": "https://i.ytimg.com/vi/Z3rmjFNtnI0/hq720.jpg"
+    },
+    {
+      "nombre": "Conciertos de Música Clásica",
+      "fecha": "varios",
+      "hora_inicio": "horarios varían",
+      "hora_fin": null,
+      "lugar": "Varios (ver nota)",
+      "descripcion": "Múnich es conocida por su escena de música clásica. Jueves 13 de Noviembre y Sábados 15, 22 y 29 de Noviembre: Conciertos de Maestro en la Philharmonie Gasteig-Saal a las vielas en la Residencia de Múnich. Boletos desde aproximadamente € 63. Viernes 14 de Noviembre: Concierto de Gala en la Residencia de Múnich en la Capilla Real de Todos los Santos. Boletos desde aproximadamente € 63. Varias fechas (incluyendo el 15 de noviembre): Nymphenburg Classic a la Mozart en el Palacio de Nymphenburg. Boletos desde aproximadamente € 67.",
+      "categoria": "musica-clasica",
+      "precio": "desde €63-€67",
+      "estado": "confirmado",
+      "image_url": "https://agenciasanluis.com/wp-content/uploads/2019/10/CICLO-DE-MUSICA-CLASICA-3.jpg"
+    },
+    {
+      "nombre": "Tour con paradas libres (Hop-on Hop-off)",
+      "fecha": "diario",
+      "hora_inicio": "disponible desde el 10 de noviembre",
+      "hora_fin": null,
+      "lugar": "Ciudad de Múnich (autobús de dos pisos)",
+      "descripcion": "Recorre la ciudad en autobús de dos pisos. Desde unos € 20-70",
+      "categoria": "tour",
+      "precio": "desde €20-€70",
+      "estado": "permanente",
+      "image_url": "https://media.tacdn.com/media/attractions-splice-spp-674x446/13/d2/6c/18.jpg"
+    },
+    {
+      "nombre": "Excursión de medio día al Sitio Conmemorativo de Dachau",
+      "fecha": "diario",
+      "hora_inicio": "disponible desde el 10 de noviembre",
+      "hora_fin": null,
+      "lugar": "Campo de concentración de Dachau (y más allá)",
+      "descripcion": "Recorrido del antiguo campo de concentración. El costo del tour guiado es de unos € 37.50 (solo transporte y entrada al Memorial)",
+      "categoria": "tour",
+      "precio": "€37.50 aproximadamente",
+      "estado": "permanente",
+      "image_url": "https://mediaim.expedia.com/localexpert/838427/71f9f086-cbaa-4f1b-baca-490ebf82c0cd.jpg"
+    },
+    {
+      "nombre": "Excursión de un día al Castillo de Neuschwanstein",
+      "fecha": "diario",
+      "hora_inicio": "disponible desde el 10 de noviembre (y más allá)",
+      "hora_fin": null,
+      "lugar": "Castillo de Neuschwanstein (viaje el famoso castillo de cuento de hadas)",
+      "descripcion": "Viaje al famoso castillo de cuento de hadas",
+      "categoria": "tour",
+      "precio": "variable",
+      "estado": "permanente",
+      "image_url": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-674x446/09/ee/3b/6c.jpg"
+    }
+  ],
+  "nota": "Los precios son aproximados y pueden variar según la disponibilidad, el momento de la compra y la plataforma de venta. Para obtener el precio exacto y las entradas, te recomendamos encarecidamente visitar los sitios web oficiales de cada evento (como del Mercado de Navidad de Múnich, Classictic para conciertos o SeatPick/Ticketing para eventos deportivos/conciertos)."
+}

@@ -1,0 +1,20 @@
+{
+  "source_file": "Miranda_gemini_response.json",
+  "curated_at": "2025-11-09T10:37:08.221713",
+  "events": [
+    {
+      "nombre": "Juguemos a imaginar",
+      "fecha": "Varía (usualmente una vez al mes)",
+      "ciudad": "Altamira, Chacao (Área Metropolitana de Caracas)",
+      "descripcion": "En PDVSA La Estancia. Es una actividad que combina cuento, pintura y música con diferentes temáticas, ideal para la familia.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Miranda",
+      "country": "Venezuela",
+      "image_url": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    }
+  ]
+}

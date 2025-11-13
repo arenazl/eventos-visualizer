@@ -1,0 +1,211 @@
+{
+  "source": "gemini",
+  "ciudad": "Ciudad de Panamá",
+  "pais": "Panamá",
+  "fecha_consulta": "2025-11-05",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 20,
+  "eventos": [
+    {
+      "numero": 1,
+      "nombre": "Día de la Separación de Panamá de Colombia",
+      "fecha": "2025-11-03",
+      "lugar": "Vía España y Casco Antiguo",
+      "genero": "Feriado Nacional",
+      "descripcion": "Feriado nacional. Desfiles escolares y cívicos masivos en la Ciudad de Panamá.",
+      "categoria": "Cultural",
+      "image_url": "https://museodelcanal.com/wp-content/uploads/2024/11/02.jpg"
+    },
+    {
+      "numero": 2,
+      "nombre": "Día de la Bandera y de los Símbolos Patrios",
+      "fecha": "2025-11-04",
+      "lugar": "Ciudad de Panamá",
+      "genero": "Feriado Nacional",
+      "descripcion": "Feriado nacional. Continuación de los desfiles en la capital. Homenajes a la bandera.",
+      "categoria": "Cultural",
+      "image_url": "https://www.sandiegouniontribune.com/wp-content/uploads/migration/2019/11/04/0000016e-3844-d027-a57e-bdcef6480001.jpg?w=535"
+    },
+    {
+      "numero": 3,
+      "nombre": "Día de la consolidación de la Separación",
+      "fecha": "2025-11-05",
+      "lugar": "Ciudad de Panamá",
+      "genero": "Feriado Nacional",
+      "descripcion": "Celebración histórica, desfiles y actos cívicos. Se conmemora con actos especiales.",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100034329377805"
+    },
+    {
+      "numero": 4,
+      "nombre": "Primer Grito de Independencia",
+      "fecha": "2025-11-10",
+      "lugar": "Ciudad de Panamá",
+      "genero": "Feriado Nacional",
+      "descripcion": "Feriado nacional. Se celebra con actos cívicos, presentaciones folklóricas y tarimas en diferentes corregimientos.",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3763807915942528570"
+    },
+    {
+      "numero": 5,
+      "nombre": "Día de la Independencia de Panamá de España",
+      "fecha": "2025-11-28",
+      "lugar": "Ciudad de Panamá",
+      "genero": "Feriado Nacional",
+      "descripcion": "Feriado nacional. Desfiles cívicos y folklóricos, y actos protocolarios que cierran el Mes de la Patria.",
+      "categoria": "Cultural",
+      "image_url": "https://miro.medium.com/1*4hh-biMU5uaWWVPHI4jb2Q.jpeg"
+    },
+    {
+      "numero": 6,
+      "nombre": "Actividades Cívicas y Culturales en Casco Antiguo",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Casco Antiguo",
+      "genero": "Cultural",
+      "descripcion": "El mes entero está lleno de conciertos, presentaciones de bandas, izada de banderas y actos culturales en el centro histórico.",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3728230016619788527"
+    },
+    {
+      "numero": 7,
+      "nombre": "Eventos de Entidades Públicas y Privadas",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Diversos puntos de la ciudad",
+      "genero": "Cultural",
+      "descripcion": "Múltiples instituciones y empresas organizan actos, conferencias y eventos temáticos en honor a la patria.",
+      "categoria": "Cultural",
+      "image_url": "https://trust-oea.org/wp-content/uploads/2024/12/14.webp"
+    },
+    {
+      "numero": 8,
+      "nombre": "XXVII Congreso Iberoamericano de la Sociedad Cardiovascular",
+      "fecha": "2025-11-19/2025-11-21",
+      "lugar": "Panamá Convention Center",
+      "genero": "Congreso",
+      "descripcion": "VII Encuentro de Ministros de Salud de la Región. Evento médico internacional.",
+      "categoria": "Negocios",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100049913960078"
+    },
+    {
+      "numero": 9,
+      "nombre": "Congreso Internacional Minero 2025",
+      "fecha": "2025-11-25/2025-11-27",
+      "lugar": "Panamá Convention Center",
+      "genero": "Congreso",
+      "descripcion": "Congreso internacional del sector minería.",
+      "categoria": "Negocios",
+      "image_url": "https://unesdoc.unesco.org/in/rest/Thumb/image?id=p%3A%3Ausmarcdef_0000126658&author=Water+Centre+for+the+Humid+Tropics+of+Latin+America+and+the+Caribbean&title=Hydrology+and+water+management+in+the+humid+tropics%3A+proceedings+of+the+Second+International+Colloquium%2C+22-26+March+1999%2C+Panama%2C+Republic+of+Panama&year=2002&TypeOfDocument=UnescoPhysicalDocument&mat=PGD&ct=true&size=512&isPhysical=1"
+    },
+    {
+      "numero": 10,
+      "nombre": "Concapan 2025",
+      "fecha": "2025-11-26/2025-11-28",
+      "lugar": "Panamá Convention Center",
+      "genero": "Congreso",
+      "descripcion": "Congreso de ingeniería, eléctrica e industrial.",
+      "categoria": "Negocios",
+      "image_url": "https://media.licdn.com/dms/image/v2/D4E22AQGdhHQ2QZUibQ/feedshare-shrink_800/B4EZlPUZSWIUAg-/0/1757972371059?e=2147483647&v=beta&t=cc3EjgQSXpfFaFCe7qxbXjqY7-wJMSzwp6oeWv8B8jU"
+    },
+    {
+      "numero": 11,
+      "nombre": "FIRST Global Challenge",
+      "fecha": "2025-10-29/2025-11-01",
+      "lugar": "Ciudad de Panamá",
+      "genero": "Tecnología",
+      "descripcion": "Competencia internacional de robótica, termina a inicios de noviembre.",
+      "categoria": "Tecnología",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3750447678623917759"
+    },
+    {
+      "numero": 12,
+      "nombre": "Otras Ferias y Exposiciones Empresariales",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Recintos MICE",
+      "genero": "Ferias",
+      "descripcion": "Múltiples ferias de negocios durante el mes.",
+      "categoria": "Negocios",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3700205355426829503"
+    },
+    {
+      "numero": 13,
+      "nombre": "CAMINO AL VALHALLA",
+      "fecha": "2025-11-08",
+      "lugar": "Áreas naturales cercanas",
+      "genero": "Carrera/Trail",
+      "descripcion": "Carrera de trail running.",
+      "categoria": "Deportes",
+      "image_url": "https://0.academia-photos.com/attachment_thumbnails/66855637/mini_magick20210509-3657-1165fzj.png?1620552206"
+    },
+    {
+      "numero": 14,
+      "nombre": "CAMPEONATO PAFRA NOVIEMBRE",
+      "fecha": "2025-11-09",
+      "lugar": "Clayton, Panamá",
+      "genero": "Deportivo",
+      "descripcion": "Campeonato deportivo en Clayton.",
+      "categoria": "Deportes",
+      "image_url": "https://online.fliphtml5.com/eebm/xesz/files/thumb/c1bf41d82adc8c5d53cce0ede0c16bbc.webp?1659448718&1659448718"
+    },
+    {
+      "numero": 15,
+      "nombre": "CERRO AZUL TRAIL CHALLENGE",
+      "fecha": "2025-11-16",
+      "lugar": "Cerro Azul",
+      "genero": "Carrera/Trail",
+      "descripcion": "Carrera de trail en Cerro Azul, cercano a la ciudad.",
+      "categoria": "Deportes",
+      "image_url": "https://images.alltrails.com/eyJidWNrZXQiOiJhc3NldHMuYWxsdHJhaWxzLmNvbSIsImtleSI6InVwbG9hZHMvcGhvdG8vaW1hZ2UvMjIwMzUyODEvM2Q5N2NkODY5NTc5Y2NmMzMyNDlkY2ZiYzhiMzNkNzMuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJ3ZWJwIiwicmVzaXplIjp7IndpZHRoIjo1MDAsImhlaWdodCI6NTAwLCJmaXQiOiJpbnNpZGUifSwicm90YXRlIjpudWxsLCJqcGVnIjp7InRyZWxsaXNRdWFudGlzYXRpb24iOnRydWUsIm92ZXJzaG9vdERlcmluZ2luZyI6dHJ1ZSwib3B0aW1pc2VTY2FucyI6dHJ1ZSwicXVhbnRpc2F0aW9uVGFibGUiOjN9fX0="
+    },
+    {
+      "numero": 16,
+      "nombre": "CARRERA CAMINATA CHINITA 10KM 2025",
+      "fecha": "2025-11-30",
+      "lugar": "Cinta Costera",
+      "genero": "Carrera",
+      "descripcion": "Carrera de 10km en la Cinta Costera.",
+      "categoria": "Deportes",
+      "image_url": "https://papaya25.info/images/isotipo.png"
+    },
+    {
+      "numero": 17,
+      "nombre": "Eventos de Teatro y Ballet",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Teatro Nacional, Teatro Balboa",
+      "genero": "Cultural",
+      "descripcion": "Programación teatral y de ballet durante el mes.",
+      "categoria": "Cultural",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/3a/0c/4d/caption.jpg?w=900&h=500&s=1"
+    },
+    {
+      "numero": 18,
+      "nombre": "Conciertos y Espectáculos en Arenas",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Amador Convention Center, Plaza Figali",
+      "genero": "Ocio/Entretenimiento",
+      "descripcion": "Conciertos y espectáculos masivos en recintos principales.",
+      "categoria": "Entretenimiento",
+      "image_url": "https://www.tiktok.com/api/img/?itemId=7559664157063236871&location=0&aid=1988"
+    },
+    {
+      "numero": 19,
+      "nombre": "MOTOVELOCIDAD & STREET LEGAL NOVIEMBRE",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Pistas/Autódromos cercanos",
+      "genero": "Deportivo/Motor",
+      "descripcion": "Eventos de automovilismo y motociclismo.",
+      "categoria": "Deportes",
+      "image_url": "https://www.tiktok.com/api/img/?itemId=7543077783883304199&location=0&aid=1988"
+    },
+    {
+      "numero": 20,
+      "nombre": "Mes de la Patria - Actividades Generales",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Toda la ciudad",
+      "genero": "Cultural Nacional",
+      "descripcion": "Noviembre es el Mes de la Patria con múltiples actividades cívicas, culturales y festivas en toda la ciudad.",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3741343056793255591"
+    }
+  ],
+  "nota_importante": "Noviembre es el Mes de la Patria en Panamá, con 4 feriados nacionales (3, 4, 10, 28 de noviembre) y múltiples desfiles cívicos. La Ciudad de Panamá también es sede de importantes congresos internacionales y eventos MICE en el Panamá Convention Center."
+}

@@ -1,0 +1,11 @@
+{
+  "region": "Rio de Janeiro",
+  "country": "Brasil",
+  "source": "gemini",
+  "timestamp": "2025-11-09T06:45:00",
+  "eventos": [
+    {"nome": "Maratona da Alegria 2025", "cidade": "Rio de Janeiro (Praça da Apoteose)", "data": "08/11/2025", "descricao": "Grande festival de música com diversos artistas populares (Geralmente pop, funk, sertanejo e pagode)."},
+    {"nome": "Ivete Clareo RJ", "cidade": "Rio de Janeiro (Marina da Glória)", "data": "22/11/2025", "descricao": "Show da cantora Ivete Sangalo, um evento de grande apelo e público na cidade."},
+    {"nome": "Bruno & Marrone", "cidade": "Rio de Janeiro (Barra da Tijuca - Espaço Hall)", "data": "21/11/2025", "descricao": "Show da dupla sertaneja de grande sucesso, atrai um público considerável."}
+  ]
+}

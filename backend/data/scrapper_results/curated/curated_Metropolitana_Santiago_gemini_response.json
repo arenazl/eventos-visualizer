@@ -1,0 +1,62 @@
+{
+  "source_file": "Metropolitana_Santiago_gemini_response.json",
+  "curated_at": "2025-11-09T10:37:08.219716",
+  "events": [
+    {
+      "nombre": "Jimin Exhibition The Truth Untold in Chile",
+      "fecha": "9 al 15 de Noviembre 2025",
+      "ciudad": "Santiago Centro",
+      "descripcion": "Exposición relacionada con el artista de K-pop, un género con gran arrastre.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Metropolitana de Santiago",
+      "country": "Chile",
+      "image_url": "https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Dua Lipa - Radical Optimism Tour",
+      "fecha": "11 y 12 de Noviembre 2025",
+      "ciudad": "Santiago Centro",
+      "descripcion": "Concierto de la reconocida estrella pop internacional.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Metropolitana de Santiago",
+      "country": "Chile",
+      "image_url": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Melendi",
+      "fecha": "12 y 13 de Noviembre 2025",
+      "ciudad": "Santiago Centro",
+      "descripcion": "Conciertos del popular cantante español de pop/balada.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Metropolitana de Santiago",
+      "country": "Chile",
+      "image_url": "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Los Vásquez - 15 Años - La FIESTA",
+      "fecha": "14 y 15 de Noviembre 2025",
+      "ciudad": "Huechuraba",
+      "descripcion": "Celebración y fiesta de la banda chilena de pop cebolla/cumbia.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Metropolitana de Santiago",
+      "country": "Chile",
+      "image_url": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    }
+  ]
+}

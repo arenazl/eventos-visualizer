@@ -1,0 +1,122 @@
+{
+  "ciudad": "Atenas",
+  "pais": "Grecia",
+  "mes": "noviembre",
+  "anio": 2025,
+  "eventos": [
+    {
+      "nombre": "Tour por Acrópolis y Partenón (Visita guiada)",
+      "fecha": "2025-11-10",
+      "hora_inicio": "todo el día",
+      "hora_fin": null,
+      "lugar": "Acrópolis y Partenón",
+      "descripcion": "Visita el sitio arqueológico más emblemático de Atenas. Se recomienda obtener un ticket anticipado para evitar colas",
+      "categoria": "cultura-turismo",
+      "precio": "€29.00 (ticket con audioguía)",
+      "estado": "diario",
+      "image_url": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-674x446/11/26/c7/f8.jpg"
+    },
+    {
+      "nombre": "Megaron - Sala de Conciertos de Atenas",
+      "fecha": "2025-11-10",
+      "hora_inicio": "tardes (Miércoles y Domingo)",
+      "hora_fin": null,
+      "lugar": "Megaron - Sala de Conciertos de Atenas",
+      "descripcion": "Comienza la temporada de invierno. Consulta el calendario para ver actuaciones de música clásica, conciertos internacionales",
+      "categoria": "musica-cultura",
+      "precio": "no especificado (se recomienda verificar con elegancia)",
+      "estado": "temporada",
+      "image_url": "https://www.discovergreece.com/sites/default/files/styles/default/public/2022-06/alexandra_trianti_hall_-_megaron_athens_concert_hall_by_akriviadis.jpg"
+    },
+    {
+      "nombre": "Plaka y Psirri",
+      "fecha": "2025-11-10",
+      "hora_inicio": "tardes",
+      "hora_fin": null,
+      "lugar": "Plaka y Psirri",
+      "descripcion": "Pasea por las calles iluminadas de Plaka (tiendas y exprópolis) y las calles laberínticas de Psirri para beber rakorio y probar meze de Grecia",
+      "categoria": "arte-libre-gastronomia",
+      "precio": "variable (consumo)",
+      "estado": "diario",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/a3/71/16/psirri.jpg"
+    },
+    {
+      "nombre": "Centro Cultural Fundación Stavros Niarchos (SNFCC)",
+      "fecha": "2025-11-10",
+      "hora_inicio": "todo el día",
+      "hora_fin": null,
+      "lugar": "Centro Cultural Fundación Stavros Niarchos (SNFCC)",
+      "descripcion": "Disfruta de visitas, programación musical y un gran parque público. A finales de noviembre suelen haber decoraciones navideñas",
+      "categoria": "cultura-familiar-arte-libre",
+      "precio": "no especificado (A veces gratuito)",
+      "estado": "diario",
+      "image_url": "https://images.adsttc.com/media/images/5778/caf1/e58e/ce2f/8800/019b/large_jpg/RPBW_SNFCC_0515_014.jpg"
+    },
+    {
+      "nombre": "Circuitos turísticos desde Atenas (Tour)",
+      "fecha": "2025-11-14",
+      "hora_inicio": "varios",
+      "hora_fin": "2025-11-15",
+      "lugar": "Desde Atenas (Santorini, Creta, Delfos o a lugares de la Grecia clásica: Micenas, Olimpia, Epidauros, Delfos, Kalabaka)",
+      "descripcion": "Circuitos turísticos de varios días a lugares emblemáticos de Grecia (circuito completo)",
+      "categoria": "tour-viaje",
+      "precio": "variable (Desde €575 - depende del circuito completo)",
+      "estado": "disponible",
+      "image_url": "https://www.europamundo.com/img/maps/euros/2502339.jpg"
+    },
+    {
+      "nombre": "ZELUS ATHENS",
+      "fecha": "2025-11-21",
+      "hora_inicio": "19:00",
+      "hora_fin": null,
+      "lugar": "ZELUS ATHENS",
+      "descripcion": "Concierto de echomaisat",
+      "categoria": "musica",
+      "precio": "no especificado",
+      "estado": "confirmado",
+      "image_url": "https://es.wikipedia.org/wiki/Archivo:From_Temple_of_Olympian_Zeus_to_Lycabetus_Athens_Greece.jpg"
+    },
+    {
+      "nombre": "Noisas Club Akrogiales",
+      "fecha": "2025-11-21",
+      "hora_inicio": "23:00",
+      "hora_fin": null,
+      "lugar": "Noisas Club Akrogiales",
+      "descripcion": "Concierto de música",
+      "categoria": "musica",
+      "precio": "no especificado",
+      "estado": "confirmado"
+    },
+    {
+      "nombre": "Fiesta en Grecia (Estadio) - Theotokos",
+      "fecha": "2025-11-22",
+      "hora_inicio": "todo el día",
+      "hora_fin": null,
+      "lugar": "Estadio Theotokos",
+      "descripcion": "Festividad Religiosa (Presentación de la Virgen María al templo). Celebraciones religiosas",
+      "categoria": "festividad-religiosa",
+      "precio": "gratuito",
+      "estado": "confirmado",
+      "image_url": "https://imgmedia.larepublica.pe/1200x630/larepublica/original/2024/09/25/66f43bfb07c2a3062b5107e2.jpg"
+    },
+    {
+      "nombre": "Maratón de Atenas",
+      "fecha": "2025-11-09",
+      "hora_inicio": "mañana",
+      "hora_fin": null,
+      "lugar": "Atenas (ruta desde Maratón)",
+      "descripcion": "El evento principal del mes. El Maratón de Atenas se celebró el 9 de noviembre de 2025 (ya pasó)",
+      "categoria": "deporte",
+      "precio": "inscripción requerida",
+      "estado": "pasado",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/ad/The_Panathenaic_Stadium_on_April_22%2C_2021.jpg"
+    }
+  ],
+  "notas_importantes": [
+    "El Maratón de Atenas, el evento principal del mes, se celebró el 9 de noviembre de 2025, por lo que ya pasó.",
+    "Tours/Tickets: Hay muchas opciones disponibles a diario, como tours de día completo a Delfos (desde €56 - €74), el Templo de Poseidón en el Cabo Sunión al atardecer (desde €39), y visitas combinadas para yacimientos arqueológicos.",
+    "Conciertos: El listado de conciertos es parcial, se recomienda buscar el calendario del Megaron o plataformas de eventos locales para más espectáculos de música en vivo en clubes como el KYTTARO o Vox.",
+    "Precios: Los precios indicados son los mínimos encontrados ('Desde') para referencia y pueden variar según el proveedor o el tipo de entrada."
+  ],
+  "nota": "La información para eventos específicos (fiestas, conciertos, etc.) con hora y precio exacto suele confirmarse con menos antelación. Los resultados se centran en actividades culturales, tours y algunas fechas clave."
+}

@@ -1,0 +1,236 @@
+{
+  "source": "gemini",
+  "ciudad": "Cancún",
+  "pais": "México",
+  "fecha_consulta": "2025-11-03",
+  "periodo": "Noviembre 2025",
+  "eventos": [
+    {
+      "numero": 1,
+      "nombre": "Festival de Tradiciones de Vida y Muerte de Xcaret",
+      "fecha_inicio": "2025-10-30",
+      "fecha_fin": "2025-11-02",
+      "lugar": "Xcaret",
+      "descripcion": "Uno de los eventos culturales más grandes de la Riviera Maya. Incluye altares, ofrendas, gastronomía regional, talleres, obras de teatro y conciertos de gala",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 2,
+      "nombre": "Janal Pixán en el Parque de las Palapas",
+      "fecha": "2025-11-01",
+      "lugar": "Parque de las Palapas - Cancún Centro",
+      "descripcion": "Celebración local y tradicional del Día de Muertos maya con altares, gastronomía y actividades artísticas",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 3,
+      "nombre": "Festival Janal Pixán de Cancún",
+      "fecha": "2025-11-01",
+      "lugar": "Cancún",
+      "descripcion": "Eventos que conmemoran el Día de Muertos incluyendo recorridos de altares y la tradicional Cena de Ánimas",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 4,
+      "nombre": "Espectáculo Luz y Vida: Entre Vivos y Muertos",
+      "fecha": "2025-11-01",
+      "lugar": "Isla Mujeres",
+      "descripcion": "Recorrido visual y cultural que mezcla danza, música y tradición",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 5,
+      "nombre": "Cancun Jazz Festival",
+      "fecha": "2025-11-15",
+      "lugar": "Cancún",
+      "descripcion": "Festival de jazz que atrae a una gran audiencia internacional",
+      "categoria": "Música"
+    },
+    {
+      "numero": 6,
+      "nombre": "Mexico Meltdown - Festival de Música",
+      "fecha": "2025-11-20",
+      "lugar": "Resort Riviera Maya",
+      "descripcion": "Festival de música anunciado para noviembre 2025, atrayendo fans de géneros específicos",
+      "categoria": "Música"
+    },
+    {
+      "numero": 7,
+      "nombre": "Eventos Temáticos Hard Rock Hotel",
+      "fecha": "2025-11-01",
+      "lugar": "Hard Rock Hotel Cancún",
+      "descripcion": "Calendario semanal de shows, fiestas temáticas y eventos musicales",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 8,
+      "nombre": "Vida Nocturna en Coco Bongo",
+      "fecha": "2025-11-01",
+      "lugar": "Coco Bongo",
+      "descripcion": "Centro nocturno con espectáculos acrobáticos y shows de alta convocatoria",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 9,
+      "nombre": "Fiesta Mexicana de Xoximilco",
+      "fecha": "2025-11-01",
+      "lugar": "Xoximilco",
+      "descripcion": "Fiesta flotante con degustación de menú tradicional, tequila y música en vivo",
+      "categoria": "Gastronomía"
+    },
+    {
+      "numero": 10,
+      "nombre": "Aluxe Fest",
+      "fecha": "2025-11-15",
+      "lugar": "Playa del Carmen",
+      "descripcion": "Encuentro dedicado a la música independiente, el arte y la cultura del Caribe",
+      "categoria": "Música"
+    },
+    {
+      "numero": 11,
+      "nombre": "Reto Mapaches",
+      "fecha": "2025-11-10",
+      "lugar": "Puerto Morelos - Ruta de los Cenotes",
+      "descripcion": "Competencia de ciclismo de montaña que convoca a deportistas",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 12,
+      "nombre": "Torneos de Golf",
+      "fecha": "2025-11-15",
+      "lugar": "Resorts de lujo - Cancún",
+      "descripcion": "Torneos en campos de golf de clase mundial, atrayendo jugadores internacionales",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 13,
+      "nombre": "Torneos de Pesca Deportiva",
+      "fecha": "2025-11-20",
+      "lugar": "Cancún",
+      "descripcion": "Torneos locales o regionales de pesca deportiva",
+      "categoria": "Deportes"
+    },
+    {
+      "numero": 14,
+      "nombre": "Visita a Chichén Itzá",
+      "lugar": "Chichén Itzá",
+      "descripcion": "Una de las 7 Nuevas Maravillas del Mundo, sitio arqueológico imprescindible",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 15,
+      "nombre": "Exploración de Cenotes",
+      "lugar": "Ruta de los Cenotes",
+      "descripcion": "Cenotes como Chac Mool, atracción natural de alta afluencia",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 16,
+      "nombre": "Tours a Tulum",
+      "lugar": "Tulum",
+      "descripcion": "Ruinas mayas frente al mar, única ciudad maya construida a la orilla del mar",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 17,
+      "nombre": "Día de Acción de Gracias (Thanksgiving)",
+      "fecha": "2025-11-27",
+      "lugar": "Hoteles y Restaurantes de Cancún",
+      "descripcion": "Cenas y eventos especiales para turistas de Estados Unidos y Canadá",
+      "categoria": "Gastronomía"
+    },
+    {
+      "numero": 18,
+      "nombre": "Exploración de Isla Mujeres",
+      "lugar": "Isla Mujeres",
+      "descripcion": "Paseos en catamarán, visita a Playa Norte, Punta Sur y nado con snorkel",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 19,
+      "nombre": "Nado con Tortugas en Akumal",
+      "lugar": "Akumal",
+      "descripcion": "Atractivo de naturaleza para nadar con tortugas marinas",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 20,
+      "nombre": "Snorkel en el MUSA",
+      "lugar": "Museo Subacuático de Arte",
+      "descripcion": "Visita a las esculturas sumergidas del museo submarino",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 21,
+      "nombre": "La Isla Shopping Village",
+      "lugar": "La Isla Shopping Village",
+      "descripcion": "Centro comercial al aire libre con alta afluencia",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 22,
+      "nombre": "Mercado 28",
+      "lugar": "Cancún Centro",
+      "descripcion": "Lugar más concurrido para comprar artesanías locales",
+      "categoria": "Entretenimiento"
+    },
+    {
+      "numero": 23,
+      "nombre": "Playa Delfines (El Mirador)",
+      "lugar": "Playa Delfines",
+      "descripcion": "Playa pública más icónica para la foto con el letrero de Cancún",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 24,
+      "nombre": "Avistamiento de Vida Silvestre - Tortugas",
+      "fecha": "2025-11-15",
+      "lugar": "Isla Mujeres",
+      "descripcion": "Final de la temporada de eclosión de tortugas marinas",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 25,
+      "nombre": "Parques de Aventura (Xplor, Xel-Há, Selvatica)",
+      "lugar": "Riviera Maya",
+      "descripcion": "Actividades de tirolesas, ríos subterráneos y snorkel",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 26,
+      "nombre": "Recorrido por la Laguna Nichupté",
+      "lugar": "Laguna Nichupté",
+      "descripcion": "Tours en lancha rápida o actividades como parasailing",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 27,
+      "nombre": "Museo Maya de Cancún y San Miguelito",
+      "lugar": "Cancún",
+      "descripcion": "Combinación de cultura e historia local con zona arqueológica",
+      "categoria": "Cultural"
+    },
+    {
+      "numero": 28,
+      "nombre": "Buceo en Arrecifes - Arrecife Manchones",
+      "lugar": "Arrecifes de Cancún",
+      "descripcion": "Riqueza marina, punto de encuentro para buzos",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 29,
+      "nombre": "Pajareada en el Parque Kabah",
+      "lugar": "Parque Kabah",
+      "descripcion": "Actividad de observación de aves para amantes de la naturaleza",
+      "categoria": "Turismo"
+    },
+    {
+      "numero": 30,
+      "nombre": "Tianguis Cool de Segunda Mano",
+      "lugar": "Cancún Centro",
+      "descripcion": "Eventos de moda y artículos preloved",
+      "categoria": "Entretenimiento"
+    }
+  ],
+  "nota_importante": "Noviembre es un mes de transición en Cancún, justo después de la temporada de huracanes y antes de la temporada alta de invierno. Se caracteriza por festivales culturales y algunas competencias deportivas."
+}

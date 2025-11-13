@@ -1,0 +1,88 @@
+{
+  "source": "gemini",
+  "ciudad": "Punta del Este",
+  "pais": "Uruguay",
+  "fecha_consulta": "2025-11-03",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 7,
+  "eventos": [
+    {
+      "numero": 1,
+      "nombre": "XXVIII Conferencia de Zonas Francas de Iberoamérica",
+      "fecha": "2025-11-19/2025-11-21",
+      "lugar": "Centro de Convenciones de Punta del Este",
+      "genero": "Conferencia profesional",
+      "descripcion": "Encuentro profesional de alto nivel con líderes y autoridades gubernamentales para debatir sobre desarrollo económico",
+      "categoria": "Negocios",
+      "artistas": "",
+      "image_url": "https://cdn.getcrowder.com/images/62dd1b53-34e3-4986-9a47-0f68ab5ebbbe-centroconvenciones-puntadeleste.jpg"
+    },
+    {
+      "numero": 2,
+      "nombre": "ReCorre Maldonado - Etapa Piriápolis",
+      "fecha": "2025-11-08",
+      "lugar": "Piriápolis, Maldonado",
+      "genero": "Carrera deportiva",
+      "descripcion": "Circuito de carreras a pie muy popular organizado por la Intendencia de Maldonado, que convoca a cientos de corredores",
+      "categoria": "Deportes",
+      "artistas": "",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3593449937444323067"
+    },
+    {
+      "numero": 3,
+      "nombre": "Carrera del Viento Cúbico",
+      "fecha": "2025-11-09",
+      "lugar": "Parque Eólico Carapé",
+      "genero": "Carrera deportiva sustentable",
+      "descripcion": "Evento deportivo que promueve la sustentabilidad, atrayendo a amantes del deporte y el ecoturismo",
+      "categoria": "Deportes",
+      "artistas": "",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3759661980186472674"
+    },
+    {
+      "numero": 4,
+      "nombre": "Lanzamiento XXX Edición del Rally del Atlántico",
+      "fecha": "2025-11-05",
+      "lugar": "Punta del Este",
+      "genero": "Automovilismo",
+      "descripcion": "Evento automovilístico internacional que atrae a competidores y público de varios países",
+      "categoria": "Deportes",
+      "artistas": "",
+      "image_url": "https://mundoturistico.com.uy/fotos/gacetillas/gacetilla_691_1.jpg"
+    },
+    {
+      "numero": 5,
+      "nombre": "Temporada de Conciertos del Este",
+      "fecha": "Varios conciertos durante noviembre 2025",
+      "lugar": "Hoteles y espacios culturales",
+      "genero": "Música clásica y de cámara",
+      "descripcion": "Ciclo de música clásica y de cámara que se realiza en hoteles y espacios culturales",
+      "categoria": "Música",
+      "artistas": "",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/43/ed/6b/caption.jpg?w=900&h=500&s=1"
+    },
+    {
+      "numero": 6,
+      "nombre": "Feria de la Cerveza Artesanal (9ª Edición)",
+      "fecha": "Primera semana de noviembre 2025",
+      "lugar": "Península de Punta del Este",
+      "genero": "Feria gastronómica",
+      "descripcion": "Festival gastronómico popular con degustaciones y música, ideal para locales y turistas",
+      "categoria": "Gastronomía",
+      "artistas": "",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3710107674844787905"
+    },
+    {
+      "numero": 7,
+      "nombre": "Mercadillo Orgánico",
+      "fecha": "Fines de semana de noviembre",
+      "lugar": "Península y CLAEH",
+      "genero": "Mercado artesanal",
+      "descripcion": "Se realiza habitualmente los fines de semana. Puntos de encuentro para productores locales, ideal para comprar productos frescos y artesanales",
+      "categoria": "Gastronomía",
+      "artistas": "",
+      "image_url": "https://img.yumpu.com/15716774/1/500x640/anuario-2010-unesco.jpg"
+    }
+  ],
+  "nota_importante": "Noviembre es temporada baja en Punta del Este. La mayoría de eventos grandes se anuncian con poco tiempo o pertenecen a la temporada de verano (diciembre-marzo). Se incluyen eventos recurrentes confirmados y atractivos permanentes de gran convocatoria. Consultar sitios oficiales de la Intendencia de Maldonado y Centro de Convenciones cerca de la fecha."
+}

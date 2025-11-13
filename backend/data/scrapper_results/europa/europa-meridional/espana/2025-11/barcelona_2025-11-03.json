@@ -1,0 +1,307 @@
+{
+  "source": "gemini",
+  "ciudad": "Barcelona",
+  "pais": "España",
+  "fecha_consulta": "2025-11-03",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 30,
+  "eventos": [
+    {
+      "numero": 1,
+      "artista": "El Altar Del Holocausto",
+      "fecha": "2025-11-01",
+      "lugar": "Sala Razzmatazz 2",
+      "genero": "Rock, Metal Instrumental",
+      "categoria": "Música"
+    },
+    {
+      "numero": 2,
+      "artista": "Mr. Kilombo",
+      "fecha": "2025-11-01",
+      "lugar": "Sala Apolo",
+      "genero": "Rock, Ska, Reggae",
+      "categoria": "Música"
+    },
+    {
+      "numero": 3,
+      "artista": "The Hives",
+      "fecha": "2025-11-01",
+      "lugar": "Sala Razzmatazz 1",
+      "genero": "Punk Rock, Garage",
+      "categoria": "Música"
+    },
+    {
+      "numero": 4,
+      "artista": "Bandalos Chinos",
+      "fecha": "2025-11-01",
+      "lugar": "Sala Apolo",
+      "genero": "Indie Pop",
+      "categoria": "Música"
+    },
+    {
+      "numero": 5,
+      "artista": "Parkway Drive",
+      "fecha": "2025-11-02",
+      "lugar": "Sant Jordi Club",
+      "genero": "Hard Rock, Metal",
+      "categoria": "Música"
+    },
+    {
+      "numero": 6,
+      "artista": "Los Secretos",
+      "fecha": "2025-11-02",
+      "lugar": "(Lugar no especificado)",
+      "genero": "Pop Rock",
+      "categoria": "Música"
+    },
+    {
+      "numero": 7,
+      "artista": "Elefantes",
+      "fecha": "2025-11-02",
+      "lugar": "(Lugar no especificado)",
+      "genero": "Pop Rock",
+      "categoria": "Música"
+    },
+    {
+      "numero": 8,
+      "artista": "Zaz",
+      "fecha": "2025-11-03",
+      "lugar": "Sala Razzmatazz 1",
+      "genero": "Pop Rock, Jazz, Soul, Folk",
+      "categoria": "Música"
+    },
+    {
+      "numero": 9,
+      "artista": "Salmo",
+      "fecha": "2025-11-04",
+      "lugar": "(Lugar no especificado)",
+      "genero": "Urbana, HipHop Rap",
+      "categoria": "Música"
+    },
+    {
+      "numero": 10,
+      "artista": "Alleh & Yorghak",
+      "fecha": "2025-11-05",
+      "lugar": "Sant Jordi Club",
+      "genero": "Urbana, Reggaetón, Merengue",
+      "categoria": "Música"
+    },
+    {
+      "numero": 11,
+      "artista": "Leprous + Gate + Royal Sorrow",
+      "fecha": "2025-11-05",
+      "lugar": "Sala Apolo",
+      "genero": "Hard Rock, Metal Progresivo",
+      "categoria": "Música"
+    },
+    {
+      "numero": 12,
+      "artista": "Jamiroquai (The Heels Of Steel Tour)",
+      "fecha": "2025-11-06",
+      "lugar": "Palau Sant Jordi",
+      "genero": "Funk, Electrónica",
+      "categoria": "Música"
+    },
+    {
+      "numero": 13,
+      "artista": "Omar Courtz (1ª Fecha)",
+      "fecha": "2025-11-06",
+      "lugar": "Sant Jordi Club",
+      "genero": "Urbana, Trap",
+      "categoria": "Música"
+    },
+    {
+      "numero": 14,
+      "artista": "Sam Garrett",
+      "fecha": "2025-11-06",
+      "lugar": "Sala Razzmatazz 1",
+      "genero": "Folk Rock, Reggae",
+      "categoria": "Música"
+    },
+    {
+      "numero": 15,
+      "artista": "Los Sirex",
+      "fecha": "2025-11-07",
+      "lugar": "Sala Apolo",
+      "genero": "Rock",
+      "categoria": "Música"
+    },
+    {
+      "numero": 16,
+      "artista": "Leiva",
+      "fecha": "2025-11-08",
+      "lugar": "Palau Sant Jordi",
+      "genero": "Pop Rock",
+      "categoria": "Música"
+    },
+    {
+      "numero": 17,
+      "artista": "Katy Perry (The Lifetimes Tour)",
+      "fecha": "2025-11-09",
+      "lugar": "Palau Sant Jordi",
+      "genero": "Pop, Pop Rock",
+      "categoria": "Música"
+    },
+    {
+      "numero": 18,
+      "artista": "CACHUMBA",
+      "fecha": "2025-11-09",
+      "lugar": "Sala Bikini",
+      "genero": "Música Tropical/Latina",
+      "categoria": "Música"
+    },
+    {
+      "numero": 19,
+      "artista": "Yann Tiersen",
+      "fecha": "2025-11-09",
+      "lugar": "Sala Paral·lel 62",
+      "genero": "Música Instrumental",
+      "categoria": "Música"
+    },
+    {
+      "numero": 20,
+      "artista": "Minifestival de Música Independent",
+      "fecha": "2025-11-09",
+      "lugar": "Sala Paralel 62",
+      "genero": "Música Indie",
+      "categoria": "Música"
+    },
+    {
+      "numero": 21,
+      "artista": "Malik Bentalha: Noveau Monde",
+      "fecha": "2025-11-11",
+      "lugar": "Sala Paralel 62",
+      "genero": "(Stand-up/Música)",
+      "categoria": "Música"
+    },
+    {
+      "numero": 22,
+      "artista": "Till Lindemann",
+      "fecha": "2025-11-13",
+      "lugar": "Sant Jordi Club",
+      "genero": "Metal Industrial",
+      "categoria": "Música"
+    },
+    {
+      "numero": 23,
+      "artista": "Gastón Sosa + Beby Aponte",
+      "fecha": "2025-11-14",
+      "lugar": "Sala Paralel 62",
+      "genero": "Música Latina",
+      "categoria": "Música"
+    },
+    {
+      "numero": 24,
+      "artista": "Lágrimas de Sangre LDS (1ª Fecha)",
+      "fecha": "2025-11-14",
+      "lugar": "Sant Jordi Club",
+      "genero": "Rap, Hip Hop",
+      "categoria": "Música"
+    },
+    {
+      "numero": 25,
+      "artista": "SERKO - 125KM TOUR",
+      "fecha": "2025-11-14",
+      "lugar": "Razzmatazz",
+      "genero": "Música Urbana",
+      "categoria": "Música"
+    },
+    {
+      "numero": 26,
+      "artista": "Chucho Valdés Royal Quartet",
+      "fecha": "2025-11-14",
+      "lugar": "Palau de la Música Catalana",
+      "genero": "Jazz (Festival de Jazz)",
+      "categoria": "Música"
+    },
+    {
+      "numero": 27,
+      "artista": "Andrea Motis & Barcelona Gospel Messengers",
+      "fecha": "2025-11-15",
+      "lugar": "Palau de la Música Catalana",
+      "genero": "Jazz, Gospel (Festival de Jazz)",
+      "categoria": "Música"
+    },
+    {
+      "numero": 28,
+      "artista": "Roxette",
+      "fecha": "2025-11-16",
+      "lugar": "Sant Jordi Club",
+      "genero": "Pop Rock",
+      "categoria": "Música"
+    },
+    {
+      "numero": 29,
+      "artista": "Martinho da Vila",
+      "fecha": "2025-11-19",
+      "lugar": "Sala Apolo",
+      "genero": "Samba, Música Brasileña",
+      "categoria": "Música"
+    },
+    {
+      "numero": 30,
+      "artista": "Latin Mafia",
+      "fecha": "2025-11-19",
+      "lugar": "Sant Jordi Club",
+      "genero": "Música Urbana/Latina",
+      "categoria": "Música"
+    }
+  ],
+  "eventos_adicionales": [
+    {
+      "artista": "Mumford & Sons",
+      "fecha": "2025-11-23",
+      "lugar": "Palau Sant Jordi",
+      "genero": "Folk Rock, Indie"
+    },
+    {
+      "artista": "Turnstile",
+      "fecha": "2025-11-24",
+      "lugar": "Sant Jordi Club",
+      "genero": "Hardcore Punk"
+    },
+    {
+      "artista": "Anuel AA (Segunda Fecha)",
+      "fecha": "2025-11-26",
+      "lugar": "Palau Sant Jordi",
+      "genero": "Urbana, Trap Latino"
+    },
+    {
+      "artista": "Crystal Fighters",
+      "fecha": "2025-11-27",
+      "lugar": "Sant Jordi Club",
+      "genero": "Electrónica, Indie"
+    },
+    {
+      "artista": "Antonio Orozco (1ª Fecha)",
+      "fecha": "2025-11-28",
+      "lugar": "Palau Sant Jordi",
+      "genero": "Pop Rock Español"
+    },
+    {
+      "artista": "Tom Odell (The Wonderful Life Tour)",
+      "fecha": "2025-11-30",
+      "lugar": "Sant Jordi Club",
+      "genero": "Pop, Folk"
+    }
+  ],
+  "festivales_y_ciclos": [
+    {
+      "nombre": "57 Festival de Jazz de Barcelona",
+      "descripcion": "Se extiende durante el mes, con varios conciertos en diferentes sedes, incluyendo el Palau de la Música Catalana"
+    },
+    {
+      "nombre": "De Cajón! Festival Flamenco de Barcelona",
+      "descripcion": "Conciertos de flamenco durante todo el mes en diversas salas"
+    },
+    {
+      "nombre": "Gran Gala Flamenco",
+      "descripcion": "Con varias fechas a lo largo del mes en el Palau de la Música Catalana"
+    },
+    {
+      "nombre": "Concierto de Tango + Tapeo",
+      "descripcion": "Eventos con varias fechas en la Sala Tinta Roja"
+    }
+  ],
+  "nota_importante": "Dada la antelación (noviembre de 2025), las fechas, artistas o recintos podrían estar sujetos a cambios o cancelaciones. Se recomienda siempre confirmar la información y disponibilidad de entradas en los sitios web oficiales de los artistas o de las salas."
+}

@@ -1,0 +1,11 @@
+{
+  "source": "direct_scraping",
+  "city": "Salónica",
+  "country": "Grecia",
+  "urls": [
+    "https://www.residentadvisor.net/events/gr/salonica",
+    "https://www.eventbrite.com/d/grecia--salonica/music--events/"
+  ],
+  "total_events": 0,
+  "eventos": []
+}

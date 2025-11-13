@@ -1,0 +1,62 @@
+{
+  "source_file": "Lima_gemini_response.json",
+  "curated_at": "2025-11-09T10:37:08.217711",
+  "events": [
+    {
+      "nombre": "Geek Festival 2025",
+      "fecha": "Viernes, 14 al Domingo, 16 de Noviembre de 2025",
+      "ciudad": "Lima (San Miguel)",
+      "descripcion": "En el Parque de la Exposición. Un festival enfocado en la cultura pop, cómics, videojuegos, cine y más.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Lima",
+      "country": "Perú",
+      "image_url": "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "35° Aniversario de Dina Paucar",
+      "fecha": "Domingo, 16 de Noviembre de 2025",
+      "ciudad": "Lima (Los Olivos)",
+      "descripcion": "En el Huaralino. Un gran evento de folklore y música popular con la reconocida cantante Dina Páucar en El Huaralino Internacional.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Lima",
+      "country": "Perú",
+      "image_url": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Ghibli en Concierto en Perú",
+      "fecha": "Martes, 11 de Noviembre de 2025",
+      "ciudad": "Lima (Barranco)",
+      "descripcion": "En el Teatro Nós. Un homenaje musical a las películas del Studio Ghibli.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Lima",
+      "country": "Perú",
+      "image_url": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "All You Can Wine",
+      "fecha": "Viernes, 14 de Noviembre de 2025",
+      "ciudad": "Lima (La Molina)",
+      "descripcion": "En el Parque Zonal Sinchi Roca (Comas). Aunque el snippet lo sitúa en Comas, otra fuente indica el parque Sinchi Roca en Comas, puede ser un evento de degustación de vinos.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Lima",
+      "country": "Perú",
+      "image_url": "https://images.unsplash.com/photo-1506485338023-6ce5f36692df?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    }
+  ]
+}

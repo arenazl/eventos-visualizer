@@ -1,0 +1,22 @@
+{
+  "country": "Panamá",
+  "country_code": "PA",
+  "region": "Centroamérica",
+  "cities": [
+    {
+      "name": "Ciudad de Panamá",
+      "latitude": 8.9824,
+      "longitude": -79.5199
+    },
+    {
+      "name": "Colón",
+      "latitude": 9.3592,
+      "longitude": -79.9009
+    },
+    {
+      "name": "David",
+      "latitude": 8.4270,
+      "longitude": -82.4305
+    }
+  ]
+}

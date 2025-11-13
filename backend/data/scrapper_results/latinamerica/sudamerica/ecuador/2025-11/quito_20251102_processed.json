@@ -1,0 +1,73 @@
+{
+  "ubicacion": "Quito, Ecuador",
+  "fecha_consulta": "2025-11-02",
+  "fuente": "Gemini AI + Web Search",
+  "eventos_confirmados_o_tradicionales": [
+    {
+      "nombre": "Festival Internacional de Música Sacra de Quito",
+      "fecha": "2025-11-02",
+      "tipo": "Cultural",
+      "lugar": "Varias iglesias y teatros en Quito",
+      "direccion": "Varios lugares, consultar programación",
+      "precio": "Varía según el evento",
+      "hora": "Varía según el evento",
+      "descripcion": "Festival anual que presenta música sacra de diferentes culturas y épocas.",
+      "url": "https://www.festivalmusicasacra.com/"
+    },
+    {
+      "nombre": "Campeonato Nacional de Atletismo (Asumiendo fecha cercana)",
+      "fecha": "2025-11-08",
+      "tipo": "Deportes",
+      "lugar": "Estadio Olímpico Atahualpa",
+      "direccion": "Av. 6 de Diciembre y Naciones Unidas",
+      "precio": "Por confirmar",
+      "hora": "Por confirmar",
+      "descripcion": "Competencia atlética nacional con participación de atletas de todo el país. Asumiendo la fecha cercana al rango solicitado.",
+      "url": "N/A"
+    },
+    {
+      "nombre": "Feria de Artesanías de Quito (Asumiendo fecha cercana)",
+      "fecha": "2025-11-05",
+      "tipo": "Cultural",
+      "lugar": "Parque La Carolina (posible)",
+      "direccion": "Av. de los Shyris y Holanda",
+      "precio": "Gratis",
+      "hora": "09:00",
+      "descripcion": "Exposición y venta de artesanías de diferentes regiones del Ecuador. Asumiendo fecha cercana al rango solicitado.",
+      "url": "N/A"
+    },
+    {
+      "nombre": "Concierto de la Orquesta Sinfónica Nacional del Ecuador",
+      "fecha": "2025-11-07",
+      "tipo": "Musica",
+      "lugar": "Teatro Nacional Casa de la Cultura",
+      "direccion": "Av. Patria y 6 de Diciembre",
+      "precio": "Desde $10",
+      "hora": "20:00",
+      "descripcion": "Presentación de la Orquesta Sinfónica Nacional del Ecuador con un repertorio clásico.",
+      "url": "https://www.casadelacultura.gob.ec/"
+    },
+    {
+      "nombre": "Festival del Pasacalle (Asumiendo fecha cercana)",
+      "fecha": "2025-11-09",
+      "tipo": "Musica",
+      "lugar": "Plaza de San Francisco (posible)",
+      "direccion": "Calle Benalcázar",
+      "precio": "Gratis",
+      "hora": "10:00",
+      "descripcion": "Celebración de la música tradicional ecuatoriana, especialmente el pasacalle. Asumiendo fecha cercana al rango solicitado.",
+      "url": "N/A"
+    },
+    {
+      "nombre": "Congreso Ecuatoriano de Ciencia y Tecnología (Asumiendo fecha cercana)",
+      "fecha": "2025-11-06",
+      "tipo": "Tech",
+      "lugar": "Universidad Central del Ecuador (posible)",
+      "direccion": "Av. Universitaria",
+      "precio": "Variable, requiere inscripción",
+      "hora": "08:00",
+      "descripcion": "Un espacio para presentar avances en ciencia y tecnología. Asumiendo la fecha cercana al rango solicitado.",
+      "url": "N/A"
+    }
+  ]
+}

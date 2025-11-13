@@ -1,0 +1,22 @@
+{
+  "country": "Países Bajos",
+  "country_code": "NL",
+  "region": "Europa Occidental",
+  "cities": [
+    {
+      "name": "Ámsterdam",
+      "latitude": 52.3676,
+      "longitude": 4.9041
+    },
+    {
+      "name": "Róterdam",
+      "latitude": 51.9225,
+      "longitude": 4.4792
+    },
+    {
+      "name": "La Haya",
+      "latitude": 52.0705,
+      "longitude": 4.3007
+    }
+  ]
+}

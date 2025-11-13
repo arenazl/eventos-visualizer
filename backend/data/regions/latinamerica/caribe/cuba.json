@@ -1,0 +1,22 @@
+{
+  "country": "Cuba",
+  "country_code": "CU",
+  "region": "Caribe",
+  "cities": [
+    {
+      "name": "La Habana",
+      "latitude": 23.1136,
+      "longitude": -82.3666
+    },
+    {
+      "name": "Santiago de Cuba",
+      "latitude": 20.0247,
+      "longitude": -75.8219
+    },
+    {
+      "name": "Varadero",
+      "latitude": 23.1533,
+      "longitude": -81.2533
+    }
+  ]
+}

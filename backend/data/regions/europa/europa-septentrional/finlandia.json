@@ -1,0 +1,22 @@
+{
+  "country": "Finlandia",
+  "country_code": "FI",
+  "region": "Europa Septentrional",
+  "cities": [
+    {
+      "name": "Helsinki",
+      "latitude": 60.1699,
+      "longitude": 24.9384
+    },
+    {
+      "name": "Espoo",
+      "latitude": 60.2055,
+      "longitude": 24.6559
+    },
+    {
+      "name": "Tampere",
+      "latitude": 61.4978,
+      "longitude": 23.7610
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "ubicacion": "Punta del Este, Uruguay",
+  "fecha_consulta": "2025-11-02",
+  "fuente": "Gemini AI + Web Search",
+  "eventos_confirmados_o_tradicionales": [
+    {
+      "nombre": "Punta del Este Film Festival",
+      "fecha": "2025-11-02",
+      "tipo": "Cultural",
+      "lugar": "Varios lugares en Punta del Este",
+      "direccion": "Diversas ubicaciones, consultar programación",
+      "precio": "Consultar precios según función",
+      "hora": "Variable, consultar programación",
+      "descripcion": "Festival Internacional de Cine de Punta del Este, con proyecciones, charlas y eventos relacionados.",
+      "url": "https://www.puntafilmfestival.com/"
+    },
+    {
+      "nombre": "Concierto en Enjoy Punta del Este",
+      "fecha": "2025-11-05",
+      "tipo": "Musica",
+      "lugar": "Enjoy Punta del Este",
+      "direccion": "Av. Roosevelt, Parada 4, Punta del Este",
+      "precio": "Desde $U 1500",
+      "hora": "21:00",
+      "descripcion": "Concierto de artista internacional (artista por confirmar, tradicionalmente hay grandes shows en esta fecha).",
+      "url": "https://www.enjoypuntadeleste.uy/"
+    },
+    {
+      "nombre": "Feria de Artesanías de Punta del Este",
+      "fecha": "2025-11-02",
+      "tipo": "Cultural",
+      "lugar": "Plaza Artigas",
+      "direccion": "Rambla Gral. José Artigas, Punta del Este",
+      "precio": "Gratis",
+      "hora": "10:00",
+      "descripcion": "Exposición y venta de artesanías locales, ideal para encontrar recuerdos únicos.",
+      "url": "No disponible"
+    },
+    {
+      "nombre": "Campeonato de Golf en Cantegril Country Club",
+      "fecha": "2025-11-07",
+      "tipo": "Deportes",
+      "lugar": "Cantegril Country Club",
+      "direccion": "Av. San Pablo, Punta del Este",
+      "precio": "Variable, consultar inscripción",
+      "hora": "08:00",
+      "descripcion": "Torneo de golf para profesionales y amateurs en uno de los clubes más exclusivos de la región.",
+      "url": "https://www.cantegrilcountryclub.com.uy/"
+    },
+    {
+      "nombre": "Sunset Party en la Playa",
+      "fecha": "2025-11-08",
+      "tipo": "Fiestas",
+      "lugar": "Playa Bikini (aproximado)",
+      "direccion": "Parada 28 de la Mansa, Punta del Este (aproximado)",
+      "precio": "Desde $U 800",
+      "hora": "17:00",
+      "descripcion": "Fiesta en la playa al atardecer con DJs y música electrónica (lugar exacto y artistas por confirmar).",
+      "url": "No disponible (usualmente promocionado en redes sociales cercano a la fecha)"
+    },
+    {
+      "nombre": "Exposición de Arte en el Museo Ralli",
+      "fecha": "2025-11-03",
+      "tipo": "Cultural",
+      "lugar": "Museo Ralli Punta del Este",
+      "direccion": "Av. del Lago, La Barra, Punta del Este",
+      "precio": "Gratis",
+      "hora": "14:00",
+      "descripcion": "Exposición de arte latinoamericano contemporáneo.",
+      "url": "http://www.rallimuseums.com/Punta_del_Este.html"
+    }
+  ]
+}

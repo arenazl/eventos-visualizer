@@ -1,0 +1,11 @@
+{
+  "region": "Azuay",
+  "country": "Ecuador",
+  "source": "gemini",
+  "timestamp": "2025-11-09T08:30:00",
+  "eventos": [
+    {"nombre": "XXIII Festival de Artesanías de América y Expo-Feria Artesanal 'Vive Noviembre con el Otorongo'", "ciudad": "Cuenca", "fecha": "31 de octubre al 4 de noviembre", "descripcion": "Ferias de artesanía, arte popular, pintura y escultura en varios puntos como el Puente Roto, Plazoleta del Otorongo y la Federación de Artesanos."},
+    {"nombre": "FeriArt Todos Santos", "ciudad": "Cuenca", "fecha": "31 de octubre al 5 de noviembre", "descripcion": "Feria de productos artesanales y artísticos con inspiración en las tradiciones de noviembre en La Terraza de Todos Santos (Calle Larga)."},
+    {"nombre": "Azogues Live Fest", "ciudad": "Azogues (Provincia de Cañar)", "fecha": "Sábado 1 de noviembre", "descripcion": "Gran concierto con artistas internacionales como Gilberto Santa Rosa, Elefante, Río Roma y Machaka."}
+  ]
+}

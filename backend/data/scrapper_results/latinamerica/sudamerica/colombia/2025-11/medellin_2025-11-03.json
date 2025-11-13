@@ -1,0 +1,210 @@
+{
+  "source": "gemini",
+  "ciudad": "Medellín",
+  "pais": "Colombia",
+  "fecha_consulta": "2025-11-03",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 20,
+  "eventos": [
+    {
+      "numero": 1,
+      "nombre": "Ritvales 2025",
+      "fecha_inicio": "2025-11-01",
+      "fecha_fin": "2025-11-02",
+      "lugar": "Parque Norte",
+      "genero": "Música Electrónica",
+      "artistas": "Charlotte de Witte, Adam Beyer, Adriatique, Roger Sanchez",
+      "categoria": "Música",
+      "image_url": "https://www.travelandtourworld.com/wp-content/uploads/2025/09/Ritvales-2025.jpg"
+    },
+    {
+      "numero": 2,
+      "artista": "J Balvin",
+      "fecha": "2025-11-29",
+      "lugar": "Estadio Atanasio Girardot",
+      "genero": "Reguetón / Música Urbana",
+      "descripcion": "Concierto del artista colombiano de música urbana",
+      "categoria": "Música",
+      "image_url": "https://concerts50.com/uploads/venue/c6/7f/estadio-atanasio-girardot-26298407/venue_page/estadio-atanasio-girardot.jpg"
+    },
+    {
+      "numero": 3,
+      "nombre": "#ConectandoCorazones",
+      "fecha": "2025-11-15",
+      "lugar": "Estadio Atanasio Girardot",
+      "genero": "Música Cristiana",
+      "artistas": "Tercer Cielo, Alex Campos, Miel San Marcos, Redimi2, Funky, Barak",
+      "descripcion": "Concierto cristiano de gran convocatoria",
+      "categoria": "Música",
+      "image_url": "https://www.tiktok.com/api/img/?itemId=7524418269692890374&location=0&aid=1988"
+    },
+    {
+      "numero": 4,
+      "artista": "Julieta Venegas",
+      "fecha": "2025-11-29",
+      "lugar": "Teatro Metropolitano de Medellín",
+      "genero": "Pop / Rock Alternativo",
+      "descripcion": "Concierto de la cantante mexicana",
+      "categoria": "Música",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/12/4c/f8/bd/photo3jpg.jpg?w=900&h=500&s=1"
+    },
+    {
+      "numero": 5,
+      "artista": "Esteman",
+      "fecha": "2025-11-08",
+      "lugar": "Teatro Pablo Tobón Uribe",
+      "genero": "Pop",
+      "descripcion": "Concierto del cantante colombiano",
+      "categoria": "Música",
+      "image_url": "https://medellinguru.com/wp-content/uploads/2025/07/2.-Kevin-Johansen-Liniers-in-Medellin-600x540.webp"
+    },
+    {
+      "numero": 6,
+      "artista": "HUGEL",
+      "fecha": "2025-11-08",
+      "lugar": "Centauro Centro De Eventos / Hacienda Las Mañanitas",
+      "genero": "Música Electrónica",
+      "categoria": "Música",
+      "image_url": "https://imgv2-2-f.scribdassets.com/img/document/676357649/298x396/cfe2bfa8d1/1736634463?v=1"
+    },
+    {
+      "numero": 7,
+      "artista": "Ela Minus",
+      "fecha": "2025-11-07",
+      "lugar": "La Pascasia",
+      "genero": "Música Electrónica",
+      "descripcion": "Concierto de música electrónica experimental",
+      "categoria": "Música",
+      "image_url": "https://cdn.sanity.io/images/rizm0do5/production/979ca24f236f6851a076d12cc915c65d7e045ed9-1200x683.jpg?rect=136,0,1013,683&w=690&h=465&q=80&fit=clip&auto=format"
+    },
+    {
+      "numero": 8,
+      "artista": "Poolside",
+      "fecha": "2025-11-08",
+      "lugar": "Hacienda Las Mañanitas",
+      "genero": "Indie Pop / Chillwave",
+      "categoria": "Música",
+      "image_url": "https://passportmagazine.com/wp-content/uploads/2021/11/Opening-Spread-A-Luxurius-Hacienda-in-Cuernavaca-by-Stockcam-585x391.jpg"
+    },
+    {
+      "numero": 9,
+      "artista": "Chris Liebing",
+      "fecha": "2025-11-14",
+      "lugar": "La Arboleda Centro de Eventos",
+      "genero": "Techno",
+      "categoria": "Música",
+      "image_url": "https://fest.love/wp-content/uploads/fest/2024/03/2e3218686dcd566f6227b97a873288e6-500x333.jpg"
+    },
+    {
+      "numero": 10,
+      "nombre": "La Cantina Mas Contentosa",
+      "fecha": "2025-11-21",
+      "lugar": "Centro de Eventos La Macarena",
+      "genero": "Música Popular / Vallenato",
+      "categoria": "Música",
+      "image_url": "https://media.taquillalive.com/viva/TCL-EVN976/Grid_image_code/TCL-EVN976.webp"
+    },
+    {
+      "numero": 11,
+      "artista": "Jhonny Rivera",
+      "fecha": "2025-11-29",
+      "lugar": "Arena Cañaveralejo",
+      "genero": "Música Popular",
+      "descripcion": "Concierto de música popular colombiana",
+      "categoria": "Música",
+      "image_url": "https://colombiaone.com/wp-content/uploads/2024/05/cali-bullring-colombia-bullfighting-ban-credit-ben-bowes-cc2-696x522.jpg"
+    },
+    {
+      "numero": 12,
+      "nombre": "Bienal Internacional de Arte de Antioquia y Medellín (BIAM)",
+      "fecha_inicio": "2025-10-02",
+      "fecha_fin": "2025-11-25",
+      "lugar": "Museo de Antioquia y varios espacios",
+      "descripcion": "Gran evento de arte contemporáneo con exposiciones y programación gratuita",
+      "categoria": "Cultural",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3748584130883897853"
+    },
+    {
+      "numero": 13,
+      "nombre": "Miradas Medellín",
+      "fecha_inicio": "2025-11-04",
+      "fecha_fin": "2025-11-09",
+      "lugar": "Varios espacios de la ciudad",
+      "descripcion": "Evento que resalta el arte visual, producciones audiovisuales, fotografía y expresiones artísticas",
+      "categoria": "Cultural",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/18/88/85/c5/fb-img-1564297381043.jpg?w=900&h=500&s=1"
+    },
+    {
+      "numero": 14,
+      "nombre": "Concurso Internacional de Bandas de Marcha Musical",
+      "fecha_inicio": "2025-11-29",
+      "fecha_fin": "2025-11-30",
+      "lugar": "Varios escenarios",
+      "descripcion": "Competencia de agrupaciones locales, nacionales e internacionales",
+      "categoria": "Cultural",
+      "image_url": "https://www.losangelesblade.com/content/files/2021/05/IDAHOBiT_event_in_Tegucigalpa_Honduras_insert_courtesy_Reportar_Sin_Miedo.jpg"
+    },
+    {
+      "numero": 15,
+      "nombre": "Festival de Acordeones Cacique Nutibara",
+      "fecha_inicio": "2025-11-07",
+      "fecha_fin": "2025-11-08",
+      "lugar": "Medellín",
+      "genero": "Vallenato",
+      "descripcion": "Competencia y celebración de la música vallenata",
+      "categoria": "Música",
+      "image_url": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3727398235687428380"
+    },
+    {
+      "numero": 16,
+      "nombre": "Territorio Aguacate 2025",
+      "fecha_inicio": "2025-11-05",
+      "fecha_fin": "2025-11-06",
+      "lugar": "Plaza Mayor",
+      "descripcion": "Evento centrado en la agricultura, verduras y frutas, especialmente el aguacate",
+      "categoria": "Feria",
+      "image_url": "https://d3fwccq2bzlel7.cloudfront.net/Pictures/480xAny/4/4/9/134449_territorioaguacate_910257.jpg"
+    },
+    {
+      "numero": 17,
+      "nombre": "FISE - Feria Internacional del Sector Eléctrico",
+      "fecha_inicio": "2025-11-11",
+      "fecha_fin": "2025-11-13",
+      "lugar": "Plaza Mayor",
+      "descripcion": "Exposición del sector eléctrico, industria y comercio electrónico",
+      "categoria": "Feria",
+      "image_url": "https://g3-alliance.com/wp-content/uploads/2025/09/Bild1.png"
+    },
+    {
+      "numero": 18,
+      "nombre": "Congreso SIDI 2025",
+      "fecha_inicio": "2025-11-15",
+      "fecha_fin": "2025-11-17",
+      "lugar": "Hotel Intercontinental Medellín",
+      "descripcion": "Congreso enfocado en el sector Médico y de Salud",
+      "categoria": "Conferencia",
+      "image_url": "https://images.neventum.com/photos/2025/286/68ee0ed54d567-screenshot-2025-10-14-at-104953png.png"
+    },
+    {
+      "numero": 19,
+      "nombre": "Expopet Colombia 2025",
+      "fecha_inicio": "2025-11-20",
+      "fecha_fin": "2025-11-23",
+      "lugar": "Plaza Mayor",
+      "descripcion": "Exposición Internacional de Mascotas de Colombia",
+      "categoria": "Feria",
+      "image_url": "https://brazilianrenderers.com/br/wp-content/uploads/2024/03/Business-Connection.webp"
+    },
+    {
+      "numero": 20,
+      "nombre": "Comic-Con Colombia - Medellín",
+      "fecha_inicio": "2025-11-28",
+      "fecha_fin": "2025-11-30",
+      "lugar": "Plaza Mayor",
+      "descripcion": "Convención de cultura pop y la industria del entretenimiento",
+      "categoria": "Cultural",
+      "image_url": "https://i.ytimg.com/vi/KHdTJuyU6ho/sddefault.jpg"
+    }
+  ],
+  "nota_importante": "Medellín en noviembre 2025 ofrece eventos destacados como Ritvales (festival de música electrónica 1-2 nov), J Balvin en concierto (29 nov), #ConectandoCorazones (concierto cristiano 15 nov), Bienal de Arte, Expopet y Comic-Con. La información con un año de anticipación es limitada, se recomienda verificar en taquillas oficiales."
+}

@@ -1,0 +1,22 @@
+{
+  "country": "Puerto Rico",
+  "country_code": "PR",
+  "region": "Caribe",
+  "cities": [
+    {
+      "name": "San Juan",
+      "latitude": 18.4655,
+      "longitude": -66.1057
+    },
+    {
+      "name": "Ponce",
+      "latitude": 18.0111,
+      "longitude": -66.6141
+    },
+    {
+      "name": "Bayamón",
+      "latitude": 18.3997,
+      "longitude": -66.1599
+    }
+  ]
+}

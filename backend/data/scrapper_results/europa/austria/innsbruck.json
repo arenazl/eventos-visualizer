@@ -1,0 +1,22 @@
+{
+  "source": "apis_oficiales",
+  "city": "Innsbruck",
+  "country": "Austria",
+  "scraped_at": "2025-11-13T05:12:41.241273",
+  "total_events": 1,
+  "eventos": [
+    {
+      "title": "TURBOBIER - \"Das Leben is ein Oaschloch\" Tour 2026",
+      "date": "2026-12-19",
+      "time": "20:00:00",
+      "venue": "",
+      "address": "Grabenweg 74",
+      "city": "Innsbruck",
+      "country": "AT",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.ticketmaster.at/event/turbobier-das-leben-is-ein-oaschloch-tour-2026-tickets/1344963148?language=en-us",
+      "image_url": "https://s1.ticketm.net/dam/a/d1d/9c28de50-c64f-4330-9973-9cee56d1fd1d_SOURCE"
+    }
+  ]
+}

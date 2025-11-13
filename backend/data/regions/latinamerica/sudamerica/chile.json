@@ -1,0 +1,22 @@
+{
+  "country": "Chile",
+  "country_code": "CL",
+  "region": "Sudamérica",
+  "cities": [
+    {
+      "name": "Santiago",
+      "latitude": -33.4489,
+      "longitude": -70.6693
+    },
+    {
+      "name": "Valparaíso",
+      "latitude": -33.0472,
+      "longitude": -71.6127
+    },
+    {
+      "name": "Concepción",
+      "latitude": -36.8201,
+      "longitude": -73.0444
+    }
+  ]
+}

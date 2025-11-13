@@ -1,0 +1,58 @@
+{
+  "region": "Mendoza",
+  "country": "Argentina",
+  "source": "gemini",
+  "timestamp": "2025-11-09T06:15:00",
+  "eventos_destacados": [
+    {
+      "nombre": "Miranda! en Mendoza",
+      "ciudad": "Ciudad de Mendoza",
+      "fecha": "Dom. 16 de Noviembre",
+      "descripcion": "Concierto de la popular banda de pop argentina. Uno de los espectáculos con mayor demanda de entradas en la agenda."
+    },
+    {
+      "nombre": "FINCA DEL RÍO SUNSETS - SESIÓN 2",
+      "ciudad": "Luján de Cuyo",
+      "fecha": "Sáb. 15 de Noviembre",
+      "descripcion": "Evento de música y entretenimiento en un entorno de bodega o finca. Ideal para disfrutar de la tarde con vinos y DJ sets. Es parte de una serie de eventos de gran concurrencia."
+    },
+    {
+      "nombre": "Gaspar Benegas en Mendoza",
+      "ciudad": "Chacras de Coria (Luján)",
+      "fecha": "Sáb. 8 de Noviembre",
+      "descripcion": "Show acústico del reconocido guitarrista de bandas como La Mono y Los Fundamentalistas del Aire Acondicionado (Indio Solari). Se realiza en Willys Bar."
+    },
+    {
+      "nombre": "Maratón Nocturna Ciudad de Mendoza 2025",
+      "ciudad": "Godoy Cruz",
+      "fecha": "Sáb. 29 de Noviembre",
+      "descripcion": "Evento deportivo muy popular que se realiza de noche, atrayendo a corredores y público a lo largo de un circuito en la ciudad."
+    },
+    {
+      "nombre": "MUM 2025",
+      "ciudad": "Ciudad de Mendoza",
+      "fecha": "Jue. 13 de Noviembre",
+      "descripcion": "Evento cultural o académico de gran convocatoria (casi lleno) que se realiza en la Universidad de Mendoza. Suele ser de ingreso gratuito."
+    }
+  ],
+  "otros_eventos": [
+    {
+      "nombre": "Yoga por los Caminos del Vino",
+      "ciudad": "Mendoza (viñedos)",
+      "fecha": "Sábados 8 y 15 de Noviembre",
+      "descripcion": "Una experiencia que combina la práctica de yoga y bienestar en los jardines y viñedos de diferentes espacios vitivinícolas de Mendoza, un clásico del turismo local."
+    },
+    {
+      "nombre": "Picnic Romántico en Macondo",
+      "ciudad": "Mendoza (Manzano Histórico)",
+      "fecha": "Sáb. 8 de Noviembre",
+      "descripcion": "Una propuesta de experiencia inmersiva que combina camping, cabalgata nocturna, música, meditación y gastronomía en un entorno natural."
+    },
+    {
+      "nombre": "Ciclo de Cine: Divas al Giallo",
+      "ciudad": "Ciudad de Mendoza",
+      "fecha": "Todos los miércoles de Noviembre – 6, 13, 20 y 27/11",
+      "descripcion": "Ciclo temático de cine en el Microcine Municipal David Eisenchlas."
+    }
+  ]
+}

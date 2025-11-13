@@ -1,0 +1,88 @@
+{
+  "eventos": [
+    {
+      "nombre": "Visita al Monumento a los Caídos en Malvinas",
+      "fecha": "2025-11-01",
+      "hora_inicio": "todo el día",
+      "hora_fin": null,
+      "lugar": "Plaza San Martín, Retiro",
+      "descripcion": "Visita al imponente cenotafio que rinde homenaje a los soldados caídos en la Guerra de Malvinas. Es un punto de reflexión histórica y cívica, con guardia de honor",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "diario",
+      "image_url": "https://es.wikipedia.org/wiki/Archivo:Monumento_a_los_Ca%C3%ADdos_en_las_Islas_Malvinas.JPG"
+    },
+    {
+      "nombre": "La Noche de los Alfajores",
+      "fecha": "2025-11-14",
+      "hora_inicio": "todo el día",
+      "hora_fin": null,
+      "lugar": "Panaderías y confiterías de Retiro",
+      "descripcion": "Evento gastronómico que celebra el alfajor argentino. Participan panaderías y confiterías de la zona céntrica y de Retiro, ofreciendo degustaciones y descuentos especiales",
+      "categoria": "gastronomía",
+      "precio": "Gratis",
+      "estado": "confirmado",
+      "image_url": "https://www.canal26.com/resizer/v2/L5Y4GIHSJZCVTPDZT3TRCDLSCU.jpg"
+    },
+    {
+      "nombre": "Recorridos a Pie por la Arquitectura de Retiro",
+      "fecha": "2025-11-01",
+      "hora_inicio": "11:00",
+      "hora_fin": "13:00",
+      "lugar": "Punto de inicio: Plaza San Martín",
+      "descripcion": "Recorridos que exploran los edificios emblemáticos de la zona, como el Kavanagh (el rascacielos art déco), el Palacio Paz y la Estación Retiro, narrando su historia y estilo",
+      "categoria": "cultura-turismo",
+      "precio": "$3000",
+      "estado": "diario",
+      "image_url": "https://s7e6w6d2.delivery.rocketcdn.me/wp-content/uploads/2015/03/retiro-recoleta.jpg"
+    },
+    {
+      "nombre": "Palacio Paz - Visitas Guiadas",
+      "fecha": "2025-11-01",
+      "hora_inicio": "15:00",
+      "hora_fin": "17:00",
+      "lugar": "Palacio Paz, Retiro (sede del Círculo Militar)",
+      "descripcion": "Visita al fastuoso palacio de estilo Beaux Arts. Se ofrecen recorridos que muestran la arquitectura señorial y los salones de estilo francés. Con reserva previa",
+      "categoria": "cultura-turismo",
+      "precio": "$5000",
+      "estado": "diario",
+      "image_url": "https://www.circulomilitar.org.ar/wp-content/uploads/2022/03/Palacio-Paz-min-1024x576.jpg"
+    },
+    {
+      "nombre": "Exposición en el Centro Cultural Borges",
+      "fecha": "2025-11-01",
+      "hora_inicio": "10:00",
+      "hora_fin": "21:00",
+      "lugar": "Centro Cultural Borges, Galerías Pacífico (cercano a Retiro)",
+      "descripcion": "Centro cultural que presenta exposiciones de arte contemporáneo, fotografía y ciclos de música clásica y jazz",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "diario",
+      "image_url": "https://es.wikipedia.org/wiki/Archivo:Centro_Cultural_Borges_-_Pabell%C3%B3n_I.JPG"
+    },
+    {
+      "nombre": "Conciertos Candlelight",
+      "fecha": "2025-11-01",
+      "hora_inicio": "20:00",
+      "hora_fin": "21:30",
+      "lugar": "Sedes en Retiro/Microcentro",
+      "descripcion": "Ciclo de conciertos íntimos a la luz de las velas, que interpreta música clásica y bandas sonoras populares",
+      "categoria": "música",
+      "precio": "$8000",
+      "estado": "diario",
+      "image_url": "https://media.feverup.com/image/upload/f_auto,w_800,c_fill/v1681285818/Header01_4096_hfbbab.jpg"
+    },
+    {
+      "nombre": "Feria Artesanal y de Libros en Plaza San Martín",
+      "fecha": "2025-11-15",
+      "hora_inicio": "10:00",
+      "hora_fin": "18:00",
+      "lugar": "Plaza San Martín, Retiro",
+      "descripcion": "Puestos de libros antiguos, artesanías y cuadros en los alrededores de la Plaza San Martín. Sábados y domingos",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "diario",
+      "image_url": "https://www.rosario.gob.ar/inicio/sites/default/files/styles/colorbox_modal/public/2024-02/Feria%20plaza%20san%20martin.jpg"
+    }
+  ]
+}

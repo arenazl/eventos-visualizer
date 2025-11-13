@@ -1,0 +1,10 @@
+{
+  "region": "La Libertad",
+  "country": "Perú",
+  "source": "gemini",
+  "timestamp": "2025-11-09T07:55:00",
+  "eventos": [
+    {"nombre": "Festival Arde Trujillo", "ciudad": "Trujillo", "fecha": "Sábado, 22 de Noviembre de 2025", "descripcion": "Un importante festival de música rock y metal que reúne a bandas nacionales destacadas como Difonía, Serial Asesino, y Southern Lions, junto a agrupaciones locales de Trujillo. Es un evento popular de gran convocatoria para el público alternativo."},
+    {"nombre": "Bajada de la Virgen del Socorro", "ciudad": "Huanchaco", "fecha": "Domingo, 24 de Noviembre de 2025", "descripcion": "Una tradicional festividad religiosa y cultural. La imagen de la Virgen del Socorro de Trujillo es trasladada a Huanchaco, un evento de gran fervor popular y tradición en la costa de La Libertad."}
+  ]
+}

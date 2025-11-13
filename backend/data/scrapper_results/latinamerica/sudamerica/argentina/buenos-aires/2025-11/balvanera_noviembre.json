@@ -1,0 +1,158 @@
+{
+  "barrio": "Balvanera",
+  "mes": "noviembre",
+  "año": 2025,
+  "eventos": [
+    {
+      "nombre": "Visita al Palacio del Congreso de la Nación (Senado)",
+      "fecha": "",
+      "tipo": "Cultural",
+      "lugar": "Palacio del Congreso",
+      "direccion": "Hipólito Yrigoyen 1849, Balvanera, Buenos Aires",
+      "precio": "Gratuito",
+      "hora": "",
+      "descripcion": "Visitas guiadas gratuitas para conocer el Poder Legislativo, arquitectura e historia del Palacio.",
+      "url": "",
+      "categoria": "visita",
+      "image_url": "https://www.senado.gob.ar/bundles/senadomicrositios/images/cultura/visitas/1.jpg"
+    },
+    {
+      "nombre": "Clases de Tango (Gratuitas)",
+      "fecha": "2025-11-14",
+      "tipo": "Tango",
+      "lugar": "Salón Presidente Perón (Legislatura CABA)",
+      "direccion": "Legislatura CABA, Balvanera, Buenos Aires",
+      "precio": "Gratuito",
+      "hora": "12:00 a 13:30",
+      "descripcion": "Clases abiertas y gratuitas para todos los niveles.",
+      "url": "",
+      "categoria": "clase",
+      "image_url": "https://www.argentina.gob.ar/sites/default/files/tangoalpaso29octcua_1.jpg"
+    },
+    {
+      "nombre": "Clases de Tango (Gratuitas)",
+      "fecha": "2025-11-21",
+      "tipo": "Tango",
+      "lugar": "Salón Presidente Perón (Legislatura CABA)",
+      "direccion": "Legislatura CABA, Balvanera, Buenos Aires",
+      "precio": "Gratuito",
+      "hora": "12:00 a 13:30",
+      "descripcion": "Clases abiertas y gratuitas para todos los niveles.",
+      "url": "",
+      "categoria": "clase",
+      "image_url": "https://www.argentina.gob.ar/sites/default/files/tangoalpaso29octcua_1.jpg"
+    },
+    {
+      "nombre": "Encuentro Coral",
+      "fecha": "2025-11-12",
+      "tipo": "Musica",
+      "lugar": "Salón Presidente Perón (Legislatura CABA)",
+      "direccion": "Legislatura CABA, Balvanera, Buenos Aires",
+      "precio": "",
+      "hora": "18:00 (Ingreso 17:30)",
+      "descripcion": "V Encuentro Coral. Música clásica.",
+      "url": "",
+      "categoria": "concierto",
+      "image_url": "https://losreartes.gob.ar/admin/wp-content/uploads/2024/10/2.jpg"
+    },
+    {
+      "nombre": "Peña Porteña",
+      "fecha": "2025-11-18",
+      "tipo": "Folclore",
+      "lugar": "Salón Presidente Perón (Legislatura CABA)",
+      "direccion": "Legislatura CABA, Balvanera, Buenos Aires",
+      "precio": "",
+      "hora": "18:00 (Ingreso 17:30)",
+      "descripcion": "Baile y concierto a puro folclore. Con el Grupo danza TALLER ZAMBA CARPERA y concierto de Martín Facundo Díaz, entre otros.",
+      "url": "",
+      "categoria": "pena",
+      "image_url": "https://informenorte.com.ar/wp-content/uploads/2024/12/penaportena.jpg"
+    },
+    {
+      "nombre": "Exposición Impulso",
+      "fecha": "2025-11-12",
+      "tipo": "Arte",
+      "lugar": "Sala de Exposiciones Manuel Belgrano (Legislatura CABA)",
+      "direccion": "Legislatura CABA, Balvanera, Buenos Aires",
+      "precio": "",
+      "hora": "Inauguración 18:00. Visitas lunes a viernes 10 a 19 hs",
+      "descripcion": "Muestra de Ruth Bastos y Bea Diez. Visitas de lunes a viernes (10 a 19 hs).",
+      "url": "",
+      "categoria": "exposicion",
+      "image_url": "https://domusartium2002.com/FOTO/EXPOSICION/DA2_expo_2022_gaceta_b_Impulso_09.JPG"
+    },
+    {
+      "nombre": "Música Clásica",
+      "fecha": "2025-11-17",
+      "tipo": "Musica",
+      "lugar": "Salón Presidente Perón (Legislatura CABA)",
+      "direccion": "Legislatura CABA, Balvanera, Buenos Aires",
+      "precio": "",
+      "hora": "18:00 (Ingreso 17:30)",
+      "descripcion": "Concierto de Orquesta a confirmar.",
+      "url": "",
+      "categoria": "concierto",
+      "image_url": "https://musicaclasica.com.ar/wp-content/uploads/92213804_212123373455654_8855503586826649600_n.jpg"
+    },
+    {
+      "nombre": "Música Clásica - Orquesta de Jóvenes Solistas",
+      "fecha": "2025-11-25",
+      "tipo": "Musica",
+      "lugar": "Salón Presidente Perón (Legislatura CABA)",
+      "direccion": "Legislatura CABA, Balvanera, Buenos Aires",
+      "precio": "",
+      "hora": "18:00 (Ingreso 17:30)",
+      "descripcion": "Concierto de la Orquesta de Jóvenes Solistas.",
+      "url": "",
+      "categoria": "concierto",
+      "image_url": "https://palaciolibertad.gob.ar/wp-content/uploads/2025/10/02-11_Sinfonica-Juvenil.jpg"
+    },
+    {
+      "nombre": "Mapa del Vino - Última Edición",
+      "fecha": "2025-11-15",
+      "tipo": "Feria",
+      "lugar": "Ciudad Cultural Konex",
+      "direccion": "Sarmiento 3131, Almagro (cercano a Balvanera), Buenos Aires",
+      "precio": "",
+      "hora": "18:00",
+      "descripcion": "Feria de vinos - Última Edición del año. Y otros eventos con foco en música, teatro y exposiciones.",
+      "url": "",
+      "categoria": "feria",
+      "image_url": "https://media.ambito.com/p/7be71a6495d2e8ba4e5334cdf40c7304/adjuntos/239/imagenes/030/251/0030251794/el-nuevo-mapa-los-vinos-argentinos.jpg"
+    }
+  ],
+  "lugares_interes": [
+    {
+      "nombre": "Museo Casa Carlos Gardel",
+      "direccion": "Jean Jaurés 735, Balvanera, Buenos Aires",
+      "tipo": "Museo",
+      "descripcion": "Una parada obligatoria para los amantes del tango.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Palacio de las Aguas Corrientes",
+      "direccion": "Riobamba 750, Balvanera, Buenos Aires",
+      "tipo": "Museo",
+      "descripcion": "Una joya arquitectónica que alberga el Museo del Agua y de la Historia Sanitaria (AySA).",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Ciudad Cultural Konex",
+      "direccion": "Sarmiento 3131, Almagro (límite con Balvanera), Buenos Aires",
+      "tipo": "Centro Cultural",
+      "descripcion": "Reconocido por su actividad cultural alternativa, con ciclos de música, teatro y espectáculos.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Café de los Angelitos",
+      "direccion": "Av. Rivadavia 2100, Balvanera, Buenos Aires",
+      "tipo": "Café Notable",
+      "descripcion": "Uno de los cafés notables e históricos de Buenos Aires.",
+      "horario": "",
+      "precio": ""
+    }
+  ]
+}

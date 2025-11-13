@@ -1,0 +1,10 @@
+{
+  "region": "Cusco",
+  "country": "Perú",
+  "source": "gemini",
+  "timestamp": "2025-11-09T07:45:00",
+  "eventos": [
+    {"nombre": "Fiesta de Todos los Santos", "ciudad": "Cusco (y otros pueblos)", "fecha": "1 de Noviembre", "descripcion": "Celebración donde lo católico y lo andino se fusionan. Se honra a los santos y, a menudo en Oropesa, se observan tradiciones únicas."},
+    {"nombre": "Día de los Muertos", "ciudad": "Cusco (y comunidades rurales)", "fecha": "2 de Noviembre", "descripcion": "Día para recordar a los difuntos. Las familias visitan cementerios y construyen altares en los hogares con objetos y comidas favoritas de los fallecidos. Es tradicional comer las t'antawawas (panes con forma de bebé)."}
+  ]
+}

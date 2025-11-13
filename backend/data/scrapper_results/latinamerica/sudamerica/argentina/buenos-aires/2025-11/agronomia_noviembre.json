@@ -1,0 +1,59 @@
+{
+  "barrio": "Agronomía",
+  "mes": "noviembre",
+  "año": 2025,
+  "eventos": [
+    {
+      "nombre": "Feria del Productor al Consumidor",
+      "fecha": "2025-11-08",
+      "tipo": "Feria",
+      "lugar": "Facultad de Agronomía (FAUBA)",
+      "direccion": "Av. San Martín 4453, Buenos Aires",
+      "precio": "Gratuito",
+      "hora": "",
+      "descripcion": "Promueve el comercio directo, ofreciendo productos frescos, artesanales y de calidad a precios justos. Generalmente se realiza el segundo fin de semana de cada mes.",
+      "url": "",
+      "categoria": "feria",
+      "image_url": "https://www.nueva-ciudad.com.ar/advf/imagenes/2023/10/65200a9ae32a5_800x533.jpg"
+    },
+    {
+      "nombre": "Feria del Productor al Consumidor",
+      "fecha": "2025-11-09",
+      "tipo": "Feria",
+      "lugar": "Facultad de Agronomía (FAUBA)",
+      "direccion": "Av. San Martín 4453, Buenos Aires",
+      "precio": "Gratuito",
+      "hora": "",
+      "descripcion": "Promueve el comercio directo, ofreciendo productos frescos, artesanales y de calidad a precios justos. Generalmente se realiza el segundo fin de semana de cada mes.",
+      "url": "",
+      "categoria": "feria",
+      "image_url": "https://www.nueva-ciudad.com.ar/advf/imagenes/2023/10/65200a9ae32a5_800x533.jpg"
+    },
+    {
+      "nombre": "MUMaAg - Noche de los Museos",
+      "fecha": "2025-11-09",
+      "tipo": "Cultural",
+      "lugar": "Museo Universitario de Maquinaria Agrícola",
+      "direccion": "Av. Beiró 2599, FAUBA, Buenos Aires",
+      "precio": "Gratuito",
+      "hora": "",
+      "descripcion": "El Museo abrirá sus puertas con muestras, música en vivo, danzas tradicionales, propuestas gastronómicas y actividades para toda la familia, en el marco de La Noche de los Museos.",
+      "url": "",
+      "categoria": "cultural",
+      "image_url": "https://fotos.perfil.com/2024/11/06/trim/1280/720/noche-de-los-museos-en-caba-20241106-1906854.jpg"
+    },
+    {
+      "nombre": "El Ojo de Iberoamérica (Festival de Creatividad)",
+      "fecha": "2025-11-12",
+      "tipo": "Festival",
+      "lugar": "La Rural (Palermo, cercano a Agronomía)",
+      "direccion": "Palermo, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Festival de creatividad internacional.",
+      "url": "",
+      "categoria": "festival",
+      "image_url": "https://www.elojodeiberoamerica.com/wp-content/uploads/2025/08/NuevaFecha2025_agosto-600x700-1.jpg"
+    }
+  ]
+}

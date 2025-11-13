@@ -1,0 +1,48 @@
+{
+  "source": "apis_oficiales",
+  "city": "Bergen",
+  "country": "Noruega",
+  "scraped_at": "2025-11-13T05:14:15.500579",
+  "total_events": 3,
+  "eventos": [
+    {
+      "title": "Ari Bajgora",
+      "date": "2026-03-06",
+      "time": "21:30:00",
+      "venue": "Aulaen, NHH Bergen",
+      "address": "Helleveien 30",
+      "city": "Bergen",
+      "country": "NO",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.universe.com/events/ari-bajgora-tickets-DSYBLT?ref=ticketmaster",
+      "image_url": "https://s1.ticketm.net/dam/c/80b/f3cd8d24-c3ae-4fa0-b4bc-1ba99f9b380b_106091_TABLET_LANDSCAPE_LARGE_16_9.jpg"
+    },
+    {
+      "title": "Donkeyboy",
+      "date": "2026-03-07",
+      "time": "21:30:00",
+      "venue": "Aulaen, NHH Bergen",
+      "address": "Helleveien 30",
+      "city": "Bergen",
+      "country": "NO",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.universe.com/events/donkeyboy-tickets-N63F8M?ref=ticketmaster",
+      "image_url": "https://s1.ticketm.net/dam/c/fbc/b293c0ad-c904-4215-bc59-8d7f2414dfbc_106141_TABLET_LANDSCAPE_LARGE_16_9.jpg"
+    },
+    {
+      "title": "Beyond the Gates 4 Day Festival Pass 2026 Gold",
+      "date": "2026-07-29",
+      "time": "17:30:00",
+      "venue": "Grieghallen & USF Verftet",
+      "address": "Edvard Griegs plass 1 / Georgernes Verft",
+      "city": "Bergen",
+      "country": "NO",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.ticketmaster.no/event/beyond-the-gates-4-day-festival-pass-2026-gold-tickets/1113416339?language=en-us",
+      "image_url": "https://s1.ticketm.net/dam/a/aef/0a51cec7-c1ad-4ecc-81cf-882cf2dd5aef_SOURCE"
+    }
+  ]
+}

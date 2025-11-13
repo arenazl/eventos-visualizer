@@ -1,0 +1,48 @@
+{
+  "source_file": "Carabobo_gemini_response.json",
+  "curated_at": "2025-11-09T10:37:08.201666",
+  "events": [
+    {
+      "nombre": "Maga Urdaneta",
+      "fecha": "8 de noviembre",
+      "ciudad": "Valencia",
+      "descripcion": "Concierto con entrada gratuita en el Cristal Shopping Mall.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Carabobo",
+      "country": "Venezuela",
+      "image_url": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Eliezer Boyer",
+      "fecha": "22 de noviembre",
+      "ciudad": "Valencia",
+      "descripcion": "Evento musical con entrada gratuita en la Iglesia Evangélica Libre 'EMANUEL'.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Carabobo",
+      "country": "Venezuela",
+      "image_url": "https://images.unsplash.com/photo-1506905925346-21bea4d5618d?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    },
+    {
+      "nombre": "Anakena",
+      "fecha": "27 de noviembre",
+      "ciudad": "Valencia",
+      "descripcion": "Concierto de la banda de pop con fusión de ritmos tropicales en el CCVM (Centro Comercial Vía Veneto) de Valencia.",
+      "tipo": "General",
+      "lugar": null,
+      "precio": null,
+      "hora": null,
+      "url": null,
+      "region": "Carabobo",
+      "country": "Venezuela",
+      "image_url": "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=300&fit=crop&crop=center&q=80&fm=jpg&ixlib=rb-4.0.3&auto=format"
+    }
+  ]
+}

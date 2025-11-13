@@ -1,0 +1,124 @@
+{
+  "eventos": [
+    {
+      "nombre": "Semana del Orgullo",
+      "fecha": "2025-11-01",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Varias ubicaciones en Buenos Aires.",
+      "descripcion": "Celebración de la diversidad y los derechos del colectivo LGBTIQ+, con actividades culturales y una feria de emprendimientos.",
+      "categoria": "cultural",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-760w,f_auto,q_auto:best/rockcms/2022-12/AP22334834871313-56fb09.jpg"
+    },
+    {
+      "nombre": "La Noche de los Museos",
+      "fecha": "2025-11-08",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Diversos museos en Buenos Aires",
+      "descripcion": "Más de 300 museos y espacios culturales abren sus puertas para una noche de arte y cultura.",
+      "categoria": "cultural",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/03/4a/70/museo-kosice.jpg?w=900&h=500&s=1"
+    },
+    {
+      "nombre": "Tecweek",
+      "fecha": "2025-11-05",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Diferentes sedes en Buenos Aires.",
+      "descripcion": "Evento que reúne actividades sobre innovación y tecnología en varios espacios culturales.",
+      "categoria": "cultural",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100063672454863"
+    },
+    {
+      "nombre": "Semana del Auténtico Helado Artesanal",
+      "fecha": "2025-11-10",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Varias heladerías en Buenos Aires.",
+      "descripcion": "Celebración del helado artesanal con promociones y degustaciones en heladerías participantes.",
+      "categoria": "cultural",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://enalimentos.lat/images/noticias/2025-01/haagen-dazs-lanza-seis-novedades-en-snacks.jpg"
+    },
+    {
+      "nombre": "FUTCON 2025",
+      "fecha": "2025-11-22",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Ciudad Cultural Konex",
+      "descripcion": "Festival que fusiona fútbol, arte y tecnología, con conferencias y actividades interactivas.",
+      "categoria": "música",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://media.timeout.com/images/106336737/750/562/image.jpg"
+    },
+    {
+      "nombre": "Buenos Aires Rojo Sangre",
+      "fecha": "2025-11-20",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Vuelta de Obligado 2199",
+      "descripcion": "Festival internacional de cine de terror y fantástico, con proyecciones y actividades relacionadas.",
+      "categoria": "música",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://wfcnmediauploads.s3.amazonaws.com/avatars/09-2023/1695387233_650d8e619598b_BARS.jpg"
+    },
+    {
+      "nombre": "Noche de las Librerías",
+      "fecha": "2025-11-22",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Avenida Corrientes",
+      "descripcion": "Avenida Corrientes se transforma en un espacio literario con actividades culturales y lecturas.",
+      "categoria": "cultural",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://buenosairesherald.com/wp-content/uploads/2022/01/Noche-de-librerias-1024x415.jpg"
+    },
+    {
+      "nombre": "Festival “Te conozco Chacarita”",
+      "fecha": "2025-11-29",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Chacarita",
+      "descripcion": "Festival que celebra la cultura y la historia del barrio de Chacarita.",
+      "categoria": "música",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://media.timeout.com/images/106336776/750/562/image.jpg"
+    },
+    {
+      "nombre": "Concierto de Andrea Bocelli",
+      "fecha": "2025-11-18",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Avenida Bernabé Márquez 699",
+      "descripcion": "Presentación del famoso tenor italiano en el Hipódromo de San Isidro.",
+      "categoria": "música",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "x-raw-image:///0c4cff7d04bcdefb7ff79642720b006e9505dc27174486cc25049a322eb3e74f"
+    },
+    {
+      "nombre": "Maratón Internacional de Buenos Aires",
+      "fecha": "2025-11-05",
+      "hora_inicio": null,
+      "hora_fin": null,
+      "lugar": "Inicio en el Obelisco",
+      "descripcion": "Evento deportivo que reúne a corredores de todo el mundo en un recorrido por la ciudad.",
+      "categoria": "otro",
+      "precio": "Por confirmar",
+      "estado": "confirmado",
+      "image_url": "https://s.yimg.com/ny/api/res/1.2/MnbYhJ_3quq4L.GiqtbqXQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTE1MzY7aD05NjI7Y2Y9d2VicA--/https://media.zenfs.com/es/lanacion.com.ar/601c9ce8d55857426a9b9eac70d69db2"
+    }
+  ]
+}

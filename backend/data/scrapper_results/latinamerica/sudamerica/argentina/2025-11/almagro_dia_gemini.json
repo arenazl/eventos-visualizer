@@ -1,0 +1,88 @@
+{
+  "eventos": [
+    {
+      "nombre": "La Noche de los Alfajores",
+      "fecha": "2025-11-14",
+      "hora_inicio": "todo el día",
+      "hora_fin": null,
+      "lugar": "Panaderías y confiterías de Almagro",
+      "descripcion": "Evento gastronómico que celebra el alfajor argentino. Numerosas panaderías y confiterías de Almagro se adhieren con promociones y descuentos especiales",
+      "categoria": "gastronomía",
+      "precio": "Gratis",
+      "estado": "confirmado",
+      "image_url": "https://www.canal26.com/resizer/v2/L5Y4GIHSJZCVTPDZT3TRCDLSCU.jpg"
+    },
+    {
+      "nombre": "Festival y Mercado de Diseño y Arte",
+      "fecha": "2025-11-15",
+      "hora_inicio": "11:00",
+      "hora_fin": "19:00",
+      "lugar": "Espacios abiertos o centros culturales de Almagro",
+      "descripcion": "Ferias de diseño y arte de pequeños productores y emprendedores locales, ofreciendo productos únicos. Sábados o domingos",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "diario",
+      "image_url": "https://massnegocios.com/images/A-FESTIVAL-DE-DISENO-scaled.jpg"
+    },
+    {
+      "nombre": "Milongas en el Club Almagro",
+      "fecha": "2025-11-01",
+      "hora_inicio": "21:00",
+      "hora_fin": "02:00",
+      "lugar": "Club Almagro",
+      "descripcion": "El tradicional club barrial alberga milongas populares (noches de baile de tango) con orquestas en vivo o DJs, siendo un punto de encuentro clave para los aficionados del tango",
+      "categoria": "música",
+      "precio": "$5000",
+      "estado": "diario",
+      "image_url": "https://jantango.wordpress.com/wp-content/uploads/2008/06/club-almagro.jpg"
+    },
+    {
+      "nombre": "Ciclo de Teatro Independiente",
+      "fecha": "2025-11-01",
+      "hora_inicio": "20:00",
+      "hora_fin": "22:00",
+      "lugar": "Teatros Timbre 4, El Grito y otros de Almagro",
+      "descripcion": "Los numerosos teatros independientes y under de Almagro mantienen una cartelera intensa de estrenos y reposiciones durante todo el mes",
+      "categoria": "cultura-turismo",
+      "precio": "$6000",
+      "estado": "diario",
+      "image_url": "https://www.conclusion.com.ar/wp-content/uploads/2024/09/obrasDEF.jpg"
+    },
+    {
+      "nombre": "Muestra Bicentenario de la Universidad de Buenos Aires",
+      "fecha": "2025-11-01",
+      "hora_inicio": "10:00",
+      "hora_fin": "18:00",
+      "lugar": "Sede UBA en Almagro/Caballito",
+      "descripcion": "Exhibiciones y actividades culturales que recuerdan y celebran la historia y el legado de la UBA",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "diario",
+      "image_url": "https://resizer.glanacion.com/resizer/v2/el-acto-se-realizo-en-la-facultad-de-IVCZ724F6ZAY7GGU5FJWK7OVJY.JPG"
+    },
+    {
+      "nombre": "Feria de Libros y Discos en Plaza Almagro",
+      "fecha": "2025-11-15",
+      "hora_inicio": "10:00",
+      "hora_fin": "18:00",
+      "lugar": "Plaza Almagro",
+      "descripcion": "Puestos de libros, revistas y discos usados los fines de semana. Sábados y domingos",
+      "categoria": "cultura-turismo",
+      "precio": "Gratis",
+      "estado": "diario",
+      "image_url": "https://images.portaldisc.com/eventos/11678.jpg"
+    },
+    {
+      "nombre": "Visitas Guiadas por los Bares Notables",
+      "fecha": "2025-11-01",
+      "hora_inicio": "16:00",
+      "hora_fin": "18:00",
+      "lugar": "Bares Notables de Almagro (Café de los Angelitos, Bar Richmond)",
+      "descripcion": "Recorridos que exploran los bares con valor histórico y cultural del barrio",
+      "categoria": "cultura-turismo",
+      "precio": "$3000",
+      "estado": "diario",
+      "image_url": "https://i0.wp.com/www.barriada.com.ar/wp-content/uploads/2025/06/charlasyvisitas.junio_.2025.s.jpg"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "region": "Jalisco",
+  "country": "México",
+  "source": "gemini",
+  "timestamp": "2025-11-09T06:25:00",
+  "eventos": [
+    {"nombre": "Calaverandia", "ciudad": "Guadalajara / Zapopan", "fecha": "Hasta el 16 de Noviembre de 2025", "descripcion": "Parque temático dedicado al Día de Muertos, con espectáculos de luz, recorridos inmersivos, gastronomía y atracciones alusivas a la tradición mexicana."},
+    {"nombre": "Cirque du Soleil: OVO", "ciudad": "Zapopan", "fecha": "05 al 09 de Noviembre de 2025", "descripcion": "Espectáculo de talla mundial del famoso Cirque du Soleil, que presenta un vibrante ecosistema lleno de bichos y acrobacias. Se realiza en la Arena VFG."},
+    {"nombre": "Emmanuel & Mijares", "ciudad": "Zapopan", "fecha": "13 de Noviembre de 2025", "descripcion": "Concierto de dos grandes figuras de la música pop en español, con sus mayores éxitos, en el Auditorio Telmex."},
+    {"nombre": "Broken Cheese Rock Fest 2025", "ciudad": "Guadalajara", "fecha": "15 de Noviembre de 2025", "descripcion": "Festival de música rock con la participación de bandas icónicas como Tijuana No!, Víctimas del Doctor Cerebro, y más. Se llevará a cabo en la Concha Acústica."},
+    {"nombre": "Los Tigres del Norte", "ciudad": "Zapopan", "fecha": "20 de Noviembre de 2025", "descripcion": "Concierto de los iconos de la música norteña, como parte de su 'La Lotería Tour', en el Auditorio Telmex."},
+    {"nombre": "Fernando Delgadillo y Alejandro Filio", "ciudad": "Guadalajara", "fecha": "28 de Noviembre de 2025", "descripcion": "Dos leyendas de la trova mexicana se presentan en el Teatro Diana en un concierto que promete una noche de música acústica y poesía."},
+    {"nombre": "Feria Internacional del Libro de Guadalajara (FIL)", "ciudad": "Guadalajara", "fecha": "29 de Noviembre al 7 de Diciembre de 2025", "descripcion": "Es el encuentro editorial más importante del mundo hispanohablante, con la presencia de autores, editoriales, presentaciones de libros y actividades culturales. (Barcelona es la Invitada de Honor)."},
+    {"nombre": "Edén Muñoz", "ciudad": "Zapopan", "fecha": "29 de Noviembre de 2025", "descripcion": "Concierto de la figura del regional mexicano en el Auditorio Telmex."},
+    {"nombre": "Los Auténticos Decadentes", "ciudad": "Zapopan", "fecha": "30 de Noviembre de 2025", "descripcion": "Concierto de la popular banda argentina con su estilo festivo y mezcla de ritmos, en el Auditorio Telmex."}
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "barrio": "Chacarita",
+  "mes": "noviembre",
+  "año": 2025,
+  "eventos": [
+    {
+      "nombre": "Carnaval Sustentable en TACHA",
+      "fecha": "2025-11-08",
+      "tipo": "Cultural",
+      "lugar": "TACHA",
+      "direccion": "Humboldt 1271, Chacarita, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Conciencia ambiental, inclusión social y creatividad. También mencionado en el circuito de arte de La Noche de los Museos.",
+      "url": "",
+      "categoria": "cultural",
+      "image_url": "https://revistadearte.com.ar/wp-content/uploads/2025/11/TACHA.jpg"
+    },
+    {
+      "nombre": "Endiablados de Villa Ortúzar (Cumpleaños de Murga)",
+      "fecha": "2025-11-08",
+      "tipo": "Murga",
+      "lugar": "Plaza 25 de Agosto",
+      "direccion": "Giribone y 14 de Julio, Villa Ortúzar (vecino a Chacarita), Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Festejo de 28 años de la murga con otras formaciones murgueras y grupos musicales.",
+      "url": "",
+      "categoria": "murga",
+      "image_url": "https://agendacultural15.com/wp-content/uploads/2025/11/Screenshot_20251106_102936_Instagram.jpg"
+    },
+    {
+      "nombre": "Buenos Aires Rojo Sangre (Festival de Cine)",
+      "fecha": "2025-11-20",
+      "tipo": "Cine",
+      "lugar": "Varias sedes en CABA",
+      "direccion": "CABA, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Festival internacional de cine de terror, fantástico y bizarro. Del 20 al 30 de noviembre.",
+      "url": "",
+      "categoria": "festival",
+      "image_url": "https://turismo.buenosaires.gob.ar/sites/turismo/files/field/image/bsas-rojo-sangre1500x610_0.jpg"
+    },
+    {
+      "nombre": "FUTCON 2025 (Festival de Cultura Futbolera)",
+      "fecha": "2025-11-22",
+      "tipo": "Festival",
+      "lugar": "Por confirmar en CABA",
+      "direccion": "CABA, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Primer festival de cultura futbolera y creatividad.",
+      "url": "",
+      "categoria": "festival",
+      "image_url": "https://www.adlatina.com/uploads/img/251110120405_FUTCON.jpg"
+    },
+    {
+      "nombre": "FUTCON 2025 (Festival de Cultura Futbolera)",
+      "fecha": "2025-11-23",
+      "tipo": "Festival",
+      "lugar": "Por confirmar en CABA",
+      "direccion": "CABA, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Primer festival de cultura futbolera y creatividad.",
+      "url": "",
+      "categoria": "festival",
+      "image_url": "https://www.adlatina.com/uploads/img/251110120405_FUTCON.jpg"
+    },
+    {
+      "nombre": "Noche de los Templos",
+      "fecha": "2025-11-29",
+      "tipo": "Cultural",
+      "lugar": "Templos de distintos cultos en CABA",
+      "direccion": "CABA, Buenos Aires",
+      "precio": "Gratuito",
+      "hora": "",
+      "descripcion": "Recorrido por templos de distintos cultos, con visitas guiadas y actividades especiales.",
+      "url": "",
+      "categoria": "cultural",
+      "image_url": "https://resizer.glanacion.com/resizer/v2/la-noche-de-los-templos-2024-sera-este-sabado-14-DWFSPSNOVZCE5A74FWAJPV4TI4.JPG"
+    }
+  ],
+  "lugares_interes": [
+    {
+      "nombre": "Falena Libros",
+      "direccion": "Chacarita, Buenos Aires",
+      "tipo": "Librería",
+      "descripcion": "Librería con un encanto especial en una antigua esquina.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "El Imperio de la Pizza",
+      "direccion": "Chacarita, Buenos Aires",
+      "tipo": "Pizzería",
+      "descripcion": "Un clásico local abierto las 24 hs.",
+      "horario": "24 horas",
+      "precio": ""
+    },
+    {
+      "nombre": "Cementerio de la Chacarita",
+      "direccion": "Chacarita, Buenos Aires",
+      "tipo": "Cementerio",
+      "descripcion": "Uno de los más grandes e importantes de Buenos Aires.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Vermutería La Fuerza",
+      "direccion": "Chacarita, Buenos Aires",
+      "tipo": "Bar",
+      "descripcion": "Un bar que rescata la tradición del vermú artesanal, con su Hora Vermú de Lunes a Viernes de 18:00 a 19:00 hs.",
+      "horario": "Hora Vermú: Lunes a Viernes 18:00-19:00",
+      "precio": ""
+    },
+    {
+      "nombre": "Parque Los Andes",
+      "direccion": "Chacarita, Buenos Aires",
+      "tipo": "Parque",
+      "descripcion": "Ideal para pasear y disfrutar del aire libre.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Complejo Teatral de Buenos Aires",
+      "direccion": "Cercano a Chacarita, Buenos Aires",
+      "tipo": "Teatro",
+      "descripcion": "Teatro San Martín, Sarmiento, etc. con funciones en noviembre.",
+      "horario": "",
+      "precio": ""
+    }
+  ]
+}

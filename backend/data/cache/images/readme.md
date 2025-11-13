@@ -1,0 +1,1 @@
+quiero que vayas a https://images.google.com con pupeeter titulo, pais de cada evento, i hace boton derecho sobre la primera iamgen y agregar el valor de image adress en image_url

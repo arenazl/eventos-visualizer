@@ -1,0 +1,35 @@
+{
+  "source": "apis_oficiales",
+  "city": "Tampere",
+  "country": "Finlandia",
+  "scraped_at": "2025-11-13T05:14:02.395682",
+  "total_events": 2,
+  "eventos": [
+    {
+      "title": "BLOCKFEST 2026: 2 DAYS BLIND TICKET",
+      "date": "2026-08-22",
+      "time": "TBD",
+      "venue": "",
+      "address": "Ratinanniemi",
+      "city": "Tampere",
+      "country": "FI",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.ticketmaster.fi/event/blockfest-2026-2-days-blind-ticket-tickets/8706947?language=en-us",
+      "image_url": "https://s1.ticketm.net/dam/a/6fa/ed23f698-9dde-4f88-8fa2-9641a98396fa_SOURCE"
+    },
+    {
+      "title": "BLOCKFEST 2026: 2 DAYS EXCLUSIVE BLIND TICKET",
+      "date": "2026-08-22",
+      "time": "TBD",
+      "venue": "",
+      "address": "Ratinanniemi",
+      "city": "Tampere",
+      "country": "FI",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.ticketmaster.fi/event/blockfest-2026-2-days-exclusive-blind-ticket-tickets/302364337?language=en-us",
+      "image_url": "https://s1.ticketm.net/dam/a/6fa/ed23f698-9dde-4f88-8fa2-9641a98396fa_SOURCE"
+    }
+  ]
+}

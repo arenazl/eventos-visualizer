@@ -1,0 +1,94 @@
+{
+  "barrio": "San Cristóbal",
+  "comuna": 3,
+  "zona": "Centro",
+  "mes": "noviembre",
+  "año": 2025,
+  "fecha_consulta": "2025-11-09",
+  "fuente": "Gemini AI",
+  "prompt_usado": "que hay para hacer, eventos, fiestas en el barrio San Cristóbal, CABA, Buenos Aires, argentina desde hoy a fin de mes, que se sepa la fecha, lugar, etc",
+  "descripcion": "Eventos y actividades en el barrio San Cristóbal y alrededores para noviembre 2025",
+  "eventos": [
+    {
+      "nombre": "Libros de Sangre",
+      "fecha": "2025-11-08",
+      "hora": "12:00 a 19:00 hs",
+      "lugar": "Centro Salamanca",
+      "direccion": "Av. Independencia 2540, San Cristóbal",
+      "descripcion": "Segunda feria del libro del Nuevo Terror Argentino (terror, suspenso, ciencia ficción)",
+      "estado": "pasado",
+      "categoria": "cultural",
+      "image_url": "https://image.cdn0.buscalibre.com/3542515.RS500x500.jpg"
+    },
+    {
+      "nombre": "La Noche de los Museos - Escuela Normal 8",
+      "fecha": "2025-11-08",
+      "hora": "Desde las 19:00 hs",
+      "lugar": "Escuela Normal Superior N° 8 Presidente Julio A. Roca",
+      "direccion": "La Rioja 1042, San Cristóbal",
+      "descripcion": "Exposición artística histórica y performance: recreación de un Aula de Escuela Normal de Señoritas (19:30 hs) y concierto de música (20:30 hs)",
+      "estado": "pasado",
+      "categoria": "cultural",
+      "image_url": "https://i0.wp.com/www.revistaelabasto.com.ar/wp-content/uploads/2020/09/normal8.jpg"
+    },
+    {
+      "nombre": "Clases de Tango Abiertas y Gratuitas",
+      "fecha": "Todos los Viernes",
+      "hora": "12:00 a 13:30 hs",
+      "lugar": "Salón Presidente Perón de la Legislatura CABA",
+      "direccion": "Perú 160, Monserrat",
+      "descripcion": "Clases abiertas gratuitas todos los viernes",
+      "categoria": "cultural",
+      "image_url": "https://unlp.edu.ar/wp-content/uploads/76/10676/50fa0099ec47ca8339c9116012090404.jpg"
+    },
+    {
+      "nombre": "Encuentro Coral",
+      "fecha": "2025-11-12",
+      "hora": "Por confirmar",
+      "lugar": "Salón Presidente Perón de la Legislatura CABA",
+      "direccion": "Perú 160, Monserrat",
+      "descripcion": "Encuentro coral",
+      "categoria": "musica",
+      "image_url": "https://losreartes.gob.ar/admin/wp-content/uploads/2024/10/2.jpg"
+    },
+    {
+      "nombre": "Música Clásica",
+      "fecha": "2025-11-17 y 2025-11-25",
+      "hora": "Por confirmar",
+      "lugar": "Salón Presidente Perón de la Legislatura CABA",
+      "direccion": "Perú 160, Monserrat",
+      "descripcion": "Conciertos de música clásica",
+      "categoria": "musica",
+      "image_url": "https://musicaclasica.com.ar/wp-content/uploads/92213804_212123373455654_8855503586826649600_n.jpg"
+    },
+    {
+      "nombre": "Peña Porteña",
+      "fecha": "2025-11-18",
+      "hora": "Por confirmar",
+      "lugar": "Salón Presidente Perón de la Legislatura CABA",
+      "direccion": "Perú 160, Monserrat",
+      "descripcion": "Baile y concierto a puro folclore",
+      "categoria": "musica",
+      "image_url": "https://informenorte.com.ar/wp-content/uploads/2024/12/penaportena.jpg"
+    },
+    {
+      "nombre": "Buenos Aires Rojo Sangre",
+      "fecha_inicio": "2025-11-20",
+      "fecha_fin": "2025-11-30",
+      "hora": "Consultar programación",
+      "lugar": "Distintos puntos de CABA",
+      "descripcion": "Festival de cine de terror, fantástico y bizarro",
+      "categoria": "cine",
+      "image_url": "https://turismo.buenosaires.gob.ar/sites/turismo/files/field/image/bsas-rojo-sangre1500x610_0.jpg"
+    },
+    {
+      "nombre": "La Noche de los Templos",
+      "fecha": "2025-11-29",
+      "hora": "Desde las 20:00 hs",
+      "lugar": "Ubicaciones participantes en CABA",
+      "descripcion": "Entrada libre y gratuita a templos de la ciudad",
+      "categoria": "cultural",
+      "image_url": "https://resizer.glanacion.com/resizer/v2/la-noche-de-los-templos-2024-sera-este-sabado-14-DWFSPSNOVZCE5A74FWAJPV4TI4.JPG"
+    }
+  ]
+}

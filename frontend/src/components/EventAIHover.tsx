@@ -228,7 +228,7 @@ const EventAIHover: React.FC<EventAIHoverProps> = ({ event }) => {
                       Ambiente: <span className="font-semibold">{insight.vibe || "Copado"}</span>
                     </p>
                     <p className="text-xs text-purple-500 dark:text-purple-400 mt-1">
-                      ✨ Powered by Gemini AI
+                      ✨ Powered by Grok AI
                     </p>
                   </div>
                 </div>

@@ -1,0 +1,22 @@
+{
+  "source": "apis_oficiales",
+  "city": "Ostrava",
+  "country": "Chequia",
+  "scraped_at": "2025-11-13T05:13:19.549600",
+  "total_events": 1,
+  "eventos": [
+    {
+      "title": "Magic of Miyazaki. Voice of Japan",
+      "date": "2025-11-25",
+      "time": "20:00:00",
+      "venue": "Barrák Music Club",
+      "address": "Fügnerova 1, Ostrava",
+      "city": "Ostrava",
+      "country": "CZ",
+      "category": "música",
+      "source": "ticketmaster",
+      "url": "https://www.ticketmaster.cz/event/magic-of-miyazaki-voice-of-japan-tickets/1073498798?language=en-us",
+      "image_url": "https://s1.ticketm.net/dam/a/9d4/be272e60-4a0e-4dd5-93bc-3247411779d4_SOURCE"
+    }
+  ]
+}

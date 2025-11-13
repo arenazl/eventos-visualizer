@@ -1,0 +1,164 @@
+{
+  "source": "gemini",
+  "ciudad": "Florianópolis",
+  "pais": "Brasil",
+  "fecha_consulta": "2025-11-05",
+  "periodo": "Noviembre 2025",
+  "total_eventos": 15,
+  "eventos": [
+    {
+      "numero": 1,
+      "nombre": "Taller Internacional de Higos sobre LADM",
+      "fecha": "2025-11-03/2025-11-05",
+      "lugar": "Florianópolis",
+      "genero": "Ciencia/Investigación",
+      "descripcion": "Taller internacional sobre temas de investigación científica.",
+      "categoria": "Ciencia"
+    },
+    {
+      "numero": 2,
+      "nombre": "Congreso Internacional de Estética Brasil",
+      "fecha": "2025-11-03/2025-11-07",
+      "lugar": "UFSC, Florianópolis",
+      "genero": "Congreso",
+      "descripcion": "Congreso prestigioso que atrae expertos en estética.",
+      "categoria": "Negocios",
+      "image_url": "https://0.academia-photos.com/attachment_thumbnails/33251457/mini_magick20180817-20022-dwmctm.png?1534572450"
+    },
+    {
+      "numero": 3,
+      "nombre": "Nodes",
+      "fecha": "2025-11-06",
+      "lugar": "Online",
+      "genero": "Tecnología/Online",
+      "descripcion": "Conferencias y networking tecnológico.",
+      "categoria": "Tecnología",
+      "image_url": "https://www.artificiallawyer.com/wp-content/uploads/2020/03/IMG_9731-678x381.jpg"
+    },
+    {
+      "numero": 4,
+      "nombre": "DrupalCamp Brasil 2025",
+      "fecha": "2025-11-08",
+      "lugar": "Balbúrdia Cervejeira, Florianópolis",
+      "genero": "Tecnología/Conferencia",
+      "descripcion": "Importante para la comunidad de desarrolladores Drupal.",
+      "categoria": "Tecnología",
+      "image_url": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1152921053%2F2253326126423%2F1%2Foriginal.20251014-150831?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C2880%2C1440&s=eb8d56e16618c409e1a9cda9960f7dae"
+    },
+    {
+      "numero": 5,
+      "nombre": "Veigh",
+      "fecha": "2025-11-08",
+      "lugar": "P12 Jurerê - Parador 12",
+      "genero": "Concierto",
+      "descripcion": "Evento de alto perfil en una locación popular.",
+      "categoria": "Música",
+      "artistas": "Veigh",
+      "image_url": "https://i.scdn.co/image/ab6761610000e5ebfe8a6cb29ef8acc97e6bb3b1"
+    },
+    {
+      "numero": 6,
+      "nombre": "Djonga",
+      "fecha": "2025-11-08",
+      "lugar": "Life Club Floripa",
+      "genero": "Concierto",
+      "descripcion": "Concierto popular de Djonga.",
+      "categoria": "Música",
+      "artistas": "Djonga",
+      "image_url": "https://www.shazam.com/mkimage/image/thumb/Music126/v4/4e/66/b7/4e66b71e-196e-7d2d-0f8f-810e1bcf9cb6/197189352881.jpg/375x375bb.webp"
+    },
+    {
+      "numero": 7,
+      "nombre": "Curso de Networking e Marketing Pessoal",
+      "fecha": "2025-11-10",
+      "lugar": "Florianópolis",
+      "genero": "Negocios/Capacitación",
+      "descripcion": "Curso enfocado en desarrollo profesional.",
+      "categoria": "Negocios",
+      "image_url": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F443318599%2F158602256306%2F1%2Foriginal.jpg?h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C566%2C2716%2C1358&s=3c21d9b63918b69a1b5ee81b006e27f1"
+    },
+    {
+      "numero": 8,
+      "nombre": "Tiago Nacarato",
+      "fecha": "2025-11-11",
+      "lugar": "Álvaro de Carvalho Theater",
+      "genero": "Concierto",
+      "descripcion": "Espectáculo cultural/musical.",
+      "categoria": "Música",
+      "artistas": "Tiago Nacarato",
+      "image_url": "https://i.scdn.co/image/ab6761610000e5eb29915070fc94a63b974d185b"
+    },
+    {
+      "numero": 9,
+      "nombre": "Curso de Energía Solar",
+      "fecha": "2025-11-14/2025-11-15",
+      "lugar": "Florianópolis",
+      "genero": "Capacitación/Taller",
+      "descripcion": "Taller relevante en temas de energía renovable.",
+      "categoria": "Negocios",
+      "image_url": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F92973045%2F375801408595%2F1%2Foriginal.20191118-010724?h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&rect=116%2C0%2C630%2C315&s=fbf20b52e87591928929b003e487aefe"
+    },
+    {
+      "numero": 10,
+      "nombre": "All Day I Dream",
+      "fecha": "2025-11-22",
+      "lugar": "Warung Beach Club",
+      "genero": "Música Electrónica/Festival",
+      "descripcion": "Muy convocante para amantes de la música electrónica.",
+      "categoria": "Música",
+      "image_url": "https://i.ytimg.com/vi/JioqpdgzJaY/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AH-CYAC0AWKAgwIABABGEMgXShlMA8=&rs=AOn4CLBE6Eao5q3yTIY58iWiJ2pZV55_CA"
+    },
+    {
+      "numero": 11,
+      "nombre": "Kamaitachi",
+      "fecha": "2025-11-30",
+      "lugar": "John Bull Pub Floripa",
+      "genero": "Concierto",
+      "descripcion": "Concierto en un lugar tradicional.",
+      "categoria": "Música",
+      "artistas": "Kamaitachi",
+      "image_url": "https://thisis-images.spotifycdn.com/37i9dQZF1DZ06evO0XPyus-default.jpg"
+    },
+    {
+      "numero": 12,
+      "nombre": "Apertura de la Temporada Alta de Verano",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Playas y discotecas de Jurerê Internacional",
+      "genero": "Turismo/Social",
+      "descripcion": "Crecimiento masivo de eventos sociales y fiestas en toda la isla.",
+      "categoria": "Entretenimiento",
+      "image_url": "https://www.tiktok.com/api/img/?itemId=7546722670453198102&location=0&aid=1988"
+    },
+    {
+      "numero": 13,
+      "nombre": "Eventos en P12, Stage Music Park, Arena Opus",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Jurerê Internacional",
+      "genero": "Música/Fiestas",
+      "descripcion": "Agenda intensa de shows y DJs internacionales durante noviembre.",
+      "categoria": "Música",
+      "image_url": "https://baladasfloripa.com.br/wp-content/uploads/2025/11/jurere-funk-festival-stage-music-park-.jpeg"
+    },
+    {
+      "numero": 14,
+      "nombre": "Eventos Deportivos - Maratonas y Carreras",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Florianópolis",
+      "genero": "Deportes",
+      "descripcion": "Carreras de calle y triatlones en la isla.",
+      "categoria": "Deportes",
+      "image_url": "https://www.researchgate.net/publication/339000252/figure/tbl3/AS:854481092763651@1580735576435/Rotated-factor-structure-of-the-commitment-to-running-scale-of-runners-participating-in.png"
+    },
+    {
+      "numero": 15,
+      "nombre": "Congresos en UFSC",
+      "fecha": "2025-11-01/2025-11-30",
+      "lugar": "Universidad Federal de Santa Catarina",
+      "genero": "Congresos",
+      "descripcion": "Varios congresos nacionales e internacionales en la universidad.",
+      "categoria": "Negocios",
+      "image_url": "https://media.springernature.com/lw685/springer-static/image/art%3A10.1186%2Fs41018-019-0061-z/MediaObjects/41018_2019_61_Fig8_HTML.png"
+    }
+  ],
+  "nota_importante": "Noviembre en Florianópolis marca la apertura de la temporada alta de verano, con crecimiento masivo de eventos sociales y fiestas en Jurerê Internacional. Los clubes P12, Warung Beach Club y Stage Music Park tienen agenda intensa de shows y DJs internacionales."
+}

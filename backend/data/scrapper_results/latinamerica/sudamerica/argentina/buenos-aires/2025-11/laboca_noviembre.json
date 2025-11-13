@@ -1,0 +1,117 @@
+{
+  "barrio": "La Boca",
+  "mes": "noviembre",
+  "año": 2025,
+  "eventos": [
+    {
+      "nombre": "La Noche de los Museos",
+      "fecha": "2025-11-08",
+      "tipo": "Cultural",
+      "lugar": "Múltiples espacios en La Boca",
+      "direccion": "La Boca, Buenos Aires",
+      "precio": "Gratuito",
+      "hora": "",
+      "descripcion": "Espacios culturales de La Boca como la Usina del Arte, el Museo Benito Quinquela Martín, Colón Fábrica, el Museo del Cine y la Fundación Proa abrieron sus puertas con entrada gratuita hasta la madrugada.",
+      "url": "",
+      "categoria": "cultural",
+      "image_url": "https://servicioscf.afip.gob.ar/publico/sitio/contenido/common/image.aspx?i\\u003d4805|nov_03_lndlm.jpg"
+    },
+    {
+      "nombre": "Gallery (Fiesta del Arte)",
+      "fecha": "2025-11-08",
+      "tipo": "Arte",
+      "lugar": "Galerías y espacios en La Boca y San Telmo",
+      "direccion": "La Boca, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Circuito en La Boca que incluyó lugares como la Fundación Andreani, la Fundación PROA y CONSTITUCIÓN.",
+      "url": "",
+      "categoria": "arte",
+      "image_url": "https://cloudfront-us-east-1.images.arcpublishing.com/infobae/TJTZEJCJCBCTZIPOY7DEVWMMWI.jpg"
+    },
+    {
+      "nombre": "Partido de Fútbol - Boca vs River",
+      "fecha": "2025-11-09",
+      "tipo": "Deportes",
+      "lugar": "Estadio La Bombonera",
+      "direccion": "Brandsen 805, La Boca, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Boca Juniors vs. River Plate (Partido Interzonal del Torneo Clausura). Fecha 15.",
+      "url": "",
+      "categoria": "futbol",
+      "image_url": "https://i.ytimg.com/vi/mqM6YsPdSS0/hqdefault.jpg"
+    },
+    {
+      "nombre": "Partido de Fútbol - Boca vs Tigre",
+      "fecha": "2025-11-16",
+      "tipo": "Deportes",
+      "lugar": "Estadio La Bombonera",
+      "direccion": "Brandsen 805, La Boca, Buenos Aires",
+      "precio": "",
+      "hora": "",
+      "descripcion": "Boca Juniors vs. Tigre (Torneo Clausura). Fecha 16.",
+      "url": "",
+      "categoria": "futbol",
+      "image_url": "https://i.ytimg.com/vi/MvvK1JrwYYs/hq720.jpg"
+    }
+  ],
+  "lugares_interes": [
+    {
+      "nombre": "Caminito",
+      "direccion": "Esquina de Magallanes y Lamadrid, La Boca, Buenos Aires",
+      "tipo": "Paseo Turístico",
+      "descripcion": "Paseo de casas coloridas. Ideal para caminar, ver puestos de arte y artesanías, y disfrutar de espectáculos de tango callejero.",
+      "horario": "Espacio público. Actividades y puestos más activos de día (especialmente fines de semana)",
+      "precio": ""
+    },
+    {
+      "nombre": "Museo Benito Quinquela Martín",
+      "direccion": "Av. Don Pedro de Mendoza 1843, La Boca, Buenos Aires",
+      "tipo": "Museo",
+      "descripcion": "Dedicado al famoso pintor boquense, ubicado en un hermoso edificio con terraza.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Usina del Arte",
+      "direccion": "Agustín R. Caffarena 1, La Boca, Buenos Aires",
+      "tipo": "Centro Cultural",
+      "descripcion": "Importante centro cultural con una programación variada que incluye conciertos de música clásica, jazz, tango, exposiciones y festivales.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Fundación Proa",
+      "direccion": "Av. Don Pedro de Mendoza 1929, La Boca, Buenos Aires",
+      "tipo": "Centro de Arte",
+      "descripcion": "Espacio dedicado al arte contemporáneo con exposiciones temporales de nivel internacional.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Fundación Andreani",
+      "direccion": "Av. Pedro de Mendoza 1981, La Boca, Buenos Aires",
+      "tipo": "Galería de Arte",
+      "descripcion": "Galería de arte que participa en eventos como Gallery.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Paseo de las Artes Pedro de Mendoza",
+      "direccion": "Av. Pedro de Mendoza, La Boca, Buenos Aires",
+      "tipo": "Mercado de Arte",
+      "descripcion": "Ferias y artistas alrededor de Caminito.",
+      "horario": "",
+      "precio": ""
+    },
+    {
+      "nombre": "Estadio La Bombonera",
+      "direccion": "Brandsen 805, La Boca, Buenos Aires",
+      "tipo": "Estadio",
+      "descripcion": "Estadio del Club Atlético Boca Juniors.",
+      "horario": "",
+      "precio": ""
+    }
+  ]
+}

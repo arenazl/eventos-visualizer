@@ -1,0 +1,308 @@
+[
+  {
+    "numero": 1,
+    "nombre": "Marco Carola y Frank Storm",
+    "fecha_inicio": "2025-11-16",
+    "fecha_fin": "2025-11-16",
+    "lugar": "Native Beach Club, Cardales",
+    "descripcion": "Line upMarco Carola (Italia)Frank Storm (Italia)Desde las 16hs. Native Beach Club queda en Panamericana km 60, Cardales.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 2,
+    "nombre": "Massano, Fideles y más",
+    "fecha_inicio": "2025-11-15",
+    "fecha_fin": "2025-11-15",
+    "lugar": "Mandarine Park",
+    "descripcion": "Line up Massano (UK/Afterlife)Fideles (Italia)Pacs b2b Soel Mandarine queda en el Complejo Punta Carrasco, Av Costanera y Av Sarmiento, Ciudad de Buenos Aires.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 3,
+    "nombre": "Paul Van Dyk, Will Atkinson y más",
+    "fecha_inicio": "2025-11-15",
+    "fecha_fin": "2025-11-15",
+    "lugar": "Amerika",
+    "descripcion": "Line upPaul Van Dyk (Alemania/Armada)Will Atkinson (UK)Desde las 23:59hs.Estilo: trance. Amerika queda en Gascón 1040, Ciudad de Buenos Aires.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 4,
+    "nombre": "Shanti Celeste, Gop Tun Djs y más",
+    "fecha_inicio": "2025-11-15",
+    "fecha_fin": "2025-11-15",
+    "lugar": "Deseo",
+    "descripcion": "Line upShanti Celeste (Chile)Guido SartorisGop Tun djs (Brasil)Desde las 23hs. Deseo queda en Chorroarin 1040, Ciudad de Buenos Aires",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 5,
+    "nombre": "Marron y Fausto",
+    "fecha_inicio": "2025-11-15",
+    "fecha_fin": "2025-11-15",
+    "lugar": "Under Club @ Blow, Palermo",
+    "descripcion": "Line upMarron (Holanda)FaustoDesde las 23hs.Estilo: techno. Blow queda en Niceto Vega 5699, Palermo, Ciudad de Buenos Aires.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 6,
+    "nombre": "Paul Oakenfold, Paul (AR) y más",
+    "fecha_inicio": "2025-11-15",
+    "fecha_fin": "2025-11-15",
+    "lugar": "Moscú, Costanera",
+    "descripcion": "Line upPaul Oakenfold (UK)Paul (AR)AnunnakisDesde las 18hs. Moscú queda en Av. Rafael Obligado 6151, Costanera Norte, Cap. Fed.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 7,
+    "nombre": "999999999, Odymel y más",
+    "fecha_inicio": "2025-11-14",
+    "fecha_fin": "2025-11-14",
+    "lugar": "Utopic @ Groove",
+    "descripcion": "Line up999999999 (Italia)Odymel (Suiza)Callush (Alemania)Fjusha (Alemania)DistDesde las 23hs.Estilo: techno. Groove queda en Av Santa Fe 4389, Palermo, Ciudad de Buenos Aires.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 8,
+    "nombre": "Marcelo Vasami y Nicolás Rada",
+    "fecha_inicio": "2025-11-14",
+    "fecha_fin": "2025-11-14",
+    "lugar": "Crobar",
+    "descripcion": "Line upMarcelo Vasami Nicolás RadaDesde las 23:59hs.Estilo: progressive house. Crobar es Marcelino Freyre s/n, Paseo de La Infanta, Palermo, Ciudad de Buenos Aires.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 9,
+    "nombre": "Cloudy, Adrián Mills y más",
+    "fecha_inicio": "2025-11-14",
+    "fecha_fin": "2025-11-14",
+    "lugar": "Heiss @ Amerika",
+    "descripcion": "Line upSophhiakahn f2f Juan Nuciforo Serafina f2f Fumi Cloudy f2f Adrián MillsKessler f2f Ko:LabDesde las 23hs.Estilo: techno. Amerika queda en Gascón 1040, Ciudad de Buenos Aires.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 10,
+    "nombre": "Mylah, Julieta Lake y más",
+    "fecha_inicio": "2025-11-14",
+    "fecha_fin": "2025-11-14",
+    "lugar": "Under Club @ Blow, Palermo",
+    "descripcion": "Line upMylahJulieta LakeNtrmGonzalo TrejoDesde las 23hs.Estilo: techno. Blow es en: Niceto Vega 5699, Palermo, Ciudad de Buenos Aires.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 11,
+    "nombre": "Marsh y más",
+    "fecha_inicio": "2025-11-14",
+    "fecha_fin": "2025-11-14",
+    "lugar": "2GTHR @ Morocco Costanera",
+    "descripcion": "Line up Marsh (Anjunadeep)Mas a confirmar.Desde las 23:59hs. Morocco Costanera queda en Costa Salguero, Ciudad de Buenos Aires.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 12,
+    "nombre": "Graziano Raffa",
+    "fecha_inicio": "2025-11-15",
+    "fecha_fin": "2025-11-15",
+    "lugar": "La Biblioteca, San Telmo",
+    "descripcion": "Line upGraziano RaffaDesde las 23hs. La Biblioteca queda en México 524, Ciudad de Buenos Aires.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 13,
+    "nombre": "Stefano Andriezzi y Manu Oubiña",
+    "fecha_inicio": "2025-11-14",
+    "fecha_fin": "2025-11-14",
+    "lugar": "Dune Park",
+    "descripcion": "Line upStefano Andriezzi Manu OubiñaDesde las 23hs. Dune Park queda en Araoz 740, Capital Federal.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 14,
+    "nombre": "Cosima, Saint Pablo y más",
+    "fecha_inicio": "2025-11-14",
+    "fecha_fin": "2025-11-14",
+    "lugar": "Shamrock Basement",
+    "descripcion": "Line up Iman Cosima Saint PabloDesde las 23hs. The Shamrock Basement queda en Rodriguez Peña 1220, Ciudad de Buenos Aires.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 15,
+    "nombre": "Mayro, Hassan y más",
+    "fecha_inicio": "2025-11-15",
+    "fecha_fin": "2025-11-15",
+    "lugar": "Club de Pescadores",
+    "descripcion": "Line upMayro HassanMarevegSebastián HuelDesde las 23hs. Muelle de Pescadores queda en Av Rafael Obligado y Av Sarmiento, Ciudad de Buenos Aires.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 16,
+    "nombre": "Eclipse Sonar, Borja y más",
+    "fecha_inicio": "2025-11-15",
+    "fecha_fin": "2025-11-15",
+    "lugar": "Dune Park",
+    "descripcion": "Line upEclipse Sonar Borja b2b SirioHazzedAilen DC b2b CandelaDesde las 23hs. Dune Park queda en Araoz 740, Capital Federal.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 17,
+    "nombre": "Vicky Sand, Ina y más",
+    "fecha_inicio": "2025-11-15",
+    "fecha_fin": "2025-11-15",
+    "lugar": "Shamrock Basement",
+    "descripcion": "Line up Krypta b2b Yanacone San Nicolas Vicky Sand b2b InaDesde las 23hs. The Shamrock Basement queda en Rodriguez Peña 1220, Ciudad de Buenos Aires.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 18,
+    "nombre": "Jesica Falaschi, Lucas Sosa (AR) y más",
+    "fecha_inicio": "2025-11-15",
+    "fecha_fin": "2025-11-15",
+    "lugar": "Complejo Art Media",
+    "descripcion": "Line upJXXXO PakardHersJesica FalaschiLucas Sosa (AR)Desde las 23hs.Estilo: techno. Complejo Art Media queda en Av. Corrientes 6271, Ciudad de Buenos Aires",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 19,
+    "nombre": "Gonzalo Seijas, Santiago Cardinal y más",
+    "fecha_inicio": "2025-11-14",
+    "fecha_fin": "2025-11-14",
+    "lugar": "Club de Pescadores",
+    "descripcion": "Line upGonzalo Seijas Santiago CardinalLevo JaimesColauDesde las 23hs. Muelle de Pescadores queda en Av Rafael Obligado y Av Sarmiento, Ciudad de Buenos Aires.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 20,
+    "nombre": "Soundexile, Mark y más",
+    "fecha_inicio": "2025-11-15",
+    "fecha_fin": "2025-11-15",
+    "lugar": "Downtempo Rooftop",
+    "descripcion": "Line upSoundexileMark & MathGonza SilesDesde las 18hs. Downtempo Rooftop queda en Av. Constituyentes 3552, Ciudad de Buenos Aires",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 21,
+    "nombre": "Sgalia, Juan GL y más",
+    "fecha_inicio": "2025-11-15",
+    "fecha_fin": "2025-11-15",
+    "lugar": "Frida Club",
+    "descripcion": "Line upSgalia Juan GLManuel Roverano b2b SaxAlejandra Torres b2b Mati MontesDesde las 23hs. Frida Club queda en Dorrego 1735, Cap. Fed.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 22,
+    "nombre": "Roberto Ceratti, Saflo y más",
+    "fecha_inicio": "2025-11-14",
+    "fecha_fin": "2025-11-14",
+    "lugar": "La Biblioteca, San Telmo",
+    "descripcion": "Line upRoberto CerattiSafloJuan MDesde las 23hs. La Biblioteca queda en México 524, Ciudad de Buenos Aires.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 23,
+    "nombre": "Mathame y Rafael Cerato",
+    "fecha_inicio": "2025-11-14",
+    "fecha_fin": "2025-11-14",
+    "lugar": "El Teatrino, Salta",
+    "descripcion": "Line upMathame (Italia)Rafael Cerato (Italia)Desde las 23hs. El Teatrino será en Salta.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 24,
+    "nombre": "Deborah De Luca y más",
+    "fecha_inicio": "2025-11-14",
+    "fecha_fin": "2025-11-14",
+    "lugar": "Quinta Las Rosas, Mendoza",
+    "descripcion": "Line upDeborah De Luca (Italia)Más a confirmar.Desde las 23hs. Quinta Las Rosas queda en Callejon Escorihuela, Guaymallen, Mendoza.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 25,
+    "nombre": "Marco Carola, Ale De Tuglie y más",
+    "fecha_inicio": "2025-11-14",
+    "fecha_fin": "2025-11-14",
+    "lugar": "La Fabrica, Córdoba",
+    "descripcion": "Line upMarco Carola (Italia/Music On)Ale De TuglieFrank StormSergio SaffeDesde las 23hs.Estilo: tech house. La Fabrica queda en Ruta E-64, La Calera, Córdoba.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 26,
+    "nombre": "Agents of Time y más",
+    "fecha_inicio": "2025-11-15",
+    "fecha_fin": "2025-11-15",
+    "lugar": "PM Open Air, Tucumán",
+    "descripcion": "Line upAgents of Time (Italia)Más a confirmar.Desde las 22hs. Bamboleo será en el Estadio de Central Córdoba, Tucumán.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 27,
+    "nombre": "Marco Carola, Jay De Lys y más",
+    "fecha_inicio": "2025-11-15",
+    "fecha_fin": "2025-11-15",
+    "lugar": "Autodromo, Rosario",
+    "descripcion": "Line upMarco Carola (Italia)Jay De LysFrank StormNacho ScoppaDesde las 19hs. Autodromo queda en Newbery y Garcia, Rosario, Pcia. de Santa Fe",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 28,
+    "nombre": "Tini, Djs Pareja y más",
+    "fecha_inicio": "2025-11-15",
+    "fecha_fin": "2025-11-15",
+    "lugar": "Dahaus @ Palacio Alsina, Córdoba",
+    "descripcion": "Line upTini (Alemania)Djs ParejaLeanceDesde las 23hs. Palacio Alsina queda en Circunvalación 1199, Córdoba Capital.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 29,
+    "nombre": "Denis Horvat, Ema Iglesias y más",
+    "fecha_inicio": "2025-11-15",
+    "fecha_fin": "2025-11-15",
+    "lugar": "Club Quba, Mar del Plata",
+    "descripcion": "Line up Denis Horvat (Dinamarca/Afterlife) Ema IglesiasFonz b2b BarciaDesde las 23:59hs. Club Quba queda en Acceso escollera norte, Mar del Plata. Pcia. de Buenos Aires",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 30,
+    "nombre": "Mathame, Rama Mendez y más",
+    "fecha_inicio": "2025-11-16",
+    "fecha_fin": "2025-11-16",
+    "lugar": "Quinta Las Rosas, Mendoza",
+    "descripcion": "Line upMathame (Italia)Rama Mendez b2b LovoJohnny DiazDesde las 16hs. Quinta Las Rosas queda en Callejon Escorihuela, Guaymallen, Mendoza.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 31,
+    "nombre": "Fideles, Lion y más",
+    "fecha_inicio": "2025-11-14",
+    "fecha_fin": "2025-11-14",
+    "lugar": "Vision, Neuquén",
+    "descripcion": "Line upFideles (Italia/Afterlife)LionFarizanoDesde las 23hs. Vision será en La Masia, Fernandez Oro, Pcia de Neuquén.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 32,
+    "nombre": "Cristi Cons, Gonzalo Seijas y más",
+    "fecha_inicio": "2025-11-15",
+    "fecha_fin": "2025-11-15",
+    "lugar": "Switch, Rosario",
+    "descripcion": "Line up Cristi Cons (Rumania) Gonzalo SeijasCarlos PasuttiBenekDesde las 23hs. Switch queda en Balcarce 379, Rosario.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 33,
+    "nombre": "Tomás Saenz, Ako y más",
+    "fecha_inicio": "2025-11-14",
+    "fecha_fin": "2025-11-15",
+    "lugar": "Feuer, Rosario",
+    "descripcion": "Line up viernesTomás SaenzSábadoAkoChico FadelliDesde las 23hs.Estilo: house. Feuer queda en Maipú 555, Rosario, Santa Fe.",
+    "categoria": "Musical"
+  },
+  {
+    "numero": 34,
+    "nombre": "Mai Lawson y Marcio Escalante",
+    "fecha_inicio": "2025-11-15",
+    "fecha_fin": "2025-11-15",
+    "lugar": "Aquabarra, San Luis",
+    "descripcion": "Line upMai Lawson Marcio EscalanteDesde las 23:59hs. Aquabarra queda en Av. Chorrilero km. 6, San Luis.",
+    "categoria": "Musical"
+  }
+]

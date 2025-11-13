@@ -1,0 +1,12 @@
+{
+  "region": "Antofagasta",
+  "country": "Chile",
+  "source": "gemini",
+  "timestamp": "2025-11-09T07:35:00",
+  "eventos": [
+    {"nombre": "Concierto de Myriam Hernández", "ciudad": "Antofagasta", "fecha": "8 de Noviembre de 2025", "descripcion": "La reconocida cantante chilena de baladas y música romántica presentará su Tauro World Tour en el Estadio Sokol."},
+    {"nombre": "Dios Salve a la Reina (Tributo a Queen)", "ciudad": "Antofagasta", "fecha": "15 de Noviembre de 2025", "descripcion": "Este popular espectáculo tributo a la banda británica Queen se presentará en el recinto Rock & Soccer Antofagasta."},
+    {"nombre": "Se llamaba Julieta - Obra Interdisciplinaria", "ciudad": "Antofagasta", "fecha": "13 al 15 de Noviembre de 2025", "descripcion": "Una presentación de la Universidad de Antofagasta, que probablemente combine varias disciplinas artísticas."},
+    {"nombre": "Dino Adventure Antofagasta 2025", "ciudad": "Antofagasta", "fecha": "21 de Noviembre al 21 de Diciembre", "descripcion": "Una exhibición o evento familiar centrado en dinosaurios, con una duración de un mes."}
+  ]
+}

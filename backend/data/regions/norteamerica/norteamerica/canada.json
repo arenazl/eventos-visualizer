@@ -1,0 +1,22 @@
+{
+  "country": "Canadá",
+  "country_code": "CA",
+  "region": "Norteamérica",
+  "cities": [
+    {
+      "name": "Toronto",
+      "latitude": 43.6532,
+      "longitude": -79.3832
+    },
+    {
+      "name": "Montreal",
+      "latitude": 45.5017,
+      "longitude": -73.5673
+    },
+    {
+      "name": "Vancouver",
+      "latitude": 49.2827,
+      "longitude": -123.1207
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "region": "Bahia",
+  "country": "Brasil",
+  "source": "gemini",
+  "timestamp": "2025-11-09T06:55:00",
+  "eventos": [
+    {"nome": "AFROPUNK Brasil 2025", "cidade": "Salvador", "data": "08 e 09 de Novembro", "descricao": "Grande festival internacional que celebra a cultura negra, música e arte. Conta com a participação de artistas nacionais e internacionais de diversos gêneros."},
+    {"nome": "Turnê Sorriso as Antigas 2025", "cidade": "Salvador", "data": "15 de Novembro", "descricao": "Show do grupo de pagode Sorriso Maroto com sucessos de sua trajetória, um evento muito aguardado pelos fãs do gênero."},
+    {"nome": "Sauípe Weekend", "cidade": "Mata de São João (Costa do Sauípe)", "data": "20 a 23 de Novembro", "descricao": "Evento de entretenimento e festas que acontece no complexo de Costa do Sauípe, atraindo um público para shows e lazer."}
+  ]
+}
