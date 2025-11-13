@@ -1471,6 +1471,63 @@ nombre1, nombre2, nombre3, nombre4, nombre5
         top_places = verified_places
         logger.info(f"✅ Lugares verificados con eventos: {top_places}")
 
+        # 🔄 FALLBACK: Si no hay ciudades cercanas, ampliar búsqueda al país/región
+        if len(top_places) == 0:
+            logger.warning(f"⚠️ No se encontraron ciudades cercanas con eventos. Ampliando búsqueda...")
+
+            # Pedirle a Grok ciudades del mismo país con eventos
+            fallback_prompt = f"""Dame 5 ciudades importantes del mismo país que {location}, con muchos eventos culturales.
+
+Responde SOLO con los 5 nombres separados por comas, sin números ni explicaciones:
+nombre1, nombre2, nombre3, nombre4, nombre5
+"""
+
+            fallback_response = await ai_manager.generate(
+                prompt=fallback_prompt,
+                temperature=0.3
+            )
+
+            fallback_places = [name.strip() for name in fallback_response.split(',')[:5]]
+            logger.info(f"🔄 Fallback: Grok sugirió ciudades del país: {fallback_places}")
+
+            # Verificar cuáles tienen eventos
+            verify_connection_fallback = pymysql.connect(
+                host=os.getenv('MYSQL_HOST', 'localhost'),
+                port=int(os.getenv('MYSQL_PORT', 3306)),
+                user=os.getenv('MYSQL_USER', 'root'),
+                password=os.getenv('MYSQL_PASSWORD', ''),
+                database=os.getenv('MYSQL_DATABASE', 'events'),
+                charset='utf8mb4',
+                cursorclass=pymysql.cursors.DictCursor
+            )
+
+            try:
+                verify_cursor_fallback = verify_connection_fallback.cursor()
+
+                for place_name in fallback_places:
+                    verify_query = '''
+                        SELECT COUNT(*) as event_count
+                        FROM events
+                        WHERE start_datetime >= NOW()
+                        AND (
+                            city LIKE %s
+                            OR neighborhood LIKE %s
+                        )
+                    '''
+
+                    verify_cursor_fallback.execute(verify_query, (f'%{place_name}%', f'%{place_name}%'))
+                    result = verify_cursor_fallback.fetchone()
+
+                    if result and result['event_count'] > 0:
+                        top_places.append(place_name)
+                        logger.info(f"✅ Fallback: '{place_name}' tiene {result['event_count']} eventos")
+
+                verify_cursor_fallback.close()
+            finally:
+                verify_connection_fallback.close()
+
+            logger.info(f"✅ Fallback completado. Total lugares: {top_places}")
+
         return {
             "success": True,
             "places": top_places

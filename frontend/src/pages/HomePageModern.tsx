@@ -1092,12 +1092,12 @@ const HomePageModern: React.FC = () => {
               <div className={`grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-6 pb-20 transition-all duration-300 ${isEventsFadingOut ? 'opacity-20 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'
                 }`}>
                 {(() => {
-                  // 🔥 DEDUPLICACIÓN MEJORADA: Agrupar por título + venue, mostrar rango de horarios
+                  // 🔥 DEDUPLICACIÓN MEJORADA: Agrupar SOLO por título, mostrar rango de horarios
                   const eventsGroupMap = new Map()
 
                   events.forEach(event => {
-                    // Clave sin horario (solo título + venue)
-                    const groupKey = `${event.title}-${event.venue_name || ''}`
+                    // Clave SOLO por título (ignorando venue y horario)
+                    const groupKey = event.title.toLowerCase().trim()
 
                     if (!eventsGroupMap.has(groupKey)) {
                       eventsGroupMap.set(groupKey, [event])
