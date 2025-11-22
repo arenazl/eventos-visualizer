@@ -5567,9 +5567,9 @@ async def migrate_all_images(limit: int = 50, city: Optional[str] = None):
         limit: Maximum number of images to migrate (default 50)
         city: Optional city filter
     """
+    global pool
     try:
         # Get events from database
-        pool = app.state.db_pool
         if not pool:
             raise HTTPException(status_code=500, detail="Database not connected")
 
@@ -5646,8 +5646,8 @@ async def get_pending_images(limit: int = 100, city: Optional[str] = None):
     """
     Get list of events with images not yet in Cloudinary
     """
+    global pool
     try:
-        pool = app.state.db_pool
         if not pool:
             raise HTTPException(status_code=500, detail="Database not connected")
 
