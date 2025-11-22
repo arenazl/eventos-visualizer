@@ -619,6 +619,136 @@ except Exception as e:
     logger.warning(f"⚠️ Could not load Events DB router: {e}")
 
 # ============================================================================
+# 🧹 HELPER FUNCTIONS - Deduplication
+# ============================================================================
+
+def deduplicate_events_by_title(events: list) -> list:
+    """
+    MARCA eventos duplicados basándose en similitud de títulos (>80%)
+
+    NUEVA ESTRATEGIA (NO ELIMINA, SOLO MARCA):
+    - Compara cada evento con los ya procesados
+    - Si encuentra un título >80% similar, marca el peor como duplicado
+    - Agrega campos: is_duplicate=True, duplicate_of=[id del principal]
+    - RETORNA TODOS LOS EVENTOS (principales + duplicados marcados)
+
+    Args:
+        events: Lista de eventos (dicts)
+
+    Returns:
+        Lista completa con duplicados marcados
+    """
+    if not events:
+        return events
+
+    # Source priority (mayor = mejor)
+    SOURCE_PRIORITY = {
+        'database': 10,
+        'gemini': 9,
+        'felo': 8,
+        'gemini_scraper': 7,
+        'felo_scraper': 6,
+        'nightclub': 5,
+    }
+
+    def get_source_priority(source: str) -> int:
+        """Retorna prioridad del source (mayor = mejor)"""
+        return SOURCE_PRIORITY.get(source, 1)  # Default: 1 (bajo)
+
+    def calculate_title_similarity(title1: str, title2: str) -> float:
+        """Calcula similitud entre 2 títulos (0.0 - 1.0)"""
+        if not title1 or not title2:
+            return 0.0
+
+        # Normalizar: lowercase y quitar caracteres especiales
+        t1 = title1.lower().replace('-', ' ').replace('(', '').replace(')', '')
+        t2 = title2.lower().replace('-', ' ').replace('(', '').replace(')', '')
+
+        # Extraer palabras
+        words1 = set(t1.split())
+        words2 = set(t2.split())
+
+        if not words1 or not words2:
+            return 0.0
+
+        # Palabras comunes
+        common = words1 & words2
+
+        # Similitud = palabras comunes / total palabras únicas
+        total_unique = words1 | words2
+        similarity = len(common) / len(total_unique) if total_unique else 0.0
+
+        return similarity
+
+    def is_better_event(event1: dict, event2: dict) -> bool:
+        """Retorna True si event1 es mejor que event2"""
+        # Criterio 1: Prioridad por source
+        priority1 = get_source_priority(event1.get('source', ''))
+        priority2 = get_source_priority(event2.get('source', ''))
+
+        if priority1 != priority2:
+            return priority1 > priority2
+
+        # Criterio 2: Tiene imagen
+        has_image1 = bool(event1.get('image_url'))
+        has_image2 = bool(event2.get('image_url'))
+
+        if has_image1 != has_image2:
+            return has_image1
+
+        # Criterio 3: Título más largo (más descriptivo)
+        return len(event1.get('title', '')) > len(event2.get('title', ''))
+
+    # NUEVA LÓGICA: Marcar duplicados (NO eliminar)
+    all_events = []
+    duplicate_count = 0
+
+    for event in events:
+        title = event.get('title', '')
+        found_similar = False
+
+        # Inicializar campos de duplicado
+        event['is_duplicate'] = False
+        event['duplicate_of'] = None
+
+        # Comparar con eventos ya procesados
+        for existing in all_events:
+            # Saltar eventos ya marcados como duplicados
+            if existing.get('is_duplicate'):
+                continue
+
+            existing_title = existing.get('title', '')
+            similarity = calculate_title_similarity(title, existing_title)
+
+            # Si es muy similar (>80%), marcar como duplicado
+            if similarity >= 0.80:
+                found_similar = True
+
+                # Determinar cuál es mejor
+                if is_better_event(event, existing):
+                    # El nuevo es mejor → marcar el existente como duplicado
+                    existing['is_duplicate'] = True
+                    existing['duplicate_of'] = event.get('id')
+                    logger.debug(f"🔄 '{existing_title[:40]}...' marcado como duplicado de '{title[:40]}...' (similarity: {similarity:.0%})")
+                    duplicate_count += 1
+                else:
+                    # El existente es mejor → marcar el nuevo como duplicado
+                    event['is_duplicate'] = True
+                    event['duplicate_of'] = existing.get('id')
+                    logger.debug(f"⏭️ '{title[:40]}...' marcado como duplicado de '{existing_title[:40]}...' (similarity: {similarity:.0%})")
+                    duplicate_count += 1
+
+                break
+
+        # Agregar TODOS los eventos (duplicados y no duplicados)
+        all_events.append(event)
+
+    if duplicate_count > 0:
+        logger.info(f"🏷️ Total duplicados marcados: {duplicate_count} de {len(all_events)} eventos")
+
+    return all_events
+
+# ============================================================================
 # 🚀 PARALLEL REST ENDPOINTS - Individual sources for maximum performance
 # ============================================================================
 
@@ -1125,6 +1255,15 @@ async def stream_events(
                 original_location = location
                 expanded_search = False
 
+            # 🧹 DEDUPLICACIÓN: Marcar eventos con títulos similares
+            events_before_dedup = len(events)
+            if events_before_dedup > 0:
+                events = deduplicate_events_by_title(events)
+                duplicates_marked = sum(1 for e in events if e.get('is_duplicate'))
+                if duplicates_marked > 0:
+                    main_events = events_before_dedup - duplicates_marked
+                    logger.info(f"🏷️ Duplicados marcados: {duplicates_marked} ({main_events} principales + {duplicates_marked} duplicados = {events_before_dedup} total)")
+
             execution_time = f"{time.time() - start_time:.2f}s"
             total_events = len(events)
             logger.info(f"📊 Total eventos después de búsqueda: {total_events} en {execution_time}")
@@ -1170,7 +1309,14 @@ async def stream_events(
             yield f"data: {json.dumps({'type': 'error', 'message': str(e)})}\n\n"
 
     # 🔥 RETORNAR EL STREAMING RESPONSE
-    return StreamingResponse(event_generator(), media_type="text/event-stream")
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no",  # Disable nginx buffering
+        }
+    )
 
 @app.get("/api/location/enrichment")
 async def get_location_enrichment(
@@ -2863,46 +3009,123 @@ async def get_teatro_events(
 @app.get("/api/events/{event_id}")
 async def get_event_by_id(event_id: str):
     """
-    Obtener un evento específico por ID/título
+    🔍 Obtener un evento específico por ID/título desde MySQL
+    CRÍTICO: Este endpoint SIEMPRE retorna datos frescos con imágenes actualizadas
     """
     try:
-        # Buscar en eventos recientes de la ciudad por defecto
-        from services.hierarchical_factory import fetch_from_all_sources_internal
-        result = await fetch_from_all_sources_internal("Buenos Aires")
+        import pymysql
+        import unicodedata
 
-        events = result.get("events", [])
+        logger.info(f"🔍 Buscando evento en MySQL: {event_id}")
 
-        # Buscar por título de manera flexible
-        for event in events:
-            # Generar diferentes versiones del ID para comparar
-            title_lower = event['title'].lower()
-            simple_id = title_lower.replace(" ", "-").replace(",", "").replace(".", "").replace("(", "").replace(")", "")
-            title_match = title_lower.replace(" ", "-")
-            event_id_lower = event_id.lower()
-            event_id_spaces = event_id.replace("-", " ").lower()
+        # Normalizar el event_id (remover guiones, convertir a espacios)
+        event_id_normalized = event_id.lower().replace("-", " ")
 
-            # Múltiples formas de hacer match
-            if (simple_id == event_id_lower or
-                title_match == event_id_lower or
-                title_lower == event_id_spaces or
-                title_lower.startswith(event_id_spaces) or
-                event_id_spaces in title_lower):
+        # Extraer palabras clave (filtrar palabras cortas/comunes)
+        stop_words = {'de', 'la', 'el', 'y', 'en', 'del', 'los', 'las', 'con', 'por', 'para', 'a'}
+        keywords = [word for word in event_id_normalized.split() if len(word) > 2 and word not in stop_words]
 
-                return {
-                    "status": "success",
-                    "event": event
-                }
+        logger.info(f"🔍 Keywords extraídas: {keywords}")
 
-        # Si no se encuentra
-        raise HTTPException(
-            status_code=404,
-            detail=f"Event '{event_id}' not found"
+        # Conectar a MySQL
+        connection = pymysql.connect(
+            host=os.getenv('MYSQL_HOST', 'localhost'),
+            port=int(os.getenv('MYSQL_PORT', 3306)),
+            user=os.getenv('MYSQL_USER', 'root'),
+            password=os.getenv('MYSQL_PASSWORD', ''),
+            database=os.getenv('MYSQL_DATABASE', 'events'),
+            charset='utf8mb4',
+            cursorclass=pymysql.cursors.DictCursor
         )
+
+        cursor = connection.cursor()
+
+        # Estrategia 1: Buscar con todas las keywords (más estricto)
+        if len(keywords) >= 3:
+            conditions = []
+            for kw in keywords:
+                conditions.append(f"LOWER(title) LIKE '%{kw}%'")
+
+            query = f'''
+                SELECT *
+                FROM events
+                WHERE {' AND '.join(conditions)}
+                LIMIT 1
+            '''
+
+            cursor.execute(query)
+            event = cursor.fetchone()
+
+            if event:
+                logger.info(f"✅ Encontrado con TODAS las keywords: {event['title']}")
+        else:
+            event = None
+
+        # Estrategia 2: Si no encontró, buscar con 2+ keywords principales
+        if not event and len(keywords) >= 2:
+            # Usar las 2 keywords más largas (más específicas)
+            main_keywords = sorted(keywords, key=len, reverse=True)[:2]
+            conditions = [f"LOWER(title) LIKE '%{kw}%'" for kw in main_keywords]
+
+            query = f'''
+                SELECT *
+                FROM events
+                WHERE {' AND '.join(conditions)}
+                LIMIT 1
+            '''
+
+            cursor.execute(query)
+            event = cursor.fetchone()
+
+            if event:
+                logger.info(f"✅ Encontrado con keywords principales {main_keywords}: {event['title']}")
+
+        # Estrategia 3: Fallback al método original
+        if not event:
+            query = '''
+                SELECT *
+                FROM events
+                WHERE LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+                    title, 'á', 'a'), 'é', 'e'), 'í', 'i'), 'ó', 'o'), 'ú', 'u'),
+                    'Á', 'A'), 'É', 'E'), 'Í', 'I'), 'Ó', 'O'), 'Ú', 'U'))
+                LIKE LOWER(%s)
+                LIMIT 1
+            '''
+
+            search_pattern = f'%{event_id_normalized}%'
+            cursor.execute(query, (search_pattern,))
+            event = cursor.fetchone()
+
+            if event:
+                logger.info(f"✅ Encontrado con búsqueda original: {event['title']}")
+
+        # Agregar campos faltantes que el frontend espera
+        if event and 'currency' not in event:
+            event['currency'] = 'ARS'  # Default currency
+        if event and 'is_free' not in event:
+            event['is_free'] = False  # Default not free
+
+        cursor.close()
+        connection.close()
+
+        if not event:
+            logger.warning(f"⚠️ Evento no encontrado en MySQL: {event_id}")
+            raise HTTPException(
+                status_code=404,
+                detail=f"Event '{event_id}' not found in database"
+            )
+
+        logger.info(f"✅ Evento obtenido desde MySQL con imagen actualizada: {event['title']}")
+
+        return {
+            "status": "success",
+            "event": event
+        }
 
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Error getting event {event_id}: {e}")
+        logger.error(f"❌ Error getting event {event_id} from MySQL: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -3019,16 +3242,31 @@ async def update_event_image(event_id: str, request: dict):
             )
 
             cursor = connection.cursor()
-            event_id_normalized = event_id.replace('-', ' ')
 
+            # 🔥 USAR EL TÍTULO ORIGINAL EN LUGAR DEL EVENT_ID DE LA URL
+            import unicodedata
+
+            # Normalizar el título del request (viene del frontend)
+            title_normalized = ''.join(
+                c for c in unicodedata.normalize('NFD', title)
+                if unicodedata.category(c) != 'Mn'
+            )
+
+            # Normalizar el título en MySQL para comparación (quitar acentos)
+            # Usamos una búsqueda más flexible que ignora acentos
             update_query = '''
                 UPDATE events
                 SET image_url = %s
-                WHERE LOWER(REPLACE(title, ' ', '-')) = LOWER(%s)
-                OR LOWER(title) LIKE LOWER(%s)
+                WHERE LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+                    title, 'á', 'a'), 'é', 'e'), 'í', 'i'), 'ó', 'o'), 'ú', 'u'),
+                    'Á', 'A'), 'É', 'E'), 'Í', 'I'), 'Ó', 'O'), 'Ú', 'U'))
+                LIKE LOWER(%s)
             '''
 
-            cursor.execute(update_query, (image_url, event_id, f'%{event_id_normalized}%'))
+            # Crear un patrón más flexible con wildcards usando el TÍTULO
+            search_pattern = f'%{title_normalized}%'
+            logger.info(f"🔍 Buscando evento con título: '{title}' → patrón: {search_pattern}")
+            cursor.execute(update_query, (image_url, search_pattern))
             connection.commit()
             rows_affected = cursor.rowcount
 
@@ -3051,6 +3289,210 @@ async def update_event_image(event_id: str, request: dict):
         raise
     except Exception as e:
         logger.error(f"❌ Error updating image for {event_id}: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/events/bulk-update-images-stream")
+async def bulk_update_images_stream(request: Request):
+    """
+    🚀 ACTUALIZACIÓN MASIVA DE IMÁGENES CON STREAMING
+
+    Procesa eventos y envía actualizaciones en tiempo real vía SSE.
+    El frontend puede actualizar las tarjetas a medida que se procesan.
+    """
+    try:
+        body = await request.json()
+        events = body.get('events', [])
+
+        if not events:
+            async def error_generator():
+                yield {
+                    "event": "error",
+                    "data": json.dumps({"message": "No events provided"})
+                }
+            return EventSourceResponse(error_generator())
+
+        logger.info(f"🚀 Iniciando actualización masiva con streaming para {len(events)} eventos")
+
+        async def image_update_generator():
+            import asyncio
+            from asyncio import Queue
+
+            # Cola para comunicar resultados entre tasks
+            result_queue = Queue()
+
+            # Enviar evento de inicio
+            yield {
+                "event": "update_start",
+                "data": json.dumps({
+                    "total": min(len(events), 50),
+                    "message": "Iniciando actualización de imágenes en paralelo..."
+                })
+            }
+
+            # Función que procesa un evento y pone resultado en la cola
+            async def update_single_event(event, idx):
+                try:
+                    title = event.get('title', '')
+                    venue_name = event.get('venue_name', '')
+                    city = event.get('city', '')
+                    description = event.get('description', '')
+                    current_image = event.get('image_url', '')
+                    event_id = event.get('id', '')
+
+                    # SIEMPRE buscar la mejor imagen disponible (no omitir)
+                    logger.debug(f"🔍 Buscando mejor imagen para: {title}")
+
+                    # Buscar nueva imagen con 3 etapas: título → keywords → venue
+                    from services.google_images_service import search_google_image
+                    image_url = await search_google_image(title, venue=venue_name, city=city, description=description)
+
+                    if not image_url or 'gstatic' in image_url:
+                        logger.debug(f"⚠️ No se encontró imagen para: {title}")
+                        await result_queue.put({"failed": True})
+                        return
+
+                    # Detectar placeholders genéricos
+                    placeholder_patterns = [
+                        'unsplash', 'placeholder', 'lorem', 'picsum', 'via.placeholder',
+                        'placehold', 'dummyimage', 'fakeimg', 'lorempixel'
+                    ]
+
+                    current_is_placeholder = any(p in (current_image or '').lower() for p in placeholder_patterns)
+                    new_is_placeholder = any(p in image_url.lower() for p in placeholder_patterns)
+
+                    # Si ambas son placeholders → omitir (no hay mejora)
+                    if current_is_placeholder and new_is_placeholder:
+                        logger.debug(f"⏭️ Ambas son placeholders para '{title}' - omitiendo")
+                        await result_queue.put({"skipped": True})
+                        return
+
+                    # Si la nueva también es placeholder pero actual no → omitir (empeoraría)
+                    if new_is_placeholder and not current_is_placeholder:
+                        logger.debug(f"⏭️ Nueva imagen es placeholder para '{title}' - omitiendo")
+                        await result_queue.put({"skipped": True})
+                        return
+
+                    # Si URLs son iguales y no son placeholders → omitir
+                    if current_image == image_url:
+                        logger.debug(f"⏭️ Misma imagen para '{title}' - omitiendo")
+                        await result_queue.put({"skipped": True})
+                        return
+
+                    # ACTUALIZAR: placeholder → real, o real → real diferente
+                    if current_is_placeholder and not new_is_placeholder:
+                        logger.info(f"✨ Reemplazando placeholder con imagen real: {title}")
+                    else:
+                        logger.info(f"🔄 Actualizando imagen: {title}")
+
+                    # Actualizar en MySQL
+                    import unicodedata
+                    title_normalized = ''.join(
+                        c for c in unicodedata.normalize('NFD', title)
+                        if unicodedata.category(c) != 'Mn'
+                    )
+
+                    connection = pymysql.connect(
+                        host=os.getenv('MYSQL_HOST', 'localhost'),
+                        port=int(os.getenv('MYSQL_PORT', 3306)),
+                        user=os.getenv('MYSQL_USER', 'root'),
+                        password=os.getenv('MYSQL_PASSWORD', ''),
+                        database=os.getenv('MYSQL_DATABASE', 'events'),
+                        charset='utf8mb4',
+                        cursorclass=pymysql.cursors.DictCursor
+                    )
+
+                    cursor = connection.cursor()
+
+                    update_query = '''
+                        UPDATE events
+                        SET image_url = %s
+                        WHERE LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+                            title, 'á', 'a'), 'é', 'e'), 'í', 'i'), 'ó', 'o'), 'ú', 'u'),
+                            'Á', 'A'), 'É', 'E'), 'Í', 'I'), 'Ó', 'O'), 'Ú', 'U'))
+                        LIKE LOWER(%s)
+                    '''
+
+                    search_pattern = f'%{title_normalized}%'
+                    cursor.execute(update_query, (image_url, search_pattern))
+                    connection.commit()
+                    rows_affected = cursor.rowcount
+
+                    cursor.close()
+                    connection.close()
+
+                    if rows_affected > 0:
+                        logger.info(f"✅ Imagen mejorada: {title}")
+                        await result_queue.put({
+                            "success": True,
+                            "id": event_id,
+                            "title": title,
+                            "image_url": image_url
+                        })
+                    else:
+                        await result_queue.put({"failed": True})
+
+                except Exception as e:
+                    logger.error(f"❌ Error procesando '{event.get('title', 'unknown')}': {e}")
+                    await result_queue.put({"failed": True})
+
+            # Lanzar todas las tareas en paralelo con semaphore
+            semaphore = asyncio.Semaphore(5)  # Máximo 5 en paralelo
+
+            async def bounded_update(event, idx):
+                async with semaphore:
+                    await update_single_event(event, idx)
+
+            # Crear todas las tareas (SOLO 1 PARA PRUEBA)
+            tasks = [asyncio.create_task(bounded_update(event, idx))
+                     for idx, event in enumerate(events[:1])]  # Solo primer evento
+
+            # Procesar resultados a medida que llegan
+            successful = 0
+            skipped = 0
+            failed = 0
+            total_events = len(tasks)
+            processed = 0
+
+            while processed < total_events:
+                result = await result_queue.get()
+                processed += 1
+
+                if result.get('success'):
+                    successful += 1
+                    # Enviar update al frontend
+                    yield {
+                        "event": "image_updated",
+                        "data": json.dumps({
+                            "id": result['id'],
+                            "title": result['title'],
+                            "image_url": result['image_url'],
+                            "progress": int(processed / total_events * 100)
+                        })
+                    }
+                elif result.get('skipped'):
+                    skipped += 1
+                else:
+                    failed += 1
+
+            # Esperar que todas las tareas terminen
+            await asyncio.gather(*tasks, return_exceptions=True)
+
+            # Enviar evento de finalización
+            yield {
+                "event": "update_complete",
+                "data": json.dumps({
+                    "successful": successful,
+                    "skipped": skipped,
+                    "failed": failed,
+                    "total": total_events
+                })
+            }
+
+        return EventSourceResponse(image_update_generator())
+
+    except Exception as e:
+        logger.error(f"❌ Error en bulk update stream: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -5073,6 +5515,174 @@ async def admin_page():
         return HTMLResponse(content=html_content)
     except Exception as e:
         return HTMLResponse(content=f"<h1>Error loading admin page: {e}</h1>", status_code=500)
+
+
+# ═══════════════════════════════════════════════════════════════════
+# 🖼️ CLOUDINARY IMAGE MIGRATION ENDPOINTS
+# ═══════════════════════════════════════════════════════════════════
+
+from services.cloudinary_service import (
+    upload_image_from_url,
+    test_cloudinary_connection,
+    batch_migrate_images
+)
+
+@app.get("/api/admin/cloudinary/status")
+async def cloudinary_status():
+    """Check Cloudinary configuration status"""
+    return await test_cloudinary_connection()
+
+
+@app.post("/api/admin/cloudinary/migrate-image")
+async def migrate_single_image(image_url: str, event_id: Optional[str] = None):
+    """
+    Migrate a single image to Cloudinary
+
+    Args:
+        image_url: URL of the image to migrate
+        event_id: Optional event ID for naming
+    """
+    if not image_url:
+        raise HTTPException(status_code=400, detail="image_url is required")
+
+    public_id = f"event_{event_id}" if event_id else None
+    new_url = await upload_image_from_url(image_url, folder="eventos", public_id=public_id)
+
+    if new_url:
+        return {
+            "success": True,
+            "original_url": image_url,
+            "cloudinary_url": new_url
+        }
+    else:
+        raise HTTPException(status_code=500, detail="Failed to upload image to Cloudinary")
+
+
+@app.post("/api/admin/cloudinary/migrate-all")
+async def migrate_all_images(limit: int = 50, city: Optional[str] = None):
+    """
+    Migrate all event images to Cloudinary
+
+    Args:
+        limit: Maximum number of images to migrate (default 50)
+        city: Optional city filter
+    """
+    try:
+        # Get events from database
+        pool = app.state.db_pool
+        if not pool:
+            raise HTTPException(status_code=500, detail="Database not connected")
+
+        async with pool.acquire() as conn:
+            # Get events with non-cloudinary images
+            if city:
+                events = await conn.fetch("""
+                    SELECT id, title, image_url, city, category
+                    FROM events
+                    WHERE image_url IS NOT NULL
+                    AND image_url != ''
+                    AND image_url NOT LIKE '%cloudinary.com%'
+                    AND image_url NOT LIKE '%example.com%'
+                    AND city ILIKE $1
+                    LIMIT $2
+                """, f"%{city}%", limit)
+            else:
+                events = await conn.fetch("""
+                    SELECT id, title, image_url, city, category
+                    FROM events
+                    WHERE image_url IS NOT NULL
+                    AND image_url != ''
+                    AND image_url NOT LIKE '%cloudinary.com%'
+                    AND image_url NOT LIKE '%example.com%'
+                    LIMIT $1
+                """, limit)
+
+            stats = {
+                "total": len(events),
+                "migrated": 0,
+                "failed": 0,
+                "updated_events": []
+            }
+
+            for event in events:
+                event_id = str(event["id"])
+                original_url = event["image_url"]
+
+                # Upload to Cloudinary
+                new_url = await upload_image_from_url(
+                    original_url,
+                    folder="eventos",
+                    public_id=f"event_{event_id[:8]}"
+                )
+
+                if new_url:
+                    # Update database
+                    await conn.execute(
+                        "UPDATE events SET image_url = $1 WHERE id = $2",
+                        new_url, event["id"]
+                    )
+                    stats["migrated"] += 1
+                    stats["updated_events"].append({
+                        "id": event_id,
+                        "title": event["title"],
+                        "old_url": original_url,
+                        "new_url": new_url
+                    })
+                else:
+                    stats["failed"] += 1
+
+            return {
+                "success": True,
+                "stats": stats
+            }
+
+    except Exception as e:
+        logger.error(f"Migration error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/admin/cloudinary/pending")
+async def get_pending_images(limit: int = 100, city: Optional[str] = None):
+    """
+    Get list of events with images not yet in Cloudinary
+    """
+    try:
+        pool = app.state.db_pool
+        if not pool:
+            raise HTTPException(status_code=500, detail="Database not connected")
+
+        async with pool.acquire() as conn:
+            if city:
+                events = await conn.fetch("""
+                    SELECT id, title, image_url, city, category
+                    FROM events
+                    WHERE image_url IS NOT NULL
+                    AND image_url != ''
+                    AND image_url NOT LIKE '%cloudinary.com%'
+                    AND city ILIKE $1
+                    ORDER BY created_at DESC
+                    LIMIT $2
+                """, f"%{city}%", limit)
+            else:
+                events = await conn.fetch("""
+                    SELECT id, title, image_url, city, category
+                    FROM events
+                    WHERE image_url IS NOT NULL
+                    AND image_url != ''
+                    AND image_url NOT LIKE '%cloudinary.com%'
+                    ORDER BY created_at DESC
+                    LIMIT $1
+                """, limit)
+
+            return {
+                "total_pending": len(events),
+                "events": [dict(e) for e in events]
+            }
+
+    except Exception as e:
+        logger.error(f"Error getting pending images: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 if __name__ == "__main__":
     # Fix encoding for Windows console to support emojis
