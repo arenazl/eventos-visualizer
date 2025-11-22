@@ -119,13 +119,20 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
   const isValidImageUrl = (url: string | null | undefined): boolean => {
     if (!url || url.trim() === '') return false
 
-    // Lista de dominios placeholder o que bloquean hotlinking
+    // Lista de dominios placeholder o que bloquean hotlinking (403/404)
     const invalidDomains = [
       'example.com',
       'placeholder.com',
       'via.placeholder.com',
       'placehold.it',
-      'dummyimage.com'
+      'dummyimage.com',
+      // Dominios que bloquean hotlinking (403 Forbidden)
+      'visitbrasil.com',
+      'cultura.amia.org.ar',
+      'resizer.glanacion.com',
+      'ciudad.com.ar',
+      'passline.com',
+      'elimpacto.com.ar'
     ]
 
     try {

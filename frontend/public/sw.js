@@ -81,8 +81,13 @@ self.addEventListener('fetch', event => {
 
             // Return offline page for navigation requests
             if (event.request.mode === 'navigate') {
-              return caches.match('/offline.html');
+              return caches.match('/offline.html').then(offlinePage => {
+                return offlinePage || new Response('Offline', { status: 503, statusText: 'Service Unavailable' });
+              });
             }
+
+            // For other requests (images, etc.) return a proper Response
+            return new Response('', { status: 404, statusText: 'Not Found' });
           });
       })
   );
