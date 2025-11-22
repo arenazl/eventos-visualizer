@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import EventAIHover from './EventAIHover'
 import EventDetailOverlay from './EventDetailOverlay'
@@ -45,6 +45,13 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
   const [aiInsight, setAiInsight] = useState<any>(null)
   const [aiLoading, setAiLoading] = useState(false)
   const { triggerEventComment } = useAssistants()
+
+  // 🔄 Resetear estados de error cuando cambie la URL de imagen
+  useEffect(() => {
+    console.log('🖼️ [EventCardModern] image_url cambió:', event.image_url)
+    setImageError(false)
+    setDefaultImageError(false)
+  }, [event.image_url])
 
   const formatDate = (dateString: string | null | undefined) => {
     if (!dateString) {
@@ -106,6 +113,27 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
       'international': 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=600&fit=crop'
     }
     return defaultImages[category] || 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=600&fit=crop'
+  }
+
+  // Validar si una URL de imagen es válida (no placeholder ni dominio bloqueado)
+  const isValidImageUrl = (url: string | null | undefined): boolean => {
+    if (!url || url.trim() === '') return false
+
+    // Lista de dominios placeholder o que bloquean hotlinking
+    const invalidDomains = [
+      'example.com',
+      'placeholder.com',
+      'via.placeholder.com',
+      'placehold.it',
+      'dummyimage.com'
+    ]
+
+    try {
+      const urlObj = new URL(url)
+      return !invalidDomains.some(domain => urlObj.hostname.includes(domain))
+    } catch {
+      return false
+    }
   }
 
   const { day, month, time } = formatDate(event.start_datetime)
@@ -240,9 +268,10 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
             </div>
           ) : (
             <img
-              src={(!imageError && event.image_url && event.image_url.trim() !== "") ? event.image_url : getDefaultImage(event.category)}
+              src={(!imageError && isValidImageUrl(event.image_url)) ? event.image_url : getDefaultImage(event.category)}
               alt={event.title}
               className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"
+              key={event.image_url}
               onError={() => {
                 if (!imageError) {
                   // Primera vez: intentar con imagen por defecto
