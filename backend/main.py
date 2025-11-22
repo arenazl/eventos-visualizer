@@ -5590,8 +5590,8 @@ async def migrate_all_images(limit: int = 50, city: Optional[str] = None):
                 FROM events
                 WHERE image_url IS NOT NULL
                 AND image_url != ''
-                AND image_url NOT LIKE '%cloudinary.com%'
-                AND image_url NOT LIKE '%example.com%'
+                AND image_url NOT LIKE '%%cloudinary.com%%'
+                AND image_url NOT LIKE '%%example.com%%'
                 AND city LIKE %s
                 LIMIT %s
             """, (f"%{city}%", limit))
@@ -5601,8 +5601,8 @@ async def migrate_all_images(limit: int = 50, city: Optional[str] = None):
                 FROM events
                 WHERE image_url IS NOT NULL
                 AND image_url != ''
-                AND image_url NOT LIKE '%cloudinary.com%'
-                AND image_url NOT LIKE '%example.com%'
+                AND image_url NOT LIKE '%%cloudinary.com%%'
+                AND image_url NOT LIKE '%%example.com%%'
                 LIMIT %s
             """, (limit,))
 
@@ -5687,7 +5687,7 @@ async def get_pending_images(limit: int = 100, city: Optional[str] = None):
                 FROM events
                 WHERE image_url IS NOT NULL
                 AND image_url != ''
-                AND image_url NOT LIKE '%cloudinary.com%'
+                AND image_url NOT LIKE '%%cloudinary.com%%'
                 AND city LIKE %s
                 ORDER BY created_at DESC
                 LIMIT %s
@@ -5698,7 +5698,7 @@ async def get_pending_images(limit: int = 100, city: Optional[str] = None):
                 FROM events
                 WHERE image_url IS NOT NULL
                 AND image_url != ''
-                AND image_url NOT LIKE '%cloudinary.com%'
+                AND image_url NOT LIKE '%%cloudinary.com%%'
                 ORDER BY created_at DESC
                 LIMIT %s
             """, (limit,))
