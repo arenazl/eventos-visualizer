@@ -5567,75 +5567,94 @@ async def migrate_all_images(limit: int = 50, city: Optional[str] = None):
         limit: Maximum number of images to migrate (default 50)
         city: Optional city filter
     """
-    global pool
+    import pymysql
+
     try:
-        # Get events from database
-        if not pool:
-            raise HTTPException(status_code=500, detail="Database not connected")
+        # Connect to MySQL (same as other endpoints)
+        connection = pymysql.connect(
+            host=os.getenv('MYSQL_HOST', 'localhost'),
+            port=int(os.getenv('MYSQL_PORT', 3306)),
+            user=os.getenv('MYSQL_USER', 'root'),
+            password=os.getenv('MYSQL_PASSWORD', ''),
+            database=os.getenv('MYSQL_DATABASE', 'events'),
+            charset='utf8mb4',
+            cursorclass=pymysql.cursors.DictCursor
+        )
 
-        async with pool.acquire() as conn:
-            # Get events with non-cloudinary images
-            if city:
-                events = await conn.fetch("""
-                    SELECT id, title, image_url, city, category
-                    FROM events
-                    WHERE image_url IS NOT NULL
-                    AND image_url != ''
-                    AND image_url NOT LIKE '%cloudinary.com%'
-                    AND image_url NOT LIKE '%example.com%'
-                    AND city ILIKE $1
-                    LIMIT $2
-                """, f"%{city}%", limit)
-            else:
-                events = await conn.fetch("""
-                    SELECT id, title, image_url, city, category
-                    FROM events
-                    WHERE image_url IS NOT NULL
-                    AND image_url != ''
-                    AND image_url NOT LIKE '%cloudinary.com%'
-                    AND image_url NOT LIKE '%example.com%'
-                    LIMIT $1
-                """, limit)
+        cursor = connection.cursor()
 
-            stats = {
-                "total": len(events),
-                "migrated": 0,
-                "failed": 0,
-                "updated_events": []
-            }
+        # Get events with non-cloudinary images
+        if city:
+            cursor.execute("""
+                SELECT id, title, image_url, city, category
+                FROM events
+                WHERE image_url IS NOT NULL
+                AND image_url != ''
+                AND image_url NOT LIKE '%cloudinary.com%'
+                AND image_url NOT LIKE '%example.com%'
+                AND city LIKE %s
+                LIMIT %s
+            """, (f"%{city}%", limit))
+        else:
+            cursor.execute("""
+                SELECT id, title, image_url, city, category
+                FROM events
+                WHERE image_url IS NOT NULL
+                AND image_url != ''
+                AND image_url NOT LIKE '%cloudinary.com%'
+                AND image_url NOT LIKE '%example.com%'
+                LIMIT %s
+            """, (limit,))
 
-            for event in events:
-                event_id = str(event["id"])
-                original_url = event["image_url"]
+        events = cursor.fetchall()
 
-                # Upload to Cloudinary
-                new_url = await upload_image_from_url(
-                    original_url,
-                    folder="eventos",
-                    public_id=f"event_{event_id[:8]}"
+        stats = {
+            "total": len(events),
+            "migrated": 0,
+            "failed": 0,
+            "updated_events": []
+        }
+
+        for event in events:
+            event_id = str(event["id"])
+            original_url = event["image_url"]
+
+            # Upload to Cloudinary
+            new_url = await upload_image_from_url(
+                original_url,
+                folder="eventos",
+                public_id=f"event_{event_id[:8]}"
+            )
+
+            if new_url:
+                # Update database
+                cursor.execute(
+                    "UPDATE events SET image_url = %s WHERE id = %s",
+                    (new_url, event["id"])
                 )
+                connection.commit()
 
-                if new_url:
-                    # Update database
-                    await conn.execute(
-                        "UPDATE events SET image_url = $1 WHERE id = $2",
-                        new_url, event["id"]
-                    )
-                    stats["migrated"] += 1
-                    stats["updated_events"].append({
-                        "id": event_id,
-                        "title": event["title"],
-                        "old_url": original_url,
-                        "new_url": new_url
-                    })
-                else:
-                    stats["failed"] += 1
+                stats["migrated"] += 1
+                stats["updated_events"].append({
+                    "id": event_id,
+                    "title": event["title"],
+                    "old_url": original_url,
+                    "new_url": new_url
+                })
+            else:
+                stats["failed"] += 1
 
-            return {
-                "success": True,
-                "stats": stats
-            }
+        cursor.close()
+        connection.close()
 
+        return {
+            "success": True,
+            "stats": stats
+        }
+
+    except pymysql.Error as e:
+        logger.error(f"MySQL connection error: {e}")
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
     except Exception as e:
         logger.error(f"Migration error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -5646,39 +5665,57 @@ async def get_pending_images(limit: int = 100, city: Optional[str] = None):
     """
     Get list of events with images not yet in Cloudinary
     """
-    global pool
+    import pymysql
+
     try:
-        if not pool:
-            raise HTTPException(status_code=500, detail="Database not connected")
+        # Connect to MySQL (same as other endpoints)
+        connection = pymysql.connect(
+            host=os.getenv('MYSQL_HOST', 'localhost'),
+            port=int(os.getenv('MYSQL_PORT', 3306)),
+            user=os.getenv('MYSQL_USER', 'root'),
+            password=os.getenv('MYSQL_PASSWORD', ''),
+            database=os.getenv('MYSQL_DATABASE', 'events'),
+            charset='utf8mb4',
+            cursorclass=pymysql.cursors.DictCursor
+        )
 
-        async with pool.acquire() as conn:
-            if city:
-                events = await conn.fetch("""
-                    SELECT id, title, image_url, city, category
-                    FROM events
-                    WHERE image_url IS NOT NULL
-                    AND image_url != ''
-                    AND image_url NOT LIKE '%cloudinary.com%'
-                    AND city ILIKE $1
-                    ORDER BY created_at DESC
-                    LIMIT $2
-                """, f"%{city}%", limit)
-            else:
-                events = await conn.fetch("""
-                    SELECT id, title, image_url, city, category
-                    FROM events
-                    WHERE image_url IS NOT NULL
-                    AND image_url != ''
-                    AND image_url NOT LIKE '%cloudinary.com%'
-                    ORDER BY created_at DESC
-                    LIMIT $1
-                """, limit)
+        cursor = connection.cursor()
 
-            return {
-                "total_pending": len(events),
-                "events": [dict(e) for e in events]
-            }
+        if city:
+            cursor.execute("""
+                SELECT id, title, image_url, city, category
+                FROM events
+                WHERE image_url IS NOT NULL
+                AND image_url != ''
+                AND image_url NOT LIKE '%cloudinary.com%'
+                AND city LIKE %s
+                ORDER BY created_at DESC
+                LIMIT %s
+            """, (f"%{city}%", limit))
+        else:
+            cursor.execute("""
+                SELECT id, title, image_url, city, category
+                FROM events
+                WHERE image_url IS NOT NULL
+                AND image_url != ''
+                AND image_url NOT LIKE '%cloudinary.com%'
+                ORDER BY created_at DESC
+                LIMIT %s
+            """, (limit,))
 
+        events = cursor.fetchall()
+
+        cursor.close()
+        connection.close()
+
+        return {
+            "total_pending": len(events),
+            "events": events
+        }
+
+    except pymysql.Error as e:
+        logger.error(f"MySQL connection error: {e}")
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
     except Exception as e:
         logger.error(f"Error getting pending images: {e}")
         raise HTTPException(status_code=500, detail=str(e))
