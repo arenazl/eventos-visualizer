@@ -1,7 +1,8 @@
 <!-- AUDIT_HEADER
-🕒 ÚLTIMA ACTUALIZACIÓN: 2025-09-01 17:45
+🕒 ÚLTIMA ACTUALIZACIÓN: 2025-11-22 12:00
 📊 STATUS: ACTIVE
 📝 HISTORIAL:
+- 2025-11-22 12:00: Agregada guía completa Netlify + Heroku
 - 2025-09-01 17:45: Creación del índice maestro de documentación
 📋 TAGS: #index #documentacion #maestro #organizacion
 -->
@@ -32,6 +33,7 @@
 ### 🚀 **Deployment** (`docs/deployment/`)
 - **01-heroku-deploy.md** - ACTIVE (2025-09-01) - Proceso deploy Heroku
 - **02-heroku-readme.md** - ACTIVE (2025-09-01) - README específico Heroku
+- **03-netlify-heroku-complete.md** - ACTIVE (2025-11-22) - Guía completa Netlify + Heroku
 
 ### 🎨 **Templates** (`docs/templates/`)
 - **01-templates-guide.md** - ACTIVE (2025-09-01) - Guía de templates HTML

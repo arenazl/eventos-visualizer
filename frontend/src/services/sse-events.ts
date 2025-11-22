@@ -89,31 +89,48 @@ export class SSEEventsService {
     // Create EventSource for SSE
     this.eventSource = new EventSource(url);
 
+    // Flag to track if stream completed normally
+    let streamCompleted = false;
+
     // Handle incoming events
     this.eventSource.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
         console.log('📨 SSE Event:', data.type, data);
         onEvent(data);
+
+        // Cerrar conexión cuando stream completa
+        if (data.type === 'complete') {
+          console.log('✅ Stream completed, closing connection');
+          streamCompleted = true;
+          this.close();
+        }
       } catch (error) {
         console.error('Error parsing SSE event:', error);
       }
     };
 
-    this.eventSource.onerror = (error) => {
-      // Solo mostrar error si la conexión falló antes de establecerse
-      // Si readyState es CLOSED, es normal (el stream completó)
-      if (this.eventSource?.readyState === EventSource.CLOSED) {
-        console.log('✅ SSE stream closed normally');
+    this.eventSource.onerror = () => {
+      // Si el stream completó normalmente, ignorar el error de cierre
+      if (streamCompleted) {
+        console.log('ℹ️ SSE connection closed after completion');
         return;
       }
 
-      console.error('❌ SSE Error:', error);
+      // Si la conexión está cerrada o conectando, es un cierre normal
+      if (this.eventSource?.readyState === EventSource.CLOSED) {
+        console.log('ℹ️ SSE connection closed');
+        return;
+      }
+
+      // Error real durante la conexión
+      console.error('❌ SSE connection error');
       onEvent({
         type: 'error',
         message: 'Connection error',
         error: 'Failed to connect to event stream'
       });
+
       this.close();
     };
 
