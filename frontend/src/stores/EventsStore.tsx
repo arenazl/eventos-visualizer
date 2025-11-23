@@ -4,6 +4,7 @@ import { config } from '../config'
 import { API_BASE_URL } from '../config/api'
 
 interface Event {
+  id?: string
   title: string
   description?: string
   start_datetime?: string | null
@@ -19,6 +20,143 @@ interface Event {
   source?: string
   image_url?: string | null
   status?: string
+  is_duplicate?: boolean
+  duplicate_of?: string | null
+  // Ubicación geográfica para deduplicación
+  city?: string
+  province?: string
+  country?: string
+}
+
+// 🔥 DEDUPLICACIÓN POR PALABRAS CLAVE
+// Criterios: palabras clave del título + venue + fecha + ubicación
+function deduplicateEvents(events: Event[]): Event[] {
+  // 1. Filtrar eventos ya marcados como duplicados por el backend
+  const nonDuplicates = events.filter(e => !e.is_duplicate)
+
+  const result: Event[] = []
+
+  for (const event of nonDuplicates) {
+    const titleWords = extractKeywords(event.title)
+    const venueNorm = normalize(event.venue_name || "")
+    const countryNorm = normalize(event.country || "")
+    const provinceNorm = normalize(event.province || "")
+    const cityNorm = normalize(event.city || "")
+    const eventDate = event.start_datetime ? new Date(event.start_datetime) : null
+
+    // Buscar si ya existe un evento similar
+    let duplicate: Event | null = null
+    let duplicateIndex = -1
+
+    for (let i = 0; i < result.length; i++) {
+      const existing = result[i]
+      const existingTitleWords = extractKeywords(existing.title)
+      const existingVenueNorm = normalize(existing.venue_name || "")
+      const existingCountryNorm = normalize(existing.country || "")
+      const existingProvinceNorm = normalize(existing.province || "")
+      const existingCityNorm = normalize(existing.city || "")
+      const existingDate = existing.start_datetime ? new Date(existing.start_datetime) : null
+
+      // Criterio 1: Palabras clave coincidentes (>=75% de coincidencia - más estricto para evitar falsos positivos)
+      const commonWords = titleWords.filter(w => existingTitleWords.includes(w))
+      const minWords = Math.min(titleWords.length, existingTitleWords.length)
+      const maxWords = Math.max(titleWords.length, existingTitleWords.length)
+      // Usar el máximo para ser más estricto: ambos títulos deben ser muy similares
+      const titleMatch = maxWords > 0 && commonWords.length >= Math.ceil(maxWords * 0.75)
+
+      // Criterio 2: Mismo venue (más estricto - requiere coincidencia real si ambos tienen venue)
+      let venueMatch = false
+      if (!venueNorm || !existingVenueNorm || venueNorm.length < 3 || existingVenueNorm.length < 3) {
+        // Si alguno no tiene venue o es muy corto, no considerar venue para duplicación
+        venueMatch = true
+      } else {
+        // Ambos tienen venue: requiere coincidencia real
+        venueMatch = venueNorm === existingVenueNorm ||
+                     venueNorm.includes(existingVenueNorm) ||
+                     existingVenueNorm.includes(venueNorm)
+      }
+
+      // Criterio 3: Misma ubicación (país + provincia + ciudad)
+      let locationMatch = true
+      if (countryNorm && existingCountryNorm) {
+        locationMatch = countryNorm === existingCountryNorm
+      }
+      if (locationMatch && provinceNorm && existingProvinceNorm) {
+        locationMatch = provinceNorm === existingProvinceNorm
+      }
+      if (locationMatch && cityNorm && existingCityNorm) {
+        locationMatch = cityNorm === existingCityNorm
+      }
+
+      // Criterio 4: Misma fecha (exacta, no rango)
+      let dateMatch = false
+      if (!eventDate || !existingDate) {
+        // Sin fecha en alguno, requiere coincidencia casi total en título (>=90%)
+        dateMatch = maxWords > 0 && commonWords.length >= Math.ceil(maxWords * 0.9)
+      } else {
+        // Ambos tienen fecha: deben ser el mismo día exacto
+        const sameDay = eventDate.toDateString() === existingDate.toDateString()
+        dateMatch = sameDay
+      }
+
+      // ES DUPLICADO si cumple los 4 criterios
+      if (titleMatch && venueMatch && locationMatch && dateMatch) {
+        duplicate = existing
+        duplicateIndex = i
+        console.log(`🔍 Match: "${event.title}" ↔ "${existing.title}" | Palabras: [${commonWords.join(', ')}]`)
+        break
+      }
+    }
+
+    if (!duplicate) {
+      result.push(event)
+    } else {
+      // Quedarse con el de mejor calidad
+      const existingScore = scoreEventQuality(duplicate)
+      const newScore = scoreEventQuality(event)
+
+      if (newScore > existingScore) {
+        result[duplicateIndex] = event
+        console.log(`🔄 Reemplazando: "${duplicate.title}" → "${event.title}"`)
+      }
+    }
+  }
+
+  const removed = events.length - result.length
+  if (removed > 0) {
+    console.log(`🧹 Deduplicación: ${events.length} → ${result.length} eventos (${removed} duplicados)`)
+  }
+  return result
+}
+
+// Extraer palabras clave significativas (>3 chars, sin stopwords)
+function extractKeywords(title: string): string[] {
+  const stopwords = ['the', 'los', 'las', 'del', 'de', 'en', 'con', 'para', 'por', 'una', 'uno', 'and', 'show', 'tour', 'live', 'presenta', 'presentan']
+  return normalize(title)
+    .split(' ')
+    .filter(w => w.length > 3 && !stopwords.includes(w))
+}
+
+// Normalizar texto para comparación: minúsculas, sin acentos, solo alfanumérico
+function normalize(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // Quitar acentos
+    .replace(/[^a-z0-9\s]/g, "")     // Solo letras, números y espacios
+    .replace(/\s+/g, " ")            // Normalizar espacios
+    .trim()
+}
+
+// Puntuar calidad de un evento (más info = mejor)
+function scoreEventQuality(event: Event): number {
+  let score = 0
+  if (event.description && event.description.length > 20) score += 3
+  if (event.image_url && event.image_url.length > 0) score += 2
+  if (event.venue_address && event.venue_address.length > 0) score += 1
+  if (event.price && event.price > 0) score += 1
+  if (event.start_datetime) score += 1
+  return score
 }
 
 interface Location {
@@ -260,8 +398,8 @@ const useEventsStore = create<EventsState>((set, get) => ({
       // DISABLED: getSmartRecommendations removed - endpoint no longer exists
       // await get().getSmartRecommendations(query, foundEvents, finalLocation)
 
-      set({ 
-        events: foundEvents, 
+      set({
+        events: deduplicateEvents(foundEvents),
         loading: false,
         // ✨ CAPTURAR SCRAPERS EXECUTION DATA
         scrapersExecution: searchData.scrapers_execution || null
@@ -379,7 +517,7 @@ const useEventsStore = create<EventsState>((set, get) => ({
       console.log('✅ Events received:', data)
 
       if (data.status === 'success' && data.events) {
-        set({ events: data.events, loading: false, error: null })
+        set({ events: deduplicateEvents(data.events), loading: false, error: null })
       } else {
         set({ events: [], loading: false, error: 'No events found' })
       }
@@ -432,7 +570,7 @@ const useEventsStore = create<EventsState>((set, get) => ({
         if (!response.ok) throw new Error('Error en la búsqueda')
 
         const data = await response.json()
-        set({ events: data.events || data || [], loading: false })
+        set({ events: deduplicateEvents(data.events || data || []), loading: false })
 
       } else {
         // Fallback to old API if V1 fails
@@ -445,7 +583,7 @@ const useEventsStore = create<EventsState>((set, get) => ({
         if (!response.ok) throw new Error('Error en la búsqueda')
 
         const data = await response.json()
-        set({ events: data.events || data || [], loading: false })
+        set({ events: deduplicateEvents(data.events || data || []), loading: false })
       }
     } catch (error) {
       set({ error: (error as Error).message, loading: false })
@@ -491,10 +629,10 @@ const useEventsStore = create<EventsState>((set, get) => ({
       if (!response.ok) throw new Error('Error en búsqueda inteligente')
 
       const data = await response.json()
-      set({ 
-        events: data.recommended_events || [], 
+      set({
+        events: deduplicateEvents(data.recommended_events || []),
         loading: false,
-        // ✨ CAPTURAR SCRAPERS EXECUTION DATA  
+        // ✨ CAPTURAR SCRAPERS EXECUTION DATA
         scrapersExecution: data.scrapers_execution || null
       })
     } catch (error) {
@@ -611,8 +749,9 @@ const useEventsStore = create<EventsState>((set, get) => ({
 
         // Eventos de un scraper
         if (event.type === 'events' && event.events && event.scraper) {
-          // Agregar eventos
-          set({ events: [...events, ...event.events] })
+          // Agregar eventos y deduplicar
+          const allEvents = [...events, ...event.events]
+          set({ events: deduplicateEvents(allEvents) })
 
           // 🏙️ Capturar metadata de ciudad principal si existe
           if (event.parent_city && event.original_location && event.expanded_search) {
@@ -1183,10 +1322,10 @@ const useEventsStore = create<EventsState>((set, get) => ({
       console.log(`📊 Eventos actuales ANTES de reemplazar:`, get().events.length)
 
       if (data.events && data.events.length > 0) {
-        // SIEMPRE reemplazar eventos, no agregar
+        // SIEMPRE reemplazar eventos, no agregar (con deduplicación)
         if (isOriginal) {
           set({
-            events: data.events,
+            events: deduplicateEvents(data.events),
             selectedCity: null,
             showReturnButton: false,
             loadingNearby: false,
@@ -1196,7 +1335,7 @@ const useEventsStore = create<EventsState>((set, get) => ({
         } else {
           console.log(`🏙️ Reemplazando con ${data.events.length} eventos desde ${cityName}`)
           set({
-            events: data.events,
+            events: deduplicateEvents(data.events),
             loadingNearby: false,
             loadingCityName: null
           })
@@ -1352,21 +1491,25 @@ const useEventsStore = create<EventsState>((set, get) => ({
 
     let found = false
 
-    // Buscar el evento por ID o por título
+    // Buscar el evento por ID, por título o por slug normalizado
     const updatedEvents = events.map(event => {
-      const eventIdFromTitle = event.title?.toLowerCase().replace(/\s+/g, '-').replace(/[.,]/g, '')
+      // Método 1: slug simple
+      const slugSimple = event.title?.toLowerCase().replace(/\s+/g, '-').replace(/[.,]/g, '')
+      // Método 2: slug normalizado (sin acentos)
+      const slugNormalized = event.title?.toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
 
-      console.log('🖼️ [DEBUG] Comparando con evento:', {
-        eventId: event.id,
-        title: event.title,
-        titleSlug: eventIdFromTitle,
-        match: event.id === eventId || eventIdFromTitle === eventId
-      })
+      const isMatch = event.id === eventId ||
+                      event.id?.toString() === eventId ||
+                      slugSimple === eventId ||
+                      slugNormalized === eventId ||
+                      event.title?.toLowerCase() === eventId?.toLowerCase()
 
-      if (event.id === eventId || eventIdFromTitle === eventId) {
-        console.log('✅ [DEBUG] EVENTO ENCONTRADO! Actualizando imagen')
-        console.log('✅ [DEBUG] Imagen anterior:', event.image_url)
-        console.log('✅ [DEBUG] Imagen nueva:', newImageUrl)
+      if (isMatch) {
+        console.log('✅ [STORE] Evento encontrado para actualizar imagen:', event.title)
         found = true
         return { ...event, image_url: newImageUrl }
       }

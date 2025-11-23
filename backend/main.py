@@ -416,6 +416,36 @@ async def manual_facebook_cache_update():
 async def health_check():
     return {"status": "healthy", "message": "OK"}
 
+
+@app.get("/api/youtube/search")
+async def search_youtube_video(q: str):
+    """
+    Busca un video de YouTube relacionado con el evento
+    Retorna el video_id del primer resultado
+    """
+    try:
+        from youtubesearchpython import VideosSearch
+
+        # Buscar video corto relacionado con el evento
+        search = VideosSearch(f"{q} official", limit=1)
+        results = search.result()
+
+        if results and results.get('result') and len(results['result']) > 0:
+            video = results['result'][0]
+            return {
+                "status": "success",
+                "video_id": video.get('id'),
+                "title": video.get('title'),
+                "duration": video.get('duration'),
+                "thumbnail": video.get('thumbnails', [{}])[0].get('url') if video.get('thumbnails') else None
+            }
+
+        return {"status": "not_found", "video_id": None}
+    except Exception as e:
+        logger.error(f"Error searching YouTube: {e}")
+        return {"status": "error", "error": str(e), "video_id": None}
+
+
 @app.get("/api/test/gemini")
 async def test_gemini_api():
     """
@@ -1706,6 +1736,42 @@ nombre1, nombre2, nombre3, nombre4, nombre5, nombre6, nombre7, nombre8, nombre9,
             "success": False,
             "places": []
         }
+
+
+@app.get("/api/events/related")
+async def get_related_events_endpoint(
+    category: Optional[str] = Query(None, description="Categoría del evento actual"),
+    city: Optional[str] = Query(None, description="Ciudad del evento actual"),
+    exclude: Optional[str] = Query(None, description="ID del evento a excluir"),
+    limit: int = Query(6, description="Cantidad de eventos relacionados")
+):
+    """
+    🔗 EVENTOS RELACIONADOS - Busca eventos de la misma categoría y/o ciudad
+
+    Prioridad:
+    1. Misma categoría + misma ciudad
+    2. Misma categoría (cualquier ciudad)
+    3. Misma ciudad (cualquier categoría)
+    """
+    from services.events_db_service import get_related_events
+
+    result = get_related_events(
+        category=category,
+        city=city,
+        exclude_id=exclude,
+        limit=limit
+    )
+
+    return {
+        "events": result.get('events', []),
+        "total": result.get('total', 0),
+        "filters": {
+            "category": category,
+            "city": city,
+            "exclude": exclude
+        },
+        "error": result.get('error')
+    }
 
 
 @app.get("/api/events/city")
@@ -3038,15 +3104,6 @@ async def get_event_by_id(event_id: str):
 
         logger.info(f"🔍 Buscando evento en MySQL: {event_id}")
 
-        # Normalizar el event_id (remover guiones, convertir a espacios)
-        event_id_normalized = event_id.lower().replace("-", " ")
-
-        # Extraer palabras clave (filtrar palabras cortas/comunes)
-        stop_words = {'de', 'la', 'el', 'y', 'en', 'del', 'los', 'las', 'con', 'por', 'para', 'a'}
-        keywords = [word for word in event_id_normalized.split() if len(word) > 2 and word not in stop_words]
-
-        logger.info(f"🔍 Keywords extraídas: {keywords}")
-
         # Conectar a MySQL
         connection = pymysql.connect(
             host=os.getenv('MYSQL_HOST', 'localhost'),
@@ -3059,65 +3116,84 @@ async def get_event_by_id(event_id: str):
         )
 
         cursor = connection.cursor()
+        event = None
 
-        # Estrategia 1: Buscar con todas las keywords (más estricto)
-        if len(keywords) >= 3:
-            conditions = []
-            for kw in keywords:
-                conditions.append(f"LOWER(title) LIKE '%{kw}%'")
-
-            query = f'''
-                SELECT *
-                FROM events
-                WHERE {' AND '.join(conditions)}
-                LIMIT 1
-            '''
-
-            cursor.execute(query)
+        # 🔥 ESTRATEGIA 0: Buscar por UUID exacto (nueva URL format: /event/{uuid}/{slug})
+        is_uuid = len(event_id) == 36 and event_id.count('-') == 4  # UUID format check
+        if is_uuid:
+            logger.info(f"🔍 Buscando por UUID exacto: {event_id}")
+            cursor.execute('SELECT * FROM events WHERE id = %s LIMIT 1', (event_id,))
             event = cursor.fetchone()
-
             if event:
-                logger.info(f"✅ Encontrado con TODAS las keywords: {event['title']}")
-        else:
-            event = None
+                logger.info(f"✅ Encontrado por UUID exacto: {event['title']}")
 
-        # Estrategia 2: Si no encontró, buscar con 2+ keywords principales
-        if not event and len(keywords) >= 2:
-            # Usar las 2 keywords más largas (más específicas)
-            main_keywords = sorted(keywords, key=len, reverse=True)[:2]
-            conditions = [f"LOWER(title) LIKE '%{kw}%'" for kw in main_keywords]
-
-            query = f'''
-                SELECT *
-                FROM events
-                WHERE {' AND '.join(conditions)}
-                LIMIT 1
-            '''
-
-            cursor.execute(query)
-            event = cursor.fetchone()
-
-            if event:
-                logger.info(f"✅ Encontrado con keywords principales {main_keywords}: {event['title']}")
-
-        # Estrategia 3: Fallback al método original
+        # Si no es UUID o no encontró, continuar con estrategias de slug/keywords
         if not event:
-            query = '''
-                SELECT *
-                FROM events
-                WHERE LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
-                    title, 'á', 'a'), 'é', 'e'), 'í', 'i'), 'ó', 'o'), 'ú', 'u'),
-                    'Á', 'A'), 'É', 'E'), 'Í', 'I'), 'Ó', 'O'), 'Ú', 'U'))
-                LIKE LOWER(%s)
-                LIMIT 1
-            '''
+            # Normalizar el event_id (remover guiones, convertir a espacios)
+            event_id_normalized = event_id.lower().replace("-", " ")
 
-            search_pattern = f'%{event_id_normalized}%'
-            cursor.execute(query, (search_pattern,))
-            event = cursor.fetchone()
+            # Extraer palabras clave (filtrar palabras cortas/comunes)
+            stop_words = {'de', 'la', 'el', 'y', 'en', 'del', 'los', 'las', 'con', 'por', 'para', 'a'}
+            keywords = [word for word in event_id_normalized.split() if len(word) > 2 and word not in stop_words]
 
-            if event:
-                logger.info(f"✅ Encontrado con búsqueda original: {event['title']}")
+            logger.info(f"🔍 Keywords extraídas: {keywords}")
+
+            # Estrategia 1: Buscar con todas las keywords (más estricto)
+            if len(keywords) >= 3:
+                conditions = []
+                for kw in keywords:
+                    conditions.append(f"LOWER(title) LIKE '%{kw}%'")
+
+                query = f'''
+                    SELECT *
+                    FROM events
+                    WHERE {' AND '.join(conditions)}
+                    LIMIT 1
+                '''
+
+                cursor.execute(query)
+                event = cursor.fetchone()
+
+                if event:
+                    logger.info(f"✅ Encontrado con TODAS las keywords: {event['title']}")
+
+            # Estrategia 2: Si no encontró, buscar con 2+ keywords principales
+            if not event and len(keywords) >= 2:
+                # Usar las 2 keywords más largas (más específicas)
+                main_keywords = sorted(keywords, key=len, reverse=True)[:2]
+                conditions = [f"LOWER(title) LIKE '%{kw}%'" for kw in main_keywords]
+
+                query = f'''
+                    SELECT *
+                    FROM events
+                    WHERE {' AND '.join(conditions)}
+                    LIMIT 1
+                '''
+
+                cursor.execute(query)
+                event = cursor.fetchone()
+
+                if event:
+                    logger.info(f"✅ Encontrado con keywords principales {main_keywords}: {event['title']}")
+
+            # Estrategia 3: Fallback al método original
+            if not event:
+                query = '''
+                    SELECT *
+                    FROM events
+                    WHERE LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+                        title, 'á', 'a'), 'é', 'e'), 'í', 'i'), 'ó', 'o'), 'ú', 'u'),
+                        'Á', 'A'), 'É', 'E'), 'Í', 'I'), 'Ó', 'O'), 'Ú', 'U'))
+                    LIKE LOWER(%s)
+                    LIMIT 1
+                '''
+
+                search_pattern = f'%{event_id_normalized}%'
+                cursor.execute(query, (search_pattern,))
+                event = cursor.fetchone()
+
+                if event:
+                    logger.info(f"✅ Encontrado con búsqueda original: {event['title']}")
 
         # Agregar campos faltantes que el frontend espera
         if event and 'currency' not in event:
@@ -3213,31 +3289,41 @@ async def update_event_category(event_id: str, request: dict):
 
 # Update event image endpoint
 @app.post("/api/events/{event_id}/update-image")
-async def update_event_image(event_id: str, request: dict):
+async def update_event_image(event_id: str, request: Request):
     """
     Buscar y actualizar la imagen de un evento usando Google Images
+    Si se pasa force_url, usa esa URL directamente sin buscar
     """
     try:
         import pymysql
 
-        title = request.get('title')
-        venue_name = request.get('venue_name', '')
-        city = request.get('city', '')
+        # 🔥 Parsear el body JSON correctamente
+        body = await request.json()
 
-        if not title:
-            raise HTTPException(status_code=400, detail="Title is required")
+        title = body.get('title')
+        venue_name = body.get('venue_name', '')
+        city = body.get('city', '')
+        force_url = body.get('force_url')  # 🆕 URL forzada (opcional)
 
-        logger.info(f"🖼️ Buscando imagen para: {title} (venue: {venue_name}, city: {city})")
+        if not title and not force_url:
+            raise HTTPException(status_code=400, detail="Title or force_url is required")
 
-        # Usar el servicio de Google Images con 5 estrategias:
-        # 1. Solo título
-        # 2. Título + venue
-        # 3. Solo venue
-        # 4. Primeras 3 palabras
-        # 5. Solo ciudad
-        from services.google_images_service import search_google_image
+        # 🆕 Si hay force_url, usarla directamente sin buscar
+        if force_url:
+            logger.info(f"🖼️ Usando imagen forzada para: {title or event_id}")
+            image_url = force_url
+        else:
+            logger.info(f"🖼️ Buscando imagen para: {title} (venue: {venue_name}, city: {city})")
 
-        image_url = await search_google_image(title, venue=venue_name, city=city)
+            # Usar el servicio de Google Images con 5 estrategias:
+            # 1. Solo título
+            # 2. Título + venue
+            # 3. Solo venue
+            # 4. Primeras 3 palabras
+            # 5. Solo ciudad
+            from services.google_images_service import search_google_image
+
+            image_url = await search_google_image(title, venue=venue_name, city=city)
 
         if not image_url or 'gstatic' in image_url:
             logger.warning(f"⚠️ No se encontró imagen válida para: {title}")
@@ -3249,7 +3335,7 @@ async def update_event_image(event_id: str, request: dict):
         # Solo retornar la imagen encontrada (no actualizar DB porque eventos son de APIs)
         logger.info(f"✅ Imagen encontrada para '{title}': {image_url[:50]}...")
 
-        # Intentar actualizar en MySQL si existe (opcional, no falla si no existe)
+        # Actualizar en MySQL - Primero intentar por ID, luego por título
         try:
             connection = pymysql.connect(
                 host=os.getenv('MYSQL_HOST', 'localhost'),
@@ -3262,53 +3348,159 @@ async def update_event_image(event_id: str, request: dict):
             )
 
             cursor = connection.cursor()
+            rows_affected = 0
 
-            # 🔥 USAR EL TÍTULO ORIGINAL EN LUGAR DEL EVENT_ID DE LA URL
-            import unicodedata
+            # 🔥 ESTRATEGIA 1: Intentar actualizar por UUID exacto (event_id del path)
+            # El UUID viene de la URL /api/events/{event_id}/update-image
+            is_uuid = len(event_id) == 36 and event_id.count('-') == 4  # UUID format check
 
-            # Normalizar el título del request (viene del frontend)
-            title_normalized = ''.join(
-                c for c in unicodedata.normalize('NFD', title)
-                if unicodedata.category(c) != 'Mn'
-            )
+            if is_uuid:
+                logger.info(f"🔍 Actualizando evento por UUID exacto: {event_id}")
+                update_query = 'UPDATE events SET image_url = %s WHERE id = %s'
+                cursor.execute(update_query, (image_url, event_id))
+                connection.commit()
+                rows_affected = cursor.rowcount
+                logger.info(f"✅ Actualización por UUID: {rows_affected} filas")
 
-            # Normalizar el título en MySQL para comparación (quitar acentos)
-            # Usamos una búsqueda más flexible que ignora acentos
-            update_query = '''
-                UPDATE events
-                SET image_url = %s
-                WHERE LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
-                    title, 'á', 'a'), 'é', 'e'), 'í', 'i'), 'ó', 'o'), 'ú', 'u'),
-                    'Á', 'A'), 'É', 'E'), 'Í', 'I'), 'Ó', 'O'), 'Ú', 'U'))
-                LIKE LOWER(%s)
-            '''
+            # 🔥 ESTRATEGIA 2 (FALLBACK): Si no es UUID o no encontró, usar LIKE
+            if rows_affected == 0 and title:
+                import unicodedata
 
-            # Crear un patrón más flexible con wildcards usando el TÍTULO
-            search_pattern = f'%{title_normalized}%'
-            logger.info(f"🔍 Buscando evento con título: '{title}' → patrón: {search_pattern}")
-            cursor.execute(update_query, (image_url, search_pattern))
-            connection.commit()
-            rows_affected = cursor.rowcount
+                # Extraer palabra clave principal del título (primera palabra significativa)
+                title_words = title.lower().split()
+                significant_words = [w for w in title_words if len(w) > 3 and w not in ['para', 'desde', 'hasta', 'como', 'este', 'esta', 'sobre']]
+
+                if significant_words:
+                    keyword = max(significant_words, key=len)
+                    keyword_normalized = ''.join(
+                        c for c in unicodedata.normalize('NFD', keyword)
+                        if unicodedata.category(c) != 'Mn'
+                    )
+                    search_pattern = f'%%{keyword_normalized}%%'
+                else:
+                    title_normalized = ''.join(
+                        c for c in unicodedata.normalize('NFD', title)
+                        if unicodedata.category(c) != 'Mn'
+                    )
+                    search_pattern = f'%%{title_normalized}%%'
+
+                logger.info(f"🔍 Fallback: Buscando eventos con patrón LIKE: {search_pattern}")
+
+                update_query = '''
+                    UPDATE events
+                    SET image_url = %s
+                    WHERE LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+                        title, 'á', 'a'), 'é', 'e'), 'í', 'i'), 'ó', 'o'), 'ú', 'u'),
+                        'Á', 'A'), 'É', 'E'), 'Í', 'I'), 'Ó', 'O'), 'Ú', 'U'))
+                    LIKE LOWER(%s)
+                '''
+                cursor.execute(update_query, (image_url, search_pattern))
+                connection.commit()
+                rows_affected = cursor.rowcount
+                logger.info(f"✅ Actualización LIKE '{search_pattern}': {rows_affected} filas")
 
             cursor.close()
             connection.close()
 
             if rows_affected > 0:
-                logger.info(f"✅ Imagen también actualizada en DB (opcional)")
+                logger.info(f"✅ Imagen guardada en MySQL para evento: {event_id} ({rows_affected} filas)")
+                return {
+                    "success": True,
+                    "image_url": image_url,
+                    "db_updated": True,
+                    "rows_affected": rows_affected,
+                    "message": "Image found and saved to database"
+                }
+            else:
+                logger.warning(f"⚠️ No se encontró evento en MySQL para actualizar: {event_id} / {title}")
+                return {
+                    "success": True,
+                    "image_url": image_url,
+                    "db_updated": False,
+                    "rows_affected": 0,
+                    "message": "Image found but event not found in database"
+                }
         except Exception as db_error:
-            logger.debug(f"DB update skipped (evento probablemente de API): {db_error}")
-
-        # Siempre retornar éxito si encontramos imagen
-        return {
-            "success": True,
-            "image_url": image_url,
-            "message": "Image found successfully"
-        }
+            logger.error(f"❌ Error actualizando imagen en DB: {db_error}")
+            return {
+                "success": True,
+                "image_url": image_url,
+                "db_updated": False,
+                "db_error": str(db_error),
+                "message": "Image found but database update failed"
+            }
 
     except HTTPException:
         raise
     except Exception as e:
         logger.error(f"❌ Error updating image for {event_id}: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/events/force-image")
+async def force_event_image(request: Request):
+    """
+    🔥 FORZAR IMAGEN DIRECTAMENTE EN MYSQL
+    Actualiza TODOS los eventos que coincidan con el patrón de título
+
+    Body:
+    {
+        "title_pattern": "calamaro",  // Patrón para buscar (LIKE %pattern%)
+        "image_url": "https://..."    // URL de imagen a establecer
+    }
+    """
+    try:
+        import pymysql
+
+        body = await request.json()
+        title_pattern = body.get('title_pattern', '')
+        image_url = body.get('image_url', '')
+
+        if not title_pattern or not image_url:
+            raise HTTPException(status_code=400, detail="title_pattern and image_url are required")
+
+        logger.info(f"🔥 Forzando imagen para patrón '{title_pattern}': {image_url[:50]}...")
+
+        connection = pymysql.connect(
+            host=os.getenv('MYSQL_HOST', 'localhost'),
+            port=int(os.getenv('MYSQL_PORT', 3306)),
+            user=os.getenv('MYSQL_USER', 'root'),
+            password=os.getenv('MYSQL_PASSWORD', ''),
+            database=os.getenv('MYSQL_DATABASE', 'events'),
+            charset='utf8mb4',
+            cursorclass=pymysql.cursors.DictCursor
+        )
+
+        cursor = connection.cursor()
+
+        # Actualizar TODOS los eventos que coincidan con el patrón
+        search_pattern = f'%%{title_pattern}%%'
+        update_query = 'UPDATE events SET image_url = %s WHERE LOWER(title) LIKE LOWER(%s)'
+        cursor.execute(update_query, (image_url, search_pattern))
+        connection.commit()
+        rows_affected = cursor.rowcount
+
+        # Obtener los eventos actualizados para verificar
+        cursor.execute('SELECT id, title FROM events WHERE LOWER(title) LIKE LOWER(%s) LIMIT 5', (search_pattern,))
+        updated_events = cursor.fetchall()
+
+        cursor.close()
+        connection.close()
+
+        logger.info(f"✅ {rows_affected} eventos actualizados con patrón '{title_pattern}'")
+
+        return {
+            "success": True,
+            "rows_affected": rows_affected,
+            "title_pattern": title_pattern,
+            "image_url": image_url,
+            "sample_events": updated_events
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"❌ Error forzando imagen: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -5822,4 +6014,4 @@ if __name__ == "__main__":
         import traceback
         traceback.print_exc()
         print(Fore.RED + "\n" + "="*60 + Style.RESET_ALL)
-        raise
+        raise# Force reload do., 23 de nov. de 2025 13:33:42

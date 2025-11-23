@@ -35,7 +35,10 @@ interface LocationSuggestion {
 }
 
 const EventDetailPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>()
+  // 🔥 URL format: /event/{uuid}/{slug}
+  // uuid = ID real de la DB para operaciones
+  // slug = nombre legible para SEO (opcional)
+  const { uuid, slug } = useParams<{ uuid: string; slug?: string }>()
   const navigate = useNavigate()
   const location = useLocation()
   const { triggerDetailRecommendations } = useAssistants()
@@ -52,22 +55,28 @@ const EventDetailPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [updatingCategory, setUpdatingCategory] = useState(false)
   const [updatingImage, setUpdatingImage] = useState(false)
+  const [relatedEvents, setRelatedEvents] = useState<Event[]>([])
+  const [relatedLoading, setRelatedLoading] = useState(false)
+
 
   // Handler para actualizar imagen - Definido temprano para ser usado en useEffect
   const handleUpdateImage = useCallback(async () => {
-    if (!event || !id) return
+    if (!event || !uuid) return
 
     setUpdatingImage(true)
     try {
-      console.log('🖼️ Buscando nueva imagen para:', event.title)
+      // 🔥 Usar el UUID del path directamente (ya es el ID real de la DB)
+      const eventId = uuid
+      console.log('🖼️ Buscando nueva imagen para:', event.title, '| UUID:', eventId)
 
-      const response = await fetch(`${API_BASE_URL}/api/events/${id}/update-image`, {
+      const response = await fetch(`${API_BASE_URL}/api/events/${eventId}/update-image`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title: event.title,
           venue_name: event.venue_name,
-          city: event.city || ''
+          city: event.city || '',
+          event_id: eventId  // 🆕 También enviar el ID en el body
         })
       })
 
@@ -80,7 +89,36 @@ const EventDetailPage: React.FC = () => {
           setEvent({ ...event, image_url: data.image_url })
           setImageError(false)
 
-          console.log('✅ Imagen actualizada correctamente en MySQL')
+          // 🔥 ACTUALIZAR EN EL STORE GLOBAL para que se vea en el listado
+          // Intentar con múltiples identificadores para asegurar que se encuentre
+          const eventSlug = event.title?.toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, '')
+
+          // Primero intentar con el ID real del evento (si existe)
+          if ((event as any).id) {
+            eventsStore.updateEventImage((event as any).id, data.image_url)
+            console.log('✅ Imagen actualizada en store con ID real:', (event as any).id)
+          }
+          // También actualizar con el slug por si acaso
+          if (eventSlug) {
+            eventsStore.updateEventImage(eventSlug, data.image_url)
+            console.log('✅ Imagen actualizada en store con slug:', eventSlug)
+          }
+
+          // 🧹 Limpiar sessionStorage para forzar datos frescos
+          sessionStorage.removeItem(`event-${uuid}`)
+          sessionStorage.removeItem(`event-${eventSlug}`)
+          console.log('🧹 SessionStorage limpiado para:', uuid)
+
+          // Mostrar si se guardó en la base de datos
+          if (data.db_updated) {
+            console.log('✅ Imagen guardada en MySQL correctamente')
+          } else {
+            console.warn('⚠️ Imagen encontrada pero NO guardada en MySQL:', data.message)
+          }
         } else {
           console.warn('⚠️ No se encontró nueva imagen')
         }
@@ -92,24 +130,29 @@ const EventDetailPage: React.FC = () => {
     } finally {
       setUpdatingImage(false)
     }
-  }, [event, id])
+  }, [event, uuid])
 
   useEffect(() => {
-    console.log('🔄 EventDetailPage useEffect triggered - ID changed to:', id)
+    console.log('🔄 EventDetailPage useEffect triggered - UUID changed to:', uuid)
     setImageError(false) // Reset image error when navigating to new event
     setAiCalled(false) // Reset AI flag cuando cambia el evento
     setImageUpdateCalled(false) // Reset image update flag cuando cambia el evento
     fetchEventDetails()
-  }, [id, location.state])
+  }, [uuid, location.state])
 
   useEffect(() => {
     if (event && !imageUpdateCalled) {
       fetchAIInsight()
 
-      // SIEMPRE auto-actualizar imagen al entrar al detalle (solo una vez)
-      console.log('🖼️ Iniciando actualización automática de imagen...')
-      setImageUpdateCalled(true)
-      handleUpdateImage()
+      // Solo auto-actualizar imagen si el evento NO tiene image_url
+      if (!event.image_url || event.image_url.trim() === '') {
+        console.log('🖼️ Evento sin imagen - Iniciando búsqueda automática...')
+        setImageUpdateCalled(true)
+        handleUpdateImage()
+      } else {
+        console.log('✅ Evento ya tiene imagen:', event.image_url.substring(0, 50) + '...')
+        setImageUpdateCalled(true) // Marcar como procesado para no volver a verificar
+      }
 
       // DESACTIVADO: Trigger recomendaciones automáticas cada 10 segundos
       // const cleanup = triggerDetailRecommendations(event.title, event.category)
@@ -176,10 +219,10 @@ const EventDetailPage: React.FC = () => {
 
   const fetchEventDetails = async () => {
     try {
-      console.log('🔍 EventDetailPage - Fetching fresh data from API for ID:', id)
+      console.log('🔍 EventDetailPage - Fetching fresh data from API for UUID:', uuid)
 
       // SIEMPRE fetch desde el backend para obtener datos frescos con imágenes actualizadas
-      const response = await fetch(`${API_BASE_URL}/api/events/${id}`)
+      const response = await fetch(`${API_BASE_URL}/api/events/${uuid}`)
 
       if (!response.ok) {
         throw new Error(`Event not found: ${response.status}`)
@@ -217,10 +260,10 @@ const EventDetailPage: React.FC = () => {
       }
 
       // Último intento: buscar en sessionStorage
-      let storedEvent = sessionStorage.getItem(`event-${id}`)
+      let storedEvent = sessionStorage.getItem(`event-${uuid}`)
       if (!storedEvent) {
-        const decodedId = decodeURIComponent(id || '')
-        storedEvent = sessionStorage.getItem(`event-${decodedId}`)
+        const decodedUuid = decodeURIComponent(uuid || '')
+        storedEvent = sessionStorage.getItem(`event-${decodedUuid}`)
       }
 
       if (storedEvent) {
@@ -231,7 +274,7 @@ const EventDetailPage: React.FC = () => {
       }
 
       // Si todo falla, mostrar mensaje de error
-      console.error('❌ No data available for event:', id)
+      console.error('❌ No data available for event:', uuid)
       setEvent(null)
     } finally {
       setLoading(false)
@@ -260,6 +303,39 @@ const EventDetailPage: React.FC = () => {
     return `${currency} ${price.toLocaleString()}`
   }
 
+  // Cargar eventos relacionados por categoría y ciudad
+  const fetchRelatedEvents = async () => {
+    if (!event) return
+
+    setRelatedLoading(true)
+    try {
+      // Buscar eventos de la misma categoría y/o ciudad
+      const params = new URLSearchParams()
+      if (event.category) params.append('category', event.category)
+      if (event.city) params.append('city', event.city)
+      params.append('limit', '6')
+      params.append('exclude', uuid || '')
+
+      const response = await fetch(`${API_BASE_URL}/api/events/related?${params.toString()}`)
+
+      if (response.ok) {
+        const data = await response.json()
+        setRelatedEvents(data.events || [])
+      }
+    } catch (error) {
+      console.error('Error loading related events:', error)
+    } finally {
+      setRelatedLoading(false)
+    }
+  }
+
+  // Cargar eventos relacionados cuando el evento principal esté listo
+  useEffect(() => {
+    if (event && !relatedLoading && relatedEvents.length === 0) {
+      fetchRelatedEvents()
+    }
+  }, [event])
+
   const getCategoryGradient = (category: string) => {
     const gradients: Record<string, string> = {
       'music': 'from-purple-600 via-pink-500 to-red-500',
@@ -286,6 +362,22 @@ const EventDetailPage: React.FC = () => {
     return icons[category] || '📅'
   }
 
+  // Imágenes placeholder por categoría (Unsplash)
+  const getDefaultImage = (category: string) => {
+    const defaultImages: Record<string, string> = {
+      'music': 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=300&fit=crop',
+      'sports': 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400&h=300&fit=crop',
+      'cultural': 'https://images.unsplash.com/photo-1518893063132-36e46dbe2428?w=400&h=300&fit=crop',
+      'tech': 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=300&fit=crop',
+      'party': 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&h=300&fit=crop',
+      'nightlife': 'https://images.unsplash.com/photo-1566737236500-c8ac43014a67?w=400&h=300&fit=crop',
+      'hobbies': 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=400&h=300&fit=crop',
+      'international': 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=300&fit=crop',
+      'other': 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=400&h=300&fit=crop'
+    }
+    return defaultImages[category] || defaultImages['other']
+  }
+
   // Handlers para el Header
   const handleSearchSubmit = () => {
     // Navegar a home con el query de búsqueda
@@ -308,11 +400,11 @@ const EventDetailPage: React.FC = () => {
 
   // Handler para actualizar categoría
   const handleCategoryChange = async (newCategory: string) => {
-    if (!event || !id) return
+    if (!event || !uuid) return
 
     setUpdatingCategory(true)
     try {
-      const response = await fetch(`${API_BASE_URL}/api/events/${id}/category`, {
+      const response = await fetch(`${API_BASE_URL}/api/events/${uuid}/category`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ category: newCategory })
@@ -326,7 +418,7 @@ const EventDetailPage: React.FC = () => {
         setEvent({ ...event, category: newCategory })
 
         // Actualizar en sessionStorage
-        const eventKey = `event-${id}`
+        const eventKey = `event-${uuid}`
         const storedEvent = sessionStorage.getItem(eventKey)
         if (storedEvent) {
           const parsedEvent = JSON.parse(storedEvent)
@@ -370,19 +462,57 @@ const EventDetailPage: React.FC = () => {
 
   return (
     <div className="min-h-screen relative">
-      {/* Imagen de fondo */}
-      <div
-        className="fixed inset-0 opacity-5 pointer-events-none"
-        style={{
-          backgroundImage: `url(${bgImage})`,
-          backgroundSize: '100% 100%',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
-        }}
-      ></div>
+      {/* Fondo animado con imagen del evento - GLOBAL */}
+      {!imageError && event?.image_url && event.image_url.trim() !== "" && (
+        <>
+          {/* Capa 1: Imagen base con zoom lento - SIN BLUR */}
+          <div
+            className="fixed inset-0 animated-bg-zoom-global pointer-events-none"
+            style={{
+              backgroundImage: `url(${event.image_url})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              filter: 'saturate(1.4)',
+              opacity: 0.4,
+            }}
+          />
+          {/* Capa 2: Imagen con paneo - SIN BLUR */}
+          <div
+            className="fixed inset-0 animated-bg-pan-global pointer-events-none"
+            style={{
+              backgroundImage: `url(${event.image_url})`,
+              backgroundSize: '120% 120%',
+              backgroundPosition: 'center',
+              filter: 'saturate(1.2)',
+              opacity: 0.2,
+              mixBlendMode: 'overlay',
+            }}
+          />
+        </>
+      )}
 
-      {/* Gradiente encima de la imagen */}
-      <div className="fixed inset-0 bg-gradient-to-br from-purple-900/85 via-blue-900/80 to-indigo-900/85 pointer-events-none"></div>
+      {/* Gradiente azul encima con opacity 0.5 */}
+      <div className="fixed inset-0 bg-gradient-to-br from-purple-900/50 via-blue-900/50 to-indigo-900/50 pointer-events-none"></div>
+
+      {/* CSS Animations globales */}
+      <style>{`
+        .animated-bg-zoom-global {
+          animation: bgZoomGlobal 25s ease-in-out infinite;
+        }
+        .animated-bg-pan-global {
+          animation: bgPanGlobal 20s ease-in-out infinite;
+        }
+        @keyframes bgZoomGlobal {
+          0%, 100% { transform: scale(1.0); }
+          50% { transform: scale(1.1); }
+        }
+        @keyframes bgPanGlobal {
+          0%, 100% { background-position: 30% 30%; }
+          25% { background-position: 70% 30%; }
+          50% { background-position: 70% 70%; }
+          75% { background-position: 30% 70%; }
+        }
+      `}</style>
 
       {/* Contenido principal */}
       <div className="relative z-10">
@@ -423,20 +553,84 @@ const EventDetailPage: React.FC = () => {
         <div className="max-w-4xl mx-auto px-4 py-8 -mt-20 relative z-10">
           {/* Background pattern container */}
           <div className="relative">
-            {/* Subtle background pattern */}
+            {/* Fondo animado - Video YouTube o Imagen */}
             <div
-              className="absolute inset-0 rounded-xl opacity-30"
+              className="absolute rounded-xl overflow-hidden pointer-events-none"
               style={{
-                backgroundImage: `
-                  radial-gradient(circle at 25px 25px, rgba(255, 255, 255, 0.1) 2%, transparent 0%),
-                  radial-gradient(circle at 75px 75px, rgba(255, 255, 255, 0.1) 2%, transparent 0%)
-                `,
-                backgroundSize: '100px 100px'
+                top: '-40px',
+                left: '-40px',
+                right: '-40px',
+                bottom: '-40px',
+                zIndex: 0
               }}
-            />
+            >
+              {/* Imagen animada con efecto de video - muy dinámico */}
+              {!imageError && event.image_url && event.image_url.trim() !== "" && (
+                <>
+                  {/* Capa 1: Imagen base con zoom lento */}
+                  <div
+                    className="absolute inset-0 animated-bg-zoom"
+                    style={{
+                      backgroundImage: `url(${event.image_url})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      filter: 'blur(15px) saturate(1.5)',
+                      opacity: 0.6,
+                    }}
+                  />
+                  {/* Capa 2: Imagen duplicada con movimiento diferente */}
+                  <div
+                    className="absolute inset-0 animated-bg-pan"
+                    style={{
+                      backgroundImage: `url(${event.image_url})`,
+                      backgroundSize: '150% 150%',
+                      backgroundPosition: 'center',
+                      filter: 'blur(25px) saturate(1.3)',
+                      opacity: 0.3,
+                      mixBlendMode: 'overlay',
+                    }}
+                  />
+                  {/* Capa 3: Efecto de luz/brillo que se mueve */}
+                  <div
+                    className="absolute inset-0 animated-light-sweep"
+                    style={{
+                      background: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%)',
+                      backgroundSize: '200% 200%',
+                    }}
+                  />
+                </>
+              )}
+
+              {/* CSS Animations más dinámicas - simula video */}
+              <style>{`
+                .animated-bg-zoom {
+                  animation: bgZoom 20s ease-in-out infinite;
+                }
+                .animated-bg-pan {
+                  animation: bgPan 15s ease-in-out infinite;
+                }
+                .animated-light-sweep {
+                  animation: lightSweep 8s ease-in-out infinite;
+                }
+                @keyframes bgZoom {
+                  0%, 100% { transform: scale(1.0); }
+                  50% { transform: scale(1.15); }
+                }
+                @keyframes bgPan {
+                  0%, 100% { background-position: 0% 0%; }
+                  25% { background-position: 100% 0%; }
+                  50% { background-position: 100% 100%; }
+                  75% { background-position: 0% 100%; }
+                }
+                @keyframes lightSweep {
+                  0%, 100% { background-position: -100% -100%; opacity: 0; }
+                  50% { background-position: 100% 100%; opacity: 1; }
+                }
+              `}</style>
+            </div>
 
             {/* Content card with opacity */}
-            <div className="relative bg-white/5 backdrop-blur-xl border border-white/20 rounded-xl shadow-lg p-6 md:p-8">
+            <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-6 md:p-8">
             {/* Category & Price badges + Edit buttons */}
             <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
               <div className="flex items-center gap-2">
@@ -561,7 +755,7 @@ const EventDetailPage: React.FC = () => {
           {/* Sección de IA - Moderna sin header duplicado */}
           <div className="mt-6 animate-fade-in-up">
             {aiLoading ? (
-              <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl shadow-lg p-6 border-l-4 border-purple-500 relative overflow-hidden">
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-6 relative overflow-hidden">
                 {/* Shimmer effect overlay */}
                 <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
 
@@ -633,9 +827,11 @@ const EventDetailPage: React.FC = () => {
                 </div>
               </div>
             ) : aiInsight ? (
-              <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-6">
                 <div className="flex items-center gap-2 mb-6">
-                  <span className="text-2xl">✨</span>
+                  <svg className="w-6 h-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                  </svg>
                   <h3 className="text-lg font-semibold text-white">Análisis Inteligente</h3>
                   <span className="ml-auto text-xs text-purple-300 bg-purple-500/20 px-2 py-1 rounded-full">Powered by Grok AI</span>
                 </div>
@@ -645,7 +841,9 @@ const EventDetailPage: React.FC = () => {
                     {/* Qué esperar */}
                     <div className="bg-purple-500/20 backdrop-blur-sm p-4 rounded-xl border border-purple-400/30">
                       <h3 className="font-bold text-purple-300 mb-2 flex items-center gap-2">
-                        <span>🎯</span>
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
                         Qué esperar
                       </h3>
                       <p className="text-white/90">{aiInsight.quick_insight}</p>
@@ -655,7 +853,9 @@ const EventDetailPage: React.FC = () => {
                     {aiInsight.artist_info && (
                       <div className="bg-blue-500/20 backdrop-blur-sm p-4 rounded-xl border border-blue-400/30">
                         <h3 className="font-bold text-blue-300 mb-2 flex items-center gap-2">
-                          <span>🎤</span>
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                          </svg>
                           Sobre el artista
                         </h3>
                         <p className="text-white/90">{aiInsight.artist_info}</p>
@@ -665,10 +865,24 @@ const EventDetailPage: React.FC = () => {
                     {/* Cómo llegar */}
                     <div className="bg-green-500/20 backdrop-blur-sm p-4 rounded-xl border border-green-400/30">
                       <h3 className="font-bold text-green-300 mb-2 flex items-center gap-2">
-                        <span>🚌</span>
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
                         Cómo llegar
                       </h3>
                       <p className="text-white/90">{aiInsight.transport || "Colectivos 60, 152, 29"}</p>
+                    </div>
+
+                    {/* Público esperado */}
+                    <div className="bg-pink-500/20 backdrop-blur-sm p-4 rounded-xl border border-pink-400/30">
+                      <h3 className="font-bold text-pink-300 mb-2 flex items-center gap-2">
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        Público esperado
+                      </h3>
+                      <p className="text-white/90">{aiInsight.audience || "Amantes de la música y el entretenimiento"}</p>
                     </div>
                   </div>
 
@@ -677,7 +891,10 @@ const EventDetailPage: React.FC = () => {
                     {/* Cerca del lugar */}
                     <div className="bg-orange-500/20 backdrop-blur-sm p-4 rounded-xl border border-orange-400/30">
                       <h3 className="font-bold text-orange-300 mb-2 flex items-center gap-2">
-                        <span>📍</span>
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
                         Cerca del lugar
                       </h3>
                       <p className="text-white/90">{aiInsight.nearby || "Bares y restaurantes"}</p>
@@ -687,7 +904,9 @@ const EventDetailPage: React.FC = () => {
                     {aiInsight.venue_tip && (
                       <div className="bg-indigo-500/20 backdrop-blur-sm p-4 rounded-xl border border-indigo-400/30">
                         <h3 className="font-bold text-indigo-300 mb-2 flex items-center gap-2">
-                          <span>🏛️</span>
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                          </svg>
                           Sobre el lugar
                         </h3>
                         <p className="text-white/90">{aiInsight.venue_tip}</p>
@@ -697,7 +916,9 @@ const EventDetailPage: React.FC = () => {
                     {/* Tip Pro */}
                     <div className="bg-yellow-500/20 backdrop-blur-sm p-4 rounded-xl border-l-4 border-yellow-400">
                       <h3 className="font-bold text-yellow-300 mb-2 flex items-center gap-2">
-                        <span>💡</span>
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                        </svg>
                         Tip Pro
                       </h3>
                       <p className="text-white/90">{aiInsight.pro_tip || "Llegá 30 min antes"}</p>
@@ -712,7 +933,9 @@ const EventDetailPage: React.FC = () => {
                       Ambiente: <span className="font-semibold text-white">{aiInsight.vibe || "Copado"}</span>
                     </div>
                     <div className="text-xs text-purple-300 flex items-center gap-1">
-                      <span>✨</span>
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                      </svg>
                       <span>Powered by Grok AI</span>
                     </div>
                   </div>
@@ -723,6 +946,96 @@ const EventDetailPage: React.FC = () => {
                 <div className="text-center py-8">
                   <p className="text-white/70">No se pudo obtener información inteligente para este evento</p>
                 </div>
+              </div>
+            )}
+          </div>
+
+          {/* Sección de Eventos Relacionados */}
+          <div className="mt-8">
+            <div className="flex items-center gap-2 mb-6">
+              <svg className="w-6 h-6 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
+              <h2 className="text-xl font-semibold text-white">Eventos Relacionados</h2>
+            </div>
+
+            {relatedLoading ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <div key={i} className="bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden animate-pulse">
+                    <div className="aspect-[4/3] bg-white/10"></div>
+                    <div className="p-3">
+                      <div className="h-4 bg-white/10 rounded w-3/4 mb-2"></div>
+                      <div className="h-3 bg-white/10 rounded w-1/2"></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : relatedEvents.length > 0 ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {relatedEvents.map((relEvent, index) => (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      const eventId = (relEvent as any).id
+                      const eventSlug = relEvent.title
+                        .toLowerCase()
+                        .normalize("NFD")
+                        .replace(/[\u0300-\u036f]/g, "")
+                        .replace(/[^a-z0-9]+/g, '-')
+                        .replace(/^-+|-+$/g, '')
+                      // Scroll suave al top antes de navegar
+                      window.scrollTo({ top: 0, behavior: 'smooth' })
+                      // Pequeño delay para que se vea el scroll antes de cambiar de página
+                      setTimeout(() => {
+                        navigate(`/event/${eventId}/${eventSlug}`)
+                      }, 300)
+                    }}
+                    className="group bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden cursor-pointer opacity-80 hover:opacity-100 hover:bg-white/15 transition-all duration-500 ease-out hover:scale-[1.05] hover:-translate-y-1 border border-white/10 hover:border-white/30 hover:shadow-xl hover:shadow-purple-500/20"
+                  >
+                    <div className="aspect-[4/3] relative overflow-hidden">
+                      <img
+                        src={relEvent.image_url || getDefaultImage(relEvent.category)}
+                        alt={relEvent.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = getDefaultImage(relEvent.category)
+                        }}
+                      />
+                      {/* Overlay gradient on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute top-2 left-2 transition-transform duration-300 group-hover:scale-110">
+                        <span className={`text-xs px-2 py-1 rounded-full bg-gradient-to-r ${getCategoryGradient(relEvent.category)} text-white font-medium shadow-lg`}>
+                          {relEvent.category}
+                        </span>
+                      </div>
+                      {/* Play icon on hover */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:scale-100 scale-50">
+                        <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30">
+                          <svg className="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-3 transition-all duration-300 group-hover:bg-white/5">
+                      <h3 className="text-sm font-semibold text-white line-clamp-2 mb-1 group-hover:text-purple-200 transition-colors duration-300">{relEvent.title}</h3>
+                      <p className="text-xs text-white/60 group-hover:text-white/80 transition-colors duration-300">{relEvent.venue_name}</p>
+                      {relEvent.start_datetime && (
+                        <p className="text-xs text-white/50 mt-1 group-hover:text-white/70 transition-colors duration-300">
+                          {new Date(relEvent.start_datetime).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="bg-white/5 backdrop-blur-sm rounded-xl p-8 text-center border border-white/10">
+                <svg className="w-12 h-12 text-white/30 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                <p className="text-white/50">No hay eventos relacionados disponibles</p>
               </div>
             )}
           </div>

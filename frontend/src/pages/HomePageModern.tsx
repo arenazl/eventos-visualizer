@@ -889,10 +889,10 @@ const HomePageModern: React.FC = () => {
                 <button
                   key={category}
                   onClick={() => handleCategoryClick(category)}
-                  className={`flex-shrink-0 group relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ease-out whitespace-nowrap bg-gradient-to-r ${getCategoryGradient(category)} transform ${
+                  className={`flex-shrink-0 group relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ease-out whitespace-nowrap bg-gradient-to-r ${getCategoryGradient(category)} transform ${
                     activeCategory === category
-                      ? 'text-white shadow-lg shadow-purple-500/20 scale-110 opacity-80'
-                      : 'opacity-40 hover:opacity-60 text-white hover:scale-105 active:scale-95'
+                      ? 'text-white shadow-lg shadow-purple-500/30 scale-110 opacity-100 animate-[bounce_0.3s_ease-out]'
+                      : 'opacity-70 hover:opacity-90 text-white hover:scale-105 active:scale-95'
                   }`}
                 >
                   <FontAwesomeIcon

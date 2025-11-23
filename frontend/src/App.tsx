@@ -20,7 +20,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<HomePageModern />} />
-            <Route path="/event/:id" element={<EventDetailPage />} />
+            <Route path="/event/:uuid/:slug?" element={<EventDetailPage />} />
             <Route path="/scrapers-test" element={<ScrapersTestPage />} />
             <Route path="/auth/test" element={<TestAuthPage />} />
             <Route path="/auth/callback" element={<AuthCallback />} />

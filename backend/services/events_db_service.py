@@ -205,11 +205,19 @@ async def search_events_by_location(
 
         logger.info(f" Buscando eventos en MySQL para ubicación: '{search_location}'")
 
-        # Rango de fechas
-        now = datetime.utcnow()
-        end_date = now + timedelta(days=days_ahead)
+        # Rango de fechas - usar ayer para incluir eventos de HOY sin problemas de timezone
+        # Los eventos se guardan con hora 00:00:00, así que restamos 1 día para asegurar
+        # que no nos perdemos ningún evento por diferencias de timezone
+        yesterday = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=1)
+        end_date = yesterday + timedelta(days=days_ahead + 1)  # +1 para compensar el día restado
 
-        # Query SQL simplificada - buscar en: country, city, neighborhood, external_id
+        # Normalizar ubicación (sin acentos) para búsqueda más flexible
+        search_normalized = remove_accents(search_location)
+
+        # Query SQL - buscar SOLO en campos geográficos (NO en venue_name/venue_address)
+        # Busca con y sin acentos para máxima cobertura
+        # ⚠️ NO buscar en venue_name/venue_address porque "Av. Córdoba" en Buenos Aires
+        # aparecería en búsquedas de Córdoba
         query = """
         SELECT
             id, title, description, event_url, image_url,
@@ -218,27 +226,40 @@ async def search_events_by_location(
         FROM events
         WHERE
             (
+                -- Búsqueda exacta (con acentos) SOLO en campos geográficos
                 country LIKE :location_pattern
                 OR city LIKE :location_pattern
+                OR province LIKE :location_pattern
                 OR neighborhood LIKE :location_pattern
-                OR external_id LIKE :location_pattern
+                -- Búsqueda normalizada (sin acentos) para Córdoba -> Cordoba, São Paulo -> Sao Paulo
+                OR country LIKE :location_normalized
+                OR city LIKE :location_normalized
+                OR province LIKE :location_normalized
+                OR neighborhood LIKE :location_normalized
         """
 
         params = {
             'location_pattern': f'%{search_location}%',
-            'now': now,
+            'location_normalized': f'%{search_normalized}%',
+            'now': yesterday,
             'end_date': end_date
         }
 
         # Agregar búsqueda por ciudad principal si existe
         if parent_city:
+            parent_normalized = remove_accents(parent_city)
             query += """
                 OR country LIKE :parent_pattern
                 OR city LIKE :parent_pattern
+                OR province LIKE :parent_pattern
                 OR neighborhood LIKE :parent_pattern
-                OR external_id LIKE :parent_pattern
+                OR country LIKE :parent_normalized
+                OR city LIKE :parent_normalized
+                OR province LIKE :parent_normalized
+                OR neighborhood LIKE :parent_normalized
             """
             params['parent_pattern'] = f'%{parent_city}%'
+            params['parent_normalized'] = f'%{parent_normalized}%'
             logger.info(f"🔍 También buscando eventos en ciudad principal: {parent_city}")
 
         # Cerrar el WHERE
@@ -366,9 +387,10 @@ async def get_available_cities(limit: int = 10) -> List[Dict[str, Any]]:
         LIMIT :limit
         """
 
-        from datetime import datetime
+        # Usar ayer para incluir eventos de HOY sin problemas de timezone
+        yesterday = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=1)
         params = {
-            'now': datetime.utcnow(),
+            'now': yesterday,
             'limit': limit
         }
 
@@ -437,8 +459,11 @@ async def get_available_cities_with_events(search_query: str, limit: int = 10) -
         ORDER BY event_count DESC
         """
 
+        # Usar ayer para incluir eventos de HOY sin problemas de timezone
+        yesterday = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=1)
+
         params = {
-            'now': datetime.utcnow(),
+            'now': yesterday,
             'search_pattern': f'%{search_query}%'
         }
 
@@ -447,17 +472,48 @@ async def get_available_cities_with_events(search_query: str, limit: int = 10) -
 
         # Función para normalizar nombres de ciudades
         def normalize_city_name(city_name: str) -> str:
-            """Normaliza variantes de nombres de ciudades"""
-            city_lower = city_name.lower().strip()
+            """Normaliza variantes de nombres de ciudades para agrupar correctamente"""
+            if not city_name:
+                return ''
+
+            # Quitar acentos para comparación
+            city_normalized = remove_accents(city_name.lower().strip())
 
             # Buenos Aires y variantes
-            if city_lower in ['caba', 'ciudad de buenos aires', 'ciudad autonoma de buenos aires', 'c.a.b.a.']:
+            if city_normalized in ['caba', 'ciudad de buenos aires', 'ciudad autonoma de buenos aires', 'c.a.b.a.', 'buenos aires argentina']:
                 return 'Buenos Aires'
+
+            # Córdoba y variantes (Córdoba, Cordoba, Córdoba Capital, Cordoba Argentina)
+            if 'cordoba' in city_normalized:
+                return 'Córdoba'
+
+            # Mendoza y variantes
+            if 'mendoza' in city_normalized and 'argentina' in city_normalized.lower():
+                return 'Mendoza'
+
+            # Rosario y variantes
+            if 'rosario' in city_normalized and 'argentina' in city_normalized.lower():
+                return 'Rosario'
+
+            # São Paulo / Sao Paulo
+            if 'sao paulo' in city_normalized:
+                return 'São Paulo'
+
+            # Bogotá / Bogota
+            if 'bogota' in city_normalized:
+                return 'Bogotá'
+
+            # Ciudad de México / Mexico City
+            if 'ciudad de mexico' in city_normalized or 'mexico city' in city_normalized or 'cdmx' in city_normalized:
+                return 'Ciudad de México'
 
             return city_name.strip()
 
         # Procesar resultados - city, country, neighborhood (barrios)
         locations_map = {}  # key: location_name, value: {type, count, city, country}
+
+        # Normalizar búsqueda una vez (sin acentos para comparación flexible)
+        search_normalized = remove_accents(search_query.lower())
 
         for row in rows:
             city_raw = row[0] or ''
@@ -465,24 +521,26 @@ async def get_available_cities_with_events(search_query: str, limit: int = 10) -
             neighborhood = row[2] or ''
             count = row[3]
 
-            # Normalizar nombre de ciudad
+            # Normalizar nombre de ciudad (agrupa Córdoba, Cordoba, Córdoba Capital -> "Córdoba")
             city = normalize_city_name(city_raw) if city_raw else ''
 
             # Agregar barrio si coincide (PRIORIDAD 1)
-            if neighborhood and search_query.lower() in neighborhood.lower():
+            # Comparar sin acentos para búsqueda flexible
+            if neighborhood and search_normalized in remove_accents(neighborhood.lower()):
                 if neighborhood not in locations_map:
                     locations_map[neighborhood] = {'type': 'barrio', 'count': 0, 'city': city, 'country': country}
                 locations_map[neighborhood]['count'] += count
 
-            # Agregar ciudad si coincide (buscar en nombre normalizado)
-            if city and search_query.lower() in city.lower():
-                # Usar nombre normalizado como key
+            # Agregar ciudad si coincide (buscar en nombre normalizado SIN acentos)
+            # "cordoba" debe matchear "Córdoba"
+            if city and search_normalized in remove_accents(city.lower()):
+                # Usar nombre normalizado como key (con acento para display)
                 if city not in locations_map:
                     locations_map[city] = {'type': 'city', 'count': 0, 'city': '', 'country': country}
                 locations_map[city]['count'] += count
 
-            # Agregar país si coincide
-            if country and search_query.lower() in country.lower():
+            # Agregar país si coincide (sin acentos)
+            if country and search_normalized in remove_accents(country.lower()):
                 if country not in locations_map:
                     locations_map[country] = {'type': 'country', 'count': 0, 'city': '', 'country': ''}
                 locations_map[country]['count'] += count
@@ -510,9 +568,9 @@ async def get_available_cities_with_events(search_query: str, limit: int = 10) -
                 'displayName': display_text
             })
 
-        # Ordenar por tipo (barrio > ciudad > país) y luego por cantidad
-        priority = {'barrio': 0, 'city': 1, 'country': 2}
-        locations.sort(key=lambda x: (priority.get(x['location_type'], 999), -x['event_count']))
+        # Ordenar SOLO por cantidad de eventos (mayor a menor)
+        # Así el item con más eventos aparece primero
+        locations.sort(key=lambda x: -x['event_count'])
 
 
         # Limitar resultados
@@ -528,3 +586,173 @@ async def get_available_cities_with_events(search_query: str, limit: int = 10) -
 
     finally:
         session.close()
+
+
+def get_related_events(
+    category: Optional[str] = None,
+    city: Optional[str] = None,
+    exclude_id: Optional[str] = None,
+    limit: int = 6
+) -> Dict[str, Any]:
+    """
+    🔗 EVENTOS RELACIONADOS - Busca eventos de la misma categoría y/o ciudad
+
+    Prioridad:
+    1. Misma categoría + misma ciudad
+    2. Misma categoría (cualquier ciudad)
+    3. Misma ciudad (cualquier categoría)
+
+    Args:
+        category: Categoría del evento actual
+        city: Ciudad del evento actual
+        exclude_id: ID del evento a excluir (el actual)
+        limit: Cantidad de eventos a retornar
+
+    Returns:
+        Dict con 'events' y 'total'
+    """
+    session = SessionLocal()
+
+    try:
+        # Fecha desde ayer para incluir eventos de hoy
+        yesterday = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=1)
+
+        events = []
+
+        # Normalizar categoría si existe
+        normalized_category = normalize_category(category) if category else None
+
+        # Query 1: Misma categoría + misma ciudad (prioridad máxima)
+        if normalized_category and city:
+            query = text("""
+                SELECT id, title, description, event_url, image_url,
+                       venue_name, venue_address, city, category, province, country,
+                       start_datetime, end_datetime, price, source, neighborhood, is_free
+                FROM events
+                WHERE category = :category
+                  AND city LIKE :city_pattern
+                  AND start_datetime >= :now
+                  AND (:exclude IS NULL OR id != :exclude)
+                ORDER BY start_datetime ASC
+                LIMIT :limit
+            """)
+            result = session.execute(query, {
+                'category': normalized_category,
+                'city_pattern': f'%{city}%',
+                'now': yesterday,
+                'exclude': exclude_id,
+                'limit': limit
+            })
+
+            for row in result.fetchall():
+                events.append(_format_related_event(row, 'same_category_city'))
+
+        # Query 2: Si no hay suficientes, buscar misma categoría (cualquier ciudad)
+        if len(events) < limit and normalized_category:
+            existing_ids = [e['id'] for e in events]
+            exclude_list = existing_ids + ([exclude_id] if exclude_id else [])
+            remaining = limit - len(events)
+
+            query = text("""
+                SELECT id, title, description, event_url, image_url,
+                       venue_name, venue_address, city, category, province, country,
+                       start_datetime, end_datetime, price, source, neighborhood, is_free
+                FROM events
+                WHERE category = :category
+                  AND start_datetime >= :now
+                  AND id NOT IN :exclude_ids
+                ORDER BY start_datetime ASC
+                LIMIT :limit
+            """)
+
+            # MySQL no soporta IN con lista vacía, usar workaround
+            if not exclude_list:
+                exclude_list = ['__none__']
+
+            result = session.execute(query, {
+                'category': normalized_category,
+                'now': yesterday,
+                'exclude_ids': tuple(exclude_list),
+                'limit': remaining
+            })
+
+            for row in result.fetchall():
+                events.append(_format_related_event(row, 'same_category'))
+
+        # Query 3: Si aún no hay suficientes, buscar misma ciudad (cualquier categoría)
+        if len(events) < limit and city:
+            existing_ids = [e['id'] for e in events]
+            exclude_list = existing_ids + ([exclude_id] if exclude_id else [])
+            remaining = limit - len(events)
+
+            query = text("""
+                SELECT id, title, description, event_url, image_url,
+                       venue_name, venue_address, city, category, province, country,
+                       start_datetime, end_datetime, price, source, neighborhood, is_free
+                FROM events
+                WHERE city LIKE :city_pattern
+                  AND start_datetime >= :now
+                  AND id NOT IN :exclude_ids
+                ORDER BY start_datetime ASC
+                LIMIT :limit
+            """)
+
+            if not exclude_list:
+                exclude_list = ['__none__']
+
+            result = session.execute(query, {
+                'city_pattern': f'%{city}%',
+                'now': yesterday,
+                'exclude_ids': tuple(exclude_list),
+                'limit': remaining
+            })
+
+            for row in result.fetchall():
+                events.append(_format_related_event(row, 'same_city'))
+
+        logger.info(f"🔗 Encontrados {len(events)} eventos relacionados (cat={category}, city={city})")
+
+        return {
+            'events': events,
+            'total': len(events)
+        }
+
+    except Exception as e:
+        logger.error(f"❌ Error buscando eventos relacionados: {e}")
+        return {'events': [], 'total': 0, 'error': str(e)}
+
+    finally:
+        session.close()
+
+
+def _format_related_event(row, relation_type: str) -> Dict[str, Any]:
+    """Formatea una fila de evento para respuesta de eventos relacionados"""
+    try:
+        price = float(row[13]) if row[13] else 0.0
+    except (ValueError, TypeError):
+        price = 0.0
+
+    raw_category = row[8] or 'other'
+    normalized_category = normalize_category(raw_category)
+
+    return {
+        'id': str(row[0]),
+        'title': row[1],
+        'description': row[2] or '',
+        'url': row[3] or '',
+        'image_url': row[4] or '',
+        'venue_name': row[5] or '',
+        'venue_address': row[6] or '',
+        'city': row[7] or '',
+        'category': normalized_category,
+        'province': row[9] or '',
+        'country': row[10] or '',
+        'start_datetime': row[11].isoformat() if row[11] else None,
+        'end_datetime': row[12].isoformat() if row[12] else None,
+        'price': price,
+        'source': row[14] or 'database',
+        'neighborhood': row[15] or '',
+        'is_free': bool(row[16]) if row[16] is not None else False,
+        'relation_type': relation_type
+    }
+

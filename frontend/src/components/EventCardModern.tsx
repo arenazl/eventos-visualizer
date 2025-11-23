@@ -53,6 +53,20 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
     setDefaultImageError(false)
   }, [event.image_url])
 
+  // 🔍 DEBUG: Log en cada render para Calamaro
+  useEffect(() => {
+    if (event.title.toLowerCase().includes('calamaro')) {
+      console.log('🎸 [CALAMARO DEBUG]', {
+        title: event.title,
+        image_url: event.image_url,
+        isValidUrl: isValidImageUrl(event.image_url),
+        imageError,
+        defaultImageError,
+        willShowUrl: (!imageError && isValidImageUrl(event.image_url)) ? event.image_url : 'DEFAULT'
+      })
+    }
+  })
+
   const formatDate = (dateString: string | null | undefined) => {
     if (!dateString) {
       return { day: '?', month: 'TBD', time: 'Por confirmar' }
@@ -129,10 +143,8 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
       // Dominios que bloquean hotlinking (403 Forbidden)
       'visitbrasil.com',
       'cultura.amia.org.ar',
-      'resizer.glanacion.com',
-      'ciudad.com.ar',
-      'passline.com',
       'elimpacto.com.ar'
+      // REMOVIDOS: passline.com, resizer.glanacion.com, ciudad.com.ar - funcionan con hotlinking
     ]
 
     try {
@@ -151,31 +163,37 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
     : time
 
   const handleCardClick = () => {
-    // Generar ID basado en título para navegación - mejorado para manejar caracteres especiales
-    const eventId = event.title
+    // 🔥 UUID real del evento (para operaciones de DB)
+    const uuid = (event as any).id
+
+    // 🔥 Slug amigable (para SEO y URL legible)
+    const slug = event.title
       .toLowerCase()
       .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "") // Remover acentos
-      .replace(/[^a-z0-9]+/g, '-') // Reemplazar todo lo que no sea letra o número con -
-      .replace(/^-+|-+$/g, '') // Remover - al inicio o final
-    
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+
     console.log('🔄 EventCard - Clicking event:', event.title)
-    console.log('🔄 EventCard - Generated ID:', eventId)
-    console.log('🔄 EventCard - SessionStorage key:', `event-${eventId}`)
-    console.log('🔄 EventCard - Full event data:', event)
-    
-    // Guardar el evento en sessionStorage para que persista
-    const storageKey = `event-${eventId}`
+    console.log('🔄 EventCard - Event UUID:', uuid)
+    console.log('🔄 EventCard - Event Slug:', slug)
+
+    // 🔥 La URL tiene formato: /event/{uuid}/{slug}
+    // El UUID se usa para operaciones de DB, el slug para legibilidad
+    const eventPath = uuid ? `${uuid}/${slug}` : slug
+
+    // Guardar el evento en sessionStorage usando UUID como key
+    const storageKey = `event-${uuid || slug}`
     sessionStorage.setItem(storageKey, JSON.stringify(event))
-    
+
     // Verificar que se guardó correctamente
     const saved = sessionStorage.getItem(storageKey)
     console.log('🔄 EventCard - Verified storage:', saved ? 'Saved successfully' : 'Failed to save!')
-    
+
     // Disparar animación de shake
     setIsShaking(true)
     setTimeout(() => setIsShaking(false), 600) // Duración del shake
-    
+
     // Disparar comentario contextual de los asistentes
     triggerEventComment({
       eventTitle: event.title,
@@ -184,10 +202,10 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
       timestamp: new Date(),
       shouldConverse: Math.random() < 0.1 // 1/10 probabilidad
     })
-    
-    // Navegar a la página de detalle
+
+    // Navegar a la página de detalle con formato /event/{uuid}/{slug}
     setTimeout(() => {
-      navigate(`/event/${eventId}`)
+      navigate(`/event/${eventPath}`)
     }, 700) // Después del shake
   }
 
