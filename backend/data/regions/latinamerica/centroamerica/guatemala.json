@@ -2,21 +2,36 @@
   "country": "Guatemala",
   "country_code": "GT",
   "region": "Centroamérica",
-  "cities": [
+  "departments": [
     {
-      "name": "Ciudad de Guatemala",
-      "latitude": 14.6349,
-      "longitude": -90.5069
+      "name": "Guatemala",
+      "cities": [
+        {"name": "Ciudad de Guatemala", "latitude": 14.6349, "longitude": -90.5069}
+      ]
     },
     {
-      "name": "Antigua",
-      "latitude": 14.5586,
-      "longitude": -90.7339
+      "name": "Sacatepéquez",
+      "cities": [
+        {"name": "Antigua Guatemala", "latitude": 14.5586, "longitude": -90.7339}
+      ]
     },
     {
       "name": "Quetzaltenango",
-      "latitude": 14.8333,
-      "longitude": -91.5167
+      "cities": [
+        {"name": "Quetzaltenango", "latitude": 14.8333, "longitude": -91.5167}
+      ]
+    },
+    {
+      "name": "Petén",
+      "cities": [
+        {"name": "Flores", "latitude": 16.9316, "longitude": -89.8925}
+      ]
+    },
+    {
+      "name": "Sololá",
+      "cities": [
+        {"name": "Panajachel", "latitude": 14.7403, "longitude": -91.1528}
+      ]
     }
   ]
 }

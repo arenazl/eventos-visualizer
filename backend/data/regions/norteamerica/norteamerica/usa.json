@@ -2,21 +2,130 @@
   "country": "Estados Unidos",
   "country_code": "US",
   "region": "Norteamérica",
-  "cities": [
+  "states": [
     {
       "name": "New York",
-      "latitude": 40.7128,
-      "longitude": -74.0060
+      "cities": [
+        {"name": "New York", "latitude": 40.7128, "longitude": -74.0060, "barrios": [
+          {"name": "Manhattan", "latitude": 40.7831, "longitude": -73.9712},
+          {"name": "Brooklyn", "latitude": 40.6782, "longitude": -73.9442},
+          {"name": "Queens", "latitude": 40.7282, "longitude": -73.7949},
+          {"name": "The Bronx", "latitude": 40.8448, "longitude": -73.8648},
+          {"name": "Staten Island", "latitude": 40.5795, "longitude": -74.1502}
+        ]},
+        {"name": "Buffalo", "latitude": 42.8864, "longitude": -78.8784}
+      ]
     },
     {
-      "name": "Los Angeles",
-      "latitude": 34.0522,
-      "longitude": -118.2437
+      "name": "California",
+      "cities": [
+        {"name": "Los Angeles", "latitude": 34.0522, "longitude": -118.2437, "barrios": [
+          {"name": "Hollywood", "latitude": 34.0928, "longitude": -118.3287},
+          {"name": "Santa Monica", "latitude": 34.0195, "longitude": -118.4912},
+          {"name": "Venice", "latitude": 33.9850, "longitude": -118.4695},
+          {"name": "Downtown LA", "latitude": 34.0407, "longitude": -118.2468},
+          {"name": "Beverly Hills", "latitude": 34.0736, "longitude": -118.4004}
+        ]},
+        {"name": "San Francisco", "latitude": 37.7749, "longitude": -122.4194},
+        {"name": "San Diego", "latitude": 32.7157, "longitude": -117.1611},
+        {"name": "San Jose", "latitude": 37.3382, "longitude": -121.8863},
+        {"name": "Sacramento", "latitude": 38.5816, "longitude": -121.4944}
+      ]
     },
     {
-      "name": "Chicago",
-      "latitude": 41.8781,
-      "longitude": -87.6298
+      "name": "Illinois",
+      "cities": [
+        {"name": "Chicago", "latitude": 41.8781, "longitude": -87.6298, "barrios": [
+          {"name": "Loop", "latitude": 41.8819, "longitude": -87.6278},
+          {"name": "Lincoln Park", "latitude": 41.9214, "longitude": -87.6513},
+          {"name": "Wicker Park", "latitude": 41.9088, "longitude": -87.6796},
+          {"name": "River North", "latitude": 41.8925, "longitude": -87.6341}
+        ]}
+      ]
+    },
+    {
+      "name": "Texas",
+      "cities": [
+        {"name": "Houston", "latitude": 29.7604, "longitude": -95.3698},
+        {"name": "Dallas", "latitude": 32.7767, "longitude": -96.7970},
+        {"name": "Austin", "latitude": 30.2672, "longitude": -97.7431},
+        {"name": "San Antonio", "latitude": 29.4241, "longitude": -98.4936}
+      ]
+    },
+    {
+      "name": "Florida",
+      "cities": [
+        {"name": "Miami", "latitude": 25.7617, "longitude": -80.1918, "barrios": [
+          {"name": "South Beach", "latitude": 25.7825, "longitude": -80.1340},
+          {"name": "Wynwood", "latitude": 25.8010, "longitude": -80.1994},
+          {"name": "Brickell", "latitude": 25.7617, "longitude": -80.1918},
+          {"name": "Little Havana", "latitude": 25.7654, "longitude": -80.2199}
+        ]},
+        {"name": "Orlando", "latitude": 28.5383, "longitude": -81.3792},
+        {"name": "Tampa", "latitude": 27.9506, "longitude": -82.4572},
+        {"name": "Jacksonville", "latitude": 30.3322, "longitude": -81.6557}
+      ]
+    },
+    {
+      "name": "Nevada",
+      "cities": [
+        {"name": "Las Vegas", "latitude": 36.1699, "longitude": -115.1398}
+      ]
+    },
+    {
+      "name": "Massachusetts",
+      "cities": [
+        {"name": "Boston", "latitude": 42.3601, "longitude": -71.0589}
+      ]
+    },
+    {
+      "name": "Washington",
+      "cities": [
+        {"name": "Seattle", "latitude": 47.6062, "longitude": -122.3321}
+      ]
+    },
+    {
+      "name": "Georgia",
+      "cities": [
+        {"name": "Atlanta", "latitude": 33.7490, "longitude": -84.3880}
+      ]
+    },
+    {
+      "name": "Pennsylvania",
+      "cities": [
+        {"name": "Philadelphia", "latitude": 39.9526, "longitude": -75.1652},
+        {"name": "Pittsburgh", "latitude": 40.4406, "longitude": -79.9959}
+      ]
+    },
+    {
+      "name": "Arizona",
+      "cities": [
+        {"name": "Phoenix", "latitude": 33.4484, "longitude": -112.0740}
+      ]
+    },
+    {
+      "name": "Colorado",
+      "cities": [
+        {"name": "Denver", "latitude": 39.7392, "longitude": -104.9903}
+      ]
+    },
+    {
+      "name": "Tennessee",
+      "cities": [
+        {"name": "Nashville", "latitude": 36.1627, "longitude": -86.7816}
+      ]
+    },
+    {
+      "name": "Louisiana",
+      "cities": [
+        {"name": "New Orleans", "latitude": 29.9511, "longitude": -90.0715}
+      ]
+    },
+    {
+      "name": "District of Columbia",
+      "cities": [
+        {"name": "Washington DC", "latitude": 38.9072, "longitude": -77.0369}
+      ]
     }
   ]
 }

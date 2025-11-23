@@ -1,11 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { LocationLoader } from './LoadingStates'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 
 interface Location {
   name: string
   coordinates?: { lat: number; lng: number }
   country?: string
   detected: 'gps' | 'manual' | 'prompt' | 'fallback'
+  metadata?: {
+    neighborhood?: string
+    city?: string
+    country?: string | null
+    province?: string | null
+  }
 }
 
 interface CitySuggestion {
@@ -56,9 +64,18 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
   const [neighborhoods, setNeighborhoods] = useState<Map<string, CitySuggestion[]>>(new Map())
   const [expandedCities, setExpandedCities] = useState<Set<string>>(new Set())
 
-  // 🎯 Popular places state
-  const [popularPlaces, setPopularPlaces] = useState<string[]>([])
+  // 🎯 Popular places state (con info completa de ubicación)
+  interface PlaceInfo {
+    name: string
+    city: string
+    country: string | null
+    province: string | null
+    event_count: number
+  }
+  const [popularPlaces, setPopularPlaces] = useState<PlaceInfo[]>([])
   const [loadingPopularPlaces, setLoadingPopularPlaces] = useState(false)
+  const [selectedPlace, setSelectedPlace] = useState<string | null>(null)
+  const [originalCityLocation, setOriginalCityLocation] = useState<Location | null>(null) // 🏙️ Guardar ciudad original
 
   // 🎯 Fetch popular places nearby
   const fetchPopularPlaces = async (locationName: string) => {
@@ -78,9 +95,21 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
       }
 
       const data = await response.json()
-      if (data.success && data.places && data.places.length > 0) {
-        setPopularPlaces(data.places)
-        console.log('✅ Lugares populares:', data.places)
+      // Usar places_info si está disponible (tiene ciudad, país, provincia)
+      if (data.success && data.places_info && data.places_info.length > 0) {
+        setPopularPlaces(data.places_info)
+        console.log('✅ Lugares populares con info:', data.places_info)
+      } else if (data.success && data.places && data.places.length > 0) {
+        // Fallback a formato antiguo (solo nombres)
+        const placesWithBasicInfo = data.places.map((name: string) => ({
+          name,
+          city: locationName,
+          country: null,
+          province: null,
+          event_count: 0
+        }))
+        setPopularPlaces(placesWithBasicInfo)
+        console.log('✅ Lugares populares (formato básico):', data.places)
       } else {
         setPopularPlaces([])
       }
@@ -96,8 +125,18 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
   useEffect(() => {
     if (currentLocation) {
       setLocation(currentLocation)
-      // Cargar lugares populares cuando cambie la ubicación
-      fetchPopularPlaces(currentLocation.name)
+
+      // Solo cargar lugares populares si NO es un barrio (es decir, si no tiene metadata.neighborhood)
+      // Si es un barrio, mantenemos los popularPlaces actuales de la ciudad
+      const isNeighborhoodSelection = currentLocation.metadata?.neighborhood && currentLocation.metadata?.city
+
+      if (!isNeighborhoodSelection) {
+        // Es una ciudad nueva - resetear barrio seleccionado y cargar nuevos lugares
+        setSelectedPlace(null)
+        setOriginalCityLocation(currentLocation) // 🏙️ Guardar ciudad original
+        fetchPopularPlaces(currentLocation.name)
+      }
+      // Si es un barrio, no hacemos nada - los popularPlaces ya están cargados de la ciudad
     }
   }, [currentLocation])
 
@@ -433,61 +472,6 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
 
   return (
     <div className="mb-6">
-      {/* Barra de ubicación actual */}
-      <div className="flex items-center justify-center gap-4 mb-4">
-        {isDetecting ? (
-          <LocationLoader />
-        ) : location ? (
-          <div className="flex items-center gap-3 px-6 py-3 bg-white/10 backdrop-blur-xl rounded-full border border-white/20 hover:border-white/40 transition-all duration-300">
-            {getLocationIcon(location.detected)}
-
-            {/* 🏙️ Mostrar ciudad principal detectada - CLICKEABLE */}
-            {expandedSearch && parentCityDetected ? (
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => {
-                    const cityLocation: Location = {
-                      name: parentCityDetected,
-                      detected: 'manual'
-                    }
-                    setLocation(cityLocation)
-                    onLocationChange(cityLocation)
-                  }}
-                  className="text-white font-medium hover:text-blue-300 transition-colors cursor-pointer underline decoration-dotted"
-                  title={`Buscar todos los eventos en ${parentCityDetected}`}
-                >
-                  {parentCityDetected}
-                </button>
-
-                {/* 🚫 NO mostrar contador aquí - es el count del barrio, no de la ciudad */}
-              </div>
-            ) : (
-              <span className="text-white font-medium">{location.name || "🎩 En Wonderland"}</span>
-            )}
-
-            {/* Botón para cambiar ubicación */}
-            <button
-              onClick={() => setShowManualInput(true)}
-              className="ml-2 p-1 hover:bg-white/10 rounded-full transition-colors"
-              title="Cambiar ubicación"
-            >
-              <svg className="w-4 h-4 text-white/60 hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
-              </svg>
-            </button>
-          </div>
-        ) : (
-          <button
-            onClick={detectLocation}
-            className="flex items-center gap-3 px-6 py-3 bg-purple-500/20 backdrop-blur-xl rounded-full border border-purple-400/30 hover:border-purple-400/60 transition-all duration-300"
-          >
-            <svg className="w-5 h-5 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-            </svg>
-            <span className="text-purple-200 font-medium">Detectar mi ubicación</span>
-          </button>
-        )}
-      </div>
 
       {/* Input manual de ubicación con Autocomplete */}
       {showManualInput && (
@@ -501,7 +485,7 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
                     type="text"
                     value={manualInput}
                     onChange={(e) => setManualInput(e.target.value)}
-                    placeholder="Escribe al menos 3 caracteres para buscar..."
+                    placeholder="Ej: bares en Barcelona, eventos en Miami..."
                     className="w-full bg-transparent text-white placeholder-white/50 border-none outline-none text-lg"
                     autoFocus
                   />
@@ -636,43 +620,65 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
         </div>
       )}
 
-      {/* Hint sobre búsquedas inteligentes */}
-      {location && (
-        <div className="text-center mt-4">
-          <p className="text-white/50 text-sm">
-            {location.detected === 'manual' ? (
-              <span>🎯 Ubicación de búsqueda: <strong>{location.name}</strong></span>
-            ) : (
-              <>💡 Tip: Escribe "bares en Barcelona" para cambiar la ubicación automáticamente</>
-            )}
-          </p>
-        </div>
-      )}
 
-      {/* 🎯 Popular Places - Top 3 lugares cercanos */}
+      {/* 🎯 Popular Places - Barrios con eventos (máximo 6) */}
       {location && popularPlaces.length > 0 && (
-        <div className="text-center mt-3">
-         
-          <div className="flex justify-center gap-2 flex-wrap">
-            {popularPlaces.map((place, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  const newLocation: Location = {
-                    name: place,
-                    coordinates: undefined,
-                    detected: 'manual'
-                  }
-                  setLocation(newLocation)
-                  onLocationChange(newLocation)
+        <div className="mt-3">
+          <div className="flex flex-wrap justify-center gap-2">
+            {/* 🏙️ Botón "Todos" para volver a la ciudad completa */}
+            <button
+              onClick={() => {
+                if (originalCityLocation) {
+                  setLocation(originalCityLocation)
+                  onLocationChange(originalCityLocation)
+                  setSelectedPlace(null)
                   setManualInput('')
                   setShowManualInput(false)
-                }}
-                className="px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white/80 text-md font-large hover:bg-white/20 transition-colors cursor-pointer"
-              >
-                {place}
-              </button>
-            ))}
+                }
+              }}
+              className={`px-3 py-1 rounded-full text-sm transition-all duration-300 transform ${
+                selectedPlace === null
+                  ? 'bg-white/20 text-white border border-white/40 scale-105 shadow-lg shadow-white/10'
+                  : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10 hover:text-white/80 hover:scale-105 active:scale-95'
+              }`}
+            >
+              <FontAwesomeIcon icon={faLocationDot} className="w-3 h-3 mr-1" />
+              Todos
+            </button>
+            {popularPlaces.slice(0, 6).map((place, index) => {
+              const isSelected = selectedPlace === place.name
+              return (
+                <button
+                  key={index}
+                  onClick={() => {
+                    const newLocation: Location = {
+                      name: place.name,
+                      coordinates: undefined,
+                      detected: 'manual',
+                      metadata: {
+                        neighborhood: place.name,
+                        city: place.city,
+                        country: place.country,
+                        province: place.province
+                      }
+                    }
+                    setLocation(newLocation)
+                    onLocationChange(newLocation)
+                    setSelectedPlace(place.name)
+                    setManualInput('')
+                    setShowManualInput(false)
+                  }}
+                  className={`px-3 py-1 rounded-full text-sm transition-all duration-300 transform ${
+                    isSelected
+                      ? 'bg-white/20 text-white border border-white/40 scale-105 shadow-lg shadow-white/10'
+                      : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10 hover:text-white/80 hover:scale-105 active:scale-95'
+                  }`}
+                >
+                  <FontAwesomeIcon icon={faLocationDot} className="w-3 h-3 mr-1" />
+                  {place.name} <span className="text-white/40">{place.event_count}</span>
+                </button>
+              )
+            })}
           </div>
         </div>
       )}

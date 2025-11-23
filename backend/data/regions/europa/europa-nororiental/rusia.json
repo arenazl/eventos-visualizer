@@ -2,21 +2,39 @@
   "country": "Rusia",
   "country_code": "RU",
   "region": "Europa Nororiental",
-  "cities": [
+  "federal_subjects": [
     {
       "name": "Moscú",
-      "latitude": 55.7558,
-      "longitude": 37.6173
+      "cities": [
+        {"name": "Moscú", "latitude": 55.7558, "longitude": 37.6173, "barrios": [
+          {"name": "Arbat", "latitude": 55.7494, "longitude": 37.5917},
+          {"name": "Kitay-gorod", "latitude": 55.7542, "longitude": 37.6321}
+        ]}
+      ]
     },
     {
       "name": "San Petersburgo",
-      "latitude": 59.9311,
-      "longitude": 30.3609
+      "cities": [
+        {"name": "San Petersburgo", "latitude": 59.9311, "longitude": 30.3609}
+      ]
     },
     {
-      "name": "Kazán",
-      "latitude": 55.7887,
-      "longitude": 49.1221
+      "name": "Tartaristán",
+      "cities": [
+        {"name": "Kazán", "latitude": 55.7887, "longitude": 49.1221}
+      ]
+    },
+    {
+      "name": "Krasnodar",
+      "cities": [
+        {"name": "Sochi", "latitude": 43.5855, "longitude": 39.7231}
+      ]
+    },
+    {
+      "name": "Sverdlovsk",
+      "cities": [
+        {"name": "Ekaterimburgo", "latitude": 56.8389, "longitude": 60.6057}
+      ]
     }
   ]
 }

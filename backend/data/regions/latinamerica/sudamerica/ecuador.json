@@ -2,21 +2,41 @@
   "country": "Ecuador",
   "country_code": "EC",
   "region": "Sudamérica",
-  "cities": [
+  "provinces": [
     {
-      "name": "Quito",
-      "latitude": -0.1807,
-      "longitude": -78.4678
+      "name": "Pichincha",
+      "cities": [
+        {"name": "Quito", "latitude": -0.1807, "longitude": -78.4678, "barrios": [
+          {"name": "La Mariscal", "latitude": -0.2000, "longitude": -78.4900},
+          {"name": "Centro Histórico", "latitude": -0.2217, "longitude": -78.5128},
+          {"name": "La Floresta", "latitude": -0.1933, "longitude": -78.4811}
+        ]}
+      ]
     },
     {
-      "name": "Guayaquil",
-      "latitude": -2.1894,
-      "longitude": -79.8873
+      "name": "Guayas",
+      "cities": [
+        {"name": "Guayaquil", "latitude": -2.1894, "longitude": -79.8873}
+      ]
     },
     {
-      "name": "Cuenca",
-      "latitude": -2.9001,
-      "longitude": -79.0059
+      "name": "Azuay",
+      "cities": [
+        {"name": "Cuenca", "latitude": -2.9001, "longitude": -79.0059}
+      ]
+    },
+    {
+      "name": "Galápagos",
+      "cities": [
+        {"name": "Puerto Ayora", "latitude": -0.7545, "longitude": -90.3116}
+      ]
+    },
+    {
+      "name": "Manabí",
+      "cities": [
+        {"name": "Manta", "latitude": -0.9500, "longitude": -80.7333},
+        {"name": "Montañita", "latitude": -1.8303, "longitude": -80.7525}
+      ]
     }
   ]
 }

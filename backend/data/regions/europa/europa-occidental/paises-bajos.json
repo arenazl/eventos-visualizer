@@ -2,21 +2,38 @@
   "country": "Países Bajos",
   "country_code": "NL",
   "region": "Europa Occidental",
-  "cities": [
+  "provinces": [
     {
-      "name": "Ámsterdam",
-      "latitude": 52.3676,
-      "longitude": 4.9041
+      "name": "Holanda Septentrional",
+      "cities": [
+        {"name": "Ámsterdam", "latitude": 52.3676, "longitude": 4.9041, "barrios": [
+          {"name": "De Wallen", "latitude": 52.3738, "longitude": 4.8989},
+          {"name": "Jordaan", "latitude": 52.3747, "longitude": 4.8813},
+          {"name": "De Pijp", "latitude": 52.3536, "longitude": 4.8936},
+          {"name": "Vondelpark", "latitude": 52.3579, "longitude": 4.8686}
+        ]},
+        {"name": "Haarlem", "latitude": 52.3874, "longitude": 4.6462}
+      ]
     },
     {
-      "name": "Róterdam",
-      "latitude": 51.9225,
-      "longitude": 4.4792
+      "name": "Holanda Meridional",
+      "cities": [
+        {"name": "Róterdam", "latitude": 51.9225, "longitude": 4.4792},
+        {"name": "La Haya", "latitude": 52.0705, "longitude": 4.3007},
+        {"name": "Leiden", "latitude": 52.1601, "longitude": 4.4970}
+      ]
     },
     {
-      "name": "La Haya",
-      "latitude": 52.0705,
-      "longitude": 4.3007
+      "name": "Utrecht",
+      "cities": [
+        {"name": "Utrecht", "latitude": 52.0907, "longitude": 5.1214}
+      ]
+    },
+    {
+      "name": "Brabante Septentrional",
+      "cities": [
+        {"name": "Eindhoven", "latitude": 51.4416, "longitude": 5.4697}
+      ]
     }
   ]
 }

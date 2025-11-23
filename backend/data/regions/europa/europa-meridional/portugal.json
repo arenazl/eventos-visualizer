@@ -2,21 +2,48 @@
   "country": "Portugal",
   "country_code": "PT",
   "region": "Europa Meridional",
-  "cities": [
+  "districts": [
     {
       "name": "Lisboa",
-      "latitude": 38.7223,
-      "longitude": -9.1393
+      "cities": [
+        {"name": "Lisboa", "latitude": 38.7223, "longitude": -9.1393, "barrios": [
+          {"name": "Bairro Alto", "latitude": 38.7139, "longitude": -9.1442},
+          {"name": "Alfama", "latitude": 38.7114, "longitude": -9.1289},
+          {"name": "Baixa", "latitude": 38.7117, "longitude": -9.1383},
+          {"name": "Belém", "latitude": 38.6970, "longitude": -9.2058}
+        ]},
+        {"name": "Sintra", "latitude": 38.7979, "longitude": -9.3907},
+        {"name": "Cascais", "latitude": 38.6979, "longitude": -9.4215}
+      ]
     },
     {
-      "name": "Oporto",
-      "latitude": 41.1579,
-      "longitude": -8.6291
+      "name": "Porto",
+      "cities": [
+        {"name": "Porto", "latitude": 41.1579, "longitude": -8.6291, "barrios": [
+          {"name": "Ribeira", "latitude": 41.1408, "longitude": -8.6136},
+          {"name": "Foz do Douro", "latitude": 41.1519, "longitude": -8.6750}
+        ]}
+      ]
+    },
+    {
+      "name": "Faro",
+      "cities": [
+        {"name": "Faro", "latitude": 37.0194, "longitude": -7.9304},
+        {"name": "Lagos", "latitude": 37.1023, "longitude": -8.6733},
+        {"name": "Albufeira", "latitude": 37.0889, "longitude": -8.2500}
+      ]
     },
     {
       "name": "Braga",
-      "latitude": 41.5454,
-      "longitude": -8.4265
+      "cities": [
+        {"name": "Braga", "latitude": 41.5454, "longitude": -8.4265}
+      ]
+    },
+    {
+      "name": "Madeira",
+      "cities": [
+        {"name": "Funchal", "latitude": 32.6669, "longitude": -16.9241}
+      ]
     }
   ]
 }

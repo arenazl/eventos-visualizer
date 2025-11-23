@@ -2,21 +2,70 @@
   "country": "México",
   "country_code": "MX",
   "region": "Centroamérica",
-  "cities": [
+  "states": [
     {
       "name": "Ciudad de México",
-      "latitude": 19.4326,
-      "longitude": -99.1332
+      "cities": [
+        {"name": "Ciudad de México", "latitude": 19.4326, "longitude": -99.1332, "barrios": [
+          {"name": "Condesa", "latitude": 19.4117, "longitude": -99.1738},
+          {"name": "Roma Norte", "latitude": 19.4194, "longitude": -99.1617},
+          {"name": "Polanco", "latitude": 19.4332, "longitude": -99.1933},
+          {"name": "Coyoacán", "latitude": 19.3467, "longitude": -99.1617},
+          {"name": "Santa Fe", "latitude": 19.3593, "longitude": -99.2612}
+        ]}
+      ]
     },
     {
-      "name": "Guadalajara",
-      "latitude": 20.6597,
-      "longitude": -103.3496
+      "name": "Jalisco",
+      "cities": [
+        {"name": "Guadalajara", "latitude": 20.6597, "longitude": -103.3496},
+        {"name": "Puerto Vallarta", "latitude": 20.6534, "longitude": -105.2253}
+      ]
     },
     {
-      "name": "Monterrey",
-      "latitude": 25.6866,
-      "longitude": -100.3161
+      "name": "Nuevo León",
+      "cities": [
+        {"name": "Monterrey", "latitude": 25.6866, "longitude": -100.3161}
+      ]
+    },
+    {
+      "name": "Quintana Roo",
+      "cities": [
+        {"name": "Cancún", "latitude": 21.1619, "longitude": -86.8515},
+        {"name": "Playa del Carmen", "latitude": 20.6296, "longitude": -87.0739},
+        {"name": "Tulum", "latitude": 20.2114, "longitude": -87.4654}
+      ]
+    },
+    {
+      "name": "Yucatán",
+      "cities": [
+        {"name": "Mérida", "latitude": 20.9674, "longitude": -89.5926}
+      ]
+    },
+    {
+      "name": "Baja California Sur",
+      "cities": [
+        {"name": "Los Cabos", "latitude": 22.8905, "longitude": -109.9167}
+      ]
+    },
+    {
+      "name": "Oaxaca",
+      "cities": [
+        {"name": "Oaxaca de Juárez", "latitude": 17.0732, "longitude": -96.7266}
+      ]
+    },
+    {
+      "name": "Guanajuato",
+      "cities": [
+        {"name": "Guanajuato", "latitude": 21.0190, "longitude": -101.2574},
+        {"name": "San Miguel de Allende", "latitude": 20.9144, "longitude": -100.7452}
+      ]
+    },
+    {
+      "name": "Puebla",
+      "cities": [
+        {"name": "Puebla", "latitude": 19.0414, "longitude": -98.2063}
+      ]
     }
   ]
 }

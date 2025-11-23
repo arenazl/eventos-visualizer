@@ -2,21 +2,93 @@
   "country": "Brasil",
   "country_code": "BR",
   "region": "Sudamérica",
-  "cities": [
+  "states": [
     {
       "name": "São Paulo",
-      "latitude": -23.5505,
-      "longitude": -46.6333
+      "cities": [
+        {"name": "São Paulo", "latitude": -23.5505, "longitude": -46.6333, "barrios": [
+          {"name": "Paulista", "latitude": -23.5614, "longitude": -46.6556},
+          {"name": "Pinheiros", "latitude": -23.5671, "longitude": -46.6892},
+          {"name": "Vila Madalena", "latitude": -23.5541, "longitude": -46.6914},
+          {"name": "Jardins", "latitude": -23.5679, "longitude": -46.6577},
+          {"name": "Itaim Bibi", "latitude": -23.5835, "longitude": -46.6758}
+        ]},
+        {"name": "Campinas", "latitude": -22.9099, "longitude": -47.0626},
+        {"name": "Santos", "latitude": -23.9618, "longitude": -46.3322}
+      ]
     },
     {
-      "name": "Río de Janeiro",
-      "latitude": -22.9068,
-      "longitude": -43.1729
+      "name": "Rio de Janeiro",
+      "cities": [
+        {"name": "Rio de Janeiro", "latitude": -22.9068, "longitude": -43.1729, "barrios": [
+          {"name": "Copacabana", "latitude": -22.9711, "longitude": -43.1823},
+          {"name": "Ipanema", "latitude": -22.9838, "longitude": -43.2096},
+          {"name": "Leblon", "latitude": -22.9850, "longitude": -43.2247},
+          {"name": "Lapa", "latitude": -22.9139, "longitude": -43.1801},
+          {"name": "Botafogo", "latitude": -22.9519, "longitude": -43.1857}
+        ]},
+        {"name": "Niterói", "latitude": -22.8833, "longitude": -43.1036}
+      ]
     },
     {
-      "name": "Brasília",
-      "latitude": -15.8267,
-      "longitude": -47.9218
+      "name": "Distrito Federal",
+      "cities": [
+        {"name": "Brasília", "latitude": -15.8267, "longitude": -47.9218}
+      ]
+    },
+    {
+      "name": "Minas Gerais",
+      "cities": [
+        {"name": "Belo Horizonte", "latitude": -19.9167, "longitude": -43.9345},
+        {"name": "Ouro Preto", "latitude": -20.3855, "longitude": -43.5035}
+      ]
+    },
+    {
+      "name": "Bahia",
+      "cities": [
+        {"name": "Salvador", "latitude": -12.9714, "longitude": -38.5014},
+        {"name": "Porto Seguro", "latitude": -16.4435, "longitude": -39.0643}
+      ]
+    },
+    {
+      "name": "Rio Grande do Sul",
+      "cities": [
+        {"name": "Porto Alegre", "latitude": -30.0346, "longitude": -51.2177},
+        {"name": "Gramado", "latitude": -29.3750, "longitude": -50.8765}
+      ]
+    },
+    {
+      "name": "Paraná",
+      "cities": [
+        {"name": "Curitiba", "latitude": -25.4290, "longitude": -49.2671},
+        {"name": "Foz do Iguaçu", "latitude": -25.5163, "longitude": -54.5854}
+      ]
+    },
+    {
+      "name": "Pernambuco",
+      "cities": [
+        {"name": "Recife", "latitude": -8.0476, "longitude": -34.8770},
+        {"name": "Olinda", "latitude": -8.0089, "longitude": -34.8553}
+      ]
+    },
+    {
+      "name": "Ceará",
+      "cities": [
+        {"name": "Fortaleza", "latitude": -3.7172, "longitude": -38.5433}
+      ]
+    },
+    {
+      "name": "Santa Catarina",
+      "cities": [
+        {"name": "Florianópolis", "latitude": -27.5954, "longitude": -48.5480},
+        {"name": "Balneário Camboriú", "latitude": -26.9906, "longitude": -48.6352}
+      ]
+    },
+    {
+      "name": "Amazonas",
+      "cities": [
+        {"name": "Manaus", "latitude": -3.1190, "longitude": -60.0217}
+      ]
     }
   ]
 }

@@ -27,7 +27,8 @@
       "Bash(tasklist:*)",
       "Bash(npm run dev:*)",
       "Bash(timeout:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(xargs ls:*)"
     ],
     "deny": [],
     "ask": []

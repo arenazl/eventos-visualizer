@@ -2,21 +2,41 @@
   "country": "República Dominicana",
   "country_code": "DO",
   "region": "Caribe",
-  "cities": [
+  "provinces": [
     {
-      "name": "Santo Domingo",
-      "latitude": 18.4861,
-      "longitude": -69.9312
+      "name": "Distrito Nacional",
+      "cities": [
+        {"name": "Santo Domingo", "latitude": 18.4861, "longitude": -69.9312, "barrios": [
+          {"name": "Zona Colonial", "latitude": 18.4727, "longitude": -69.8894},
+          {"name": "Piantini", "latitude": 18.4700, "longitude": -69.9450}
+        ]}
+      ]
     },
     {
-      "name": "Punta Cana",
-      "latitude": 18.5601,
-      "longitude": -68.3725
+      "name": "La Altagracia",
+      "cities": [
+        {"name": "Punta Cana", "latitude": 18.5601, "longitude": -68.3725},
+        {"name": "Bávaro", "latitude": 18.6921, "longitude": -68.4549}
+      ]
     },
     {
       "name": "Santiago",
-      "latitude": 19.4517,
-      "longitude": -70.6970
+      "cities": [
+        {"name": "Santiago de los Caballeros", "latitude": 19.4517, "longitude": -70.6970}
+      ]
+    },
+    {
+      "name": "Puerto Plata",
+      "cities": [
+        {"name": "Puerto Plata", "latitude": 19.7904, "longitude": -70.6938},
+        {"name": "Sosúa", "latitude": 19.7522, "longitude": -70.5196}
+      ]
+    },
+    {
+      "name": "Samaná",
+      "cities": [
+        {"name": "Las Terrenas", "latitude": 19.3106, "longitude": -69.5369}
+      ]
     }
   ]
 }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { useLocation } from 'react-router-dom'
 import EventCardModern from '../components/EventCardModern'
 import SmartLocationBar from '../components/SmartLocationBar'
 import AIRecommendations, { NoResultsWithAI } from '../components/AIRecommendations'
@@ -7,8 +8,6 @@ import { EmptyEventsAnimation, EmptyEventsCompact } from '../components/EmptyEve
 import AuthModal from '../components/AuthModal'
 import Header from '../components/Header'
 import ScrapersDetailPanel from '../components/ScrapersDetailPanel'
-import FloatingChat from '../components/FloatingChat'
-import FloatingJuan from '../components/FloatingJuan'
 import { useEvents } from '../stores/EventsStore'
 import { useAuth } from '../contexts/AuthContext'
 import { useAssistants } from '../contexts/AssistantsContext'
@@ -25,9 +24,17 @@ interface Location {
   coordinates?: { lat: number; lng: number }
   country?: string
   detected: 'gps' | 'manual' | 'prompt' | 'fallback'
+  // Metadata para barrios (info de la base de datos)
+  metadata?: {
+    neighborhood?: string
+    city?: string
+    country?: string | null
+    province?: string | null
+  }
 }
 
 const HomePageModern: React.FC = () => {
+  const location = useLocation()
   const {
     events,
     loading,
@@ -115,6 +122,35 @@ const HomePageModern: React.FC = () => {
       setOnNoEventsCallback(triggerNoEventsComment)
     }
   }, [setOnNoEventsCallback, triggerNoEventsComment])
+
+  // 🔄 SIEMPRE RECARGAR cuando vuelve al home
+  const lastLocationRef = useRef(location.pathname)
+  useEffect(() => {
+    // Si vuelves de una página de detalle (/event/*) al home (/)
+    if (lastLocationRef.current.startsWith('/event/') && location.pathname === '/' && currentLocation) {
+      console.log('🔙 Volviendo de detalle - recargando eventos frescos desde MySQL...')
+      // Limpiar eventos primero para forzar recarga
+      startStreamingSearch(currentLocation)
+    }
+    lastLocationRef.current = location.pathname
+  }, [location.pathname, currentLocation, startStreamingSearch])
+
+  // 🔄 DETECTAR CUANDO VUELVES DE DETALLE Y RECARGAR EVENTOS (visibilidad)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      // Solo recargar si la página se vuelve visible Y hay eventos en memoria
+      if (!document.hidden && events.length > 0 && currentLocation) {
+        console.log('👁️ Página visible de nuevo - recargando eventos desde MySQL...')
+        startStreamingSearch(currentLocation)
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
+  }, [events.length, currentLocation, startStreamingSearch])
 
   // 🏷️ Calcular categorías dinámicamente desde los eventos VÁLIDOS existentes
   useEffect(() => {
@@ -801,11 +837,16 @@ const HomePageModern: React.FC = () => {
         onLocationClick={() => { }}
         onLocationSelect={handleLocationSelect}
         isSearching={loading || isStreaming || isSearchButtonSpinning}
-        currentLocation={currentLocation?.name}
+        currentLocation={
+          // Si es un barrio (tiene metadata.city), mostrar "Barrio, Ciudad"
+          currentLocation?.metadata?.neighborhood && currentLocation?.metadata?.city
+            ? `${currentLocation.metadata.neighborhood}, ${currentLocation.metadata.city}`
+            : currentLocation?.name
+        }
       />
 
       {/* CONTENIDO PRINCIPAL - padding reducido en mobile */}
-      <main className="pt-16 px-2 sm:px-4 lg:px-8">
+      <main className="pt-4 px-2 sm:px-4 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Loading inicial - Detectando ubicación */}
           {isDetectingLocation && (
@@ -841,135 +882,35 @@ const HomePageModern: React.FC = () => {
           {/* Panel Técnico Detallado */}
           <ScrapersDetailPanel />
 
-          {/* Category Filters - Compact grid for mobile */}
-          <div className="mb-8">
-            {/* 🔒 Mensaje cuando no hay ubicación seleccionada */}
-            {!currentLocation && (
-              <div className="text-center mb-4 px-4 py-3 bg-yellow-500/20 backdrop-blur-xl border border-yellow-400/30 rounded-xl max-w-md mx-auto animate-fade-in">
-                <p className="text-yellow-200 text-sm font-medium">
-                  📍 <strong>Primero elige una ubicación</strong> para poder filtrar por categorías
-                </p>
-              </div>
-            )}
-
-            {/* Header de Categorías */}
-            <div className="text-center mb-3">
-              <p className="text-white/60 text-sm font-medium">
-                🏷️ Categorías
-              </p>
+          {/* 🏷️ CATEGORÍAS - Botones con iconos y gradientes */}
+          <div className="mb-6">
+            <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              {displayCategories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => handleCategoryClick(category)}
+                  className={`flex-shrink-0 group relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ease-out whitespace-nowrap bg-gradient-to-r ${getCategoryGradient(category)} transform ${
+                    activeCategory === category
+                      ? 'text-white shadow-lg shadow-purple-500/20 scale-110 opacity-80'
+                      : 'opacity-40 hover:opacity-60 text-white hover:scale-105 active:scale-95'
+                  }`}
+                >
+                  <FontAwesomeIcon
+                    icon={getCategoryIcon(category)}
+                    className={`w-4 h-4 transition-transform duration-300 ${activeCategory === category ? 'scale-110' : 'group-hover:scale-110'}`}
+                  />
+                  <span>{category}</span>
+                  {/* Badge con cantidad */}
+                  {category !== 'Todos' && categories.find(c => getCategoryDisplayName(c.name) === category) && (
+                    <span className={`ml-1 text-xs px-1.5 py-0.5 rounded-full ${
+                      activeCategory === category ? 'bg-white/30' : 'bg-white/20'
+                    }`}>
+                      {categories.find(c => getCategoryDisplayName(c.name) === category)?.count || 0}
+                    </span>
+                  )}
+                </button>
+              ))}
             </div>
-
-            {/* Una sola fila - iconos en mobile, texto en desktop */}
-            <div className="flex gap-2 md:gap-3 overflow-x-auto md:overflow-visible scrollbar-hide pb-2 md:flex-wrap md:justify-center">
-              {/* Skeleton mientras cargan las categorías */}
-              {loadingCategories ? (
-                <>
-                  {[1, 2, 3, 4, 5, 6].map((i) => (
-                    <div key={i} className="relative rounded-xl bg-white/10 backdrop-blur-lg animate-pulse w-14 h-14 md:w-auto md:h-auto md:px-6 md:py-3 flex-shrink-0">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-8 h-8 bg-white/20 rounded-full"></div>
-                      </div>
-                    </div>
-                  ))}
-                </>
-              ) : (
-                /* Categorías dinámicas - compact grid style */
-                displayCategories.map((category) => {
-                  const gradient = getCategoryGradient(category)
-                  const icon = getCategoryIcon(category)
-                  const isActive = activeCategory === category
-                  const isDisabled = !currentLocation
-                  const isOtherActive = activeCategory !== 'Todos' && !isActive
-
-                  return (
-                    <button
-                      key={category}
-                      onClick={() => handleCategoryClick(category)}
-                      disabled={isDisabled}
-                      className={`group relative transition-all duration-300 ${
-                        isActive ? 'z-10' : isOtherActive ? 'opacity-60' : ''
-                        } ${isDisabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'
-                        }`}
-                      title={isDisabled ? 'Elige una ubicación primero' : `Filtrar por ${category}`}
-                    >
-                      {/* Glow effect - más brillante */}
-                      <div className={`absolute -inset-1 bg-gradient-to-r ${gradient} rounded-xl blur-lg ${
-                        isDisabled ? 'opacity-30' :
-                        isActive ? 'opacity-100' :
-                        isOtherActive ? 'opacity-40' :
-                        'opacity-60 group-hover:opacity-90'
-                        } transition-opacity`}></div>
-
-                      {/* Card - Solo icono en mobile, icono+texto en desktop */}
-                      <div className={`relative rounded-xl overflow-hidden transition-all flex-shrink-0 flex items-center justify-center
-                        w-14 h-14 md:w-auto md:h-auto md:px-6 md:py-3
-                        ${isActive
-                        ? `bg-gradient-to-br ${gradient} text-white shadow-2xl`
-                        : isDisabled
-                          ? 'bg-white/5 backdrop-blur-lg text-white/40'
-                          : 'bg-white/15 backdrop-blur-lg text-white hover:bg-white/30'
-                        }`}>
-                        {/* Icono FontAwesome (siempre visible) */}
-                        <FontAwesomeIcon
-                          icon={icon}
-                          className={`text-xl md:text-lg transition-transform ${
-                            isActive ? 'scale-110 md:scale-100' : 'group-hover:scale-110'
-                          }`}
-                        />
-
-                        {/* Texto (solo desktop) */}
-                        <span className={`hidden md:inline-block md:ml-2 font-semibold ${
-                          isActive ? 'text-white' : 'text-white/90'
-                        }`}>
-                          {category}
-                        </span>
-                      </div>
-                    </button>
-                  )
-                })
-              )}
-            </div>
-
-            {/* Botones de ciudades cercanas - justo después de categorías */}
-            {nearbyCities.length > 0 && (
-              <div className="mt-4 flex justify-center">
-                <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl px-4 py-3 inline-flex flex-col items-center gap-2">
-                  <span className="text-white/60 text-xs">📍 Ciudades cercanas</span>
-                  <div className="flex gap-2 flex-wrap justify-center">
-                    {/* Ciudad actual */}
-                    <button
-                      className="px-3 py-1.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg text-xs font-medium shadow-lg cursor-default"
-                    >
-                      {currentLocation?.name}
-                    </button>
-
-                    {/* Ciudades cercanas */}
-                    {nearbyCities.slice(0, 4).map((city, idx) => (
-                      <button
-                        key={idx}
-                        onClick={async () => {
-                          console.log(`🏙️ Cambiando a ciudad: ${city}`)
-                          setIsSearchButtonSpinning(true)
-
-                          if (events.length > 0) {
-                            setIsEventsFadingOut(true)
-                            await new Promise(resolve => setTimeout(resolve, 300))
-                          }
-
-                          await searchSpecificCity(city, true)
-
-                          setIsEventsFadingOut(false)
-                          setIsSearchButtonSpinning(false)
-                        }}
-                        className="px-3 py-1.5 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-lg text-xs font-medium hover:bg-white/20 hover:border-white/30 transform hover:scale-105 transition-all duration-200"
-                      >
-                        {city}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
 
           {/* ❌ MENSAJES AUTO-LOAD ELIMINADOS - Ya no se auto-cargan eventos expandidos */}
@@ -1258,10 +1199,6 @@ const HomePageModern: React.FC = () => {
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
       />
-
-      {/* Floating Assistants with Grok */}
-      <FloatingChat />
-      <FloatingJuan />
     </div>
   )
 }

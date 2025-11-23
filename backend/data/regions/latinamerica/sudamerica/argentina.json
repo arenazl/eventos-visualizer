@@ -2,33 +2,248 @@
   "country": "Argentina",
   "country_code": "AR",
   "region": "Sudamérica",
-  "cities": [
+  "provinces": [
+    {
+      "name": "Ciudad Autónoma de Buenos Aires",
+      "cities": [
+        {
+          "name": "Buenos Aires",
+          "latitude": -34.6037,
+          "longitude": -58.3816,
+          "barrios": [
+            {"name": "Palermo", "latitude": -34.5889, "longitude": -58.4267},
+            {"name": "Recoleta", "latitude": -34.5883, "longitude": -58.3958},
+            {"name": "San Telmo", "latitude": -34.6217, "longitude": -58.3719},
+            {"name": "Puerto Madero", "latitude": -34.6095, "longitude": -58.3634},
+            {"name": "Belgrano", "latitude": -34.5630, "longitude": -58.4539},
+            {"name": "Caballito", "latitude": -34.6186, "longitude": -58.4421},
+            {"name": "Villa Crespo", "latitude": -34.5986, "longitude": -58.4389},
+            {"name": "Almagro", "latitude": -34.6094, "longitude": -58.4194},
+            {"name": "Núñez", "latitude": -34.5453, "longitude": -58.4556},
+            {"name": "Colegiales", "latitude": -34.5744, "longitude": -58.4483}
+          ]
+        }
+      ]
+    },
     {
       "name": "Buenos Aires",
-      "latitude": -34.6037,
-      "longitude": -58.3816,
-      "barrios": [
-        {"name": "Palermo", "latitude": -34.5889, "longitude": -58.4267},
-        {"name": "Recoleta", "latitude": -34.5883, "longitude": -58.3958},
-        {"name": "San Telmo", "latitude": -34.6217, "longitude": -58.3719},
-        {"name": "Puerto Madero", "latitude": -34.6095, "longitude": -58.3634},
-        {"name": "Belgrano", "latitude": -34.5630, "longitude": -58.4539},
-        {"name": "Caballito", "latitude": -34.6195, "longitude": -58.4393},
-        {"name": "Retiro", "latitude": -34.5957, "longitude": -58.3770},
-        {"name": "Almagro", "latitude": -34.6056, "longitude": -58.4195},
-        {"name": "Villa Crespo", "latitude": -34.5996, "longitude": -58.4390},
-        {"name": "Núñez", "latitude": -34.5447, "longitude": -58.4570}
+      "cities": [
+        {
+          "name": "La Plata",
+          "latitude": -34.9205,
+          "longitude": -57.9536
+        },
+        {
+          "name": "Mar del Plata",
+          "latitude": -38.0023,
+          "longitude": -57.5575
+        },
+        {
+          "name": "Bahía Blanca",
+          "latitude": -38.7196,
+          "longitude": -62.2724
+        },
+        {
+          "name": "Quilmes",
+          "latitude": -34.7203,
+          "longitude": -58.2635
+        }
       ]
     },
     {
       "name": "Córdoba",
-      "latitude": -31.4201,
-      "longitude": -64.1888
+      "cities": [
+        {
+          "name": "Córdoba",
+          "latitude": -31.4201,
+          "longitude": -64.1888
+        },
+        {
+          "name": "Villa Carlos Paz",
+          "latitude": -31.4241,
+          "longitude": -64.4978
+        },
+        {
+          "name": "Río Tercero",
+          "latitude": -32.1731,
+          "longitude": -64.1142
+        },
+        {
+          "name": "Villa María",
+          "latitude": -32.4075,
+          "longitude": -63.2421
+        },
+        {
+          "name": "Río Cuarto",
+          "latitude": -33.1307,
+          "longitude": -64.3499
+        }
+      ]
     },
     {
-      "name": "Rosario",
-      "latitude": -32.9468,
-      "longitude": -60.6393
+      "name": "Santa Fe",
+      "cities": [
+        {
+          "name": "Rosario",
+          "latitude": -32.9468,
+          "longitude": -60.6393
+        },
+        {
+          "name": "Santa Fe",
+          "latitude": -31.6333,
+          "longitude": -60.7000
+        },
+        {
+          "name": "Rafaela",
+          "latitude": -31.2530,
+          "longitude": -61.4867
+        },
+        {
+          "name": "Venado Tuerto",
+          "latitude": -33.7456,
+          "longitude": -61.9689
+        }
+      ]
+    },
+    {
+      "name": "Mendoza",
+      "cities": [
+        {
+          "name": "Mendoza",
+          "latitude": -32.8895,
+          "longitude": -68.8458
+        },
+        {
+          "name": "San Rafael",
+          "latitude": -34.6177,
+          "longitude": -68.3301
+        },
+        {
+          "name": "Godoy Cruz",
+          "latitude": -32.9167,
+          "longitude": -68.8500
+        },
+        {
+          "name": "Luján de Cuyo",
+          "latitude": -33.0333,
+          "longitude": -68.8667
+        }
+      ]
+    },
+    {
+      "name": "Tucumán",
+      "cities": [
+        {
+          "name": "San Miguel de Tucumán",
+          "latitude": -26.8083,
+          "longitude": -65.2176
+        },
+        {
+          "name": "Yerba Buena",
+          "latitude": -26.8167,
+          "longitude": -65.3167
+        },
+        {
+          "name": "Tafí Viejo",
+          "latitude": -26.7333,
+          "longitude": -65.2667
+        }
+      ]
+    },
+    {
+      "name": "Salta",
+      "cities": [
+        {
+          "name": "Salta",
+          "latitude": -24.7821,
+          "longitude": -65.4232
+        },
+        {
+          "name": "San Lorenzo",
+          "latitude": -24.7300,
+          "longitude": -65.4900
+        },
+        {
+          "name": "Cafayate",
+          "latitude": -26.0724,
+          "longitude": -65.9769
+        }
+      ]
+    },
+    {
+      "name": "San Juan",
+      "cities": [
+        {
+          "name": "San Juan",
+          "latitude": -31.5375,
+          "longitude": -68.5364
+        },
+        {
+          "name": "Rawson",
+          "latitude": -31.5333,
+          "longitude": -68.5333
+        }
+      ]
+    },
+    {
+      "name": "Entre Ríos",
+      "cities": [
+        {
+          "name": "Paraná",
+          "latitude": -31.7319,
+          "longitude": -60.5238
+        },
+        {
+          "name": "Concordia",
+          "latitude": -31.3930,
+          "longitude": -58.0209
+        },
+        {
+          "name": "Gualeguaychú",
+          "latitude": -33.0094,
+          "longitude": -58.5172
+        }
+      ]
+    },
+    {
+      "name": "Neuquén",
+      "cities": [
+        {
+          "name": "Neuquén",
+          "latitude": -38.9516,
+          "longitude": -68.0591
+        },
+        {
+          "name": "San Martín de los Andes",
+          "latitude": -40.1579,
+          "longitude": -71.3524
+        },
+        {
+          "name": "Villa La Angostura",
+          "latitude": -40.7625,
+          "longitude": -71.6463
+        }
+      ]
+    },
+    {
+      "name": "Río Negro",
+      "cities": [
+        {
+          "name": "San Carlos de Bariloche",
+          "latitude": -41.1335,
+          "longitude": -71.3103
+        },
+        {
+          "name": "General Roca",
+          "latitude": -39.0333,
+          "longitude": -67.5833
+        },
+        {
+          "name": "Viedma",
+          "latitude": -40.8135,
+          "longitude": -62.9967
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,47 @@
+{
+  "_comment": "Prompts para AI scrapers - SISTEMA ELÁSTICO",
+  "_version": "1.0",
+  "_last_updated": "2025-11-14",
+
+  "ai_scrapers": {
+    "default_template": "me podrías pasar por lo menos 20 eventos, fiestas, festivales, encuentros en {lugar} a partir de hoy y las próximas semanas?, si puede ser que incluya su nombre, descripción, fecha, lugar, dirección, precio y alguna info extra que tengas!",
+
+    "_comment_template": "Usar {lugar} como placeholder - se reemplazará con ciudad/barrio",
+
+    "variations": {
+      "gemini": "me podrías pasar por lo menos 20 eventos, fiestas, festivales, encuentros en {lugar} a partir de hoy y las próximas semanas?, si puede ser que incluya su nombre, descripción, fecha, lugar, dirección, barrio, precio y alguna info extra que tengas!",
+
+      "felo": "dame por lo menos 20 eventos en {lugar} a partir de hoy y las próximas semanas, necesito nombre, descripción, fecha, lugar, dirección, barrio y precio",
+
+      "grok": "dame por lo menos 20 eventos en {lugar} a partir de hoy y las próximas semanas, incluí nombre, descripción, fecha, ubicación, barrio y precio",
+
+      "perplexity": "dame por lo menos 20 eventos en {lugar} a partir de hoy y las próximas semanas con nombre, descripción, fecha, lugar, barrio y precio"
+    },
+
+    "required_fields": [
+      "nombre/title",
+      "descripción/description",
+      "fecha/date",
+      "lugar/venue",
+      "dirección/address",
+      "barrio/neighborhood",
+      "precio/price"
+    ],
+
+    "_instructions": {
+      "agregar_variacion": "Agregar nuevo sitio_id: 'prompt personalizado con {lugar}'",
+      "testing_prompts": "Probar manualmente en el sitio antes de agregar",
+      "mantener_informal": "Usar lenguaje casual para evitar detección de bots"
+    }
+  },
+
+  "parsing": {
+    "use_ai_for_parsing": true,
+    "_comment_ai": "Si true, usar Gemini API para convertir raw text a JSON",
+
+    "ai_parse_prompt": "Convierte esta lista de eventos a JSON válido. Formato: [{\"nombre\":\"...\", \"descripcion\":\"...\", \"fecha\":\"YYYY-MM-DD\", \"lugar\":\"...\", \"direccion\":\"...\", \"precio\":\"...\"}]. IMPORTANTE: Responde SOLO con el JSON array, sin markdown ni texto adicional.\n\nTexto:\n{raw_text}",
+
+    "fallback_to_regex": true,
+    "_comment_fallback": "Si AI parsing falla, intentar con regex patterns"
+  }
+}

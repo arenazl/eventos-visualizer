@@ -2,21 +2,31 @@
   "country": "Finlandia",
   "country_code": "FI",
   "region": "Europa Septentrional",
-  "cities": [
+  "regions": [
     {
-      "name": "Helsinki",
-      "latitude": 60.1699,
-      "longitude": 24.9384
+      "name": "Uusimaa",
+      "cities": [
+        {"name": "Helsinki", "latitude": 60.1699, "longitude": 24.9384},
+        {"name": "Espoo", "latitude": 60.2055, "longitude": 24.6559}
+      ]
     },
     {
-      "name": "Espoo",
-      "latitude": 60.2055,
-      "longitude": 24.6559
+      "name": "Pirkanmaa",
+      "cities": [
+        {"name": "Tampere", "latitude": 61.4978, "longitude": 23.7610}
+      ]
     },
     {
-      "name": "Tampere",
-      "latitude": 61.4978,
-      "longitude": 23.7610
+      "name": "Varsinais-Suomi",
+      "cities": [
+        {"name": "Turku", "latitude": 60.4518, "longitude": 22.2666}
+      ]
+    },
+    {
+      "name": "Laponia",
+      "cities": [
+        {"name": "Rovaniemi", "latitude": 66.5039, "longitude": 25.7294}
+      ]
     }
   ]
 }

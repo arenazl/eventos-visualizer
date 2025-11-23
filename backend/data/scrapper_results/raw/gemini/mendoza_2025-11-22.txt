@@ -1,0 +1,29 @@
+¡Hola! Con gusto te preparo una tabla con 20 eventos en Mendoza, Argentina, a partir de hoy (sábado 22 de noviembre de 2025) y para las próximas semanas, incluyendo toda la información solicitada.
+
+Ten en cuenta que la información de precios, direcciones y barrios puede ser aproximada o requerir confirmación debido a que los eventos pueden ser muy dinámicos y la búsqueda no siempre arroja el dato exacto para todos. Te recomiendo siempre verificar los detalles en los sitios web oficiales o redes sociales de cada evento.
+
+Aquí tienes la tabla con las columnas separadas por tabs según tu solicitud:
+
+N°	Nombre del Evento	Descripción	Fecha	Lugar / Dirección	Barrio	Precio (ARS)	Info Extra
+1	Corona Sunsets - WhoMadeWho	Jornada de música electrónica con el grupo danés WhoMadeWho. Ambiente de atardecer.	Sáb. 22 de Noviembre	Puesto del Indio, El Challao	Las Heras	A consultar	Evento de música electrónica reconocido.
+2	Facundo Arana - "En el aire"	Obra de teatro que propone un viaje mágico y nostálgico con recuerdos y afectos.	Sáb. 22 de Noviembre	Teatro Mendoza	Ciudad de Mendoza (Centro)	A consultar	Protagonizado por Facundo Arana.
+3	Sunset El Roble: Migrantes	Atardecer con buena música, cocktails, gastronomía y el grupo Migrantes.	Sáb. 22 de Noviembre	El Roble Wake Complex (Julio Argentino Roca 2787-3767)	Coquimbito, Maipú	A consultar	Ideal para disfrutar el atardecer mendocino.
+4	Atardeceres del Vino en La Finquita	Sunset con degustación de vinos, coctelería y música para bailar.	Sáb. 22 de Noviembre (y sábados hasta febrero)	La Finquita 1920 (Manuel Cruz Videla 450)	Maipú	A consultar	Degustación de vinos y coctelería.
+5	Aurora en Bodega Furlotti	Noche de baile y ritmo en la bodega. Una experiencia especial y diferente.	Sáb. 22 de Noviembre	Bodega Furlotti (Donado 640)	Luján de Cuyo	A consultar	Noche cultural a todo ritmo en bodega.
+6	Tributo a Soda Stereo (MIL990)	Show de la banda tributo MIL990 a Soda Stereo.	Sáb. 22 de Noviembre	23 Ríos Craft Beer	Luján de Cuyo	A consultar	Espectáculo musical en cervecería artesanal.
+7	Obra "La Jenny ¿Dónde está Juan Carlos?"	Obra de teatro.	Dom. 23 de Noviembre (fecha tentativa, se extiende del 21 al 22/11 según fuente)	A consultar	A consultar	A consultar	Humor. Verificar fecha exacta.
+8	Mendoza Sax Fest	Festival de Saxofón con música, talento y conexión global.	Del 21 al 24 de Noviembre	Teatro Independencia (Chile 1184)	Ciudad de Mendoza (Centro)	A consultar	Festival dedicado al saxofón, varios días.
+9	Lanzamiento Clúster SICONM+	Evento de lanzamiento y networking del Clúster SICONM+.	Jue. 27 de Noviembre, 18:00 hs.	Mendoza TIC Parque Tecnológico	Godoy Cruz / Luján de Cuyo (zona límite)	Verificar	Evento empresarial/tecnológico. Venta rápida.
+10	Foro Logístico Mendoza 2025: Conectar con el futuro	Foro sobre logística y la conexión con el futuro.	Vie. 28 de Noviembre, 8:30 hs.	Nave Cultural	Ciudad de Mendoza (Parque Central)	Verificar	Evento profesional/empresarial.
+11	SUNSET FIN DE AÑO	Fiesta de atardecer para celebrar el fin de año.	Vie. 28 de Noviembre, 19:30 hs.	A consultar	A consultar	Verificar	Fiesta, probablemente en bodega o terraza.
+12	MANIFIESTO AN	Evento cultural o artístico.	Sáb. 29 de Noviembre, 19:30 hs.	A consultar	A consultar	Verificar	Venta rápida de entradas.
+13	BRINDIS FIN DE AÑO	Brindis y celebración de fin de año.	Vie. 5 de Diciembre, 21:00 hs.	A consultar	A consultar	Verificar	Probablemente evento corporativo o social.
+14	Fiesta Provincial De La Cerveza	Festival popular con bandas, patio de comidas y, por supuesto, mucha cerveza artesanal.	Del 5 al 7 de Diciembre	Espacio Verde Luis Menotti Pescarmona	Godoy Cruz	A consultar	Uno de los festivales más importantes de la provincia.
+15	Tras la montaña	Evento cultural o encuentro.	Jue. 11 de Diciembre, 10:00 hs.	A consultar	A consultar	Verificar	Evento diurno.
+16	FESTEJO FIN DE AÑO RENZO LORCA	Celebración de fin de año de un artista o marca.	Sáb. 27 de Diciembre, 20:00 hs.	La Barraca Mall	Godoy Cruz	Verificar	Evento en conocido centro comercial. Venta rápida.
+17	Fiesta Del Chivo	Fiesta popular con jineteadas, domas, artesanías, música y gastronomía típica (el chivo).	Del 8 al 12 de Enero de 2026	Predio Ferial	Malargüe	A consultar	Fiesta tradicional del sur de Mendoza.
+18	Festival Rivadavia Canta Al País	Festival folclórico con artistas nacionales y locales.	Del 31 de Enero al 2 de Febrero de 2026	Complejo Deportivo Municipal	Rivadavia	A consultar	Uno de los festivales de folclore más importantes de Cuyo.
+19	Festival de la Tonada	Festival de la música cuyana, con énfasis en la tonada, folclore y artistas de primer nivel.	1 y 2 de Febrero de 2026	Anfiteatro Tunuyán	Tunuyán (Valle de Uco)	A consultar	Festival cuyano de gran trayectoria.
+20	Festival de la Cueca y el Damasco	Fiesta popular que celebra la cosecha y la cultura local, con énfasis en la danza (Cueca) y el producto (Damasco).	Del 14 al 16 de Febrero de 2026	Predio Municipal	Santa Rosa	A consultar	Festival tradicional con gastronomía y danza.
+
+Nota: Los precios son indicativos y pueden variar. Se recomienda siempre verificar la información final de horarios, direcciones exactas y costos de entrada en las webs oficiales o puntos de venta de cada evento.

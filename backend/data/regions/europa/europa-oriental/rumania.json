@@ -2,21 +2,42 @@
   "country": "Rumania",
   "country_code": "RO",
   "region": "Europa Oriental",
-  "cities": [
+  "counties": [
     {
       "name": "Bucarest",
-      "latitude": 44.4268,
-      "longitude": 26.1025
+      "cities": [
+        {"name": "Bucarest", "latitude": 44.4268, "longitude": 26.1025}
+      ]
     },
     {
-      "name": "Cluj-Napoca",
-      "latitude": 46.7712,
-      "longitude": 23.6236
+      "name": "Cluj",
+      "cities": [
+        {"name": "Cluj-Napoca", "latitude": 46.7712, "longitude": 23.6236}
+      ]
     },
     {
-      "name": "Timișoara",
-      "latitude": 45.7489,
-      "longitude": 21.2087
+      "name": "Timiș",
+      "cities": [
+        {"name": "Timișoara", "latitude": 45.7489, "longitude": 21.2087}
+      ]
+    },
+    {
+      "name": "Constanța",
+      "cities": [
+        {"name": "Constanța", "latitude": 44.1598, "longitude": 28.6348}
+      ]
+    },
+    {
+      "name": "Brașov",
+      "cities": [
+        {"name": "Brașov", "latitude": 45.6579, "longitude": 25.6012}
+      ]
+    },
+    {
+      "name": "Sibiu",
+      "cities": [
+        {"name": "Sibiu", "latitude": 45.7983, "longitude": 24.1256}
+      ]
     }
   ]
 }

@@ -2,21 +2,34 @@
   "country": "Panamá",
   "country_code": "PA",
   "region": "Centroamérica",
-  "cities": [
+  "provinces": [
     {
-      "name": "Ciudad de Panamá",
-      "latitude": 8.9824,
-      "longitude": -79.5199
+      "name": "Panamá",
+      "cities": [
+        {"name": "Ciudad de Panamá", "latitude": 8.9824, "longitude": -79.5199, "barrios": [
+          {"name": "Casco Viejo", "latitude": 8.9514, "longitude": -79.5347},
+          {"name": "Punta Pacífica", "latitude": 8.9833, "longitude": -79.5167}
+        ]}
+      ]
     },
     {
       "name": "Colón",
-      "latitude": 9.3592,
-      "longitude": -79.9009
+      "cities": [
+        {"name": "Colón", "latitude": 9.3592, "longitude": -79.9009}
+      ]
     },
     {
-      "name": "David",
-      "latitude": 8.4270,
-      "longitude": -82.4305
+      "name": "Chiriquí",
+      "cities": [
+        {"name": "David", "latitude": 8.4270, "longitude": -82.4305},
+        {"name": "Boquete", "latitude": 8.7806, "longitude": -82.4406}
+      ]
+    },
+    {
+      "name": "Bocas del Toro",
+      "cities": [
+        {"name": "Bocas del Toro", "latitude": 9.3407, "longitude": -82.2419}
+      ]
     }
   ]
 }

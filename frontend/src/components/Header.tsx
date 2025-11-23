@@ -358,8 +358,8 @@ const Header: React.FC<HeaderProps> = ({
                         setShowSuggestions(true)
                       }
                     }}
-                    placeholder="Ciudad, provincia o país..."
-                    className={`w-full bg-transparent text-white placeholder-white/40 outline-none font-medium transition-all duration-300 ${
+                    placeholder={currentLocation || "Ciudad, provincia o país..."}
+                    className={`w-full bg-transparent text-white placeholder-white/60 outline-none font-medium transition-all duration-300 ${
                       isScrolled ? 'py-1.5 text-xs md:text-sm' : 'py-2 md:py-3 text-xs md:text-base'
                     }`}
                   />

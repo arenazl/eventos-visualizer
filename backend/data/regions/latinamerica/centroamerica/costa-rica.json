@@ -2,21 +2,44 @@
   "country": "Costa Rica",
   "country_code": "CR",
   "region": "Centroamérica",
-  "cities": [
+  "provinces": [
     {
       "name": "San José",
-      "latitude": 9.9281,
-      "longitude": -84.0907
+      "cities": [
+        {"name": "San José", "latitude": 9.9281, "longitude": -84.0907}
+      ]
     },
     {
       "name": "Heredia",
-      "latitude": 9.9989,
-      "longitude": -84.1199
+      "cities": [
+        {"name": "Heredia", "latitude": 9.9989, "longitude": -84.1199}
+      ]
     },
     {
-      "name": "Cartago",
-      "latitude": 9.8626,
-      "longitude": -83.9195
+      "name": "Guanacaste",
+      "cities": [
+        {"name": "Liberia", "latitude": 10.6346, "longitude": -85.4407},
+        {"name": "Tamarindo", "latitude": 10.2994, "longitude": -85.8372}
+      ]
+    },
+    {
+      "name": "Puntarenas",
+      "cities": [
+        {"name": "Manuel Antonio", "latitude": 9.3920, "longitude": -84.1369},
+        {"name": "Jacó", "latitude": 9.6150, "longitude": -84.6288}
+      ]
+    },
+    {
+      "name": "Limón",
+      "cities": [
+        {"name": "Puerto Viejo", "latitude": 9.6561, "longitude": -82.7542}
+      ]
+    },
+    {
+      "name": "Alajuela",
+      "cities": [
+        {"name": "La Fortuna", "latitude": 10.4679, "longitude": -84.6434}
+      ]
     }
   ]
 }

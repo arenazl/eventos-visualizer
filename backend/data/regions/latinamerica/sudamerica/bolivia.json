@@ -2,21 +2,37 @@
   "country": "Bolivia",
   "country_code": "BO",
   "region": "Sudamérica",
-  "cities": [
+  "departments": [
     {
       "name": "La Paz",
-      "latitude": -16.5000,
-      "longitude": -68.1500
+      "cities": [
+        {"name": "La Paz", "latitude": -16.5000, "longitude": -68.1500}
+      ]
     },
     {
       "name": "Santa Cruz",
-      "latitude": -17.8146,
-      "longitude": -63.1561
+      "cities": [
+        {"name": "Santa Cruz de la Sierra", "latitude": -17.8146, "longitude": -63.1561}
+      ]
     },
     {
       "name": "Cochabamba",
-      "latitude": -17.3895,
-      "longitude": -66.1568
+      "cities": [
+        {"name": "Cochabamba", "latitude": -17.3895, "longitude": -66.1568}
+      ]
+    },
+    {
+      "name": "Potosí",
+      "cities": [
+        {"name": "Potosí", "latitude": -19.5836, "longitude": -65.7531},
+        {"name": "Uyuni", "latitude": -20.4603, "longitude": -66.8256}
+      ]
+    },
+    {
+      "name": "Oruro",
+      "cities": [
+        {"name": "Oruro", "latitude": -17.9639, "longitude": -67.1143}
+      ]
     }
   ]
 }

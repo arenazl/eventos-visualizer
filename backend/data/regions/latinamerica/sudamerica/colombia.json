@@ -2,21 +2,63 @@
   "country": "Colombia",
   "country_code": "CO",
   "region": "Sudamérica",
-  "cities": [
+  "departments": [
     {
-      "name": "Bogotá",
-      "latitude": 4.7110,
-      "longitude": -74.0721
+      "name": "Bogotá D.C.",
+      "cities": [
+        {"name": "Bogotá", "latitude": 4.7110, "longitude": -74.0721, "barrios": [
+          {"name": "Chapinero", "latitude": 4.6486, "longitude": -74.0628},
+          {"name": "La Candelaria", "latitude": 4.5981, "longitude": -74.0761},
+          {"name": "Usaquén", "latitude": 4.6950, "longitude": -74.0311},
+          {"name": "Zona Rosa", "latitude": 4.6667, "longitude": -74.0522}
+        ]}
+      ]
     },
     {
-      "name": "Medellín",
-      "latitude": 6.2476,
-      "longitude": -75.5658
+      "name": "Antioquia",
+      "cities": [
+        {"name": "Medellín", "latitude": 6.2476, "longitude": -75.5658, "barrios": [
+          {"name": "El Poblado", "latitude": 6.2086, "longitude": -75.5659},
+          {"name": "Laureles", "latitude": 6.2447, "longitude": -75.5897},
+          {"name": "Envigado", "latitude": 6.1694, "longitude": -75.5867}
+        ]}
+      ]
     },
     {
-      "name": "Cali",
-      "latitude": 3.4516,
-      "longitude": -76.5320
+      "name": "Valle del Cauca",
+      "cities": [
+        {"name": "Cali", "latitude": 3.4516, "longitude": -76.5320}
+      ]
+    },
+    {
+      "name": "Atlántico",
+      "cities": [
+        {"name": "Barranquilla", "latitude": 10.9685, "longitude": -74.7813}
+      ]
+    },
+    {
+      "name": "Bolívar",
+      "cities": [
+        {"name": "Cartagena", "latitude": 10.3910, "longitude": -75.4794}
+      ]
+    },
+    {
+      "name": "Santander",
+      "cities": [
+        {"name": "Bucaramanga", "latitude": 7.1254, "longitude": -73.1198}
+      ]
+    },
+    {
+      "name": "Risaralda",
+      "cities": [
+        {"name": "Pereira", "latitude": 4.8133, "longitude": -75.6961}
+      ]
+    },
+    {
+      "name": "Magdalena",
+      "cities": [
+        {"name": "Santa Marta", "latitude": 11.2408, "longitude": -74.2110}
+      ]
     }
   ]
 }

@@ -53,12 +53,102 @@ def remove_accents(text: str) -> str:
     return without_accents
 
 
+def normalize_category(category: str) -> str:
+    """
+    Normaliza categorías a formato estándar (inglés, minúsculas)
+
+    Args:
+        category: Categoría en cualquier formato
+
+    Returns:
+        Categoría normalizada
+    """
+    if not category:
+        return 'other'
+
+    # Convertir a minúsculas y quitar espacios
+    cat_lower = category.lower().strip()
+
+    # Mapeo de categorías
+    CATEGORY_MAP = {
+        # Música
+        'musica': 'music',
+        'música': 'music',
+        'music': 'music',
+
+        # Deportes
+        'deportes': 'sports',
+        'sports': 'sports',
+
+        # Tecnología
+        'tech': 'tech',
+        'tecnología': 'tech',
+        'tecnologia': 'tech',
+        'negocios': 'tech',
+
+        # Cultural
+        'cultural': 'cultural',
+        'turismo': 'cultural',
+
+        # Comida
+        'food': 'food',
+        'gastronomía': 'food',
+        'gastronomia': 'food',
+        'feria': 'food',
+
+        # Nightlife
+        'nightlife': 'nightlife',
+        'fiestas': 'nightlife',
+        'party': 'nightlife',
+
+        # Festival
+        'festival': 'festival',
+
+        # Film
+        'film': 'film',
+        'cine': 'film',
+
+        # Theater
+        'theater': 'theater',
+        'theatre': 'theater',
+        'teatro': 'theater',
+
+        # Art
+        'art': 'art',
+        'arte': 'art',
+
+        # Otros
+        'other': 'other',
+        'general': 'other',
+        'entretenimiento': 'other',
+        'hobbies': 'other',
+        'ciencia': 'other',
+        'civico': 'other',
+        'cívico': 'other',
+        'comedy': 'other',
+    }
+
+    # Buscar mapeo exacto
+    if cat_lower in CATEGORY_MAP:
+        return CATEGORY_MAP[cat_lower]
+
+    # Si tiene múltiples categorías separadas por /, tomar la primera
+    if '/' in cat_lower:
+        first_cat = cat_lower.split('/')[0].strip()
+        if first_cat in CATEGORY_MAP:
+            return CATEGORY_MAP[first_cat]
+
+    # Default: other
+    return 'other'
+
+
 async def search_events_by_location(
     location: str,
     category: Optional[str] = None,
     limit: int = 100,
     days_ahead: int = 90,
-    include_parent_city: bool = True
+    include_parent_city: bool = True,
+    parent_city: Optional[str] = None  # ✨ NUEVO: Ciudad padre desde metadata del frontend
 ) -> List[Dict[str, Any]]:
     """
      BUSCAR EVENTOS POR UBICACIÓN EN MYSQL
@@ -69,6 +159,7 @@ async def search_events_by_location(
         limit: Límite de eventos (default: 100)
         days_ahead: Días hacia adelante (default: 90)
         include_parent_city: Si es True, detecta ciudad principal y busca también allí (default: True)
+        parent_city: Ciudad padre desde metadata del frontend (sin necesidad de IA)
 
     Returns:
         Lista de eventos desde MySQL Aiven
@@ -80,20 +171,37 @@ async def search_events_by_location(
         # Extraer ubicación (puede venir como "Buenos Aires, Argentina" o solo "Brasil")
         search_location = location.split(',')[0].strip()
 
-        # 🏙️ Detectar ciudad principal si está habilitado
-        parent_city = None
-        if include_parent_city:
+        # ✨ Si parent_city ya viene del frontend, usarlo directamente (sin AI, sin DB lookup extra)
+        if parent_city:
+            logger.info(f"🏙️ Usando parent_city del frontend: '{parent_city}' para '{search_location}'")
+        else:
+            # Solo hacer lookup si NO viene parent_city del frontend
+            # PRIMERO: Verificar en DB si la ubicación es un barrio
             try:
-                from services.gemini_factory import gemini_factory
-                # Timeout automático de 15s configurado en ai_providers.py
-                # Esto usa Grok automáticamente (PREFERRED_AI_PROVIDER=grok en .env)
-                parent_city = await gemini_factory.get_parent_location(search_location)
-                if parent_city:
-                    logger.info(f"🏙️ Detectada ciudad principal para '{search_location}': {parent_city}")
-            except TimeoutError:
-                logger.warning(f"⏱️ Timeout detectando ciudad principal (15s) - continuando sin detección")
+                neighborhood_check = session.execute(text('''
+                    SELECT DISTINCT city FROM events
+                    WHERE neighborhood LIKE :pattern
+                    AND city IS NOT NULL AND city != ''
+                    LIMIT 1
+                '''), {'pattern': f'%%{search_location}%%'})
+                row = neighborhood_check.fetchone()
+                if row and row[0]:
+                    parent_city = row[0]
+                    logger.info(f"🏙️ '{search_location}' detectado como barrio de '{parent_city}' (DB lookup)")
             except Exception as e:
-                logger.warning(f"⚠️ Error detectando ciudad principal: {e}")
+                logger.warning(f"⚠️ Error verificando barrio en DB: {e}")
+
+            # SI no se encontró en DB Y include_parent_city está habilitado, usar IA
+            if not parent_city and include_parent_city:
+                try:
+                    from services.gemini_factory import gemini_factory
+                    parent_city = await gemini_factory.get_parent_location(search_location)
+                    if parent_city:
+                        logger.info(f"🏙️ Detectada ciudad principal para '{search_location}': {parent_city} (IA)")
+                except TimeoutError:
+                    logger.warning(f"⏱️ Timeout detectando ciudad principal (15s) - continuando sin detección")
+                except Exception as e:
+                    logger.warning(f"⚠️ Error detectando ciudad principal: {e}")
 
         logger.info(f" Buscando eventos en MySQL para ubicación: '{search_location}'")
 
@@ -101,17 +209,18 @@ async def search_events_by_location(
         now = datetime.utcnow()
         end_date = now + timedelta(days=days_ahead)
 
-        # Query SQL simplificada - buscar solo en: country, city, external_id
+        # Query SQL simplificada - buscar en: country, city, neighborhood, external_id
         query = """
         SELECT
             id, title, description, event_url, image_url,
             venue_name, venue_address, city, category,
-            start_datetime, end_datetime, price, source
+            start_datetime, end_datetime, price, source, neighborhood
         FROM events
         WHERE
             (
                 country LIKE :location_pattern
                 OR city LIKE :location_pattern
+                OR neighborhood LIKE :location_pattern
                 OR external_id LIKE :location_pattern
         """
 
@@ -126,6 +235,7 @@ async def search_events_by_location(
             query += """
                 OR country LIKE :parent_pattern
                 OR city LIKE :parent_pattern
+                OR neighborhood LIKE :parent_pattern
                 OR external_id LIKE :parent_pattern
             """
             params['parent_pattern'] = f'%{parent_city}%'
@@ -143,9 +253,11 @@ async def search_events_by_location(
             query += " AND category LIKE :category"
             params['category'] = f'%{category}%'
 
-        # Ordenar por fecha
+        # Ordenar: primero eventos del barrio exacto, luego por fecha
         query += """
-            ORDER BY start_datetime ASC
+            ORDER BY
+                CASE WHEN neighborhood LIKE :location_pattern THEN 0 ELSE 1 END,
+                start_datetime ASC
             LIMIT :limit
         """
         params['limit'] = limit
@@ -156,7 +268,6 @@ async def search_events_by_location(
 
         # Convertir a diccionarios
         events = []
-        detected_city = None  # Para extraer ciudad de eventos con barrio
 
         for row in rows:
             # Convertir precio a float, si falla usar 0.0
@@ -166,13 +277,12 @@ async def search_events_by_location(
                 price = 0.0
 
             event_source = row[12] or ''
+            event_neighborhood = row[13] or ''  # Nuevo campo neighborhood
             event_city = row[7] or ''
 
-            # Si el evento tiene source (barrio) y coincide con la búsqueda, extraer la ciudad
-            if event_source and not parent_city and not detected_city:
-                if search_location.lower() in event_source.lower():
-                    detected_city = event_city
-                    logger.info(f"🏙️ Detectado que '{search_location}' es un barrio de '{detected_city}'")
+            # Normalizar categoría (depurar idiomas y variantes)
+            raw_category = row[8] or 'other'
+            normalized_category = normalize_category(raw_category)
 
             event = {
                 'id': str(row[0]),
@@ -183,22 +293,33 @@ async def search_events_by_location(
                 'venue_name': row[5] or '',
                 'venue_address': row[6] or '',
                 'city': event_city,
-                'category': row[8] or 'General',
+                'category': normalized_category,  # ✨ Categoría normalizada
                 'start_datetime': row[9].isoformat() if row[9] else None,
                 'end_datetime': row[10].isoformat() if row[10] else None,
                 'price': price,
-                'source': event_source or 'database',  # Ahora source viene de la DB (barrio)
-                'barrio': event_source or ''  # Alias para claridad
+                'source': event_source or 'database',
+                'neighborhood': event_neighborhood,  # ✨ Barrio real de la DB
+                'barrio': event_neighborhood or event_source or ''  # Alias para compatibilidad
             }
             events.append(event)
 
-        # Usar ciudad detectada si no hay parent_city de Gemini
-        final_parent_city = parent_city or detected_city
+        # parent_city ya fue detectado antes de la query (DB lookup o IA)
+        final_parent_city = parent_city
+
+        # 🔍 DEBUG: Mostrar sources únicos de eventos encontrados
+        sources_count = {}
+        for evt in events:
+            src = evt.get('source', 'unknown')
+            sources_count[src] = sources_count.get(src, 0) + 1
+
+        sources_summary = ', '.join([f'{src}:{count}' for src, count in sorted(sources_count.items())])
 
         if final_parent_city:
             logger.info(f"OK Encontrados {len(events)} eventos en MySQL para '{search_location}' (ciudad padre: {final_parent_city})")
         else:
             logger.info(f"OK Encontrados {len(events)} eventos en MySQL para '{search_location}'")
+
+        logger.info(f"📊 DEBUG Sources: {sources_summary}")
 
         # Retornar metadata de búsqueda expandida junto con eventos
         return {

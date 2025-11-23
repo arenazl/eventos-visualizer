@@ -1,0 +1,131 @@
+{
+  "_comment": "Configuración de sitios para scraping - SISTEMA ELÁSTICO",
+  "_version": "1.0",
+  "_last_updated": "2025-11-14",
+
+  "ai_scrapers": [
+    {
+      "id": "gemini",
+      "name": "Google Gemini",
+      "url": "https://gemini.google.com",
+      "method": "puppeteer",
+      "selectors": {
+        "input": ".ql-editor",
+        "submit": "button[aria-label='Enviar mensaje']",
+        "response": ".model-response-text"
+      },
+      "wait_time": 15,
+      "rate_limit": {
+        "requests_per_minute": 3,
+        "delay_between_requests": 20,
+        "delay_on_error": 60,
+        "max_retries": 3
+      },
+      "enabled": true
+    },
+    {
+      "id": "felo",
+      "name": "Felo AI",
+      "url": "https://felo.ai",
+      "method": "puppeteer",
+      "selectors": {
+        "input": "textarea[placeholder*='search']",
+        "submit": "button[type='submit']",
+        "response": ".answer-content"
+      },
+      "wait_time": 20,
+      "rate_limit": {
+        "requests_per_minute": 3,
+        "delay_between_requests": 20,
+        "delay_on_error": 60,
+        "max_retries": 3
+      },
+      "enabled": true
+    },
+    {
+      "id": "grok",
+      "name": "Grok",
+      "url": "https://grok.com",
+      "method": "puppeteer",
+      "selectors": {
+        "input": "textarea",
+        "submit": "button[aria-label='Send']",
+        "response": ".response-text"
+      },
+      "wait_time": 15,
+      "rate_limit": {
+        "requests_per_minute": 2,
+        "delay_between_requests": 30,
+        "delay_on_error": 90,
+        "max_retries": 2
+      },
+      "enabled": false,
+      "_note": "Deshabilitado hasta conseguir acceso"
+    }
+  ],
+
+  "traditional_scrapers": [
+    {
+      "id": "buenosaliens",
+      "name": "Buenos Aliens Agenda",
+      "url": "https://www.buenosaliens.com/#agenda",
+      "method": "selenium",
+      "selectors": {
+        "event_cards": ".event-item",
+        "title": "h3.event-title",
+        "date": ".event-date",
+        "venue": ".event-venue",
+        "description": ".event-description",
+        "price": ".event-price"
+      },
+      "enabled": true
+    },
+    {
+      "id": "ba_turismo",
+      "name": "Turismo Buenos Aires",
+      "url": "https://turismo.buenosaires.gob.ar/es/article/que-hacer-esta-semana",
+      "method": "selenium",
+      "selectors": {
+        "event_cards": ".event-card",
+        "title": ".event-title",
+        "date": ".event-date",
+        "venue": ".event-location"
+      },
+      "enabled": true
+    },
+    {
+      "id": "feverup",
+      "name": "Fever",
+      "url": "https://feverup.com/es/buenos-aires",
+      "method": "selenium",
+      "selectors": {
+        "event_cards": "[data-testid='event-card']",
+        "title": "h2",
+        "price": ".price"
+      },
+      "enabled": false,
+      "_note": "Requiere scroll infinito - implementar en futuro"
+    },
+    {
+      "id": "eventbrite",
+      "name": "Eventbrite",
+      "url": "https://www.eventbrite.com",
+      "method": "api",
+      "api_config": {
+        "base_url": "https://www.eventbriteapi.com/v3",
+        "auth_type": "bearer",
+        "endpoints": {
+          "search": "/events/search/"
+        }
+      },
+      "enabled": false,
+      "_note": "Requiere API key en .env"
+    }
+  ],
+
+  "_instructions": {
+    "agregar_nuevo_sitio": "1. Agregar objeto con id único, 2. Definir selectors, 3. Configurar rate_limit, 4. Set enabled: true",
+    "deshabilitar_sitio": "Cambiar enabled: false",
+    "ajustar_delays": "Modificar rate_limit.delay_between_requests según necesidad"
+  }
+}

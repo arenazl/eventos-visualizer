@@ -2,21 +2,48 @@
   "country": "Grecia",
   "country_code": "GR",
   "region": "Europa Meridional",
-  "cities": [
+  "regions": [
     {
-      "name": "Atenas",
-      "latitude": 37.9838,
-      "longitude": 23.7275
+      "name": "Ática",
+      "cities": [
+        {"name": "Atenas", "latitude": 37.9838, "longitude": 23.7275, "barrios": [
+          {"name": "Plaka", "latitude": 37.9722, "longitude": 23.7319},
+          {"name": "Monastiraki", "latitude": 37.9764, "longitude": 23.7253},
+          {"name": "Psirri", "latitude": 37.9792, "longitude": 23.7211}
+        ]}
+      ]
     },
     {
-      "name": "Salónica",
-      "latitude": 40.6401,
-      "longitude": 22.9444
+      "name": "Macedonia Central",
+      "cities": [
+        {"name": "Salónica", "latitude": 40.6401, "longitude": 22.9444}
+      ]
     },
     {
-      "name": "Patras",
-      "latitude": 38.2466,
-      "longitude": 21.7346
+      "name": "Peloponeso",
+      "cities": [
+        {"name": "Patras", "latitude": 38.2466, "longitude": 21.7346}
+      ]
+    },
+    {
+      "name": "Egeo Meridional",
+      "cities": [
+        {"name": "Santorini", "latitude": 36.3932, "longitude": 25.4615},
+        {"name": "Mykonos", "latitude": 37.4467, "longitude": 25.3289}
+      ]
+    },
+    {
+      "name": "Creta",
+      "cities": [
+        {"name": "Heraklion", "latitude": 35.3387, "longitude": 25.1442},
+        {"name": "Chania", "latitude": 35.5138, "longitude": 24.0180}
+      ]
+    },
+    {
+      "name": "Jónicas",
+      "cities": [
+        {"name": "Corfú", "latitude": 39.6243, "longitude": 19.9217}
+      ]
     }
   ]
 }

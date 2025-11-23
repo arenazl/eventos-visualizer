@@ -2,21 +2,56 @@
   "country": "Perú",
   "country_code": "PE",
   "region": "Sudamérica",
-  "cities": [
+  "departments": [
     {
       "name": "Lima",
-      "latitude": -12.0464,
-      "longitude": -77.0428
+      "cities": [
+        {"name": "Lima", "latitude": -12.0464, "longitude": -77.0428, "barrios": [
+          {"name": "Miraflores", "latitude": -12.1219, "longitude": -77.0298},
+          {"name": "Barranco", "latitude": -12.1433, "longitude": -77.0214},
+          {"name": "San Isidro", "latitude": -12.1058, "longitude": -77.0369},
+          {"name": "Surco", "latitude": -12.1463, "longitude": -76.9911}
+        ]}
+      ]
     },
     {
       "name": "Cusco",
-      "latitude": -13.5319,
-      "longitude": -71.9675
+      "cities": [
+        {"name": "Cusco", "latitude": -13.5319, "longitude": -71.9675},
+        {"name": "Ollantaytambo", "latitude": -13.2588, "longitude": -72.2622},
+        {"name": "Aguas Calientes", "latitude": -13.1547, "longitude": -72.5267}
+      ]
     },
     {
       "name": "Arequipa",
-      "latitude": -16.4090,
-      "longitude": -71.5375
+      "cities": [
+        {"name": "Arequipa", "latitude": -16.4090, "longitude": -71.5375}
+      ]
+    },
+    {
+      "name": "La Libertad",
+      "cities": [
+        {"name": "Trujillo", "latitude": -8.1119, "longitude": -79.0289}
+      ]
+    },
+    {
+      "name": "Piura",
+      "cities": [
+        {"name": "Piura", "latitude": -5.1945, "longitude": -80.6328},
+        {"name": "Máncora", "latitude": -4.1053, "longitude": -81.0450}
+      ]
+    },
+    {
+      "name": "Loreto",
+      "cities": [
+        {"name": "Iquitos", "latitude": -3.7489, "longitude": -73.2538}
+      ]
+    },
+    {
+      "name": "Puno",
+      "cities": [
+        {"name": "Puno", "latitude": -15.8402, "longitude": -70.0219}
+      ]
     }
   ]
 }

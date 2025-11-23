@@ -2,21 +2,44 @@
   "country": "Suiza",
   "country_code": "CH",
   "region": "Europa Occidental",
-  "cities": [
+  "cantons": [
     {
       "name": "Zúrich",
-      "latitude": 47.3769,
-      "longitude": 8.5417
+      "cities": [
+        {"name": "Zúrich", "latitude": 47.3769, "longitude": 8.5417}
+      ]
     },
     {
       "name": "Ginebra",
-      "latitude": 46.2044,
-      "longitude": 6.1432
+      "cities": [
+        {"name": "Ginebra", "latitude": 46.2044, "longitude": 6.1432}
+      ]
     },
     {
-      "name": "Basilea",
-      "latitude": 47.5596,
-      "longitude": 7.5886
+      "name": "Basilea-Ciudad",
+      "cities": [
+        {"name": "Basilea", "latitude": 47.5596, "longitude": 7.5886}
+      ]
+    },
+    {
+      "name": "Berna",
+      "cities": [
+        {"name": "Berna", "latitude": 46.9480, "longitude": 7.4474},
+        {"name": "Interlaken", "latitude": 46.6863, "longitude": 7.8632}
+      ]
+    },
+    {
+      "name": "Vaud",
+      "cities": [
+        {"name": "Lausana", "latitude": 46.5197, "longitude": 6.6323},
+        {"name": "Montreux", "latitude": 46.4312, "longitude": 6.9107}
+      ]
+    },
+    {
+      "name": "Lucerna",
+      "cities": [
+        {"name": "Lucerna", "latitude": 47.0502, "longitude": 8.3093}
+      ]
     }
   ]
 }

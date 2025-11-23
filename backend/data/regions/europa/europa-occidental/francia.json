@@ -2,21 +2,57 @@
   "country": "Francia",
   "country_code": "FR",
   "region": "Europa Occidental",
-  "cities": [
+  "regions": [
     {
-      "name": "París",
-      "latitude": 48.8566,
-      "longitude": 2.3522
+      "name": "Île-de-France",
+      "cities": [
+        {"name": "París", "latitude": 48.8566, "longitude": 2.3522, "barrios": [
+          {"name": "Le Marais", "latitude": 48.8578, "longitude": 2.3617},
+          {"name": "Montmartre", "latitude": 48.8867, "longitude": 2.3431},
+          {"name": "Saint-Germain-des-Prés", "latitude": 48.8539, "longitude": 2.3344},
+          {"name": "Bastille", "latitude": 48.8533, "longitude": 2.3692},
+          {"name": "Latin Quarter", "latitude": 48.8503, "longitude": 2.3447}
+        ]}
+      ]
     },
     {
-      "name": "Lyon",
-      "latitude": 45.7640,
-      "longitude": 4.8357
+      "name": "Provenza-Alpes-Costa Azul",
+      "cities": [
+        {"name": "Marsella", "latitude": 43.2965, "longitude": 5.3698},
+        {"name": "Niza", "latitude": 43.7102, "longitude": 7.2620},
+        {"name": "Cannes", "latitude": 43.5528, "longitude": 7.0174}
+      ]
     },
     {
-      "name": "Marsella",
-      "latitude": 43.2965,
-      "longitude": 5.3698
+      "name": "Auvernia-Ródano-Alpes",
+      "cities": [
+        {"name": "Lyon", "latitude": 45.7640, "longitude": 4.8357}
+      ]
+    },
+    {
+      "name": "Nueva Aquitania",
+      "cities": [
+        {"name": "Burdeos", "latitude": 44.8378, "longitude": -0.5792}
+      ]
+    },
+    {
+      "name": "Occitania",
+      "cities": [
+        {"name": "Toulouse", "latitude": 43.6047, "longitude": 1.4442},
+        {"name": "Montpellier", "latitude": 43.6108, "longitude": 3.8767}
+      ]
+    },
+    {
+      "name": "Bretaña",
+      "cities": [
+        {"name": "Rennes", "latitude": 48.1173, "longitude": -1.6778}
+      ]
+    },
+    {
+      "name": "Normandía",
+      "cities": [
+        {"name": "Rouen", "latitude": 49.4432, "longitude": 1.0999}
+      ]
     }
   ]
 }

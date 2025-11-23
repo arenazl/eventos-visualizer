@@ -2,21 +2,35 @@
   "country": "Chequia",
   "country_code": "CZ",
   "region": "Europa Oriental",
-  "cities": [
+  "regions": [
     {
       "name": "Praga",
-      "latitude": 50.0755,
-      "longitude": 14.4378
+      "cities": [
+        {"name": "Praga", "latitude": 50.0755, "longitude": 14.4378, "barrios": [
+          {"name": "Staré Město", "latitude": 50.0870, "longitude": 14.4208},
+          {"name": "Malá Strana", "latitude": 50.0876, "longitude": 14.4028},
+          {"name": "Vinohrady", "latitude": 50.0758, "longitude": 14.4453}
+        ]}
+      ]
     },
     {
-      "name": "Brno",
-      "latitude": 49.1951,
-      "longitude": 16.6068
+      "name": "Moravia Meridional",
+      "cities": [
+        {"name": "Brno", "latitude": 49.1951, "longitude": 16.6068}
+      ]
     },
     {
-      "name": "Ostrava",
-      "latitude": 49.8209,
-      "longitude": 18.2625
+      "name": "Moravia-Silesia",
+      "cities": [
+        {"name": "Ostrava", "latitude": 49.8209, "longitude": 18.2625}
+      ]
+    },
+    {
+      "name": "Bohemia Occidental",
+      "cities": [
+        {"name": "Pilsen", "latitude": 49.7384, "longitude": 13.3736},
+        {"name": "Karlovy Vary", "latitude": 50.2326, "longitude": 12.8714}
+      ]
     }
   ]
 }

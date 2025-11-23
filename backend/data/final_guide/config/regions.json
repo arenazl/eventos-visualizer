@@ -1,0 +1,72 @@
+{
+  "_comment": "Configuración de regiones para scraping - SISTEMA ELÁSTICO",
+  "_version": "1.0",
+  "_last_updated": "2025-11-14",
+
+  "sources": [
+    "../regions/latinamerica/sudamerica/argentina.json",
+    "../regions/europa/europa-meridional/espana.json"
+  ],
+
+  "selection": {
+    "mode": "all",
+    "_mode_options": ["all", "specific", "by_country"],
+    "_comment_mode": "all = todas las ciudades, specific = solo las listadas, by_country = filtrar por país",
+
+    "countries": [],
+    "_comment_countries": "Si mode=by_country, especificar aquí: ['Argentina', 'México']",
+
+    "cities": [],
+    "_comment_cities": "Si mode=specific, especificar aquí: ['Buenos Aires', 'Córdoba']",
+
+    "include_barrios": true,
+    "_comment_barrios": "true = scrapear barrios individualmente, false = solo ciudades principales",
+
+    "exclude_cities": [],
+    "_comment_exclude": "Ciudades a excluir del scraping"
+  },
+
+  "limits": {
+    "max_cities_per_run": 0,
+    "_comment_max": "0 = sin límite, N = procesar solo N ciudades por ejecución",
+
+    "max_barrios_per_city": 0,
+    "_comment_barrios": "0 = todos los barrios, N = solo N barrios por ciudad"
+  },
+
+  "_instructions": {
+    "agregar_region": "1. Crear archivo JSON en regions/, 2. Agregar path a sources[], 3. Ejecutar",
+    "limitar_ciudades": "Cambiar mode: 'specific' y listar en cities[]",
+    "excluir_ciudad": "Agregar nombre a exclude_cities[]"
+  },
+
+  "_ejemplos": {
+    "solo_argentina": {
+      "sources": ["../regions/latinamerica/sudamerica/argentina.json"],
+      "selection": {
+        "mode": "all"
+      }
+    },
+
+    "solo_buenos_aires": {
+      "sources": ["../regions/latinamerica/sudamerica/argentina.json"],
+      "selection": {
+        "mode": "specific",
+        "cities": ["Buenos Aires"],
+        "include_barrios": true
+      }
+    },
+
+    "multiples_paises": {
+      "sources": [
+        "../regions/latinamerica/sudamerica/argentina.json",
+        "../regions/latinamerica/norteamerica/mexico.json",
+        "../regions/europa/espana.json"
+      ],
+      "selection": {
+        "mode": "all",
+        "exclude_cities": ["Ciudad muy pequeña"]
+      }
+    }
+  }
+}

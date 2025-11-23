@@ -2,21 +2,24 @@
   "country": "Paraguay",
   "country_code": "PY",
   "region": "Sudamérica",
-  "cities": [
+  "departments": [
     {
-      "name": "Asunción",
-      "latitude": -25.2637,
-      "longitude": -57.5759
+      "name": "Central",
+      "cities": [
+        {"name": "Asunción", "latitude": -25.2637, "longitude": -57.5759}
+      ]
     },
     {
-      "name": "Ciudad del Este",
-      "latitude": -25.5095,
-      "longitude": -54.6112
+      "name": "Alto Paraná",
+      "cities": [
+        {"name": "Ciudad del Este", "latitude": -25.5095, "longitude": -54.6112}
+      ]
     },
     {
-      "name": "Encarnación",
-      "latitude": -27.3308,
-      "longitude": -55.8658
+      "name": "Itapúa",
+      "cities": [
+        {"name": "Encarnación", "latitude": -27.3308, "longitude": -55.8658}
+      ]
     }
   ]
 }

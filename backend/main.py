@@ -1203,7 +1203,8 @@ _last_enriched_location = None
 async def stream_events(
     location: Optional[str] = Query(None, description="Ubicación requerida"),
     category: Optional[str] = Query(None),
-    limit: int = Query(100)
+    limit: int = Query(100),
+    parent_city: Optional[str] = Query(None, description="Ciudad padre desde metadata del frontend")
 ):
     """
     🚀 SSE STREAMING ENDPOINT - Devuelve eventos en tiempo real
@@ -1233,12 +1234,19 @@ async def stream_events(
             logger.info(f"🔍 Parámetros: category={category}, limit={limit}, days_ahead=180")
 
             # Consultar base de datos (180 días = 6 meses hacia adelante)
+            # ✨ Si parent_city viene del frontend, usarlo directamente (sin IA)
+            # Si no viene, include_parent_city=False → NO llamar IA
             try:
+                if parent_city:
+                    logger.info(f"🏙️ parent_city recibido del frontend: {parent_city}")
+
                 result = await search_events_by_location(
                     location=location,
                     category=category,
                     limit=limit,
-                    days_ahead=180
+                    days_ahead=180,
+                    include_parent_city=False,  # Sin IA
+                    parent_city=parent_city  # ✨ Pasado desde metadata del frontend
                 )
                 # Extraer eventos del resultado (es un dict con 'events', 'parent_city_detected', etc.)
                 events = result.get('events', []) if isinstance(result, dict) else result
@@ -1534,49 +1542,24 @@ async def get_neighborhoods_by_city(city: str):
 @app.get("/api/popular-places/{location}")
 async def get_popular_places_nearby(location: str):
     """
-    🎯 LUGARES POPULARES CERCANOS - Barrios/zonas cerca de la ubicación que tienen eventos
+    🎯 LUGARES POPULARES - Barrios/zonas con eventos REALES en la base de datos
 
-    Flujo:
-    1. Grok sugiere 5 lugares geográficamente cercanos
-    2. Verificamos cuáles tienen eventos en MySQL
-    3. Devolvemos solo los que tienen eventos
+    Obtiene los barrios con más eventos directamente de MySQL.
+    NO usa IA - solo datos reales.
 
     Args:
-        location: Ubicación de referencia (ej: "Palermo", "Buenos Aires", "Mendoza")
+        location: Ciudad de referencia (ej: "Buenos Aires", "Madrid", "Miami")
 
     Returns:
-        - places: Lista con lugares cercanos que tienen eventos
+        - places: Lista con barrios que tienen eventos (ordenados por cantidad)
     """
     try:
         import pymysql
-        from services.ai_manager import AIServiceManager
 
-        logger.info(f"🎯 Buscando lugares populares cerca de: {location}")
+        logger.info(f"🎯 Buscando barrios populares en: {location}")
 
-        # PASO 1: Pedirle a Grok que sugiera 5 barrios/lugares cercanos
-        ai_manager = AIServiceManager()
-
-        prompt = f"""Listame 5 ciudades populares cercanas a {location}.
-
-Responde SOLO con los 5 nombres separados por comas, sin números ni explicaciones:
-nombre1, nombre2, nombre3, nombre4, nombre5
-"""
-
-        logger.info(f"🤖 Preguntando a AI por lugares cerca de '{location}'...")
-        response = await ai_manager.generate(
-            prompt=prompt,
-            temperature=0.3
-        )
-
-        # Parsear respuesta de Grok - obtener 5 sugerencias
-        suggested_places = [name.strip() for name in response.split(',')[:5]]
-        logger.info(f"✅ Grok sugirió 5 lugares cercanos: {suggested_places}")
-
-        # Verificar cuáles de estos lugares tienen eventos en la base de datos
-        verified_places = []
-
-        # Reusar conexión para verificación
-        verify_connection = pymysql.connect(
+        # Conectar a MySQL
+        connection = pymysql.connect(
             host=os.getenv('MYSQL_HOST', 'localhost'),
             port=int(os.getenv('MYSQL_PORT', 3306)),
             user=os.getenv('MYSQL_USER', 'root'),
@@ -1587,45 +1570,62 @@ nombre1, nombre2, nombre3, nombre4, nombre5
         )
 
         try:
-            verify_cursor = verify_connection.cursor()
+            cursor = connection.cursor()
 
-            for place_name in suggested_places:
-                # Query para verificar si tiene eventos
-                verify_query = '''
-                    SELECT COUNT(*) as event_count
-                    FROM events
-                    WHERE start_datetime >= NOW()
-                    AND (
-                        city LIKE %s
-                        OR neighborhood LIKE %s
-                    )
-                '''
+            # Query: Obtener barrios con eventos en esta ciudad (con info completa)
+            query = '''
+                SELECT
+                    neighborhood,
+                    city,
+                    country,
+                    province,
+                    COUNT(*) as event_count
+                FROM events
+                WHERE city LIKE %s
+                AND neighborhood IS NOT NULL
+                AND neighborhood != ''
+                AND start_datetime >= NOW()
+                GROUP BY neighborhood, city, country, province
+                ORDER BY event_count DESC
+                LIMIT 10
+            '''
 
-                verify_cursor.execute(verify_query, (f'%{place_name}%', f'%{place_name}%'))
-                result = verify_cursor.fetchone()
+            cursor.execute(query, (f'%{location}%',))
+            results = cursor.fetchall()
 
-                if result and result['event_count'] > 0:
-                    verified_places.append(place_name)
-                    logger.info(f"✅ '{place_name}' tiene {result['event_count']} eventos")
-                else:
-                    logger.info(f"⏭️ '{place_name}' sin eventos en DB")
+            # Guardar info completa de cada barrio
+            verified_places = []
+            places_info = {}  # {nombre: {city, country, province}}
+            for row in results:
+                if row['neighborhood']:
+                    verified_places.append(row['neighborhood'])
+                    places_info[row['neighborhood']] = {
+                        'city': row['city'],
+                        'country': row['country'],
+                        'province': row['province'],
+                        'event_count': row['event_count']
+                    }
 
-            verify_cursor.close()
+            logger.info(f"✅ Encontrados {len(verified_places)} barrios con eventos en {location}")
+
+            cursor.close()
         finally:
-            verify_connection.close()
+            connection.close()
 
         top_places = verified_places
         logger.info(f"✅ Lugares verificados con eventos: {top_places}")
 
-        # 🔄 FALLBACK: Si no hay ciudades cercanas, ampliar búsqueda al país/región
-        if len(top_places) == 0:
-            logger.warning(f"⚠️ No se encontraron ciudades cercanas con eventos. Ampliando búsqueda...")
+        # 🔄 FALLBACK: Si hay menos de 5 barrios, ampliar búsqueda con IA
+        if len(top_places) < 5:
+            logger.warning(f"⚠️ Solo {len(top_places)} barrios encontrados. Ampliando búsqueda con IA...")
 
-            # Pedirle a Grok ciudades del mismo país con eventos
-            fallback_prompt = f"""Dame 5 ciudades importantes del mismo país que {location}, con muchos eventos culturales.
+            # Pedirle a Grok barrios y ciudades cercanas para tener más opciones de match
+            fallback_prompt = f"""Dame 15 barrios, zonas o ciudades cercanas a {location} donde pueda haber eventos culturales, fiestas o conciertos.
 
-Responde SOLO con los 5 nombres separados por comas, sin números ni explicaciones:
-nombre1, nombre2, nombre3, nombre4, nombre5
+IMPORTANTE: Incluye barrios populares de {location} Y ciudades cercanas.
+
+Responde SOLO con los 15 nombres separados por comas, sin números ni explicaciones:
+nombre1, nombre2, nombre3, nombre4, nombre5, nombre6, nombre7, nombre8, nombre9, nombre10, nombre11, nombre12, nombre13, nombre14, nombre15
 """
 
             fallback_response = await ai_manager.generate(
@@ -1633,8 +1633,8 @@ nombre1, nombre2, nombre3, nombre4, nombre5
                 temperature=0.3
             )
 
-            fallback_places = [name.strip() for name in fallback_response.split(',')[:5]]
-            logger.info(f"🔄 Fallback: Grok sugirió ciudades del país: {fallback_places}")
+            fallback_places = [name.strip() for name in fallback_response.split(',')[:15]]
+            logger.info(f"🔄 Fallback: IA sugirió 15 barrios/ciudades: {fallback_places}")
 
             # Verificar cuáles tienen eventos
             verify_connection_fallback = pymysql.connect(
@@ -1665,8 +1665,10 @@ nombre1, nombre2, nombre3, nombre4, nombre5
                     result = verify_cursor_fallback.fetchone()
 
                     if result and result['event_count'] > 0:
-                        top_places.append(place_name)
-                        logger.info(f"✅ Fallback: '{place_name}' tiene {result['event_count']} eventos")
+                        # Evitar duplicados (case-insensitive)
+                        if place_name.lower() not in [p.lower() for p in top_places]:
+                            top_places.append(place_name)
+                            logger.info(f"✅ Fallback: '{place_name}' tiene {result['event_count']} eventos")
 
                 verify_cursor_fallback.close()
             finally:
@@ -1674,9 +1676,27 @@ nombre1, nombre2, nombre3, nombre4, nombre5
 
             logger.info(f"✅ Fallback completado. Total lugares: {top_places}")
 
+        # Construir respuesta con info completa
+        places_with_info = []
+        for place in top_places:
+            info = places_info.get(place, {
+                'city': location,
+                'country': None,
+                'province': None,
+                'event_count': 0
+            })
+            places_with_info.append({
+                'name': place,
+                'city': info.get('city', location),
+                'country': info.get('country'),
+                'province': info.get('province'),
+                'event_count': info.get('event_count', 0)
+            })
+
         return {
             "success": True,
-            "places": top_places
+            "places": top_places,  # Para compatibilidad (solo nombres)
+            "places_info": places_with_info  # Info completa
         }
 
     except Exception as e:

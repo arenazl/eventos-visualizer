@@ -2,21 +2,43 @@
   "country": "Reino Unido",
   "country_code": "GB",
   "region": "Europa Septentrional",
-  "cities": [
+  "countries": [
     {
-      "name": "Londres",
-      "latitude": 51.5074,
-      "longitude": -0.1278
+      "name": "Inglaterra",
+      "cities": [
+        {"name": "Londres", "latitude": 51.5074, "longitude": -0.1278, "barrios": [
+          {"name": "Soho", "latitude": 51.5137, "longitude": -0.1326},
+          {"name": "Camden", "latitude": 51.5390, "longitude": -0.1426},
+          {"name": "Shoreditch", "latitude": 51.5241, "longitude": -0.0779},
+          {"name": "Notting Hill", "latitude": 51.5111, "longitude": -0.2055},
+          {"name": "Westminster", "latitude": 51.4975, "longitude": -0.1357}
+        ]},
+        {"name": "Manchester", "latitude": 53.4808, "longitude": -2.2426},
+        {"name": "Liverpool", "latitude": 53.4084, "longitude": -2.9916},
+        {"name": "Birmingham", "latitude": 52.4862, "longitude": -1.8904},
+        {"name": "Bristol", "latitude": 51.4545, "longitude": -2.5879},
+        {"name": "Leeds", "latitude": 53.8008, "longitude": -1.5491},
+        {"name": "Brighton", "latitude": 50.8225, "longitude": -0.1372}
+      ]
     },
     {
-      "name": "Manchester",
-      "latitude": 53.4808,
-      "longitude": -2.2426
+      "name": "Escocia",
+      "cities": [
+        {"name": "Edimburgo", "latitude": 55.9533, "longitude": -3.1883},
+        {"name": "Glasgow", "latitude": 55.8642, "longitude": -4.2518}
+      ]
     },
     {
-      "name": "Edimburgo",
-      "latitude": 55.9533,
-      "longitude": -3.1883
+      "name": "Gales",
+      "cities": [
+        {"name": "Cardiff", "latitude": 51.4816, "longitude": -3.1791}
+      ]
+    },
+    {
+      "name": "Irlanda del Norte",
+      "cities": [
+        {"name": "Belfast", "latitude": 54.5973, "longitude": -5.9301}
+      ]
     }
   ]
 }

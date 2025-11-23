@@ -34,8 +34,16 @@ if sys.platform == 'win32':
     sys.stdout.reconfigure(encoding='utf-8')
     sys.stderr.reconfigure(encoding='utf-8')
 
-# Cargar .env desde backend/
+# Agregar path para importar desde final_guide/scripts/
 SCRIPT_DIR = Path(__file__).parent
+FINAL_GUIDE_SCRIPTS = SCRIPT_DIR.parent / 'final_guide' / 'scripts'
+sys.path.insert(0, str(FINAL_GUIDE_SCRIPTS))
+
+# Importar utilidades compartidas
+from event_utils import categorize_event
+from region_utils import get_pais_from_ciudad, get_provincia_from_ciudad
+
+# Cargar .env desde backend/
 BACKEND_DIR = SCRIPT_DIR.parent.parent
 ENV_FILE = BACKEND_DIR / '.env'
 
@@ -92,12 +100,13 @@ def parse_fecha(fecha_str: str) -> str:
 
     # Formatos posibles (internacional)
     formatos = [
+        '%Y-%m-%dT%H:%M:%S',  # ISO 8601 completo con segundos
+        '%Y-%m-%dT%H:%M',     # ISO 8601 sin segundos (ej: 2025-11-29T21:00)
         '%Y-%m-%d',           # 2025-11-15 (ISO)
         '%d/%m/%Y',           # 15/11/2025 (Europa/América Latina)
         '%m/%d/%Y',           # 11/15/2025 (USA)
         '%d-%m-%Y',           # 15-11-2025
         '%Y/%m/%d',           # 2025/11/15
-        '%Y-%m-%dT%H:%M:%S',  # ISO 8601 completo
         '%Y-%m-%d %H:%M:%S',  # Datetime
         '%d/%m/%Y %H:%M',     # Con hora
         '%Y-%m-%d %H:%M',     # Con hora

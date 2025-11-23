@@ -1,0 +1,21 @@
+N°	Nombre del Evento	Descripción	Fecha	Lugar / Dirección	Barrio	Precio	Info Extra
+1	Festival de Cine Europeo	Proyecciones, talleres y mesas redondas sobre cine europeo.	7-15 noviembre 2025	Varios lugares: MK2 Nervión Plaza, Cine Cervantes	Nervión	Desde 3,5 €	Incluye actividades para todos los públicos.
+2	Chicharfest	Festival del chicharrón con música y gastronomía.	21-23 noviembre 2025	Parque de la Buhaira	Nervión	Consultar	Actividades para toda la familia.
+3	Encendido de luces de Navidad	Ceremonia de encendido de luces navideñas en la ciudad.	28 noviembre 2025	Avenida de la Constitución	Centro	Gratis	Más de 300 calles iluminadas.
+4	Feria del Belén	Exposición de belenes y actividades navideñas.	1-23 diciembre 2025	Plaza de San Francisco	Centro	Gratis	Actividades para niños y adultos.
+5	Concierto de David Bisbal	Concierto del famoso cantante español.	22 noviembre 2025	Palacio de Congresos y Exposiciones (Fibes)	Este	Desde 30 €	Parte de su tour "Todo es posible en Navidad".
+6	Concierto de Anuel AA	Concierto del artista de reggaetón.	15 noviembre 2025	Palacio de Congresos y Exposiciones (Fibes)	Este	Desde 40 €	Parte de su gira europea.
+7	Ruta de la Tapa Vegana	Ruta gastronómica con tapas veganas en varios bares.	1-30 noviembre 2025	Varios bares en Sevilla	Centro	Consultar	Ideal para amantes de la comida vegana.
+8	Feria Cofrade	Feria dedicada a la cultura cofrade y tradiciones de Semana Santa.	28-30 noviembre 2025	Varios lugares en Sevilla	Centro	Consultar	Exposición de arte y cultura cofrade.
+9	Conciertos Candlelight	Conciertos de música clásica en un ambiente íntimo a la luz de las velas.	Varias fechas	Varios lugares en Sevilla	Centro	Desde 15 €	Experiencia única de música clásica.
+10	Festival Internacional de Jazz	Festival con artistas de jazz de renombre.	1-5 diciembre 2025	Teatro de la Maestranza	Centro	Desde 20 €	Incluye talleres y jam sessions.
+11	Flamenco en la Plaza	Espectáculos de flamenco al aire libre.	Todos los fines de semana	Plaza de España	Centro	Gratis	Disfruta del arte flamenco en un entorno emblemático.
+12	Mercado de Navidad	Mercado navideño con artesanías y productos locales.	1-24 diciembre 2025	Plaza Nueva	Centro	Gratis	Ideal para comprar regalos únicos.
+13	Concierto de Niña Pastori	Concierto de la famosa cantante de flamenco.	28 noviembre 2025	Auditorio Fibes	Este	Desde 30 €	Parte de su gira "Bajo el mismo cielo".
+14	Festival de la Tapa	Festival gastronómico con tapas de diferentes restaurantes.	1-15 diciembre 2025	Varios restaurantes en Sevilla	Centro	Consultar	Participación de chefs locales.
+15	Exposición de Arte Contemporáneo	Muestra de artistas contemporáneos en Sevilla.	1-30 noviembre 2025	Centro Andaluz de Arte Contemporáneo (CAAC)	Cartuja	Gratis	Incluye visitas guiadas.
+16	Festival de Música Icónica	Festival de música con artistas internacionales.	1-3 diciembre 2025	Plaza de España	Centro	Desde 25 €	Gran evento musical al aire libre.
+17	Concierto de Rafael Riqueni	Concierto del reconocido guitarrista flamenco.	1 diciembre 2025	Teatro de la Maestranza	Centro	Desde 20 €	Parte de su gira "A la guitarra".
+18	Encuentro de Coros	Encuentro de coros de diferentes localidades.	5 diciembre 2025	Iglesia de San Juan Bautista	Centro	Gratis	Celebración de la música coral.
+19	Festival de Jazz de Sevilla	Festival con actuaciones de jazz en vivo.	1-5 diciembre 2025	Varios lugares en Sevilla	Centro	Desde 15 €	Incluye talleres y actividades para niños.
+20	Concierto de Gospel	Concierto de música gospel para celebrar la Navidad.	5 diciembre 2025	Fundación Cajasol	Centro	Desde 10 €	Evento benéfico.

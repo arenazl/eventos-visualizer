@@ -27,6 +27,14 @@ if sys.platform == 'win32':
 
 # Cargar .env desde backend/
 SCRIPT_DIR = Path(__file__).parent
+
+# Agregar path para importar desde final_guide/scripts/
+FINAL_GUIDE_SCRIPTS = SCRIPT_DIR.parent / 'final_guide' / 'scripts'
+sys.path.insert(0, str(FINAL_GUIDE_SCRIPTS))
+
+# Importar utilidades compartidas
+from event_utils import categorize_event as shared_categorize_event
+from region_utils import get_pais_from_ciudad, get_provincia_from_ciudad
 BACKEND_DIR = SCRIPT_DIR.parent.parent
 ENV_FILE = BACKEND_DIR / '.env'
 
@@ -115,42 +123,12 @@ def extract_price(precio_str) -> tuple:
         return 0.0, False
 
 
-def categorize_event(categoria: str, descripcion: str = '') -> tuple:
-    """Retorna (category, subcategory)"""
-    cat_lower = categoria.lower() if categoria else ''
-    desc_lower = descripcion.lower() if descripcion else ''
-
-    # Música
-    if any(word in cat_lower + desc_lower for word in ['música', 'music', 'concierto', 'concert', 'festival']):
-        if 'rock' in cat_lower + desc_lower:
-            return 'music', 'rock'
-        elif 'pop' in cat_lower + desc_lower:
-            return 'music', 'pop'
-        elif 'jazz' in cat_lower + desc_lower:
-            return 'music', 'jazz'
-        elif 'electrónica' in cat_lower + desc_lower or 'electronic' in cat_lower + desc_lower:
-            return 'music', 'electronic'
-        else:
-            return 'music', 'other'
-
-    # Deportes
-    if any(word in cat_lower + desc_lower for word in ['deporte', 'sport', 'fútbol', 'football', 'basketball', 'polo']):
-        return 'sports', 'other'
-
-    # Cultural
-    if any(word in cat_lower + desc_lower for word in ['cultural', 'cultura', 'arte', 'art', 'museo', 'museum', 'teatro', 'theater', 'turismo', 'tourism']):
-        return 'cultural', 'other'
-
-    # Gastronomía
-    if any(word in cat_lower + desc_lower for word in ['gastronomía', 'gastronomy', 'food', 'alfajor', 'comida', 'restaurante']):
-        return 'food', 'other'
-
-    # Tech
-    if any(word in cat_lower + desc_lower for word in ['tech', 'tecnología', 'hackathon', 'conferencia']):
-        return 'tech', 'conference'
-
-    # Default
-    return 'other', 'general'
+def categorize_event(nombre: str, descripcion: str = '') -> tuple:
+    """
+    Wrapper que usa la función compartida de event_utils.py
+    Mantiene compatibilidad con el código existente que pasa 'categoria' como primer arg
+    """
+    return shared_categorize_event(nombre, descripcion)
 
 
 def extract_city_from_path(filepath: Path) -> str:
@@ -165,26 +143,27 @@ def extract_city_from_path(filepath: Path) -> str:
     return city_name.replace('-', ' ').title()
 
 
-def extract_country_from_path(filepath: Path) -> str:
-    """Extrae país del path del archivo"""
-    parts = filepath.parts
+def extract_country_from_path(filepath: Path, ciudad: str = None) -> Optional[str]:
+    """
+    Extrae país usando SOLO region_utils.py para mapeo dinámico ciudad->país.
 
-    # Buscar en el path: scrapper_results/latinamerica/sudamerica/argentina/...
-    if 'argentina' in parts:
-        return 'Argentina'
-    elif 'espana' in parts or 'españa' in parts:
-        return 'España'
-    elif 'francia' in parts:
-        return 'Francia'
-    elif 'puertorico' in parts:
-        return 'Puerto Rico'
-    elif 'usa' in parts:
-        return 'USA'
-    elif 'mexico' in parts or 'méxico' in parts:
-        return 'México'
+    REGLA CRÍTICA: NO hay fallbacks hardcodeados.
+    Si la ciudad no está en los JSONs de regiones, retorna None.
+    Los eventos sin país válido serán RECHAZADOS (no adivinados).
 
-    # Default
-    return 'Unknown'
+    Returns:
+        str: Nombre del país si se encuentra en region_utils
+        None: Si la ciudad no está mapeada (evento será rechazado)
+    """
+    # ÚNICO MÉTODO: Mapeo dinámico desde ciudad usando region_utils.py
+    if ciudad:
+        pais = get_pais_from_ciudad(ciudad)
+        if pais != 'Unknown':
+            return pais
+
+    # NO HAY FALLBACKS - Si no está en region_utils, retornar None
+    # Esto causará que el evento sea RECHAZADO, no adivinado
+    return None
 
 
 def process_evento(evento: Dict, filepath: Path, index: int) -> Optional[Dict]:
@@ -237,8 +216,18 @@ def process_evento(evento: Dict, filepath: Path, index: int) -> Optional[Dict]:
     if neighborhood:
         neighborhood = neighborhood[:100]
 
-    country = evento.get('pais') or evento.get('country') or extract_country_from_path(filepath)
+    # País: primero del evento, luego mapeo dinámico ciudad->país
+    # REGLA CRÍTICA: Si no hay país válido, el evento se RECHAZA (no se adivina)
+    country = evento.get('pais') or evento.get('country') or extract_country_from_path(filepath, city)
+
+    if not country:
+        print(f"    ⛔ RECHAZADO: Ciudad '{city}' no está en region_utils - ubicación incompleta")
+        return None
+
     country = country[:100]
+
+    # Provincia: usar mapeo dinámico
+    provincia = evento.get('provincia') or get_provincia_from_ciudad(city)
 
     # Coordenadas
     latitude = evento.get('latitud') or evento.get('latitude')
@@ -277,6 +266,7 @@ def process_evento(evento: Dict, filepath: Path, index: int) -> Optional[Dict]:
         'city': city,
         'neighborhood': neighborhood,
         'country': country,
+        'province': provincia,
         'latitude': latitude,
         'longitude': longitude,
         'category': category,
@@ -290,25 +280,63 @@ def process_evento(evento: Dict, filepath: Path, index: int) -> Optional[Dict]:
     }
 
 
-def insert_event(cursor, evento_data: Dict) -> bool:
-    """Inserta evento en MySQL"""
+def insert_event(cursor, evento_data: Dict) -> tuple:
+    """
+    Inserta evento en MySQL con detección inteligente de duplicados
+
+    Returns:
+        tuple: (inserted: bool, reason: str)
+        - (True, 'inserted') si se insertó
+        - (False, 'duplicate_exact') si título exacto existe
+        - (False, 'duplicate_partial') si título similar existe
+    """
     try:
-        # Verificar si ya existe un evento con el mismo título, ciudad y fecha
-        check_sql = '''
-            SELECT id FROM events
+        title = evento_data['title']
+        city = evento_data['city']
+        fecha = evento_data['start_datetime']
+
+        # PASO 1: Verificar duplicado EXACTO (título completo igual)
+        check_exact_sql = '''
+            SELECT id, title FROM events
             WHERE title = %s
             AND city = %s
             AND DATE(start_datetime) = DATE(%s)
             LIMIT 1
         '''
-        cursor.execute(check_sql, (
-            evento_data['title'],
-            evento_data['city'],
-            evento_data['start_datetime']
-        ))
+        cursor.execute(check_exact_sql, (title, city, fecha))
 
         if cursor.fetchone():
-            return False  # Ya existe
+            return (False, 'duplicate_exact')
+
+        # PASO 2: Verificar duplicado PARCIAL (títulos similares)
+        # Buscar eventos con mismo city y fecha, comparar títulos
+        check_partial_sql = '''
+            SELECT id, title FROM events
+            WHERE city = %s
+            AND DATE(start_datetime) = DATE(%s)
+        '''
+        cursor.execute(check_partial_sql, (city, fecha))
+
+        existing_events = cursor.fetchall()
+
+        for existing in existing_events:
+            existing_title = existing['title'].lower()
+            new_title = title.lower()
+
+            # Comparación de similitud (al menos 80% de palabras en común)
+            existing_words = set(existing_title.split())
+            new_words = set(new_title.split())
+
+            if len(new_words) == 0:
+                continue
+
+            common_words = existing_words & new_words
+            similarity = len(common_words) / len(new_words)
+
+            if similarity >= 0.8:
+                return (False, f'duplicate_partial:{existing["title"]}')
+
+        # PASO 3: No hay duplicados, insertar evento
 
         # Generar UUID para el id
         import uuid
@@ -319,7 +347,7 @@ def insert_event(cursor, evento_data: Dict) -> bool:
             INSERT INTO events (
                 id,
                 title, description, start_datetime, end_datetime,
-                venue_name, venue_address, city, neighborhood, country,
+                venue_name, venue_address, city, neighborhood, country, province,
                 latitude, longitude,
                 category, subcategory,
                 price, is_free,
@@ -328,7 +356,7 @@ def insert_event(cursor, evento_data: Dict) -> bool:
             ) VALUES (
                 %s,
                 %s, %s, %s, %s,
-                %s, %s, %s, %s, %s,
+                %s, %s, %s, %s, %s, %s,
                 %s, %s,
                 %s, %s,
                 %s, %s,
@@ -348,6 +376,7 @@ def insert_event(cursor, evento_data: Dict) -> bool:
             evento_data['city'],
             evento_data['neighborhood'],
             evento_data['country'],
+            evento_data['province'],
             evento_data['latitude'],
             evento_data['longitude'],
             evento_data['category'],
@@ -359,11 +388,11 @@ def insert_event(cursor, evento_data: Dict) -> bool:
             'gemini_scraper'
         ))
 
-        return True
+        return (True, 'inserted')
 
     except Exception as e:
-        print(f"    ❌ Error: {str(e)[:80]}")
-        return False
+        error_msg = str(e)[:80]
+        return (False, f'error:{error_msg}')
 
 
 def find_all_json_files(base_dir: Path) -> List[Path]:
@@ -388,7 +417,7 @@ def find_all_json_files(base_dir: Path) -> List[Path]:
 
 
 def process_json_file(filepath: Path, cursor, dry_run: bool = False) -> dict:
-    """Procesa un archivo JSON"""
+    """Procesa un archivo JSON con logging detallado"""
     relative_path = filepath.relative_to(filepath.parents[5])  # Relativo a proyecto
     print(f"\n📄 {relative_path}")
 
@@ -397,7 +426,13 @@ def process_json_file(filepath: Path, cursor, dry_run: bool = False) -> dict:
             data = json.load(f)
     except Exception as e:
         print(f"  ❌ Error leyendo JSON: {e}")
-        return {'insertados': 0, 'duplicados': 0, 'errores': 1}
+        return {
+            'insertados': 0,
+            'duplicate_exact': 0,
+            'duplicate_partial': 0,
+            'errores': 1,
+            'detalles': []
+        }
 
     # Detectar estructura del JSON
     events = []
@@ -416,32 +451,87 @@ def process_json_file(filepath: Path, cursor, dry_run: bool = False) -> dict:
 
     if not events:
         print("  ⚠️  No se encontraron eventos")
-        return {'insertados': 0, 'duplicados': 0, 'errores': 0}
+        return {
+            'insertados': 0,
+            'duplicate_exact': 0,
+            'duplicate_partial': 0,
+            'errores': 0,
+            'detalles': []
+        }
 
     print(f"  📊 {len(events)} eventos encontrados")
 
     if dry_run:
         print(f"  🔍 [DRY-RUN] Se procesarían {len(events)} eventos")
-        return {'insertados': 0, 'duplicados': 0, 'errores': 0}
+        return {
+            'insertados': 0,
+            'duplicate_exact': 0,
+            'duplicate_partial': 0,
+            'errores': 0,
+            'detalles': []
+        }
 
+    # Contadores detallados
     insertados = 0
-    duplicados = 0
+    duplicate_exact = 0
+    duplicate_partial = 0
     errores = 0
+    detalles = []  # Lista de (titulo, reason) para log detallado
 
-    for i, evento in enumerate(events):
+    for i, evento in enumerate(events, 1):
         evento_data = process_evento(evento, filepath, i)
         if not evento_data:
             errores += 1
+            titulo_truncado = str(evento.get('nombre') or evento.get('title', 'Unknown'))[:50]
+            detalles.append((titulo_truncado, 'error:parsing_failed'))
             continue
 
-        if insert_event(cursor, evento_data):
+        # Insertar y capturar resultado
+        success, reason = insert_event(cursor, evento_data)
+
+        titulo_truncado = evento_data['title'][:50]
+
+        if success:
             insertados += 1
+            detalles.append((titulo_truncado, 'inserted'))
+        elif reason == 'duplicate_exact':
+            duplicate_exact += 1
+            detalles.append((titulo_truncado, 'duplicate_exact'))
+        elif reason.startswith('duplicate_partial'):
+            duplicate_partial += 1
+            # Extraer título existente del reason
+            existing_title = reason.split(':', 1)[1] if ':' in reason else 'similar'
+            detalles.append((titulo_truncado, f'duplicate_partial:{existing_title[:30]}'))
+        elif reason.startswith('error'):
+            errores += 1
+            error_msg = reason.split(':', 1)[1] if ':' in reason else reason
+            detalles.append((titulo_truncado, f'error:{error_msg[:50]}'))
         else:
-            duplicados += 1
+            errores += 1
+            detalles.append((titulo_truncado, f'unknown:{reason}'))
 
-    print(f"  ✅ {insertados} nuevos | ⏭️  {duplicados} duplicados | ❌ {errores} errores")
+    # Mostrar resumen del batch
+    total_duplicados = duplicate_exact + duplicate_partial
+    print(f"  ✅ {insertados} nuevos | ⏭️  {total_duplicados} duplicados ({duplicate_exact} exactos, {duplicate_partial} parciales) | ❌ {errores} errores")
 
-    return {'insertados': insertados, 'duplicados': duplicados, 'errores': errores}
+    # Mostrar detalles si hay duplicados parciales o errores
+    if duplicate_partial > 0 or errores > 0:
+        print(f"\n  📋 DETALLES DEL BATCH:")
+        for titulo, reason in detalles:
+            if reason.startswith('duplicate_partial'):
+                existing = reason.split(':', 1)[1] if ':' in reason else 'similar'
+                print(f"    ⏭️  PARCIAL: '{titulo}' ~ '{existing}'")
+            elif reason.startswith('error'):
+                error_msg = reason.split(':', 1)[1] if ':' in reason else reason
+                print(f"    ❌ ERROR: '{titulo}' → {error_msg}")
+
+    return {
+        'insertados': insertados,
+        'duplicate_exact': duplicate_exact,
+        'duplicate_partial': duplicate_partial,
+        'errores': errores,
+        'detalles': detalles
+    }
 
 
 def main():
@@ -505,7 +595,8 @@ def main():
 
     # Procesar archivos nuevos
     total_insertados = 0
-    total_duplicados = 0
+    total_duplicate_exact = 0
+    total_duplicate_partial = 0
     total_errores = 0
     archivos_procesados = 0
 
@@ -513,7 +604,8 @@ def main():
         try:
             stats = process_json_file(json_file, cursor, dry_run=False)
             total_insertados += stats['insertados']
-            total_duplicados += stats['duplicados']
+            total_duplicate_exact += stats['duplicate_exact']
+            total_duplicate_partial += stats['duplicate_partial']
             total_errores += stats['errores']
 
             # Commit después de cada archivo
@@ -532,12 +624,15 @@ def main():
     connection.close()
 
     # Resumen final
+    total_duplicados = total_duplicate_exact + total_duplicate_partial
     print("\n" + "=" * 80)
     print("✨ IMPORTACIÓN COMPLETADA")
     print("=" * 80)
     print(f"\n📊 Archivos procesados: {archivos_procesados}")
     print(f"✅ Eventos insertados: {total_insertados}")
     print(f"⏭️  Eventos duplicados (ya existían): {total_duplicados}")
+    print(f"   • Duplicados exactos (título completo igual): {total_duplicate_exact}")
+    print(f"   • Duplicados parciales (títulos similares ~80%): {total_duplicate_partial}")
     print(f"❌ Errores: {total_errores}")
 
     if total_insertados + total_errores > 0:

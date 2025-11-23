@@ -2,21 +2,36 @@
   "country": "Polonia",
   "country_code": "PL",
   "region": "Europa Oriental",
-  "cities": [
+  "voivodeships": [
     {
-      "name": "Varsovia",
-      "latitude": 52.2297,
-      "longitude": 21.0122
+      "name": "Mazovia",
+      "cities": [
+        {"name": "Varsovia", "latitude": 52.2297, "longitude": 21.0122}
+      ]
     },
     {
-      "name": "Cracovia",
-      "latitude": 50.0647,
-      "longitude": 19.9450
+      "name": "Pequeña Polonia",
+      "cities": [
+        {"name": "Cracovia", "latitude": 50.0647, "longitude": 19.9450}
+      ]
     },
     {
-      "name": "Gdansk",
-      "latitude": 54.3520,
-      "longitude": 18.6466
+      "name": "Pomerania",
+      "cities": [
+        {"name": "Gdansk", "latitude": 54.3520, "longitude": 18.6466}
+      ]
+    },
+    {
+      "name": "Gran Polonia",
+      "cities": [
+        {"name": "Poznan", "latitude": 52.4064, "longitude": 16.9252}
+      ]
+    },
+    {
+      "name": "Baja Silesia",
+      "cities": [
+        {"name": "Wroclaw", "latitude": 51.1079, "longitude": 17.0385}
+      ]
     }
   ]
 }

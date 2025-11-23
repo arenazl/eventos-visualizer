@@ -86,79 +86,97 @@ async def _try_search_with_query(search_query: str, headers: dict) -> str | None
         return None
 
 
-async def search_google_image(query: str, venue: str = '', city: str = '') -> str | None:
+def extract_keywords(description: str, max_keywords: int = 3) -> str:
     """
-    Buscar la primera imagen relevante en Google Images con múltiples estrategias
+    Extrae palabras clave de la descripción
 
     Args:
-        query: Query de búsqueda (ej: "Festival Rock Buenos Aires")
-        venue: Nombre del lugar/venue (ej: "Luna Park")
-        city: Nombre de la ciudad (ej: "Buenos Aires")
+        description: Descripción del evento
+        max_keywords: Número máximo de keywords a extraer
 
     Returns:
-        URL de la imagen encontrada o None si no se encuentra
+        String con keywords separadas por espacio
+    """
+    if not description or not description.strip():
+        return ""
+
+    # Palabras a ignorar (stop words en español)
+    stop_words = {
+        'el', 'la', 'los', 'las', 'un', 'una', 'unos', 'unas',
+        'de', 'del', 'en', 'con', 'por', 'para', 'y', 'o', 'que',
+        'es', 'su', 'sus', 'al', 'lo', 'le', 'se', 'a', 'e', 'i'
+    }
+
+    # Limpiar y dividir en palabras
+    words = re.findall(r'\b[a-záéíóúñ]{4,}\b', description.lower())
+
+    # Filtrar stop words
+    keywords = [w for w in words if w not in stop_words]
+
+    # Retornar primeras N keywords
+    return ' '.join(keywords[:max_keywords])
+
+
+async def search_google_image(query: str, venue: str = '', city: str = '', description: str = '') -> str | None:
+    """
+    Buscar imagen en Google Images con 3 etapas:
+    1. Solo título
+    2. Keywords de descripción
+    3. Solo venue
+
+    Args:
+        query: Título del evento
+        venue: Nombre del lugar/venue
+        city: Ciudad (no usado en las 3 etapas)
+        description: Descripción del evento
+
+    Returns:
+        URL de la imagen encontrada o None
     """
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     }
 
     try:
-        # Limpiar query: si tiene / o :, usar solo la primera parte
-        cleaned_query = query
+        # Limpiar título
+        cleaned_title = query
         if '/' in query:
-            cleaned_query = query.split('/')[0].strip()
-            logger.info(f"🧹 Query limpiado (/) '{query}' → '{cleaned_query}'")
+            cleaned_title = query.split('/')[0].strip()
         elif ':' in query:
-            cleaned_query = query.split(':')[0].strip()
-            logger.info(f"🧹 Query limpiado (:) '{query}' → '{cleaned_query}'")
+            cleaned_title = query.split(':')[0].strip()
 
-        # Estrategia 1: Solo título
-        logger.info(f"🔍 Intento 1 (solo título): '{cleaned_query}'")
-        image_url = await _try_search_with_query(cleaned_query, headers)
+        # ETAPA 1: Solo título
+        logger.info(f"🔍 Etapa 1/3 - Solo título: '{cleaned_title}'")
+        image_url = await _try_search_with_query(cleaned_title, headers)
         if image_url:
-            logger.info(f"✅ Imagen encontrada (intento 1): {image_url[:60]}...")
+            logger.info(f"✅ Imagen encontrada en etapa 1: {image_url[:60]}...")
             return image_url
 
-        # Estrategia 2: Título + venue (si existe)
+        # ETAPA 2: Keywords de descripción
+        if description and description.strip():
+            keywords = extract_keywords(description)
+            if keywords:
+                logger.info(f"🔍 Etapa 2/3 - Keywords de descripción: '{keywords}'")
+                image_url = await _try_search_with_query(keywords, headers)
+                if image_url:
+                    logger.info(f"✅ Imagen encontrada en etapa 2: {image_url[:60]}...")
+                    return image_url
+
+        # ETAPA 3: Solo venue
         if venue and venue.strip():
-            search_query_2 = f"{cleaned_query} {venue.strip()}"
-            logger.info(f"🔍 Intento 2 (título + venue): '{search_query_2}'")
-
-            image_url = await _try_search_with_query(search_query_2, headers)
-            if image_url:
-                logger.info(f"✅ Imagen encontrada (intento 2): {image_url[:60]}...")
-                return image_url
-
-        # Estrategia 3: Solo venue (si existe)
-        if venue and venue.strip():
-            logger.info(f"🔍 Intento 3 (solo venue): '{venue.strip()}'")
-
+            logger.info(f"🔍 Etapa 3/3 - Solo venue: '{venue.strip()}'")
             image_url = await _try_search_with_query(venue.strip(), headers)
             if image_url:
-                logger.info(f"✅ Imagen encontrada (intento 3): {image_url[:60]}...")
+                logger.info(f"✅ Imagen encontrada en etapa 3: {image_url[:60]}...")
                 return image_url
 
-        # Estrategia 4: Primeras 3 palabras del título
-        first_words = ' '.join(cleaned_query.split()[:3])
-        logger.info(f"🔍 Intento 4 (primeras 3 palabras): '{first_words}'")
-
-        image_url = await _try_search_with_query(first_words, headers)
-        if image_url:
-            logger.info(f"✅ Imagen encontrada (intento 4): {image_url[:60]}...")
-            return image_url
-
-        # Estrategia 5: Solo ciudad (si existe)
-        if city and city.strip():
-            logger.info(f"🔍 Intento 5 (solo ciudad): '{city.strip()}'")
-
-            image_url = await _try_search_with_query(city.strip(), headers)
-            if image_url:
-                logger.info(f"✅ Imagen encontrada (intento 5): {image_url[:60]}...")
-                return image_url
-
-        logger.warning(f"⚠️ No se encontraron imágenes después de 5 intentos para: {cleaned_query}")
-        return None
+        # ETAPA 4 (FALLBACK): Imagen genérica de picsum
+        fallback_url = "https://picsum.photos/800/600"
+        logger.warning(f"⚠️ No se encontraron imágenes después de 3 etapas para: {cleaned_title}")
+        logger.info(f"🎲 Usando imagen genérica de fallback: {fallback_url}")
+        return fallback_url
 
     except Exception as e:
         logger.error(f"❌ Error buscando imagen para '{query}': {e}")
-        return None
+        # Incluso en error, devolver fallback
+        return "https://picsum.photos/800/600"

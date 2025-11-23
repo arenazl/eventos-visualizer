@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import SidePanel from '../components/SidePanel'
 import Header from '../components/Header'
-import FloatingChat from '../components/FloatingChat'
-import FloatingJuan from '../components/FloatingJuan'
 import { useAssistants } from '../contexts/AssistantsContext'
+import { useEvents } from '../stores/EventsStore'
 import { API_BASE_URL } from '../config/api'
 import bgImage from '../assets/bg.webp'
 
@@ -40,33 +39,83 @@ const EventDetailPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { triggerDetailRecommendations } = useAssistants()
+  const eventsStore = useEvents()
   const [event, setEvent] = useState<Event | null>(null)
   const [loading, setLoading] = useState(true)
   const [isEditPanelOpen, setIsEditPanelOpen] = useState(false)
   const [aiInsight, setAiInsight] = useState<any>(null)
   const [aiLoading, setAiLoading] = useState(false)
   const [aiCalled, setAiCalled] = useState(false) // Flag para evitar llamadas duplicadas
+  const [imageUpdateCalled, setImageUpdateCalled] = useState(false) // Flag para evitar loop de auto-update
   const [isScrolled, setIsScrolled] = useState(false)
   const [imageError, setImageError] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [updatingCategory, setUpdatingCategory] = useState(false)
   const [updatingImage, setUpdatingImage] = useState(false)
 
+  // Handler para actualizar imagen - Definido temprano para ser usado en useEffect
+  const handleUpdateImage = useCallback(async () => {
+    if (!event || !id) return
+
+    setUpdatingImage(true)
+    try {
+      console.log('🖼️ Buscando nueva imagen para:', event.title)
+
+      const response = await fetch(`${API_BASE_URL}/api/events/${id}/update-image`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: event.title,
+          venue_name: event.venue_name,
+          city: event.city || ''
+        })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        if (data.success && data.image_url) {
+          console.log('✅ Nueva imagen encontrada:', data.image_url)
+
+          // Actualizar el evento local
+          setEvent({ ...event, image_url: data.image_url })
+          setImageError(false)
+
+          console.log('✅ Imagen actualizada correctamente en MySQL')
+        } else {
+          console.warn('⚠️ No se encontró nueva imagen')
+        }
+      } else {
+        console.error('❌ Error actualizando imagen')
+      }
+    } catch (error) {
+      console.error('❌ Error:', error)
+    } finally {
+      setUpdatingImage(false)
+    }
+  }, [event, id])
+
   useEffect(() => {
     console.log('🔄 EventDetailPage useEffect triggered - ID changed to:', id)
     setImageError(false) // Reset image error when navigating to new event
     setAiCalled(false) // Reset AI flag cuando cambia el evento
+    setImageUpdateCalled(false) // Reset image update flag cuando cambia el evento
     fetchEventDetails()
   }, [id, location.state])
 
   useEffect(() => {
-    if (event) {
+    if (event && !imageUpdateCalled) {
       fetchAIInsight()
+
+      // SIEMPRE auto-actualizar imagen al entrar al detalle (solo una vez)
+      console.log('🖼️ Iniciando actualización automática de imagen...')
+      setImageUpdateCalled(true)
+      handleUpdateImage()
+
       // DESACTIVADO: Trigger recomendaciones automáticas cada 10 segundos
       // const cleanup = triggerDetailRecommendations(event.title, event.category)
       // return cleanup
     }
-  }, [event])
+  }, [event, imageUpdateCalled])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -127,93 +176,63 @@ const EventDetailPage: React.FC = () => {
 
   const fetchEventDetails = async () => {
     try {
-      // 1. Primero intentar usar los datos pasados por navegación
+      console.log('🔍 EventDetailPage - Fetching fresh data from API for ID:', id)
+
+      // SIEMPRE fetch desde el backend para obtener datos frescos con imágenes actualizadas
+      const response = await fetch(`${API_BASE_URL}/api/events/${id}`)
+
+      if (!response.ok) {
+        throw new Error(`Event not found: ${response.status}`)
+      }
+
+      const data = await response.json()
+      const freshEvent = data.event
+
+      console.log('✅ Fresh event data loaded from MySQL:', freshEvent.title)
+      console.log('🖼️ Image URL from database:', freshEvent.image_url)
+
+      // Actualizar el estado con datos frescos
+      setEvent(freshEvent)
+
+      // Actualizar sessionStorage con datos frescos para uso futuro
+      const eventId = freshEvent.title
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+
+      sessionStorage.setItem(`event-${eventId}`, JSON.stringify(freshEvent))
+      console.log('💾 Updated sessionStorage with fresh data')
+
+    } catch (error) {
+      console.error('❌ Error fetching event from API:', error)
+
+      // FALLBACK: Intentar usar datos de navegación o sessionStorage solo si el API falla
       const eventFromState = location.state?.event
-      console.log('🔍 EventDetailPage - URL ID:', id)
-      console.log('🔍 EventDetailPage - Navigation State:', location.state)
-      console.log('🔍 EventDetailPage - Event from state:', eventFromState)
-      
       if (eventFromState) {
-        console.log('✅ Using event from navigation state:', eventFromState.title)
+        console.log('⚠️ Using fallback from navigation state:', eventFromState.title)
         setEvent(eventFromState)
-        setLoading(false)
         return
       }
 
-      // 2. Si no hay state, buscar en sessionStorage
-      // Primero intentamos con el ID tal cual viene de la URL
-      console.log('🔍 Looking for sessionStorage key:', `event-${id}`)
+      // Último intento: buscar en sessionStorage
       let storedEvent = sessionStorage.getItem(`event-${id}`)
-      
-      // Si no se encuentra, intentamos decodificar caracteres especiales
       if (!storedEvent) {
         const decodedId = decodeURIComponent(id || '')
-        console.log('🔍 Trying decoded ID:', decodedId)
         storedEvent = sessionStorage.getItem(`event-${decodedId}`)
       }
-      
-      // También intentamos buscar por todas las keys en sessionStorage
-      if (!storedEvent) {
-        console.log('🔍 Searching all sessionStorage keys...')
-        const allKeys = Object.keys(sessionStorage)
-        const eventKeys = allKeys.filter(key => key.startsWith('event-'))
-        console.log('🔍 Found event keys in storage:', eventKeys)
-        
-        // Intentar encontrar una coincidencia parcial
-        for (const key of eventKeys) {
-          const storedData = sessionStorage.getItem(key)
-          if (storedData) {
-            const parsedData = JSON.parse(storedData)
-            // Generar el mismo ID que generaría EventCardModern
-            const generatedId = parsedData.title
-              .toLowerCase()
-              .normalize("NFD")
-              .replace(/[\u0300-\u036f]/g, "")
-              .replace(/[^a-z0-9]+/g, '-')
-              .replace(/^-+|-+$/g, '')
-            
-            console.log(`🔍 Comparing: URL ID "${id}" vs Generated "${generatedId}" for "${parsedData.title}"`)
-            
-            if (generatedId === id) {
-              console.log('✅ Found matching event by generated ID!')
-              storedEvent = storedData
-              break
-            }
-          }
-        }
-      }
-      
+
       if (storedEvent) {
-        console.log('✅ Using event from sessionStorage')
+        console.log('⚠️ Using fallback from sessionStorage')
         const parsedEvent = JSON.parse(storedEvent)
         setEvent(parsedEvent)
-        setLoading(false)
         return
       }
 
-      // 3. Si tampoco está en sessionStorage, intentar fetch del backend
-      console.log('⚠️ No event data in state or storage, attempting backend fetch...')
-      const response = await fetch(`${API_BASE_URL}/api/events/${id}`)
-      if (!response.ok) throw new Error('Event not found')
-      const data = await response.json()
-      setEvent(data.event)
-    } catch (error) {
-      console.error('Error fetching event:', error)
-      // Si no encuentra el evento, usar datos de ejemplo
-      setEvent({
-        title: "Festival de Rock en Buenos Aires",
-        description: "Gran festival con las mejores bandas locales. Una experiencia única con artistas de renombre nacional e internacional.",
-        start_datetime: "2025-01-15T20:00:00",
-        venue_name: "Luna Park",
-        venue_address: "Av. Madero 470, Buenos Aires",
-        category: "music",
-        price: 15000.00,
-        currency: "ARS",
-        is_free: false,
-        image_url: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f",
-        latitude: -34.6037,
-        longitude: -58.3816
-      })
+      // Si todo falla, mostrar mensaje de error
+      console.error('❌ No data available for event:', id)
+      setEvent(null)
     } finally {
       setLoading(false)
     }
@@ -324,92 +343,6 @@ const EventDetailPage: React.FC = () => {
     }
   }
 
-  // Handler para actualizar imagen
-  const handleUpdateImage = async () => {
-    if (!event || !id) return
-
-    setUpdatingImage(true)
-    try {
-      console.log('🖼️ Buscando nueva imagen para:', event.title)
-
-      const response = await fetch(`${API_BASE_URL}/api/events/${id}/update-image`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: event.title,
-          venue_name: event.venue_name,
-          city: event.city || ''
-        })
-      })
-
-      if (response.ok) {
-        const data = await response.json()
-        if (data.success && data.image_url) {
-          console.log('✅ Nueva imagen encontrada:', data.image_url)
-
-          // Actualizar el evento local
-          setEvent({ ...event, image_url: data.image_url })
-          setImageError(false)
-
-          // Actualizar en localStorage - evento individual
-          const eventKey = `event-${id}`
-          const storedEvent = localStorage.getItem(eventKey)
-          if (storedEvent) {
-            const parsedEvent = JSON.parse(storedEvent)
-            parsedEvent.image_url = data.image_url
-            localStorage.setItem(eventKey, JSON.stringify(parsedEvent))
-          }
-
-          // También actualizar en sessionStorage - evento individual
-          const sessionEvent = sessionStorage.getItem(eventKey)
-          if (sessionEvent) {
-            const parsedEvent = JSON.parse(sessionEvent)
-            parsedEvent.image_url = data.image_url
-            sessionStorage.setItem(eventKey, JSON.stringify(parsedEvent))
-          }
-
-          // Actualizar en la lista de eventos del home (localStorage)
-          const eventsListKey = 'events-list'
-          const storedEventsList = localStorage.getItem(eventsListKey)
-          if (storedEventsList) {
-            const eventsList = JSON.parse(storedEventsList)
-            const eventIndex = eventsList.findIndex((e: any) => {
-              const eId = e.title.toLowerCase().replace(/ /g, '-')
-              return eId === id || e.id === id
-            })
-            if (eventIndex !== -1) {
-              eventsList[eventIndex].image_url = data.image_url
-              localStorage.setItem(eventsListKey, JSON.stringify(eventsList))
-              console.log('✅ Imagen actualizada en localStorage')
-            }
-          }
-
-          // También actualizar en sessionStorage la lista
-          const sessionEventsList = sessionStorage.getItem(eventsListKey)
-          if (sessionEventsList) {
-            const eventsList = JSON.parse(sessionEventsList)
-            const eventIndex = eventsList.findIndex((e: any) => {
-              const eId = e.title.toLowerCase().replace(/ /g, '-')
-              return eId === id || e.id === id
-            })
-            if (eventIndex !== -1) {
-              eventsList[eventIndex].image_url = data.image_url
-              sessionStorage.setItem(eventsListKey, JSON.stringify(eventsList))
-              console.log('✅ Imagen actualizada en sessionStorage')
-            }
-          }
-        } else {
-          console.warn('⚠️ No se encontró nueva imagen')
-        }
-      } else {
-        console.error('❌ Error actualizando imagen')
-      }
-    } catch (error) {
-      console.error('❌ Error:', error)
-    } finally {
-      setUpdatingImage(false)
-    }
-  }
 
   if (loading) {
     return (
@@ -469,13 +402,14 @@ const EventDetailPage: React.FC = () => {
       <div>
 
         {/* Hero Image */}
-        <div className="relative h-64 md:h-96 w-full mt-16">
+        <div className="relative h-80 md:h-[500px] w-full mt-16 overflow-hidden">
           {!imageError && event.image_url && event.image_url.trim() !== "" ? (
             <img
               src={event.image_url}
               alt={event.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-center"
               onError={() => setImageError(true)}
+              style={{ objectPosition: 'center 30%' }}
             />
           ) : (
             <div className={`w-full h-full bg-gradient-to-br ${getCategoryGradient(event.category)} flex items-center justify-center`}>
@@ -906,9 +840,6 @@ const EventDetailPage: React.FC = () => {
         </form>
       </SidePanel>
 
-      {/* Floating Assistants with Grok */}
-      <FloatingChat />
-      <FloatingJuan />
       </div>
     </div>
   )

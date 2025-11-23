@@ -2,21 +2,34 @@
   "country": "Puerto Rico",
   "country_code": "PR",
   "region": "Caribe",
-  "cities": [
+  "municipalities": [
     {
       "name": "San Juan",
-      "latitude": 18.4655,
-      "longitude": -66.1057
+      "cities": [
+        {"name": "San Juan", "latitude": 18.4655, "longitude": -66.1057, "barrios": [
+          {"name": "Viejo San Juan", "latitude": 18.4665, "longitude": -66.1165},
+          {"name": "Condado", "latitude": 18.4553, "longitude": -66.0694},
+          {"name": "Santurce", "latitude": 18.4455, "longitude": -66.0631}
+        ]}
+      ]
     },
     {
       "name": "Ponce",
-      "latitude": 18.0111,
-      "longitude": -66.6141
+      "cities": [
+        {"name": "Ponce", "latitude": 18.0111, "longitude": -66.6141}
+      ]
     },
     {
       "name": "Bayamón",
-      "latitude": 18.3997,
-      "longitude": -66.1599
+      "cities": [
+        {"name": "Bayamón", "latitude": 18.3997, "longitude": -66.1599}
+      ]
+    },
+    {
+      "name": "Rincón",
+      "cities": [
+        {"name": "Rincón", "latitude": 18.3403, "longitude": -67.2500}
+      ]
     }
   ]
 }

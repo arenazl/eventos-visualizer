@@ -66,6 +66,7 @@ export class SSEEventsService {
     options: {
       limit?: number;
       categories?: string[];
+      parent_city?: string;  // ✨ Ciudad padre desde metadata del frontend
     } = {}
   ): () => void {
     // Close existing connection if any
@@ -79,6 +80,12 @@ export class SSEEventsService {
 
     if (options.categories?.length) {
       params.append('categories', options.categories.join(','));
+    }
+
+    // ✨ Agregar ciudad padre si existe (desde metadata del barrio)
+    if (options.parent_city) {
+      params.append('parent_city', options.parent_city);
+      console.log(`🏙️ Pasando parent_city al backend: ${options.parent_city}`);
     }
 
     // Use SSE streaming endpoint for real-time results

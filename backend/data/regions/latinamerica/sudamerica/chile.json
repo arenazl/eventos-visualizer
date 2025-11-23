@@ -2,21 +2,57 @@
   "country": "Chile",
   "country_code": "CL",
   "region": "Sudamérica",
-  "cities": [
+  "regions": [
     {
-      "name": "Santiago",
-      "latitude": -33.4489,
-      "longitude": -70.6693
+      "name": "Región Metropolitana",
+      "cities": [
+        {"name": "Santiago", "latitude": -33.4489, "longitude": -70.6693, "barrios": [
+          {"name": "Providencia", "latitude": -33.4275, "longitude": -70.6089},
+          {"name": "Las Condes", "latitude": -33.4103, "longitude": -70.5678},
+          {"name": "Vitacura", "latitude": -33.3933, "longitude": -70.5789},
+          {"name": "Ñuñoa", "latitude": -33.4564, "longitude": -70.5967},
+          {"name": "Bellavista", "latitude": -33.4297, "longitude": -70.6428}
+        ]}
+      ]
     },
     {
       "name": "Valparaíso",
-      "latitude": -33.0472,
-      "longitude": -71.6127
+      "cities": [
+        {"name": "Valparaíso", "latitude": -33.0472, "longitude": -71.6127},
+        {"name": "Viña del Mar", "latitude": -33.0153, "longitude": -71.5500}
+      ]
     },
     {
-      "name": "Concepción",
-      "latitude": -36.8201,
-      "longitude": -73.0444
+      "name": "Biobío",
+      "cities": [
+        {"name": "Concepción", "latitude": -36.8201, "longitude": -73.0444}
+      ]
+    },
+    {
+      "name": "Coquimbo",
+      "cities": [
+        {"name": "La Serena", "latitude": -29.9027, "longitude": -71.2519}
+      ]
+    },
+    {
+      "name": "Los Lagos",
+      "cities": [
+        {"name": "Puerto Montt", "latitude": -41.4693, "longitude": -72.9424},
+        {"name": "Puerto Varas", "latitude": -41.3167, "longitude": -72.9833}
+      ]
+    },
+    {
+      "name": "Antofagasta",
+      "cities": [
+        {"name": "Antofagasta", "latitude": -23.6509, "longitude": -70.3975},
+        {"name": "San Pedro de Atacama", "latitude": -22.9087, "longitude": -68.1997}
+      ]
+    },
+    {
+      "name": "Magallanes",
+      "cities": [
+        {"name": "Punta Arenas", "latitude": -53.1638, "longitude": -70.9171}
+      ]
     }
   ]
 }

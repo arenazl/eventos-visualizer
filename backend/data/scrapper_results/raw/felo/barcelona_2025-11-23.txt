@@ -1,0 +1,21 @@
+N°	Nombre del Evento	Descripción	Fecha	Lugar / Dirección	Barrio	Precio	Info Extra
+1	Fiesta del Cine	Entradas a 3,50 euros para películas en cines seleccionados.	Hasta el 30 Nov	Varios cines en Barcelona	Variado	3,50 €	Consulta cines participantes.
+2	World Press Photo	Exposición de fotoperiodismo internacional.	Desde el 7 Nov	CCCB, Carrer de Montalegre, 5	El Raval	Entrada libre	Visitas guiadas disponibles.
+3	La Castanyada	Fiesta popular con venta de castañas asadas y panellets.	31 Oct - 1 Nov	Varios puntos en la ciudad	Variado	Gratis	Celebración tradicional catalana.
+4	Festival Hilària	Festival de música y arte contemporáneo.	10-12 Nov	Varios lugares en Barcelona	Variado	Desde 10 €	Incluye talleres y exposiciones.
+5	Panenka Fest	Festival de fútbol y cultura.	18-19 Nov	Estadio Municipal de Montjuïc	Montjuïc	Desde 15 €	Actividades para toda la familia.
+6	All Those Food Market	Mercado gastronómico con productos locales.	25 Nov	Carrer del Carme, 3	El Raval	Gratis	Degustaciones y talleres de cocina.
+7	Encuentros Exquisitos	Evento de gastronomía y networking.	28 Nov	Sala de Luz, Carrer Pallars 74	Poblenou	Desde 20 €	Incluye cena y cata de vinos.
+8	MIRA Digital Arts Festival	Festival de artes digitales con instalaciones y DJ sets.	7-8 Nov	Varios lugares en Barcelona	Variado	Desde 15 €	Experiencias inmersivas y audiovisuales.
+9	Festival de Jazz de Barcelona	Conciertos de jazz en diferentes locales.	Todo noviembre	Varios locales de jazz	Variado	Desde 10 €	Artistas locales e internacionales.
+10	Maratón de Cine Fantástico	Proyecciones de películas de terror y fantasía.	26-29 Nov	Sala de Cine, Carrer de Casanova, 79	Eixample	Desde 5 €	Incluye charlas con directores.
+11	Fira de Nadal	Mercado navideño con artesanías y productos típicos.	28 Nov - 23 Dic	Plaza de la Catedral	Gòtic	Gratis	Ideal para compras navideñas.
+12	Concierto de Mumford & Sons	Concierto de la famosa banda británica.	23 Nov	Palau Sant Jordi, Carrer de la Numància	Les Corts	Desde 40 €	Entradas limitadas.
+13	Festival de Música Antigua	Conciertos de música antigua en varios espacios.	15-20 Nov	Varios lugares en Barcelona	Variado	Desde 10 €	Incluye talleres y conferencias.
+14	Festival de Cine In-Edit	Festival de documentales musicales.	23 Oct - 2 Nov	Varios cines en Barcelona	Variado	Desde 5 €	Proyecciones y encuentros con directores.
+15	Fira de Santa Llúcia	Mercado navideño tradicional.	28 Nov - 23 Dic	Plaza de la Catedral	Gòtic	Gratis	Artesanías y productos navideños.
+16	Concierto de Anuel AA	Concierto del famoso rapero puertorriqueño.	30 Nov	Palau Sant Jordi, Carrer de la Numància	Les Corts	Desde 50 €	Entradas limitadas.
+17	Festival de Teatro de Barcelona	Muestra de obras de teatro contemporáneo.	1-15 Nov	Varios teatros en Barcelona	Variado	Desde 10 €	Incluye obras en varios idiomas.
+18	Festival de Arte Contemporáneo	Exposiciones y performances de artistas emergentes.	5-10 Nov	Varios espacios culturales	Variado	Gratis	Actividades interactivas.
+19	Encuentro de Fotografía	Talleres y exposiciones de fotografía.	12-14 Nov	Espai 2, Carrer de la Riera, 2	Gràcia	Desde 15 €	Incluye exposiciones de fotógrafos locales.
+20	Festival de Gastronomía	Muestra de la cocina catalana y tapas.	20-22 Nov	Varios restaurantes en Barcelona	Variado	Desde 20 €	Degustaciones y talleres de cocina.

@@ -2,21 +2,30 @@
   "country": "Irlanda",
   "country_code": "IE",
   "region": "Europa Septentrional",
-  "cities": [
+  "provinces": [
     {
-      "name": "Dublín",
-      "latitude": 53.3498,
-      "longitude": -6.2603
+      "name": "Leinster",
+      "cities": [
+        {"name": "Dublín", "latitude": 53.3498, "longitude": -6.2603, "barrios": [
+          {"name": "Temple Bar", "latitude": 53.3456, "longitude": -6.2642},
+          {"name": "Grafton Street", "latitude": 53.3418, "longitude": -6.2597},
+          {"name": "Grand Canal", "latitude": 53.3389, "longitude": -6.2478}
+        ]}
+      ]
     },
     {
-      "name": "Cork",
-      "latitude": 51.8969,
-      "longitude": -8.4863
+      "name": "Munster",
+      "cities": [
+        {"name": "Cork", "latitude": 51.8969, "longitude": -8.4863},
+        {"name": "Limerick", "latitude": 52.6638, "longitude": -8.6267},
+        {"name": "Killarney", "latitude": 52.0597, "longitude": -9.5069}
+      ]
     },
     {
-      "name": "Galway",
-      "latitude": 53.2707,
-      "longitude": -9.0568
+      "name": "Connacht",
+      "cities": [
+        {"name": "Galway", "latitude": 53.2707, "longitude": -9.0568}
+      ]
     }
   ]
 }

@@ -1,0 +1,21 @@
+N°	Nombre del Evento	Descripción	Fecha	Lugar / Dirección	Barrio	Precio	Info Extra
+1	Jazzfest Berlin	Festival de jazz con actuaciones de artistas internacionales.	30 Oct - 2 Nov 2025	Varias ubicaciones	Variado	Desde €20	Parte de Berliner Festspiele.
+2	NFL Berlin Game	Partido de fútbol americano entre los Colts y los Falcons.	9 Nov 2025	Estadio Olímpico	Charlottenburg	Desde €50	Primer partido de la NFL en Berlín.
+3	Days of Jewish Culture	Celebración de la cultura judía con música, cine y literatura.	13 - 23 Nov 2025	Varias ubicaciones	Variado	Gratuito	Más de 300 eventos programados.
+4	Christmas Garden	Jardín botánico transformado en un paisaje navideño iluminado.	19 Nov - 12 Ene 2026	Jardín Botánico de Berlín	Steglitz	Desde €10	Incluye espectáculos de luces y figuras 3D.
+5	Zeughausmesse	Feria de arte contemporáneo aplicada.	13 - 16 Nov 2025	Zeughaus, Unter den Linden	Mitte	Desde €5	Oportunidad para artistas de exhibir y vender su trabajo.
+6	Berlin Freedom Week	Programa de eventos sobre libertad y democracia.	1 - 9 Nov 2025	Varias ubicaciones	Variado	Gratuito	Conmemoración de la caída del Muro de Berlín.
+7	Christmas at the Tierpark	El zoológico se ilumina con decoraciones navideñas.	1 - 31 Dic 2025	Tierpark Berlin	Friedrichsfelde	Desde €15	Incluye un recorrido especial por el palacio histórico.
+8	Medieval Christmas Market	Mercado navideño con temática medieval.	13 Dic - 22 Dic 2025	RAW Gelände	Friedrichshain	Gratuito	Artesanías y comida típica medieval.
+9	Voices Berlin Festival	Festival de música contemporánea, teatro y danza.	15 - 20 Nov 2025	Varias ubicaciones	Variado	Desde €10	Presentaciones de artistas de todo el mundo.
+10	Theater der Dinge	Festival internacional de teatro de marionetas y objetos.	20 - 23 Nov 2025	Varias ubicaciones	Variado	Desde €8	Incluye actuaciones de artistas europeos.
+11	Christmas Markets	Mercados navideños en toda la ciudad.	24 Nov - 31 Dic 2025	Varias ubicaciones	Variado	Gratuito	Comida, artesanías y entretenimiento navideño.
+12	Rejazz Festival	Festival de jazz con enfoque en bandas lideradas por mujeres.	22 - 24 Nov 2025	Varias ubicaciones	Variado	Desde €15	Celebración de la diversidad en el jazz.
+13	Future of Festivals	Encuentro sobre el futuro de los festivales.	27 - 28 Nov 2025	Station-Berlin	Kreuzberg	Desde €20	Discusiones y talleres sobre la industria de festivales.
+14	Berlin Science Week	Festival de ciencia y cultura con eventos gratuitos.	1 - 10 Nov 2025	Varias ubicaciones	Variado	Gratuito	Más de 100 eventos en toda la ciudad.
+15	Christmas Fair on Landsberger Allee	Feria navideña con productos locales y actividades familiares.	1 - 24 Dic 2025	Landsberger Allee	Friedrichshain	Gratuito	Ideal para familias y compras navideñas.
+16	Noche de Fiesta Hofbräu	Gran fiesta con música y entretenimiento en Hofbräu Wirtshaus.	1 Nov 2025	Hofbräu Wirtshaus	Mitte	Desde €30	Incluye actuaciones en vivo y ambiente festivo.
+17	Berlin Art Week	Semana dedicada al arte contemporáneo con exposiciones y eventos.	1 - 7 Nov 2025	Varias galerías	Mitte	Desde €10	Oportunidades para conocer artistas emergentes.
+18	Film Festival	Festival de cine con proyecciones de películas internacionales.	1 - 10 Nov 2025	Varias ubicaciones	Variado	Desde €8	Incluye cortometrajes y documentales.
+19	Club Nights	Noches de fiesta en clubes icónicos de Berlín.	Varias fechas	Varias ubicaciones	Variado	Desde €10	Incluye DJs y actuaciones en vivo.
+20	Berlin Marathon	Maratón anual que atrae a corredores de todo el mundo.	21 Sep 2025	Varias ubicaciones	Variado	Desde €50	Evento destacado en el calendario deportivo de Berlín.

@@ -2,21 +2,28 @@
   "country": "Dinamarca",
   "country_code": "DK",
   "region": "Europa Septentrional",
-  "cities": [
+  "regions": [
     {
-      "name": "Copenhague",
-      "latitude": 55.6761,
-      "longitude": 12.5683
+      "name": "Hovedstaden",
+      "cities": [
+        {"name": "Copenhague", "latitude": 55.6761, "longitude": 12.5683, "barrios": [
+          {"name": "Nyhavn", "latitude": 55.6798, "longitude": 12.5899},
+          {"name": "Vesterbro", "latitude": 55.6686, "longitude": 12.5493},
+          {"name": "Nørrebro", "latitude": 55.6961, "longitude": 12.5507}
+        ]}
+      ]
     },
     {
-      "name": "Aarhus",
-      "latitude": 56.1629,
-      "longitude": 10.2039
+      "name": "Jutlandia Central",
+      "cities": [
+        {"name": "Aarhus", "latitude": 56.1629, "longitude": 10.2039}
+      ]
     },
     {
-      "name": "Odense",
-      "latitude": 55.4038,
-      "longitude": 10.4024
+      "name": "Dinamarca Meridional",
+      "cities": [
+        {"name": "Odense", "latitude": 55.4038, "longitude": 10.4024}
+      ]
     }
   ]
 }

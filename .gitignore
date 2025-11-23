@@ -117,4 +117,7 @@ backend/automation/
 backend/batch/
 backend/scripts/
 cleanup.bat
-start*.bat
+start*.bat*.exe
+
+# Local Netlify folder
+.netlify

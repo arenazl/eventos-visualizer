@@ -1,5 +1,12 @@
 {
   "mcpServers": {
+    "puppeteer": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@anthropic-ai/mcp-server-puppeteer@latest"
+      ]
+    },
     "chrome-devtools": {
       "command": "npx",
       "args": [

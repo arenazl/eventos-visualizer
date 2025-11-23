@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Eventos - 22 Noviembre 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .stat-box {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-box .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #48dbfb;
+        }
+        .stat-box .label {
+            font-size: 0.9rem;
+            color: #888;
+        }
+        .city-section {
+            margin-bottom: 50px;
+        }
+        .city-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+        .city-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        .city-name {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        .city-count {
+            background: rgba(72, 219, 251, 0.2);
+            color: #48dbfb;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        .event-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .event-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #2d2d44, #1a1a2e);
+        }
+        .event-content {
+            padding: 20px;
+        }
+        .event-category {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .cat-music { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; }
+        .cat-cultural { background: rgba(254, 202, 87, 0.2); color: #feca57; }
+        .cat-nightlife { background: rgba(155, 89, 182, 0.2); color: #9b59b6; }
+        .cat-food { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+        .cat-sports { background: rgba(52, 152, 219, 0.2); color: #3498db; }
+        .cat-tech { background: rgba(72, 219, 251, 0.2); color: #48dbfb; }
+        .cat-other { background: rgba(149, 165, 166, 0.2); color: #95a5a6; }
+        .cat-entertainment { background: rgba(241, 196, 15, 0.2); color: #f1c40f; }
+        .event-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        .event-description {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .event-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #888;
+        }
+        .event-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .event-meta-item svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+        .event-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .event-price {
+            font-weight: 600;
+            color: #2ecc71;
+        }
+        .event-price.free {
+            color: #48dbfb;
+        }
+        .event-source {
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            text-transform: uppercase;
+        }
+        .source-gemini { color: #48dbfb; }
+        .source-felo { color: #feca57; }
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Reporte de Eventos Argentina</h1>
+        <p>Scraping realizado el 22 de Noviembre 2025</p>
+        <div class="stats">
+            <div class="stat-box">
+                <div class="number">5</div>
+                <div class="label">Ciudades</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">90</div>
+                <div class="label">Eventos Totales</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">2</div>
+                <div class="label">Fuentes (Gemini + Felo)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BUENOS AIRES -->
+    <div class="city-section">
+        <div class="city-header">
+            <div class="city-icon">BA</div>
+            <h2 class="city-name">Buenos Aires</h2>
+            <span class="city-count">27 eventos</span>
+        </div>
+        <div class="events-grid">
+            <!-- Gemini Buenos Aires -->
+            <div class="event-card">
+                <img class="event-image" src="https://media.timeout.com/images/106336772/750/562/image.jpg" alt="Buenos Aires Rojo Sangre" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-cultural">Cultural</span>
+                    <h3 class="event-title">Buenos Aires Rojo Sangre (BARS)</h3>
+                    <p class="event-description">Festival Internacional de Cine de terror, fantastico y bizarro. 26 edicion con competencias, estrenos y actividades.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">30 Nov 2025</div>
+                        <div class="event-meta-item">Multiplex Belgrano - Belgrano</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price">Consultar</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3663739434127651440" alt="Homenaje a Alejandro Lerner" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-music">Musica</span>
+                    <h3 class="event-title">Homenaje a Alejandro Lerner</h3>
+                    <p class="event-description">Concierto con musica en vivo y distincion a Alejandro Lerner como Personalidad Emerita de la Cultura.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">22 Nov 2025</div>
+                        <div class="event-meta-item">Auditorio Nacional - San Nicolas</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price free">Gratis</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3770518306784555326" alt="Experiencia Gospel" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-food">Food</span>
+                    <h3 class="event-title">Experiencia Gospel</h3>
+                    <p class="event-description">Evento unico al aire libre con musica en vivo, danza, teatro, poesia, pintura y gastronomia.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">24 Nov 2025</div>
+                        <div class="event-meta-item">Av. Diagonal Norte - San Nicolas</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price free">Gratis</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3300671068867171535" alt="Antidomingos en el Recoleta" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-music">Musica</span>
+                    <h3 class="event-title">Antidomingos en el Recoleta</h3>
+                    <p class="event-description">Ciclo permanente de musica (Rock, pop, folk, jazz, clasica) para disfrutar al atardecer en la terraza.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">22 Nov 2025</div>
+                        <div class="event-meta-item">Centro Cultural Recoleta - Recoleta</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price free">Gratis</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3732320902571967885" alt="Homenaje al Papa Francisco" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-music">Musica</span>
+                    <h3 class="event-title">Homenaje al Papa Francisco</h3>
+                    <p class="event-description">Concierto del Coro Polifonico Nacional y la Orquesta Nacional de Musica Argentina.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">29 Nov 2025</div>
+                        <div class="event-meta-item">Auditorio Nacional - San Nicolas</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price free">Gratis</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://palaciolibertad.gob.ar/wp-content/uploads/2020/11/musica_popular.jpg" alt="Tardes de Jazz" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-music">Jazz</span>
+                    <h3 class="event-title">Tardes de Jazz: Camila Nebbia Cuarteto</h3>
+                    <p class="event-description">Concierto de jazz en la Plaza Seca del Palacio Libertad.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">7 Dic 2025</div>
+                        <div class="event-meta-item">Palacio Libertad - San Nicolas</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price free">Gratis</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Felo Buenos Aires -->
+            <div class="event-card">
+                <img class="event-image" src="https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3673779108572828625" alt="Marco Antonio Solis" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-music">Musica</span>
+                    <h3 class="event-title">Marco Antonio Solis - "Mas Cerca de Ti"</h3>
+                    <p class="event-description">El famoso cantante regresa a Buenos Aires con su tour de baladas romanticas.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">23 Nov 2025</div>
+                        <div class="event-meta-item">Movistar Arena - Villa Crespo</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price">Desde $5,000</span>
+                        <span class="event-source source-felo">Felo</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Eurovisi%C3%B3n_Junior_2024_guests_%28Abraham_Mateo%29.jpg" alt="Noche de Canciones" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-nightlife">Nightlife</span>
+                    <h3 class="event-title">Noche de Canciones 2025</h3>
+                    <p class="event-description">Festival musical que reune a varios artistas locales en una celebracion de la musica en vivo.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">30 Nov 2025</div>
+                        <div class="event-meta-item">Teatro Gran Rex - Centro</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price">Desde $2,000</span>
+                        <span class="event-source source-felo">Felo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ROSARIO -->
+    <div class="city-section">
+        <div class="city-header">
+            <div class="city-icon">RO</div>
+            <h2 class="city-name">Rosario</h2>
+            <span class="city-count">14 eventos</span>
+        </div>
+        <div class="events-grid">
+            <div class="event-card">
+                <img class="event-image" src="https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3768846235743703882" alt="Festival de Poesia" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-cultural">Literatura</span>
+                    <h3 class="event-title">Festival Internacional de Poesia de Rosario</h3>
+                    <p class="event-description">Encuentro de poesia con lecturas, talleres y feria de editoriales.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">22 Nov 2025</div>
+                        <div class="event-meta-item">Plataforma Lavarden - Centro</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price free">Gratuito</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://pbs.twimg.com/media/G0-AQnDWUAAhWOZ.jpg" alt="La Kermesse Redonda" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-music">Musica</span>
+                    <h3 class="event-title">La Kermesse Redonda en Rosario - 10 Anos</h3>
+                    <p class="event-description">Gran evento musical que celebra los 10 anos de La Kermesse Redonda.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">22 Nov 2025</div>
+                        <div class="event-meta-item">Bioceres Arena - La Ceramica</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price">Desde $40,000</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3757995975282594098" alt="Expo Gaming" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-cultural">Gaming</span>
+                    <h3 class="event-title">Expo Gaming Rosario 2025</h3>
+                    <p class="event-description">Encuentro de cultura pop y videojuegos.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">23 Nov 2025</div>
+                        <div class="event-meta-item">Puerto Joven - Puerto Norte</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price free">Gratis</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=2690843162878843490" alt="Festival de Magia" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-other">Familia</span>
+                    <h3 class="event-title">Festival de Magia de Rosario</h3>
+                    <p class="event-description">8va edicion con talleres gratuitos para ninos.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">22 Nov 2025</div>
+                        <div class="event-meta-item">Edificio Ex Aduana - Centro</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price free">Gratuito</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://cdn.prod.website-files.com/6423440213c3f044ff2b62a1/68fbc7a267a901b844fc7e64_de3cf2a.jpg" alt="Abel Pintos" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-music">Musica</span>
+                    <h3 class="event-title">Abel Pintos - Tour Abel 30 Anos</h3>
+                    <p class="event-description">El cantautor argentino con su gira de celebracion.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">25 Nov 2025</div>
+                        <div class="event-meta-item">Anfiteatro Municipal - Parque Urquiza</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price free">Gratis</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3747749525088782158" alt="Cumbion del Parana" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-music">Cumbia</span>
+                    <h3 class="event-title">Cumbion del Parana</h3>
+                    <p class="event-description">Gran evento de cumbia en el Hipodromo de Rosario.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">29 Nov 2025</div>
+                        <div class="event-meta-item">Hipodromo de Rosario - Parque Independencia</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price">Desde $35,000</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CORDOBA -->
+    <div class="city-section">
+        <div class="city-header">
+            <div class="city-icon">CO</div>
+            <h2 class="city-name">Cordoba</h2>
+            <span class="city-count">9 eventos</span>
+        </div>
+        <div class="events-grid">
+            <div class="event-card">
+                <img class="event-image" src="https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=2250073591695791" alt="Festival de Jazz" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-music">Jazz</span>
+                    <h3 class="event-title">Festival Internacional de Jazz</h3>
+                    <p class="event-description">Mas de 20 conciertos gratuitos con musicos nacionales e internacionales.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">24 Nov 2025</div>
+                        <div class="event-meta-item">Varias locaciones - Centro</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price free">Gratuito</span>
+                        <span class="event-source source-felo">Felo</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://cdn.getcrowder.com/images/794b41ec-e5e6-426a-860c-d33c2fab440f-flyer-desakta2---forja-640-x-640.jpg?w=360" alt="Desakta2" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-cultural">Cultural</span>
+                    <h3 class="event-title">Desakta2 4to Aniversario</h3>
+                    <p class="event-description">Celebracion del cuarto aniversario de Desakta2.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">23 Nov 2025</div>
+                        <div class="event-meta-item">Complejo Forja - Alta Cordoba</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price free">Gratis</span>
+                        <span class="event-source source-felo">Felo</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3754909255645190163" alt="Gala del Cascanueces" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-cultural">Ballet</span>
+                    <h3 class="event-title">Gala del Cascanueces</h3>
+                    <p class="event-description">Presentacion del Moscow State Ballet.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">29 Nov 2025</div>
+                        <div class="event-meta-item">Quality Espacio - Nueva Cordoba</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price">Desde $8,000</span>
+                        <span class="event-source source-felo">Felo</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://pickasso.spotifycdn.com/image/ab67c0de0000deef/dt/v1/img/thisisv3/1wKDGglKV4FsFS85r2Dmpr/en-GB" alt="AIRBAG" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-music">Rock</span>
+                    <h3 class="event-title">AIRBAG en Cordoba</h3>
+                    <p class="event-description">Concierto de la banda AIRBAG en el estadio Kempes.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">29 Nov 2025</div>
+                        <div class="event-meta-item">Estadio Kempes - Parque San Martin</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price free">Gratis</span>
+                        <span class="event-source source-felo">Felo</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://pickasso.spotifycdn.com/image/ab67c0de0000deef/dt/v1/img/thisisv3/2eEmsgWmUFMbtU7agJpnjY/en-GB" alt="Miranda" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-music">Pop</span>
+                    <h3 class="event-title">Miranda! en Quality Arena</h3>
+                    <p class="event-description">Concierto del duo pop argentino.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">5 Dic 2025</div>
+                        <div class="event-meta-item">Quality Arena - Nueva Cordoba</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price">Desde $8,500</span>
+                        <span class="event-source source-felo">Felo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MENDOZA -->
+    <div class="city-section">
+        <div class="city-header">
+            <div class="city-icon">MZ</div>
+            <h2 class="city-name">Mendoza</h2>
+            <span class="city-count">31 eventos</span>
+        </div>
+        <div class="events-grid">
+            <div class="event-card">
+                <img class="event-image" src="https://media.timeout.com/images/106341981/750/562/image.jpg" alt="Corona Sunsets" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-music">Electronic</span>
+                    <h3 class="event-title">Corona Sunsets - WhoMadeWho</h3>
+                    <p class="event-description">Jornada de musica electronica con el grupo danes WhoMadeWho.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">22 Nov 2025</div>
+                        <div class="event-meta-item">Puesto del Indio - Las Heras</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price">A consultar</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://imgs.entradaweb.com.ar/events/MDIA-4f50a1cb.jpg" alt="Facundo Arana" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-cultural">Teatro</span>
+                    <h3 class="event-title">Facundo Arana - "En el aire"</h3>
+                    <p class="event-description">Obra de teatro que propone un viaje magico y nostalgico.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">22 Nov 2025</div>
+                        <div class="event-meta-item">Teatro Mendoza - Centro</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price">A consultar</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/31/0c/c2/d1/la-experiencia-comienza.jpg?w=900&h=500&s=1" alt="Atardeceres del Vino" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-food">Wine</span>
+                    <h3 class="event-title">Atardeceres del Vino en La Finquita</h3>
+                    <p class="event-description">Sunset con degustacion de vinos, cocteleria y musica para bailar.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">22 Nov 2025</div>
+                        <div class="event-meta-item">La Finquita 1920 - Maipu</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price">A consultar</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://lookaside.fbsbx.com/lookaside/crawler/instagram/mil990tributo/profile_pic.jpg" alt="Tributo Soda Stereo" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-music">Rock</span>
+                    <h3 class="event-title">Tributo a Soda Stereo (MIL990)</h3>
+                    <p class="event-description">Show de la banda tributo MIL990 a Soda Stereo.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">22 Nov 2025</div>
+                        <div class="event-meta-item">23 Rios Craft Beer - Lujan de Cuyo</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price">A consultar</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1170587649%2F2455465318801%2F1%2Foriginal.20251110-142213?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C2%2C1914%2C957&s=33e430084233bec85afffc45fa1b2cb0" alt="Cluster SICONM+" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-tech">Tech</span>
+                    <h3 class="event-title">Lanzamiento Cluster SICONM+</h3>
+                    <p class="event-description">Evento de lanzamiento y networking del Cluster SICONM+.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">27 Nov 2025</div>
+                        <div class="event-meta-item">Mendoza TIC - Godoy Cruz</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price">Verificar</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=550349631795063" alt="Fiesta de la Cerveza" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-food">Beer</span>
+                    <h3 class="event-title">Fiesta Provincial De La Cerveza</h3>
+                    <p class="event-description">Festival popular con bandas, patio de comidas y cerveza artesanal.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">7 Dic 2025</div>
+                        <div class="event-meta-item">Espacio Verde Luis Menotti - Godoy Cruz</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price">A consultar</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Felo Mendoza -->
+            <div class="event-card">
+                <img class="event-image" src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1157918603%2F347566395401%2F1%2Foriginal.20251020-214540?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=6%2C0%2C1912%2C956&s=18b052f8738c1690be0e87ab0fec4202" alt="MUM 2025" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-cultural">Academico</span>
+                    <h3 class="event-title">MUM 2025</h3>
+                    <p class="event-description">Evento cultural y academico en la Universidad de Mendoza.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">24 Nov 2025</div>
+                        <div class="event-meta-item">Universidad de Mendoza - Ciudad</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price free">Gratuito</span>
+                        <span class="event-source source-felo">Felo</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3770740166567576638" alt="Mendoza Sax Fest" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-music">Jazz</span>
+                    <h3 class="event-title">Festival Internacional Mendoza Sax Fest 2025</h3>
+                    <p class="event-description">Festival de musica con saxofonistas internacionales.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">23 Nov 2025</div>
+                        <div class="event-meta-item">Espacio Cristoforo Colombo - Ciudad</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price free">Gratuito</span>
+                        <span class="event-source source-felo">Felo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAR DEL PLATA -->
+    <div class="city-section">
+        <div class="city-header">
+            <div class="city-icon">MP</div>
+            <h2 class="city-name">Mar del Plata</h2>
+            <span class="city-count">9 eventos</span>
+        </div>
+        <div class="events-grid">
+            <div class="event-card">
+                <img class="event-image" src="https://media.stubhubstatic.com/stubhub-v2-catalog/d_defaultLogo.jpg/t_f-fs-0fv,q_auto:low,f_auto,c_fill,$w_280_mul_3,$h_180_mul_3/categories/151961/6482356" alt="Uriel Lozano" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-music">Cumbia</span>
+                    <h3 class="event-title">Uriel Lozano en Once Unidos</h3>
+                    <p class="event-description">Concierto de musica tropical (cumbia).</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">22 Nov 2025</div>
+                        <div class="event-meta-item">Club Once Unidos - Centro/Norte</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price">Desde $40,000</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://www.iconichouses.org/foto/houses/Casa-del-Puente.jpg" alt="Musica en los Jardines" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-music">Clasica</span>
+                    <h3 class="event-title">Musica en los Jardines de la Casa sobre el Arroyo</h3>
+                    <p class="event-description">Concierto de piano al aire libre.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">22 Nov 2025</div>
+                        <div class="event-meta-item">Museo Casa Sobre El Arroyo</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price free">Gratuito</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://www.tiktok.com/api/img/?itemId=7357352337297509664&location=3&aid=1988&index=1" alt="Elsa y Ana On Ice" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-other">Familia</span>
+                    <h3 class="event-title">Elsa y Ana On Ice</h3>
+                    <p class="event-description">Espectaculo de patinaje sobre hielo con tematica infantil.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">22 Nov 2025</div>
+                        <div class="event-meta-item">Bajo Cero - Pista de Hielo</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price">Desde $30,000</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://play-lh.googleusercontent.com/tiVynF3t9_YPkLiAuniIkxHbuhZlMhyjgdvWIQQzlIXDN7rDcjA7rJB50goG2I_HNw=w526-h296-rw" alt="Orquesta Cumbia Grande" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-music">Cumbia</span>
+                    <h3 class="event-title">Orquesta Cumbia Grande</h3>
+                    <p class="event-description">Show de cumbia en vivo.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">22 Nov 2025</div>
+                        <div class="event-meta-item">Abbey Road - Zona Puerto</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price free">Gratis</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <img class="event-image" src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1141965063%2F2464072006821%2F1%2Foriginal.20251001-225321?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=5%2C0%2C1590%2C795&s=813b2172cbe8aa50f778ef7cae6551f2" alt="Exposicion Cactus" onerror="this.style.display='none'">
+                <div class="event-content">
+                    <span class="event-category cat-cultural">Exposicion</span>
+                    <h3 class="event-title">25a Exposicion Anual de Cactus y Crasas</h3>
+                    <p class="event-description">Muestra y venta de cactus y crasas.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">23 Nov 2025</div>
+                        <div class="event-meta-item">Cactario Ruben Climente</div>
+                    </div>
+                    <div class="event-footer">
+                        <span class="event-price free">Gratuito</span>
+                        <span class="event-source source-gemini">Gemini</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Reporte generado automaticamente por el sistema de scraping de eventos</p>
+        <p>Fuentes: Gemini AI + Felo AI | Fecha: 22 de Noviembre 2025</p>
+    </div>
+</body>
+</html>

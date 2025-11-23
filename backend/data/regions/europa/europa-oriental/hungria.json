@@ -2,21 +2,34 @@
   "country": "Hungría",
   "country_code": "HU",
   "region": "Europa Oriental",
-  "cities": [
+  "regions": [
     {
       "name": "Budapest",
-      "latitude": 47.4979,
-      "longitude": 19.0402
+      "cities": [
+        {"name": "Budapest", "latitude": 47.4979, "longitude": 19.0402, "barrios": [
+          {"name": "District VII (Jewish Quarter)", "latitude": 47.4978, "longitude": 19.0639},
+          {"name": "Buda Castle", "latitude": 47.4961, "longitude": 19.0394},
+          {"name": "District VI (Terézváros)", "latitude": 47.5043, "longitude": 19.0628}
+        ]}
+      ]
     },
     {
-      "name": "Debrecen",
-      "latitude": 47.5316,
-      "longitude": 21.6273
+      "name": "Hajdú-Bihar",
+      "cities": [
+        {"name": "Debrecen", "latitude": 47.5316, "longitude": 21.6273}
+      ]
     },
     {
-      "name": "Szeged",
-      "latitude": 46.2530,
-      "longitude": 20.1414
+      "name": "Csongrád-Csanád",
+      "cities": [
+        {"name": "Szeged", "latitude": 46.2530, "longitude": 20.1414}
+      ]
+    },
+    {
+      "name": "Baranya",
+      "cities": [
+        {"name": "Pécs", "latitude": 46.0727, "longitude": 18.2323}
+      ]
     }
   ]
 }

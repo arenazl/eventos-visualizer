@@ -2,21 +2,40 @@
   "country": "Cuba",
   "country_code": "CU",
   "region": "Caribe",
-  "cities": [
+  "provinces": [
     {
       "name": "La Habana",
-      "latitude": 23.1136,
-      "longitude": -82.3666
+      "cities": [
+        {"name": "La Habana", "latitude": 23.1136, "longitude": -82.3666, "barrios": [
+          {"name": "Habana Vieja", "latitude": 23.1369, "longitude": -82.3497},
+          {"name": "Vedado", "latitude": 23.1344, "longitude": -82.4006},
+          {"name": "Centro Habana", "latitude": 23.1347, "longitude": -82.3875}
+        ]}
+      ]
     },
     {
       "name": "Santiago de Cuba",
-      "latitude": 20.0247,
-      "longitude": -75.8219
+      "cities": [
+        {"name": "Santiago de Cuba", "latitude": 20.0247, "longitude": -75.8219}
+      ]
     },
     {
-      "name": "Varadero",
-      "latitude": 23.1533,
-      "longitude": -81.2533
+      "name": "Matanzas",
+      "cities": [
+        {"name": "Varadero", "latitude": 23.1533, "longitude": -81.2533}
+      ]
+    },
+    {
+      "name": "Villa Clara",
+      "cities": [
+        {"name": "Santa Clara", "latitude": 22.4000, "longitude": -79.9500}
+      ]
+    },
+    {
+      "name": "Sancti Spíritus",
+      "cities": [
+        {"name": "Trinidad", "latitude": 21.8022, "longitude": -79.9842}
+      ]
     }
   ]
 }

@@ -1,0 +1,21 @@
+N°	Nombre del Evento	Descripción	Fecha	Lugar / Dirección	Barrio	Precio	Info Extra
+1	The Offspring	Concierto de la banda de punk rock californiana.	8 noviembre 2025	Paris La Défense Arena	La Défense	Desde €50	Presentan su nuevo álbum _Supercharged_.
+2	Lady Gaga	Conciertos de la estrella del pop en su _The Mayhem Ball Tour_.	17, 18, 20 y 22 noviembre 2025	Accor Arena	Bercy	Desde €80	Un espectáculo teatral y artístico.
+3	Mumford & Sons	Presentación de su nuevo álbum _Rushmere_.	14 noviembre 2025	Adidas Arena	La Villette	Desde €60	Única fecha en París.
+4	Dropkick Murphys	Concierto de la banda de Celtic punk.	15 noviembre 2025	Adidas Arena	La Villette	Desde €45	Conocidos por su energía en el escenario.
+5	Hans Zimmer	Concierto orquestal con sus bandas sonoras más emblemáticas.	21 noviembre 2025	Paris La Défense Arena	La Défense	Desde €70	Parte de su _The Next Level Tour_.
+6	HAVASI	Espectáculo de piano y composición contemporánea.	23 noviembre 2025	La Seine Musicale	Ile Seguin	Desde €40	Combina virtuosismo clásico con puesta en escena moderna.
+7	Salon du Chocolat	Feria dedicada al chocolate y la pastelería.	29 octubre - 2 noviembre 2025	Paris Expo Porte de Versailles	15° arrondissement	Desde €15	Desfiles de moda en chocolate y talleres.
+8	MIF Expo	Celebración de la manufactura francesa con más de 1,000 expositores.	6-9 noviembre 2025	Paris Expo Porte de Versailles	15° arrondissement	Desde €10	Moda, decoración y artesanía.
+9	Paris Photo	Feria de fotografía contemporánea y clásica.	13-16 noviembre 2025	Grand Palais	8° arrondissement	Desde €20	Galerías y coleccionistas de todo el mundo.
+10	Pitchfork Music Festival	Festival de música alternativa.	3-9 noviembre 2025	Varias localizaciones	Varias	Desde €50	Programación audaz y vanguardista.
+11	Día del Beaujolais Nouveau	Celebración del vino joven francés.	Tercer jueves de noviembre 2025	Todo París	Varias	Gratis	Degustaciones en bistrós y bares.
+12	Street Art Festival	Exposición de arte urbano en un edificio histórico.	15-23 noviembre 2025	Poste du Louvre	1er arrondissement	Gratis	Murales y esculturas de artistas internacionales.
+13	Organïk XXL Techno Rave	Noche de música techno en un hipódromo.	22 noviembre 2025	Hippodrome Paris-Vincennes	12° arrondissement	Desde €53	Evento de 10 horas con varios DJs.
+14	Fab Paris	Exposición de bellas artes contemporáneas.	21-27 noviembre 2025	Grand Palais	8° arrondissement	Desde €15	Obras de artistas contemporáneos y clásicos.
+15	Creatividad y Savoir-Faire	Feria de artesanía y manualidades.	27 noviembre - 1 diciembre 2025	Paris Expo Porte de Versailles	15° arrondissement	Desde €10	Talleres y demostraciones.
+16	Thanksgiving en París	Cenas de acción de gracias en restaurantes.	27 noviembre 2025	Varios restaurantes	Varias	Desde €40	Experiencia americana en París.
+17	Navidad en Disneyland	Inicio de las celebraciones navideñas.	Principios de noviembre 2025	Disneyland Paris	Marne-la-Vallée	Desde €80	Decoraciones y espectáculos especiales.
+18	Armistice Day	Ceremonias conmemorativas de la Primera Guerra Mundial.	11 noviembre 2025	Todo París	Varias	Gratis	Eventos en monumentos históricos.
+19	Navidad en el Jardín de las Tullerías	Apertura del mercado navideño.	22 noviembre 2025	Jardín de las Tullerías	1er arrondissement	Gratis	Ambiente festivo con productos artesanales.
+20	Exposición de arte contemporáneo	Exposición en el Centro Pompidou.	Hasta diciembre 2025	Centro Pompidou	4° arrondissement	Desde €14	Obras de artistas contemporáneos destacados.

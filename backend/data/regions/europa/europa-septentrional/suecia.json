@@ -2,21 +2,34 @@
   "country": "Suecia",
   "country_code": "SE",
   "region": "Europa Septentrional",
-  "cities": [
+  "counties": [
     {
       "name": "Estocolmo",
-      "latitude": 59.3293,
-      "longitude": 18.0686
+      "cities": [
+        {"name": "Estocolmo", "latitude": 59.3293, "longitude": 18.0686, "barrios": [
+          {"name": "Södermalm", "latitude": 59.3171, "longitude": 18.0706},
+          {"name": "Gamla Stan", "latitude": 59.3251, "longitude": 18.0711},
+          {"name": "Östermalm", "latitude": 59.3370, "longitude": 18.0867}
+        ]}
+      ]
     },
     {
-      "name": "Gotemburgo",
-      "latitude": 57.7089,
-      "longitude": 11.9746
+      "name": "Västra Götaland",
+      "cities": [
+        {"name": "Gotemburgo", "latitude": 57.7089, "longitude": 11.9746}
+      ]
     },
     {
-      "name": "Malmö",
-      "latitude": 55.6050,
-      "longitude": 13.0038
+      "name": "Escania",
+      "cities": [
+        {"name": "Malmö", "latitude": 55.6050, "longitude": 13.0038}
+      ]
+    },
+    {
+      "name": "Uppsala",
+      "cities": [
+        {"name": "Uppsala", "latitude": 59.8586, "longitude": 17.6389}
+      ]
     }
   ]
 }

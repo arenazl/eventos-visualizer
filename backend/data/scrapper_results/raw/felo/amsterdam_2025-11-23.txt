@@ -1,0 +1,21 @@
+N°	Nombre del Evento	Descripción	Fecha	Lugar / Dirección	Barrio	Precio	Info Extra
+1	Noche de los Museos (Museumnacht)	Una noche especial donde los museos de Ámsterdam abren sus puertas hasta tarde con actividades y exposiciones.	1 de noviembre 2025	Varios museos en Ámsterdam	Centro	Varía	Incluye acceso a múltiples museos y actividades especiales.
+2	Festival Internacional de Cine Documental (IDFA)	El festival de documentales más grande del mundo, presentando historias impactantes de todo el mundo.	13-23 de noviembre 2025	Pathé Tuschinski, Het Ketelhuis, otros	Centro	Varía	Las entradas suelen agotarse rápidamente.
+3	Amsterdam Storytelling Festival	Festival anual donde narradores comparten historias cautivadoras.	5-8 de noviembre 2025	Podium Mozaiek	Amsterdam Oeste	Varía	Este año el tema es "El Tonto", explorando nuevos comienzos y la inocencia.
+4	Romeo y Julieta en la Ópera Nacional y Ballet	Una interpretación del clásico de Shakespeare con música de Prokofiev.	21 de noviembre 2025	Der Hintergarten	Centro	Varía	Una experiencia romántica con danza y música en vivo.
+5	Breakin Science Amsterdam Weekender	Un evento de música Drum & Bass con varias fiestas y un barco de fiesta.	21-24 de noviembre 2025	Club Panama, The Other Side	Centro	Desde €20	Incluye acceso a fiestas en clubes y un barco de fiesta.
+6	Amsterdam Light Festival	Festival de arte de luz con instalaciones iluminadas a lo largo de los canales de Ámsterdam.	27 de noviembre 2025 - 18 de enero 2026	Canales de Ámsterdam	Centro	Desde €27	Ofrece cruceros nocturnos para disfrutar de las instalaciones.
+7	IMAGINE Film Festival	Festival de cine que presenta películas de fantasía, horror y ciencia ficción.	30 de octubre - 9 de noviembre 2025	Film Hallen/LAB111	Amsterdam Oeste	Varía	Incluye talleres y charlas sobre temas contemporáneos.
+8	PAN Amsterdam	Feria de arte que reúne a coleccionistas y amantes del arte en un ambiente amigable.	2-9 de noviembre 2025	Amsterdam RAI	Amsterdam Sur	Varía	Presenta una amplia gama de obras de arte, desde antigüedades hasta arte contemporáneo.
+9	Discosabotage	Fiesta de música electrónica en un ambiente vibrante.	23 de noviembre 2025	Der Hintergarten	Centro	€15	Evento para mayores de 18 años.
+10	Juice en Escape	Fiesta de música urbana con los mejores ritmos de Hip-Hop y House.	23 de noviembre 2025	Escape	Amsterdam Sur	€6.20	Un evento popular entre los jóvenes de la ciudad.
+11	Folamour	Concierto de música electrónica en AFAS Live.	21 de noviembre 2025	AFAS Live	Amsterdam Sur	Varía	Parte de una serie de conciertos destacados en la ciudad.
+12	Jonathan Jeremiah	Concierto en Carré, conocido por su música emotiva y letras profundas.	21-22 de noviembre 2025	Carré	Centro	Varía	Un evento íntimo en un famoso teatro de Ámsterdam.
+13	The Hives	Concierto de la famosa banda de rock en AFAS Live.	22 de noviembre 2025	AFAS Live	Amsterdam Sur	Varía	Parte de su gira europea.
+14	Orbit	Fiesta de música electrónica en Bitterzoet.	23 de noviembre 2025	Bitterzoet	Centro	Varía	Evento nocturno con DJs locales.
+15	Jamrock Fundraiser	Evento benéfico con música en vivo y actividades.	28 de noviembre 2025	Paradiso	Centro	Varía	Recaudación de fondos para una causa local.
+16	Sinterklaas Procession	Desfile que marca la llegada de Sinterklaas a Ámsterdam.	16 de noviembre 2025	Centro de Ámsterdam	Centro	Gratis	Un evento familiar lleno de tradiciones.
+17	Winter Festival Amsterdam	Festival de invierno con actividades y eventos en la ciudad.	8 de noviembre 2025 - 1 de marzo 2026	Varios lugares en Ámsterdam	Centro	Varía	Incluye patinaje sobre hielo y mercados de invierno.
+18	Congreso de Maternidad & Crianza Europa	Encuentro con charlas y talleres sobre maternidad y crianza.	15 de noviembre 2025	Varios lugares en Ámsterdam	Centro	Varía	Oportunidad de conectar con otros padres y expertos.
+19	Workspace Design Show	Exposición sobre diseño de espacios de trabajo.	5-6 de noviembre 2025	RAI - Amsterdam Convention Centre	Amsterdam Sur	Varía	Presenta las últimas tendencias en diseño de oficinas.
+20	Chocoa Festival	Festival de chocolate que promueve el chocolate sostenible.	16-22 de febrero 2026	Beurs van Berlage	Centro	Varía	Incluye talleres y degustaciones de chocolate.

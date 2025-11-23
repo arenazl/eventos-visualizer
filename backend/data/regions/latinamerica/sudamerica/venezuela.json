@@ -2,21 +2,46 @@
   "country": "Venezuela",
   "country_code": "VE",
   "region": "Sudamérica",
-  "cities": [
+  "states": [
     {
-      "name": "Caracas",
-      "latitude": 10.4806,
-      "longitude": -66.9036
+      "name": "Distrito Capital",
+      "cities": [
+        {"name": "Caracas", "latitude": 10.4806, "longitude": -66.9036, "barrios": [
+          {"name": "Las Mercedes", "latitude": 10.4833, "longitude": -66.8667},
+          {"name": "Altamira", "latitude": 10.4972, "longitude": -66.8500},
+          {"name": "Chacao", "latitude": 10.4928, "longitude": -66.8564}
+        ]}
+      ]
     },
     {
-      "name": "Maracaibo",
-      "latitude": 10.6666,
-      "longitude": -71.6123
+      "name": "Zulia",
+      "cities": [
+        {"name": "Maracaibo", "latitude": 10.6666, "longitude": -71.6123}
+      ]
     },
     {
-      "name": "Valencia",
-      "latitude": 10.1621,
-      "longitude": -68.0078
+      "name": "Carabobo",
+      "cities": [
+        {"name": "Valencia", "latitude": 10.1621, "longitude": -68.0078}
+      ]
+    },
+    {
+      "name": "Miranda",
+      "cities": [
+        {"name": "Los Teques", "latitude": 10.3413, "longitude": -67.0407}
+      ]
+    },
+    {
+      "name": "Mérida",
+      "cities": [
+        {"name": "Mérida", "latitude": 8.5897, "longitude": -71.1561}
+      ]
+    },
+    {
+      "name": "Nueva Esparta",
+      "cities": [
+        {"name": "Porlamar", "latitude": 10.9578, "longitude": -63.8497}
+      ]
     }
   ]
 }

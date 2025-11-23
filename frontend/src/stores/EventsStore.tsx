@@ -26,6 +26,12 @@ interface Location {
   coordinates?: { lat: number; lng: number }
   country?: string
   detected: 'gps' | 'manual' | 'prompt' | 'fallback'
+  metadata?: {
+    neighborhood?: string
+    city?: string
+    country?: string | null
+    province?: string | null
+  }
 }
 
 interface AIRecommendation {
@@ -139,6 +145,7 @@ interface EventsState {
   searchEvents: (query: string, location?: Location) => Promise<void>
   smartSearch: (query: string, location?: Location) => Promise<void>
   filterByCategory: (category: string) => void
+  updateEventImage: (eventId: string, newImageUrl: string) => void
   setLocation: (location: Location) => void
 }
 
@@ -591,6 +598,9 @@ const useEventsStore = create<EventsState>((set, get) => ({
       previousCleanup()
     }
 
+    // ✨ Obtener parent_city desde metadata del barrio (si existe)
+    const parentCityFromMetadata = searchLocation?.metadata?.city || undefined
+
     const cleanup = sseService.searchEventsStream(
       fullLocationString,
       (event) => {
@@ -719,7 +729,9 @@ const useEventsStore = create<EventsState>((set, get) => ({
             console.warn('⚠️ Evento enrichment sin nearby_cities')
           }
         }
-      }
+      },
+      // ✨ Pasar parent_city desde metadata del barrio (sin AI, directo)
+      { parent_city: parentCityFromMetadata }
     )
 
     // ✅ GUARDAR CLEANUP EN STATE PARA CERRAR DESPUÉS
@@ -830,41 +842,41 @@ const useEventsStore = create<EventsState>((set, get) => ({
               break
               
             case 'search_completed':
-              const { sourceTiming: finalTiming, performanceStats: finalStats } = get()
+              const { sourceTiming: finalTiming, performanceStats: finalStats, events: currentEvents } = get()
               const endTime = Date.now()
-              
+
               // Completar timing de todas las fuentes
               const completedTiming = finalTiming.map(timing => ({
                 ...timing,
                 endTime,
                 totalTime: endTime - timing.startTime
               }))
-              
+
               // Calcular estadísticas finales
               const newStats = { ...finalStats }
               if (completedTiming.length > 0) {
                 // Fuente más rápida (primera en entregar eventos)
                 const sourcesWithEvents = completedTiming.filter(t => t.eventTimes.length > 0)
                 if (sourcesWithEvents.length > 0) {
-                  const fastestSource = sourcesWithEvents.reduce((prev, curr) => 
+                  const fastestSource = sourcesWithEvents.reduce((prev, curr) =>
                     (curr.firstEventTime || 0) < (prev.firstEventTime || 0) ? curr : prev
                   )
                   newStats.fastestSource = fastestSource.source
                   newStats.fastestTime = fastestSource.firstEventTime
-                  
+
                   // Fuente más lenta (última en entregar eventos)
-                  const slowestSource = sourcesWithEvents.reduce((prev, curr) => 
+                  const slowestSource = sourcesWithEvents.reduce((prev, curr) =>
                     (curr.totalTime || 0) > (prev.totalTime || 0) ? curr : prev
                   )
                   newStats.slowestSource = slowestSource.source
                   newStats.slowestTime = slowestSource.totalTime
                 }
               }
-              
+
               // Mensaje como en Linux: "🎉 Búsqueda completada - Total final: 36 eventos"
               const completedMessage = `🎉 ${data.message} - Total final: ${data.total_events || get().events.length} eventos`
-              
-              set({ 
+
+              set({
                 isStreaming: false,
                 loading: false,
                 streamingMessage: completedMessage,
@@ -873,6 +885,70 @@ const useEventsStore = create<EventsState>((set, get) => ({
                 performanceStats: newStats
               })
               ws.close()
+
+              // 🚀 DISPARAR ACTUALIZACIÓN MASIVA DE IMÁGENES EN BACKGROUND CON STREAMING
+              console.log('🔍 DEBUG: Verificando si hay eventos para actualizar...', { currentEventsLength: currentEvents.length })
+
+              if (currentEvents.length > 0) {
+                console.log(`🖼️ Iniciando actualización masiva de ${currentEvents.length} imágenes en background (tiempo real)...`)
+                console.log('📡 URL del endpoint:', `${API_BASE_URL}/api/events/bulk-update-images-stream`)
+
+                // Fetch con streaming response
+                fetch(`${API_BASE_URL}/api/events/bulk-update-images-stream`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ events: currentEvents })
+                }).then(async response => {
+                  if (!response.body) return
+
+                  const reader = response.body.getReader()
+                  const decoder = new TextDecoder()
+                  let buffer = ''
+
+                  while (true) {
+                    const { done, value } = await reader.read()
+                    if (done) break
+
+                    buffer += decoder.decode(value, { stream: true })
+                    const lines = buffer.split('\n\n')
+                    buffer = lines.pop() || ''
+
+                    for (const line of lines) {
+                      if (!line.trim()) continue
+
+                      try {
+                        // Parsear SSE format: "event: xxx\ndata: {json}"
+                        const eventMatch = line.match(/event: (\w+)\ndata: (.+)/)
+                        if (!eventMatch) continue
+
+                        const [, eventType, dataStr] = eventMatch
+                        const data = JSON.parse(dataStr)
+
+                        if (eventType === 'update_start') {
+                          console.log(`📢 ${data.message} (${data.total} eventos)`)
+                        } else if (eventType === 'image_updated') {
+                          console.log(`✅ Imagen actualizada: ${data.title} (${data.progress}%)`)
+
+                          // Actualizar el evento en el store
+                          const { events } = get()
+                          const updatedEvents = events.map(event =>
+                            event.id === data.id || event.title === data.title
+                              ? { ...event, image_url: data.image_url }
+                              : event
+                          )
+                          set({ events: updatedEvents })
+                        } else if (eventType === 'update_complete') {
+                          console.log(`🎉 Actualización completada: ${data.successful} exitosas, ${data.skipped} omitidas, ${data.failed} fallidas`)
+                        }
+                      } catch (e) {
+                        console.error('Error parsing SSE message:', e)
+                      }
+                    }
+                  }
+                }).catch(error => {
+                  console.error('❌ Error en actualización masiva:', error)
+                })
+              }
               break
               
             case 'search_error':
@@ -892,6 +968,87 @@ const useEventsStore = create<EventsState>((set, get) => ({
       ws.onclose = () => {
         console.log('WebSocket cerrado')
         set({ isStreaming: false, loading: false })
+
+        // 🚀 DISPARAR ACTUALIZACIÓN MASIVA DE IMÁGENES CUANDO TERMINA LA BÚSQUEDA
+        const { events } = get()
+        console.log('🔍 DEBUG: WebSocket cerrado, verificando eventos...', { eventsLength: events.length })
+
+        if (events.length > 0) {
+          console.log(`🖼️ Iniciando actualización masiva de ${events.length} imágenes en background...`)
+          console.log('📡 URL del endpoint:', `${API_BASE_URL}/api/events/bulk-update-images-stream`)
+
+          fetch(`${API_BASE_URL}/api/events/bulk-update-images-stream`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ events })
+          }).then(async response => {
+            console.log('📥 Respuesta recibida del endpoint:', response.status)
+            if (!response.body) {
+              console.error('❌ No hay body en la respuesta')
+              return
+            }
+
+            const reader = response.body.getReader()
+            const decoder = new TextDecoder()
+            let buffer = ''
+
+            while (true) {
+              const { done, value } = await reader.read()
+              if (done) break
+
+              buffer += decoder.decode(value, { stream: true })
+              const lines = buffer.split('\n\n')
+              buffer = lines.pop() || ''
+
+              for (const line of lines) {
+                if (!line.trim()) continue
+
+                try {
+                  const eventMatch = line.match(/event: (\w+)\ndata: (.+)/)
+                  if (!eventMatch) continue
+
+                  const [, eventType, dataStr] = eventMatch
+                  const data = JSON.parse(dataStr)
+
+                  if (eventType === 'update_start') {
+                    console.log(`📢 ${data.message} (${data.total} eventos)`)
+                  } else if (eventType === 'image_updated') {
+                    console.log(`✅ Imagen actualizada: ${data.title} (${data.progress}%)`)
+
+                    const { events: currentEvents } = get()
+                    const updatedEvents = currentEvents.map(event => {
+                      if (event.id === data.id || event.title === data.title) {
+                        const updatedEvent = { ...event, image_url: data.image_url }
+
+                        // Actualizar en sessionStorage también
+                        const eventId = event.title.toLowerCase()
+                          .normalize("NFD")
+                          .replace(/[\u0300-\u036f]/g, "")
+                          .replace(/[^a-z0-9]+/g, '-')
+                          .replace(/^-+|-+$/g, '')
+
+                        sessionStorage.setItem(`event-${eventId}`, JSON.stringify(updatedEvent))
+                        console.log(`💾 Actualizado en sessionStorage: event-${eventId}`)
+
+                        return updatedEvent
+                      }
+                      return event
+                    })
+                    set({ events: updatedEvents })
+                  } else if (eventType === 'update_complete') {
+                    console.log(`🎉 Actualización completada: ${data.successful} exitosas, ${data.skipped} omitidas, ${data.failed} fallidas`)
+                  }
+                } catch (e) {
+                  console.error('Error parsing SSE:', e)
+                }
+              }
+            }
+          }).catch(error => {
+            console.error('❌ Error en actualización masiva:', error)
+          })
+        } else {
+          console.log('⚠️ No hay eventos para actualizar')
+        }
       }
 
       ws.onerror = (error) => {
@@ -1182,6 +1339,47 @@ const useEventsStore = create<EventsState>((set, get) => ({
     await get().fetchProvinceEvents()
 
     console.log(`✅ Auto-load completo: ${get().events.length} eventos totales`)
+  },
+
+  // 🖼️ ACTUALIZAR IMAGEN DE UN EVENTO
+  updateEventImage: (eventId: string, newImageUrl: string) => {
+    const { events } = get()
+
+    console.log('🖼️ [DEBUG] Actualizando imagen en store')
+    console.log('🖼️ [DEBUG] eventId recibido:', eventId)
+    console.log('🖼️ [DEBUG] newImageUrl:', newImageUrl)
+    console.log('🖼️ [DEBUG] Total eventos en store:', events.length)
+
+    let found = false
+
+    // Buscar el evento por ID o por título
+    const updatedEvents = events.map(event => {
+      const eventIdFromTitle = event.title?.toLowerCase().replace(/\s+/g, '-').replace(/[.,]/g, '')
+
+      console.log('🖼️ [DEBUG] Comparando con evento:', {
+        eventId: event.id,
+        title: event.title,
+        titleSlug: eventIdFromTitle,
+        match: event.id === eventId || eventIdFromTitle === eventId
+      })
+
+      if (event.id === eventId || eventIdFromTitle === eventId) {
+        console.log('✅ [DEBUG] EVENTO ENCONTRADO! Actualizando imagen')
+        console.log('✅ [DEBUG] Imagen anterior:', event.image_url)
+        console.log('✅ [DEBUG] Imagen nueva:', newImageUrl)
+        found = true
+        return { ...event, image_url: newImageUrl }
+      }
+      return event
+    })
+
+    if (!found) {
+      console.error('❌ [DEBUG] NO SE ENCONTRÓ EL EVENTO EN EL STORE')
+      console.error('❌ [DEBUG] IDs disponibles:', events.slice(0, 5).map(e => ({ id: e.id, title: e.title })))
+    }
+
+    set({ events: updatedEvents })
+    console.log('✅ [DEBUG] Store actualizado. Eventos actualizados:', updatedEvents.length)
   },
 
   // 🌍 BUSCAR EVENTOS EN MÚLTIPLES CIUDADES CERCANAS - Auto-detección inicial

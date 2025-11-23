@@ -2,21 +2,36 @@
   "country": "Austria",
   "country_code": "AT",
   "region": "Europa Occidental",
-  "cities": [
+  "states": [
     {
       "name": "Viena",
-      "latitude": 48.2082,
-      "longitude": 16.3738
+      "cities": [
+        {"name": "Viena", "latitude": 48.2082, "longitude": 16.3738}
+      ]
     },
     {
       "name": "Salzburgo",
-      "latitude": 47.8095,
-      "longitude": 13.0550
+      "cities": [
+        {"name": "Salzburgo", "latitude": 47.8095, "longitude": 13.0550}
+      ]
     },
     {
-      "name": "Innsbruck",
-      "latitude": 47.2692,
-      "longitude": 11.4041
+      "name": "Tirol",
+      "cities": [
+        {"name": "Innsbruck", "latitude": 47.2692, "longitude": 11.4041}
+      ]
+    },
+    {
+      "name": "Alta Austria",
+      "cities": [
+        {"name": "Linz", "latitude": 48.3069, "longitude": 14.2858}
+      ]
+    },
+    {
+      "name": "Estiria",
+      "cities": [
+        {"name": "Graz", "latitude": 47.0707, "longitude": 15.4395}
+      ]
     }
   ]
 }
