@@ -37,6 +37,9 @@ interface SmartLocationBarProps {
   searchLocationQuery?: string | null
   expandedSearch?: boolean
   totalEvents?: number
+
+  // 🔒 Flag externo para bloquear sync durante selección manual (desde Header)
+  isManualSelectionActive?: boolean
 }
 
 export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
@@ -45,7 +48,8 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
   parentCityDetected,
   searchLocationQuery,
   expandedSearch,
-  totalEvents
+  totalEvents,
+  isManualSelectionActive = false
 }) => {
   const [location, setLocation] = useState<Location | null>(currentLocation || null)
   const [isDetecting, setIsDetecting] = useState(false)
@@ -131,8 +135,9 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
 
       // 🔒 NO cargar popular places si estamos procesando una selección manual
       // Esto evita que se dispare fetchPopularPlaces con la ubicación vieja
-      if (isProcessingSelectionRef.current) {
-        console.log('⏸️ SmartLocationBar: Ignorando sync durante selección manual')
+      // Verificar AMBOS: el ref interno Y el prop externo (desde Header)
+      if (isProcessingSelectionRef.current || isManualSelectionActive) {
+        console.log('⏸️ SmartLocationBar: Ignorando sync durante selección manual (interno:', isProcessingSelectionRef.current, ', externo:', isManualSelectionActive, ')')
         return
       }
 
@@ -148,7 +153,7 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
       }
       // Si es un barrio, no hacemos nada - los popularPlaces ya están cargados de la ciudad
     }
-  }, [currentLocation])
+  }, [currentLocation, isManualSelectionActive])
 
   // 🔍 Autocomplete con Nominatim (debounced)
   useEffect(() => {

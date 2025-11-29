@@ -733,7 +733,8 @@ const HomePageModern: React.FC = () => {
 
     // 🔒 BLOQUEAR búsquedas automáticas durante selección manual
     isManualSelectionRef.current = true
-    console.log('🔒 isManualSelectionRef = true (bloqueando auto-searches)')
+    setIsManualSearch(true) // 🔒 También activar state para que SmartLocationBar lo vea
+    console.log('🔒 isManualSelectionRef = true, isManualSearch = true (bloqueando auto-searches)')
 
     const selectedLocation: Location = {
       name: location.name,
@@ -771,7 +772,8 @@ const HomePageModern: React.FC = () => {
       // 🔓 DESBLOQUEAR después de 5 segundos (tiempo suficiente para que termine todo)
       setTimeout(() => {
         isManualSelectionRef.current = false
-        console.log('🔓 isManualSelectionRef = false (auto-searches habilitadas)')
+        setIsManualSearch(false) // 🔓 También desactivar state
+        console.log('🔓 isManualSelectionRef = false, isManualSearch = false (auto-searches habilitadas)')
       }, 5000)
     }
   }
@@ -907,6 +909,7 @@ const HomePageModern: React.FC = () => {
             searchLocationQuery={searchLocationQuery}
             expandedSearch={expandedSearch}
             totalEvents={events.length}
+            isManualSelectionActive={isManualSearch}
           />
 
           {/* Panel Técnico Detallado */}
