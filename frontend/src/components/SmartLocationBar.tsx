@@ -660,6 +660,11 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
       )}
 
 
+      {/* 🕒 DEBUG: Timestamp para confirmar que se limpió el cache */}
+      <div className="text-center text-white/30 text-[10px] mt-1">
+        v8-debug | {new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' })}
+      </div>
+
       {/* 🎯 Popular Places - Barrios con eventos (máximo 6) */}
       {location && popularPlaces.length > 0 && (
         <div className="mt-3">
