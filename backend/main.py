@@ -611,18 +611,17 @@ try:
 except Exception as e:
     logger.warning(f"Could not load AI hover router: {e}")
 
-# SERVICIOS DE CHAT RECREADOS - Intentar cargar AI router
-try:
-    from api.ai import router as ai_router
-    app.include_router(ai_router, prefix="/api/ai")
-    
-    # Global Router comentado - archivo faltante
-    # from api.global_router import router as global_router_api
-    # app.include_router(global_router_api)
-    logger.info("✅ AI Gemini router loaded - servicios recreados")
-except Exception as e:
-    logger.warning(f"Could not load AI Gemini router: {e}")
-    logger.info("ℹ️ AI Gemini router temporalmente deshabilitado")
+# SERVICIOS DE CHAT RECREADOS - Router api/ai.py DESHABILITADO
+# ❌ api/ai.py usa chat_memory_manager/ai_assistant/gemini_brain que no existen
+# ✅ Los endpoints funcionales están en main.py directamente (líneas 3869+)
+# try:
+#     from api.ai import router as ai_router
+#     app.include_router(ai_router, prefix="/api/ai")
+#     logger.info("✅ AI Gemini router loaded - servicios recreados")
+# except Exception as e:
+#     logger.warning(f"Could not load AI Gemini router: {e}")
+#     logger.info("ℹ️ AI Gemini router temporalmente deshabilitado")
+logger.info("ℹ️ AI router de api/ai.py deshabilitado - usando endpoints de main.py")
 
 # API V1 con SSE Streaming
 try:

@@ -132,9 +132,9 @@ const Header: React.FC<HeaderProps> = ({
           return {
             name: item.location,
             displayName: item.displayName || `${item.location} (${item.event_count} eventos)`,
-            country: item.location_type || '', // Tipo: city, province, country
+            country: item.country || '', // País real (Argentina, España, etc.)
             countryCode: '',
-            lat: 0, // Coordenadas no necesarias para búsqueda en DB
+            lat: 0,
             lon: 0
           }
         })
