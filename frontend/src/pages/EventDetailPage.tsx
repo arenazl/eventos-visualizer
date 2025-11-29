@@ -549,11 +549,10 @@ const EventDetailPage: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
         </div>
 
-        {/* Content - Layout con panel lateral para IA */}
-        <div className="max-w-7xl mx-auto px-4 py-8 -mt-20 relative z-10">
-          <div className="flex flex-col lg:flex-row gap-6">
-          {/* COLUMNA PRINCIPAL - Detalles del evento */}
-          <div className="flex-1 lg:max-w-3xl">
+        {/* Content - Layout centrado con IA flotante */}
+        <div className="max-w-4xl mx-auto px-4 py-8 -mt-20 relative z-10">
+          {/* CONTENIDO PRINCIPAL - Centrado */}
+          <div className="w-full">
           {/* Background pattern container */}
           <div className="relative">
             {/* Fondo animado - Video YouTube o Imagen */}
@@ -755,153 +754,10 @@ const EventDetailPage: React.FC = () => {
             </div>
           </div>
 
-          </div>{/* Fin columna principal */}
+          </div>{/* Fin contenido principal */}
 
-          {/* COLUMNA LATERAL - Análisis IA (se carga independiente) */}
-          <div className="lg:w-80 xl:w-96 lg:sticky lg:top-24 lg:self-start">
-          <div className="animate-fade-in-up">
-            {aiLoading ? (
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-6 relative overflow-hidden">
-                {/* Shimmer effect overlay */}
-                <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-
-                {/* Header skeleton */}
-                <div className="flex items-center gap-2 mb-6">
-                  <div className="w-8 h-8 bg-white/20 rounded animate-pulse"></div>
-                  <div className="h-6 w-48 bg-white/20 rounded animate-pulse"></div>
-                  <div className="ml-auto h-6 w-32 bg-purple-500/20 rounded-full animate-pulse"></div>
-                </div>
-
-                <div className="space-y-3">
-                  {/* Qué esperar skeleton */}
-                  <div className="bg-purple-500/20 backdrop-blur-sm p-3 rounded-xl border border-purple-400/30 relative overflow-hidden">
-                    <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-purple-400/20 to-transparent"></div>
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-4 h-4 bg-purple-300/30 rounded animate-pulse"></div>
-                      <div className="h-3 w-20 bg-purple-300/30 rounded animate-pulse"></div>
-                    </div>
-                    <div className="space-y-1.5">
-                      <div className="h-2.5 bg-white/10 rounded animate-pulse"></div>
-                      <div className="h-2.5 bg-white/10 rounded w-5/6 animate-pulse"></div>
-                    </div>
-                  </div>
-
-                  {/* Cómo llegar skeleton */}
-                  <div className="bg-green-500/20 backdrop-blur-sm p-3 rounded-xl border border-green-400/30 relative overflow-hidden">
-                    <div className="absolute inset-0 animate-shimmer [animation-delay:0.3s] bg-gradient-to-r from-transparent via-green-400/20 to-transparent"></div>
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-4 h-4 bg-green-300/30 rounded animate-pulse"></div>
-                      <div className="h-3 w-24 bg-green-300/30 rounded animate-pulse"></div>
-                    </div>
-                    <div className="h-2.5 bg-white/10 rounded w-4/6 animate-pulse"></div>
-                  </div>
-
-                  {/* Tip Pro skeleton */}
-                  <div className="bg-yellow-500/20 backdrop-blur-sm p-3 rounded-xl border-l-4 border-yellow-400 relative overflow-hidden">
-                    <div className="absolute inset-0 animate-shimmer [animation-delay:0.6s] bg-gradient-to-r from-transparent via-yellow-400/20 to-transparent"></div>
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-4 h-4 bg-yellow-300/30 rounded animate-pulse"></div>
-                      <div className="h-3 w-16 bg-yellow-300/30 rounded animate-pulse"></div>
-                    </div>
-                    <div className="h-2.5 bg-white/10 rounded w-5/6 animate-pulse"></div>
-                  </div>
-                </div>
-
-                {/* Footer skeleton */}
-                <div className="mt-6 pt-4 border-t border-white/20 flex justify-between items-center">
-                  <div className="h-4 w-40 bg-white/10 rounded animate-pulse"></div>
-                  <div className="h-4 w-32 bg-purple-300/20 rounded animate-pulse"></div>
-                </div>
-              </div>
-            ) : aiInsight ? (
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-4">
-                <div className="flex items-center gap-2 mb-4">
-                  <svg className="w-5 h-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                  </svg>
-                  <h3 className="text-base font-semibold text-white">Análisis IA</h3>
-                </div>
-
-                <div className="space-y-3">
-                  {/* Qué esperar */}
-                  <div className="bg-purple-500/20 backdrop-blur-sm p-3 rounded-xl border border-purple-400/30">
-                    <h4 className="font-semibold text-purple-300 mb-1 flex items-center gap-1.5 text-sm">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      Qué esperar
-                    </h4>
-                    <p className="text-white/90 text-sm">{aiInsight.quick_insight}</p>
-                  </div>
-
-                  {/* Info del artista */}
-                  {aiInsight.artist_info && (
-                    <div className="bg-blue-500/20 backdrop-blur-sm p-3 rounded-xl border border-blue-400/30">
-                      <h4 className="font-semibold text-blue-300 mb-1 flex items-center gap-1.5 text-sm">
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                        </svg>
-                        Sobre el artista
-                      </h4>
-                      <p className="text-white/90 text-sm">{aiInsight.artist_info}</p>
-                    </div>
-                  )}
-
-                  {/* Cómo llegar */}
-                  <div className="bg-green-500/20 backdrop-blur-sm p-3 rounded-xl border border-green-400/30">
-                    <h4 className="font-semibold text-green-300 mb-1 flex items-center gap-1.5 text-sm">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      </svg>
-                      Cómo llegar
-                    </h4>
-                    <p className="text-white/90 text-sm">{aiInsight.transport || "Colectivos 60, 152, 29"}</p>
-                  </div>
-
-                  {/* Cerca del lugar */}
-                  <div className="bg-orange-500/20 backdrop-blur-sm p-3 rounded-xl border border-orange-400/30">
-                    <h4 className="font-semibold text-orange-300 mb-1 flex items-center gap-1.5 text-sm">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      </svg>
-                      Cerca del lugar
-                    </h4>
-                    <p className="text-white/90 text-sm">{aiInsight.nearby || "Bares y restaurantes"}</p>
-                  </div>
-
-                  {/* Tip Pro */}
-                  <div className="bg-yellow-500/20 backdrop-blur-sm p-3 rounded-xl border-l-4 border-yellow-400">
-                    <h4 className="font-semibold text-yellow-300 mb-1 flex items-center gap-1.5 text-sm">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                      </svg>
-                      Tip Pro
-                    </h4>
-                    <p className="text-white/90 text-sm">{aiInsight.pro_tip || "Llegá 30 min antes"}</p>
-                  </div>
-                </div>
-
-                {/* Footer de la sección IA */}
-                <div className="mt-4 pt-3 border-t border-white/20 flex justify-between items-center">
-                  <div className="text-xs text-white/70">
-                    Vibe: <span className="font-semibold text-white">{aiInsight.vibe || "Copado"}</span>
-                  </div>
-                  <div className="text-xs text-purple-300">Gemini AI</div>
-                </div>
-              </div>
-            ) : (
-              <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl shadow-lg p-8">
-                <div className="text-center py-8">
-                  <p className="text-white/70">No se pudo obtener información inteligente para este evento</p>
-                </div>
-              </div>
-            )}
-          </div>
-          </div>{/* Fin columna lateral IA */}
-          </div>{/* Fin flex container */}
-
-          {/* Sección de Eventos Relacionados - Ancho completo */}
-          <div className="mt-8 max-w-4xl mx-auto">
+          {/* Sección de Eventos Relacionados - Centrado */}
+          <div className="mt-8">
             <div className="flex items-center gap-2 mb-6">
               <svg className="w-6 h-6 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
@@ -990,6 +846,73 @@ const EventDetailPage: React.FC = () => {
             )}
           </div>
         </div>
+      </div>
+
+      {/* PANEL FLOTANTE IA - Fixed en el lateral derecho (solo desktop) */}
+      <div className="hidden xl:block fixed right-4 top-24 w-72 z-20 animate-fade-in-up">
+        {aiLoading ? (
+          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-4 relative overflow-hidden shadow-2xl">
+            <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-5 h-5 bg-white/20 rounded animate-pulse"></div>
+              <div className="h-4 w-24 bg-white/20 rounded animate-pulse"></div>
+            </div>
+            <div className="space-y-2">
+              <div className="h-12 bg-white/10 rounded-lg animate-pulse"></div>
+              <div className="h-12 bg-white/10 rounded-lg animate-pulse"></div>
+              <div className="h-12 bg-white/10 rounded-lg animate-pulse"></div>
+            </div>
+          </div>
+        ) : aiInsight ? (
+          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-2xl">
+            <div className="flex items-center gap-2 mb-3">
+              <svg className="w-4 h-4 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+              </svg>
+              <h3 className="text-sm font-semibold text-white">Análisis IA</h3>
+            </div>
+
+            <div className="space-y-2">
+              {/* Qué esperar */}
+              <div className="bg-purple-500/20 p-2.5 rounded-lg border border-purple-400/20">
+                <h4 className="font-medium text-purple-300 text-xs mb-1 flex items-center gap-1">
+                  <span>✨</span> Qué esperar
+                </h4>
+                <p className="text-white/80 text-xs leading-relaxed">{aiInsight.quick_insight}</p>
+              </div>
+
+              {/* Cómo llegar */}
+              <div className="bg-green-500/20 p-2.5 rounded-lg border border-green-400/20">
+                <h4 className="font-medium text-green-300 text-xs mb-1 flex items-center gap-1">
+                  <span>📍</span> Cómo llegar
+                </h4>
+                <p className="text-white/80 text-xs leading-relaxed">{aiInsight.transport || "Colectivos cercanos"}</p>
+              </div>
+
+              {/* Cerca del lugar */}
+              <div className="bg-orange-500/20 p-2.5 rounded-lg border border-orange-400/20">
+                <h4 className="font-medium text-orange-300 text-xs mb-1 flex items-center gap-1">
+                  <span>🍽️</span> Cerca
+                </h4>
+                <p className="text-white/80 text-xs leading-relaxed">{aiInsight.nearby || "Bares y restaurantes"}</p>
+              </div>
+
+              {/* Tip Pro */}
+              <div className="bg-yellow-500/20 p-2.5 rounded-lg border-l-2 border-yellow-400">
+                <h4 className="font-medium text-yellow-300 text-xs mb-1 flex items-center gap-1">
+                  <span>💡</span> Tip Pro
+                </h4>
+                <p className="text-white/80 text-xs leading-relaxed">{aiInsight.pro_tip || "Llegá temprano"}</p>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="mt-3 pt-2 border-t border-white/10 flex justify-between items-center">
+              <span className="text-[10px] text-white/50">Vibe: {aiInsight.vibe || "Copado"}</span>
+              <span className="text-[10px] text-purple-300/70">Gemini AI</span>
+            </div>
+          </div>
+        ) : null}
       </div>
 
       {/* Side Panel para edición */}
