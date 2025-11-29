@@ -113,6 +113,7 @@ const Header: React.FC<HeaderProps> = ({
 
       try {
         // 🗄️ Usar backend para obtener solo ciudades con eventos
+        console.log('📱 [HEADER-DEBUG] Fetching suggestions para:', searchQuery)
         const response = await fetch(
           `${API_BASE_URL}/api/cities/available?q=${encodeURIComponent(searchQuery)}&limit=5`,
           { signal: abortController.signal }
@@ -124,6 +125,7 @@ const Header: React.FC<HeaderProps> = ({
         }
 
         const data = await response.json()
+        console.log('📱 [HEADER-DEBUG] Response recibida:', data)
 
         // 📋 Mapear respuesta del backend al formato LocationSuggestion
         const locationSuggestions: LocationSuggestion[] = (data.locations || []).map((item: any) => {
@@ -143,13 +145,15 @@ const Header: React.FC<HeaderProps> = ({
 
         setSuggestions(locationSuggestions)
         setShowSuggestions(locationSuggestions.length > 0)
-      } catch (error) {
+      } catch (error: any) {
         // ⚠️ Si es AbortError, no mostrar error (es normal)
         if (error instanceof Error && error.name === 'AbortError') {
           console.log('⏹️ Request cancelado:', searchQuery)
           return
         }
-        console.error('Error fetching suggestions:', error)
+        console.error('❌ [HEADER-ERROR] Error fetching suggestions:', error)
+        // 📱 ALERT PARA MÓVIL
+        alert(`[ERROR fetchSuggestions]\nMessage: ${error?.message || 'Unknown'}\nURL: /api/cities/available`)
         setSuggestions([])
       } finally {
         setIsLoadingSuggestions(false)
@@ -220,25 +224,35 @@ const Header: React.FC<HeaderProps> = ({
   }
 
   const handleSuggestionClick = (suggestion: LocationSuggestion) => {
-    // 🔒 Marcar que acabamos de seleccionar (evita reabrir dropdown)
-    justSelectedRef.current = true
+    try {
+      console.log('📱 [HEADER-DEBUG] handleSuggestionClick INICIO:', JSON.stringify(suggestion))
 
-    // Llenar el input con el texto (solo el nombre de la ciudad)
-    onSearchChange(suggestion.name)
-    setShowSuggestions(false)
+      // 🔒 Marcar que acabamos de seleccionar (evita reabrir dropdown)
+      justSelectedRef.current = true
 
-    // 🔥 Actualizar la ubicación en el store y ejecutar búsqueda
-    onLocationSelect({
-      name: suggestion.name,
-      country: suggestion.country || '',
-      lat: suggestion.lat,
-      lon: suggestion.lon
-    })
+      // Llenar el input con el texto (solo el nombre de la ciudad)
+      onSearchChange(suggestion.name)
+      setShowSuggestions(false)
 
-    // 🔒 Resetear flag después de 1 segundo (permite escribir de nuevo)
-    setTimeout(() => {
-      justSelectedRef.current = false
-    }, 1000)
+      console.log('📱 [HEADER-DEBUG] Llamando onLocationSelect...')
+      // 🔥 Actualizar la ubicación en el store y ejecutar búsqueda
+      onLocationSelect({
+        name: suggestion.name,
+        country: suggestion.country || '',
+        lat: suggestion.lat,
+        lon: suggestion.lon
+      })
+      console.log('📱 [HEADER-DEBUG] onLocationSelect completado')
+
+      // 🔒 Resetear flag después de 1 segundo (permite escribir de nuevo)
+      setTimeout(() => {
+        justSelectedRef.current = false
+      }, 1000)
+    } catch (error: any) {
+      console.error('❌ [HEADER-ERROR] Error en handleSuggestionClick:', error)
+      // 📱 ALERT PARA MÓVIL
+      alert(`[ERROR handleSuggestionClick]\nMessage: ${error?.message || 'Unknown'}\nSuggestion: ${suggestion?.name}`)
+    }
   }
 
   // 🔒 Lock para prevenir llamadas concurrentes
@@ -272,13 +286,14 @@ const Header: React.FC<HeaderProps> = ({
         return
       }
 
-      console.log(`🔍 Buscando ciudades cercanas a: ${currentLocation}`)
+      console.log(`🔍 [HEADER-DEBUG] Buscando ciudades cercanas a: ${currentLocation}`)
 
       // Pedir a IA ciudades cercanas a la ubicacion actual
       const nearbyResponse = await fetch(
         `${API_BASE_URL}/api/ai/nearby-cities?location=${encodeURIComponent(currentLocation)}&limit=10`
       )
       const nearbyData = await nearbyResponse.json()
+      console.log('📱 [HEADER-DEBUG] Nearby cities response:', nearbyData)
 
       if (nearbyData.success && nearbyData.cities) {
         // Mapear ciudades cercanas a LocationSuggestion
@@ -295,8 +310,10 @@ const Header: React.FC<HeaderProps> = ({
         setNearbyCitiesLoaded(true)
         console.log(`✅ Ciudades cercanas cargadas: ${nearbyCities.length}`)
       }
-    } catch (error) {
-      console.error('❌ Error loading nearby cities:', error)
+    } catch (error: any) {
+      console.error('❌ [HEADER-ERROR] Error loading nearby cities:', error)
+      // 📱 ALERT PARA MÓVIL
+      alert(`[ERROR handleInputHover]\nMessage: ${error?.message || 'Unknown'}\nURL: /api/ai/nearby-cities`)
       setSuggestions([])
     } finally {
       setIsLoadingSuggestions(false)

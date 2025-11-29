@@ -117,8 +117,10 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
       } else {
         setPopularPlaces([])
       }
-    } catch (error) {
-      console.error('❌ Error fetching popular places:', error)
+    } catch (error: any) {
+      console.error('❌ [SMARTLOCATION-ERROR] Error fetching popular places:', error)
+      // 📱 ALERT PARA MÓVIL
+      alert(`[ERROR fetchPopularPlaces]\nMessage: ${error?.message || 'Unknown'}\nURL: /api/popular-places/`)
       setPopularPlaces([])
     } finally {
       setLoadingPopularPlaces(false)
@@ -314,48 +316,60 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
       setSuggestions(cities)
       setShowSuggestions(cities.length > 0)
       setIsLoadingSuggestions(false)
-    } catch (error) {
-      console.error('Error fetching city suggestions:', error)
+    } catch (error: any) {
+      console.error('❌ [SMARTLOCATION-ERROR] Error fetching city suggestions:', error)
+      // 📱 ALERT PARA MÓVIL
+      alert(`[ERROR fetchCitySuggestions]\nMessage: ${error?.message || 'Unknown'}\nURL: Nominatim API`)
       setIsLoadingSuggestions(false)
       setSuggestions([])
     }
   }
 
   const selectSuggestion = (suggestion: CitySuggestion) => {
-    // 🔒 BLOQUEAR sync durante selección manual
-    isProcessingSelectionRef.current = true
-    console.log('🔒 SmartLocationBar: isProcessingSelectionRef = true')
+    try {
+      console.log('📱 [SMARTLOCATION-DEBUG] selectSuggestion INICIO:', JSON.stringify(suggestion))
 
-    // 🌍 Si es un barrio (tiene state), usar solo el nombre del barrio para búsqueda
-    // pero mostrar la ciudad padre en la UI
-    let locationName = suggestion.name  // Solo el barrio/ciudad, no el formato completo
+      // 🔒 BLOQUEAR sync durante selección manual
+      isProcessingSelectionRef.current = true
+      console.log('🔒 SmartLocationBar: isProcessingSelectionRef = true')
 
-    const selectedLocation: Location = {
-      name: locationName,
-      coordinates: {
-        lat: parseFloat(suggestion.lat),
-        lng: parseFloat(suggestion.lon)
-      },
-      country: suggestion.country,
-      detected: 'manual'
+      // 🌍 Si es un barrio (tiene state), usar solo el nombre del barrio para búsqueda
+      // pero mostrar la ciudad padre en la UI
+      let locationName = suggestion.name  // Solo el barrio/ciudad, no el formato completo
+
+      const selectedLocation: Location = {
+        name: locationName,
+        coordinates: {
+          lat: parseFloat(suggestion.lat),
+          lng: parseFloat(suggestion.lon)
+        },
+        country: suggestion.country,
+        detected: 'manual'
+      }
+
+      console.log('✅ Ubicación seleccionada del dropdown:', selectedLocation)
+      console.log('🏙️ Ciudad padre (si es barrio):', suggestion.state || 'N/A')
+
+      setLocation(selectedLocation)
+      console.log('📱 [SMARTLOCATION-DEBUG] setLocation completado, llamando onLocationChange...')
+      onLocationChange(selectedLocation)
+      console.log('📱 [SMARTLOCATION-DEBUG] onLocationChange completado')
+      setManualInput('')
+      setShowManualInput(false)
+      setShowSuggestions(false)
+      setSuggestions([])
+      setHasSelectedFromDropdown(true) // ✅ Marca que se seleccionó del dropdown
+
+      // 🔓 Desbloquear después de 3 segundos
+      setTimeout(() => {
+        isProcessingSelectionRef.current = false
+        console.log('🔓 SmartLocationBar: isProcessingSelectionRef = false')
+      }, 3000)
+    } catch (error: any) {
+      console.error('❌ [SMARTLOCATION-ERROR] Error en selectSuggestion:', error)
+      // 📱 ALERT PARA MÓVIL
+      alert(`[ERROR selectSuggestion]\nMessage: ${error?.message || 'Unknown'}\nSuggestion: ${suggestion?.name}`)
     }
-
-    console.log('✅ Ubicación seleccionada del dropdown:', selectedLocation)
-    console.log('🏙️ Ciudad padre (si es barrio):', suggestion.state || 'N/A')
-
-    setLocation(selectedLocation)
-    onLocationChange(selectedLocation)
-    setManualInput('')
-    setShowManualInput(false)
-    setShowSuggestions(false)
-    setSuggestions([])
-    setHasSelectedFromDropdown(true) // ✅ Marca que se seleccionó del dropdown
-
-    // 🔓 Desbloquear después de 3 segundos
-    setTimeout(() => {
-      isProcessingSelectionRef.current = false
-      console.log('🔓 SmartLocationBar: isProcessingSelectionRef = false')
-    }, 3000)
   }
 
   // NO auto-detectar ubicación por IP - dejamos que Gemini maneje todo
