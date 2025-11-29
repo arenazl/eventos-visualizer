@@ -3955,7 +3955,11 @@ async def ai_chat(data: Dict[str, Any]):
         # Buenos Aires y otros - usar multi-source
         from services.hierarchical_factory import fetch_from_all_sources
         result = await fetch_from_all_sources(location=detected_location)
-        events = result.get("events", [])
+        # 🔧 FIX: result puede ser lista o dict dependiendo del scraper
+        if isinstance(result, list):
+            events = result
+        else:
+            events = result.get("events", []) if result else []
     
     # Score events by relevance to query
     scored_events = []
