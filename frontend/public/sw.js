@@ -1,4 +1,4 @@
-const CACHE_NAME = 'eventos-visualizer-v2-no-api-cache';
+const CACHE_NAME = 'eventos-visualizer-v4-2025-11-29';
 const urlsToCache = [
   '/',
   '/index.html',

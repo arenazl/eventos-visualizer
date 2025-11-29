@@ -109,6 +109,8 @@ const HomePageModern: React.FC = () => {
   const hasAutoLoaded = useRef(false)
   // 🔒 Ref para prevenir loop infinito de enrichment
   const hasEnriched = useRef(false)
+  // 🔒 Ref para bloquear búsquedas automáticas cuando el usuario selecciona manualmente
+  const isManualSelectionRef = useRef(false)
 
   // Auth context
   const { user, isAuthenticated } = useAuth()
@@ -126,6 +128,12 @@ const HomePageModern: React.FC = () => {
   // 🔄 SIEMPRE RECARGAR cuando vuelve al home
   const lastLocationRef = useRef(location.pathname)
   useEffect(() => {
+    // 🔒 NO recargar si el usuario está seleccionando manualmente una ubicación
+    if (isManualSelectionRef.current) {
+      console.log('⏸️ Navegación BLOQUEADA - selección manual en progreso')
+      return
+    }
+
     // Si vuelves de una página de detalle (/event/*) al home (/)
     if (lastLocationRef.current.startsWith('/event/') && location.pathname === '/' && currentLocation) {
       console.log('🔙 Volviendo de detalle - recargando eventos frescos desde MySQL...')
@@ -138,6 +146,12 @@ const HomePageModern: React.FC = () => {
   // 🔄 DETECTAR CUANDO VUELVES DE DETALLE Y RECARGAR EVENTOS (visibilidad)
   useEffect(() => {
     const handleVisibilityChange = () => {
+      // 🔒 NO recargar si el usuario está seleccionando manualmente una ubicación
+      if (isManualSelectionRef.current) {
+        console.log('⏸️ visibilitychange BLOQUEADO - selección manual en progreso')
+        return
+      }
+
       // Solo recargar si la página se vuelve visible Y hay eventos en memoria
       if (!document.hidden && events.length > 0 && currentLocation) {
         console.log('👁️ Página visible de nuevo - recargando eventos desde MySQL...')
@@ -204,6 +218,12 @@ const HomePageModern: React.FC = () => {
       // 🔒 Prevenir doble ejecución (React StrictMode)
       if (hasAutoLoaded.current) {
         console.log('⏸️ Auto-load ya ejecutado - saltando duplicado')
+        return
+      }
+
+      // 🔒 NO ejecutar si el usuario está seleccionando manualmente una ubicación
+      if (isManualSelectionRef.current) {
+        console.log('⏸️ Auto-load BLOQUEADO - selección manual en progreso')
         return
       }
 
@@ -711,6 +731,10 @@ const HomePageModern: React.FC = () => {
   const handleLocationSelect = async (location: any) => {
     console.log('📍 Ubicación seleccionada del autocomplete:', location)
 
+    // 🔒 BLOQUEAR búsquedas automáticas durante selección manual
+    isManualSelectionRef.current = true
+    console.log('🔒 isManualSelectionRef = true (bloqueando auto-searches)')
+
     const selectedLocation: Location = {
       name: location.name,
       coordinates: { lat: location.lat, lng: location.lon },
@@ -743,6 +767,12 @@ const HomePageModern: React.FC = () => {
     } catch (error) {
       console.error('❌ Error en búsqueda:', error)
       setIsSearchButtonSpinning(false)
+    } finally {
+      // 🔓 DESBLOQUEAR después de 5 segundos (tiempo suficiente para que termine todo)
+      setTimeout(() => {
+        isManualSelectionRef.current = false
+        console.log('🔓 isManualSelectionRef = false (auto-searches habilitadas)')
+      }, 5000)
     }
   }
 
