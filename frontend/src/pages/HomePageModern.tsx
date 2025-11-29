@@ -222,8 +222,9 @@ const HomePageModern: React.FC = () => {
       }
 
       // 🔒 NO ejecutar si el usuario está seleccionando manualmente una ubicación
-      if (isManualSelectionRef.current) {
-        console.log('⏸️ Auto-load BLOQUEADO - selección manual en progreso')
+      // Verificar AMBOS: ref local Y flag global en window
+      if (isManualSelectionRef.current || (window as any).__isManualSelection) {
+        console.log('⏸️ Auto-load BLOQUEADO - selección manual en progreso (ref:', isManualSelectionRef.current, ', window:', (window as any).__isManualSelection, ')')
         return
       }
 
@@ -314,8 +315,12 @@ const HomePageModern: React.FC = () => {
           console.log('✅ [INIT] Búsqueda multi-ciudad completada, marcando location como detectada')
           setLocationDetected(true)
           setIsDetectingLocation(false) // Ocultar loading state
-        } catch (error) {
+        } catch (error: any) {
           console.error('❌ Error detectando ubicación:', error)
+
+          // 📱 DEBUG MÓVIL: Ver cuando se dispara este fallback
+          alert(`[DEBUG FALLBACK Buenos Aires]\nEsto NO debería aparecer si seleccionaste Bogotá!\nError: ${error?.message || 'Sin error'}\nManual: ${(window as any).__isManualSelection}`)
+
           // Fallback a ubicación por defecto
           const fallbackLocation: Location = {
             name: 'Buenos Aires',
@@ -733,9 +738,11 @@ const HomePageModern: React.FC = () => {
       console.log('📍 [MOBILE-DEBUG] handleLocationSelect INICIO:', JSON.stringify(location))
 
       // 🔒 BLOQUEAR búsquedas automáticas durante selección manual
+      // Usar AMBOS: ref local Y flag global en window para máxima robustez
       isManualSelectionRef.current = true
+      ;(window as any).__isManualSelection = true  // 🔒 FLAG GLOBAL
       setIsManualSearch(true) // 🔒 También activar state para que SmartLocationBar lo vea
-      console.log('🔒 [MOBILE-DEBUG] Flags activados')
+      console.log('🔒 [MOBILE-DEBUG] Flags activados (ref + window.__isManualSelection)')
 
       const selectedLocation: Location = {
         name: location.name,
@@ -783,8 +790,9 @@ const HomePageModern: React.FC = () => {
       console.log('📍 [MOBILE-DEBUG] Finally block - programando desbloqueo en 5s')
       setTimeout(() => {
         isManualSelectionRef.current = false
+        ;(window as any).__isManualSelection = false  // 🔓 FLAG GLOBAL
         setIsManualSearch(false) // 🔓 También desactivar state
-        console.log('🔓 isManualSelectionRef = false, isManualSearch = false (auto-searches habilitadas)')
+        console.log('🔓 isManualSelectionRef = false, window.__isManualSelection = false (auto-searches habilitadas)')
       }, 5000)
     }
   }
