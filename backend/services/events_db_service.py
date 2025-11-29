@@ -622,8 +622,10 @@ def get_related_events(
         # Normalizar categoría si existe
         normalized_category = normalize_category(category) if category else None
 
+        # Set para rastrear títulos ya agregados (evitar duplicados)
+        seen_titles = set()
+
         # Query 1: Misma categoría + misma ciudad (prioridad máxima)
-        # Usamos GROUP BY title para evitar eventos duplicados con mismo nombre
         if normalized_category and city:
             query = text("""
                 SELECT id, title, description, event_url, image_url,
@@ -634,25 +636,27 @@ def get_related_events(
                   AND city LIKE :city_pattern
                   AND start_datetime >= :now
                   AND (:exclude IS NULL OR id != :exclude)
-                GROUP BY title
                 ORDER BY start_datetime ASC
-                LIMIT :limit
+                LIMIT :fetch_limit
             """)
             result = session.execute(query, {
                 'category': normalized_category,
                 'city_pattern': f'%{city}%',
                 'now': yesterday,
                 'exclude': exclude_id,
-                'limit': limit
+                'fetch_limit': limit * 3  # Fetch más para filtrar duplicados
             })
 
             for row in result.fetchall():
-                events.append(_format_related_event(row, 'same_category_city'))
+                event = _format_related_event(row, 'same_category_city')
+                # Solo agregar si el título no está duplicado
+                if event['title'] not in seen_titles and len(events) < limit:
+                    seen_titles.add(event['title'])
+                    events.append(event)
 
         # Query 2: Si no hay suficientes, buscar misma categoría (cualquier ciudad)
         if len(events) < limit and normalized_category:
             existing_ids = [e['id'] for e in events]
-            existing_titles = [e['title'] for e in events]
             exclude_list = existing_ids + ([exclude_id] if exclude_id else [])
             remaining = limit - len(events)
 
@@ -664,9 +668,8 @@ def get_related_events(
                 WHERE category = :category
                   AND start_datetime >= :now
                   AND id NOT IN :exclude_ids
-                GROUP BY title
                 ORDER BY start_datetime ASC
-                LIMIT :limit
+                LIMIT :fetch_limit
             """)
 
             # MySQL no soporta IN con lista vacía, usar workaround
@@ -677,11 +680,15 @@ def get_related_events(
                 'category': normalized_category,
                 'now': yesterday,
                 'exclude_ids': tuple(exclude_list),
-                'limit': remaining
+                'fetch_limit': remaining * 3  # Fetch más para filtrar duplicados
             })
 
             for row in result.fetchall():
-                events.append(_format_related_event(row, 'same_category'))
+                event = _format_related_event(row, 'same_category')
+                # Solo agregar si el título no está duplicado
+                if event['title'] not in seen_titles and len(events) < limit:
+                    seen_titles.add(event['title'])
+                    events.append(event)
 
         # Query 3: Si aún no hay suficientes, buscar misma ciudad (cualquier categoría)
         if len(events) < limit and city:
@@ -697,9 +704,8 @@ def get_related_events(
                 WHERE city LIKE :city_pattern
                   AND start_datetime >= :now
                   AND id NOT IN :exclude_ids
-                GROUP BY title
                 ORDER BY start_datetime ASC
-                LIMIT :limit
+                LIMIT :fetch_limit
             """)
 
             if not exclude_list:
@@ -709,11 +715,15 @@ def get_related_events(
                 'city_pattern': f'%{city}%',
                 'now': yesterday,
                 'exclude_ids': tuple(exclude_list),
-                'limit': remaining
+                'fetch_limit': remaining * 3  # Fetch más para filtrar duplicados
             })
 
             for row in result.fetchall():
-                events.append(_format_related_event(row, 'same_city'))
+                event = _format_related_event(row, 'same_city')
+                # Solo agregar si el título no está duplicado
+                if event['title'] not in seen_titles and len(events) < limit:
+                    seen_titles.add(event['title'])
+                    events.append(event)
 
         logger.info(f"🔗 Encontrados {len(events)} eventos relacionados (cat={category}, city={city})")
 
