@@ -549,10 +549,8 @@ const EventDetailPage: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
         </div>
 
-        {/* Content - Layout centrado con IA flotante */}
+        {/* Content */}
         <div className="max-w-4xl mx-auto px-4 py-8 -mt-20 relative z-10">
-          {/* CONTENIDO PRINCIPAL - Centrado */}
-          <div className="w-full">
           {/* Background pattern container */}
           <div className="relative">
             {/* Fondo animado - Video YouTube o Imagen */}
@@ -681,7 +679,6 @@ const EventDetailPage: React.FC = () => {
                     </>
                   )}
                 </button>
-
               </div>
 
               <span className={`${event.is_free ? 'bg-green-600' : 'bg-gray-800'} text-white px-4 py-2 rounded-lg font-bold`}>
@@ -1069,4 +1066,4 @@ const EventDetailPage: React.FC = () => {
   )
 }
 
-export default EventDetailPage// Build trigger 1764408045
+export default EventDetailPage
