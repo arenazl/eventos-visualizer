@@ -623,6 +623,7 @@ def get_related_events(
         normalized_category = normalize_category(category) if category else None
 
         # Query 1: Misma categoría + misma ciudad (prioridad máxima)
+        # Usamos GROUP BY title para evitar eventos duplicados con mismo nombre
         if normalized_category and city:
             query = text("""
                 SELECT id, title, description, event_url, image_url,
@@ -633,6 +634,7 @@ def get_related_events(
                   AND city LIKE :city_pattern
                   AND start_datetime >= :now
                   AND (:exclude IS NULL OR id != :exclude)
+                GROUP BY title
                 ORDER BY start_datetime ASC
                 LIMIT :limit
             """)
@@ -650,6 +652,7 @@ def get_related_events(
         # Query 2: Si no hay suficientes, buscar misma categoría (cualquier ciudad)
         if len(events) < limit and normalized_category:
             existing_ids = [e['id'] for e in events]
+            existing_titles = [e['title'] for e in events]
             exclude_list = existing_ids + ([exclude_id] if exclude_id else [])
             remaining = limit - len(events)
 
@@ -661,6 +664,7 @@ def get_related_events(
                 WHERE category = :category
                   AND start_datetime >= :now
                   AND id NOT IN :exclude_ids
+                GROUP BY title
                 ORDER BY start_datetime ASC
                 LIMIT :limit
             """)
@@ -693,6 +697,7 @@ def get_related_events(
                 WHERE city LIKE :city_pattern
                   AND start_datetime >= :now
                   AND id NOT IN :exclude_ids
+                GROUP BY title
                 ORDER BY start_datetime ASC
                 LIMIT :limit
             """)
