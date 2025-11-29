@@ -60,13 +60,13 @@ class AIServiceManager:
                 logger.warning(f"⚠️ Provider '{preferred}' no válido, usando Grok")
                 self.preferred_provider = ProviderType.GROK
 
-            # Orden de fallback (del más rápido/barato al más caro)
+            # Orden de fallback: Gemini (gratis) -> Grok (backup)
             self.fallback_order = [
-                ProviderType.GROK,        # Grok-4 (potente, si está configurado)
-                ProviderType.GROQ,        # Más rápido, gratis, 14k/día
-                ProviderType.GEMINI,      # Gratis pero limitado 250/día
-                ProviderType.OPENROUTER,  # Flexible, varios modelos
-                ProviderType.PERPLEXITY   # Solo si necesitas web search
+                ProviderType.GEMINI,      # 🥇 Primary - Gratis, 60 req/min
+                ProviderType.GROK,        # 🥈 Fallback - Potente backup
+                ProviderType.GROQ,        # Extra fallback si se configura
+                ProviderType.OPENROUTER,
+                ProviderType.PERPLEXITY
             ]
 
             AIServiceManager._initialized = True
