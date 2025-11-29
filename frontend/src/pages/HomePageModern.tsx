@@ -269,12 +269,20 @@ const HomePageModern: React.FC = () => {
               )
               const reverseData = await reverseResponse.json()
 
-              let cityName = 'Buenos Aires'
+              // 🔧 BUGFIX: Extraer ciudad REAL de reverseData en lugar de hardcodear Buenos Aires
+              const cityName = reverseData.address?.city
+                || reverseData.address?.town
+                || reverseData.address?.municipality
+                || reverseData.address?.village
+                || reverseData.address?.state
+                || 'Buenos Aires' // Solo fallback si no hay nada
+
+              console.log('📍 [GPS] Reverse geocoding result:', reverseData.address)
 
               detectedLocation = {
                 name: cityName,
                 coordinates: { lat: position.coords.latitude, lng: position.coords.longitude },
-                country: reverseData.address.country,
+                country: reverseData.address?.country || 'Argentina',
                 detected: 'gps'
               }
 
