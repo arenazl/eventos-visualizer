@@ -850,9 +850,63 @@ const EventDetailPage: React.FC = () => {
         </div>
       </div>
 
-      {/* PANELES IA SIMÉTRICOS - Izquierda y Derecha */}
+      {/* PANELES IA - Responsivos: Stack en mobile, laterales en desktop */}
       {(aiLoading || aiInsight) && (
         <>
+          {/* === MOBILE/TABLET: Stack horizontal debajo del contenido === */}
+          <div className="xl:hidden max-w-4xl mx-auto px-4 pb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {/* Panel 1 - Qué esperar + Transporte */}
+              {aiLoading ? (
+                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl">
+                  <div className="h-3 w-20 bg-white/20 rounded animate-pulse mb-2"></div>
+                  <div className="space-y-1.5">
+                    <div className="h-2.5 bg-white/10 rounded animate-pulse"></div>
+                    <div className="h-2.5 bg-white/10 rounded w-4/5 animate-pulse"></div>
+                  </div>
+                  <div className="h-3 w-24 bg-white/10 rounded animate-pulse mt-3"></div>
+                </div>
+              ) : aiInsight && (
+                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl">
+                  <div className="text-xs text-purple-300 mb-2 flex items-center gap-1">
+                    <span>✨</span> Qué esperar
+                  </div>
+                  <p className="text-white/80 text-xs leading-relaxed">{aiInsight.quick_insight}</p>
+                  <div className="mt-3 pt-2 border-t border-white/10">
+                    <div className="text-xs text-green-300 flex items-center gap-1">
+                      <span>📍</span> {aiInsight.transport || "Transporte cercano"}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Panel 2 - Cerca + Tip */}
+              {aiLoading ? (
+                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl">
+                  <div className="h-3 w-24 bg-white/20 rounded animate-pulse mb-2"></div>
+                  <div className="space-y-1.5">
+                    <div className="h-2.5 bg-white/10 rounded animate-pulse"></div>
+                    <div className="h-2.5 bg-white/10 rounded w-3/4 animate-pulse"></div>
+                  </div>
+                  <div className="h-3 w-20 bg-white/10 rounded animate-pulse mt-3"></div>
+                </div>
+              ) : aiInsight && (
+                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl">
+                  <div className="text-xs text-orange-300 mb-2 flex items-center gap-1">
+                    <span>🍽️</span> Cerca del lugar
+                  </div>
+                  <p className="text-white/80 text-xs leading-relaxed">{aiInsight.nearby || "Bares y restaurantes"}</p>
+                  <div className="mt-3 pt-2 border-t border-white/10">
+                    <div className="text-xs text-yellow-300 flex items-center gap-1">
+                      <span>💡</span> {aiInsight.pro_tip || "Llegá temprano"}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* === DESKTOP XL+: Paneles fijos a los laterales === */}
           {/* Panel izquierdo - Qué esperar + Transporte */}
           <div className="hidden xl:block fixed left-4 top-24 w-64 z-20 animate-fade-in-up">
             {aiLoading ? (
