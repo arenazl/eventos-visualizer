@@ -6,15 +6,13 @@
 const isDevelopment = import.meta.env.MODE === 'development'
 const isProduction = import.meta.env.MODE === 'production'
 
-// API Base URLs
-const API_URLS = {
-  development: 'http://localhost:8001',
-  production: import.meta.env.VITE_API_URL || 'https://funaroundyou-f21e91cae36c.herokuapp.com'
-}
+// API Base URLs - SIEMPRE usar VITE_API_URL si está definido
+const API_BASE_URL = import.meta.env.VITE_API_URL ||
+  (isDevelopment ? 'http://localhost:8001' : 'https://funaroundyou-f21e91cae36c.herokuapp.com')
 
 export const config = {
   // API Configuration
-  API_BASE_URL: isDevelopment ? API_URLS.development : API_URLS.production,
+  API_BASE_URL,
   
   // Environment flags
   isDevelopment,

@@ -729,47 +729,58 @@ const HomePageModern: React.FC = () => {
 
   // 📍 Handler cuando el usuario selecciona una ubicación del autocompletado
   const handleLocationSelect = async (location: any) => {
-    console.log('📍 Ubicación seleccionada del autocomplete:', location)
-
-    // 🔒 BLOQUEAR búsquedas automáticas durante selección manual
-    isManualSelectionRef.current = true
-    setIsManualSearch(true) // 🔒 También activar state para que SmartLocationBar lo vea
-    console.log('🔒 isManualSelectionRef = true, isManualSearch = true (bloqueando auto-searches)')
-
-    const selectedLocation: Location = {
-      name: location.name,
-      coordinates: { lat: location.lat, lng: location.lon },
-      country: location.country,
-      detected: 'manual'
-    }
-
-    // 🔒 Resetear flag de enrichment para nueva ubicación
-    hasEnriched.current = false
-
-    // Actualizar ubicación en el store
-    setLocation(selectedLocation)
-    console.log('✅ Store actualizado con:', selectedLocation.name, ',', selectedLocation.country)
-
-    // 🚀 EJECUTAR BÚSQUEDA AUTOMÁTICAMENTE al seleccionar del dropdown
-    setIsSearchButtonSpinning(true)
-
-    // Fade out eventos actuales
-    if (events.length > 0) {
-      setIsEventsFadingOut(true)
-      await new Promise(resolve => setTimeout(resolve, 300))
-    }
-
     try {
+      console.log('📍 [MOBILE-DEBUG] handleLocationSelect INICIO:', JSON.stringify(location))
+
+      // 🔒 BLOQUEAR búsquedas automáticas durante selección manual
+      isManualSelectionRef.current = true
+      setIsManualSearch(true) // 🔒 También activar state para que SmartLocationBar lo vea
+      console.log('🔒 [MOBILE-DEBUG] Flags activados')
+
+      const selectedLocation: Location = {
+        name: location.name,
+        coordinates: { lat: location.lat, lng: location.lon },
+        country: location.country,
+        detected: 'manual'
+      }
+      console.log('📍 [MOBILE-DEBUG] selectedLocation creado:', JSON.stringify(selectedLocation))
+
+      // 🔒 Resetear flag de enrichment para nueva ubicación
+      hasEnriched.current = false
+      console.log('📍 [MOBILE-DEBUG] hasEnriched reseteado')
+
+      // Actualizar ubicación en el store
+      setLocation(selectedLocation)
+      console.log('✅ [MOBILE-DEBUG] Store actualizado con:', selectedLocation.name, ',', selectedLocation.country)
+
+      // 🚀 EJECUTAR BÚSQUEDA AUTOMÁTICAMENTE al seleccionar del dropdown
+      setIsSearchButtonSpinning(true)
+      console.log('📍 [MOBILE-DEBUG] isSearchButtonSpinning = true')
+
+      // Fade out eventos actuales
+      if (events.length > 0) {
+        console.log('📍 [MOBILE-DEBUG] Iniciando fade out de', events.length, 'eventos')
+        setIsEventsFadingOut(true)
+        await new Promise(resolve => setTimeout(resolve, 300))
+        console.log('📍 [MOBILE-DEBUG] Fade out completado')
+      }
+
+      console.log('📍 [MOBILE-DEBUG] Iniciando startStreamingSearch...')
       // Streaming con la ubicación seleccionada
       await startStreamingSearch(selectedLocation)
+      console.log('📍 [MOBILE-DEBUG] startStreamingSearch completado')
 
-      // DISABLED: getSmartRecommendations was removed
-      // Recomendaciones AI ahora se hacen client-side con scoring
-    } catch (error) {
-      console.error('❌ Error en búsqueda:', error)
+    } catch (error: any) {
+      // 🔴 CAPTURAR ERROR EN MÓVIL - CON ALERT PARA DEBUG
+      console.error('🔴 [MOBILE-ERROR] Error en handleLocationSelect:', error)
       setIsSearchButtonSpinning(false)
+      setIsEventsFadingOut(false)
+
+      // 📱 ALERT PARA VER ERRORES EN MÓVIL
+      alert(`[ERROR handleLocationSelect]\nMessage: ${error?.message || 'Unknown'}\nName: ${error?.name || 'N/A'}\nStack: ${error?.stack?.substring(0, 200) || 'No stack'}`)
     } finally {
       // 🔓 DESBLOQUEAR después de 5 segundos (tiempo suficiente para que termine todo)
+      console.log('📍 [MOBILE-DEBUG] Finally block - programando desbloqueo en 5s')
       setTimeout(() => {
         isManualSelectionRef.current = false
         setIsManualSearch(false) // 🔓 También desactivar state

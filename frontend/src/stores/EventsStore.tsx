@@ -2,6 +2,8 @@ import React, { createContext, useContext, useEffect, ReactNode } from 'react'
 import { create } from 'zustand'
 import { config } from '../config'
 import { API_BASE_URL } from '../config/api'
+// 🔧 IMPORT ESTÁTICO en lugar de dynamic para evitar problemas en móvil
+import { sseEventsService } from '../services/sse-events'
 
 interface Event {
   id?: string
@@ -719,8 +721,9 @@ const useEventsStore = create<EventsState>((set, get) => ({
       summary: ''
     }
 
-    // Call the SSE search method instead
-    const sseService = (await import('../services/sse-events')).sseEventsService
+    // 🔧 Usar import estático (ya importado al inicio del archivo)
+    // Antes usaba dynamic import que fallaba en móvil:
+    // const sseService = (await import('../services/sse-events')).sseEventsService
 
     // Construir ubicación completa para el backend
     const fullLocationString = searchLocation?.name
@@ -739,7 +742,8 @@ const useEventsStore = create<EventsState>((set, get) => ({
     // ✨ Obtener parent_city desde metadata del barrio (si existe)
     const parentCityFromMetadata = searchLocation?.metadata?.city || undefined
 
-    const cleanup = sseService.searchEventsStream(
+    // 🔧 Usar sseEventsService (import estático) en lugar de sseService (dynamic import)
+    const cleanup = sseEventsService.searchEventsStream(
       fullLocationString,
       (event) => {
         // Handle SSE events

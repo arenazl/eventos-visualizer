@@ -28,7 +28,8 @@
       "Bash(npm run dev:*)",
       "Bash(timeout:*)",
       "Bash(tree:*)",
-      "Bash(xargs ls:*)"
+      "Bash(xargs ls:*)",
+      "Bash(netlify env:list:*)"
     ],
     "deny": [],
     "ask": []

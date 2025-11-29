@@ -1,4 +1,4 @@
-const CACHE_NAME = 'eventos-visualizer-v6-2025-11-29';
+const CACHE_NAME = 'eventos-visualizer-v7-2025-11-29-fix2';
 const urlsToCache = [
   '/',
   '/index.html',
