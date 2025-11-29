@@ -223,35 +223,46 @@ const Header: React.FC<HeaderProps> = ({
     }
   }
 
-  const handleSuggestionClick = (suggestion: LocationSuggestion) => {
+  const handleSuggestionClick = async (suggestion: LocationSuggestion) => {
+    // 📱 MÓVIL: Alert inmediato para confirmar que el click llegó
+    const debugInfo: string[] = []
+    debugInfo.push(`Click recibido: ${suggestion?.name || 'NULL'}`)
+
     try {
-      console.log('📱 [HEADER-DEBUG] handleSuggestionClick INICIO:', JSON.stringify(suggestion))
+      debugInfo.push('1. Inicio handleSuggestionClick')
 
-      // 🔒 Marcar que acabamos de seleccionar (evita reabrir dropdown)
+      // 🔒 Marcar que acabamos de seleccionar
       justSelectedRef.current = true
+      debugInfo.push('2. justSelectedRef = true')
 
-      // Llenar el input con el texto (solo el nombre de la ciudad)
+      // Llenar el input
       onSearchChange(suggestion.name)
       setShowSuggestions(false)
+      debugInfo.push('3. Input actualizado, dropdown cerrado')
 
-      console.log('📱 [HEADER-DEBUG] Llamando onLocationSelect...')
-      // 🔥 Actualizar la ubicación en el store y ejecutar búsqueda
-      onLocationSelect({
+      // 🔥 Llamar onLocationSelect
+      debugInfo.push('4. Llamando onLocationSelect...')
+
+      await Promise.resolve(onLocationSelect({
         name: suggestion.name,
         country: suggestion.country || '',
         lat: suggestion.lat,
         lon: suggestion.lon
-      })
-      console.log('📱 [HEADER-DEBUG] onLocationSelect completado')
+      }))
 
-      // 🔒 Resetear flag después de 1 segundo (permite escribir de nuevo)
+      debugInfo.push('5. onLocationSelect completado OK')
+
+      // Resetear flag
       setTimeout(() => {
         justSelectedRef.current = false
       }, 1000)
+
     } catch (error: any) {
-      console.error('❌ [HEADER-ERROR] Error en handleSuggestionClick:', error)
-      // 📱 ALERT PARA MÓVIL
-      alert(`[ERROR handleSuggestionClick]\nMessage: ${error?.message || 'Unknown'}\nSuggestion: ${suggestion?.name}`)
+      debugInfo.push(`❌ ERROR: ${error?.message || 'Unknown'}`)
+      debugInfo.push(`Stack: ${error?.stack?.substring(0, 150) || 'N/A'}`)
+
+      // 📱 ALERT CON TODO EL DEBUG
+      alert(`[MOBILE DEBUG]\n${debugInfo.join('\n')}`)
     }
   }
 
