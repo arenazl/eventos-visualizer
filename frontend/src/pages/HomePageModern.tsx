@@ -942,9 +942,9 @@ const HomePageModern: React.FC = () => {
           {/* Panel Técnico Detallado */}
           <ScrapersDetailPanel />
 
-          {/* 🏷️ CATEGORÍAS - Botones con iconos y gradientes */}
+          {/* 🏷️ CATEGORÍAS - Botones con iconos y gradientes - CENTRADAS */}
           <div className="mb-6">
-            <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            <div className="flex justify-center gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
               {displayCategories.map((category) => (
                 <button
                   key={category}

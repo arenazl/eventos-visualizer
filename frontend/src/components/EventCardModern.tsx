@@ -280,7 +280,7 @@ const EventCardModern: React.FC<EventCardModernProps> = ({
       >
         {/* FRONT - Card content - Más compacto para mobile */}
         <div
-          className="relative bg-white dark:bg-gray-900 rounded-lg md:rounded-2xl overflow-hidden shadow-2xl min-h-[360px] sm:min-h-[400px] md:h-[480px] flex flex-col opacity-90"
+          className="relative bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-lg md:rounded-2xl overflow-hidden shadow-2xl min-h-[360px] sm:min-h-[400px] md:h-[480px] flex flex-col"
           style={{ backfaceVisibility: 'hidden' }}
           onClick={handleCardClick}
         >
