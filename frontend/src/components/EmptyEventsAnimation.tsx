@@ -43,11 +43,8 @@ export const EmptyEventsAnimation: React.FC<{ location?: string }> = ({ location
         </div>
       </div>
 
-      {/* Título principal con animación de escritura */}
+      {/* Barra de progreso animada */}
       <div className="mb-4">
-        <h3 className="text-3xl font-bold text-white/90 mb-2 animate-fade-in">
-          🔄 ¡Te esperamos pronto!
-        </h3>
         <div className="h-1 w-32 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto animate-pulse"></div>
       </div>
 
