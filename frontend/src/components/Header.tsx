@@ -450,23 +450,7 @@ const Header: React.FC<HeaderProps> = ({
                   {!isLoadingSuggestions && suggestions.map((suggestion, index) => (
                     <button
                       key={index}
-                      onClick={(e) => {
-                        e.preventDefault()
-                        e.stopPropagation()
-                        try {
-                          handleSuggestionClick(suggestion)
-                        } catch (err: any) {
-                          alert(`[CLICK ERROR]\n${err?.message}\n${err?.stack?.substring(0, 200)}`)
-                        }
-                      }}
-                      onTouchEnd={(e) => {
-                        e.preventDefault()
-                        try {
-                          handleSuggestionClick(suggestion)
-                        } catch (err: any) {
-                          alert(`[TOUCH ERROR]\n${err?.message}\n${err?.stack?.substring(0, 200)}`)
-                        }
-                      }}
+                      onClick={() => handleSuggestionClick(suggestion)}
                       onMouseEnter={() => setSelectedIndex(index)}
                       className={`w-full px-3 md:px-4 py-2.5 md:py-3 text-left transition-colors border-b border-white/5 last:border-b-0 group active:scale-[0.98] ${
                         selectedIndex === index
