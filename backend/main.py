@@ -1657,7 +1657,10 @@ Responde SOLO con los 15 nombres separados por comas, sin números ni explicacio
 nombre1, nombre2, nombre3, nombre4, nombre5, nombre6, nombre7, nombre8, nombre9, nombre10, nombre11, nombre12, nombre13, nombre14, nombre15
 """
 
-            fallback_response = await ai_manager.generate(
+            # 🔧 FIX: Importar y usar ai_manager correctamente
+            from services.ai_manager import AIServiceManager
+            ai_mgr = AIServiceManager()
+            fallback_response = await ai_mgr.generate(
                 prompt=fallback_prompt,
                 temperature=0.3
             )
