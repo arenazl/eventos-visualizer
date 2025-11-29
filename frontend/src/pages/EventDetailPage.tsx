@@ -57,7 +57,6 @@ const EventDetailPage: React.FC = () => {
   const [updatingImage, setUpdatingImage] = useState(false)
   const [relatedEvents, setRelatedEvents] = useState<Event[]>([])
   const [relatedLoading, setRelatedLoading] = useState(false)
-  const [aiLayoutMode, setAiLayoutMode] = useState<number>(1) // 1-6 opciones de layout
 
 
   // Handler para actualizar imagen - Definido temprano para ser usado en useEffect
@@ -683,23 +682,6 @@ const EventDetailPage: React.FC = () => {
                   )}
                 </button>
 
-                {/* AI Layout selector - 6 opciones */}
-                <div className="hidden lg:flex items-center gap-1 bg-black/30 rounded-full px-2 py-1">
-                  <span className="text-white/50 text-xs mr-1">IA:</span>
-                  {[1, 2, 3, 4, 5, 6].map((num) => (
-                    <button
-                      key={num}
-                      onClick={() => setAiLayoutMode(num)}
-                      className={`w-6 h-6 rounded-full text-xs font-bold transition-all ${
-                        aiLayoutMode === num
-                          ? 'bg-purple-500 text-white scale-110'
-                          : 'bg-white/10 text-white/60 hover:bg-white/20'
-                      }`}
-                    >
-                      {num}
-                    </button>
-                  ))}
-                </div>
               </div>
 
               <span className={`${event.is_free ? 'bg-green-600' : 'bg-gray-800'} text-white px-4 py-2 rounded-lg font-bold`}>
@@ -773,15 +755,16 @@ const EventDetailPage: React.FC = () => {
             </div>
           </div>
 
-          </div>{/* Fin contenido principal */}
+          {/* Separador visual sutil */}
+          <div className="my-6 border-t border-white/10"></div>
 
-          {/* Sección de Eventos Relacionados - Centrado */}
-          <div className="mt-8">
-            <div className="flex items-center gap-2 mb-6">
-              <svg className="w-6 h-6 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          {/* Sección de Eventos Relacionados - Unificado visualmente */}
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <svg className="w-5 h-5 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
               </svg>
-              <h2 className="text-xl font-semibold text-white">Eventos Relacionados</h2>
+              <h2 className="text-lg font-medium text-white/80">También te puede interesar</h2>
             </div>
 
             {relatedLoading ? (
@@ -867,140 +850,61 @@ const EventDetailPage: React.FC = () => {
         </div>
       </div>
 
-      {/* ============== 6 OPCIONES DE LAYOUT PARA IA ============== */}
-
-      {/* OPCIÓN 1: Panel derecho fijo (actual) */}
-      {aiLayoutMode === 1 && (aiLoading || aiInsight) && (
-        <div className="hidden xl:block fixed right-4 top-24 w-72 z-20 animate-fade-in-up">
-          {aiLoading ? (
-            <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-4 relative overflow-hidden shadow-2xl">
-              <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-5 h-5 bg-white/20 rounded animate-pulse"></div>
-                <div className="h-4 w-24 bg-white/20 rounded animate-pulse"></div>
-              </div>
-              <div className="space-y-2">
-                <div className="h-12 bg-white/10 rounded-lg animate-pulse"></div>
-                <div className="h-12 bg-white/10 rounded-lg animate-pulse"></div>
-              </div>
-            </div>
-          ) : aiInsight && (
-            <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-2xl">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-purple-400">✨</span>
-                <h3 className="text-sm font-semibold text-white">Análisis IA</h3>
-              </div>
-              <div className="space-y-2">
-                <div className="bg-purple-500/20 p-2.5 rounded-lg border border-purple-400/20">
-                  <p className="text-white/80 text-xs leading-relaxed">{aiInsight.quick_insight}</p>
-                </div>
-                <div className="bg-green-500/20 p-2.5 rounded-lg border border-green-400/20">
-                  <p className="text-white/80 text-xs">📍 {aiInsight.transport || "Colectivos cercanos"}</p>
-                </div>
-                <div className="bg-yellow-500/20 p-2.5 rounded-lg border-l-2 border-yellow-400">
-                  <p className="text-white/80 text-xs">💡 {aiInsight.pro_tip || "Llegá temprano"}</p>
-                </div>
-              </div>
-              <div className="mt-2 text-[10px] text-purple-300/70 text-right">Gemini AI</div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* OPCIÓN 2: Dos paneles simétricos (izquierda y derecha) */}
-      {aiLayoutMode === 2 && (aiLoading || aiInsight) && (
+      {/* PANELES IA SIMÉTRICOS - Izquierda y Derecha */}
+      {(aiLoading || aiInsight) && (
         <>
-          {/* Panel izquierdo */}
+          {/* Panel izquierdo - Qué esperar + Transporte */}
           <div className="hidden xl:block fixed left-4 top-24 w-64 z-20 animate-fade-in-up">
-            {aiInsight && (
+            {aiLoading ? (
               <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl">
-                <div className="text-xs text-purple-300 mb-2">✨ Qué esperar</div>
+                <div className="h-3 w-20 bg-white/20 rounded animate-pulse mb-2"></div>
+                <div className="space-y-1.5">
+                  <div className="h-2.5 bg-white/10 rounded animate-pulse"></div>
+                  <div className="h-2.5 bg-white/10 rounded w-4/5 animate-pulse"></div>
+                </div>
+                <div className="h-3 w-24 bg-white/10 rounded animate-pulse mt-3"></div>
+              </div>
+            ) : aiInsight && (
+              <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl">
+                <div className="text-xs text-purple-300 mb-2 flex items-center gap-1">
+                  <span>✨</span> Qué esperar
+                </div>
                 <p className="text-white/80 text-xs leading-relaxed">{aiInsight.quick_insight}</p>
-                <div className="mt-2 text-xs text-green-300">📍 {aiInsight.transport || "Transporte"}</div>
+                <div className="mt-3 pt-2 border-t border-white/10">
+                  <div className="text-xs text-green-300 flex items-center gap-1">
+                    <span>📍</span> {aiInsight.transport || "Transporte cercano"}
+                  </div>
+                </div>
               </div>
             )}
           </div>
-          {/* Panel derecho */}
+
+          {/* Panel derecho - Cerca + Tip */}
           <div className="hidden xl:block fixed right-4 top-24 w-64 z-20 animate-fade-in-up">
-            {aiInsight && (
+            {aiLoading ? (
               <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl">
-                <div className="text-xs text-orange-300 mb-2">🍽️ Cerca del lugar</div>
+                <div className="h-3 w-24 bg-white/20 rounded animate-pulse mb-2"></div>
+                <div className="space-y-1.5">
+                  <div className="h-2.5 bg-white/10 rounded animate-pulse"></div>
+                  <div className="h-2.5 bg-white/10 rounded w-3/4 animate-pulse"></div>
+                </div>
+                <div className="h-3 w-20 bg-white/10 rounded animate-pulse mt-3"></div>
+              </div>
+            ) : aiInsight && (
+              <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl">
+                <div className="text-xs text-orange-300 mb-2 flex items-center gap-1">
+                  <span>🍽️</span> Cerca del lugar
+                </div>
                 <p className="text-white/80 text-xs leading-relaxed">{aiInsight.nearby || "Bares y restaurantes"}</p>
-                <div className="mt-2 text-xs text-yellow-300">💡 {aiInsight.pro_tip || "Tip Pro"}</div>
+                <div className="mt-3 pt-2 border-t border-white/10">
+                  <div className="text-xs text-yellow-300 flex items-center gap-1">
+                    <span>💡</span> {aiInsight.pro_tip || "Llegá temprano"}
+                  </div>
+                </div>
               </div>
             )}
           </div>
         </>
-      )}
-
-      {/* OPCIÓN 3: Barra inferior fija (drawer) */}
-      {aiLayoutMode === 3 && (aiLoading || aiInsight) && (
-        <div className="hidden lg:block fixed bottom-0 left-0 right-0 z-20 animate-slide-up">
-          <div className="bg-black/60 backdrop-blur-xl border-t border-white/10 px-6 py-3">
-            <div className="max-w-6xl mx-auto flex items-center justify-between gap-6">
-              <div className="flex items-center gap-2">
-                <span className="text-purple-400">✨</span>
-                <span className="text-white text-sm font-medium">Análisis IA</span>
-              </div>
-              {aiInsight && (
-                <>
-                  <div className="flex-1 text-white/80 text-xs truncate">{aiInsight.quick_insight}</div>
-                  <div className="text-green-300 text-xs whitespace-nowrap">📍 {aiInsight.transport?.split(',')[0] || "Transporte"}</div>
-                  <div className="text-yellow-300 text-xs whitespace-nowrap">💡 {aiInsight.pro_tip?.split('.')[0] || "Tip"}</div>
-                  <div className="text-[10px] text-purple-300/70">Gemini AI</div>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* OPCIÓN 4: Tooltip/Badge flotante compacto (esquina superior derecha) */}
-      {aiLayoutMode === 4 && (aiLoading || aiInsight) && (
-        <div className="hidden lg:block fixed right-4 top-20 z-20 group">
-          <div className="bg-purple-600/80 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg cursor-pointer hover:bg-purple-500/80 transition-all">
-            <span className="text-white text-sm font-medium flex items-center gap-2">
-              ✨ IA {aiLoading ? '...' : 'Ready'}
-            </span>
-          </div>
-          {/* Expandible on hover */}
-          {aiInsight && (
-            <div className="absolute right-0 top-12 w-80 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto">
-              <div className="bg-black/70 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-2xl">
-                <p className="text-white/90 text-sm mb-3">{aiInsight.quick_insight}</p>
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  <div className="text-green-300">📍 {aiInsight.transport?.split(',')[0]}</div>
-                  <div className="text-orange-300">🍽️ {aiInsight.nearby?.split(',')[0]}</div>
-                  <div className="text-yellow-300 col-span-2">💡 {aiInsight.pro_tip}</div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* OPCIÓN 5: Cards horizontales debajo del hero (integrado) */}
-      {aiLayoutMode === 5 && (aiLoading || aiInsight) && (
-        <div className="hidden lg:block fixed top-[520px] left-1/2 -translate-x-1/2 z-20 w-full max-w-4xl px-4">
-          {aiInsight && (
-            <div className="flex gap-3 justify-center">
-              <div className="bg-purple-500/20 backdrop-blur-sm px-4 py-2 rounded-full border border-purple-400/30">
-                <span className="text-white/90 text-xs">✨ {aiInsight.quick_insight?.substring(0, 40)}...</span>
-              </div>
-              <div className="bg-green-500/20 backdrop-blur-sm px-4 py-2 rounded-full border border-green-400/30">
-                <span className="text-white/90 text-xs">📍 {aiInsight.transport?.split(',')[0]}</span>
-              </div>
-              <div className="bg-yellow-500/20 backdrop-blur-sm px-4 py-2 rounded-full border border-yellow-400/30">
-                <span className="text-white/90 text-xs">💡 {aiInsight.pro_tip?.split('.')[0]}</span>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* OPCIÓN 6: Sin panel (IA desactivada visualmente) */}
-      {aiLayoutMode === 6 && (
-        <div className="hidden">{/* No AI panel */}</div>
       )}
 
       {/* Side Panel para edición */}
