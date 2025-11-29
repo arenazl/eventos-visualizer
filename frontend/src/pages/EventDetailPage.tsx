@@ -752,9 +752,19 @@ const EventDetailPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Sección de Eventos Relacionados - Sin separación, fluye naturalmente */}
-          <div className="mt-6">
-            <p className="text-sm text-white/40 mb-3">También te puede interesar</p>
+          {/* ════════════════════════════════════════════════════════════════════════ */}
+          {/* SEPARADOR VISUAL - EVENTOS RELACIONADOS */}
+          {/* ════════════════════════════════════════════════════════════════════════ */}
+          <div className="mt-12 pt-8 border-t border-white/20">
+            {/* Título con estilo destacado */}
+            <div className="flex items-center gap-3 mb-6">
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
+              <h2 className="text-lg font-semibold text-white/90 flex items-center gap-2">
+                <span className="text-purple-400">✨</span>
+                También te puede interesar
+              </h2>
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
+            </div>
 
             {relatedLoading ? (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -842,93 +852,107 @@ const EventDetailPage: React.FC = () => {
       {/* PANELES IA - Responsivos: Stack en mobile, laterales en desktop */}
       {(aiLoading || aiInsight) && (
         <>
-          {/* === MOBILE/TABLET: Stack horizontal debajo del contenido === */}
+          {/* === MOBILE/TABLET: Stack vertical debajo del contenido === */}
           <div className="xl:hidden max-w-4xl mx-auto px-4 pb-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {/* Panel 1 - Qué esperar + Transporte */}
+            <div className="space-y-3">
               {aiLoading ? (
-                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl">
-                  <div className="h-3 w-20 bg-white/20 rounded animate-pulse mb-2"></div>
-                  <div className="space-y-1.5">
-                    <div className="h-2.5 bg-white/10 rounded animate-pulse"></div>
-                    <div className="h-2.5 bg-white/10 rounded w-4/5 animate-pulse"></div>
-                  </div>
-                  <div className="h-3 w-24 bg-white/10 rounded animate-pulse mt-3"></div>
-                </div>
-              ) : aiInsight && (
-                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl">
-                  <div className="text-xs text-purple-300 mb-2 flex items-center gap-1">
-                    <span>✨</span> Qué esperar
-                  </div>
-                  <p className="text-white/80 text-xs leading-relaxed">{aiInsight.quick_insight}</p>
-                  <div className="mt-3 pt-2 border-t border-white/10">
-                    <div className="text-xs text-green-300 flex items-center gap-1">
-                      <span>📍</span> {aiInsight.transport || "Transporte cercano"}
+                <>
+                  {[1, 2, 3, 4].map((i) => (
+                    <div key={i} className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl">
+                      <div className="h-3 w-24 bg-white/20 rounded animate-pulse mb-2"></div>
+                      <div className="space-y-1.5">
+                        <div className="h-2.5 bg-white/10 rounded animate-pulse"></div>
+                        <div className="h-2.5 bg-white/10 rounded w-4/5 animate-pulse"></div>
+                      </div>
                     </div>
+                  ))}
+                </>
+              ) : aiInsight && (
+                <>
+                  {/* Qué esperar */}
+                  <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl">
+                    <div className="text-xs text-purple-300 mb-1 flex items-center gap-1 font-medium">
+                      <span>✨</span> Qué esperar
+                    </div>
+                    <p className="text-white/80 text-xs leading-relaxed">{aiInsight.quick_insight}</p>
                   </div>
-                </div>
-              )}
 
-              {/* Panel 2 - Cerca + Tip */}
-              {aiLoading ? (
-                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl">
-                  <div className="h-3 w-24 bg-white/20 rounded animate-pulse mb-2"></div>
-                  <div className="space-y-1.5">
-                    <div className="h-2.5 bg-white/10 rounded animate-pulse"></div>
-                    <div className="h-2.5 bg-white/10 rounded w-3/4 animate-pulse"></div>
-                  </div>
-                  <div className="h-3 w-20 bg-white/10 rounded animate-pulse mt-3"></div>
-                </div>
-              ) : aiInsight && (
-                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl">
-                  <div className="text-xs text-orange-300 mb-2 flex items-center gap-1">
-                    <span>🍽️</span> Cerca del lugar
-                  </div>
-                  <p className="text-white/80 text-xs leading-relaxed">{aiInsight.nearby || "Bares y restaurantes"}</p>
-                  <div className="mt-3 pt-2 border-t border-white/10">
-                    <div className="text-xs text-yellow-300 flex items-center gap-1">
-                      <span>💡</span> {aiInsight.pro_tip || "Llegá temprano"}
+                  {/* Cómo llegar */}
+                  <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl">
+                    <div className="text-xs text-green-300 mb-1 flex items-center gap-1 font-medium">
+                      <span>🚌</span> Cómo llegar
                     </div>
+                    <p className="text-white/80 text-xs leading-relaxed">{aiInsight.transport || "Colectivos cercanos disponibles"}</p>
                   </div>
-                </div>
+
+                  {/* Cerca del lugar */}
+                  <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl">
+                    <div className="text-xs text-orange-300 mb-1 flex items-center gap-1 font-medium">
+                      <span>🍽️</span> Cerca del lugar
+                    </div>
+                    <p className="text-white/80 text-xs leading-relaxed">{aiInsight.nearby || "Bares y restaurantes en la zona"}</p>
+                  </div>
+
+                  {/* Tip Pro */}
+                  <div className="bg-black/30 backdrop-blur-xl border border-yellow-500/30 rounded-xl p-3 shadow-xl">
+                    <div className="text-xs text-yellow-300 mb-1 flex items-center gap-1 font-medium">
+                      <span>💡</span> Tip Pro
+                    </div>
+                    <p className="text-white/80 text-xs leading-relaxed">{aiInsight.pro_tip || "Llegá temprano para mejor ubicación"}</p>
+                  </div>
+
+                  {/* Ambiente - opcional */}
+                  {aiInsight.vibe && (
+                    <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl">
+                      <div className="text-xs text-blue-300 mb-1 flex items-center gap-1 font-medium">
+                        <span>🎭</span> Ambiente
+                      </div>
+                      <p className="text-white/80 text-xs leading-relaxed">{aiInsight.vibe}</p>
+                    </div>
+                  )}
+
+                  {/* Sobre el lugar - opcional */}
+                  {aiInsight.venue_tip && (
+                    <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl">
+                      <div className="text-xs text-indigo-300 mb-1 flex items-center gap-1 font-medium">
+                        <span>🏛️</span> Sobre el lugar
+                      </div>
+                      <p className="text-white/80 text-xs leading-relaxed">{aiInsight.venue_tip}</p>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>
 
-          {/* === DESKTOP XL+: Paneles fijos a los laterales === */}
-          {/* Panel izquierdo - 2 secciones: Qué esperar + Transporte */}
-          <div className="hidden xl:block fixed left-4 top-24 w-72 z-20 animate-fade-in-up space-y-3 max-h-[calc(100vh-120px)] overflow-y-auto scrollbar-thin scrollbar-thumb-white/20">
+          {/* === DESKTOP XL+: Paneles fijos a los laterales que ocupan altura disponible === */}
+          {/* Panel izquierdo */}
+          <div className="hidden xl:flex flex-col fixed left-4 top-24 bottom-4 w-72 z-20 animate-fade-in-up space-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-white/20">
             {aiLoading ? (
               <>
-                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-xl">
-                  <div className="h-4 w-24 bg-white/20 rounded animate-pulse mb-3"></div>
-                  <div className="space-y-2">
-                    <div className="h-3 bg-white/10 rounded animate-pulse"></div>
-                    <div className="h-3 bg-white/10 rounded w-4/5 animate-pulse"></div>
-                    <div className="h-3 bg-white/10 rounded w-3/5 animate-pulse"></div>
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl flex-shrink-0">
+                    <div className="h-4 w-24 bg-white/20 rounded animate-pulse mb-2"></div>
+                    <div className="space-y-1.5">
+                      <div className="h-3 bg-white/10 rounded animate-pulse"></div>
+                      <div className="h-3 bg-white/10 rounded w-4/5 animate-pulse"></div>
+                    </div>
                   </div>
-                </div>
-                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-xl">
-                  <div className="h-4 w-28 bg-white/20 rounded animate-pulse mb-3"></div>
-                  <div className="space-y-2">
-                    <div className="h-3 bg-white/10 rounded animate-pulse"></div>
-                    <div className="h-3 bg-white/10 rounded w-2/3 animate-pulse"></div>
-                  </div>
-                </div>
+                ))}
               </>
             ) : aiInsight && (
               <>
                 {/* Qué esperar */}
-                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-xl">
-                  <div className="text-sm text-purple-300 mb-2 flex items-center gap-2 font-medium">
+                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl flex-shrink-0">
+                  <div className="text-sm text-purple-300 mb-1 flex items-center gap-2 font-medium">
                     <span>✨</span> Qué esperar
                   </div>
-                  <p className="text-white/80 text-sm leading-relaxed line-clamp-4">{aiInsight.quick_insight}</p>
+                  <p className="text-white/80 text-sm leading-relaxed">{aiInsight.quick_insight}</p>
                 </div>
 
                 {/* Cómo llegar */}
-                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-xl">
-                  <div className="text-sm text-green-300 mb-2 flex items-center gap-2 font-medium">
+                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl flex-shrink-0">
+                  <div className="text-sm text-green-300 mb-1 flex items-center gap-2 font-medium">
                     <span>🚌</span> Cómo llegar
                   </div>
                   <p className="text-white/80 text-sm leading-relaxed">{aiInsight.transport || "Colectivos cercanos disponibles"}</p>
@@ -936,18 +960,18 @@ const EventDetailPage: React.FC = () => {
 
                 {/* Público esperado */}
                 {aiInsight.audience && (
-                  <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-xl">
-                    <div className="text-sm text-pink-300 mb-2 flex items-center gap-2 font-medium">
+                  <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl flex-shrink-0">
+                    <div className="text-sm text-pink-300 mb-1 flex items-center gap-2 font-medium">
                       <span>👥</span> Público
                     </div>
-                    <p className="text-white/80 text-sm leading-relaxed line-clamp-3">{aiInsight.audience}</p>
+                    <p className="text-white/80 text-sm leading-relaxed">{aiInsight.audience}</p>
                   </div>
                 )}
 
                 {/* Ambiente */}
                 {aiInsight.vibe && (
-                  <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-xl">
-                    <div className="text-sm text-blue-300 mb-2 flex items-center gap-2 font-medium">
+                  <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl flex-shrink-0">
+                    <div className="text-sm text-blue-300 mb-1 flex items-center gap-2 font-medium">
                       <span>🎭</span> Ambiente
                     </div>
                     <p className="text-white/80 text-sm leading-relaxed">{aiInsight.vibe}</p>
@@ -957,38 +981,33 @@ const EventDetailPage: React.FC = () => {
             )}
           </div>
 
-          {/* Panel derecho - 2 secciones: Cerca del lugar + Tip Pro */}
-          <div className="hidden xl:block fixed right-4 top-24 w-72 z-20 animate-fade-in-up space-y-3 max-h-[calc(100vh-120px)] overflow-y-auto scrollbar-thin scrollbar-thumb-white/20">
+          {/* Panel derecho */}
+          <div className="hidden xl:flex flex-col fixed right-4 top-24 bottom-4 w-72 z-20 animate-fade-in-up space-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-white/20">
             {aiLoading ? (
               <>
-                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-xl">
-                  <div className="h-4 w-28 bg-white/20 rounded animate-pulse mb-3"></div>
-                  <div className="space-y-2">
-                    <div className="h-3 bg-white/10 rounded animate-pulse"></div>
-                    <div className="h-3 bg-white/10 rounded w-4/5 animate-pulse"></div>
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl flex-shrink-0">
+                    <div className="h-4 w-28 bg-white/20 rounded animate-pulse mb-2"></div>
+                    <div className="space-y-1.5">
+                      <div className="h-3 bg-white/10 rounded animate-pulse"></div>
+                      <div className="h-3 bg-white/10 rounded w-3/4 animate-pulse"></div>
+                    </div>
                   </div>
-                </div>
-                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-xl">
-                  <div className="h-4 w-20 bg-white/20 rounded animate-pulse mb-3"></div>
-                  <div className="space-y-2">
-                    <div className="h-3 bg-white/10 rounded animate-pulse"></div>
-                    <div className="h-3 bg-white/10 rounded w-3/4 animate-pulse"></div>
-                  </div>
-                </div>
+                ))}
               </>
             ) : aiInsight && (
               <>
                 {/* Cerca del lugar */}
-                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-xl">
-                  <div className="text-sm text-orange-300 mb-2 flex items-center gap-2 font-medium">
+                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl flex-shrink-0">
+                  <div className="text-sm text-orange-300 mb-1 flex items-center gap-2 font-medium">
                     <span>🍽️</span> Cerca del lugar
                   </div>
-                  <p className="text-white/80 text-sm leading-relaxed line-clamp-4">{aiInsight.nearby || "Bares y restaurantes en la zona"}</p>
+                  <p className="text-white/80 text-sm leading-relaxed">{aiInsight.nearby || "Bares y restaurantes en la zona"}</p>
                 </div>
 
                 {/* Tip Pro */}
-                <div className="bg-black/30 backdrop-blur-xl border border-yellow-500/30 rounded-xl p-4 shadow-xl">
-                  <div className="text-sm text-yellow-300 mb-2 flex items-center gap-2 font-medium">
+                <div className="bg-black/30 backdrop-blur-xl border border-yellow-500/30 rounded-xl p-3 shadow-xl flex-shrink-0">
+                  <div className="text-sm text-yellow-300 mb-1 flex items-center gap-2 font-medium">
                     <span>💡</span> Tip Pro
                   </div>
                   <p className="text-white/80 text-sm leading-relaxed">{aiInsight.pro_tip || "Llegá temprano para mejor ubicación"}</p>
@@ -996,21 +1015,21 @@ const EventDetailPage: React.FC = () => {
 
                 {/* Sobre el lugar */}
                 {aiInsight.venue_tip && (
-                  <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-xl">
-                    <div className="text-sm text-indigo-300 mb-2 flex items-center gap-2 font-medium">
+                  <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl flex-shrink-0">
+                    <div className="text-sm text-indigo-300 mb-1 flex items-center gap-2 font-medium">
                       <span>🏛️</span> Sobre el lugar
                     </div>
-                    <p className="text-white/80 text-sm leading-relaxed line-clamp-3">{aiInsight.venue_tip}</p>
+                    <p className="text-white/80 text-sm leading-relaxed">{aiInsight.venue_tip}</p>
                   </div>
                 )}
 
                 {/* Info del artista */}
                 {aiInsight.artist_info && (
-                  <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-xl">
-                    <div className="text-sm text-cyan-300 mb-2 flex items-center gap-2 font-medium">
+                  <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-xl flex-shrink-0">
+                    <div className="text-sm text-cyan-300 mb-1 flex items-center gap-2 font-medium">
                       <span>🎤</span> Sobre el artista
                     </div>
-                    <p className="text-white/80 text-sm leading-relaxed line-clamp-4">{aiInsight.artist_info}</p>
+                    <p className="text-white/80 text-sm leading-relaxed">{aiInsight.artist_info}</p>
                   </div>
                 )}
               </>
