@@ -755,17 +755,9 @@ const EventDetailPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Separador visual sutil */}
-          <div className="my-6 border-t border-white/10"></div>
-
-          {/* Sección de Eventos Relacionados - Unificado visualmente */}
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <svg className="w-5 h-5 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-              </svg>
-              <h2 className="text-lg font-medium text-white/80">También te puede interesar</h2>
-            </div>
+          {/* Sección de Eventos Relacionados - Sin separación, fluye naturalmente */}
+          <div className="mt-6">
+            <p className="text-sm text-white/40 mb-3">También te puede interesar</p>
 
             {relatedLoading ? (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
