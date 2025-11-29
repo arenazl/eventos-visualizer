@@ -223,47 +223,26 @@ const Header: React.FC<HeaderProps> = ({
     }
   }
 
-  const handleSuggestionClick = async (suggestion: LocationSuggestion) => {
-    // 📱 MÓVIL: Alert inmediato para confirmar que el click llegó
-    const debugInfo: string[] = []
-    debugInfo.push(`Click recibido: ${suggestion?.name || 'NULL'}`)
+  const handleSuggestionClick = (suggestion: LocationSuggestion) => {
+    // 🔒 Marcar que acabamos de seleccionar (evita reabrir dropdown)
+    justSelectedRef.current = true
 
-    try {
-      debugInfo.push('1. Inicio handleSuggestionClick')
+    // Llenar el input con el texto (solo el nombre de la ciudad)
+    onSearchChange(suggestion.name)
+    setShowSuggestions(false)
 
-      // 🔒 Marcar que acabamos de seleccionar
-      justSelectedRef.current = true
-      debugInfo.push('2. justSelectedRef = true')
+    // 🔥 Actualizar la ubicación en el store y ejecutar búsqueda
+    onLocationSelect({
+      name: suggestion.name,
+      country: suggestion.country || '',
+      lat: suggestion.lat,
+      lon: suggestion.lon
+    })
 
-      // Llenar el input
-      onSearchChange(suggestion.name)
-      setShowSuggestions(false)
-      debugInfo.push('3. Input actualizado, dropdown cerrado')
-
-      // 🔥 Llamar onLocationSelect
-      debugInfo.push('4. Llamando onLocationSelect...')
-
-      await Promise.resolve(onLocationSelect({
-        name: suggestion.name,
-        country: suggestion.country || '',
-        lat: suggestion.lat,
-        lon: suggestion.lon
-      }))
-
-      debugInfo.push('5. onLocationSelect completado OK')
-
-      // Resetear flag
-      setTimeout(() => {
-        justSelectedRef.current = false
-      }, 1000)
-
-    } catch (error: any) {
-      debugInfo.push(`❌ ERROR: ${error?.message || 'Unknown'}`)
-      debugInfo.push(`Stack: ${error?.stack?.substring(0, 150) || 'N/A'}`)
-
-      // 📱 ALERT CON TODO EL DEBUG
-      alert(`[MOBILE DEBUG]\n${debugInfo.join('\n')}`)
-    }
+    // 🔒 Resetear flag después de 1 segundo
+    setTimeout(() => {
+      justSelectedRef.current = false
+    }, 1000)
   }
 
   // 🔒 Lock para prevenir llamadas concurrentes
