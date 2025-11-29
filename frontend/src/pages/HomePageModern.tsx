@@ -780,10 +780,10 @@ const HomePageModern: React.FC = () => {
         console.log('📍 [MOBILE-DEBUG] Fade out completado')
       }
 
-      console.log('📍 [MOBILE-DEBUG] Iniciando startStreamingSearch...')
-      // Streaming con la ubicación seleccionada
-      await startStreamingSearch(selectedLocation)
-      console.log('📍 [MOBILE-DEBUG] startStreamingSearch completado')
+      console.log('📍 [MOBILE-DEBUG] Iniciando searchMultipleNearbyCities...')
+      // 🌍 Buscar en múltiples ciudades cercanas (igual que carga inicial)
+      await searchMultipleNearbyCities(selectedLocation)
+      console.log('📍 [MOBILE-DEBUG] searchMultipleNearbyCities completado')
 
     } catch (error: any) {
       // 🔴 CAPTURAR ERROR EN MÓVIL - CON ALERT PARA DEBUG
