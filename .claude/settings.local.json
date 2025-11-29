@@ -32,7 +32,8 @@
       "Bash(netlify env:list:*)",
       "Bash(git add:*)",
       "Bash(git commit -m \"$(cat <<''EOF''\nfix: Simplify related events section - remove separator, subtle title\n\n- Remove border separator between main content and related events\n- Change title from h2 with icon to simple subtle p tag\n- Text: \"También te puede interesar\" in white/40 opacity\n- Section flows naturally from main content\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

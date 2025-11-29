@@ -1069,4 +1069,4 @@ const EventDetailPage: React.FC = () => {
   )
 }
 
-export default EventDetailPage
+export default EventDetailPage// Build trigger 1764408045
