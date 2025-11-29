@@ -121,10 +121,20 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
     }
   }
 
+  // 🔒 Ref para trackear si estamos en medio de una selección manual (evita race conditions)
+  const isProcessingSelectionRef = useRef(false)
+
   // Sincronizar con currentLocation cuando cambie
   useEffect(() => {
     if (currentLocation) {
       setLocation(currentLocation)
+
+      // 🔒 NO cargar popular places si estamos procesando una selección manual
+      // Esto evita que se dispare fetchPopularPlaces con la ubicación vieja
+      if (isProcessingSelectionRef.current) {
+        console.log('⏸️ SmartLocationBar: Ignorando sync durante selección manual')
+        return
+      }
 
       // Solo cargar lugares populares si NO es un barrio (es decir, si no tiene metadata.neighborhood)
       // Si es un barrio, mantenemos los popularPlaces actuales de la ciudad
@@ -307,6 +317,10 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
   }
 
   const selectSuggestion = (suggestion: CitySuggestion) => {
+    // 🔒 BLOQUEAR sync durante selección manual
+    isProcessingSelectionRef.current = true
+    console.log('🔒 SmartLocationBar: isProcessingSelectionRef = true')
+
     // 🌍 Si es un barrio (tiene state), usar solo el nombre del barrio para búsqueda
     // pero mostrar la ciudad padre en la UI
     let locationName = suggestion.name  // Solo el barrio/ciudad, no el formato completo
@@ -331,6 +345,12 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
     setShowSuggestions(false)
     setSuggestions([])
     setHasSelectedFromDropdown(true) // ✅ Marca que se seleccionó del dropdown
+
+    // 🔓 Desbloquear después de 3 segundos
+    setTimeout(() => {
+      isProcessingSelectionRef.current = false
+      console.log('🔓 SmartLocationBar: isProcessingSelectionRef = false')
+    }, 3000)
   }
 
   // NO auto-detectar ubicación por IP - dejamos que Gemini maneje todo
