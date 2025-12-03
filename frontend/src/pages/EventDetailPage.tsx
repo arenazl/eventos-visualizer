@@ -58,6 +58,15 @@ const EventDetailPage: React.FC = () => {
   const [relatedEvents, setRelatedEvents] = useState<Event[]>([])
   const [relatedLoading, setRelatedLoading] = useState(false)
 
+  // Chat de IA flotante
+  const [chatOpen, setChatOpen] = useState(false)
+  const [chatMessage, setChatMessage] = useState('')
+  const [chatLoading, setChatLoading] = useState(false)
+  const [chatResponse, setChatResponse] = useState<{
+    answer: string
+    relatedEvents: Array<{ id: string; title: string; slug: string; venue: string; date: string }>
+  } | null>(null)
+
 
   // Handler para actualizar imagen - Definido temprano para ser usado en useEffect
   const handleUpdateImage = useCallback(async () => {
@@ -134,9 +143,15 @@ const EventDetailPage: React.FC = () => {
 
   useEffect(() => {
     console.log('🔄 EventDetailPage useEffect triggered - UUID changed to:', uuid)
+    // 🔄 Reset ALL states when navigating to a new event
+    setEvent(null) // Clear previous event to force fresh load
     setImageError(false) // Reset image error when navigating to new event
     setAiCalled(false) // Reset AI flag cuando cambia el evento
     setImageUpdateCalled(false) // Reset image update flag cuando cambia el evento
+    setAiInsight(null) // Clear AI insights
+    setRelatedEvents([]) // Clear related events
+    setChatResponse(null) // Clear chat response
+    setLoading(true) // Show loading state
     fetchEventDetails()
   }, [uuid, location.state])
 
@@ -335,6 +350,50 @@ const EventDetailPage: React.FC = () => {
       fetchRelatedEvents()
     }
   }, [event])
+
+  // Handler para el chat de IA
+  const handleChatSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!chatMessage.trim() || chatLoading) return
+
+    setChatLoading(true)
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/ai/chat-search`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query: chatMessage,
+          context_event: event ? {
+            title: event.title,
+            category: event.category,
+            city: event.city,
+            venue: event.venue_name
+          } : null
+        })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setChatResponse({
+          answer: data.answer || 'No encontré información específica.',
+          relatedEvents: data.events || []
+        })
+      } else {
+        setChatResponse({
+          answer: 'Hubo un error al procesar tu consulta. Intentá de nuevo.',
+          relatedEvents: []
+        })
+      }
+    } catch (error) {
+      console.error('Error en chat:', error)
+      setChatResponse({
+        answer: 'Error de conexión. Verificá tu conexión a internet.',
+        relatedEvents: []
+      })
+    } finally {
+      setChatLoading(false)
+    }
+  }
 
   const getCategoryGradient = (category: string) => {
     const gradients: Record<string, string> = {
@@ -846,7 +905,131 @@ const EventDetailPage: React.FC = () => {
               </div>
             )}
           </div>
+
         </div>
+      </div>
+
+      {/* ════════════════════════════════════════════════════════════════════════ */}
+      {/* CHAT FLOTANTE - ESQUINA INFERIOR DERECHA */}
+      {/* ════════════════════════════════════════════════════════════════════════ */}
+      <div className="fixed bottom-4 right-4 z-50">
+        {/* Botón para abrir/cerrar */}
+        {!chatOpen && (
+          <button
+            onClick={() => setChatOpen(true)}
+            className="w-14 h-14 bg-gradient-to-br from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group hover:scale-110"
+          >
+            <span className="text-2xl group-hover:scale-110 transition-transform">🤖</span>
+          </button>
+        )}
+
+        {/* Panel del chat */}
+        {chatOpen && (
+          <div className="w-80 sm:w-96 bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl overflow-hidden animate-fade-in-up">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-purple-600 to-pink-600 px-4 py-3 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">🤖</span>
+                <div>
+                  <h3 className="text-sm font-semibold text-white">Preguntá sobre eventos</h3>
+                  <p className="text-xs text-white/70">Busco en toda la base</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setChatOpen(false)}
+                className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors"
+              >
+                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Contenido del chat */}
+            <div className="max-h-80 overflow-y-auto p-4">
+              {/* Respuesta */}
+              {chatResponse && (
+                <div className="mb-3 p-3 bg-white/5 rounded-lg border border-white/10">
+                  <p className="text-sm text-white/90 mb-2">{chatResponse.answer}</p>
+
+                  {chatResponse.relatedEvents.length > 0 && (
+                    <div className="mt-3 pt-2 border-t border-white/10">
+                      <p className="text-xs text-purple-300 mb-2 font-medium">Eventos encontrados:</p>
+                      <div className="space-y-1.5 max-h-40 overflow-y-auto">
+                        {chatResponse.relatedEvents.map((ev, idx) => (
+                          <div
+                            key={idx}
+                            onClick={() => {
+                              setChatOpen(false)
+                              window.scrollTo({ top: 0, behavior: 'smooth' })
+                              setTimeout(() => navigate(`/event/${ev.id}/${ev.slug}`), 200)
+                            }}
+                            className="flex items-center gap-2 p-2 bg-white/5 hover:bg-white/10 rounded-lg cursor-pointer transition-colors group"
+                          >
+                            <span className="text-purple-400 group-hover:text-purple-300">→</span>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-xs font-medium text-white truncate group-hover:text-purple-200">{ev.title}</p>
+                              <p className="text-xs text-white/50">{ev.venue} • {ev.date}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Loading */}
+              {chatLoading && (
+                <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+                    <span className="text-sm text-white/70">Buscando...</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Mensaje inicial si no hay respuesta */}
+              {!chatResponse && !chatLoading && (
+                <div className="text-center py-4">
+                  <p className="text-white/50 text-sm">Preguntame sobre cualquier evento</p>
+                  <p className="text-white/30 text-xs mt-1">Ej: "rock", "teatro", "córdoba"</p>
+                </div>
+              )}
+            </div>
+
+            {/* Input */}
+            <div className="p-3 border-t border-white/10">
+              <form onSubmit={handleChatSubmit} className="flex gap-2">
+                <input
+                  type="text"
+                  value={chatMessage}
+                  onChange={(e) => setChatMessage(e.target.value)}
+                  placeholder="¿Qué eventos buscás?"
+                  className="flex-1 bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-sm text-white placeholder-white/40 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+                  disabled={chatLoading}
+                  autoFocus
+                />
+                <button
+                  type="submit"
+                  disabled={chatLoading || !chatMessage.trim()}
+                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-3 py-2 rounded-lg text-sm font-medium transition-all"
+                >
+                  {chatLoading ? (
+                    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                    </svg>
+                  ) : (
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                  )}
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* PANELES IA - Responsivos: Stack en mobile, laterales en desktop */}
@@ -925,17 +1108,17 @@ const EventDetailPage: React.FC = () => {
             </div>
           </div>
 
-          {/* === DESKTOP XL+: Paneles fijos a los laterales que se adaptan al espacio === */}
+          {/* === DESKTOP XL+: Paneles fijos a los laterales - TAMAÑO REDUCIDO === */}
           {/* Panel izquierdo */}
-          <div className="hidden xl:flex flex-col fixed left-4 top-24 bottom-4 w-80 z-20 animate-fade-in-up gap-3">
+          <div className="hidden xl:flex flex-col fixed left-4 top-24 w-56 z-20 animate-fade-in-up gap-2">
             {aiLoading ? (
               <>
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-5 shadow-xl flex-1 flex flex-col justify-center">
-                    <div className="h-5 w-28 bg-white/20 rounded animate-pulse mb-3"></div>
-                    <div className="space-y-2">
-                      <div className="h-4 bg-white/10 rounded animate-pulse"></div>
-                      <div className="h-4 bg-white/10 rounded w-4/5 animate-pulse"></div>
+                  <div key={i} className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-lg p-3 shadow-xl">
+                    <div className="h-3 w-20 bg-white/20 rounded animate-pulse mb-2"></div>
+                    <div className="space-y-1">
+                      <div className="h-2.5 bg-white/10 rounded animate-pulse"></div>
+                      <div className="h-2.5 bg-white/10 rounded w-4/5 animate-pulse"></div>
                     </div>
                   </div>
                 ))}
@@ -943,38 +1126,28 @@ const EventDetailPage: React.FC = () => {
             ) : aiInsight && (
               <>
                 {/* Qué esperar */}
-                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-5 shadow-xl flex-1 flex flex-col">
-                  <div className="text-base text-purple-300 mb-2 flex items-center gap-2 font-semibold">
-                    <span className="text-lg">✨</span> Qué esperar
+                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-lg p-3 shadow-xl">
+                  <div className="text-xs text-purple-300 mb-1 flex items-center gap-1.5 font-semibold">
+                    <span>✨</span> Qué esperar
                   </div>
-                  <p className="text-white/90 text-base leading-relaxed flex-1">{aiInsight.quick_insight}</p>
+                  <p className="text-white/90 text-xs leading-relaxed">{aiInsight.quick_insight}</p>
                 </div>
 
                 {/* Cómo llegar */}
-                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-5 shadow-xl flex-1 flex flex-col">
-                  <div className="text-base text-green-300 mb-2 flex items-center gap-2 font-semibold">
-                    <span className="text-lg">🚌</span> Cómo llegar
+                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-lg p-3 shadow-xl">
+                  <div className="text-xs text-green-300 mb-1 flex items-center gap-1.5 font-semibold">
+                    <span>🚌</span> Cómo llegar
                   </div>
-                  <p className="text-white/90 text-base leading-relaxed flex-1">{aiInsight.transport || "Colectivos cercanos disponibles"}</p>
+                  <p className="text-white/90 text-xs leading-relaxed">{aiInsight.transport || "Colectivos cercanos disponibles"}</p>
                 </div>
-
-                {/* Público esperado */}
-                {aiInsight.audience && (
-                  <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-5 shadow-xl flex-1 flex flex-col">
-                    <div className="text-base text-pink-300 mb-2 flex items-center gap-2 font-semibold">
-                      <span className="text-lg">👥</span> Público
-                    </div>
-                    <p className="text-white/90 text-base leading-relaxed flex-1">{aiInsight.audience}</p>
-                  </div>
-                )}
 
                 {/* Ambiente */}
                 {aiInsight.vibe && (
-                  <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-5 shadow-xl flex-1 flex flex-col">
-                    <div className="text-base text-blue-300 mb-2 flex items-center gap-2 font-semibold">
-                      <span className="text-lg">🎭</span> Ambiente
+                  <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-lg p-3 shadow-xl">
+                    <div className="text-xs text-blue-300 mb-1 flex items-center gap-1.5 font-semibold">
+                      <span>🎭</span> Ambiente
                     </div>
-                    <p className="text-white/90 text-base leading-relaxed flex-1">{aiInsight.vibe}</p>
+                    <p className="text-white/90 text-xs leading-relaxed">{aiInsight.vibe}</p>
                   </div>
                 )}
               </>
@@ -982,15 +1155,15 @@ const EventDetailPage: React.FC = () => {
           </div>
 
           {/* Panel derecho */}
-          <div className="hidden xl:flex flex-col fixed right-4 top-24 bottom-4 w-80 z-20 animate-fade-in-up gap-3">
+          <div className="hidden xl:flex flex-col fixed right-4 top-24 w-56 z-20 animate-fade-in-up gap-2">
             {aiLoading ? (
               <>
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-5 shadow-xl flex-1 flex flex-col justify-center">
-                    <div className="h-5 w-32 bg-white/20 rounded animate-pulse mb-3"></div>
-                    <div className="space-y-2">
-                      <div className="h-4 bg-white/10 rounded animate-pulse"></div>
-                      <div className="h-4 bg-white/10 rounded w-3/4 animate-pulse"></div>
+                  <div key={i} className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-lg p-3 shadow-xl">
+                    <div className="h-3 w-24 bg-white/20 rounded animate-pulse mb-2"></div>
+                    <div className="space-y-1">
+                      <div className="h-2.5 bg-white/10 rounded animate-pulse"></div>
+                      <div className="h-2.5 bg-white/10 rounded w-3/4 animate-pulse"></div>
                     </div>
                   </div>
                 ))}
@@ -998,38 +1171,28 @@ const EventDetailPage: React.FC = () => {
             ) : aiInsight && (
               <>
                 {/* Cerca del lugar */}
-                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-5 shadow-xl flex-1 flex flex-col">
-                  <div className="text-base text-orange-300 mb-2 flex items-center gap-2 font-semibold">
-                    <span className="text-lg">🍽️</span> Cerca del lugar
+                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-lg p-3 shadow-xl">
+                  <div className="text-xs text-orange-300 mb-1 flex items-center gap-1.5 font-semibold">
+                    <span>🍽️</span> Cerca del lugar
                   </div>
-                  <p className="text-white/90 text-base leading-relaxed flex-1">{aiInsight.nearby || "Bares y restaurantes en la zona"}</p>
+                  <p className="text-white/90 text-xs leading-relaxed">{aiInsight.nearby || "Bares y restaurantes en la zona"}</p>
                 </div>
 
                 {/* Tip Pro */}
-                <div className="bg-black/30 backdrop-blur-xl border border-yellow-500/30 rounded-xl p-5 shadow-xl flex-1 flex flex-col">
-                  <div className="text-base text-yellow-300 mb-2 flex items-center gap-2 font-semibold">
-                    <span className="text-lg">💡</span> Tip Pro
+                <div className="bg-black/30 backdrop-blur-xl border border-yellow-500/30 rounded-lg p-3 shadow-xl">
+                  <div className="text-xs text-yellow-300 mb-1 flex items-center gap-1.5 font-semibold">
+                    <span>💡</span> Tip Pro
                   </div>
-                  <p className="text-white/90 text-base leading-relaxed flex-1">{aiInsight.pro_tip || "Llegá temprano para mejor ubicación"}</p>
+                  <p className="text-white/90 text-xs leading-relaxed">{aiInsight.pro_tip || "Llegá temprano para mejor ubicación"}</p>
                 </div>
 
                 {/* Sobre el lugar */}
                 {aiInsight.venue_tip && (
-                  <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-5 shadow-xl flex-1 flex flex-col">
-                    <div className="text-base text-indigo-300 mb-2 flex items-center gap-2 font-semibold">
-                      <span className="text-lg">🏛️</span> Sobre el lugar
+                  <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-lg p-3 shadow-xl">
+                    <div className="text-xs text-indigo-300 mb-1 flex items-center gap-1.5 font-semibold">
+                      <span>🏛️</span> Sobre el lugar
                     </div>
-                    <p className="text-white/90 text-base leading-relaxed flex-1">{aiInsight.venue_tip}</p>
-                  </div>
-                )}
-
-                {/* Info del artista */}
-                {aiInsight.artist_info && (
-                  <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-5 shadow-xl flex-1 flex flex-col">
-                    <div className="text-base text-cyan-300 mb-2 flex items-center gap-2 font-semibold">
-                      <span className="text-lg">🎤</span> Sobre el artista
-                    </div>
-                    <p className="text-white/90 text-base leading-relaxed flex-1">{aiInsight.artist_info}</p>
+                    <p className="text-white/90 text-xs leading-relaxed">{aiInsight.venue_tip}</p>
                   </div>
                 )}
               </>

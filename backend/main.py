@@ -7,7 +7,7 @@ from contextlib import asynccontextmanager
 import uvicorn
 from dotenv import load_dotenv
 from colorama import init, Fore, Back, Style
-init(autoreset=True)  # Initialize colorama
+init(autoreset=True)  # Initialize colorama - nearby cities v2
 
 # Heroku configuration
 try:
@@ -1325,21 +1325,74 @@ async def stream_events(
                 yield f"data: {json.dumps(event_data)}\n\n"
                 logger.info(f"📡 SSE: MySQL - {total_events} eventos enviados en {execution_time}")
             else:
-                # ❌ NO HAY EVENTOS - NO buscar en ciudades cercanas (solo mostrar mensaje)
+                # ❌ NO HAY EVENTOS EN ESTA UBICACIÓN
+                yield f"data: {json.dumps({'type': 'no_events', 'scraper': 'mysql_database', 'count': 0, 'message': f'No hay eventos disponibles para {location}', 'original_location': location})}\n\n"
                 logger.info(f"❌ No hay eventos en {location}")
-                yield f"data: {json.dumps({'type': 'no_events', 'scraper': 'mysql_database', 'count': 0, 'message': f'No hay eventos disponibles para {location}'})}\n\n"
 
-                # 🔒 BÚSQUEDA AUTOMÁTICA EN CIUDADES CERCANAS DESHABILITADA
-                # El usuario debe buscar manualmente en otras ciudades
-                # (El frontend mostrará shake animation en el search bar)
+            # 🌍 OBTENER CIUDADES CERCANAS VIA IA - 100% IA, SIN CÓDIGO
+            logger.info(f"🌍 Obteniendo ciudades cercanas para {location} via IA...")
+            from services.nearby_cities_service import nearby_cities_service
+            enrichment = await nearby_cities_service.get_location_enrichment(location)
+
+            ai_nearby_cities = enrichment.get('nearby_cities', [])
+            province = enrichment.get('province', '')
+
+            # 📢 LOG: Mostrar ciudades de la IA
+            logger.info(f"🤖 Ciudades cercanas de la IA: {ai_nearby_cities}")
+            logger.info(f"📍 Provincia detectada: {province}")
+
+            # 🎯 USAR IA PARA DETECTAR CIUDAD METROPOLITANA PRINCIPAL
+            # La IA sabe que desde Merlo la ciudad principal es Buenos Aires (CABA), no Mar del Plata
+            from services.ai_service import GeminiAIService
+
+            main_city = None
+            try:
+                ai_service = GeminiAIService()
+                metro_prompt = f"""Para la ubicación "{location}", identifica la CIUDAD METROPOLITANA PRINCIPAL más cercana donde probablemente haya eventos culturales, conciertos y espectáculos.
+
+REGLAS:
+- Debe ser una CIUDAD grande, no un barrio o localidad pequeña
+- Debe ser la más CERCANA geográficamente (no la más grande del país)
+- Para el Gran Buenos Aires → responder "Buenos Aires"
+- Para localidades del interior → responder la capital provincial o ciudad grande más cercana
+
+Ejemplos:
+- "Merlo, Buenos Aires" → "Buenos Aires" (CABA está a 25km)
+- "Tigre, Buenos Aires" → "Buenos Aires"
+- "Carlos Paz, Córdoba" → "Córdoba"
+- "Rosario, Santa Fe" → "Rosario"
+- "Hospitalet, Barcelona" → "Barcelona"
+
+Responde SOLO el nombre de la ciudad, sin explicaciones:"""
+
+                metro_response = await ai_service._call_gemini_api(metro_prompt)
+                main_city = metro_response.strip().replace('"', '').replace("'", "")
+                logger.info(f"🏙️ Ciudad metropolitana detectada por IA: {main_city}")
+            except Exception as e:
+                logger.warning(f"⚠️ No se pudo detectar ciudad metropolitana: {e}")
+                # Fallback: usar primera ciudad cercana si existe
+                main_city = ai_nearby_cities[0] if ai_nearby_cities else None
+
+            # 📤 Preparar lista de ciudades para el frontend
+            # Incluir ciudad metropolitana al principio si no está en la lista
+            final_cities = []
+            if main_city:
+                final_cities.append(main_city)
+            for city in ai_nearby_cities:
+                if city not in final_cities:
+                    final_cities.append(city)
+
+            # Limitar a 5 ciudades para los botones
+            final_cities = final_cities[:5]
+
+            logger.info(f"🎯 Ciudades finales para botones: {final_cities}")
+
+            # Enviar resultado con IA pura
+            yield f"data: {json.dumps({'type': 'enrichment', 'nearby_cities': final_cities, 'ai_nearby_cities': ai_nearby_cities, 'main_city': main_city, 'province': province, 'location': location})}\n\n"
 
             # ✅ Enviar evento de completado INMEDIATAMENTE (eventos ya enviados)
             yield f"data: {json.dumps({'type': 'complete', 'total_events': total_events, 'scrapers_completed': 1})}\n\n"
             logger.info(f"🏁 SSE: Streaming completado - {total_events} eventos totales")
-
-            # 🚫 ENRIQUECIMIENTO DESACTIVADO
-            # NO buscar ciudades cercanas automáticamente
-            # El usuario debe buscar manualmente si quiere ver otras ciudades
 
         except Exception as e:
             logger.error(f"❌ Error en SSE streaming desde MySQL: {e}")
@@ -1576,8 +1629,11 @@ async def get_popular_places_nearby(location: str):
     Obtiene los barrios con más eventos directamente de MySQL.
     NO usa IA - solo datos reales.
 
+    IMPORTANTE: Si location es un barrio (ej: "Recoleta"), busca otros barrios
+    de la misma ciudad (Buenos Aires).
+
     Args:
-        location: Ciudad de referencia (ej: "Buenos Aires", "Madrid", "Miami")
+        location: Ciudad o barrio de referencia (ej: "Buenos Aires", "Recoleta", "Miami")
 
     Returns:
         - places: Lista con barrios que tienen eventos (ordenados por cantidad)
@@ -1601,6 +1657,24 @@ async def get_popular_places_nearby(location: str):
         try:
             cursor = connection.cursor()
 
+            # PASO 1: Detectar si location es un barrio (existe en neighborhood)
+            check_neighborhood_query = '''
+                SELECT DISTINCT city FROM events
+                WHERE neighborhood LIKE %s
+                AND start_datetime >= NOW()
+                LIMIT 1
+            '''
+            cursor.execute(check_neighborhood_query, (f'%{location}%',))
+            neighborhood_result = cursor.fetchone()
+
+            # Si es un barrio, usar la ciudad padre para buscar otros barrios
+            search_city = location
+            is_neighborhood_search = False
+            if neighborhood_result:
+                search_city = neighborhood_result['city']
+                is_neighborhood_search = True
+                logger.info(f"🏘️ '{location}' es un barrio de '{search_city}', buscando barrios hermanos")
+
             # Query: Obtener barrios con eventos en esta ciudad (con info completa)
             query = '''
                 SELECT
@@ -1619,7 +1693,7 @@ async def get_popular_places_nearby(location: str):
                 LIMIT 10
             '''
 
-            cursor.execute(query, (f'%{location}%',))
+            cursor.execute(query, (f'%{search_city}%',))
             results = cursor.fetchall()
 
             # Guardar info completa de cada barrio
@@ -1644,69 +1718,7 @@ async def get_popular_places_nearby(location: str):
         top_places = verified_places
         logger.info(f"✅ Lugares verificados con eventos: {top_places}")
 
-        # 🔄 FALLBACK: Si hay menos de 5 barrios, ampliar búsqueda con IA
-        if len(top_places) < 5:
-            logger.warning(f"⚠️ Solo {len(top_places)} barrios encontrados. Ampliando búsqueda con IA...")
-
-            # Pedirle a Grok barrios y ciudades cercanas para tener más opciones de match
-            fallback_prompt = f"""Dame 15 barrios, zonas o ciudades cercanas a {location} donde pueda haber eventos culturales, fiestas o conciertos.
-
-IMPORTANTE: Incluye barrios populares de {location} Y ciudades cercanas.
-
-Responde SOLO con los 15 nombres separados por comas, sin números ni explicaciones:
-nombre1, nombre2, nombre3, nombre4, nombre5, nombre6, nombre7, nombre8, nombre9, nombre10, nombre11, nombre12, nombre13, nombre14, nombre15
-"""
-
-            # 🔧 FIX: Importar y usar ai_manager correctamente
-            from services.ai_manager import AIServiceManager
-            ai_mgr = AIServiceManager()
-            fallback_response = await ai_mgr.generate(
-                prompt=fallback_prompt,
-                temperature=0.3
-            )
-
-            fallback_places = [name.strip() for name in fallback_response.split(',')[:15]]
-            logger.info(f"🔄 Fallback: IA sugirió 15 barrios/ciudades: {fallback_places}")
-
-            # Verificar cuáles tienen eventos
-            verify_connection_fallback = pymysql.connect(
-                host=os.getenv('MYSQL_HOST', 'localhost'),
-                port=int(os.getenv('MYSQL_PORT', 3306)),
-                user=os.getenv('MYSQL_USER', 'root'),
-                password=os.getenv('MYSQL_PASSWORD', ''),
-                database=os.getenv('MYSQL_DATABASE', 'events'),
-                charset='utf8mb4',
-                cursorclass=pymysql.cursors.DictCursor
-            )
-
-            try:
-                verify_cursor_fallback = verify_connection_fallback.cursor()
-
-                for place_name in fallback_places:
-                    verify_query = '''
-                        SELECT COUNT(*) as event_count
-                        FROM events
-                        WHERE start_datetime >= NOW()
-                        AND (
-                            city LIKE %s
-                            OR neighborhood LIKE %s
-                        )
-                    '''
-
-                    verify_cursor_fallback.execute(verify_query, (f'%{place_name}%', f'%{place_name}%'))
-                    result = verify_cursor_fallback.fetchone()
-
-                    if result and result['event_count'] > 0:
-                        # Evitar duplicados (case-insensitive)
-                        if place_name.lower() not in [p.lower() for p in top_places]:
-                            top_places.append(place_name)
-                            logger.info(f"✅ Fallback: '{place_name}' tiene {result['event_count']} eventos")
-
-                verify_cursor_fallback.close()
-            finally:
-                verify_connection_fallback.close()
-
-            logger.info(f"✅ Fallback completado. Total lugares: {top_places}")
+        # 🚫 FALLBACKS ELIMINADOS - Solo devolver lo que hay en DB, sin inventar
 
         # Construir respuesta con info completa
         places_with_info = []
@@ -1805,12 +1817,18 @@ async def get_city_events(
         start_time = time.time()
 
         # 🗄️ BUSCAR EN MYSQL (UN SOLO LLAMADO)
-        events = await search_events_by_location(
+        result = await search_events_by_location(
             location=city,
             category=category,
             limit=limit,
             days_ahead=180
         )
+
+        # El resultado puede ser dict o lista (compatibilidad)
+        if isinstance(result, dict):
+            events = result.get('events', [])
+        else:
+            events = result
 
         execution_time = f"{time.time() - start_time:.2f}s"
 
@@ -4002,6 +4020,141 @@ async def ai_chat(data: Dict[str, Any]):
         "smart_search": True,
         "filtered_count": len(scored_events)
     }
+
+
+# ════════════════════════════════════════════════════════════════════════
+# AI CHAT-SEARCH - Busca en DB en todos los campos (title, description, venue, city, etc.)
+# ════════════════════════════════════════════════════════════════════════
+@app.post("/api/ai/chat-search")
+async def ai_chat_search(data: Dict[str, Any]):
+    """
+    Chat endpoint que busca en la base de datos MySQL en todos los campos.
+    Devuelve una respuesta AI + links a eventos encontrados.
+    """
+    from services.events_db_service import SessionLocal
+    from sqlalchemy import text
+
+    query = data.get("query", "").strip()
+    context_event = data.get("context_event", {})
+
+    if not query:
+        return {"success": False, "answer": "Por favor, escribí una pregunta.", "events": []}
+
+    logger.info(f"🔍 Chat-Search query: '{query}'")
+
+    try:
+        # Extraer palabras clave de la query (ignorar palabras comunes)
+        stop_words = {'hay', 'de', 'en', 'el', 'la', 'los', 'las', 'un', 'una', 'que',
+                     'para', 'con', 'por', 'este', 'esta', 'fin', 'semana', 'eventos',
+                     'evento', 'algun', 'alguno', 'algunos', 'donde', 'como', 'cuando',
+                     'hoy', 'mañana', 'donde', 'puedo', 'busco', 'quiero', 'ver', 'ir'}
+
+        keywords = [word.lower() for word in query.split()
+                   if len(word) > 2 and word.lower() not in stop_words]
+
+        if not keywords:
+            # Si no hay keywords útiles, buscar eventos recientes
+            keywords = ['%']
+
+        logger.info(f"📝 Keywords extraídas: {keywords}")
+
+        # Construir búsqueda LIKE en múltiples campos
+        conditions = []
+        params = {}
+
+        for i, kw in enumerate(keywords):
+            param_name = f"kw{i}"
+            conditions.append(f"""
+                (title LIKE :{param_name} OR
+                 description LIKE :{param_name} OR
+                 venue_name LIKE :{param_name} OR
+                 venue_address LIKE :{param_name} OR
+                 city LIKE :{param_name} OR
+                 neighborhood LIKE :{param_name} OR
+                 category LIKE :{param_name} OR
+                 subcategory LIKE :{param_name})
+            """)
+            params[param_name] = f"%{kw}%"
+
+        where_clause = " OR ".join(conditions) if conditions else "1=1"
+
+        search_sql = text(f"""
+            SELECT id, title, venue_name, city, neighborhood, category,
+                   start_datetime, description
+            FROM events
+            WHERE ({where_clause})
+            AND start_datetime >= NOW()
+            ORDER BY start_datetime ASC
+            LIMIT 10
+        """)
+
+        db = SessionLocal()
+        try:
+            result = db.execute(search_sql, params)
+            rows = result.fetchall()
+            columns = result.keys()
+            results = [dict(zip(columns, row)) for row in rows]
+
+            logger.info(f"✅ Encontrados {len(results)} eventos")
+
+            # Formatear eventos para respuesta
+            found_events = []
+            for event in results:
+                # Generar slug
+                title = event.get('title', '')
+                slug = title.lower()
+                slug = ''.join(c if c.isalnum() or c == ' ' else '' for c in slug)
+                slug = slug.replace(' ', '-')[:50]
+
+                # Formatear fecha
+                date_str = ""
+                if event.get('start_datetime'):
+                    dt = event['start_datetime']
+                    date_str = dt.strftime("%d/%m") if hasattr(dt, 'strftime') else str(dt)[:10]
+
+                found_events.append({
+                    "id": str(event['id']),
+                    "title": title,
+                    "slug": slug,
+                    "venue": event.get('venue_name') or event.get('city') or 'Ubicación no especificada',
+                    "date": date_str
+                })
+
+            # Generar respuesta AI
+            if found_events:
+                # Respuesta inteligente basada en los resultados
+                categories = list(set([e.get('category', '') for e in results if e.get('category')]))
+                cities = list(set([e.get('city', '') for e in results if e.get('city')]))
+
+                answer = f"Encontré {len(found_events)} evento{'s' if len(found_events) > 1 else ''}"
+
+                if categories:
+                    answer += f" relacionados con {', '.join(categories[:2])}"
+                if cities:
+                    answer += f" en {', '.join(cities[:2])}"
+
+                answer += ". Hacé click en cualquiera para ver más detalles."
+            else:
+                answer = f"No encontré eventos que coincidan con '{query}'. Probá con otras palabras clave o revisá los eventos relacionados de esta página."
+
+            return {
+                "success": True,
+                "answer": answer,
+                "events": found_events,
+                "query": query,
+                "keywords_used": keywords
+            }
+        finally:
+            db.close()
+
+    except Exception as e:
+        logger.error(f"❌ Error en chat-search: {e}")
+        return {
+            "success": False,
+            "answer": f"Error al buscar: {str(e)}",
+            "events": []
+        }
+
 
 # AI plan weekend endpoint
 @app.post("/api/ai/plan-weekend")

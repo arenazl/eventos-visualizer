@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faStar, faMusic, faTrophy, faTheaterMasks, faLaptopCode, faGlassCheers,
   faPalette, faGlobe, faCalendar, faBullseye, faFilm, faUtensils,
-  faPaintBrush, faDrum, faLandmark, faTicket
+  faPaintBrush, faDrum, faLandmark, faTicket, faMapMarkerAlt
 } from '@fortawesome/free-solid-svg-icons'
 
 interface Location {
@@ -104,6 +104,15 @@ const HomePageModern: React.FC = () => {
   const [categories, setCategories] = useState<Array<{name: string, count: number}>>([]) // 🏷️ Categorías dinámicas
   const [loadingCategories, setLoadingCategories] = useState(false)
   const [isDetectingLocation, setIsDetectingLocation] = useState(false)
+
+  // 🤖 Chat flotante de IA
+  const [chatOpen, setChatOpen] = useState(false)
+  const [chatMessage, setChatMessage] = useState('')
+  const [chatLoading, setChatLoading] = useState(false)
+  const [chatResponse, setChatResponse] = useState<{
+    answer: string
+    relatedEvents: Array<{ id: string; title: string; slug: string; venue: string; date: string }>
+  } | null>(null)
 
   // 🔒 Ref para prevenir doble ejecución del auto-load inicial
   const hasAutoLoaded = useRef(false)
@@ -274,15 +283,25 @@ const HomePageModern: React.FC = () => {
                 || reverseData.address?.town
                 || reverseData.address?.municipality
                 || reverseData.address?.village
-                || reverseData.address?.state
                 || 'Buenos Aires' // Solo fallback si no hay nada
 
+              // 🌍 Extraer provincia/estado para desambiguar ciudades con mismo nombre
+              const stateName = reverseData.address?.state || ''
+              const countryName = reverseData.address?.country || 'Argentina'
+
+              // 🔧 Construir nombre completo con provincia para evitar ambigüedad
+              // Ej: "Merlo, Buenos Aires" en lugar de solo "Merlo"
+              const fullLocationName = stateName
+                ? `${cityName}, ${stateName}`
+                : cityName
+
               console.log('📍 [GPS] Reverse geocoding result:', reverseData.address)
+              console.log('📍 [GPS] Full location name:', fullLocationName)
 
               detectedLocation = {
-                name: cityName,
+                name: fullLocationName,
                 coordinates: { lat: position.coords.latitude, lng: position.coords.longitude },
-                country: reverseData.address?.country || 'Argentina',
+                country: countryName,
                 detected: 'gps'
               }
 
@@ -298,8 +317,13 @@ const HomePageModern: React.FC = () => {
             const ipResponse = await fetch('https://ipapi.co/json/')
             const ipData = await ipResponse.json()
 
+            // 🌍 Incluir región/provincia para desambiguar
+            const ipCity = ipData.city || 'Buenos Aires'
+            const ipRegion = ipData.region || ''
+            const ipFullName = ipRegion ? `${ipCity}, ${ipRegion}` : ipCity
+
             detectedLocation = {
-              name: ipData.city || 'Buenos Aires',
+              name: ipFullName,
               coordinates: { lat: ipData.latitude, lng: ipData.longitude },
               country: ipData.country_name,
               detected: 'fallback'
@@ -805,6 +829,44 @@ const HomePageModern: React.FC = () => {
     }
   }
 
+  // 🤖 Enviar mensaje al chat de IA
+  const handleChatSubmit = async () => {
+    if (!chatMessage.trim() || chatLoading) return
+
+    setChatLoading(true)
+    setChatResponse(null)
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8001'}/api/ai/chat-search`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: chatMessage })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setChatResponse({
+          answer: data.answer || 'Encontré estos eventos relacionados:',
+          relatedEvents: data.events || []
+        })
+      } else {
+        setChatResponse({
+          answer: 'No pude buscar eventos en este momento. Intenta de nuevo.',
+          relatedEvents: []
+        })
+      }
+    } catch (error) {
+      console.error('Error en chat:', error)
+      setChatResponse({
+        answer: 'Error de conexión. Verifica tu internet.',
+        relatedEvents: []
+      })
+    } finally {
+      setChatLoading(false)
+      setChatMessage('')
+    }
+  }
+
   // 🎨 Helper functions para mapear categorías dinámicas
   const getCategoryDisplayName = (category: string): string => {
     const displayNames: Record<string, string> = {
@@ -972,6 +1034,46 @@ const HomePageModern: React.FC = () => {
               ))}
             </div>
           </div>
+
+          {/* 🌍 CIUDADES CERCANAS - Botones para buscar en ciudades con eventos */}
+          {nearbyCities && nearbyCities.length > 0 && (
+            <div className="mb-6">
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <FontAwesomeIcon icon={faMapMarkerAlt} className="w-4 h-4 text-white/60" />
+                <span className="text-sm text-white/60 font-medium">Ciudades cercanas con eventos</span>
+              </div>
+              <div className="flex justify-center gap-2 sm:gap-3 flex-wrap">
+                {/* 🌐 Botón "Todos" - Busca en todas las ciudades cercanas */}
+                <button
+                  onClick={() => {
+                    // Buscar en todas las ciudades cercanas a la vez
+                    nearbyCities.forEach(city => searchSpecificCity(city))
+                  }}
+                  className="group flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ease-out whitespace-nowrap bg-gradient-to-r from-purple-500/80 to-indigo-500/80 hover:from-purple-500 hover:to-indigo-500 text-white opacity-90 hover:opacity-100 hover:scale-105 active:scale-95 shadow-lg hover:shadow-purple-500/30"
+                >
+                  <FontAwesomeIcon
+                    icon={faGlobe}
+                    className="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <span>Todos</span>
+                </button>
+                {/* Ciudades individuales */}
+                {nearbyCities.map((city) => (
+                  <button
+                    key={city}
+                    onClick={() => searchSpecificCity(city)}
+                    className="group flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ease-out whitespace-nowrap bg-gradient-to-r from-emerald-500/80 to-teal-500/80 hover:from-emerald-500 hover:to-teal-500 text-white opacity-80 hover:opacity-100 hover:scale-105 active:scale-95 shadow-lg hover:shadow-emerald-500/30"
+                  >
+                    <FontAwesomeIcon
+                      icon={faMapMarkerAlt}
+                      className="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110"
+                    />
+                    <span>{city}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* ❌ MENSAJES AUTO-LOAD ELIMINADOS - Ya no se auto-cargan eventos expandidos */}
 
@@ -1238,19 +1340,98 @@ const HomePageModern: React.FC = () => {
         </div>
       </main>
 
-      {/* Floating AI Button */}
-      <div className="">
-        <button className="group relative">
-          <div className=""></div>
-          <div className="">
-            <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-              <path />
-            </svg>
+      {/* 🤖 Chat flotante de IA */}
+      <div className="fixed bottom-4 right-4 z-50">
+        {/* Botón flotante cuando está cerrado */}
+        {!chatOpen && (
+          <button
+            onClick={() => setChatOpen(true)}
+            className="w-14 h-14 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+          >
+            <span className="text-2xl">🤖</span>
+            <span className="absolute -top-10 right-0 bg-black/80 text-white text-xs px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+              Preguntame sobre eventos
+            </span>
+          </button>
+        )}
+
+        {/* Panel de chat cuando está abierto */}
+        {chatOpen && (
+          <div className="w-80 sm:w-96 bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl overflow-hidden animate-fade-in-up">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-purple-600 to-pink-600 px-4 py-3 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">🤖</span>
+                <span className="text-white font-semibold text-sm">Asistente de Eventos</span>
+              </div>
+              <button
+                onClick={() => setChatOpen(false)}
+                className="text-white/80 hover:text-white text-xl"
+              >
+                ×
+              </button>
+            </div>
+
+            {/* Contenido */}
+            <div className="p-4 max-h-80 overflow-y-auto">
+              {!chatResponse && !chatLoading && (
+                <p className="text-white/60 text-sm text-center">
+                  ¡Hola! Preguntame sobre eventos, artistas, lugares o cualquier cosa relacionada.
+                </p>
+              )}
+
+              {chatLoading && (
+                <div className="flex items-center justify-center gap-2 py-4">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                  <div className="w-2 h-2 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                </div>
+              )}
+
+              {chatResponse && (
+                <div className="space-y-3">
+                  <p className="text-white/80 text-sm">{chatResponse.answer}</p>
+
+                  {chatResponse.relatedEvents.length > 0 && (
+                    <div className="space-y-2">
+                      {chatResponse.relatedEvents.map((event, idx) => (
+                        <a
+                          key={idx}
+                          href={`/event/${event.id}/${event.slug}`}
+                          className="block bg-white/10 hover:bg-white/20 rounded-lg p-2 transition-colors"
+                        >
+                          <p className="text-white text-sm font-medium truncate">{event.title}</p>
+                          <p className="text-white/50 text-xs">{event.venue} • {event.date}</p>
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Input */}
+            <div className="border-t border-white/10 p-3">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={chatMessage}
+                  onChange={(e) => setChatMessage(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleChatSubmit()}
+                  placeholder="Ej: rock en Córdoba, teatro mañana..."
+                  className="flex-1 bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm placeholder:text-white/40 focus:outline-none focus:border-purple-500"
+                />
+                <button
+                  onClick={handleChatSubmit}
+                  disabled={chatLoading || !chatMessage.trim()}
+                  className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 disabled:opacity-50 transition-opacity"
+                >
+                  {chatLoading ? '...' : '→'}
+                </button>
+              </div>
+            </div>
           </div>
-          <span className="absolute -top-12 right-0 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-            ¡Pregúntame sobre eventos!
-          </span>
-        </button>
+        )}
       </div>
       </div>
 

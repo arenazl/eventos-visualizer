@@ -332,7 +332,7 @@ const Header: React.FC<HeaderProps> = ({
               </button>
             )}
             <h1
-              onClick={() => window.location.reload()}
+              onClick={() => navigate('/')}
               className={`font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 tracking-wider transition-all duration-300 cursor-pointer active:scale-95 md:hover:scale-105 ${
               isScrolled ? 'text-sm md:text-xl' : 'text-base md:text-2xl'
             }`}>
