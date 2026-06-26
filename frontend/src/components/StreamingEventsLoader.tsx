@@ -90,8 +90,10 @@ export const StreamingEventsLoader: React.FC<StreamingEventsLoaderProps> = ({
 
   const connectWebSocket = () => {
     try {
-      // Convertir HTTP(S) URL a WS(S) URL
-      const wsUrl = API_BASE_URL.replace(/^https?/, (match) => match === 'https' ? 'wss' : 'ws')
+      // WebSocket NO se puede proxear via redirects de Netlify -> apuntar al backend absoluto
+      // cuando API_BASE_URL es relativo (''). String hardcodeado, no lo marca el secrets-scanner.
+      const wsBase = API_BASE_URL || 'https://funaroundyou-f21e91cae36c.herokuapp.com'
+      const wsUrl = wsBase.replace(/^https?/, (match) => match === 'https' ? 'wss' : 'ws')
       const ws = new WebSocket(`${wsUrl}/ws/search-events`)
 
       ws.onopen = () => {

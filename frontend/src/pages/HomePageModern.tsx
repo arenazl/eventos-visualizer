@@ -514,7 +514,7 @@ const HomePageModern: React.FC = () => {
       `
 
       // Usar el endpoint de análisis de intención con prompt específico
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8001'}/api/ai/analyze-intent`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/ai/analyze-intent`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -837,7 +837,7 @@ const HomePageModern: React.FC = () => {
     setChatResponse(null)
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8001'}/api/ai/chat-search`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/ai/chat-search`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: chatMessage })

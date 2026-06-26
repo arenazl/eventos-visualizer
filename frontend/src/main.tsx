@@ -4,7 +4,7 @@ import './index.css'
 import App from './App'
 
 // 🔴 GLOBAL ERROR HANDLER - Captura errores no manejados en móvil
-const API_URL = import.meta.env.VITE_API_URL || 'https://funaroundyou-f21e91cae36c.herokuapp.com'
+const API_URL = import.meta.env.VITE_API_URL || ''
 
 // Helper para enviar logs remotos
 const sendRemoteLog = async (type: string, data: any) => {

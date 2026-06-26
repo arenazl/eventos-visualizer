@@ -1,0 +1,7 @@
+# Proxy same-origin al backend (Heroku) — DEBE ir antes del catch-all SPA.
+# Elimina CORS y el secrets-scanning de Netlify (no hay VITE_API_URL horneada).
+/api/*   https://funaroundyou-f21e91cae36c.herokuapp.com/api/:splat    200!
+/auth/*  https://funaroundyou-f21e91cae36c.herokuapp.com/auth/:splat   200!
+
+# SPA fallback (React Router)
+/*       /index.html   200

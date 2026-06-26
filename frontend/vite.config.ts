@@ -5,8 +5,14 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: 'localhost',
-    port: 5174,
+    port: 5175,
     cors: true,
+    // Dev proxy: en dev, /api y /auth caen al backend local (mismo patron same-origin que prod).
+    // En prod lo resuelve el proxy de Netlify (public/_redirects). VITE_API_URL ya no se usa.
+    proxy: {
+      '/api': { target: 'http://localhost:8002', changeOrigin: true },
+      '/auth': { target: 'http://localhost:8002', changeOrigin: true }
+    },
     // Better hot reload and cache handling
     hmr: {
       overlay: false // Disable error overlay that can cause issues

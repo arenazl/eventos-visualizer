@@ -6,9 +6,9 @@
 const isDevelopment = import.meta.env.MODE === 'development'
 const isProduction = import.meta.env.MODE === 'production'
 
-// API Base URLs - SIEMPRE usar VITE_API_URL si está definido
-const API_BASE_URL = import.meta.env.VITE_API_URL ||
-  (isDevelopment ? 'http://localhost:8001' : 'https://funaroundyou-f21e91cae36c.herokuapp.com')
+// API Base URLs - same-origin por defecto (proxy /api de Netlify -> backend).
+// Vacio en prod => rutas relativas (/api/...). En dev, Vite proxea al backend local.
+const API_BASE_URL = import.meta.env.VITE_API_URL || ''
 
 export const config = {
   // API Configuration

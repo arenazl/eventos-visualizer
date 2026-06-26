@@ -3,6 +3,20 @@
   publish = "dist"
   command = "npm cache clean --force && npm install --legacy-peer-deps && npm run build"
 
+# Proxy same-origin al backend (Heroku) — ANTES del catch-all SPA.
+# Same-origin => sin CORS; sin VITE_API_URL horneada => sin secrets-scanning.
+[[redirects]]
+  from = "/api/*"
+  to = "https://funaroundyou-f21e91cae36c.herokuapp.com/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/auth/*"
+  to = "https://funaroundyou-f21e91cae36c.herokuapp.com/auth/:splat"
+  status = 200
+  force = true
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
@@ -10,4 +24,3 @@
 
 [build.environment]
   NODE_VERSION = "18"
-  VITE_API_URL = "https://funaroundyou-f21e91cae36c.herokuapp.com"

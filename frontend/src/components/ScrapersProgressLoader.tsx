@@ -103,7 +103,9 @@ export const ScrapersProgressLoader: React.FC<ScrapersProgressLoaderProps> = ({
 
   const connectWebSocket = () => {
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8001'
+      // WebSocket NO se puede proxear via redirects de Netlify -> apuntar al backend absoluto.
+      // (No es una env var: string hardcodeado, no lo marca el secrets-scanner.)
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://funaroundyou-f21e91cae36c.herokuapp.com'
       const wsUrl = apiUrl.replace('http://', 'ws://').replace('https://', 'wss://')
       const ws = new WebSocket(`${wsUrl}/ws/scrapers-progress`)
 

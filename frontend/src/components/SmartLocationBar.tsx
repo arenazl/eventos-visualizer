@@ -87,7 +87,7 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
 
     setLoadingPopularPlaces(true)
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001'
+      const API_BASE_URL = import.meta.env.VITE_API_URL || ''
       const response = await fetch(
         `${API_BASE_URL}/api/popular-places/${encodeURIComponent(locationName)}`
       )
@@ -184,7 +184,7 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
 
   const fetchNeighborhoods = async (cityName: string) => {
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001'
+      const API_BASE_URL = import.meta.env.VITE_API_URL || ''
       const response = await fetch(
         `${API_BASE_URL}/api/neighborhoods/${encodeURIComponent(cityName)}`
       )
@@ -228,7 +228,7 @@ export const SmartLocationBar: React.FC<SmartLocationBarProps> = ({
 
     try {
       // Usar backend API para buscar barrios, ciudades, países
-      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001'
+      const API_BASE_URL = import.meta.env.VITE_API_URL || ''
       const response = await fetch(
         `${API_BASE_URL}/api/cities/available?q=${encodeURIComponent(query)}&limit=5`
       )

@@ -31,7 +31,7 @@ export const AuthCallback: React.FC = () => {
           localStorage.setItem('googleToken', token);
 
           // Obtener datos del usuario desde el backend
-          const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001';
+          const API_BASE_URL = import.meta.env.VITE_API_URL || '';
           const response = await fetch(`${API_BASE_URL}/auth/me`, {
             headers: {
               'Authorization': `Bearer ${token}`

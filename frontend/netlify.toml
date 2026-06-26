@@ -5,6 +5,20 @@
 [build.environment]
   NODE_VERSION = "18"
 
+# Proxy same-origin al backend (Heroku) — ANTES del catch-all SPA.
+# Same-origin => sin CORS; sin VITE_API_URL horneada => sin secrets-scanning.
+[[redirects]]
+  from = "/api/*"
+  to = "https://funaroundyou-f21e91cae36c.herokuapp.com/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/auth/*"
+  to = "https://funaroundyou-f21e91cae36c.herokuapp.com/auth/:splat"
+  status = 200
+  force = true
+
 # Redirecciones para SPA (React Router)
 [[redirects]]
   from = "/*"
